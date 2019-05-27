@@ -1,0 +1,11 @@
+#      readout-n: # FIXME: needs variables support in constraints
+name: "readout-n-root"
+roles:
+  - name: "readout-role-{{ .it }}"
+    for:
+      begin: 0
+      end: 7
+      var: it
+    task:
+      load: readout
+
