@@ -2,4 +2,4 @@ name: "readout-1-root-pretty"
 roles:
   - name: "readout-role"
     task:
-      load: "gitlab.cern.ch/kalexopo/AliECS_conf/readout"
+      load: "gitlab.cern.ch/kalexopo/AliECS_conf/tasks/readout"
