@@ -1,0 +1,20 @@
+name: "copypush"
+vars: {}
+roles:
+  - name: "sink{{ .it }}"
+    for:
+      begin: 0
+      end: 3
+      var: it
+    connect:
+      - name: "data"
+        target: "{{ parent }}.sampler:data"
+        type: "pull"
+        sndBufSize: 1000
+        rcvBufSize: 1000
+        rateLogging: 0
+    task:
+      load: fairmq-ex-copypush-sink
+  - name: "sampler"
+    task:
+      load: fairmq-ex-copypush-sampler

@@ -1,0 +1,33 @@
+name: fairmq-ex-1-n-1-sampler # Name of the task, used as a unique identifier in workflows
+control:
+  mode: fairmq  # The control mode to be used. This is "fairmq" for all FairMQ devices and "direct" otherwise.
+wants:          # Includes fields "cpu", "memory", "ports". The first two are float, respectively for number of cores
+                # and MB of RAM. "ports" is a string, formatted as a comma-separated sequence of static port ranges
+                # such as "8080-8083,9091-10100".
+                # Note: the "ports" string has nothing to do with channels, these are static requests for specific ports
+                # and they should be used sparingly, if at all.
+  cpu: 0.1
+  memory: 128
+bind:                   # "bind" contains a list of *inbound* channels to configure, and it only applies to FairMQ
+                        # devices (method: bind).
+- name: "data1"         # channel name
+  type: "push"          # channel type, can be push, pull, pub, sub
+  sndBufSize: 1000      # other FairMQ channel properties to push
+  rcvBufSize: 1000
+  rateLogging: 0
+properties:             # Contains a key-value map of FairMQ properties to push
+  severity: trace
+  color: false
+command:                # Specification of the command to run
+  env: []               # List of strings, each of which is an environment variable to set like "VAR=value"
+  shell: true           # Generally must be true if we use environment modules
+  arguments: []         # List of arguments for the command
+                        # "value" is the actual command to run in the shell (if shell == true) or otherwise the path
+                        # of the executable. Since we use environment modules, we must take care to load them
+                        # beforehand, including the Control-OCCPlugin module.
+                        # The module list line is added here for debug purposes.
+  value: >-
+    source /etc/profile.d/modules.sh &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load FairMQ &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
+    fairmq-ex-1-n-1-sampler
