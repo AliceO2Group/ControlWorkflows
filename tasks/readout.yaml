@@ -1,19 +1,19 @@
-- name: readout # read by workflow
-  control:
-    mode: direct
-  wants:
-    cpu: 0.15
-    memory: 128
-  bind: []
-  properties: {}
-  command: 
-    env: []
-    shell: true
-    arguments:
-      - "file:/opt/alisw/el7/Readout/v0.24-occ-1/etc/readout.cfg"
-    value: >-
-      source /etc/profile.d/modules.sh &&
-      MODULEPATH=/opt/alisw/el7/modulefiles module load Readout &&
-      MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
-      MODULEPATH=/opt/alisw/el7/modulefiles module list &&
-      readout.exe
+name: readout # read by workflow
+control:
+  mode: direct
+wants:
+  cpu: 0.15
+  memory: 128
+bind: []
+properties: {}
+command: 
+  env: []
+  shell: true
+  arguments:
+    - "file:/opt/alisw/el7/Readout/v0.24-occ-1/etc/readout.cfg"
+  value: >-
+    source /etc/profile.d/modules.sh &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load Readout &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module list &&
+    readout.exe
