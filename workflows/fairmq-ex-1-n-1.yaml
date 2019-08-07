@@ -1,0 +1,58 @@
+name: "diamond"                # The name of the root role, which happens to be an aggregator role.
+vars: {}                       # Not used yet.
+roles:                         # A list of child roles.
+# Parametrized name of an iterator role, which generates task roles.
+# {{}} delimits a string template entry, and the "." operator reads in a variable
+# from the current context.
+  - name: "processor{{ .it }}"
+    # We know that this is an iterator role because it has a "for" entry. With this
+    # we declare that we generate 4 roles based on the present template, parametrized
+    # against a variable called "it" which runs from 0 to 3.
+    # Note that if there's a "for", the role name must reference the declared variable, and vice versa, otherwise
+    # the behavior is undefined.
+    # For more information on the template syntax, see Go package text/template.
+    for:
+      begin: 0
+      end: 3
+      var: it
+    # "connect" is the *outbound* channel equivalent of the "bind" specification found in the tasks section.
+    # This is a list of outbound channels, with the same meaning as the entries in "bind", the only difference
+    # being the "target" value.
+    # Note that "inbound" and "outbound" here refers only to the initiation of the TCP connections. The data flow
+    # direction is dictated by the "type" parameter.
+    connect:
+      - name: "data1"
+        # The target entry is a string, with some template functions available for traversing the control tree.
+        # Available functions:
+        #    parent() - returns the path of the parent role (example: {{parent}}.someRoleName to get a sibling role)
+        #    up(int n) - returns the path of the n-th ancestor (example: {{up 2}}.someRole.otherRole to get a cousin role)
+        #    this() - returns the path of the current role (example: {{this}}.someRole to get a child role)
+        # Please note that these paths operate on the in-memory control tree and not on the workflow template
+        # as it appears in the configuration file (or database): the control tree is traversed after the iterator
+        # roles have already been resolved and expanded. Thus, one can never reference "processor{{.it}}", only
+        # a specific "processor3".
+        # By whatever means, the target must ultimately contain a valid complete path to a role, followed by a ":"
+        # and the name of the inbound channel (as it appears in the bind spec of the task template).
+        target: "{{ parent }}.sampler:data1"
+        type: "pull"
+        sndBufSize: 1000
+        rcvBufSize: 1000
+        rateLogging: 0
+      - name: "data2"
+        target: "{{ up 1 }}.sink:data2" # Same as {{ parent }}.sink:data2
+        type: "push"
+        sndBufSize: 1000
+        rcvBufSize: 1000
+        rateLogging: 0
+    task:     # The current is an iterator role which templates for a task role, so instead of a "roles" entry
+              # we have a "task" entry.
+      load: fairmq-ex-1-n-1-processor  # Currently the only key-value item in a task entry is "load", which points
+                                        # to a task template
+  # The following is a plain task role, with no iterator semantics. It simply has a name and a reference to a task
+  # template as it appears in the "tasks" section.
+  - name: "sampler"
+    task:
+      load: fairmq-ex-1-n-1-sampler
+  - name: "sink"
+    task:
+      load: fairmq-ex-1-n-1-sink

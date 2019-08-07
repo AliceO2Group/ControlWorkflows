@@ -1,0 +1,19 @@
+name: fairmq-ex-1-n-1-processor
+control:
+  mode: fairmq
+wants:
+  cpu: 0.1
+  memory: 128
+bind: []
+properties:
+  severity: trace
+  color: false
+command:
+  env: []
+  shell: true
+  arguments: []
+  value: >-
+    source /etc/profile.d/modules.sh &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load FairMQ &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
+    fairmq-ex-1-n-1-processor

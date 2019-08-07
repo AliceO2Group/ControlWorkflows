@@ -1,0 +1,32 @@
+name: "multichan"
+vars: {}
+roles:
+  - name: "sink"
+    connect:
+      - name: "data"
+        target: "{{ parent }}.sampler:data"
+        type: "pull"
+        sndBufSize: 1000
+        rcvBufSize: 1000
+        rateLogging: 0
+      - name: "broadcast"
+        target: "{{ parent }}.broadcaster:broadcast"
+        type: "sub"
+        sndBufSize: 1000
+        rcvBufSize: 1000
+        rateLogging: 0
+    task:
+      load: fairmq-ex-multiple-channels-sink
+  - name: "sampler"
+    connect:
+      - name: "broadcast"
+        target: "{{ parent }}.broadcaster:broadcast"
+        type: "sub"
+        sndBufSize: 1000
+        rcvBufSize: 1000
+        rateLogging: 0
+    task:
+      load: fairmq-ex-multiple-channels-sampler
+  - name: "broadcaster"
+    task:
+      load: fairmq-ex-multiple-channels-broadcaster
