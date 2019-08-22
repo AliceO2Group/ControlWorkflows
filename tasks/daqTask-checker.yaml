@@ -5,7 +5,7 @@ wants:
   cpu: 0.15
   memory: 128
 bind:
-  - name: "from_daqTask-checker_to_printer"
+  - name: "from_daqTask-checker_to_internal-dpl-global-binary-file-sink"
     type: "push"
 command:
   shell: true
@@ -14,7 +14,7 @@ command:
     MODULEPATH=/opt/alisw/el7/modulefiles module load QualityControl &&
     MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
     MODULEPATH=/opt/alisw/el7/modulefiles module list &&
-    o2-qc-run-readout
+    o2-qc-run-qc
   arguments:
     - "-b"
     - "--monitoring-backend"
@@ -23,5 +23,5 @@ command:
     - "daqTask-checker"
     - "--log-color"
     - "false"
-    - "--config-path"
-    - "/etc/flp.d/qc/readout.json"
+    - "--config"
+    - "json:///etc/flp.d/qc/readout.json"

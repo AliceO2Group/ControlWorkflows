@@ -41,10 +41,10 @@ roles:
         type: "pull"
     task:
       load: daqTask-checker
-  - name: "printer"
+  - name: "internal-dpl-global-binary-file-sink"
     connect:
-      - name: "from_daqTask-checker_to_printer"
-        target: "{{parent}}.daqTask-checker:from_daqTask-checker_to_printer"
+      - name: "from_daqTask-checker_to_internal-dpl-global-binary-file-sink"
+        target: "{{parent}}.daqTask-checker:from_daqTask-checker_to_internal-dpl-global-binary-file-sink"
         type: "pull"
     task:
-      load: printer
+      load: internal-dpl-global-binary-file-sink
