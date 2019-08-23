@@ -22,4 +22,4 @@ command:
     - "--log-color"
     - "false"
     - "--outfile"
-    - "dpl-out.bin"
+    - "/tmp/dpl-out.bin"
