@@ -14,7 +14,7 @@ command:
     MODULEPATH=/opt/alisw/el7/modulefiles module load QualityControl &&
     MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
     MODULEPATH=/opt/alisw/el7/modulefiles module list &&
-    o2-qc-run-qc
+    o2-qc-run-readout -b | o2-qc-run-qc
   arguments:
     - "-b"
     - "--monitoring-backend"
