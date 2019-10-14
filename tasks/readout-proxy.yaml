@@ -14,7 +14,7 @@ command:
     MODULEPATH=/opt/alisw/el7/modulefiles module load QualityControl &&
     MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
     MODULEPATH=/opt/alisw/el7/modulefiles module list &&
-    o2-qc-run-readout
+    o2-qc-run-readout -b | o2-qc-run-qc --config json:///etc/flp.d/qc/readout.json  | o2-qc-run-readout
   arguments:
     - "-b"
     - "--monitoring-backend"
