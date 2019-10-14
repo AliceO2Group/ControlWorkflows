@@ -7,7 +7,7 @@ wants:
 bind:
   - name: "from_readout-proxy_to_Dispatcher"
     type: "push"
-    rateLogging: "1"
+    rateLogging: "10"
 command:
   shell: true
   value: >-

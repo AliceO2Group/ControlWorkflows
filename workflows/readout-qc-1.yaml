@@ -11,11 +11,11 @@ roles:
       - name: "from_internal-dpl-clock_to_readout-proxy"
         target: "{{parent}}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
         type: "pull"
-        rateLogging: "1"
+        rateLogging: "10"
       - name: "readout-proxy"
         target: "ipc:///tmp/readout-pipe-1"
         type: "sub"
-        rateLogging: "1"
+        rateLogging: "10"
     task:
       load: readout-proxy
   - name: "Dispatcher"
@@ -23,7 +23,7 @@ roles:
       - name: "from_readout-proxy_to_Dispatcher"
         target: "{{parent}}.readout-proxy:from_readout-proxy_to_Dispatcher"
         type: "pull"
-        rateLogging: "1"
+        rateLogging: "10"
     task:
       load: Dispatcher
   - name: "QC-TASK-RUNNER-daqTask"
@@ -31,11 +31,11 @@ roles:
       - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-daqTask"
         target: "{{parent}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-daqTask"
         type: "pull"
-        rateLogging: "1"
+        rateLogging: "10"
       - name: "from_Dispatcher_to_QC-TASK-RUNNER-daqTask"
         target: "{{parent}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-daqTask"
         type: "pull"
-        rateLogging: "1"
+        rateLogging: "10"
     task:
       load: QC-TASK-RUNNER-daqTask
   - name: "daqTask-checker"
@@ -43,7 +43,7 @@ roles:
       - name: "from_QC-TASK-RUNNER-daqTask_to_daqTask-checker"
         target: "{{parent}}.QC-TASK-RUNNER-daqTask:from_QC-TASK-RUNNER-daqTask_to_daqTask-checker"
         type: "pull"
-        rateLogging: "1"
+        rateLogging: "10"
     task:
       load: daqTask-checker
   - name: "internal-dpl-global-binary-file-sink"
@@ -51,6 +51,6 @@ roles:
       - name: "from_daqTask-checker_to_internal-dpl-global-binary-file-sink"
         target: "{{parent}}.daqTask-checker:from_daqTask-checker_to_internal-dpl-global-binary-file-sink"
         type: "pull"
-        rateLogging: "1"
+        rateLogging: "10"
     task:
       load: internal-dpl-global-binary-file-sink
