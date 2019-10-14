@@ -7,6 +7,7 @@ wants:
 bind:
   - name: "from_QC-TASK-RUNNER-daqTask_to_daqTask-checker"
     type: "push"
+    rateLogging: "1"
 command:
   shell: true
   value: >-

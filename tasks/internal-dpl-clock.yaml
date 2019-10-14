@@ -7,8 +7,10 @@ wants:
 bind:
   - name: "from_internal-dpl-clock_to_readout-proxy"
     type: "push"
+    rateLogging: "1"
   - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-daqTask"
     type: "push"
+    rateLogging: "1"
 command:
   shell: true
   value: >-
