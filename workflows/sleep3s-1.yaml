@@ -1,4 +1,4 @@
-name: "sleep3s"
+name: "sleep3s-1"
 roles:
   - name: "sleep3s-role"
     task:
