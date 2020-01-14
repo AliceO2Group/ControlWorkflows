@@ -1,0 +1,8 @@
+name: "sleep36s-2"
+roles:
+  - name: sleep3s
+    task:
+      load: "sleep3s"
+  - name: sleep6s
+    task:
+      load: "sleep6s"
