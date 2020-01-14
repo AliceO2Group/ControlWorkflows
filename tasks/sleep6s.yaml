@@ -1,0 +1,12 @@
+name: sleep6s
+control:
+  mode: basic
+wants:
+  cpu: 0.01
+  memory: 1
+command: 
+  shell: true
+  arguments:
+    - "6"
+  value: >-
+    sleep
