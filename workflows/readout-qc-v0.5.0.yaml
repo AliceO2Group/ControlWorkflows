@@ -1,0 +1,50 @@
+name: readout-qc-v0.5.0
+roles:
+  - name: "readout-role"
+    task:
+      load: readout
+  - name: "internal-dpl-clock"
+    task:
+      load: internal-dpl-clock
+  - name: "readout-proxy"
+    connect:
+      - name: "from_internal-dpl-clock_to_readout-proxy"
+        target: "{{parent}}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+        type: "pull"
+      - name: "readout-proxy"
+        target: "ipc:///tmp/readout-pipe-1"
+        type: "sub"
+        rateLogging: "1"
+    task:
+      load: readout-proxy
+  - name: "Dispatcher"
+    connect:
+      - name: "from_readout-proxy_to_Dispatcher"
+        target: "{{parent}}.readout-proxy:from_readout-proxy_to_Dispatcher"
+        type: "pull"
+    task:
+      load: Dispatcher
+  - name: "QC-TASK-RUNNER-daqTask-v0_5_0"
+    connect:
+      - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-daqTask"
+        target: "{{parent}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-daqTask"
+        type: "pull"
+      - name: "from_Dispatcher_to_QC-TASK-RUNNER-daqTask"
+        target: "{{parent}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-daqTask"
+        type: "pull"
+    task:
+      load: QC-TASK-RUNNER-daqTask-v0_5_0
+  - name: "QC-CHECK-RUNNER-08lS"
+    connect:
+      - name: "from_QC-TASK-RUNNER-daqTask_to_QC-CHECK-RUNNER-08lS"
+        target: "{{parent}}.QC-TASK-RUNNER-daqTask-v0_5_0:from_QC-TASK-RUNNER-daqTask_to_QC-CHECK-RUNNER-08lS"
+        type: "pull"
+    task:
+      load: QC-CHECK-RUNNER-08lS
+  - name: "internal-dpl-global-binary-file-sink"
+    connect:
+      - name: "from_QC-CHECK-RUNNER-08lS_to_internal-dpl-global-binary-file-sink"
+        target: "{{parent}}.QC-CHECK-RUNNER-08lS:from_QC-CHECK-RUNNER-08lS_to_internal-dpl-global-binary-file-sink"
+        type: "pull"
+    task:
+      load: internal-dpl-global-binary-file-sink
