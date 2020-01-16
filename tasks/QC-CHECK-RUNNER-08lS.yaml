@@ -1,0 +1,27 @@
+name: QC-CHECK-RUNNER-08lS
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.15
+  memory: 128
+bind:
+  - name: "from_QC-CHECK-RUNNER-08lS_to_internal-dpl-global-binary-file-sink"
+    type: "push"
+command:
+  shell: true
+  value: >-
+    source /etc/profile.d/modules.sh &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load QualityControl &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module list &&
+    o2-qc-run-readout -b | o2-qc-run-qc
+  arguments:
+    - "-b"
+    - "--monitoring-backend"
+    - "no-op://"
+    - "--id"
+    - "QC-CHECK-RUNNER-08lS"
+    - "--log-color"
+    - "false"
+    - "--config"
+    - "json:///etc/flp.d/qc/readout.json"

@@ -1,0 +1,30 @@
+name: QC-TASK-RUNNER-daqTask-v0_5_0
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.15
+  memory: 128
+bind:
+  - name: "from_QC-TASK-RUNNER-daqTask_to_QC-CHECK-RUNNER-08lS"
+    type: "push"
+command:
+  shell: true
+  value: >-
+    source /etc/profile.d/modules.sh &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load QualityControl &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module list &&
+    o2-qc-run-readout -b | o2-qc-run-qc
+  arguments:
+    - "-b"
+    - "--monitoring-backend"
+    - "no-op://"
+    - "--id"
+    - "QC-TASK-RUNNER-daqTask"
+    - "--log-color"
+    - "false"
+    - "--config"
+    - "json:///etc/flp.d/qc/readout.json"
+    - "--period-timer-cycle"
+    - "10000000"
+
