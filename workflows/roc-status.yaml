@@ -1,0 +1,5 @@
+name: "roc-status-1"
+roles:
+  - name: "roc-status-role"
+    task:
+      load: "roc-status"
