@@ -1,4 +1,4 @@
-name: "roc-status-1"
+name: "roc-status"
 roles:
   - name: "roc-status-role"
     task:
