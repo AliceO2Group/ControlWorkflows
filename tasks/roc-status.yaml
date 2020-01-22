@@ -6,9 +6,7 @@ wants:
   memory: 1
 command: 
   shell: true
-  arguments:
-    - "3"
   value: >-
     source /etc/profile.d/modules.sh &&
     MODULEPATH=/opt/alisw/el7/modulefiles module load ReadoutCard &&
-    roc-status --json-out -id=#2
+    roc-status --json-out --id=#2
