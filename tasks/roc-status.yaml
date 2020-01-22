@@ -1,4 +1,4 @@
-name: sleep3s
+name: roc-status
 control:
   mode: basic
 wants:
