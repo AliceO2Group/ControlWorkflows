@@ -5,7 +5,6 @@ defaults:
 vars:
   varK1: "value that should override any defaults in child tasks"
   varK2: "{{ defaultK1 }}"
-  varK3: "{{ varK2 }}"
 properties:
   keyToPush: "{{ varK1 }}"
 roles:
@@ -19,6 +18,7 @@ roles:
       varK1: "default value that should be overridden by parent var"
     vars:
       defaultK1: "somethingElse"
+      varK3: "{{ varK2 }}"
       varK4: "templated var it: {{ it + '; string composed in expr; ' + 'varK1: ' + varK1 }}"
     connect:
       - name: "data"
