@@ -1,0 +1,21 @@
+name: roc-config
+control:
+  mode: basic
+wants:
+  cpu: 0.2
+  memory: 256
+defaults:
+  roc_config_nofwcheck: "false"
+command: 
+  shell: true
+  value: >-
+    source /etc/profile.d/modules.sh &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load ReadoutCard &&
+    roc-config
+  arguments:
+    - "--id"
+    - "{{ roc_config_id }}"
+    - "--config-uri"
+    - "{{ roc_config_configuri }}"
+    - "--bypass-fw-check"
+    - "{{ roc_config_nofwcheck }}

@@ -1,0 +1,55 @@
+name: roc-config
+control:
+  mode: basic
+wants:
+  cpu: 0.2
+  memory: 256
+defaults:
+  roc_config_links: "#0"
+  roc_config_allowrejection: "false"
+  roc_config_clock: "local"
+  roc_config_cruid: "0x0"
+  roc_config_datapathmode: "packet"
+  roc_config_downstreamdata: "ctp"
+  roc_config_gbtmode: "gbt"
+  roc_config_gbtmux: "ttc"
+  roc_config_loopback: "false"
+  roc_config_ponupstream: "false"
+  roc_config_dynoffset: "false"
+  roc_config_onuaddress: "0"
+  roc_config_forceconfig: "false"
+  roc_config_bypassfwcheck: "false"
+  roc_config_triggerwindowsize: "1000"
+command: 
+  shell: true
+  value: >-
+    source /etc/profile.d/modules.sh &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load ReadoutCard &&
+    roc-config
+  arguments:
+    - "--id"
+    - "{{ roc_config_id }}"
+    - "--links"
+    - "{{ roc_config_links }}"
+    - "{{ roc_config_allowrejection == 'true' ? '--allow-rejection' : '' }}"
+    - "--clock"
+    - "{{ roc_config_clock }}"
+    - "--cru-id"
+    - "{{ roc_config_cruid }}"
+    - "--datapathmode"
+    - "{{ roc_config_datapathmode }}"
+    - "--downstreamdata"
+    - "{{ roc_config_downstreamdata }}"
+    - "--gbtmode"
+    - "{{ roc_config_gbtmode }}"
+    - "--gbtmux"
+    - "{{ roc_config_gbtmux }}"
+    - "{{ roc_config_loopback == 'true' ? '--loopback' : '' }}"
+    - "{{ roc_config_ponupstream == 'true' ? '--pon-upstream' : '' }}"
+    - "{{ roc_config_dynoffset == 'true' ? '--dyn-offset' : '' }}"
+    - "--onu-address"
+    - "{{ roc_config_onuaddress }}"
+    - "{{ roc_config_forceconfig == 'true' ? '--force-config' : '' }}"
+    - "{{ roc_config_bypassfwcheck == 'true' ? '--bypass-fw-check' : '' }}"
+    - "--trigger-window-size"
+    - "{{ roc_config_triggerwindowsize }}
