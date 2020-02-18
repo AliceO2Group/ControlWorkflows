@@ -5,8 +5,8 @@ wants:
   cpu: 0.2
   memory: 256
 defaults:
-  roc_config_bypassfwcheck: "false"
-  roc_config_forceconfig: "false"
+  rocConfigBypassFwCheck: "false"
+  rocConfigForceConfig: "false"
 command: 
   shell: true
   value: >-
@@ -15,8 +15,8 @@ command:
     roc-config
   arguments:
     - "--id"
-    - "{{ roc_config_id }}"
+    - "{{ rocConfigId }}"
     - "--config-uri"
-    - "{{ roc_config_configuri }}"
-    - "{{ roc_config_bypassfwcheck  == 'true' ? '--bypass-fw-check' : ''}}"
-    - "{{ roc_config_forceconfig == 'true' ? '--force-config' : '' }}"
+    - "{{ rocConfigConfigUri }}"
+    - "{{ rocConfigBypassFwCheck  == 'true' ? '--bypass-fw-check' : ''}}"
+    - "{{ rocConfigForceConfig == 'true' ? '--force-config' : '' }}"
