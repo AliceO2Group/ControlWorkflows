@@ -1,0 +1,17 @@
+name: "test-varsleep"
+defaults:
+  echosleep_id: "echosleep-unknown"
+roles:
+  - name: varsleep-iter-{{it}}
+    for:
+      begin: 0
+      end: "{{sleep_iter_max}}"
+      var: it
+    vars:
+      echosleep_seconds: "{{8}}"
+      echosleep_id: "echosleep-{{it}}"
+    task:
+      load: "echosleep"
+  - name: varsleep-singletask
+    task:
+      load: "echosleep"

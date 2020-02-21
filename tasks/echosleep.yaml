@@ -1,0 +1,13 @@
+name: echosleep
+defaults:
+  echosleep_seconds: "10"
+  echosleep_id: "echosleep"
+control:
+  mode: basic
+wants:
+  cpu: 0.01
+  memory: 1
+command:
+  shell: true
+  value: >-
+    echo "Running {{echosleep_id}} with {{echosleep_seconds}}s sleep" && sleep {{echosleep_seconds}} && echo "Done {{echosleep_id}}"

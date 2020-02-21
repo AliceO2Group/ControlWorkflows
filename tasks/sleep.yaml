@@ -1,4 +1,6 @@
-name: sleep3s
+name: sleep
+defaults:
+  sleep_seconds: "10"
 control:
   mode: basic
 wants:
@@ -7,6 +9,6 @@ wants:
 command:
   shell: true
   arguments:
-    - "3"
+    - "{{ sleep_seconds }}"
   value: >-
     sleep
