@@ -1,11 +1,11 @@
-name: QC-CHECK-RUNNER-QcCheck
+name: QC-CHECK-RUNNER-Q4H0
 control:
   mode: "fairmq"
 wants:
   cpu: 0.15
   memory: 128
 bind:
-  - name: "from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+  - name: "from_QC-CHECK-RUNNER-Q4H0_to_internal-dpl-global-binary-file-sink"
     type: "push"
 command:
   shell: true
@@ -20,7 +20,7 @@ command:
     - "--monitoring-backend"
     - "no-op://"
     - "--id"
-    - "QC-CHECK-RUNNER-QcCheck"
+    - "QC-CHECK-RUNNER-Q4H0"
     - "--log-color"
     - "false"
     - "--config"
