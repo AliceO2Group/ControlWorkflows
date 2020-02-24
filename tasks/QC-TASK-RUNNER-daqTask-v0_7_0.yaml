@@ -1,4 +1,4 @@
-name: QC-TASK-RUNNER-daqTask-v0_5_0
+name: QC-TASK-RUNNER-daqTask-v0_7_0
 control:
   mode: "fairmq"
 wants:
