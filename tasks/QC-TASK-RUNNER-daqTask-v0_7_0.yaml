@@ -5,7 +5,7 @@ wants:
   cpu: 0.15
   memory: 128
 bind:
-  - name: "from_QC-TASK-RUNNER-daqTask_to_QC-CHECK-RUNNER-RUNNER-Q4H0"
+  - name: "from_QC-TASK-RUNNER-daqTask_to_QC-CHECK-RUNNER-Q4H0"
     type: "push"
 command:
   shell: true
