@@ -1,4 +1,4 @@
-name: readout-qc-v0.5.0
+name: readout-qc-v0.5.0-0.6.0
 roles:
   - name: "readout-role"
     task:
