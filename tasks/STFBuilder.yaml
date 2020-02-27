@@ -1,0 +1,31 @@
+name: StfBuilder
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.15
+  memory: 128
+bind:
+  - name: "dpl-chan"
+    type: "push"
+    # address: ipc:///tmp/stf-builder-dpl-pipe-0
+    # transport: shmem
+    rateLogging: 1
+properties:
+    id: stf_builder-0
+    transport: shmem
+command:
+  shell: true
+  value: >-
+    source /etc/profile.d/modules.sh &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load DataDistribution &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module list &&
+    StfBuilder
+  arguments:
+    - "--id"
+    - "stf_builder-0"
+    - "--transport"
+    - "shmem"
+    - "--detector"
+    - "TPC"
+    - "--dpl-channel-name=dpl-chan"
