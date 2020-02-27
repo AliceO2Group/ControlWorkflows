@@ -1,0 +1,36 @@
+name: "copypush"
+defaults:
+  defaultK1: "very defaulty value, should be overridden by anything"
+  defaultK2: "another very defaulty value"
+vars:
+  varK1: "value that should override any defaults in child tasks"
+  varK2: "{{ defaultK1 }}"
+properties:
+  keyToPush: "{{ varK1 }}"
+roles:
+  - name: "sink{{ it }}-name-suffix-{{ defaultK1 }}"
+    for:
+      range: "{{ ToJson(['one', 'two', 'three']) }}"
+      var: it
+    defaults:
+      defaultK1: "default value, should override default from parent"
+      varK1: "default value that should be overridden by parent var"
+    vars:
+      defaultK1: "somethingElse"
+      varK3: "{{ varK2 }}"
+      varK4: "templated var it: {{ it + '; string composed in expr; ' + 'varK1: ' + varK1 }}"
+    connect:
+      - name: "data"
+        target: "{{ parent }}.sampler:data"
+        type: "pull"
+        sndBufSize: 1000
+        rcvBufSize: 1000
+        rateLogging: 0
+    task:
+      load: fairmq-ex-copypush-sink
+     
+  - name: "sampler"
+    defaults:
+      varK1: "{{ varK2 }}"
+    task:
+      load: fairmq-ex-copypush-sampler
