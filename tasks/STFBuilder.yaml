@@ -10,9 +10,6 @@ bind:
     # address: ipc:///tmp/stf-builder-dpl-pipe-0
     # transport: shmem
     rateLogging: 1
-properties:
-    id: stf_builder-0
-    transport: shmem
 command:
   shell: true
   value: >-
@@ -22,8 +19,6 @@ command:
     MODULEPATH=/opt/alisw/el7/modulefiles module list &&
     StfBuilder
   arguments:
-    - "--id"
-    - "stf_builder-0"
     - "--transport"
     - "shmem"
     - "--detector"
