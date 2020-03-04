@@ -14,7 +14,7 @@ command:
     source /etc/profile.d/modules.sh &&
     MODULEPATH=/opt/alisw/el7/modulefiles module load QualityControl &&
     MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
-    o2-dpl-raw-proxy -b | o2-qc
+    o2-dpl-raw-proxy -b --dataspec B:TPC/RAWDATA | o2-qc
   arguments:
     - "-b"
     - "--monitoring-backend"
