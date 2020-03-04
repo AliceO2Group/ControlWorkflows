@@ -28,3 +28,5 @@ command:
     - "--host"
     - "--readers"
     - "1"
+    - "--dataspec"
+    - "B:TPC/RAWDATA"

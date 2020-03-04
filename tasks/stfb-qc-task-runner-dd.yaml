@@ -30,3 +30,5 @@ command:
     - "1"
     - "--period-timer-cycle"
     - "10000000"
+    - "--dataspec"
+    - "B:TPC/RAWDATA"
