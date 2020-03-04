@@ -1,0 +1,32 @@
+name: stfb-internal-dpl-clock
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.15
+  memory: 128
+bind:
+  - name: "from_internal-dpl-clock_to_readout-proxy"
+    type: "push"
+    rateLogging: "60"
+  - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+    type: "push"
+    rateLogging: "60"
+command:
+  shell: true
+  value: >-
+    source /etc/profile.d/modules.sh &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load QualityControl &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
+    o2-dpl-raw-proxy
+  arguments:
+    - "-b"
+    - "--monitoring-backend"
+    - "no-op://"
+    - "--id"
+    - "internal-dpl-clock"
+    - "--log-color"
+    - "false"
+    - "--dataspec"
+    - "B:TPC/RAWDATA"
+    - "--readers"
+    - "1"

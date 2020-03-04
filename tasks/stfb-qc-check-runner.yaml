@@ -1,0 +1,30 @@
+name: stfb-qc-check-runner
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.15
+  memory: 128
+bind:
+  - name: "from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+    type: "push"
+    rateLogging: "60"
+command:
+  shell: true
+  value: >-
+    source /etc/profile.d/modules.sh &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load QualityControl &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
+    o2-dpl-raw-proxy -b | o2-qc
+  arguments:
+    - "-b"
+    - "--monitoring-backend"
+    - "no-op://"
+    - "--id"
+    - "QC-CHECK-RUNNER-QcCheck"
+    - "--log-color"
+    - "false"
+    - "--config"
+    - "json:///home/flp/datadistribution.json"
+    - "--host"
+    - "--readers"
+    - "1"

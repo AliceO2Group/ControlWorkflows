@@ -1,0 +1,18 @@
+name: stfb-readout
+control:
+  mode: direct
+wants:
+  cpu: 0.15
+  memory: 128
+bind: []
+properties: {}
+command:
+  env: []
+  shell: true
+  arguments:
+    - "file:/home/flp/readout_emu.cfg"
+  value: >-
+    source /etc/profile.d/modules.sh &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load Readout &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
+    readout.exe

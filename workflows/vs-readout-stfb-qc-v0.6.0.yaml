@@ -1,0 +1,73 @@
+name: vs-readout-stfb-qc-v0.6.0
+roles:
+  - name: "readout-stfb-role"
+    task:
+      load: stfb-readout
+  - name: "stfb"
+    connect:
+      - name: readout
+        type: pull
+        address: "ipc:///tmp/readout-pipe-0"
+        rateLogging: "1"
+    task:
+      load: stfb-stfbuilder
+  - name: "stfb-raw-proxy"
+    connect:
+      - name: "from_internal-dpl-clock_to_readout-proxy"
+        target: "{{parent}}.stfb-internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+        type: "pull"
+        rateLogging: "60"
+      - name: "readout-proxy"
+        target: "ipc:///tmp/stf-builder-dpl-pipe-0"
+        type: "pull"
+        rateLogging: "1"
+    task:
+      load: stfb-raw-proxy
+  - name: "internal-dpl-clock"
+    task:
+      load: stfb-internal-dpl-clock
+  - name: "Dispatcher"
+    connect:
+      - name: "from_readout-proxy_to_Dispatcher"
+        target: "{{parent}}.stfb-raw-proxy:from_readout-proxy_to_Dispatcher"
+        type: "pull"
+        rateLogging: "60"
+    task:
+      load: stfb-qc-dispatcher
+  - name: "QC-TASK-RUNNER-dataDistribution"
+    connect:
+      - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+        target: "{{parent}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+        type: "pull"
+        rateLogging: "60"
+      - name: "from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+        target: "{{parent}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+        type: "pull"
+        rateLogging: "60"
+    task:
+      load: stfb-qc-task-runner-dd
+  - name: "QC-CHECK-RUNNER-QcCheck"
+    connect:
+      - name: "from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+        target: "{{parent}}.QC-TASK-RUNNER-dataDistribution:from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+        type: "pull"
+        rateLogging: "60"
+    task:
+      load: stfb-qc-check-runner
+  - name: "internal-dpl-global-binary-file-sink"
+    connect:
+      - name: "from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+        target: "{{parent}}.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+        type: "pull"
+        rateLogging: "60"
+    task:
+      load: stfb-internal-dpl-global-binary-file-sink
+
+# Manual run:
+# 6111 pts/0    S+     0:00 o2-qc --config json:///home/flp/datadistribution.json -b
+# 6149 pts/0    Sl+    0:00 o2-dpl-raw-proxy --id readout-proxy --control static --log-color false --color false --dataspec B:TPC/RAWDATA --readers 1 --channel-config name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1 --end-value-enumeration -1 --start-value-enumeration 0 --step-value-enumeration 1 --channel-config name=from_readout-proxy_to_Dispatcher,type=push,method=bind,address=ipc://localhost6111_22003,rateLogging=60 --channel-config name=from_internal-dpl-clock_to_readout-proxy,type=pull,method=connect,address=ipc://localhost6111_22005,rateLogging=60
+# 6150 pts/0    Rl+    0:05 o2-dpl-raw-proxy --id internal-dpl-clock --control static --log-color false --color false --dataspec B:TPC/RAWDATA --readers 1 --channel-config name=from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution,type=push,method=bind,address=ipc://localhost6111_22004,rateLogging=60 --channel-config name=from_internal-dpl-clock_to_readout-proxy,type=push,method=bind,address=ipc://localhost6111_22005,rateLogging=60
+# 6146 pts/0    Rl+    0:05 o2-qc --id Dispatcher --control static --log-color false --color false --config json:///home/flp/datadistribution.json --host  --readers 1 --channel-config name=from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution,type=push,method=bind,address=ipc://localhost6111_22000,rateLogging=60 --channel-config name=from_readout-proxy_to_Dispatcher,type=pull,method=connect,address=ipc://localhost6111_22003,rateLogging=60
+# 6147 pts/0    Rl+    0:05 o2-qc --id QC-TASK-RUNNER-dataDistribution --control static --log-color false --color false --config json:///home/flp/datadistribution.json --host  --readers 1 --period-timer-cycle 10000000 --channel-config name=from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck,type=push,method=bind,address=ipc://localhost6111_22001,rateLogging=60 --channel-config name=from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution,type=pull,method=connect,address=ipc://localhost6111_22000,rateLogging=60 --channel-config name=from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution,type=pull,method=connect,address=ipc://localhost6111_22004,rateLogging=60
+# 6148 pts/0    Rl+    0:05 o2-qc --id QC-CHECK-RUNNER-QcCheck --control static --log-color false --color false --config json:///home/flp/datadistribution.json --host  --readers 1 --channel-config name=from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink,type=push,method=bind,address=ipc://localhost6111_22002,rateLogging=60 --channel-config name=from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck,type=pull,method=connect,address=ipc://localhost6111_22001,rateLogging=60
+# 6151 pts/0    Rl+    0:05 o2-dpl-raw-proxy --id internal-dpl-global-binary-file-sink --control static --log-color false --color false --dataspec B:TPC/RAWDATA --readers 1 --keep  --outfile dpl-out.bin --channel-config name=from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink,type=pull,method=connect,address=ipc://localhost6111_22002,rateLogging=60

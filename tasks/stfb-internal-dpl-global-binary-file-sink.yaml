@@ -1,0 +1,29 @@
+name: stfb-internal-dpl-global-binary-file-sink
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.15
+  memory: 128
+bind: []
+command:
+  shell: true
+  value: >-
+    source /etc/profile.d/modules.sh &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load QualityControl &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
+    o2-dpl-raw-proxy -b | o2-qc --config json:///home/flp/datadistribution.json | o2-dpl-raw-proxy
+  arguments:
+    - "-b"
+    - "--monitoring-backend"
+    - "no-op://"
+    - "--id"
+    - "internal-dpl-global-binary-file-sink"
+    - "--log-color"
+    - "false"
+    - "--dataspec"
+    - "B:TPC/RAWDATA"
+    - "--readers"
+    - "1"
+    - "--keep"
+    - "--outfile"
+    - "/tmp/dpl-out.bin"
