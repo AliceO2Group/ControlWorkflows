@@ -1,0 +1,15 @@
+name: vs-readout
+roles:
+  - name: "readout-role"
+    constraints:
+      - attribute: machine_id
+        value: alio2-cr1-flp140
+    task:
+      load: readout
+  - name: "readout-role"
+    constraints:
+      - attribute: machine_id
+        value: alio2-cr1-flp141
+    task:
+      load: readout
+ 

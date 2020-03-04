@@ -1,4 +1,4 @@
-name: stfb-stfbuilder
+name: stfb-stfbuilder-dpl
 control:
   mode: fairmq
 wants:
@@ -21,7 +21,6 @@ command:
     - "stf_builder-0"
     - "--detector"
     - "TPC"
-    - "--stand-alone"
-  #  - "--dpl-channel-name=dpl-chan"
-  #  - "--channel-config"
-  #  - "name=dpl-chan,type=push,method=bind,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"
+    - "--dpl-channel-name=dpl-chan"
+    - "--channel-config"
+    - "name=dpl-chan,type=push,method=bind,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"

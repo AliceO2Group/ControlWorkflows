@@ -18,7 +18,7 @@ command:
   arguments:
     - "-b"
     - "--monitoring-backend"
-    - "no-op://"
+    - "influxdb-udp://alio2-cr1-flp139:8088"
     - "--id"
     - "readout-proxy"
     - "--log-color"
