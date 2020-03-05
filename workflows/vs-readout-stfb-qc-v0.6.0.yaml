@@ -54,14 +54,14 @@ roles:
         rateLogging: "60"
     task:
       load: stfb-qc-check-runner
-  - name: "internal-dpl-global-binary-file-sink"
-    connect:
-      - name: "from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
-        target: "{{parent}}.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
-        type: "pull"
-        rateLogging: "60"
-    task:
-      load: stfb-internal-dpl-global-binary-file-sink
+  # - name: "internal-dpl-global-binary-file-sink"
+  #   connect:
+  #     - name: "from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+  #       target: "{{parent}}.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+  #       type: "pull"
+  #       rateLogging: "60"
+  #   task:
+  #     load: stfb-internal-dpl-global-binary-file-sink
 
 # Manual run:
 # 6111 pts/0    S+     0:00 o2-qc --config json:///home/flp/datadistribution.json -b
