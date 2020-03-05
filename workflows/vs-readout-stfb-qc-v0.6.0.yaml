@@ -1,60 +1,125 @@
 name: vs-readout-stfb-qc-v0.6.0
 roles:
-  - name: "readout-stfb-role"
-    task:
-      load: stfb-readout
-  - name: "stfb"
-    # connect:
-    #   - name: readout
-    #     type: pull
-    #     target: "ipc:///tmp/readout-pipe-0"
-    #     rateLogging: "1"
-    task:
-      load: stfb-stfbuilder-dpl
-  - name: "stfb-raw-proxy"
-    connect:
-      - name: "from_internal-dpl-clock_to_readout-proxy"
-        target: "{{parent}}.stfb-internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
-        type: "pull"
-        rateLogging: "60"
-      - name: "readout-proxy"
-        #target: "{{parent}}.stfb:dpl-chan"
-        target: "ipc:///tmp/stf-builder-dpl-pipe-0"
-        type: "pull"
-        rateLogging: "1"
-    task:
-      load: stfb-raw-proxy
-  - name: "internal-dpl-clock"
-    task:
-      load: stfb-internal-dpl-clock
-  - name: "Dispatcher"
-    connect:
-      - name: "from_readout-proxy_to_Dispatcher"
-        target: "{{parent}}.stfb-raw-proxy:from_readout-proxy_to_Dispatcher"
-        type: "pull"
-        rateLogging: "60"
-    task:
-      load: stfb-qc-dispatcher
-  - name: "QC-TASK-RUNNER-dataDistribution"
-    connect:
-      - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
-        target: "{{parent}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
-        type: "pull"
-        rateLogging: "60"
-      - name: "from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
-        target: "{{parent}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
-        type: "pull"
-        rateLogging: "60"
-    task:
-      load: stfb-qc-task-runner-dd
-  - name: "QC-CHECK-RUNNER-QcCheck"
-    connect:
-      - name: "from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
-        target: "{{parent}}.QC-TASK-RUNNER-dataDistribution:from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
-        type: "pull"
-        rateLogging: "60"
-    task:
-      load: stfb-qc-check-runner
+  - name: "flp0"
+    constraints:
+      - attribute: machine_id
+        value: alio2-cr1-flp140
+    roles:
+      - name: "readout-stfb-role"
+        task:
+          load: stfb-readout
+      - name: "stfb"
+        # connect:
+        #   - name: readout
+        #     type: pull
+        #     target: "ipc:///tmp/readout-pipe-0"
+        #     rateLogging: "1"
+        task:
+          load: stfb-stfbuilder-dpl
+      - name: "stfb-raw-proxy"
+        connect:
+          - name: "from_internal-dpl-clock_to_readout-proxy"
+            target: "{{parent}}.stfb-internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+            type: "pull"
+            rateLogging: "60"
+          - name: "readout-proxy"
+            #target: "{{parent}}.stfb:dpl-chan"
+            target: "ipc:///tmp/stf-builder-dpl-pipe-0"
+            type: "pull"
+            rateLogging: "1"
+        task:
+          load: stfb-raw-proxy
+      - name: "internal-dpl-clock"
+        task:
+          load: stfb-internal-dpl-clock
+      - name: "Dispatcher"
+        connect:
+          - name: "from_readout-proxy_to_Dispatcher"
+            target: "{{parent}}.stfb-raw-proxy:from_readout-proxy_to_Dispatcher"
+            type: "pull"
+            rateLogging: "60"
+        task:
+          load: stfb-qc-dispatcher
+      - name: "QC-TASK-RUNNER-dataDistribution"
+        connect:
+          - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+            target: "{{parent}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+            type: "pull"
+            rateLogging: "60"
+          - name: "from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+            target: "{{parent}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+            type: "pull"
+            rateLogging: "60"
+        task:
+          load: stfb-qc-task-runner-dd
+      - name: "QC-CHECK-RUNNER-QcCheck"
+        connect:
+          - name: "from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+            target: "{{parent}}.QC-TASK-RUNNER-dataDistribution:from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+            type: "pull"
+            rateLogging: "60"
+        task:
+          load: stfb-qc-check-runner
+  - name: "flp1"
+    constraints:
+      - attribute: machine_id
+        value: alio2-cr1-flp141
+    roles:
+      - name: "readout-stfb-role"
+        task:
+          load: stfb-readout
+      - name: "stfb"
+        # connect:
+        #   - name: readout
+        #     type: pull
+        #     target: "ipc:///tmp/readout-pipe-0"
+        #     rateLogging: "1"
+        task:
+          load: stfb-stfbuilder-dpl
+      - name: "stfb-raw-proxy"
+        connect:
+          - name: "from_internal-dpl-clock_to_readout-proxy"
+            target: "{{parent}}.stfb-internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+            type: "pull"
+            rateLogging: "60"
+          - name: "readout-proxy"
+            #target: "{{parent}}.stfb:dpl-chan"
+            target: "ipc:///tmp/stf-builder-dpl-pipe-0"
+            type: "pull"
+            rateLogging: "1"
+        task:
+          load: stfb-raw-proxy
+      - name: "internal-dpl-clock"
+        task:
+          load: stfb-internal-dpl-clock
+      - name: "Dispatcher"
+        connect:
+          - name: "from_readout-proxy_to_Dispatcher"
+            target: "{{parent}}.stfb-raw-proxy:from_readout-proxy_to_Dispatcher"
+            type: "pull"
+            rateLogging: "60"
+        task:
+          load: stfb-qc-dispatcher
+      - name: "QC-TASK-RUNNER-dataDistribution"
+        connect:
+          - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+            target: "{{parent}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+            type: "pull"
+            rateLogging: "60"
+          - name: "from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+            target: "{{parent}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+            type: "pull"
+            rateLogging: "60"
+        task:
+          load: stfb-qc-task-runner-dd
+      - name: "QC-CHECK-RUNNER-QcCheck"
+        connect:
+          - name: "from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+            target: "{{parent}}.QC-TASK-RUNNER-dataDistribution:from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+            type: "pull"
+            rateLogging: "60"
+        task:
+          load: stfb-qc-check-runner
   # - name: "internal-dpl-global-binary-file-sink"
   #   connect:
   #     - name: "from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
