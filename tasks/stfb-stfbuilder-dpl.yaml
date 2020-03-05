@@ -4,7 +4,10 @@ control:
 wants:
   cpu: 0.15
   memory: 128
-bind: []
+bind:
+  - name: dpl-chan
+    type: push
+    rateLogging: "1"
 properties: {}
 command:
   env: []
@@ -22,5 +25,5 @@ command:
     - "--detector"
     - "TPC"
     - "--dpl-channel-name=dpl-chan"
-    - "--channel-config"
-    - "name=dpl-chan,type=push,method=bind,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"
+#    - "--channel-config"
+#    - "name=dpl-chan,type=push,method=bind,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"

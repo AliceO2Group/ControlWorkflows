@@ -18,7 +18,7 @@ roles:
         type: "pull"
         rateLogging: "60"
       - name: "readout-proxy"
-        target: "ipc:///tmp/stf-builder-dpl-pipe-0"
+        target: "{{parent}}.stfb:dpl-chan" #"ipc:///tmp/stf-builder-dpl-pipe-0"
         type: "pull"
         rateLogging: "1"
     task:
