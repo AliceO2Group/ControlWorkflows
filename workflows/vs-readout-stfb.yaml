@@ -3,19 +3,19 @@ roles:
   - name: "readout-stfb-role0"
     constraints:
       - attribute: machine_id
-        value: alio2-cr1-flp140
+        value: alio2-cr1-flp178
     task:
       load: stfb-readout
   - name: "readout-stfb-role1"
     constraints:
       - attribute: machine_id
-        value: alio2-cr1-flp141
+        value: alio2-cr1-flp179
     task:
       load: stfb-readout
   - name: "stfb0"
     constraints:
       - attribute: machine_id
-        value: alio2-cr1-flp140
+        value: alio2-cr1-flp178
     connect:
       - name: readout
         type: pull
@@ -26,7 +26,7 @@ roles:
   - name: "stfb1"
     constraints:
       - attribute: machine_id
-        value: alio2-cr1-flp141
+        value: alio2-cr1-flp179
     connect:
       - name: readout
         type: pull
