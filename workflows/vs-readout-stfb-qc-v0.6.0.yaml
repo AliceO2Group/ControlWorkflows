@@ -12,7 +12,7 @@ roles:
         # connect:
         #   - name: readout
         #     type: pull
-        #     target: "ipc:///tmp/readout-pipe-0"
+        #     target: "ipc:///tmp/flp-readout-pipe-0"
         #     rateLogging: "1"
         task:
           load: stfb-stfbuilder-dpl
@@ -72,7 +72,7 @@ roles:
         # connect:
         #   - name: readout
         #     type: pull
-        #     target: "ipc:///tmp/readout-pipe-0"
+        #     target: "ipc:///tmp/flp-readout-pipe-0"
         #     rateLogging: "1"
         task:
           load: stfb-stfbuilder-dpl
