@@ -1,4 +1,4 @@
-name: vs-readout-stfb-qc-v0.6.0
+name: vs-readout-stfb-qc-partial-v0.6.0
 roles:
   - name: "flp0"
     constraints:
