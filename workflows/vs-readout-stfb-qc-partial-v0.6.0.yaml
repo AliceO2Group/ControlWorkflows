@@ -3,7 +3,7 @@ roles:
   - name: "flp0"
     constraints:
       - attribute: machine_id
-        value: alio2-cr1-flp140
+        value: alio2-cr1-flp178
     roles:
       - name: "readout-stfb-role"
         task:
@@ -63,7 +63,7 @@ roles:
   - name: "flp1"
     constraints:
       - attribute: machine_id
-        value: alio2-cr1-flp141
+        value: alio2-cr1-flp179
     roles:
       - name: "readout-stfb-role"
         task:
