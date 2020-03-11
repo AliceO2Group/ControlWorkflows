@@ -14,8 +14,9 @@ command:
   shell: true
   value: >-
     source /etc/profile.d/modules.sh &&
-    MODULEPATH=/opt/alisw/el7/modulefiles module load DataDistribution &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module load DataDistribution Readout &&
     MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
+    MODULEPATH=/opt/alisw/el7/modulefiles module list &&
     StfBuilder
   arguments:
     - "--transport"
