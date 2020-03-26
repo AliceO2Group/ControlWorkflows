@@ -4,7 +4,12 @@ control:
 wants:
   cpu: 0.15
   memory: 128
-bind: []
+bind:
+  - name: readout
+    type: push
+    rateLogging: "1"
+    addressing: ipc
+    transport: shmem
 properties: {}
 command: 
   env: []

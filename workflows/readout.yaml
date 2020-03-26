@@ -1,0 +1,12 @@
+name: "readout"
+roles:
+  - name: "readout-role-{{ it }}"
+    for:
+      range: "{{ hosts }}"
+      var: it
+    constraints:
+      - attribute: machine_id
+        value: "{{ it }}"
+    task:
+      load: readout
+

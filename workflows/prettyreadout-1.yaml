@@ -1,5 +1,0 @@
-name: "readout-1-root-pretty"
-roles:
-  - name: "readout-role"
-    task:
-      load: readout

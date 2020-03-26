@@ -1,5 +1,4 @@
 name: "multichan"
-vars: {}
 roles:
   - name: "sink"
     connect:

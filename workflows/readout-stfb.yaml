@@ -1,0 +1,21 @@
+name: vs-readout-stfb
+roles:
+  - name: host-{{ it }}
+    for:
+      range: "{{ ToJson(hosts) }}"
+      var: it
+    constraints:
+      - attribute: machine_id
+        value: "{{ it }}"
+    roles:
+      - name: "readout"
+        task:
+          load: readout
+      - name: "stfb"
+        connect:
+          - name: readout
+            type: pull
+            target: "{{ parent }}.readout:readout"
+            rateLogging: "1"
+        task:
+          load: stfb-stfbuilder
