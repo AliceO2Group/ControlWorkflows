@@ -2,7 +2,7 @@ name: vs-readout-stfb
 roles:
   - name: host-{{ it }}
     for:
-      range: "{{ ToJson(hosts) }}"
+      range: "{{ hosts }}"
       var: it
     constraints:
       - attribute: machine_id

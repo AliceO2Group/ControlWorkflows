@@ -18,7 +18,5 @@ command:
   shell: true
   arguments: []
   value: >-
-    source /etc/profile.d/modules.sh &&
-    MODULEPATH=/opt/alisw/el7/modulefiles module load FairMQ &&
-    MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
+    eval `aliswmod load FairMQ Control-OCCPlugin` &&
     fairmq-ex-multiple-channels-broadcaster

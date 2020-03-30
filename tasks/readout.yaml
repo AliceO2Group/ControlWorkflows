@@ -17,7 +17,5 @@ command:
   arguments:
     - "file:/home/flp/readout.cfg"
   value: >-
-    source /etc/profile.d/modules.sh &&
-    MODULEPATH=/opt/alisw/el7/modulefiles module load Readout &&
-    MODULEPATH=/opt/alisw/el7/modulefiles module load Control-OCCPlugin &&
+    eval `aliswmod load Readout Control-OCCPlugin` &&
     readout.exe
