@@ -1,12 +1,9 @@
 name: readout-stfb
 roles:
-  - name: host-{{ it }}
-    for:
-      range: "{{ hosts }}"
-      var: it
+  - name: host-{{ host }}
     constraints:
       - attribute: machine_id
-        value: "{{ it }}"
+        value: "{{ host }}"
     roles:
       - name: "readout"
         task:
