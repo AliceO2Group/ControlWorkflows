@@ -1,0 +1,31 @@
+name: stfb-qc-task-runner-dd
+defaults:
+  stfb_dataspec: "B:TPC/RAWDATA"
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.15
+  memory: 128
+bind:
+  - name: "from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+    type: "push"
+    rateLogging: "60"
+command:
+  shell: true
+  value: >-
+    eval `aliswmod load QualityControl Control-OCCPlugin` &&
+    o2-dpl-raw-proxy -b --dataspec {{stfb_dataspec}} | o2-qc
+  arguments:
+    - "-b"
+    - "--monitoring-backend"
+    - "{{ monitoring_qc_url }}"
+    - "--id"
+    - "QC-TASK-RUNNER-dataDistribution"
+    - "--log-color"
+    - "false"
+    - "--config"
+    - "json:///home/flp/datadistribution.json"
+    - "--readers"
+    - "1"
+    - "--period-timer-cycle"
+    - "10000000"
