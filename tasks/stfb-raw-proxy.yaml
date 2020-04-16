@@ -9,12 +9,14 @@ wants:
 bind:
   - name: from_readout-proxy_to_Dispatcher
     type: push
+    transport: shmem
+    addressing: ipc
     rateLogging: "60"
 command:
   shell: true
   value: >-
     eval `aliswmod load QualityControl Control-OCCPlugin` &&
-    o2-dpl-raw-proxy -b --dataspec {{stfb_dataspec}} | o2-qc -b --config json:///home/flp/datadistribution.json
+    cat {{dpl_config}} | o2-dpl-raw-proxy
   arguments:
     - "-b"
     - "--monitoring-backend"
@@ -33,4 +35,6 @@ command:
     - "1"
     - "--end-value-enumeration"
     - "-1"
+    - "--session"
+    - "default"
 

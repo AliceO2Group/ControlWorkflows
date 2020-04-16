@@ -1,6 +1,7 @@
 name: stfb-qc-check-runner
 defaults:
   stfb_dataspec: "B:TPC/RAWDATA"
+  qc_config_uri: json:///home/flp/datadistribution.json
 control:
   mode: "fairmq"
 wants:
@@ -9,21 +10,27 @@ wants:
 bind:
   - name: "from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
     type: "push"
+    transport: shmem
+    addressing: ipc
     rateLogging: "60"
 command:
   shell: true
   value: >-
     eval `aliswmod load QualityControl Control-OCCPlugin` &&
-    o2-dpl-raw-proxy -b --dataspec {{stfb_dataspec}} | o2-qc
+    cat {{dpl_config}}| o2-qc
   arguments:
     - "-b"
+    - "--config"
+    - "{{qc_config_uri}}"
     - "--monitoring-backend"
     - "{{ monitoring_qc_url }}"
     - "--id"
     - "QC-CHECK-RUNNER-QcCheck"
     - "--log-color"
     - "false"
-    - "--config"
-    - "json:///home/flp/datadistribution.json"
+    - "--dataspec"
+    - "{{ stfb_dataspec }}"
     - "--readers"
     - "1"
+    - "--session"
+    - "default"

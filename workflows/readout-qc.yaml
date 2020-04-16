@@ -26,6 +26,7 @@ roles:
   - name: qc-single-subwf
     defaults:
       qchost: "{{ FromJson(hosts)[0] }}"
+      dpl_config: "/home/flp/stfb-qc.dpl.json"
     constraints:
       - attribute: machine_id
         value: "{{ qchost }}"
@@ -39,6 +40,7 @@ roles:
           - name: "readout-proxy"
             target: "{{ Up(2).Path }}.readout-stfb-{{ qchost }}.stfb:dpl-chan"
             #target: "ipc:///tmp/stf-builder-dpl-pipe-0"
+            transport: shmem
             type: "pull"
             rateLogging: "1"
         task:
@@ -50,6 +52,10 @@ roles:
         connect:
           - name: "from_readout-proxy_to_Dispatcher"
             target: "{{Parent().Path}}.stfb-raw-proxy:from_readout-proxy_to_Dispatcher"
+            type: "pull"
+            rateLogging: "60"
+          - name: "from_internal-dpl-clock_to_Dispatcher"
+            target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
             type: "pull"
             rateLogging: "60"
         task:
