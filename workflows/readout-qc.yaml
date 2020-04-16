@@ -19,7 +19,7 @@ roles:
         connect:
           - name: readout
             type: pull
-            target: "{{ parent }}.readout:readout"
+            target: "{{ Parent().Path }}.readout:readout"
             rateLogging: "1"
         task:
           load: stfbuilder
@@ -33,11 +33,11 @@ roles:
       - name: "stfb-raw-proxy"
         connect:
           - name: "from_internal-dpl-clock_to_readout-proxy"
-            target: "{{parent}}.stfb-internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+            target: "{{Parent().Path}}.stfb-internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
             type: "pull"
             rateLogging: "60"
           - name: "readout-proxy"
-            target: "{{ up 2 }}.readout-stfb-{{ qchost }}.stfb:dpl-chan"
+            target: "{{ Up(2).Path }}.readout-stfb-{{ qchost }}.stfb:dpl-chan"
             #target: "ipc:///tmp/stf-builder-dpl-pipe-0"
             type: "pull"
             rateLogging: "1"
@@ -49,7 +49,7 @@ roles:
       - name: "Dispatcher"
         connect:
           - name: "from_readout-proxy_to_Dispatcher"
-            target: "{{parent}}.stfb-raw-proxy:from_readout-proxy_to_Dispatcher"
+            target: "{{Parent().Path}}.stfb-raw-proxy:from_readout-proxy_to_Dispatcher"
             type: "pull"
             rateLogging: "60"
         task:
@@ -57,11 +57,11 @@ roles:
       - name: "QC-TASK-RUNNER-dataDistribution"
         connect:
           - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
-            target: "{{parent}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+            target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
             type: "pull"
             rateLogging: "60"
           - name: "from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
-            target: "{{parent}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+            target: "{{Parent().Path}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
             type: "pull"
             rateLogging: "60"
         task:
@@ -69,7 +69,7 @@ roles:
       - name: "QC-CHECK-RUNNER-QcCheck"
         connect:
           - name: "from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
-            target: "{{parent}}.QC-TASK-RUNNER-dataDistribution:from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+            target: "{{Parent().Path}}.QC-TASK-RUNNER-dataDistribution:from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
             type: "pull"
             rateLogging: "60"
         task:
@@ -87,10 +87,10 @@ roles:
   #     - name: "readout-proxy"
   #       connect:
   #         - name: "from_internal-dpl-clock_to_readout-proxy"
-  #           target: "{{parent}}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+  #           target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
   #           type: "pull"
   #         - name: "readout-proxy"
-  #           target: "{{up 2}}.readout-stfb-{{ ToJson(hosts)[0] }}.stfb:dpl-chan"
+  #           target: "{{Up(2).Path}}.readout-stfb-{{ ToJson(hosts)[0] }}.stfb:dpl-chan"
   #           type: "sub"
   #           rateLogging: "1"
   #       task:
@@ -98,31 +98,31 @@ roles:
   #     - name: "Dispatcher"
   #       connect:
   #         - name: "from_readout-proxy_to_Dispatcher"
-  #           target: "{{parent}}.readout-proxy:from_readout-proxy_to_Dispatcher"
+  #           target: "{{Parent().Path}}.readout-proxy:from_readout-proxy_to_Dispatcher"
   #           type: "pull"
   #       task:
   #         load: Dispatcher
   #     - name: "QC-TASK-RUNNER-daqTask-v0_7_0"
   #       connect:
   #         - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-daqTask"
-  #           target: "{{parent}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-daqTask"
+  #           target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-daqTask"
   #           type: "pull"
   #         - name: "from_Dispatcher_to_QC-TASK-RUNNER-daqTask"
-  #           target: "{{parent}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-daqTask"
+  #           target: "{{Parent().Path}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-daqTask"
   #           type: "pull"
   #       task:
   #         load: QC-TASK-RUNNER-daqTask-v0_7_0
   #     - name: "QC-CHECK-RUNNER-Q4H0"
   #       connect:
   #         - name: "from_QC-TASK-RUNNER-daqTask_to_QC-CHECK-RUNNER-Q4H0"
-  #           target: "{{parent}}.QC-TASK-RUNNER-daqTask-v0_7_0:from_QC-TASK-RUNNER-daqTask_to_QC-CHECK-RUNNER-Q4H0"
+  #           target: "{{Parent().Path}}.QC-TASK-RUNNER-daqTask-v0_7_0:from_QC-TASK-RUNNER-daqTask_to_QC-CHECK-RUNNER-Q4H0"
   #           type: "pull"
   #       task:
   #         load: QC-CHECK-RUNNER-Q4H0
   #     - name: "internal-dpl-global-binary-file-sink"
   #       connect:
   #         - name: "from_QC-CHECK-RUNNER-Q4H0_to_internal-dpl-global-binary-file-sink"
-  #           target: "{{parent}}.QC-CHECK-RUNNER-Q4H0:from_QC-CHECK-RUNNER-Q4H0_to_internal-dpl-global-binary-file-sink"
+  #           target: "{{Parent().Path}}.QC-CHECK-RUNNER-Q4H0:from_QC-CHECK-RUNNER-Q4H0_to_internal-dpl-global-binary-file-sink"
   #           type: "pull"
   #       task:
   #         load: internal-dpl-global-binary-file-sink

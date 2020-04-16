@@ -23,23 +23,24 @@ roles:                         # A list of child roles.
     connect:
       - name: "data1"
         # The target entry is a string, with some tree walk functions available for traversing the control tree.
+        # All functions return a structure {Name string, Path string}
         # Available functions:
-        #    parent() - returns the path of the parent role (example: {{parent}}.someRoleName to get a sibling role)
-        #    up(int n) - returns the path of the n-th ancestor (example: {{up 2}}.someRole.otherRole to get a cousin role)
-        #    this() - returns the path of the current role (example: {{this}}.someRole to get a child role)
+        #    Parent() - returns the parent role (example: {{Parent().Path}}.someRoleName to point to a sibling role)
+        #    Up(int n) - returns the n-th ancestor (example: {{Up(2).Path}}.someRole.otherRole to get a cousin role)
+        #    This() - returns the current role (example: {{This().Path}}.someRole to get a child role)
         # Please note that these paths operate on the in-memory control tree and not on the workflow template
         # as it appears in the configuration file (or database): the control tree is traversed after the iterator
         # roles have already been resolved and expanded. Thus, one can never reference "processor{{it}}", only
         # a specific "processor3".
         # By whatever means, the target must ultimately contain a valid complete path to a role, followed by a ":"
         # and the name of the inbound channel (as it appears in the bind spec of the task template).
-        target: "{{ parent }}.sampler:data1"
+        target: "{{ Parent().Path }}.sampler:data1"
         type: "pull"
         sndBufSize: 1000
         rcvBufSize: 1000
         rateLogging: 0
       - name: "data2"
-        target: "{{ up 1 }}.sink:data2" # Same as {{ parent }}.sink:data2
+        target: "{{ Up(1).Path }}.sink:data2" # Same as {{ parent }}.sink:data2
         type: "push"
         sndBufSize: 1000
         rcvBufSize: 1000

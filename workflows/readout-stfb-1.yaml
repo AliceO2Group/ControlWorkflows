@@ -12,7 +12,7 @@ roles:
         connect:
           - name: readout
             type: pull
-            target: "{{ parent }}.readout:readout"
+            target: "{{ Parent().Path }}.readout:readout"
             rateLogging: "1"
         task:
           load: stfbuilder

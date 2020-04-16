@@ -3,13 +3,13 @@ roles:
   - name: "sink"
     connect:
       - name: "data"
-        target: "{{ parent }}.sampler:data"
+        target: "{{ Parent().Path }}.sampler:data"
         type: "pull"
         sndBufSize: 1000
         rcvBufSize: 1000
         rateLogging: 0
       - name: "broadcast"
-        target: "{{ parent }}.broadcaster:broadcast"
+        target: "{{ Parent().Path }}.broadcaster:broadcast"
         type: "sub"
         sndBufSize: 1000
         rcvBufSize: 1000
@@ -19,7 +19,7 @@ roles:
   - name: "sampler"
     connect:
       - name: "broadcast"
-        target: "{{ parent }}.broadcaster:broadcast"
+        target: "{{ Parent().Path }}.broadcaster:broadcast"
         type: "sub"
         sndBufSize: 1000
         rcvBufSize: 1000

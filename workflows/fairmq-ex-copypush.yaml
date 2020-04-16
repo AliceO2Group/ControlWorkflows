@@ -9,7 +9,7 @@ roles:
       var: it
     connect:
       - name: "data"
-        target: "{{ parent }}.sampler:data"
+        target: "{{ Parent().Path }}.sampler:data"
         type: "pull"
         sndBufSize: 1000
         rcvBufSize: 1000
