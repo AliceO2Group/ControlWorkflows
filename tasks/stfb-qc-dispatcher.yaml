@@ -1,6 +1,5 @@
 name: stfb-qc-dispatcher
 defaults:
-  stfb_dataspec: "B:TPC/RAWDATA"
   qc_config_uri: json:///home/flp/datadistribution.json
 control:
   mode: "fairmq"
@@ -28,8 +27,6 @@ command:
     - "Dispatcher"
     - "--log-color"
     - "false"
-    - "--dataspec"
-    - "{{ stfb_dataspec }}"
     - "--readers"
     - "1"
     - "--session"

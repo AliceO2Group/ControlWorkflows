@@ -1,6 +1,5 @@
 name: stfb-qc-task-runner-dd
 defaults:
-  stfb_dataspec: "B:TPC/RAWDATA"
   qc_config_uri: json:///home/flp/datadistribution.json
 control:
   mode: "fairmq"
@@ -28,8 +27,6 @@ command:
     - "QC-TASK-RUNNER-dataDistribution"
     - "--log-color"
     - "false"
-    - "--dataspec"
-    - "{{ stfb_dataspec }}"
     - "--readers"
     - "1"
     - "--period-timer-cycle"
