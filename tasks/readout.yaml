@@ -1,4 +1,6 @@
 name: readout # read by workflow
+defaults:
+  readout_cfg_uri: "file:/home/flp/readout.cfg"
 control:
   mode: direct
 wants:
@@ -15,7 +17,7 @@ command:
   env: []
   shell: true
   arguments:
-    - "file:/home/flp/readout.cfg"
+    - "{{ readout_cfg_uri }}"
   value: >-
     eval `aliswmod load Readout Control-OCCPlugin` &&
     readout.exe
