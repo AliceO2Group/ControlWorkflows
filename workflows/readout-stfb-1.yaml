@@ -4,6 +4,8 @@ roles:
     constraints:
       - attribute: machine_id
         value: "{{ host }}"
+    vars:
+      readout_cfg_uri: "file:/home/flp/readout_stfb_emu.cfg"
     roles:
       - name: "readout"
         task:
