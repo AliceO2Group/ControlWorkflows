@@ -17,4 +17,4 @@ roles:
             target: "{{ Parent().Path }}.readout:readout"
             rateLogging: "1"
         task:
-          load: stfbuilder
+          load: stfbuilder-nooutput

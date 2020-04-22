@@ -1,16 +1,9 @@
-name: stfbuilder
+name: stfbuilder-nooutput
 control:
   mode: fairmq
 wants:
   cpu: 0.15
   memory: 128
-bind:
-  - name: dpl-chan
-    type: push
-    rateLogging: "1"
-    transport: shmem
-    addressing: ipc
-properties: {}
 command:
   env: []
   shell: true
@@ -20,5 +13,5 @@ command:
   arguments:
     - "--detector"
     - "TPC"
-    - "--dpl-channel-name=dpl-chan"
     - "--verbosity=veryhigh"
+    - "--stand-alone"
