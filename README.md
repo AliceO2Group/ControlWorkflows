@@ -8,4 +8,4 @@ All AliECS variables are strings. Some workflow templates can choose to treat a 
 | Variable | Description | Example |
 | :--- | :--- | :--- |
 | `hosts` | JSON-formatted list of hosts to control the scale of certain workflows | `["myhost1","myhost2"]` |
-| `readout_cfg_uri` | URI of a Readout configuration payload | `"file:/home/flp/readout.cfg"` |
+| `readout_cfg_uri` | URI of a Readout configuration payload | `file:/home/flp/readout.cfg` |
