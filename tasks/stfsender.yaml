@@ -1,0 +1,27 @@
+name: stfsender
+control:
+  mode: fairmq
+wants:
+  cpu: 0.15
+  memory: 128
+defaults:
+  max_buffered_stfs: 200
+  dd_discovery_net_if: "lo" #the loopback intf
+  dd_discovery_endpoint: "no-op://" # location of consul docker instance
+command:
+  env: []
+  shell: true
+  value: >-
+    eval `aliswmod load DataDistribution Control-OCCPlugin` &&
+    StfSender
+  arguments:
+    - "--detector"
+    - "TPC"
+    - "--input-channel-name=buildertosender"
+    - "--verbosity=veryhigh"
+    - "--max-buffered-stfs={{ max_buffered_stfs }}"
+    - "--discovery-partition={{ environment_id }}"
+    - "--discovery-id={{ task_id }}"
+    - "--discovery-endpoint={{ dd_discovery_endpoint }}"
+    - "--discovery-net-if={{ dd_discovery_net_if }}"
+

@@ -1,0 +1,24 @@
+name: stfbuilder-senderoutput
+control:
+  mode: fairmq
+wants:
+  cpu: 0.15
+  memory: 128
+bind:
+  - name: buildertosender
+    type: push
+    rateLogging: "1"
+    transport: shmem
+    addressing: ipc
+    sndBufSize: "1"
+command:
+  env: []
+  shell: true
+  value: >-
+    eval `aliswmod load DataDistribution Control-OCCPlugin` &&
+    StfBuilder
+  arguments:
+    - "--detector"
+    - "TPC"
+    - "--output-channel-name=buildertosender"
+    - "--verbosity=veryhigh"

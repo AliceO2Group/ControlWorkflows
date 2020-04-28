@@ -1,0 +1,31 @@
+name: readout-stfb-stfs
+roles:
+  - name: host-{{ it }}
+    for:
+      range: "{{ hosts }}"
+      var: it
+    vars:
+      readout_cfg_uri: "file:/home/flp/readout_stfb_emu.cfg"
+    constraints:
+      - attribute: machine_id
+        value: "{{ it }}"
+    roles:
+      - name: "readout"
+        task:
+          load: readout
+      - name: "stfb"
+        connect:
+          - name: readout
+            type: pull
+            target: "{{ Parent().Path }}.readout:readout"
+            rateLogging: "1"
+        task:
+          load: stfbuilder-senderoutput
+      - name: "stfs"
+        connect:
+          - name: buildertosender
+            type: pull
+            target: "{{ Parent().Path }}.stfb:buildertosender"
+            rateLogging: "1"
+        task:
+          load: stfsender
