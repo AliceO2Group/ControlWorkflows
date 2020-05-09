@@ -28,7 +28,7 @@ roles:
   - name: qc-single-subwf
     defaults:
       qchost: "{{ FromJson(hosts)[0] }}"
-      dpl_config: "/home/flp/stfb-qc.dpl.json"
+      dpl_config: "/etc/flp.d/qc/stfb-qc.dpl.json"
     constraints:
       - attribute: machine_id
         value: "{{ qchost }}"
