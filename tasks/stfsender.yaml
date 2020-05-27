@@ -11,6 +11,7 @@ defaults:
 command:
   env: []
   shell: true
+  user: flp
   value: >-
     eval `aliswmod load DataDistribution Control-OCCPlugin` &&
     StfSender

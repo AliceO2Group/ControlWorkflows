@@ -17,6 +17,7 @@ command:
   value: >-
     eval `aliswmod load QualityControl Control-OCCPlugin` &&
     cat {{dpl_config}}| o2-qc
+  user: flp
   arguments:
     - "-b"
     - "--config"
