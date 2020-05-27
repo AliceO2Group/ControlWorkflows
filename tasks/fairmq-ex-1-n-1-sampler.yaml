@@ -21,6 +21,7 @@ properties:             # Contains a key-value map of FairMQ properties to push
 command:                # Specification of the command to run
   env: []               # List of strings, each of which is an environment variable to set like "VAR=value"
   shell: true           # Generally must be true if we use environment modules
+  user: flp
   arguments: []         # List of arguments for the command
                         # "value" is the actual command to run in the shell (if shell == true) or otherwise the path
                         # of the executable. Since we use environment modules, we must take care to load them

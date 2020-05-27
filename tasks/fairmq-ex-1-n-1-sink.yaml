@@ -16,6 +16,7 @@ properties:
 command:
   env: []
   shell: true
+  user: flp
   arguments: []
   value: >-
     eval `aliswmod load FairMQ Control-OCCPlugin` &&

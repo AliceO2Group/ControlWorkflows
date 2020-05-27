@@ -17,6 +17,7 @@ command:
   value: >-
     eval `aliswmod load QualityControl Control-OCCPlugin` &&
     cat {{dpl_config}} | o2-dpl-raw-proxy
+  user: flp
   arguments:
     - "-b"
     - "--monitoring-backend"
