@@ -1,6 +1,8 @@
 name: stfbuilder-senderoutput
 control:
   mode: fairmq
+defaults:
+  rdh_version: "6"
 wants:
   cpu: 0.15
   memory: 128
@@ -23,3 +25,5 @@ command:
     - "TPC"
     - "--output-channel-name=buildertosender"
     - "--verbosity=veryhigh"
+    - "--detector-rdh"
+    - "{{ rdh_version }}"
