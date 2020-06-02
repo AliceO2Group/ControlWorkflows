@@ -1,6 +1,7 @@
 name: readout # read by workflow
 defaults:
   readout_cfg_uri: "file:/home/flp/readout.cfg"
+  user: flp
 control:
   mode: direct
 wants:
@@ -16,7 +17,7 @@ properties: {}
 command: 
   env: []
   shell: true
-  user: flp
+  user: "{{ user }}"
   arguments:
     - "{{ readout_cfg_uri }}"
   value: >-

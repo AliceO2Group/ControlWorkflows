@@ -3,6 +3,7 @@ control:
   mode: fairmq
 defaults:
   rdh_version: "6"
+  user: flp
 wants:
   cpu: 0.15
   memory: 128
@@ -16,7 +17,7 @@ bind:
 command:
   env: []
   shell: true
-  user: flp
+  user: "{{ user }}"
   value: >-
     eval `aliswmod load DataDistribution Control-OCCPlugin` &&
     StfBuilder
