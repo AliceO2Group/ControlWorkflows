@@ -8,16 +8,18 @@ defaults:
   max_buffered_stfs: 200
   dd_discovery_net_if: "lo" #the loopback intf
   dd_discovery_endpoint: "no-op://" # location of consul docker instance
+  user: flp
 command:
   env: []
   shell: true
-  user: flp
+  user: "{{ user }}"
   value: >-
     eval `aliswmod load DataDistribution Control-OCCPlugin` &&
     StfSender
   arguments:
     - "--detector"
     - "TPC"
+    - "--stand-alone"
     - "--input-channel-name=buildertosender"
     - "--verbosity=veryhigh"
     - "--max-buffered-stfs={{ max_buffered_stfs }}"
