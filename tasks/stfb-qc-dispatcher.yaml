@@ -1,6 +1,7 @@
 name: stfb-qc-dispatcher
 defaults:
   qc_config_uri: json:///home/flp/datadistribution.json
+  user: flp
 control:
   mode: "fairmq"
 wants:
@@ -17,7 +18,7 @@ command:
   value: >-
     eval `aliswmod load QualityControl Control-OCCPlugin` &&
     cat {{dpl_config}}| o2-qc
-  user: flp
+  user: "{{ user }}"
   arguments:
     - "-b"
     - "--config"
@@ -34,3 +35,6 @@ command:
     - "default"
     - "--period-timer-stats"
     - "10000000"
+    - "--severity"
+    - "debug"
+    - "--shm-monitor false"
