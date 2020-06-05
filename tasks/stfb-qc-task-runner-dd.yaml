@@ -7,6 +7,13 @@ control:
 wants:
   cpu: 0.15
   memory: 128
+connect:
+  - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+    type: "pull"
+    rateLogging: "60"
+  - name: "from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+    type: "pull"
+    rateLogging: "60"
 bind:
   - name: "from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
     type: "push"
