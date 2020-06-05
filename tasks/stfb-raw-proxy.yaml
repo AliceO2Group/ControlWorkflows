@@ -1,6 +1,7 @@
 name: stfb-raw-proxy
 defaults:
   stfb_dataspec: "B:TPC/RAWDATA"
+  user: flp
 control:
   mode: "fairmq"
 wants:
@@ -17,7 +18,7 @@ command:
   value: >-
     eval `aliswmod load QualityControl Control-OCCPlugin` &&
     cat {{dpl_config}} | o2-dpl-raw-proxy
-  user: flp
+  user: "{{ user }}"
   arguments:
     - "-b"
     - "--monitoring-backend"
@@ -38,4 +39,5 @@ command:
     - "-1"
     - "--session"
     - "default"
+    - "--shm-monitor false"
 

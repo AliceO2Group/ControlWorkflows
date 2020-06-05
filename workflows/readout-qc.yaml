@@ -82,6 +82,13 @@ roles:
             rateLogging: "60"
         task:
           load: stfb-qc-check-runner
+      - name: "internal-dpl-global-binary-file-sink"
+        connect:
+          - name: "from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+            target: "{{Parent().Path}}.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+            type: "pull"
+        task:
+          load: stfb-internal-dpl-global-binary-file-sink
 
 
   # - name: qc-single-subwf

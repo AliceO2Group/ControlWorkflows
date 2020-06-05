@@ -1,4 +1,4 @@
-name: stfb-internal-dpl-clock
+name: stfb-internal-dpl-global-binary-file-sink
 defaults:
   stfb_dataspec: "B:TPC/RAWDATA"
   user: flp
@@ -7,21 +7,9 @@ control:
 wants:
   cpu: 0.15
   memory: 128
-bind:
-  - name: "from_internal-dpl-clock_to_Dispatcher"
-    type: "push"
-    transport: shmem
-    addressing: ipc
-    rateLogging: "60"
-  - name: "from_internal-dpl-clock_to_readout-proxy"
-    type: "push"
-    transport: shmem
-    addressing: ipc
-    rateLogging: "60"
-  - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
-    type: "push"
-    transport: shmem
-    addressing: ipc
+connect:
+  - name: from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink
+    type: pull
     rateLogging: "60"
 command:
   shell: true
@@ -34,7 +22,7 @@ command:
     - "--monitoring-backend"
     - "{{ monitoring_qc_url }}"
     - "--id"
-    - "internal-dpl-clock"
+    - "internal-dpl-global-binary-file-sink"
     - "--log-color"
     - "false"
     - "--dataspec"
@@ -43,4 +31,6 @@ command:
     - "1"
     - "--session"
     - "default"
+    - "--outfile"
+    - "/dev/null"
     - "--shm-monitor false"
