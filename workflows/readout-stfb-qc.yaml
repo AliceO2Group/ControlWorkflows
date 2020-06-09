@@ -1,4 +1,4 @@
-name: readout-qc
+name: readout-stfb-qc
 defaults:
   monitoring_qc_url: "no-op://"
   monitoring_dd_url: "no-op://"
