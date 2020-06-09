@@ -66,8 +66,12 @@ roles:
         connect:
           - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
             target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+            type: "pull"
+            rateLogging: "60"
           - name: "from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
             target: "{{Parent().Path}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+            type: "pull"
+            rateLogging: "60"
         task:
           load: stfb-qc-task-runner-dd
       - name: "QC-CHECK-RUNNER-QcCheck"

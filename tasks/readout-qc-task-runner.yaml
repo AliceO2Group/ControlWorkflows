@@ -1,0 +1,47 @@
+name: readout-qc-task-runner
+defaults:
+  qc_config_uri: json:///etc/flp.d/qc/readout.json
+  user: flp
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.15
+  memory: 128
+connect:
+  - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-daqTask"
+    type: "pull"
+    rateLogging: "60"
+  - name: "from_Dispatcher_to_QC-TASK-RUNNER-daqTask"
+    type: "pull"
+    rateLogging: "60"
+bind:
+  - name: "from_QC-TASK-RUNNER-daqTask_to_QC-CHECK-RUNNER-Q4H0"
+    type: "push"
+    transport: shmem
+    addressing: ipc
+    rateLogging: "60"
+command:
+  shell: true
+  value: >-
+    eval `aliswmod load QualityControl Control-OCCPlugin` &&
+    cat {{dpl_config}}| o2-qc
+  user: "{{ user }}"
+  arguments:
+    - "-b"
+    - "--config"
+    - "{{qc_config_uri}}"
+    - "--monitoring-backend"
+    - "{{ monitoring_qc_url }}"
+    - "--id"
+    - "QC-TASK-RUNNER-daqTask"
+    - "--log-color"
+    - "false"
+    - "--readers"
+    - "1"
+    - "--period-timer-cycle"
+    - "10000000"
+    - "--session"
+    - "default"
+    - "--severity"
+    - "debug"
+    - "--shm-monitor false"
