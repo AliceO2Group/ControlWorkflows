@@ -32,9 +32,10 @@ roles:
             type: "pull"
             rateLogging: "60"
           - name: "readout-proxy"
-            target: "{{ Up(2).Path }}.readout-{{ qchost }}.readout:readout"
-            transport: shmem
-            type: "pull"
+            target: "ipc:///tmp/readout-pipe-1"
+            # readout.cfg [consumer-data-sampling] is hardcoded as channel "data-out" with type: pub and transport: zeromq
+            # shmem is only possible in push-pull mode
+            type: "sub"
             rateLogging: "1"
         task:
           load: readout-proxy
