@@ -1,0 +1,6 @@
+name: "qc-postprocessing"
+roles:
+  - name: "qc-postprocessing-role"
+    task:
+      load: qc-postprocessing
+
