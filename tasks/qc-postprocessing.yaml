@@ -10,7 +10,7 @@ wants:
   memory: 128
 bind: []
 properties:
-  qcConfiguration: "{{ GetConfig(qc/postprocessing) }}"
+  qcConfiguration: "{{ GetConfig('qc/postprocessing') }}"
 command:
   env: []
   shell: true
