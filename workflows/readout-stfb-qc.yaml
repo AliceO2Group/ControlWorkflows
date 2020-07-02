@@ -36,7 +36,7 @@ roles:
       - name: "stfb-raw-proxy"
         connect:
           - name: "from_internal-dpl-clock_to_readout-proxy"
-            target: "{{Parent().Path}}.stfb-internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+            target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
             type: "pull"
             rateLogging: "60"
           - name: "readout-proxy"
