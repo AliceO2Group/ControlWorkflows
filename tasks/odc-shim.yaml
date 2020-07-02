@@ -1,0 +1,27 @@
+name: odc-shim
+defaults:
+  odc_hostname: localhost
+  odc_port: "50051"
+  user: flp
+  odc_topology_path: /etc/o2.d/odc/ex-dds-topology-infinite.xml
+control:
+  mode: direct
+wants:
+  cpu: 0.01
+  memory: 3
+properties:
+  environment_id: "{{ environment_id }}" # we must pass this as property because o2-aliecs-odc-shim expects it
+command:
+  env:
+    - ODC_TOPOLOGY={{ odc_topology_path }}
+  shell: true
+  user: "{{ user }}"
+  arguments:
+    - --odcHost
+    - "{{odc_hostname}}"
+    - --odcPort
+    - "{{odc_port}}"
+    - --verbose
+  value: >-
+    eval `aliswmod load Control-Core Control-OCCPlugin` &&
+    o2-aliecs-odc-shim

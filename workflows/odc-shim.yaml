@@ -1,0 +1,6 @@
+name: "odc-shim"
+roles:
+  - name: "odcrole"
+    task:
+      load: odc-shim
+
