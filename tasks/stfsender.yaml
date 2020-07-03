@@ -17,9 +17,6 @@ command:
     eval `aliswmod load DataDistribution Control-OCCPlugin` &&
     StfSender
   arguments:
-    - "--detector"
-    - "TPC"
-    - "--stand-alone"
     - "--input-channel-name=buildertosender"
     - "--verbosity=veryhigh"
     - "--max-buffered-stfs={{ max_buffered_stfs }}"
