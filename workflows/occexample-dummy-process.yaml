@@ -1,0 +1,6 @@
+name: "occexample-dummy-process"
+roles:
+  - name: "occexample-dummy-process-role"
+    task:
+      load: occexample-dummy-process
+

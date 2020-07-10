@@ -1,0 +1,18 @@
+name: occexample-dummy-process
+defaults:
+  user: flp
+control:
+  mode: direct
+wants:
+  cpu: 0.01
+  memory: 3
+properties:
+  config_payload: "{{ ToPtree(GetConfig('qc/basic-' + task_hostname), 'json') }}"
+command: 
+  env: []
+  shell: true
+  user: "{{ user }}"
+  arguments: []
+  value: >-
+    eval `aliswmod load Control-OCCPlugin` &&
+    occexample-dummy-process
