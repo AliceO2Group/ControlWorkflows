@@ -1,0 +1,21 @@
+name: "test-hooks"
+defaults:
+  echosleep_id: "echosleep-unknown"
+  sleep_iter_max: 2
+roles:
+  - name: varsleep-iter-{{it}}
+    for:
+      begin: 0
+      end: "{{sleep_iter_max}}"
+      var: it
+    vars:
+      echosleep_seconds: "3"
+      echosleep_id: "echosleep-{{it}}"
+    task:
+      load: "echosleep"
+      trigger: enter_RUNNING
+      timeout: 30s            # hooks default to 30s, basic tasks to zero (no timeout)
+      critical: false         # both hooks and basic tasks default to true
+  - name: varsleep-singletask
+    task:
+      load: "echosleep"
