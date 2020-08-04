@@ -9,7 +9,7 @@ wants:
   cpu: 0.15
   memory: 128
 properties:
-  "qcConfiguration": {{ ToPtree(GetConfig('qc/postprocessing'), "json") }}
+  "qcConfiguration": "{{ ToPtree(GetConfig('qc/postprocessing'), "json") }}"
 command:
   env: []
   shell: true
