@@ -8,7 +8,6 @@ control:
 wants:
   cpu: 0.15
   memory: 128
-bind: []
 properties:
   "qcConfiguration": {{ ToPtree(GetConfig('qc/postprocessing'), "json") }}
 command:
