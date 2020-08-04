@@ -1,21 +1,31 @@
 name: "test-hooks"
 defaults:
   echosleep_id: "echosleep-unknown"
-  sleep_iter_max: 2
+  n_tasks: 2
+  timeout: 5s
 roles:
   - name: varsleep-iter-{{it}}
     for:
       begin: 0
-      end: "{{sleep_iter_max}}"
+      end: "{{Atoi(n_tasks) - 1}}"
       var: it
     vars:
       echosleep_seconds: "3"
       echosleep_id: "echosleep-{{it}}"
-    task:
-      load: "echosleep"
-      trigger: enter_RUNNING
-      timeout: 30s            # hooks default to 30s, basic tasks to zero (no timeout)
-      critical: false         # both hooks and basic tasks default to true
-  - name: varsleep-singletask
-    task:
-      load: "echosleep"
+    roles:
+      - name: enter_RUNNING-{{it}}
+        vars:
+          echosleep_id: enter_RUNNING-{{it}}
+        task:
+          load: "echosleep"
+          trigger: enter_RUNNING
+          timeout: "{{ timeout }}"
+          critical: false
+      - name: leave_RUNNING-{{it}}
+        vars:
+          echosleep_id: leave_RUNNING-{{it}}
+        task:
+          load: "echosleep"
+          trigger: leave_RUNNING
+          timeout: "{{ timeout }}" # hooks default to 30s, basic tasks to zero (no timeout)
+          critical: true           # hooks default to true i.e. a failed hook will block the transition
