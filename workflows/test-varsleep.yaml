@@ -1,17 +1,18 @@
-name: "test-varsleep"
-defaults:
-  echosleep_id: "echosleep-unknown"
-  n_tasks: 2
-  timeout: 5s
-roles:
-  - name: varsleep-iter-{{it}}
-    for:
-      begin: 0
-      end: "{{Atoi(n_tasks) - 1}}"
-      var: it
-    vars:
+name: "test-varsleep"                   # name of the root role, should match the filename
+defaults:                               # kv-map of var defaults, lower priority than vars
+  echosleep_id: "echosleep-unknown"     # for example this one will be overridden in all child roles
+  n_tasks: 2                            # even though it's a number, it's stored as string (all vars are of type string)
+  timeout: 5s                           # string, formatted as Go time.Duration
+roles:                                  # if a role has a "roles" list, it's an "aggregator role"
+  - name: varsleep-iter-{{it}}          # name of this role, templated against the "it" variable
+    for:                                # if a role has a "for" statement, it generates multiple instances in memory, and it's said to be an "iterator role"
+      begin: 0                          # range for the iterator variable
+      end: "{{Atoi(n_tasks) - 1}}"      # we can use template syntax here to make the cardinality configurable at launch time
+      var: it                           # name of the iterator variable
+    vars:                               # these vars will override anything defined in defaults anywhere, as well as in vars of parent roles
       echosleep_seconds: "3"
-      echosleep_id: "echosleep-{{it}}"
-    task:
-      load: "echosleep"
-      timeout: "{{ timeout }}"
+      echosleep_id: "echosleep-{{it}}"  # variable parametrized against a variable
+    task:                               # if it has a "task" statement, it is a "task role"
+      load: "echosleep"                 # name of the task template to load (assumed to be in the same repo, same revision)
+                                        # since no "trigger" is defined, this task will run as a basic task (and *not* a hook), so it will start on START_ACTIVITY and either stop on its own or be killed on STOP_ACTIVITY
+      timeout: "{{ timeout }}"          # timeout for the task to finish on its own, otherwise it'll be killed; hooks default to 30s, basic tasks to 0s (no timeout) (only applies to task templates of control mode "basic")
