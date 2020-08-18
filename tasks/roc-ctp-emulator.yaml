@@ -1,0 +1,21 @@
+name: roc-ctp-emulator
+defaults:
+  user: flp
+  roc_id: "#0"
+  roc_trigger_mode: "continuous"
+control:
+  mode: basic
+wants:
+  cpu: 0.01
+  memory: 3
+command:
+  shell: true
+  user: "{{ user }}"
+  arguments:
+    - --id
+    - "{{roc_id}}"
+    - --trigger-mode
+    - "{{roc_trigger_mode}}"
+  value: >-
+    eval `aliswmod load ReadoutCard` &&
+    roc-ctp-emulator

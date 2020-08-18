@@ -1,4 +1,6 @@
 name: readout-stfb
+defaults:
+  roc_ctp_emulator_enabled: "true"
 roles:
   - name: host-{{ it }}
     for:
@@ -21,3 +23,10 @@ roles:
             rateLogging: "1"
         task:
           load: stfbuilder-nooutput
+      - name: "roc-ctp-emulator"
+        enabled: "{{roc_ctp_emulator_enabled}}"
+        task:
+          load: "roc-ctp-emulator"
+          trigger: "enter_RUNNING"
+          timeout: 10s
+          critical: false
