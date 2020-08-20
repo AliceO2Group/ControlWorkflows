@@ -1,13 +1,14 @@
 name: readout-stfb
 defaults:
   roc_ctp_emulator_enabled: "true"
+  stfb_enabled: "true"
 roles:
   - name: host-{{ it }}
     for:
       range: "{{ hosts }}"
       var: it
     vars:
-      readout_cfg_uri: "file:/home/flp/readout_stfb_emu.cfg"
+      readout_cfg_uri: '{{stfb_enabled == "true" ? "file:/home/flp/readout_stfb_emu.cfg" : "file:/home/flp/readout.cfg"}}'
     constraints:
       - attribute: machine_id
         value: "{{ it }}"
@@ -16,6 +17,7 @@ roles:
         task:
           load: readout
       - name: "stfb"
+        enabled: "{{ stfb_enabled }}"
         connect:
           - name: readout
             type: pull
