@@ -28,12 +28,14 @@ roles:
         defaults:
           roc_ctp_emulator_endpoints: '["#0"]'
         roles:
-          - name: "roc-ctp-emulator-{{ endpoint_id }}"
+          - name: "endpoint-{{ endpoint_id }}"
             for:
               range: "{{roc_ctp_emulator_endpoints}}"
               var: endpoint_id
-            task:
-              load: "roc-ctp-emulator"
-              trigger: "enter_RUNNING"
-              timeout: 10s
-              critical: false
+            roles:
+              - name: roc-ctp-emulator
+                task:
+                  load: "roc-ctp-emulator"
+                  trigger: "enter_RUNNING"
+                  timeout: 10s
+                  critical: false
