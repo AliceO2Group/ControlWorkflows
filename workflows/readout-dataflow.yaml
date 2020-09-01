@@ -1,0 +1,70 @@
+name: readout-dataflow
+defaults:
+  roc_ctp_emulator_enabled: "true"
+  dd_enabled: "true"
+  stfb_standalone: "false"
+  odc_enabled: "false"
+roles:
+  - name: host-{{ it }}
+    for:
+      range: "{{ hosts }}"
+      var: it
+    vars:
+      readout_cfg_uri: '{{dd_enabled == "true" ? "file:/home/flp/readout_stfb_emu.cfg" : "file:/home/flp/readout.cfg"}}'
+    constraints:
+      - attribute: machine_id
+        value: "{{ it }}"
+    roles:
+      - name: "readout"
+        task:
+          load: readout
+      - name: "data-distribution"
+        enabled: "{{dd_enabled}}"
+        roles:
+          - name: "stfb-standalone"
+            enabled: "{{stfb_standalone}}"
+            connect:
+              - name: readout
+                type: pull
+                target: "{{ Up(2).Path }}.readout:readout"
+                rateLogging: "1"
+            task:
+              load: stfbuilder-nooutput
+          - name: "stfb"
+            enabled: "{{stfb_standalone == 'false'}}"
+            connect:
+              - name: readout
+                type: pull
+                target: "{{ Up(2).Path }}.readout:readout"
+                rateLogging: "1"
+            task:
+              load: stfbuilder-senderoutput
+          - name: "stfs"
+            enabled: "{{stfb_standalone == 'false'}}"
+            connect:
+              - name: buildertosender
+                type: pull
+                target: "{{ Parent().Path }}.stfb:buildertosender"
+                rateLogging: "1"
+            task:
+              load: stfsender
+      - name: roc-ctp-emulators
+        enabled: "{{roc_ctp_emulator_enabled}}"
+        defaults:
+          roc_ctp_emulator_endpoints: '["#0"]'
+        roles:
+          - name: "endpoint-{{ endpoint_id }}"
+            for:
+              range: "{{roc_ctp_emulator_endpoints}}"
+              var: endpoint_id
+            roles:
+              - name: roc-ctp-emulator
+                task:
+                  load: "roc-ctp-emulator"
+                  trigger: "enter_RUNNING"
+                  timeout: 10s
+                  critical: false
+  - name: odcrole
+    enabled: "{{odc_enabled}}"
+    task:
+      load: odc-shim
