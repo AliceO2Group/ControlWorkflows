@@ -1,4 +1,6 @@
 name: readout-stfb-stfs
+defaults:
+  odc_enabled: "false"
 roles:
   - name: host-{{ it }}
     for:
@@ -30,5 +32,6 @@ roles:
         task:
           load: stfsender
   - name: odcrole
+    enabled: "{{odc_enabled}}"
     task:
       load: odc-shim
