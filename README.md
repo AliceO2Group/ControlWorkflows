@@ -1,5 +1,12 @@
-# The FLP Suite Workflow Configuration repository
-This repository hosts the configuration tree for AliECS workflow templates (WFT) and task templates (TT).
+# FLP Suite Workflow Configuration
+The [`ControlWorkflows`](https://github.com/AliceO2Group/ControlWorkflows) repository hosts the configuration tree for AliECS workflow templates (WFT) and task templates (TT).
+
+Available workflow templates:
+* `qc-postprocessing` - QualityControl post-processing workflow
+* `readout-dataflow` - Main FLP workflow
+* `readout-qc` - QualityControl workflow with Readout as source
+* `readout-stfb-qc` - QualityControl workflow with StfBuilder as source
+
 
 ## Notes on input data types
 
