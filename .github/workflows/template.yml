@@ -38,8 +38,8 @@ jobs:
       - name: Run Walnut checks for tasks
         working-directory: ./Control
         run: |
-          for file in ./../ControlWorkflows/{{ matrix.tasks }}/*.yml; do
-            echo "Walnut will check file ${file} in folder ${{ matrix.tasks }}"
+          for file in ./../ControlWorkflows/{{ matrix.checkDirectories }}/*.yml; do
+            echo "Walnut will check file ${file} in folder ${{ matrix.checkDirectories }}"
           done
 
   # workflow-check:
