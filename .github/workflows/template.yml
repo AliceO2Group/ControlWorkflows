@@ -32,8 +32,8 @@ jobs:
           repository: AliceO2Group/Control
           ref: 'master'
           path: Control
-      - run: make vendor
-      - run: make
+      - run: (cd Control; make vendor)
+      - run: (cd Control; make)
       - name: Run Walnut checks for TASKS
         working-directory: ./Control
         run: |
