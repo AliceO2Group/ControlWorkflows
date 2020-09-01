@@ -19,7 +19,6 @@ jobs:
       matrix:
     #     os: [macOS-latest, ubuntu-18.04]
     #     go: [ '1.14.7', '1.15.0' ]
-          checkDirectories: ['tasks', 'workflows']
     steps:
       - uses: actions/checkout@v2
         with:
@@ -38,8 +37,8 @@ jobs:
       - name: Run Walnut checks for tasks
         working-directory: ./Control
         run: |
-          for file in ./../ControlWorkflows/{{ matrix.checkDirectories }}/*.yml; do
-            echo "Walnut will check file ${file} in folder ${{ matrix.checkDirectories }}"
+          for file in ./../ControlWorkflows/tasks/*.yaml; do
+            echo "Walnut will check file ${file}"
           done
 
   # workflow-check:
