@@ -32,30 +32,17 @@ jobs:
           repository: AliceO2Group/Control
           ref: 'master'
           path: Control
-      # - run: make vendor
-      # - run: make
-      - name: Run Walnut checks for tasks
+      - run: make vendor
+      - run: make
+      - name: Run Walnut checks for TASKS
         working-directory: ./Control
         run: |
           for file in ./../ControlWorkflows/tasks/*.yaml; do
             echo "Walnut will check file ${file}"
           done
-
-  # workflow-check:
-  #       name: Check Workflow Templates through Walnut
-  #       runs-on: ${{ matrix.os }}
-  #       strategy:
-  #         matrix:
-  #           os: [macOS-latest, ubuntu-18.04]
-  #           go: [ '1.14.7', '1.15.0' ]
-  #       steps:
-  #         - uses: actions/checkout@v2
-  #         - uses: actions/setup-go@v2
-  #           with:
-  #             go-version: ${{matrix.go}}
-  #         - uses: actions/checkout@v2
-  #           with: 
-  #             repository: AliceO2Group/Control
-  #             ref: 'master'
-  #         - run: (cd Control; echo "In Control now")
-  #         - run: (cd ControlWorkflows; echo "In ControlWorfklows now")
+      - name: Run Walnut checks for WORKFLOWS
+        working-directory: ./Control
+        run: |
+            for file in ./../ControlWorkflows/workflows/*.yaml; do
+              echo "Walnut will check file ${file}"
+            done
