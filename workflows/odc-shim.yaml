@@ -1,8 +1,0 @@
-name: "odc-shim"
-defaults:
-  log_task_output: none
-roles:
-  - name: "odcrole"
-    task:
-      load: odc-shim
-
