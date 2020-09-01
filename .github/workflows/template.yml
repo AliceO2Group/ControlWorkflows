@@ -1,0 +1,49 @@
+name: WalnutChecks
+on:
+  pull_request:
+    paths:
+      - 'tasks/*'
+      - 'workflows/*'
+      - '.github/workflows/template.yml'
+  push:
+    branches:
+      - 'feature/OCTRL-317-add-gh-action-walnut'
+      - 'dev'
+
+jobs:
+  tasks-check:
+    name: Check Tasks Templates through Walnut
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macOS-latest, ubuntu-18.04]
+        go: [ '1.14.7', '1.15.0' ]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: ${{matrix.go}}
+      - uses: actions/checkout@v2
+        with: 
+          repository: AliceO2Group/Control
+          ref: 'master'
+      - run: (cd Control; echo "In Control now")
+      - run: (cd ControlWorkflows; echo "In ControlWorfklows now")
+  workflow-check:
+        name: Check Workflow Templates through Walnut
+        runs-on: ${{ matrix.os }}
+        strategy:
+          matrix:
+            os: [macOS-latest, ubuntu-18.04]
+            go: [ '1.14.7', '1.15.0' ]
+        steps:
+          - uses: actions/checkout@v2
+          - uses: actions/setup-go@v2
+            with:
+              go-version: ${{matrix.go}}
+          - uses: actions/checkout@v2
+            with: 
+              repository: AliceO2Group/Control
+              ref: 'master'
+          - run: (cd Control; echo "In Control now")
+          - run: (cd ControlWorkflows; echo "In ControlWorfklows now")
