@@ -15,10 +15,11 @@ jobs:
     name: Check Tasks Templates through Walnut
     # runs-on: ${{ matrix.os }}
     runs-on: macOS-latest
-    # strategy:
-    #   matrix:
+    strategy:
+      matrix:
     #     os: [macOS-latest, ubuntu-18.04]
     #     go: [ '1.14.7', '1.15.0' ]
+          checkDirectories: ['tasks', 'workflows']
     steps:
       - uses: actions/checkout@v2
         with:
@@ -32,8 +33,15 @@ jobs:
           repository: AliceO2Group/Control
           ref: 'master'
           path: Control
-      - run: (cd Control; echo "In Control now")
-      - run: (cd ControlWorkflows; echo "In ControlWorfklows now")
+      # - run: make vendor
+      # - run: make
+      - name: Run Walnut checks for tasks
+        working-directory: ./Control
+        run: |
+          for file in ./../ControlWorkflows/{{ matrix.tasks }}/*.yml; do
+            echo "Walnut will check file ${file} in folder ${{ matrix.tasks }}"
+          done
+
   # workflow-check:
   #       name: Check Workflow Templates through Walnut
   #       runs-on: ${{ matrix.os }}
