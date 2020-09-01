@@ -15,10 +15,10 @@ jobs:
     name: Check Tasks Templates through Walnut
     # runs-on: ${{ matrix.os }}
     runs-on: macOS-latest
-    strategy:
-      matrix:
-        os: [macOS-latest, ubuntu-18.04]
-        go: [ '1.14.7', '1.15.0' ]
+    # strategy:
+    #   matrix:
+    #     os: [macOS-latest, ubuntu-18.04]
+    #     go: [ '1.14.7', '1.15.0' ]
     steps:
       - uses: actions/checkout@v2
         with:
