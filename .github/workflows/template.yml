@@ -10,8 +10,8 @@ on:
       - 'master'
 
 jobs:
-  tasks-check:
-    name: Check Tasks Templates through Walnut
+  walnut-check:
+    name: Check Task and Workflow Templates through Walnut
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
