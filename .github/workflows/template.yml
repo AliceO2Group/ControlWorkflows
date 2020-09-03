@@ -38,11 +38,11 @@ jobs:
         working-directory: ./Control
         run: |
           for file in ./../ControlWorkflows/tasks/*.yaml; do
-            echo "Walnut will check file ${file}"
+            walnut check -f task ${file}
           done
       - name: Run Walnut checks for WORKFLOWS
         working-directory: ./Control
         run: |
             for file in ./../ControlWorkflows/workflows/*.yaml; do
-              echo "Walnut will check file ${file}"
+              walnut check -f workflow ${file}
             done
