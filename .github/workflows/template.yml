@@ -8,7 +8,7 @@ on:
   push:
     branches:
       - 'feature/OCTRL-317-add-gh-action-walnut'
-      - 'dev'
+      - 'master'
 
 jobs:
   tasks-check:
@@ -23,7 +23,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
             path: ControlWorkflows
-            ref: 'flp-suite-v0.10.0'
       - uses: actions/setup-go@v2
         with:
           # go-version: ${{matrix.go}}
@@ -35,6 +34,7 @@ jobs:
           path: Control
       - run: (cd Control; make vendor)
       - run: (cd Control; make)
+      - run: (echo "Checks will be ran against branch  ${{ github.ref }}")
       - name: Run Walnut checks for TASKS
         working-directory: ./Control
         run: |
