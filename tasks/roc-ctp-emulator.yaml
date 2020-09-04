@@ -12,9 +12,8 @@ command:
   shell: true
   user: "{{ user }}"
   arguments:
-    - --id
-    - "{{roc_id}}"
-    - --trigger-mode
+    - "--id={{roc_id}}"
+    - "--trigger-mode"
     - "{{roc_trigger_mode}}"
   value: >-
     eval `aliswmod load ReadoutCard` &&
