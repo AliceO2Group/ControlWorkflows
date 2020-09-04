@@ -34,7 +34,7 @@ All variables are optional.
 
 | Variable | Description | Default |
 | :--- | :--- | :--- |
-| `roc_ctp_emulator_enabled` | If true, `roc-ctp-emulator` will run during `START` to get data from CRU without LTU | `true` |
+| `roc_ctp_emulator_enabled` | If true, `roc-ctp-emulator` will run during `START` to get data from CRU without LTU | `false` |
 | `roc_trigger_mode` | Trigger mode for `roc-ctp-emulator` (only if `roc_ctp_emulator_enabled` is `true` ) | `continuous` |
 | `roc_ctp_emulator_endpoints` | List of CRU endpoints to emulate trigger (only if `roc_ctp_emulator_enabled` is `true` ) | `["#0"]` |
 | `dd_enabled` | If true, Data Distribution components will run and process data produced by Readout | `true` |
