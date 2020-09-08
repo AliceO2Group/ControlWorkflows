@@ -48,3 +48,15 @@ All variables are optional.
 | `odc_hostname` | The hostname where ODC (EPN control) is running (only if `odc_enabled` is `true`) | `localhost` |
 | `odc_port` | The port where ODC (EPN control) is listening (only if `odc_enabled` is `true`) | `50051` |
 | `odc_topology_path` | Path to a DDS topology file, local to `odc_hostname` (only if `odc_enabled` is `true`) | `/etc/o2.d/odc/ex-dds-topology-infinite.xml` |
+
+# Notes on the CI Pipeline
+
+In order to ensure a successful addition or modification of a template (task/workflow), every pull request will run a `walnut check` command against each file individually. 
+
+If there is an error during the execution of `walnut check` command, the pipeline will stop and print out the exit code and the output provided by the command.
+
+These checks are ran automatically against:
+*  os: `macOS-latest`, go-version: `1.15.0` 
+*  os: `ubuntu-18.04`, go-version: `1.15.0` 
+
+Source code can be found [here.](.github/workflows/template.yml)
