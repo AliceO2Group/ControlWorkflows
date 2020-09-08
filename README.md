@@ -58,5 +58,6 @@ If there is an error during the execution of `walnut check` command, the pipelin
 These checks are ran automatically against:
 *  os: `macOS-latest`, go-version: `1.15.0` 
 *  os: `ubuntu-18.04`, go-version: `1.15.0` 
+*  `walnut` version: [Control/master](https://github.com/AliceO2Group/Control/tree/master/)
 
 Source code can be found [here.](.github/workflows/template.yml)
