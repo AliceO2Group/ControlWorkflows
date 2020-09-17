@@ -1,0 +1,30 @@
+name: stfbuilder-tof
+control:
+  mode: fairmq
+defaults:
+  rdh_version: "6"
+  user: flp
+wants:
+  cpu: 0.15
+  memory: 128
+bind:
+  - name: dpl-chan
+    type: push
+    rateLogging: "1"
+    transport: shmem
+    addressing: ipc
+properties: {}
+command:
+  env: []
+  shell: true
+  user: "{{ user }}"
+  value: >-
+    eval `aliswmod load DataDistribution Control-OCCPlugin` &&
+    StfBuilder
+  arguments:
+    - "--detector"
+    - "TOF"
+    - "--dpl-channel-name=dpl-chan"
+    - "--verbosity=veryhigh"
+    - "--detector-rdh"
+    - "{{ rdh_version }}"

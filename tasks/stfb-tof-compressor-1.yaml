@@ -1,0 +1,49 @@
+name: stfb-tof-compressor-1
+defaults:
+  compr_config: "A:TOF/RAWDATA/768,B:TOF/RAWDATA/1024,C:TOF/RAWDATA/1280,D:TOF/RAWDATA/1536"
+  rdh_version: "6"
+  user: flp
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.15
+  memory: 128
+bind:
+  - name: "from_tof-compressor-1_to_internal-dpl-global-binary-file-sink"
+    type: "push"
+    transport: shmem
+    addressing: ipc
+    rateLogging: "60"
+command:
+  shell: true
+  value: >-
+    eval `aliswmod load O2 Control-OCCPlugin` &&
+    cat {{dpl_config}}| o2-tof-compressor
+  user: "{{ user }}"
+  arguments:
+    - "-b"
+    - "--tof-compressor-rdh-version"
+    - "{{rdh_version}}"
+    - "--tof-compressor-config"
+    - "{{compr_config}}"
+    - "--monitoring-backend"
+    - "{{ monitoring_qc_url }}"
+    - "--id"
+    - "tof-compressor-1"
+    - "--log-color"
+    - "false"
+    - "--readers"
+    - "1"
+    - "--session"
+    - "default"
+    - "--tof-compressor-conet-mode"
+    - "0"
+    - "--tof-compressor-decoder-verbose"
+    - "0"
+    - "--tof-compressor-encoder-verbose"
+    - "0"
+    - "--tof-compressor-checker-verbose"
+    - "0"
+    - "--severity"
+    - "debug"
+    - "--shm-monitor false"

@@ -1,0 +1,45 @@
+name: stfb-internal-dpl-global-binary-file-sink-tof
+defaults:
+  stfb_dataspec: "A:TOF/RAWDATA/768\\;B:TOF/RAWDATA/1024\\;C:TOF/RAWDATA/1280\\;D:TOF/RAWDATA/1536"
+  user: flp
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.15
+  memory: 128
+connect:
+  - name: from_tof-compressor-0_to_internal-dpl-global-binary-file-sink
+    type: pull
+    rateLogging: "60"
+  - name: from_tof-compressor-1_to_internal-dpl-global-binary-file-sink
+    type: pull
+    rateLogging: "60"
+  - name: from_tof-compressor-2_to_internal-dpl-global-binary-file-sink
+    type: pull
+    rateLogging: "60"
+  - name: from_tof-compressor-3_to_internal-dpl-global-binary-file-sink
+    type: pull
+    rateLogging: "60"
+command:
+  shell: true
+  value: >-
+    eval `aliswmod load O2 Control-OCCPlugin` &&
+    cat {{dpl_config}} | o2-dpl-raw-proxy
+  user: "{{ user }}"
+  arguments:
+    - "-b"
+    - "--monitoring-backend"
+    - "{{ monitoring_qc_url }}"
+    - "--id"
+    - "internal-dpl-global-binary-file-sink"
+    - "--log-color"
+    - "false"
+    - "--dataspec"
+    - "{{ stfb_dataspec }}"
+    - "--readers"
+    - "1"
+    - "--session"
+    - "default"
+    - "--outfile"
+    - "/dev/null"
+    - "--shm-monitor false"
