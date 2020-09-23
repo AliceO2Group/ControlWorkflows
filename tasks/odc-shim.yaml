@@ -14,6 +14,7 @@ properties:
 command:
   env:
     - ODC_TOPOLOGY={{ odc_topology_path }}
+    - O2_SYSTEM=ECS
   shell: true
   user: "{{ user }}"
   arguments:
