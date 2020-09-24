@@ -13,7 +13,7 @@ bind:
     rateLogging: "1"
     transport: shmem
     addressing: ipc
-properties: {}
+    sndBufSize: "1"
 command:
   env: []
   shell: true

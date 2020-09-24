@@ -53,7 +53,7 @@ roles:
             task:
               load: stfsender
       - name: "data-distribution-qc"
-        enabled: "{{dd_qc_enabled == 'true' && dd_enabled == 'true'}}"
+        enabled: "{{qcdd_enabled == 'true' && dd_enabled == 'true'}}"
         roles:
           - name: "stfb"
             enabled: "{{stfb_standalone == 'false'}}"
@@ -63,13 +63,14 @@ roles:
                 target: "{{ Up(2).Path }}.readout:readout"
                 rateLogging: "1"
             task:
-              load: stfbuilder-senderoutput
+              #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
+              load: stfbuilder
           - name: "stfs"
             enabled: "{{stfb_standalone == 'false'}}"
             connect:
               - name: buildertosender
                 type: pull
-                target: "{{ Parent().Path }}.stfb:buildertosender"
+                target: "{{ Parent().Path }}.qc-subwf.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
                 rateLogging: "1"
             task:
               load: stfsender
@@ -126,13 +127,13 @@ roles:
                     rateLogging: "60"
                 task:
                   load: stfb-qc-check-runner
-              - name: "internal-dpl-global-binary-file-sink"
-                connect:
-                  - name: "from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
-                    target: "{{Parent().Path}}.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
-                    type: "pull"
-                task:
-                  load: stfb-internal-dpl-global-binary-file-sink
+              # - name: "internal-dpl-global-binary-file-sink"
+              #   connect:
+              #     - name: "from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+              #       target: "{{Parent().Path}}.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+              #       type: "pull"
+              #   task:
+              #     load: stfb-internal-dpl-global-binary-file-sink
       - name: roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled}}"
         defaults:
