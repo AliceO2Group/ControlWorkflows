@@ -1,0 +1,159 @@
+name: readout-dataflow
+defaults:
+  roc_ctp_emulator_enabled: "false"
+  dd_enabled: "true"
+  qcdd_enabled: "false"
+  stfb_standalone: "false"
+  odc_enabled: "false"
+  tof_compressor_enabled: "false"
+  monitoring_qc_url: "no-op://"
+  monitoring_dd_url: "no-op://"
+  monitoring_readout_url: "no-op://"
+  detector: "TPC" # default for DD
+roles:
+  - name: host-{{ it }}
+    for:
+      range: "{{ hosts }}"
+      var: it
+    vars:
+      readout_cfg_uri: '{{dd_enabled == "true" ? "file:/home/flp/readout_stfb_emu.cfg" : "file:/home/flp/readout.cfg"}}'
+    constraints:
+      - attribute: machine_id
+        value: "{{ it }}"
+    roles:
+      - name: "readout"
+        task:
+          load: readout
+      - name: "data-distribution"
+        enabled: "{{dd_enabled == 'true'}}"
+        vars:
+          with_dpl: "{{stfb_standalone != 'true' && (qcdd_enabled == 'true' || tof_compressor_enabled == 'true')}}"
+        roles:
+          - name: "stfb-standalone"
+            enabled: "{{stfb_standalone}}"
+            connect:
+              - name: readout
+                type: pull
+                target: "{{ Up(2).Path }}.readout:readout"
+                rateLogging: "1"
+            task:
+              load: stfbuilder-nooutput
+          - name: dd-no-dpl
+            enabled: "{{with_dpl != 'true'}}"
+            roles:
+              - name: "stfb"
+                connect:
+                  - name: readout
+                    type: pull
+                    target: "{{ Up(3).Path }}.readout:readout"
+                    rateLogging: "1"
+                task:
+                  load: stfbuilder-senderoutput
+              - name: "stfs"
+                connect:
+                  - name: buildertosender
+                    type: pull
+                    target: "{{ Parent().Path }}.stfb:buildertosender"
+                    rateLogging: "1"
+                task:
+                  load: stfsender
+          - name: dd-with-dpl
+            enabled: "{{with_dpl == 'true'}}"
+            vars:
+              sender_chan: "{{qcdd_enabled == 'true' ? Up(2).Path + '.qc-subworkflow.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink' : ''}}"
+            roles:
+              - name: "stfb"
+                connect:
+                  - name: readout
+                    type: pull
+                    target: "{{ Up(3).Path }}.readout:readout"
+                    rateLogging: "1"
+                task:
+                  #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
+                  load: stfbuilder
+              - name: "stfs"
+                connect:
+                  - name: buildertosender
+                    type: pull
+                    target: "{{ sender_chan }}"
+                    rateLogging: "1"
+                task:
+                  load: stfsender
+      # - name: "tof-compressor-subworkflow"
+      #   enabled: "{{dd_enabled == 'true' && tof_compressor_enabled == 'true' && detector == 'TOF'}}"
+      #   roles:
+
+      - name: "qc-subworkflow"
+        enabled: "{{qcdd_enabled == 'true' && dd_enabled == 'true'}}"
+        defaults:
+          dpl_config: "/etc/flp.d/qc/stfb-qc.dpl.json"
+        roles:
+          - name: "stfb-raw-proxy"
+            connect:
+              - name: "from_internal-dpl-clock_to_readout-proxy"
+                target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+                type: "pull"
+                rateLogging: "60"
+              - name: "readout-proxy"
+                target: "{{ Up(2).Path }}.data-distribution.dd-with-dpl.stfb:dpl-chan"
+                #target: "ipc:///tmp/stf-builder-dpl-pipe-0"
+                transport: shmem
+                type: "pull"
+                rateLogging: "1"
+            task:
+              load: stfb-raw-proxy
+          - name: "internal-dpl-clock"
+            task:
+              load: stfb-internal-dpl-clock
+          - name: "Dispatcher"
+            connect:
+              - name: "from_readout-proxy_to_Dispatcher"
+                target: "{{Parent().Path}}.stfb-raw-proxy:from_readout-proxy_to_Dispatcher"
+                type: "pull"
+                rateLogging: "60"
+              - name: "from_internal-dpl-clock_to_Dispatcher"
+                target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
+                type: "pull"
+                rateLogging: "60"
+            task:
+              load: stfb-qc-dispatcher
+          - name: "QC-TASK-RUNNER-dataDistribution"
+            connect:
+              - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+                target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+                type: "pull"
+                rateLogging: "60"
+              - name: "from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+                target: "{{Parent().Path}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+                type: "pull"
+                rateLogging: "60"
+            task:
+              load: stfb-qc-task-runner-dd
+          - name: "QC-CHECK-RUNNER-QcCheck"
+            connect:
+              - name: "from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+                target: "{{Parent().Path}}.QC-TASK-RUNNER-dataDistribution:from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+                type: "pull"
+                rateLogging: "60"
+            task:
+              load: stfb-qc-check-runner
+      - name: roc-ctp-emulators
+        enabled: "{{roc_ctp_emulator_enabled}}"
+        defaults:
+          roc_ctp_emulator_endpoints: '["#0"]'
+        roles:
+          - name: "endpoint-{{ endpoint_id }}"
+            for:
+              range: "{{roc_ctp_emulator_endpoints}}"
+              var: endpoint_id
+            roles:
+              - name: roc-ctp-emulator
+                task:
+                  load: "roc-ctp-emulator"
+                  trigger: "enter_RUNNING"
+                  timeout: 10s
+                  critical: false
+  - name: odcrole
+    enabled: "{{odc_enabled}}"
+    task:
+      load: odc-shim
