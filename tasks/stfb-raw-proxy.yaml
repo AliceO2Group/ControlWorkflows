@@ -2,6 +2,7 @@ name: stfb-raw-proxy
 defaults:
   stfb_dataspec: "B:TPC/RAWDATA"
   user: flp
+  fmq_severity: debug
 control:
   mode: "fairmq"
 wants:
@@ -40,4 +41,5 @@ command:
     - "--session"
     - "default"
     - "--shm-monitor false"
+    - "--severity={{ fmq_severity }}"
 
