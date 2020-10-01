@@ -4,7 +4,7 @@ control:
 defaults:
   rdh_version: "6"
   user: flp
-  fmq_severity: debug
+  fmq_severity: info
   fmq_verbosity: high
 wants:
   cpu: 0.15
