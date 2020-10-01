@@ -4,7 +4,8 @@ control:
 defaults:
   rdh_version: "6"
   user: flp
-  dd_verbosity: veryhigh
+  fmq_severity: debug
+  fmq_verbosity: high
 wants:
   cpu: 0.15
   memory: 128
@@ -26,6 +27,7 @@ command:
     - "--detector"
     - "TPC"
     - "--output-channel-name=buildertosender"
-    - "--verbosity={{ dd_verbosity }}"
+    - "--severity={{ fmq_severity }}"
+    - "--verbosity={{ fmq_verbosity }}"
     - "--detector-rdh"
     - "{{ rdh_version }}"
