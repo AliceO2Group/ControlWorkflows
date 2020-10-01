@@ -9,7 +9,8 @@ defaults:
   dd_discovery_net_if: "lo" #the loopback intf
   dd_discovery_endpoint: "no-op://" # location of consul docker instance
   user: flp
-  dd_verbosity: veryhigh
+  fmq_severity: debug
+  fmq_verbosity: high
 command:
   env: []
   shell: true
@@ -22,7 +23,8 @@ command:
     - "TPC"
     - "--stand-alone"
     - "--input-channel-name=buildertosender"
-    - "--verbosity={{ dd_verbosity }}"
+    - "--severity={{ fmq_severity }}"
+    - "--verbosity={{ fmq_verbosity }}"
     - "--max-buffered-stfs={{ max_buffered_stfs }}"
     - "--discovery-partition={{ environment_id }}"
     - "--discovery-id={{ task_id }}"
