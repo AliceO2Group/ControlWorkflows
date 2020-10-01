@@ -41,6 +41,7 @@ All variables are optional.
 | `stfb_standalone` | If true, `StfBuilder` runs with `--stand-alone` and `StfSender` is disabled (only if `dd_enabled` is `true`) | `false` |
 | `dd_discovery_net_if` | The name of the InfiniBand interface for `StfSender` output (only if `dd_enabled` is `true`) | `lo` |
 | `dd_discovery_endpoint` | URI of the Data Distribution Consul instance (only if `dd_enabled` is `true`) | `no-op://` |
+| `dd_verbosity` | Verbosity level for Data Distribution `stdout` messages | `veryhigh` |
 | `rdh_version` | RDH version for `StfBuilder` (only if `dd_enabled` is `true`) | `no-op://` |
 | `odc_enabled` | If true, `o2-aliecs-odc-shim` runs and interfaces with the EPN cluster control | `false` |
 | `odc_hostname` | The hostname where ODC (EPN control) is running (only if `odc_enabled` is `true`) | `localhost` |
