@@ -9,7 +9,7 @@ defaults:
   dd_discovery_net_if: "lo" #the loopback intf
   dd_discovery_endpoint: "no-op://" # location of consul docker instance
   user: flp
-  fmq_severity: debug
+  fmq_severity: info
   fmq_verbosity: high
 command:
   env: []

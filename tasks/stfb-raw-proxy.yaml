@@ -2,7 +2,7 @@ name: stfb-raw-proxy
 defaults:
   stfb_dataspec: "B:TPC/RAWDATA"
   user: flp
-  fmq_severity: debug
+  fmq_severity: info
 control:
   mode: "fairmq"
 wants:
