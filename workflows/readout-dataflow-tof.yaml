@@ -79,12 +79,63 @@ roles:
                     rateLogging: "1"
                 task:
                   load: stfsender
-      # - name: "tof-compressor-subworkflow"
-      #   enabled: "{{dd_enabled == 'true' && tof_compressor_enabled == 'true' && detector == 'TOF'}}"
-      #   roles:
+      - name: "tof-compressor-subworkflow"
+        enabled: "{{dd_enabled == 'true' && tof_compressor_enabled == 'true' && detector == 'TOF'}}"
+        defaults:
+          dpl_config: "/etc/flp.d/tof-compressor/stfb-tof.dpl.json"
+        roles:
+          - name: "stfb-raw-proxy-tof"
+            connect:
+              - name: "from_internal-dpl-clock_to_readout-proxy"
+                target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+                type: "pull"
+                rateLogging: "60"
+              - name: "readout-proxy"
+                target: "{{ Up(2).Path }}.data-distribution.dd-with-dpl.stfb:dpl-chan"
+                #target: "ipc:///tmp/stf-builder-dpl-pipe-0"
+                transport: shmem
+                type: "pull"
+                rateLogging: "1"
+            task:
+              load: stfb-raw-proxy-tof
+          - name: "internal-dpl-clock"
+            task:
+              load: stfb-internal-dpl-clock-tof
+          - name: "stfb-tof-compressor-0"
+            connect:
+              - name: "from_readout-proxy_to_tof-compressor-0"
+                target: "{{Parent().Path}}.stfb-raw-proxy-tof:from_readout-proxy_to_tof-compressor-0"
+                type: "pull"
+                rateLogging: "60"
+            task:
+              load: stfb-tof-compressor-0
+          - name: "stfb-tof-compressor-1"
+            connect:
+              - name: "from_readout-proxy_to_tof-compressor-1"
+                target: "{{Parent().Path}}.stfb-raw-proxy-tof:from_readout-proxy_to_tof-compressor-1"
+                type: "pull"
+                rateLogging: "60"
+            task:
+              load: stfb-tof-compressor-1
+          - name: "stfb-tof-compressor-2"
+            connect:
+              - name: "from_readout-proxy_to_tof-compressor-2"
+                target: "{{Parent().Path}}.stfb-raw-proxy-tof:from_readout-proxy_to_tof-compressor-2"
+                type: "pull"
+                rateLogging: "60"
+            task:
+              load: stfb-tof-compressor-2
+          - name: "stfb-tof-compressor-3"
+            connect:
+              - name: "from_readout-proxy_to_tof-compressor-3"
+                target: "{{Parent().Path}}.stfb-raw-proxy-tof:from_readout-proxy_to_tof-compressor-3"
+                type: "pull"
+                rateLogging: "60"
+            task:
+              load: stfb-tof-compressor-3
 
       - name: "qc-subworkflow"
-        enabled: "{{qcdd_enabled == 'true' && dd_enabled == 'true'}}"
+        enabled: "{{dd_enabled == 'true' && qcdd_enabled == 'true'}}"
         defaults:
           dpl_config: "/etc/flp.d/qc/stfb-qc.dpl.json"
         roles:
