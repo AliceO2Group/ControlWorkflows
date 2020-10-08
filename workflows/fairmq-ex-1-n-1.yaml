@@ -12,7 +12,7 @@ roles:                         # A list of child roles.
     # Note that if there's a "for", the role name must reference the declared variable, and vice versa, otherwise
     # the behavior is undefined.
     for:
-      begin: 1
+      begin: "1"
       end: "{{ nProcessors }}"
       var: it
     # "connect" is the *outbound* channel equivalent of the "bind" specification found in the task template.

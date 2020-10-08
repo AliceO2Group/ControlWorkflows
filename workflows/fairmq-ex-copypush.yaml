@@ -4,7 +4,7 @@ defaults:
 roles:
   - name: "sink{{ it }}"
     for:
-      begin: 1
+      begin: "1"
       end: "{{ nSinks }}"
       var: it
     connect:
