@@ -1,4 +1,4 @@
-name: stfb-internal-dpl-clock-tof
+name: stfb-internal-dpl-output-proxy-tof
 defaults:
   tof_dataspec: "A:TOF/RAWDATA/768\\;B:TOF/RAWDATA/1024\\;C:TOF/RAWDATA/1280\\;D:TOF/RAWDATA/1536"
   user: flp
@@ -8,12 +8,25 @@ control:
 wants:
   cpu: 0.15
   memory: 128
+connect:
+  - name: from_tof-compressor-0_to_internal-dpl-output-proxy
+    type: pull
+    rateLogging: "60"
+  - name: from_tof-compressor-1_to_internal-dpl-output-proxy
+    type: pull
+    rateLogging: "60"
+  - name: from_tof-compressor-2_to_internal-dpl-output-proxy
+    type: pull
+    rateLogging: "60"
+  - name: from_tof-compressor-3_to_internal-dpl-output-proxy
+    type: pull
+    rateLogging: "60"
 bind:
-  - name: "from_internal-dpl-clock_to_readout-proxy"
-    type: "push"
+  - name: downstream
+    type: push
     transport: shmem
     addressing: ipc
-    rateLogging: "60"
+    rateLogging: "1"
 command:
   shell: true
   value: >-
@@ -25,7 +38,7 @@ command:
     - "--monitoring-backend"
     - "{{ monitoring_tof_url }}"
     - "--id"
-    - "internal-dpl-clock"
+    - "internal-dpl-output-proxy"
     - "--dangling-outputs-policy"
     - "fairmq"
     - "--log-color"

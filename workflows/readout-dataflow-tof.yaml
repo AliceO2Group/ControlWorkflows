@@ -9,6 +9,7 @@ defaults:
   monitoring_qc_url: "no-op://"
   monitoring_dd_url: "no-op://"
   monitoring_readout_url: "no-op://"
+  monitoring_tof_url: "no-op://"
   detector: "TPC" # default for DD
 roles:
   - name: host-{{ it }}
@@ -60,7 +61,12 @@ roles:
           - name: dd-with-dpl
             enabled: "{{with_dpl == 'true'}}"
             vars:
-              sender_chan: "{{qcdd_enabled == 'true' ? Up(2).Path + '.qc-subworkflow.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink' : ''}}"
+              sender_chan: >-
+                {{qcdd_enabled == 'true' ?
+                Up(2).Path + '.qc-subworkflow.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink' :
+                (tof_compressor_enabled == 'true' ?
+                Up(2).Path + '.tof-compressor-subworkflow.tof-internal-dpl-output-proxy:downstream' :
+                '')}}"
             roles:
               - name: "stfb"
                 connect:
@@ -101,7 +107,7 @@ roles:
           - name: "internal-dpl-clock"
             task:
               load: stfb-internal-dpl-clock-tof
-          - name: "stfb-tof-compressor-0"
+          - name: "tof-compressor-0"
             connect:
               - name: "from_readout-proxy_to_tof-compressor-0"
                 target: "{{Parent().Path}}.stfb-raw-proxy-tof:from_readout-proxy_to_tof-compressor-0"
@@ -109,7 +115,7 @@ roles:
                 rateLogging: "60"
             task:
               load: stfb-tof-compressor-0
-          - name: "stfb-tof-compressor-1"
+          - name: "tof-compressor-1"
             connect:
               - name: "from_readout-proxy_to_tof-compressor-1"
                 target: "{{Parent().Path}}.stfb-raw-proxy-tof:from_readout-proxy_to_tof-compressor-1"
@@ -117,7 +123,7 @@ roles:
                 rateLogging: "60"
             task:
               load: stfb-tof-compressor-1
-          - name: "stfb-tof-compressor-2"
+          - name: "tof-compressor-2"
             connect:
               - name: "from_readout-proxy_to_tof-compressor-2"
                 target: "{{Parent().Path}}.stfb-raw-proxy-tof:from_readout-proxy_to_tof-compressor-2"
@@ -125,7 +131,7 @@ roles:
                 rateLogging: "60"
             task:
               load: stfb-tof-compressor-2
-          - name: "stfb-tof-compressor-3"
+          - name: "tof-compressor-3"
             connect:
               - name: "from_readout-proxy_to_tof-compressor-3"
                 target: "{{Parent().Path}}.stfb-raw-proxy-tof:from_readout-proxy_to_tof-compressor-3"
@@ -133,7 +139,26 @@ roles:
                 rateLogging: "60"
             task:
               load: stfb-tof-compressor-3
-
+          - name: tof-internal-dpl-output-proxy
+            connect:
+              - name: from_tof-compressor-0_to_internal-dpl-output-proxy
+                target: "{{Parent().Path}}.tof-compressor-0:from_tof-compressor-0_to_internal-dpl-output-proxy"
+                type: pull
+                rateLogging: "60"
+              - name: from_tof-compressor-1_to_internal-dpl-output-proxy
+                target: "{{Parent().Path}}.tof-compressor-1:from_tof-compressor-1_to_internal-dpl-output-proxy"
+                type: pull
+                rateLogging: "60"
+              - name: from_tof-compressor-2_to_internal-dpl-output-proxy
+                target: "{{Parent().Path}}.tof-compressor-2:from_tof-compressor-2_to_internal-dpl-output-proxy"
+                type: pull
+                rateLogging: "60"
+              - name: from_tof-compressor-3_to_internal-dpl-output-proxy
+                target: "{{Parent().Path}}.tof-compressor-3:from_tof-compressor-3_to_internal-dpl-output-proxy"
+                type: pull
+                rateLogging: "60"
+            task:
+              load: stfb-internal-dpl-output-proxy-tof
       - name: "qc-subworkflow"
         enabled: "{{dd_enabled == 'true' && qcdd_enabled == 'true'}}"
         defaults:

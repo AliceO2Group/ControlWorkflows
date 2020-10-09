@@ -1,7 +1,8 @@
 name: stfb-raw-proxy-tof
 defaults:
-  stfb_dataspec: "A:TOF/RAWDATA/768\\;B:TOF/RAWDATA/1024\\;C:TOF/RAWDATA/1280\\;D:TOF/RAWDATA/1536"
+  tof_dataspec: "A:TOF/RAWDATA/768\\;B:TOF/RAWDATA/1024\\;C:TOF/RAWDATA/1280\\;D:TOF/RAWDATA/1536"
   user: flp
+  fmq_severity: info
 control:
   mode: "fairmq"
 wants:
@@ -37,13 +38,15 @@ command:
   arguments:
     - "-b"
     - "--monitoring-backend"
-    - "{{ monitoring_qc_url }}"
+    - "{{ monitoring_tof_url }}"
     - "--id"
     - "readout-proxy"
+    - "--dangling-outputs-policy"
+    - "fairmq"
     - "--log-color"
     - "false"
     - "--dataspec"
-    - "{{ stfb_dataspec }}"
+    - "{{ tof_dataspec }}"
     - "--readers"
     - "1"
     - "--start-value-enumeration"
@@ -54,4 +57,6 @@ command:
     - "-1"
     - "--session"
     - "default"
+    - "--severity"
+    - "{{fmq_severity}}"
     - "--shm-monitor false"

@@ -1,15 +1,17 @@
 name: stfb-tof-compressor-1
 defaults:
-  compr_config: "A:TOF/RAWDATA/768,B:TOF/RAWDATA/1024,C:TOF/RAWDATA/1280,D:TOF/RAWDATA/1536"
+  tof_compressor_config: "A:TOF/RAWDATA/768,B:TOF/RAWDATA/1024,C:TOF/RAWDATA/1280,D:TOF/RAWDATA/1536"
+  tof_compressor_output_desc: "CRAWDATA"
   rdh_version: "6"
   user: flp
+  fmq_severity: info
 control:
   mode: "fairmq"
 wants:
   cpu: 0.15
   memory: 128
 bind:
-  - name: "from_tof-compressor-1_to_internal-dpl-global-binary-file-sink"
+  - name: "from_tof-compressor-1_to_internal-dpl-output-proxy"
     type: "push"
     transport: shmem
     addressing: ipc
@@ -25,11 +27,15 @@ command:
     - "--tof-compressor-rdh-version"
     - "{{rdh_version}}"
     - "--tof-compressor-config"
-    - "{{compr_config}}"
+    - "{{tof_compressor_config}}"
+    - "--tof-compressor-output-desc"
+    - "{{tof_compressor_output_desc}}"
     - "--monitoring-backend"
-    - "{{ monitoring_qc_url }}"
+    - "{{ monitoring_tof_url }}"
     - "--id"
     - "tof-compressor-1"
+    - "--dangling-outputs-policy"
+    - "fairmq"
     - "--log-color"
     - "false"
     - "--readers"
@@ -45,5 +51,5 @@ command:
     - "--tof-compressor-checker-verbose"
     - "0"
     - "--severity"
-    - "debug"
+    - "{{fmq_severity}}"
     - "--shm-monitor false"
