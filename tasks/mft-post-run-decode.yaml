@@ -1,0 +1,14 @@
+name: mft-post-run-decode
+defaults:
+  mft_raw_data_path: /home/flp/my-data-dump.raw
+  user: alice
+control:
+  mode: basic
+wants:
+  cpu: 0.01
+  memory: 1
+command:
+  shell: true
+  user: "{{ user }}"
+  value: >-
+    nohup {{mft_scripts_dir}}/analyseraw.sh {{mft_raw_data_path}} &>/dev/null &

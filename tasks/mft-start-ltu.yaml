@@ -1,0 +1,15 @@
+name: mft-start-ltu
+defaults:
+  mft_ltu_freq: ""
+  mft_ltu_ntrig: ""
+  user: flp
+control:
+  mode: basic
+wants:
+  cpu: 0.01
+  memory: 1
+command:
+  shell: true
+  user: "{{ user }}"
+  value: >-
+    {{mft_scripts_dir}}/SendTriggersWrapper.sh {{mft_ltu_freq}} {{mft_ltu_ntrig}}

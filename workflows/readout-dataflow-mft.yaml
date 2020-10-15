@@ -1,0 +1,179 @@
+name: readout-dataflow-mft
+defaults:
+  mft_scripts_dir: /home/flp/scripts/o2
+  mft_scripts_enabled: "true"
+  roc_ctp_emulator_enabled: "false"
+  dd_enabled: "false"
+  qcdd_enabled: "false"
+  stfb_standalone: "false"
+  odc_enabled: "false"
+  monitoring_qc_url: "no-op://"
+  monitoring_dd_url: "no-op://"
+  monitoring_readout_url: "no-op://"
+roles:
+  - name: host-{{ it }}
+    for:
+      range: "{{ hosts }}"
+      var: it
+    vars:
+      readout_cfg_uri: '{{dd_enabled == "true" ? "file:/home/flp/readout_stfb_emu.cfg" : "file:/home/flp/readout.cfg"}}'
+    constraints:
+      - attribute: machine_id
+        value: "{{ it }}"
+    roles:
+      - name: "readout"
+        task:
+          load: readout
+      - name: "data-distribution"
+        enabled: "{{dd_enabled == 'true' && qcdd_enabled == 'false'}}"
+        roles:
+          - name: "stfb-standalone"
+            enabled: "{{stfb_standalone}}"
+            connect:
+              - name: readout
+                type: pull
+                target: "{{ Up(2).Path }}.readout:readout"
+                rateLogging: "1"
+            task:
+              load: stfbuilder-nooutput
+          - name: "stfb"
+            enabled: "{{stfb_standalone == 'false'}}"
+            connect:
+              - name: readout
+                type: pull
+                target: "{{ Up(2).Path }}.readout:readout"
+                rateLogging: "1"
+            task:
+              load: stfbuilder-senderoutput
+          - name: "stfs"
+            enabled: "{{stfb_standalone == 'false'}}"
+            connect:
+              - name: buildertosender
+                type: pull
+                target: "{{ Parent().Path }}.stfb:buildertosender"
+                rateLogging: "1"
+            task:
+              load: stfsender
+      - name: "data-distribution-qc"
+        enabled: "{{qcdd_enabled == 'true' && dd_enabled == 'true'}}"
+        roles:
+          - name: "stfb"
+            enabled: "{{stfb_standalone == 'false'}}"
+            connect:
+              - name: readout
+                type: pull
+                target: "{{ Up(2).Path }}.readout:readout"
+                rateLogging: "1"
+            task:
+              #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
+              load: stfbuilder
+          - name: "stfs"
+            enabled: "{{stfb_standalone == 'false'}}"
+            connect:
+              - name: buildertosender
+                type: pull
+                target: "{{ Parent().Path }}.qc-subwf.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+                rateLogging: "1"
+            task:
+              load: stfsender
+          - name: qc-subwf
+            defaults:
+              dpl_config: "/etc/flp.d/qc/stfb-qc.dpl.json"
+            roles:
+              - name: "stfb-raw-proxy"
+                connect:
+                  - name: "from_internal-dpl-clock_to_readout-proxy"
+                    target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+                    type: "pull"
+                    rateLogging: "60"
+                  - name: "readout-proxy"
+                    target: "{{ Up(2).Path }}.stfb:dpl-chan"
+                    #target: "ipc:///tmp/stf-builder-dpl-pipe-0"
+                    transport: shmem
+                    type: "pull"
+                    rateLogging: "1"
+                task:
+                  load: stfb-raw-proxy
+              - name: "internal-dpl-clock"
+                task:
+                  load: stfb-internal-dpl-clock
+              - name: "Dispatcher"
+                connect:
+                  - name: "from_readout-proxy_to_Dispatcher"
+                    target: "{{Parent().Path}}.stfb-raw-proxy:from_readout-proxy_to_Dispatcher"
+                    type: "pull"
+                    rateLogging: "60"
+                  - name: "from_internal-dpl-clock_to_Dispatcher"
+                    target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
+                    type: "pull"
+                    rateLogging: "60"
+                task:
+                  load: stfb-qc-dispatcher
+              - name: "QC-TASK-RUNNER-dataDistribution"
+                connect:
+                  - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+                    target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+                    type: "pull"
+                    rateLogging: "60"
+                  - name: "from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+                    target: "{{Parent().Path}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+                    type: "pull"
+                    rateLogging: "60"
+                task:
+                  load: stfb-qc-task-runner-dd
+              - name: "QC-CHECK-RUNNER-QcCheck"
+                connect:
+                  - name: "from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+                    target: "{{Parent().Path}}.QC-TASK-RUNNER-dataDistribution:from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+                    type: "pull"
+                    rateLogging: "60"
+                task:
+                  load: stfb-qc-check-runner
+              # - name: "internal-dpl-global-binary-file-sink"
+              #   connect:
+              #     - name: "from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+              #       target: "{{Parent().Path}}.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+              #       type: "pull"
+              #   task:
+              #     load: stfb-internal-dpl-global-binary-file-sink
+      - name: roc-ctp-emulators
+        enabled: "{{roc_ctp_emulator_enabled}}"
+        defaults:
+          roc_ctp_emulator_endpoints: '["#0"]'
+        roles:
+          - name: "endpoint-{{ endpoint_id }}"
+            for:
+              range: "{{roc_ctp_emulator_endpoints}}"
+              var: endpoint_id
+            roles:
+              - name: roc-ctp-emulator
+                task:
+                  load: "roc-ctp-emulator"
+                  trigger: "enter_RUNNING"
+                  timeout: 10s
+                  critical: false
+      - name: mft-post-run-decode
+        enable: "{{mft_scripts_enabled}}"
+        task:
+          load: mft-post-run-decode
+          trigger: after_STOP
+          timeout: 5s
+          critical: true
+  - name: odcrole
+    enabled: "{{odc_enabled}}"
+    task:
+      load: odc-shim
+  - name: mft-start-dcs
+    enable: "{{mft_scripts_enabled}}"
+    task:
+      load: mft-start-dcs
+      trigger: before_CONFIGURE
+      timeout: 30s
+      critical: true
+  - name: mft-start-ltu
+    enable: "{{mft_scripts_enabled}}"
+    task:
+      load: mft-start-ltu
+      trigger: enter_RUNNING
+      timeout: 30s
+      critical: true

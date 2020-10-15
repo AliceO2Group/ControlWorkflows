@@ -1,0 +1,13 @@
+name: mft-start-dcs
+defaults:
+  user: flp
+control:
+  mode: basic
+wants:
+  cpu: 0.01
+  memory: 1
+command:
+  shell: true
+  user: "{{ user }}"
+  value: >-
+    {{mft_scripts_dir}}/ConfigureViaDCS.sh
