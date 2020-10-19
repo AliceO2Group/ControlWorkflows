@@ -1,5 +1,9 @@
 name: mft-start-dcs
 defaults:
+  mft_dcs_disk: "0"
+  mft_dcs_face: "0"
+  mft_dcs_ruconfig: pulse
+  mft_dcs_bbsetting: bb0V
   user: flp
 control:
   mode: basic
@@ -10,4 +14,4 @@ command:
   shell: true
   user: "{{ user }}"
   value: >-
-    {{mft_scripts_dir}}/ConfigureViaDCS.sh
+    {{mft_scripts_dir}}/ConfigureViaDCS.sh {{mft_dcs_disk}} {{mft_dcs_face}} {{mft_dcs_ruconfig}} {{mft_dcs_bbsetting}}
