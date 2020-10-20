@@ -11,6 +11,7 @@ defaults:
   user: flp
   fmq_severity: info
   fmq_verbosity: high
+  detector: TPC
 command:
   env: []
   shell: true
@@ -20,7 +21,7 @@ command:
     StfSender
   arguments:
     - "--detector"
-    - "TPC"
+    - "{{detector}}"
     - "--stand-alone"
     - "--input-channel-name=buildertosender"
     - "--severity={{ fmq_severity }}"

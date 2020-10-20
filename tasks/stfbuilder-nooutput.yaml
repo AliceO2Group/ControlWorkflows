@@ -6,6 +6,7 @@ defaults:
   user: flp
   fmq_severity: info
   fmq_verbosity: high
+  detector: TPC
 wants:
   cpu: 0.15
   memory: 128
@@ -18,7 +19,7 @@ command:
     StfBuilder
   arguments:
     - "--detector"
-    - "TPC"
+    - "{{detector}}"
     - "--severity={{ fmq_severity }}"
     - "--verbosity={{ fmq_verbosity }}"
     - "--stand-alone"

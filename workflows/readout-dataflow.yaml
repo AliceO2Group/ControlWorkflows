@@ -8,6 +8,7 @@ defaults:
   monitoring_qc_url: "no-op://"
   monitoring_dd_url: "no-op://"
   monitoring_readout_url: "no-op://"
+  detector: TPC
 roles:
   - name: host-{{ it }}
     for:
