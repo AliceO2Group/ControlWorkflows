@@ -87,8 +87,11 @@ roles:
                   load: stfsender
       - name: "tof-compressor-subworkflow"
         enabled: "{{dd_enabled == 'true' && tof_compressor_enabled == 'true' && detector == 'TOF'}}"
-        defaults:
+        vars:
           dpl_config: "/etc/flp.d/tof-compressor/stfb-tof.dpl.json"
+          tof_proxy_spec: "x:TOF/RAWDATA"
+          tof_compressor_config: "x:TOF/RAWDATA"
+          tof_downstream_spec: "downstream:TOF/CRAWDATA"
         roles:
           - name: "stfb-raw-proxy-tof"
             connect:

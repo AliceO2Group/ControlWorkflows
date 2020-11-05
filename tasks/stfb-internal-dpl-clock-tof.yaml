@@ -1,6 +1,6 @@
 name: stfb-internal-dpl-clock-tof
 defaults:
-  tof_dataspec: "A:TOF/RAWDATA/768\\;B:TOF/RAWDATA/1024\\;C:TOF/RAWDATA/1280\\;D:TOF/RAWDATA/1536"
+  tof_proxy_spec: "A:TOF/RAWDATA/768\\;B:TOF/RAWDATA/1024\\;C:TOF/RAWDATA/1280\\;D:TOF/RAWDATA/1536"
   user: flp
   fmq_severity: info
 control:
@@ -31,7 +31,7 @@ command:
     - "--log-color"
     - "false"
     - "--dataspec"
-    - "{{ tof_dataspec }}"
+    - "{{ tof_proxy_spec }}"
     - "--readers"
     - "1"
     - "--session"
