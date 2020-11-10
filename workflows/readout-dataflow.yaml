@@ -15,7 +15,7 @@ roles:
       range: "{{ hosts }}"
       var: it
     vars:
-      readout_cfg_uri: '{{dd_enabled == "true" ? "file:/home/flp/readout_stfb_emu.cfg" : "file:/home/flp/readout.cfg"}}'
+      readout_cfg_uri: '{{dd_enabled == "true" ? "file:/home/flp/readout-stfb.cfg" : "file:/home/flp/readout-standalone.cfg"}}'
     constraints:
       - attribute: machine_id
         value: "{{ it }}"

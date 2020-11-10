@@ -24,7 +24,7 @@ All variables except **`hosts`** are optional.
 | Variable | Description | Example | Default |
 | :--- | :--- | :--- | :--- |
 | `hosts` | JSON-formatted list of hosts to control the scale of certain workflows | `["myhost1","myhost2"]` | `[]` |
-| `readout_cfg_uri` | URI of a Readout configuration payload | `file:/home/flp/readout.cfg` | depends on WFT |
+| `readout_cfg_uri` | URI of a Readout configuration payload | `file:/home/flp/readout-standalone.cfg` | depends on WFT |
 | `user` | Name of the Linux user that should run all tasks | `root` | `flp` |
 
 

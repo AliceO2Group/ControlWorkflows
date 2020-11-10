@@ -1,6 +1,6 @@
 name: readout # read by workflow
 defaults:
-  readout_cfg_uri: "file:/home/flp/readout.cfg"
+  readout_cfg_uri: "file:/home/flp/readout-standalone.cfg"
   user: flp
 control:
   mode: direct
