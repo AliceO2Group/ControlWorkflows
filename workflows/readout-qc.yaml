@@ -12,7 +12,7 @@ roles:
       - attribute: machine_id
         value: "{{ it }}"
     vars:
-      readout_cfg_uri: "file:/home/flp/readout-standalone.cfg"
+      readout_cfg_uri: "consul-ini://{{ consul_endpoint }}/o2/components/readout/readout-standalone-{{ it }}"
     roles:
       - name: "readout"
         task:

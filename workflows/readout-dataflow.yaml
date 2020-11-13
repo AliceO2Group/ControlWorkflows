@@ -15,12 +15,15 @@ roles:
       range: "{{ hosts }}"
       var: it
     vars:
-      readout_cfg_uri: '{{dd_enabled == "true" ? "file:/home/flp/readout-stfb.cfg" : "file:/home/flp/readout-standalone.cfg"}}'
+      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/readout/readout-standalone-{{ it }}"
+      readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/readout/readout-stfb-{{ it }}"
     constraints:
       - attribute: machine_id
         value: "{{ it }}"
     roles:
       - name: "readout"
+        vars:
+          readout_cfg_uri: '{{dd_enabled == "true" ? readout_cfg_uri_stfb : readout_cfg_uri_standalone}}'
         task:
           load: readout
       - name: "data-distribution"
