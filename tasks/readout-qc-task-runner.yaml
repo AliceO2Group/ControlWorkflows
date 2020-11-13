@@ -1,6 +1,5 @@
 name: readout-qc-task-runner
 defaults:
-  qc_config_uri: consul-json://{{ consul_endpoint }}/o2/components/qc/readout_to_daqtask-{{ task_hostname }}
   user: flp
 control:
   mode: "fairmq"
