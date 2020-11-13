@@ -81,6 +81,8 @@ roles:
           - name: qc-subwf
             defaults:
               dpl_config: "/etc/flp.d/qc/stfb-qc.dpl.json"
+            vars:
+              qc_config_uri: consul-json://{{ consul_endpoint }}/o2/components/qc/stfb_to_daqtask-{{ it }}
             roles:
               - name: "stfb-raw-proxy"
                 connect:

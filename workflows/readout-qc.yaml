@@ -21,6 +21,8 @@ roles:
     defaults:
       qchost: "{{ FromJson(hosts)[0] }}"
       dpl_config: "/etc/flp.d/qc/readout-qc.dpl.json"
+    vars:
+      qc_config_uri: consul-json://{{ consul_endpoint }}/o2/components/qc/readout_to_daqtask-{{ qchost }}
     constraints:
       - attribute: machine_id
         value: "{{ qchost }}"
