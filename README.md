@@ -24,7 +24,7 @@ All variables except **`hosts`** are optional.
 | Variable | Description | Example | Default |
 | :--- | :--- | :--- | :--- |
 | `hosts` | JSON-formatted list of hosts to control the scale of certain workflows | `["myhost1","myhost2"]` | `[]` |
-| `readout_cfg_uri` | URI of a Readout configuration payload | `file:/home/flp/readout-standalone.cfg` | depends on WFT |
+| `readout_cfg_uri` | URI of a Readout configuration payload | `consul-ini://{{ consul_endpoint }}/o2/components/readout/readout-standalone-{{ task_hostname }}` | depends on WFT |
 | `user` | Name of the Linux user that should run all tasks | `root` | `flp` |
 
 
@@ -38,6 +38,7 @@ All variables are optional.
 | `roc_trigger_mode` | Trigger mode for `roc-ctp-emulator` (only if `roc_ctp_emulator_enabled` is `true` ) | `continuous` |
 | `roc_ctp_emulator_endpoints` | List of CRU endpoints to emulate trigger (only if `roc_ctp_emulator_enabled` is `true` ) | `["#0"]` |
 | `dd_enabled` | If true, Data Distribution components will run and process data produced by Readout | `true` |
+| `qcdd_enabled` | If true, QualityControl components will run and process data forwarded by `StfBuilder` | `false` |
 | `stfb_standalone` | If true, `StfBuilder` runs with `--stand-alone` and `StfSender` is disabled (only if `dd_enabled` is `true`) | `false` |
 | `dd_discovery_net_if` | The name of the InfiniBand interface for `StfSender` output (only if `dd_enabled` is `true`) | `lo` |
 | `dd_discovery_endpoint` | URI of the Data Distribution Consul instance (only if `dd_enabled` is `true`) | `no-op://` |
