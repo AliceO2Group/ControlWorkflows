@@ -1,0 +1,20 @@
+name: dummyprocess
+defaults:
+  user: flp
+  config_payload_path: qc/postprocessing_daqtask
+control:
+  mode: direct
+wants:
+  cpu: 0.01
+  memory: 3
+properties:
+  config_payload: "{{ ToPtree(GetConfig(config_payload_path), 'json') }}"
+  config_payload_liquid: "{{ ToPtree(GetConfigLiquid(config_payload_path), 'json') }}"
+  config_payload_pongo: "{{ ToPtree(GetConfigPongo(config_payload_path), 'json') }}"
+command:
+  shell: true
+  user: "{{ user }}"
+  arguments:
+  value: >-
+    eval `aliswmod load Control-OCCPlugin` &&
+    occexample-dummy-process --control-port $OCC_CONTROL_PORT

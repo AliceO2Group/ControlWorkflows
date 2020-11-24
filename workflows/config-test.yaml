@@ -1,0 +1,13 @@
+name: "config-test"
+defaults: {}
+vars:
+roles:
+  - name: "dummyprocess"
+    for:
+      range: "{{hosts}}"
+      var: host
+    constraints:
+      - attribute: machine_id
+        value: "{{ host }}"
+    task:
+      load: dummyprocess
