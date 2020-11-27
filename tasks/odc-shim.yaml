@@ -9,8 +9,7 @@ control:
 wants:
   cpu: 0.01
   memory: 3
-properties:
-  environment_id: "{{ environment_id }}" # we must pass this as property because o2-aliecs-odc-shim expects it
+properties: {}
 command:
   env:
     - ODC_TOPOLOGY={{ odc_topology_path }}
