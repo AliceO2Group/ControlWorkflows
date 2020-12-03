@@ -1,4 +1,4 @@
-name: readout-dataflow
+name: readout-dataflow-tof
 defaults:
   roc_ctp_emulator_enabled: "false"
   dd_enabled: "true"
@@ -6,29 +6,31 @@ defaults:
   stfb_standalone: "false"
   odc_enabled: "false"
   tof_compressor_enabled: "false"
+  monitoring_url: "no-op://"
   monitoring_qc_url: "no-op://"
   monitoring_dd_url: "no-op://"
   monitoring_readout_url: "no-op://"
   monitoring_tof_url: "no-op://"
-  detector: "TPC" # default for DD
+  detector: TOF
 roles:
   - name: host-{{ it }}
     for:
       range: "{{ hosts }}"
       var: it
     vars:
-      readout_cfg_uri: '{{dd_enabled == "true" ? "file:/home/flp/readout_stfb_emu.cfg" : "file:/home/flp/readout.cfg"}}'
+      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/readout/readout-standalone-{{ it }}"
+      readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/readout/readout-stfb-{{ it }}"
     constraints:
       - attribute: machine_id
         value: "{{ it }}"
     roles:
       - name: "readout"
+        vars:
+          readout_cfg_uri: '{{dd_enabled == "true" ? readout_cfg_uri_stfb : readout_cfg_uri_standalone}}'
         task:
           load: readout
       - name: "data-distribution"
-        enabled: "{{dd_enabled == 'true'}}"
-        vars:
-          with_dpl: "{{stfb_standalone != 'true' && (qcdd_enabled == 'true' || tof_compressor_enabled == 'true')}}"
+        enabled: "{{dd_enabled == 'true' && qcdd_enabled == 'false' && tof_compressor_enabled == 'false'}}"
         roles:
           - name: "stfb-standalone"
             enabled: "{{stfb_standalone}}"
@@ -39,183 +41,147 @@ roles:
                 rateLogging: "1"
             task:
               load: stfbuilder-nooutput
-          - name: dd-no-dpl
-            enabled: "{{with_dpl != 'true'}}"
+          - name: "stfb"
+            enabled: "{{stfb_standalone == 'false'}}"
+            connect:
+              - name: readout
+                type: pull
+                target: "{{ Up(2).Path }}.readout:readout"
+                rateLogging: "1"
+            task:
+              load: stfbuilder-senderoutput
+          - name: "stfs"
+            enabled: "{{stfb_standalone == 'false'}}"
+            connect:
+              - name: buildertosender
+                type: pull
+                target: "{{ Parent().Path }}.stfb:buildertosender"
+                rateLogging: "1"
+            task:
+              load: stfsender
+      - name: "data-distribution-qc"
+        enabled: "{{dd_enabled == 'true' && (qcdd_enabled == 'true' || tof_compressor_enabled == 'true')}}"
+        roles:
+          - name: "stfb"
+            enabled: "{{stfb_standalone == 'false'}}"
+            connect:
+              - name: readout
+                type: pull
+                target: "{{ Up(2).Path }}.readout:readout"
+                rateLogging: "1"
+            task:
+              #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
+              load: stfbuilder
+          - name: "stfs"
+            enabled: "{{stfb_standalone == 'false'}}"
+            connect:
+              - name: buildertosender
+                type: pull
+                target: "{{ Parent().Path }}.{{qcdd_enabled == 'true' ? 'qc-subwf.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink' : 'tof-subwf.tof-injected-output-proxy:downstream'}}"
+                rateLogging: "1"
+            task:
+              load: stfsender
+          - name: tof-subwf
+            enabled: "{{tof_compressor_enabled == 'true'}}"
+            defaults:
+              dpl_config: "/etc/flp.d/tof-compressor/tof-compressor.dpl.json"
+              tof_proxy_spec: "x:TOF/RAWDATA"
+              tof_compressor_config: "x:TOF/RAWDATA"
             roles:
-              - name: "stfb"
+              - name: "tof-readout-proxy"
                 connect:
-                  - name: readout
-                    type: pull
-                    target: "{{ Up(3).Path }}.readout:readout"
+                  - name: "from_internal-dpl-clock_to_readout-proxy"
+                    target: "{{Parent().Path}}.tof-internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+                    type: "pull"
+                    rateLogging: "60"
+                  - name: "readout-proxy"
+                    target: "{{ Up(2).Path }}.stfb:dpl-chan"
+                    transport: shmem
+                    type: "pull"
                     rateLogging: "1"
                 task:
-                  load: stfbuilder-senderoutput
-              - name: "stfs"
-                connect:
-                  - name: buildertosender
-                    type: pull
-                    target: "{{ Parent().Path }}.stfb:buildertosender"
-                    rateLogging: "1"
+                  load: tof-readout-proxy
+              - name: "tof-internal-dpl-clock"
                 task:
-                  load: stfsender
-          - name: dd-with-dpl
-            enabled: "{{with_dpl == 'true'}}"
+                  load: tof-internal-dpl-clock
+              - name: "tof-compressor-0"
+                connect:
+                  - name: from_readout-proxy_to_tof-compressor-0
+                    target: "{{Parent().Path}}.stfb-raw-proxy-tof:from_readout-proxy_to_tof-compressor-0"
+                    type: "pull"
+                    rateLogging: "60"
+                task:
+                  load: tof-compressor-0
+              - name: "tof-injected-output-proxy"
+                connect:
+                  - name: from_tof-compressor-0_to_internal-dpl-injected-output-proxy
+                    target: "{{Parent().Path}}.tof-compressor-0:from_tof-compressor-0_to_internal-dpl-injected-output-proxy"
+                    type: "pull"
+                    rateLogging: "60"
+                task:
+                  load: tof-injected-output-proxy
+          - name: qc-subwf
+            enabled: "{{qcdd_enabled == 'true'}}"
+            defaults:
+              dpl_config: "/etc/flp.d/qc/stfb-qc.dpl.json"
             vars:
-              sender_chan: >-
-                {{qcdd_enabled == 'true' ?
-                Up(2).Path + '.qc-subworkflow.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink' :
-                (tof_compressor_enabled == 'true' ?
-                Up(2).Path + '.tof-compressor-subworkflow.tof-internal-dpl-output-proxy:downstream' :
-                '')}}
+              qc_config_uri: consul-json://{{ consul_endpoint }}/o2/components/qc/stfb_to_daqtask-{{ it }}
             roles:
-              - name: "stfb"
+              - name: "stfb-raw-proxy"
                 connect:
-                  - name: readout
-                    type: pull
-                    target: "{{ Up(3).Path }}.readout:readout"
+                  - name: "from_internal-dpl-clock_to_readout-proxy"
+                    target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+                    type: "pull"
+                    rateLogging: "60"
+                  - name: "readout-proxy"
+                    target: "{{ Up(2).Path }}.stfb:dpl-chan"
+                    transport: shmem
+                    type: "pull"
                     rateLogging: "1"
                 task:
-                  #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
-                  load: stfbuilder
-              - name: "stfs"
-                connect:
-                  - name: buildertosender
-                    type: pull
-                    target: "{{ sender_chan }}"
-                    rateLogging: "1"
+                  load: stfb-raw-proxy
+              - name: "internal-dpl-clock"
                 task:
-                  load: stfsender
-      - name: "tof-compressor-subworkflow"
-        enabled: "{{dd_enabled == 'true' && tof_compressor_enabled == 'true' && detector == 'TOF'}}"
-        vars:
-          dpl_config: "/etc/flp.d/tof-compressor/stfb-tof.dpl.json"
-          tof_proxy_spec: "x:TOF/RAWDATA"
-          tof_compressor_config: "x:TOF/RAWDATA"
-          tof_downstream_spec: "downstream:TOF/CRAWDATA"
-        roles:
-          - name: "stfb-raw-proxy-tof"
-            connect:
-              - name: "from_internal-dpl-clock_to_readout-proxy"
-                target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
-                type: "pull"
-                rateLogging: "60"
-              - name: "readout-proxy"
-                target: "{{ Up(2).Path }}.data-distribution.dd-with-dpl.stfb:dpl-chan"
-                #target: "ipc:///tmp/stf-builder-dpl-pipe-0"
-                transport: shmem
-                type: "pull"
-                rateLogging: "1"
-            task:
-              load: stfb-raw-proxy-tof
-          - name: "internal-dpl-clock"
-            task:
-              load: stfb-internal-dpl-clock-tof
-          - name: "tof-compressor-0"
-            connect:
-              - name: "from_readout-proxy_to_tof-compressor-0"
-                target: "{{Parent().Path}}.stfb-raw-proxy-tof:from_readout-proxy_to_tof-compressor-0"
-                type: "pull"
-                rateLogging: "60"
-            task:
-              load: stfb-tof-compressor-0
-          - name: "tof-compressor-1"
-            connect:
-              - name: "from_readout-proxy_to_tof-compressor-1"
-                target: "{{Parent().Path}}.stfb-raw-proxy-tof:from_readout-proxy_to_tof-compressor-1"
-                type: "pull"
-                rateLogging: "60"
-            task:
-              load: stfb-tof-compressor-1
-          - name: "tof-compressor-2"
-            connect:
-              - name: "from_readout-proxy_to_tof-compressor-2"
-                target: "{{Parent().Path}}.stfb-raw-proxy-tof:from_readout-proxy_to_tof-compressor-2"
-                type: "pull"
-                rateLogging: "60"
-            task:
-              load: stfb-tof-compressor-2
-          - name: "tof-compressor-3"
-            connect:
-              - name: "from_readout-proxy_to_tof-compressor-3"
-                target: "{{Parent().Path}}.stfb-raw-proxy-tof:from_readout-proxy_to_tof-compressor-3"
-                type: "pull"
-                rateLogging: "60"
-            task:
-              load: stfb-tof-compressor-3
-          - name: tof-internal-dpl-output-proxy
-            connect:
-              - name: from_tof-compressor-0_to_internal-dpl-output-proxy
-                target: "{{Parent().Path}}.tof-compressor-0:from_tof-compressor-0_to_internal-dpl-output-proxy"
-                type: pull
-                rateLogging: "60"
-              - name: from_tof-compressor-1_to_internal-dpl-output-proxy
-                target: "{{Parent().Path}}.tof-compressor-1:from_tof-compressor-1_to_internal-dpl-output-proxy"
-                type: pull
-                rateLogging: "60"
-              - name: from_tof-compressor-2_to_internal-dpl-output-proxy
-                target: "{{Parent().Path}}.tof-compressor-2:from_tof-compressor-2_to_internal-dpl-output-proxy"
-                type: pull
-                rateLogging: "60"
-              - name: from_tof-compressor-3_to_internal-dpl-output-proxy
-                target: "{{Parent().Path}}.tof-compressor-3:from_tof-compressor-3_to_internal-dpl-output-proxy"
-                type: pull
-                rateLogging: "60"
-            task:
-              load: stfb-internal-dpl-output-proxy-tof
-      - name: "qc-subworkflow"
-        enabled: "{{dd_enabled == 'true' && qcdd_enabled == 'true'}}"
-        defaults:
-          dpl_config: "/etc/flp.d/qc/stfb-qc.dpl.json"
-        roles:
-          - name: "stfb-raw-proxy"
-            connect:
-              - name: "from_internal-dpl-clock_to_readout-proxy"
-                target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
-                type: "pull"
-                rateLogging: "60"
-              - name: "readout-proxy"
-                target: "{{ Up(2).Path }}.data-distribution.dd-with-dpl.stfb:dpl-chan"
-                #target: "ipc:///tmp/stf-builder-dpl-pipe-0"
-                transport: shmem
-                type: "pull"
-                rateLogging: "1"
-            task:
-              load: stfb-raw-proxy
-          - name: "internal-dpl-clock"
-            task:
-              load: stfb-internal-dpl-clock
-          - name: "Dispatcher"
-            connect:
-              - name: "from_readout-proxy_to_Dispatcher"
-                target: "{{Parent().Path}}.stfb-raw-proxy:from_readout-proxy_to_Dispatcher"
-                type: "pull"
-                rateLogging: "60"
-              - name: "from_internal-dpl-clock_to_Dispatcher"
-                target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
-                type: "pull"
-                rateLogging: "60"
-            task:
-              load: stfb-qc-dispatcher
-          - name: "QC-TASK-RUNNER-dataDistribution"
-            connect:
-              - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
-                target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
-                type: "pull"
-                rateLogging: "60"
-              - name: "from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
-                target: "{{Parent().Path}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
-                type: "pull"
-                rateLogging: "60"
-            task:
-              load: stfb-qc-task-runner-dd
-          - name: "QC-CHECK-RUNNER-QcCheck"
-            connect:
-              - name: "from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
-                target: "{{Parent().Path}}.QC-TASK-RUNNER-dataDistribution:from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
-                type: "pull"
-                rateLogging: "60"
-            task:
-              load: stfb-qc-check-runner
+                  load: stfb-internal-dpl-clock
+              - name: "Dispatcher"
+                connect:
+                  - name: "from_readout-proxy_to_Dispatcher"
+                    target: "{{Parent().Path}}.stfb-raw-proxy:from_readout-proxy_to_Dispatcher"
+                    type: "pull"
+                    rateLogging: "60"
+                  - name: "from_internal-dpl-clock_to_Dispatcher"
+                    target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
+                    type: "pull"
+                    rateLogging: "60"
+                task:
+                  load: stfb-qc-dispatcher
+              - name: "QC-TASK-RUNNER-dataDistribution"
+                connect:
+                  - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+                    target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+                    type: "pull"
+                    rateLogging: "60"
+                  - name: "from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+                    target: "{{Parent().Path}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+                    type: "pull"
+                    rateLogging: "60"
+                task:
+                  load: stfb-qc-task-runner-dd
+              - name: "QC-CHECK-RUNNER-QcCheck"
+                connect:
+                  - name: "from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+                    target: "{{Parent().Path}}.QC-TASK-RUNNER-dataDistribution:from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+                    type: "pull"
+                    rateLogging: "60"
+                task:
+                  load: stfb-qc-check-runner
+              # - name: "internal-dpl-global-binary-file-sink"
+              #   connect:
+              #     - name: "from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+              #       target: "{{Parent().Path}}.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+              #       type: "pull"
+              #   task:
+              #     load: stfb-internal-dpl-global-binary-file-sink
       - name: roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled}}"
         defaults:

@@ -1,17 +1,23 @@
-name: stfb-tof-compressor-0
+name: tof-compressor-0
 defaults:
-  tof_compressor_config: "A:TOF/RAWDATA/768,B:TOF/RAWDATA/1024,C:TOF/RAWDATA/1280,D:TOF/RAWDATA/1536"
+  tof_compressor_config: "x:TOF/RAWDATA"
   tof_compressor_output_desc: "CRAWDATA"
   rdh_version: "6"
   user: flp
   fmq_severity: info
+  fmq_shm_monitor: "false"
+  fmq_shm_mlock_segment: "false"
+  fmq_shm_segment_id: 0
+  fmq_shm_segment_size: 2000000000
+  fmq_shm_throw_bad_alloc: "true"
+  fmq_shm_zero_segment: "false"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.15
   memory: 128
 bind:
-  - name: "from_tof-compressor-0_to_internal-dpl-output-proxy"
+  - name: "from_tof-compressor-0_to_internal-dpl-injected-output-proxy"
     type: "push"
     transport: shmem
     addressing: ipc
@@ -34,10 +40,10 @@ command:
     - "{{ monitoring_tof_url }}"
     - "--id"
     - "tof-compressor-0"
-    - "--dangling-outputs-policy"
-    - "fairmq"
     - "--log-color"
     - "false"
+    - --forwarding-destination fairmq    
+    - --forwarding-policy dangling    
     - "--readers"
     - "1"
     - "--session"
@@ -52,4 +58,9 @@ command:
     - "0"
     - "--severity"
     - "{{fmq_severity}}"
-    - "--shm-monitor false"
+    - "--shm-monitor {{fmq_shm_monitor}}"
+    - "--shm-mlock-segment {{fmq_shm_mlock_segment}}"
+    - "--shm-segment-id {{fmq_shm_segment_id}}"
+    - "--shm-segment-size {{fmq_shm_segment_size}}"
+    - "--shm-throw-bad-alloc {{fmq_shm_throw_bad_alloc}}"
+    - "--shm-zero-segment {{fmq_shm_zero_segment}}"

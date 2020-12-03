@@ -1,7 +1,14 @@
-name: stfb-raw-proxy-tof
+name: tof-readout-proxy
 defaults:
+  tof_proxy_spec: x:TOF/RAWDATA
   user: flp
   fmq_severity: info
+  fmq_shm_monitor: "false"
+  fmq_shm_mlock_segment: "false"
+  fmq_shm_segment_id: 0
+  fmq_shm_segment_size: 2000000000
+  fmq_shm_throw_bad_alloc: "true"
+  fmq_shm_zero_segment: "false"
 control:
   mode: "fairmq"
 wants:
@@ -9,21 +16,6 @@ wants:
   memory: 128
 bind:
   - name: from_readout-proxy_to_tof-compressor-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "60"
-  - name: from_readout-proxy_to_tof-compressor-1
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "60"
-  - name: from_readout-proxy_to_tof-compressor-2
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "60"
-  - name: from_readout-proxy_to_tof-compressor-3
     type: push
     transport: shmem
     addressing: ipc
@@ -40,12 +32,12 @@ command:
     - "{{ monitoring_tof_url }}"
     - "--id"
     - "readout-proxy"
-    - "--dangling-outputs-policy"
-    - "fairmq"
     - "--log-color"
     - "false"
     - "--dataspec"
     - "{{ tof_proxy_spec }}"
+    - --forwarding-destination fairmq    
+    - --forwarding-policy dangling    
     - "--readers"
     - "1"
     - "--start-value-enumeration"
@@ -58,4 +50,9 @@ command:
     - "default"
     - "--severity"
     - "{{fmq_severity}}"
-    - "--shm-monitor false"
+    - "--shm-monitor {{fmq_shm_monitor}}"
+    - "--shm-mlock-segment {{fmq_shm_mlock_segment}}"
+    - "--shm-segment-id {{fmq_shm_segment_id}}"
+    - "--shm-segment-size {{fmq_shm_segment_size}}"
+    - "--shm-throw-bad-alloc {{fmq_shm_throw_bad_alloc}}"
+    - "--shm-zero-segment {{fmq_shm_zero_segment}}"

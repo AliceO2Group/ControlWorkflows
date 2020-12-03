@@ -1,8 +1,14 @@
-name: stfb-internal-dpl-clock-tof
+name: tof-internal-dpl-clock
 defaults:
-  tof_proxy_spec: "A:TOF/RAWDATA/768\\;B:TOF/RAWDATA/1024\\;C:TOF/RAWDATA/1280\\;D:TOF/RAWDATA/1536"
+  tof_proxy_spec: x:TOF/RAWDATA
   user: flp
   fmq_severity: info
+  fmq_shm_monitor: "false"
+  fmq_shm_mlock_segment: "false"
+  fmq_shm_segment_id: 0
+  fmq_shm_segment_size: 2000000000
+  fmq_shm_throw_bad_alloc: "true"
+  fmq_shm_zero_segment: "false"
 control:
   mode: "fairmq"
 wants:
@@ -26,16 +32,21 @@ command:
     - "{{ monitoring_tof_url }}"
     - "--id"
     - "internal-dpl-clock"
-    - "--dangling-outputs-policy"
-    - "fairmq"
     - "--log-color"
     - "false"
     - "--dataspec"
     - "{{ tof_proxy_spec }}"
+    - --forwarding-destination fairmq    
+    - --forwarding-policy dangling    
     - "--readers"
     - "1"
     - "--session"
     - "default"
     - "--severity"
     - "{{fmq_severity}}"
-    - "--shm-monitor false"
+    - "--shm-monitor {{fmq_shm_monitor}}"
+    - "--shm-mlock-segment {{fmq_shm_mlock_segment}}"
+    - "--shm-segment-id {{fmq_shm_segment_id}}"
+    - "--shm-segment-size {{fmq_shm_segment_size}}"
+    - "--shm-throw-bad-alloc {{fmq_shm_throw_bad_alloc}}"
+    - "--shm-zero-segment {{fmq_shm_zero_segment}}"

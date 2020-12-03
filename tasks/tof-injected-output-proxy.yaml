@@ -1,0 +1,56 @@
+name: tof-injected-output-proxy
+defaults:
+  tof_proxy_spec: x:TOF/RAWDATA
+  user: flp
+  fmq_severity: info
+  fmq_shm_monitor: "false"
+  fmq_shm_mlock_segment: "false"
+  fmq_shm_segment_id: 0
+  fmq_shm_segment_size: 2000000000
+  fmq_shm_throw_bad_alloc: "true"
+  fmq_shm_zero_segment: "false"
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.15
+  memory: 128
+connect:
+  - name: from_tof-compressor-0_to_internal-dpl-injected-output-proxy
+    type: pull
+    rateLogging: "60"
+bind:
+  - name: downstream
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "1"
+command:
+  shell: true
+  value: >-
+    eval `aliswmod load O2 Control-OCCPlugin` &&
+    cat {{dpl_config}} | o2-dpl-raw-proxy
+  user: "{{ user }}"
+  arguments:
+    - "-b"
+    - "--monitoring-backend"
+    - "{{ monitoring_tof_url }}"
+    - "--id"
+    - "internal-dpl-injected-output-proxy"
+    - "--log-color"
+    - "false"
+    - "--dataspec"
+    - "{{ tof_proxy_spec }}"
+    - --forwarding-destination fairmq    
+    - --forwarding-policy dangling    
+    - "--readers"
+    - "1"
+    - "--session"
+    - "default"
+    - "--severity"
+    - "{{fmq_severity}}"
+    - "--shm-monitor {{fmq_shm_monitor}}"
+    - "--shm-mlock-segment {{fmq_shm_mlock_segment}}"
+    - "--shm-segment-id {{fmq_shm_segment_id}}"
+    - "--shm-segment-size {{fmq_shm_segment_size}}"
+    - "--shm-throw-bad-alloc {{fmq_shm_throw_bad_alloc}}"
+    - "--shm-zero-segment {{fmq_shm_zero_segment}}"
