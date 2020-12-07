@@ -110,13 +110,17 @@ roles:
               - name: "tof-compressor-0"
                 connect:
                   - name: from_readout-proxy_to_tof-compressor-0
-                    target: "{{Parent().Path}}.stfb-raw-proxy-tof:from_readout-proxy_to_tof-compressor-0"
+                    target: "{{Parent().Path}}.tof-readout-proxy:from_readout-proxy_to_tof-compressor-0"
                     type: "pull"
                     rateLogging: "60"
                 task:
                   load: tof-compressor-0
               - name: "tof-injected-output-proxy"
                 connect:
+                  - name: from_readout-proxy_to_internal-dpl-injected-output-proxy
+                    target: "{{Parent().Path}}.tof-readout-proxy:from_readout-proxy_to_internal-dpl-injected-output-proxy"
+                    type: "pull"
+                    rateLogging: "60"
                   - name: from_tof-compressor-0_to_internal-dpl-injected-output-proxy
                     target: "{{Parent().Path}}.tof-compressor-0:from_tof-compressor-0_to_internal-dpl-injected-output-proxy"
                     type: "pull"

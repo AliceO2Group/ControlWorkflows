@@ -20,6 +20,11 @@ bind:
     transport: shmem
     addressing: ipc
     rateLogging: "60"
+  - name: from_readout-proxy_to_internal-dpl-injected-output-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "60"
 command:
   shell: true
   value: >-
