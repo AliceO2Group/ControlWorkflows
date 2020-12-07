@@ -54,3 +54,4 @@ command:
     - "--shm-segment-size {{fmq_shm_segment_size}}"
     - "--shm-throw-bad-alloc {{fmq_shm_throw_bad_alloc}}"
     - "--shm-zero-segment {{fmq_shm_zero_segment}}"
+    - --no-cleanup
