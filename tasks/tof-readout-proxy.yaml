@@ -1,6 +1,6 @@
 name: tof-readout-proxy
 defaults:
-  tof_proxy_spec: x:TOF/RAWDATA
+  tof_proxy_spec: x:TOF/RAWDATA\\;dd:FLP/DISTSUBTIMEFRAME/0
   user: flp
   fmq_severity: info
   fmq_shm_monitor: "false"

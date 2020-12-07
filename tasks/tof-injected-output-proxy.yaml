@@ -1,6 +1,6 @@
 name: tof-injected-output-proxy
 defaults:
-  tof_proxy_spec: x:TOF/RAWDATA
+  tof_output_proxy_spec: "A:TOF/CRAWDATA\\;dd:FLP/DISTSUBTIMEFRAME/0"
   user: flp
   fmq_severity: info
   fmq_shm_monitor: "false"

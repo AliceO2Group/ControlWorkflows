@@ -11,7 +11,7 @@ defaults:
   monitoring_dd_url: "no-op://"
   monitoring_readout_url: "no-op://"
   monitoring_tof_url: "no-op://"
-  detector: TOF
+  detector: TPC
 roles:
   - name: host-{{ it }}
     for:
@@ -85,8 +85,11 @@ roles:
             enabled: "{{tof_compressor_enabled == 'true'}}"
             defaults:
               dpl_config: "/etc/flp.d/tof-compressor/tof-compressor.dpl.json"
-              tof_proxy_spec: "x:TOF/RAWDATA"
+              tof_proxy_spec: "x:TOF/RAWDATA\\;dd:FLP/DISTSUBTIMEFRAME/0"
               tof_compressor_config: "x:TOF/RAWDATA"
+              tof_output_proxy_spec: "A:TOF/CRAWDATA\\;dd:FLP/DISTSUBTIMEFRAME/0"
+            vars:
+              detector: TOF
             roles:
               - name: "tof-readout-proxy"
                 connect:
