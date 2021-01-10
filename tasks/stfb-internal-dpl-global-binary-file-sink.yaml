@@ -1,6 +1,6 @@
 name: stfb-internal-dpl-global-binary-file-sink
 defaults:
-  stfb_dataspec: "B:TPC/RAWDATA"
+  stfb_dataspec: "B:{{detector}}/RAWDATA"
   user: flp
 control:
   mode: "fairmq"
