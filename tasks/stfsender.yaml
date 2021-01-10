@@ -11,7 +11,7 @@ defaults:
   user: flp
   fmq_severity: info
   fmq_verbosity: high
-  detector: {{detector}}
+  detector: "{{detector}}"
 command:
   env: []
   shell: true

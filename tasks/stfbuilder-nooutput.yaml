@@ -6,7 +6,7 @@ defaults:
   user: flp
   fmq_severity: info
   fmq_verbosity: high
-  detector: {{detector}}
+  detector: "{{detector}}"
 wants:
   cpu: 0.15
   memory: 128
