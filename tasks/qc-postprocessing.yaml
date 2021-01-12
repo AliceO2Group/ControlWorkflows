@@ -20,5 +20,5 @@ command:
     - "--period"
     - "{{pp_task_period}}"
   value: >-
-    eval `aliswmod load QualityControl Control-OCCPlugin` &&
+    eval `module load QualityControl Control-OCCPlugin` &&
     o2-qc-run-postprocessing-occ
