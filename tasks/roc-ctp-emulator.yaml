@@ -16,5 +16,5 @@ command:
     - "--trigger-mode"
     - "{{roc_trigger_mode}}"
   value: >-
-    eval `aliswmod load ReadoutCard` &&
+    eval `module load ReadoutCard` &&
     roc-ctp-emulator

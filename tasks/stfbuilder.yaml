@@ -22,7 +22,7 @@ command:
   shell: true
   user: "{{ user }}"
   value: >-
-    eval `aliswmod load DataDistribution Control-OCCPlugin` &&
+    eval `module load DataDistribution Control-OCCPlugin` &&
     StfBuilder
   arguments:
     - "--detector"
