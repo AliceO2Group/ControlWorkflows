@@ -15,7 +15,7 @@ command:
   shell: true
   user: "{{ user }}"
   value: >-
-    eval `source /etc/profile.d/modules.sh && MODULEPATH=/opt/alisw/el7/modulefiles/ module load DataDistribution Control-OCCPlugin` &&
+    source /etc/profile.d/modules.sh && MODULEPATH=/opt/alisw/el7/modulefiles/ module load DataDistribution Control-OCCPlugin &&
     StfBuilder
   arguments:
     - "--detector"
