@@ -15,7 +15,7 @@ command:
   shell: true
   user: "{{ user }}"
   value: >-
-    eval `module load DataDistribution Control-OCCPlugin` &&
+    eval `MODULEPATH=/opt/alisw/el7/modulefiles/ module load DataDistribution Control-OCCPlugin` &&
     StfBuilder
   arguments:
     - "--detector"
