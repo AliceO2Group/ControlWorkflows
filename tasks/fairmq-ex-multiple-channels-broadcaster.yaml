@@ -19,5 +19,5 @@ command:
   user: flp
   arguments: []
   value: >-
-    eval `source /etc/profile.d/modules.sh && MODULEPATH=/opt/alisw/el7/modulefiles/ module load FairMQ Control-OCCPlugin` &&
+    source /etc/profile.d/modules.sh && MODULEPATH=/opt/alisw/el7/modulefiles/ module load FairMQ Control-OCCPlugin &&
     fairmq-ex-multiple-channels-broadcaster

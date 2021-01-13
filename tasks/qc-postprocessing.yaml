@@ -20,5 +20,5 @@ command:
     - "--period"
     - "{{pp_task_period}}"
   value: >-
-    eval `source /etc/profile.d/modules.sh && MODULEPATH=/opt/alisw/el7/modulefiles/ module load QualityControl Control-OCCPlugin` &&
+    source /etc/profile.d/modules.sh && MODULEPATH=/opt/alisw/el7/modulefiles/ module load QualityControl Control-OCCPlugin &&
     o2-qc-run-postprocessing-occ

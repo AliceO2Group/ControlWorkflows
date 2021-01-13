@@ -16,5 +16,5 @@ command:
     - "--trigger-mode"
     - "{{roc_trigger_mode}}"
   value: >-
-    eval `source /etc/profile.d/modules.sh && MODULEPATH=/opt/alisw/el7/modulefiles/ module load ReadoutCard` &&
+    source /etc/profile.d/modules.sh && MODULEPATH=/opt/alisw/el7/modulefiles/ module load ReadoutCard` &&
     roc-ctp-emulator
