@@ -28,5 +28,5 @@ command:                # Specification of the command to run
                         # beforehand, including the Control-OCCPlugin module.
                         # The module list line is added here for debug purposes.
   value: >-
-    eval `MODULEPATH=/opt/alisw/el7/modulefiles/ module load FairMQ Control-OCCPlugin` &&
+    eval `source /etc/profile.d/modules.sh && MODULEPATH=/opt/alisw/el7/modulefiles/ module load FairMQ Control-OCCPlugin` &&
     fairmq-ex-1-n-1-sampler
