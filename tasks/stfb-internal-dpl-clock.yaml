@@ -26,7 +26,7 @@ bind:
 command:
   shell: true
   value: >-
-    eval `MODULEPATH=/opt/alisw/el7/modulefiles/ module load QualityControl Control-OCCPlugin` &&
+    eval `source /etc/profile.d/modules.sh && MODULEPATH=/opt/alisw/el7/modulefiles/ module load QualityControl Control-OCCPlugin` &&
     cat {{dpl_config}} | o2-dpl-raw-proxy
   user: "{{ user }}"
   arguments:
