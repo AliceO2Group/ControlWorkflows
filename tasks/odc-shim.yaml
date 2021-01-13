@@ -23,5 +23,5 @@ command:
     - "{{odc_port}}"
     - --verbose
   value: >-
-    eval `module load Control-Core Control-OCCPlugin` &&
+    eval `MODULEPATH=/opt/alisw/el7/modulefiles/ module load Control-Core Control-OCCPlugin` &&
     o2-aliecs-odc-shim

@@ -21,5 +21,5 @@ command:
   arguments:
     - "{{ readout_cfg_uri }}"
   value: >-
-    eval `module load Readout Control-OCCPlugin` &&
+    eval `MODULEPATH=/opt/alisw/el7/modulefiles/ module load Readout Control-OCCPlugin` &&
     readout.exe
