@@ -5,6 +5,7 @@ defaults:
   qcdd_enabled: "false"
   stfb_standalone: "false"
   odc_enabled: "false"
+  roc_cleanup_enabled: "true"
   monitoring_qc_url: "no-op://"
   monitoring_dd_url: "no-op://"
   monitoring_readout_url: "no-op://"
@@ -156,6 +157,13 @@ roles:
                   trigger: "enter_RUNNING"
                   timeout: 10s
                   critical: false
+      - name: roc-cleanup
+        enabled: "{{roc_cleanup_enabled}}"
+        task:
+          load: "roc-cleanup"
+          trigger: "DESTROY"
+          timeout: 10s
+          critical: false
   - name: odcrole
     enabled: "{{odc_enabled}}"
     task:
