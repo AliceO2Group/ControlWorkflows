@@ -9,6 +9,6 @@ command:
   user: root # roc-cleanup must always run as root!
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load ReadoutCard &&
-    ps aux|grep OCCPlugin
+    yes | roc-cleanup
     
 # date > /etc/o2.d/last-roc-cleanup

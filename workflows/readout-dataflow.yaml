@@ -6,10 +6,11 @@ defaults:
   stfb_standalone: "false"
   odc_enabled: "false"
   roc_cleanup_enabled: "true"
+  fmq_cleanup_enabled: "true"
   monitoring_qc_url: "no-op://"
   monitoring_dd_url: "no-op://"
   monitoring_readout_url: "no-op://"
-  detector: TPC
+  detector: TEST
 roles:
   - name: host-{{ it }}
     for:
@@ -142,7 +143,7 @@ roles:
               #   task:
               #     load: stfb-internal-dpl-global-binary-file-sink
       - name: roc-ctp-emulators
-        enabled: "{{roc_ctp_emulator_enabled}}"
+        enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
         defaults:
           roc_ctp_emulator_endpoints: '["#0"]'
         roles:
@@ -157,10 +158,25 @@ roles:
                   trigger: "enter_RUNNING"
                   timeout: 10s
                   critical: false
+      - name: fairmq-shmmonitor
+        enabled: "{{fmq_cleanup_enabled == 'true'}}"
+        task:
+          load: "fairmq-shmmonitor"
+          trigger: "DESTROY"
+          timeout: 10s
+          critical: false
       - name: roc-cleanup
-        enabled: "{{roc_cleanup_enabled}}"
+        enabled: "{{roc_cleanup_enabled == 'true'}}"
         task:
           load: "roc-cleanup"
+          trigger: "DESTROY"
+          timeout: 10s
+          critical: false
+      - name: ps-aux-on-destroy
+        vars:
+          shell_command: ps aux|grep OCCPlugin
+        task:
+          load: "shell-command"
           trigger: "DESTROY"
           timeout: 10s
           critical: false

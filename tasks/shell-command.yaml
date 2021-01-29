@@ -1,0 +1,13 @@
+name: shell-command
+defaults:
+  user: flp
+control:
+  mode: basic
+wants:
+  cpu: 0.01
+  memory: 3
+command:
+  shell: true
+  user: "{{ user }}"
+  value: >-
+    {{ shell_command }}

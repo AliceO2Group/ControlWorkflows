@@ -1,0 +1,14 @@
+name: fairmq-shmmonitor
+defaults:
+  user: flp
+control:
+  mode: basic
+wants:
+  cpu: 0.01
+  memory: 3
+command:
+  shell: true
+  user: "{{ user }}"
+  value: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load FairMQ &&
+    fairmq-shmmonitor -c
