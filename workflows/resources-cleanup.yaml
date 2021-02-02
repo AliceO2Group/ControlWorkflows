@@ -1,0 +1,23 @@
+name: readout-dataflow
+defaults:
+  roc_cleanup_enabled: "true"
+  fmq_cleanup_enabled: "true"
+roles:
+  - name: host-{{ it }}
+    for:
+      range: "{{ hosts }}"
+      var: it
+    constraints:
+      - attribute: machine_id
+        value: "{{ it }}"
+    roles:
+      - name: fairmq-shmmonitor
+        enabled: "{{fmq_cleanup_enabled == 'true'}}"
+        task:
+          load: "fairmq-shmmonitor"
+          timeout: 10s
+      - name: roc-cleanup
+        enabled: "{{roc_cleanup_enabled == 'true'}}"
+        task:
+          load: "roc-cleanup"
+          timeout: 10s
