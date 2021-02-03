@@ -2,6 +2,7 @@ name: readout-dataflow
 defaults:
   roc_ctp_emulator_enabled: "false"
   dd_enabled: "true"
+  dcs_enabled: "false"
   qcdd_enabled: "false"
   stfb_standalone: "false"
   odc_enabled: "false"
@@ -181,6 +182,25 @@ roles:
           timeout: 10s
           critical: false
   - name: odcrole
-    enabled: "{{odc_enabled}}"
+    enabled: "{{odc_enabled == 'true'}}"
     task:
       load: odc-shim
+  - name: dcs
+    enabled: "{{dcs_enabled == 'true'}}"
+    roles:
+      - name: sor
+        defaults:
+          dcs_sor_parameters: "{\"key\":\"value\"}"
+        enabled: "{{dcs_enabled == 'true'}}"
+        call:
+          func: dcs.StartOfRun()
+          trigger: "enter_RUNNING"
+          timeout: 5s
+          critical: true
+      - name: eor
+        enabled: "{{dcs_enabled == 'true'}}"
+        call:
+          func: dcs.EndOfRun()
+          trigger: "leave_RUNNING"
+          timeout: 5s
+          critical: true
