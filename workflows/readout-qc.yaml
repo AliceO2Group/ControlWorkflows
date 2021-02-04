@@ -3,7 +3,6 @@ defaults:
   monitoring_qc_url: "no-op://"
   monitoring_dd_url: "no-op://"
   monitoring_readout_url: "no-op://"
-  monitoring_dpl_url: "no-op://"
   infologger_mode: "no-op://"
 roles:
   - name: readout-{{ it }}
