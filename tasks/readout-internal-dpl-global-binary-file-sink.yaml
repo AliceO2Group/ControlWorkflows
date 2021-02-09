@@ -19,7 +19,7 @@ command:
   arguments:
     - "-b"
     - "--monitoring-backend"
-    - "{{ monitoring_qc_url }}"
+    - "{{ monitoring_dpl_url }}"
     - "--id"
     - "internal-dpl-global-binary-file-sink"
     - "--log-color"
@@ -31,3 +31,5 @@ command:
     - "--outfile"
     - "/dev/null"
     - "--shm-monitor false"
+    - "--infologger-mode"
+    - "{{infologger_mode}}"

@@ -21,7 +21,7 @@ command:
   arguments:
     - "-b"
     - "--monitoring-backend"
-    - "{{ monitoring_qc_url }}"
+    - "{{ monitoring_dpl_url }}"
     - "--id"
     - "readout-proxy"
     - "--log-color"
@@ -37,4 +37,5 @@ command:
     - "--session"
     - "default"
     - "--shm-monitor false"
-
+    - "--infologger-mode"
+    - "{{infologger_mode}}"
