@@ -32,7 +32,7 @@ command:
   arguments:
     - "-b"
     - "--monitoring-backend"
-    - "{{ monitoring_qc_url }}"
+    - "{{ monitoring_dpl_url }}"
     - "--id"
     - "internal-dpl-clock"
     - "--log-color"
@@ -44,3 +44,5 @@ command:
     - "--session"
     - "default"
     - "--shm-monitor false"
+    - "--infologger-mode"
+    - "{{infologger_mode}}"
