@@ -44,5 +44,7 @@ command:
     - "--session"
     - "default"
     - "--shm-monitor false"
+    - "--infologger-severity"
+    - "{{infologger_severity}}"
     - "--infologger-mode"
     - "{{infologger_mode}}"

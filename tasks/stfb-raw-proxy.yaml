@@ -42,5 +42,7 @@ command:
     - "default"
     - "--shm-monitor false"
     - "--severity={{ fmq_severity }}"
+    - "--infologger-severity"
+    - "{{infologger_severity}}"
     - "--infologger-mode"
     - "{{infologger_mode}}"
