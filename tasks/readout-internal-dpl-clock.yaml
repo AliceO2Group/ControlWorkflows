@@ -26,7 +26,7 @@ command:
   shell: true
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load QualityControl Control-OCCPlugin &&
-    cat {{dpl_config}} | o2-qc-run-readout
+    echo {{ GetGonfig(dpl_config)}} | o2-qc-run-readout
   user: "{{ user }}"
   arguments:
     - "-b"
@@ -41,5 +41,7 @@ command:
     - "--session"
     - "default"
     - "--shm-monitor false"
+    - "--infologger-severity"
+    - "{{infologger_severity}}"
     - "--infologger-mode"
     - "{{infologger_mode}}"
