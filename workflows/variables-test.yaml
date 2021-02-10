@@ -1,0 +1,18 @@
+name: "odc-shim"
+defaults:
+  modulepath: A
+  monitoring_qc_url: C
+  foo: G
+vars:
+  modulepath: B
+  monitoring_readout_url: F
+roles:
+  - name: "odcrole"
+    defaults:
+      modulepath: D
+      monitoring_dd_url: E
+    vars:
+      shell_command: echo "{{ GetConfig('readout/ANY/any/test123') }}"
+    task:
+      load: shell-command
+
