@@ -30,7 +30,7 @@ command:
     - "--config"
     - "{{qc_config_uri}}"
     - "--monitoring-backend"
-    - "{{ monitoring_dpl_url }}"
+    - "{{ monitoring_qc_url }}"
     - "--id"
     - "QC-TASK-RUNNER-daqTask"
     - "--log-color"
