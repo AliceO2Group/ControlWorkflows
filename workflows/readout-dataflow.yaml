@@ -2,6 +2,7 @@ name: readout-dataflow
 defaults:
   roc_ctp_emulator_enabled: "false"
   dd_enabled: "true"
+  ddsched_enabled: "true"
   dcs_enabled: "false"
   qcdd_enabled: "false"
   stfb_standalone: "false"
@@ -20,6 +21,7 @@ roles:
     vars:
       readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/readout/readout-standalone-{{ it }}"
       readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/readout/readout-stfb-{{ it }}"
+      dd_discovery_ib_hostname: "{{ it }}-ib" # MUST be defined for all stfb and stfs
     constraints:
       - attribute: machine_id
         value: "{{ it }}"
@@ -43,6 +45,8 @@ roles:
               load: stfbuilder-nooutput
           - name: "stfb"
             enabled: "{{stfb_standalone == 'false'}}"
+            vars:
+              dd_discovery_stfb_id: stfb-{{ it }}-{{ NewID() }} # must be defined for all stfb roles
             connect:
               - name: readout
                 type: pull
@@ -52,6 +56,8 @@ roles:
               load: stfbuilder-senderoutput
           - name: "stfs"
             enabled: "{{stfb_standalone == 'false'}}"
+            vars:
+              dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }} # must be defined for all stfs roles
             connect:
               - name: buildertosender
                 type: pull
@@ -64,6 +70,8 @@ roles:
         roles:
           - name: "stfb"
             enabled: "{{stfb_standalone == 'false'}}"
+            vars:
+              dd_discovery_stfb_id: stfb-{{ it }}-{{ NewID() }}
             connect:
               - name: readout
                 type: pull
@@ -74,6 +82,8 @@ roles:
               load: stfbuilder
           - name: "stfs"
             enabled: "{{stfb_standalone == 'false'}}"
+            vars:
+              dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }}
             connect:
               - name: buildertosender
                 type: pull
@@ -191,16 +201,29 @@ roles:
       - name: sor
         defaults:
           dcs_sor_parameters: "{\"key\":\"value\"}"
-        enabled: "{{dcs_enabled == 'true'}}"
         call:
           func: dcs.StartOfRun()
           trigger: "enter_RUNNING"
           timeout: 5s
           critical: true
       - name: eor
-        enabled: "{{dcs_enabled == 'true'}}"
         call:
           func: dcs.EndOfRun()
           trigger: "leave_RUNNING"
+          timeout: 5s
+          critical: true
+  - name: dd-scheduler
+    enabled: "{{ddsched_enabled == 'true'}}"
+    roles:
+      - name: initialize
+        call: # this call walks the workflow and builds a map of all tasks with dd_discovery_stf{b,s}_id
+          func: ddsched.PartitionInitialize()
+          trigger: "before_CONFIGURE"
+          timeout: 5s
+          critical: true
+      - name: terminate
+        call:
+          func: ddsched.PartitionTerminate()
+          trigger: "after_RESET"
           timeout: 5s
           critical: true
