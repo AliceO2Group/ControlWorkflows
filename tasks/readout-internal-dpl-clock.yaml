@@ -26,7 +26,7 @@ command:
   shell: true
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load QualityControl Control-OCCPlugin &&
-    echo {{ GetGonfig(dpl_config)}} | o2-qc-run-readout
+    cat {{dpl_config}} | o2-qc-run-readout
   user: "{{ user }}"
   arguments:
     - "-b"
