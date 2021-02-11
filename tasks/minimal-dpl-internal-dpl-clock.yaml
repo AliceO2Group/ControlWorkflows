@@ -1,0 +1,35 @@
+name: minimal-dpl-internal-dpl-clock
+defaults:
+  user: flp
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.15
+  memory: 128
+bind:
+  - name: "from_internal-dpl-clock_to_readout-proxy"
+    type: "push"
+    transport: shmem
+    addressing: ipc
+    rateLogging: "60"
+command:
+  shell: true
+  value: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 Control-OCCPlugin &&
+    cat {{dpl_config}} | o2-dpl-raw-proxy
+  user: "{{ user }}"
+  arguments:
+    - "-b"
+    - "--dataspec"
+    - "'x:TST/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "--monitoring-backend"
+    - "{{ monitoring_qc_url }}"
+    - "--id"
+    - "internal-dpl-clock"
+    - "--log-color"
+    - "false"
+    - "--readers"
+    - "1"
+    - "--session"
+    - "default"
+    - "--shm-monitor false"

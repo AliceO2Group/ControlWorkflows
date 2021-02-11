@@ -4,7 +4,8 @@ defaults:
   dd_enabled: "true"
   ddsched_enabled: "false"
   dcs_enabled: "false"
-  qcdd_enabled: "false"
+  qcdd_enabled: "false" # qcdd_enabled and minimal_dpl_enabled cannot be both true!
+  minimal_dpl_enabled: "false"
   stfb_standalone: "false"
   odc_enabled: "false"
   roc_cleanup_enabled: "false"
@@ -32,7 +33,7 @@ roles:
         task:
           load: readout
       - name: "data-distribution"
-        enabled: "{{dd_enabled == 'true' && qcdd_enabled == 'false'}}"
+        enabled: "{{dd_enabled == 'true' && (qcdd_enabled == 'false' && minimal_dpl_enabled == 'false')}}"
         roles:
           - name: "stfb-standalone"
             enabled: "{{stfb_standalone}}"
@@ -58,6 +59,7 @@ roles:
             enabled: "{{stfb_standalone == 'false'}}"
             vars:
               dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }} # must be defined for all stfs roles
+              stfs_input_channel_name: buildertosender
             connect:
               - name: buildertosender
                 type: pull
@@ -65,8 +67,8 @@ roles:
                 rateLogging: "1"
             task:
               load: stfsender
-      - name: "data-distribution-qc"
-        enabled: "{{qcdd_enabled == 'true' && dd_enabled == 'true'}}"
+      - name: "data-distribution-dpl"
+        enabled: "{{(qcdd_enabled == 'true' || minimal_dpl_enabled == 'true') && dd_enabled == 'true'}}"
         roles:
           - name: "stfb"
             enabled: "{{stfb_standalone == 'false'}}"
@@ -76,22 +78,36 @@ roles:
               - name: readout
                 type: pull
                 target: "{{ Up(2).Path }}.readout:readout"
-                rateLogging: "1"
+                rateLogging: "10"
             task:
               #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
               load: stfbuilder
           - name: "stfs"
-            enabled: "{{stfb_standalone == 'false'}}"
+            enabled: "{{stfb_standalone == 'false' && qcdd_enabled == 'true'}}"
             vars:
               dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }}
+              stfs_input_channel_name: buildertosender
             connect:
               - name: buildertosender
                 type: pull
                 target: "{{ Parent().Path }}.qc-subwf.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
-                rateLogging: "1"
+                rateLogging: "10"
+            task:
+              load: stfsender
+          - name: "stfs"
+            enabled: "{{stfb_standalone == 'false' && minimal_dpl_enabled == 'true'}}"
+            vars:
+              dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }}
+              stfs_input_channel_name: downstream
+            connect:
+              - name: downstream
+                type: pull
+                target: "{{ Parent().Path }}.minimal-dpl-wf.dpl-output-proxy:downstream"
+                rateLogging: "10"
             task:
               load: stfsender
           - name: qc-subwf
+            enabled: "{{ qcdd_enabled == 'true' }}"
             defaults:
               dpl_config: "/etc/flp.d/qc/stfb-qc.dpl.json"
             vars:
@@ -153,6 +169,36 @@ roles:
               #       type: "pull"
               #   task:
               #     load: stfb-internal-dpl-global-binary-file-sink
+          - name: minimal-dpl-wf
+            enabled: "{{  minimal_dpl_enabled == 'true' }}"
+            defaults:
+              dpl_config: "/etc/flp.d/minimal-dpl/minimal-dpl.dpl.json"
+            roles:
+              - name: "internal-dpl-clock"
+                connect:
+                task:
+                  load: minimal-dpl-internal-dpl-clock
+              - name: "readout-proxy"
+                connect:
+                - name: "from_internal-dpl-clock_to_readout-proxy"
+                  target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+                  type: "pull"
+                  rateLogging: "60"
+                - name: "readout-proxy"
+                  target: "{{ Up(2).Path }}.stfb:dpl-chan"
+                  transport: shmem
+                  type: "pull"
+                  rateLogging: "10"
+                task:
+                  load: minimal-dpl-readout-proxy
+              - name: "dpl-output-proxy"
+                connect:
+                - name: "from_readout-proxy_to_dpl-output-proxy"
+                  target: "{{Parent().Path}}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
+                  type: "pull"
+                  rateLogging": "10"
+                task:
+                  load: minimal-dpl-dpl-output-proxy
       - name: roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
         defaults:
