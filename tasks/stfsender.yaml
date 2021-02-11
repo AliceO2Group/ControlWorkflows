@@ -25,7 +25,7 @@ command:
   arguments:
     - "--session=default"
     - "--transport=shmem"
-    - "--input-channel-name=buildertosender"
+    - "--input-channel-name={{ stfs_input_channel_name }}"
     - "--severity={{ fmq_severity }}"
     - "--severity-infologger={{ infologger_severity }}"
     - "--max-buffered-stfs={{ max_buffered_stfs }}"
