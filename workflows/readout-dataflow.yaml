@@ -19,8 +19,8 @@ roles:
       range: "{{ hosts }}"
       var: it
     vars:
-      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/readout/readout-standalone-{{ it }}"
-      readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/readout/readout-stfb-{{ it }}"
+      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/ANY/any/readout/readout-standalone-{{ it }}"
+      readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/ANY/any/readout/readout-stfb-{{ it }}"
       dd_discovery_ib_hostname: "{{ it }}-ib" # MUST be defined for all stfb and stfs
     constraints:
       - attribute: machine_id
@@ -95,7 +95,7 @@ roles:
             defaults:
               dpl_config: "/etc/flp.d/qc/stfb-qc.dpl.json"
             vars:
-              qc_config_uri: consul-json://{{ consul_endpoint }}/o2/components/qc/stfb_to_daqtask-{{ it }}
+              qc_config_uri: consul-json://{{ consul_endpoint }}/o2/components/ANY/any/qc/stfb_to_daqtask-{{ it }}
             roles:
               - name: "stfb-raw-proxy"
                 connect:

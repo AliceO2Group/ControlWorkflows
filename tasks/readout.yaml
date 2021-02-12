@@ -1,6 +1,6 @@
 name: readout # read by workflow
 defaults:
-  readout_cfg_uri: "consul-ini://{{ consul_endpoint }}/o2/components/readout/readout-standalone-{{ task_hostname }}"
+  readout_cfg_uri: "consul-ini://{{ consul_endpoint }}/o2/components/ANY/any/readout/readout-standalone-{{ task_hostname }}"
   user: flp
 control:
   mode: direct
