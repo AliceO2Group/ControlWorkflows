@@ -12,7 +12,7 @@ roles:
       - attribute: machine_id
         value: "{{ it }}"
     vars:
-      readout_cfg_uri: "consul-ini://{{ consul_endpoint }}/o2/components/ANY/any/readout/readout-standalone-{{ it }}"
+      readout_cfg_uri: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ it }}"
     roles:
       - name: "readout"
         task:
@@ -22,7 +22,7 @@ roles:
       qchost: "{{ FromJson(hosts)[0] }}"
       dpl_config: "/etc/flp.d/qc/readout-qc.dpl.json"
     vars:
-      qc_config_uri: consul-json://{{ consul_endpoint }}/o2/components/ANY/any/qc/readout_to_daqtask-{{ qchost }}
+      qc_config_uri: consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/readout_to_daqtask-{{ qchost }}
     constraints:
       - attribute: machine_id
         value: "{{ qchost }}"
