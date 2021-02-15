@@ -13,7 +13,7 @@ defaults:
   fmq_verbosity: high
   detector: TPC
 command:
-  env: []
+  env: ["INFOLOGGER_MODE={{infologger_mode}}"]
   shell: true
   user: "{{ user }}"
   value: >-
@@ -31,4 +31,5 @@ command:
     - "--discovery-id={{ dd_discovery_stfs_id }}"
     - "--discovery-endpoint={{ dd_discovery_endpoint }}"
     - "--discovery-net-if={{ dd_discovery_net_if }}"
-
+    - "--severity-infologger"
+    - "{{infologger_severity}}"
