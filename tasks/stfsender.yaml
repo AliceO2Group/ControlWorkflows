@@ -18,13 +18,13 @@ command:
   user: "{{ user }}"
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
-    StfSender
+    gdb -ex "catch throw fmt::v7::format_error" -ex "run"  -ex "bt full" -batch --args StfSender
   arguments:
     - "--detector"
     - "{{detector}}"
     - "--stand-alone"
     - "--input-channel-name=buildertosender"
-    - "--severity={{ fmq_severity }}"
+    - "--severity=nolog"
     - "--verbosity={{ fmq_verbosity }}"
     - "--max-buffered-stfs={{ max_buffered_stfs }}"
     - "--discovery-partition={{ environment_id }}"
