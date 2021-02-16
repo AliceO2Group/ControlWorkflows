@@ -27,4 +27,4 @@ command:
     - --verbose
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load Control-Core Control-OCCPlugin &&
-    o2-aliecs-odc-shim
+    http_proxy="" https_proxy="" o2-aliecs-odc-shim
