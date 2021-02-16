@@ -16,7 +16,7 @@ command:
     - O2_SYSTEM=ECS
     - http_proxy=""
     - https_proxy=""
-    - no_proxy="epn*-ib,*.internal"
+    - no_proxy=-ib,.internal
   shell: true
   user: "{{ user }}"
   arguments:
