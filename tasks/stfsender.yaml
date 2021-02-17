@@ -26,7 +26,6 @@ command:
   arguments:
     - "--detector"
     - "{{detector}}"
-    - "--stand-alone"
     - "--input-channel-name=buildertosender"
     - "--severity={{ fmq_severity }}"
     - "--verbosity={{ fmq_verbosity }}"
@@ -37,3 +36,4 @@ command:
     - "--discovery-net-if={{ dd_discovery_net_if }}"
     - "--severity-infologger"
     - "{{infologger_severity}}"
+    - '{{ ddsched_enabled == "true" ? "" : "--stand-alone" }}'
