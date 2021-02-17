@@ -25,11 +25,9 @@ command:
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
     StfBuilder
   arguments:
-    - "--detector-rdh"
-    - "{{ rdh_version }}"
-    - "--detector-subspec={{dd_detector_subspec}}"
+    - "--detector-rdh={{ rdh_version }}"
+    - "--detector-subspec={{ dd_detector_subspec }}"
     - "--dpl-channel-name=dpl-chan"
     - "--severity={{ fmq_severity }}"
     - "--verbosity={{ fmq_verbosity }}"
-    - "--severity-infologger"
-    - "{{infologger_severity}}"
+    - "--severity-infologger={{ infologger_severity }}"
