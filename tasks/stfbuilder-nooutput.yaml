@@ -5,8 +5,6 @@ defaults:
   rdh_version: "6"
   user: flp
   fmq_severity: info
-  fmq_verbosity: high
-  detector: TPC
   dd_detector_subspec: feeid
 wants:
   cpu: 0.15
@@ -19,13 +17,10 @@ command:
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
     StfBuilder
   arguments:
-    - "--detector"
-    - "{{detector}}"
-    - "--severity={{ fmq_severity }}"
-    - "--verbosity={{ fmq_verbosity }}"
-    - "--stand-alone"
-    - "--detector-rdh"
-    - "{{ rdh_version }}"
-    - "--severity-infologger"
-    - "{{infologger_severity}}"
+    - "--session=default"
+    - "--transport=shmem"
+    - "--detector-rdh={{ rdh_version }}"
     - "--detector-subspec={{dd_detector_subspec}}"
+    - "--severity={{ fmq_severity }}"
+    - "--severity-infologger={{ infologger_severity }}"
+    - "--stand-alone"
