@@ -31,5 +31,4 @@ command:
     - "--detector-subspec={{ dd_detector_subspec }}"
     - "--dpl-channel-name=dpl-chan"
     - "--severity={{ fmq_severity }}"
-    - "--verbosity={{ fmq_verbosity }}"
     - "--severity-infologger={{ infologger_severity }}"
