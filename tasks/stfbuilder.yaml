@@ -16,7 +16,7 @@ bind:
     rateLogging: "1"
     transport: shmem
     addressing: ipc
-    sndBufSize: "1"
+    sndBufSize: "4"
 command:
   env: ["INFOLOGGER_MODE={{infologger_mode}}"]
   shell: true
