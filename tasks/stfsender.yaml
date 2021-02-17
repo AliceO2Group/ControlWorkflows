@@ -10,8 +10,6 @@ defaults:
   dd_discovery_endpoint: "no-op://" # location of consul docker instance
   user: flp
   fmq_severity: info
-  fmq_verbosity: high
-  detector: TPC
 command:
   env:
     - INFOLOGGER_MODE={{infologger_mode}}
@@ -26,7 +24,6 @@ command:
   arguments:
     - "--input-channel-name=buildertosender"
     - "--severity={{ fmq_severity }}"
-    - "--verbosity={{ fmq_verbosity }}"
     - "--max-buffered-stfs={{ max_buffered_stfs }}"
     - "--discovery-partition={{ environment_id }}"
     - "--discovery-id={{ dd_discovery_stfs_id }}"
