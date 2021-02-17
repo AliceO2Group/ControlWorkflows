@@ -5,7 +5,7 @@ wants:
   cpu: 0.15
   memory: 128
 defaults:
-  max_buffered_stfs: 200
+  max_buffered_stfs: -1
   dd_discovery_net_if: "ib0" #the loopback intf
   dd_discovery_endpoint: "no-op://" # location of consul docker instance
   user: flp
