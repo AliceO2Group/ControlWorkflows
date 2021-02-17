@@ -5,8 +5,6 @@ defaults:
   rdh_version: "6"
   user: flp
   fmq_severity: info
-  fmq_verbosity: high
-  detector: TPC
   dd_detector_subspec: feeid
 wants:
   cpu: 0.15
@@ -17,7 +15,7 @@ bind:
     rateLogging: "1"
     transport: shmem
     addressing: ipc
-    sndBufSize: "1"
+    sndBufSize: "4"
 command:
   env: ["INFOLOGGER_MODE={{infologger_mode}}"]
   shell: true
@@ -26,13 +24,10 @@ command:
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
     StfBuilder
   arguments:
-    - "--detector"
-    - "{{detector}}"
-    - "--output-channel-name=buildertosender"
+    - "--session=default"
+    - "--transport=shmem"
+    - "--detector-rdh={{ rdh_version }}"
+    - "--detector-subspec={{ dd_detector_subspec }}"
     - "--severity={{ fmq_severity }}"
-    - "--verbosity={{ fmq_verbosity }}"
-    - "--detector-rdh"
-    - "{{ rdh_version }}"
-    - "--severity-infologger"
-    - "{{infologger_severity}}"
-    - "--detector-subspec={{dd_detector_subspec}}"
+    - "--severity-infologger={{ infologger_severity }}"
+    - "--output-channel-name=buildertosender"
