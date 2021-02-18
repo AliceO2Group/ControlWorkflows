@@ -32,4 +32,4 @@ command:
     - "--discovery-id={{ dd_discovery_stfs_id }}"
     - "--discovery-endpoint={{ dd_discovery_endpoint }}"
     - "--discovery-net-if={{ dd_discovery_net_if }}"
-    - "{{ "" if ddsched_enabled == "true" else "--stand-alone" }}"
+    - '{{ ddsched_enabled == "true" ? "" : "--stand-alone" }}'
