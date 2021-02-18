@@ -20,7 +20,7 @@ command:
   shell: true
   user: "{{ user }}"
   value: >-
-    {{ scheduler_check_cmd }} source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
     StfSender
   arguments:
     - "--session=default"
