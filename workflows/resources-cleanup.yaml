@@ -1,4 +1,4 @@
-name: resources-cleanup
+name: readout-dataflow
 defaults:
   roc_cleanup_enabled: "true"
   fmq_cleanup_enabled: "true"
