@@ -1,18 +1,19 @@
-name: roc-config
+name: roc-config-args
 control:
   mode: basic
 wants:
   cpu: 0.2
   memory: 256
 defaults:
-  rocConfigLinks: "#0"
+  rocConfigLinks: "0"
   rocConfigAllowRejection: "false"
-  rocConfigClock: "local"
+  rocConfigClock: "LOCAL"
   rocConfigCruId: "0x0"
-  rocConfigDatapathMode: "packet"
-  rocConfigDownstreamData: "ctp"
-  rocConfigGbtMode: "gbt"
-  rocConfigGbtMux: "ttc"
+  rocConfigCrocId: "0x0"
+  rocConfigDatapathMode: "PACKET"
+  rocConfigDownstreamData: "CTP"
+  rocConfigGbtMode: "GBT"
+  rocConfigGbtMux: "TTC"
   rocConfigLoopback: "false"
   rocConfigPonUpstream: "false"
   rocConfigDynOffset: "false"
@@ -20,11 +21,16 @@ defaults:
   rocConfigForceConfig: "false"
   rocConfigBypassFwCheck: "false"
   rocConfigTriggerWindowSize: "1000"
+  rocConfigNoGBT: "false"
+  rocConfigUserLogic: "false"
+  rocConfigRunStats: "false"
+  rocConfigUserAndCommonLogic: "false"
+  rocConfigNoTfDetection: "false"
 command: 
   shell: true
   value: >-
     source /etc/profile.d/modules.sh &&
-    MODULEPATH=/opt/alisw/el7/modulefiles module load ReadoutCard &&
+    MODULEPATH={{ modulepath }} module load ReadoutCard &&
     roc-config
   arguments:
     - "--id"
@@ -36,6 +42,8 @@ command:
     - "{{ rocConfigClock }}"
     - "--cru-id"
     - "{{ rocConfigCruId }}"
+    - "--crorc-id"
+    - "{{ rocConfigCrocId }}"
     - "--datapathmode"
     - "{{ rocConfigDatapathMode }}"
     - "--downstreamdata"
@@ -52,4 +60,15 @@ command:
     - "{{ rocConfigForceConfig == 'true' ? '--force-config' : '' }}"
     - "{{ rocConfigBypassFwCheck == 'true' ? '--bypass-fw-check' : '' }}"
     - "--trigger-window-size"
-    - "{{ rocConfigTriggerWindowSize }}
+    - "{{ rocConfigTriggerWindowSize }}"
+    - "{{ rocConfigNoGBT == 'true' ? '--no-gbt' : '' }}"
+    - "{{ rocConfigUserLogic == 'true' ? '--user-logic' : '' }}"
+    - "{{ rocConfigRunStats == 'true' ? '--run-stats' : '' }}"
+    - "{{ rocConfigUserAndCommonLogic == 'true' ? '--user-and-common-logic' : '' }}"
+    - "{{ rocConfigNoTfDetection == 'true' ? '--no-tf-detection' : '' }}"
+    - "--tf-length"
+    - "{{ rocConfigTfLength }}"
+    - "--system-id"
+    - "{{ rocConfigSystemId }}"
+    - "--fee-id"
+    - "{{ rocConfigFEEId }}"
