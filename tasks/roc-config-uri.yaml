@@ -1,4 +1,4 @@
-name: roc-config
+name: roc-config-uri
 control:
   mode: basic
 wants:
@@ -11,7 +11,7 @@ command:
   shell: true
   value: >-
     source /etc/profile.d/modules.sh &&
-    MODULEPATH=/opt/alisw/el7/modulefiles module load ReadoutCard &&
+    MODULEPATH={{ modulepath }} module load ReadoutCard &&
     roc-config
   arguments:
     - "--id"
