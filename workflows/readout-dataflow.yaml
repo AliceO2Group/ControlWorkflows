@@ -212,21 +212,21 @@ roles:
               - name: roc-ctp-emulator
                 task:
                   load: "roc-ctp-emulator"
-                  trigger: "enter_RUNNING"
+                  trigger: enter_RUNNING
                   timeout: 10s
                   critical: false
       - name: fairmq-shmmonitor
         enabled: "{{fmq_cleanup_enabled == 'true'}}"
         task:
           load: "fairmq-shmmonitor"
-          trigger: "DESTROY"
+          trigger: DESTROY
           timeout: 10s
           critical: false
       - name: roc-cleanup
         enabled: "{{roc_cleanup_enabled == 'true'}}"
         task:
           load: "roc-cleanup"
-          trigger: "DESTROY"
+          trigger: DESTROY
           timeout: 10s
           critical: false
       - name: ps-aux-on-destroy
@@ -234,7 +234,7 @@ roles:
           shell_command: ps aux|grep OCCPlugin
         task:
           load: "shell-command"
-          trigger: "DESTROY"
+          trigger: DESTROY
           timeout: 10s
           critical: false
   - name: odcrole
@@ -249,27 +249,33 @@ roles:
           dcs_sor_parameters: "{\"key\":\"value\"}"
         call:
           func: dcs.StartOfRun()
-          trigger: "enter_RUNNING"
+          trigger: enter_RUNNING
           timeout: 5s
           critical: true
       - name: eor
         call:
           func: dcs.EndOfRun()
-          trigger: "leave_RUNNING"
+          trigger: leave_RUNNING
           timeout: 5s
           critical: true
   - name: dd-scheduler
     enabled: "{{ddsched_enabled == 'true'}}"
     roles:
       - name: initialize
-        call: # this call walks the workflow and builds a map of all tasks with dd_discovery_stf{b,s}_id
+        call:
           func: ddsched.PartitionInitialize()
-          trigger: "before_CONFIGURE"
+          trigger: before_CONFIGURE
           timeout: 5s
           critical: true
       - name: terminate
         call:
           func: ddsched.PartitionTerminate()
-          trigger: "after_RESET"
+          trigger: after_RESET
           timeout: 5s
           critical: true
+      - name: cleanup
+        call:
+          func: ddsched.EnsureTermination()
+          trigger: DESTROY
+          timeout: 5s
+          critical: false
