@@ -26,6 +26,8 @@ defaults:
   rocConfigRunStats: "false"
   rocConfigUserAndCommonLogic: "false"
   rocConfigNoTfDetection: "false"
+  rocConfigTfLength: "256"
+  rocConfigFEEId: "0"
 command: 
   env:
     - INFOLOGGER_MODE={{ infologger_mode }}
