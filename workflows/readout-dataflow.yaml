@@ -8,6 +8,7 @@ defaults:
   minimal_dpl_enabled: "false"
   stfb_standalone: "false"
   odc_enabled: "false"
+  odcshim_enabled: "false"
   roc_cleanup_enabled: "false"
   fmq_cleanup_enabled: "true"
   monitoring_qc_url: "no-op://"
@@ -237,8 +238,8 @@ roles:
           trigger: DESTROY
           timeout: 10s
           critical: false
-  - name: odcrole
-    enabled: "{{odc_enabled == 'true'}}"
+  - name: odc-shim
+    enabled: "{{odcshim_enabled == 'true'}}"
     task:
       load: odc-shim
   - name: dcs
@@ -276,6 +277,39 @@ roles:
       - name: cleanup
         call:
           func: ddsched.EnsureTermination()
+          trigger: DESTROY
+          timeout: 5s
+          critical: false
+  - name: odc
+    enabled: "{{odc_enabled == 'true'}}"
+    roles:
+      - name: configure
+        call:
+          func: odc.Configure()
+          trigger: before_CONFIGURE
+          timeout: 30s
+          critical: true
+      - name: start
+        call:
+          func: odc.Start()
+          trigger: before_START
+          timeout: 5s
+          critical: true
+      - name: stop
+        call:
+          func: odc.Stop()
+          trigger: after_STOP
+          timeout: 5s
+          critical: true
+      - name: reset
+        call:
+          func: odc.Reset()
+          trigger: after_RESET
+          timeout: 15s
+          critical: true
+      - name: cleanup
+        call:
+          func: odc.EnsureCleanup()
           trigger: DESTROY
           timeout: 5s
           critical: false
