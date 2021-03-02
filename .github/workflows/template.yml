@@ -22,14 +22,14 @@ jobs:
             path: ControlWorkflows
       - uses: actions/setup-go@v2
         with:
-          go-version: '1.15.0'
+          go-version: '1.16.0'
       - uses: actions/checkout@v2
         with: 
           repository: AliceO2Group/Control
           ref: 'master'
           path: Control
       - run: (cd Control; make vendor)
-      - run: (cd Control; make)
+      - run: (cd Control; make WHAT=walnut)
       - run: (echo "Checks will be ran against branch  ${{ github.ref }}")
       - name: Run Walnut checks for TASKS
         working-directory: ./Control
