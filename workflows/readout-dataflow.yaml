@@ -6,6 +6,8 @@ defaults:
   dcs_enabled: "false"
   qcdd_enabled: "false" # qcdd_enabled and minimal_dpl_enabled cannot be both true!
   minimal_dpl_enabled: "false"
+  dpl_workflow: "none" # if specified, we use dpl_worfklow to choose what is between STFB and STFS. Otherwise, we fall to the old choice mechanism.
+                       # available options: "none", "qc-daq", "minimal-dpl"
   stfb_standalone: "false"
   odc_enabled: "false"
   odcshim_enabled: "false"
@@ -34,7 +36,7 @@ roles:
         task:
           load: readout
       - name: "data-distribution"
-        enabled: "{{dd_enabled == 'true' && (qcdd_enabled == 'false' && minimal_dpl_enabled == 'false')}}"
+        enabled: "{{dd_enabled == 'true' && (qcdd_enabled == 'false' && minimal_dpl_enabled == 'false' && dpl_workflow == 'none')}}"
         roles:
           - name: "stfb-standalone"
             enabled: "{{stfb_standalone}}"
@@ -69,7 +71,7 @@ roles:
             task:
               load: stfsender
       - name: "data-distribution-dpl"
-        enabled: "{{(qcdd_enabled == 'true' || minimal_dpl_enabled == 'true') && dd_enabled == 'true'}}"
+        enabled: "{{(qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none') && dd_enabled == 'true'}}"
         roles:
           - name: "stfb"
             enabled: "{{stfb_standalone == 'false'}}"
@@ -84,7 +86,7 @@ roles:
               #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
               load: stfbuilder
           - name: "stfs"
-            enabled: "{{stfb_standalone == 'false' && qcdd_enabled == 'true'}}"
+            enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || dpl_workflow == 'qc-daq')}}"
             vars:
               dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }}
               stfs_input_channel_name: buildertosender
@@ -96,19 +98,19 @@ roles:
             task:
               load: stfsender
           - name: "stfs"
-            enabled: "{{stfb_standalone == 'false' && minimal_dpl_enabled == 'true'}}"
+            enabled: "{{stfb_standalone == 'false' && (minimal_dpl_enabled == 'true' || dpl_workflow == 'minimal-dpl')}}"
             vars:
               dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }}
               stfs_input_channel_name: downstream
             connect:
               - name: downstream
                 type: pull
-                target: "{{ Parent().Path }}.minimal-dpl-wf.dpl-output-proxy:downstream"
+                target: "{{ Parent().Path }}.minimal-dpl-wf.dpl-output-proxy:downstream" # we need some automatic way to find out the wf+task name
                 rateLogging: "10"
             task:
               load: stfsender
           - name: qc-subwf
-            enabled: "{{ qcdd_enabled == 'true' }}"
+            enabled: "{{ qcdd_enabled == 'true' || dpl_workflow == 'qc-daq' }}"
             defaults:
               dpl_config: "/etc/flp.d/qc/stfb-qc.dpl.json"
             vars:
@@ -171,7 +173,7 @@ roles:
               #   task:
               #     load: stfb-internal-dpl-global-binary-file-sink
           - name: minimal-dpl-wf
-            enabled: "{{  minimal_dpl_enabled == 'true' }}"
+            enabled: "{{  minimal_dpl_enabled == 'true' || dpl_workflow == 'minimal-dpl' }}"
             defaults:
               dpl_config: "/etc/flp.d/minimal-dpl/minimal-dpl.dpl.json"
             roles:
