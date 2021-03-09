@@ -1,6 +1,6 @@
 name: stfb-raw-proxy
 defaults:
-  stfb_dataspec: "B:TPC/RAWDATA"
+  stfb_dataspec: "B:TST/RAWDATA"
   user: flp
   fmq_severity: info
 control:

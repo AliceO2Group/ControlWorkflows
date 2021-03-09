@@ -1,6 +1,6 @@
 name: stfb-internal-dpl-clock
 defaults:
-  stfb_dataspec: "B:TPC/RAWDATA"
+  stfb_dataspec: "B:TST/RAWDATA"
   user: flp
 control:
   mode: "fairmq"
