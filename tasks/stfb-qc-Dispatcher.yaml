@@ -1,0 +1,91 @@
+name: stfb-qc-Dispatcher
+defaults:
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.15
+  memory: 128
+bind:
+  - name: from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: 0
+command:
+  shell: true
+  value: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
+    o2-dpl-raw-proxy -b --session default --dataspec "x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0" --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-qc -b --config {{ qc_config_uri }} | o2-dpl-output-proxy -b --session default --dataspec "x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0" --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"' | o2-qc
+  user: "{{ user }}"
+  arguments:
+    - "-b"
+    - "--monitoring-backend"
+    - "{{ monitoring_qc_url }}"
+    - "--session"
+    - "default"
+    - "--infologger-severity"
+    - "{{infologger_severity}}"
+    - "--infologger-mode"
+    - "{{infologger_mode}}"
+    - "--id"
+    - "'Dispatcher'"
+    - "--shm-monitor"
+    - "'false'"
+    - "--log-color"
+    - "'false'"
+    - "--aod-memory-rate-limit"
+    - "'0'"
+    - "--aod-writer-json"
+    - "''"
+    - "--aod-writer-keep"
+    - "''"
+    - "--aod-writer-ntfmerge"
+    - "-1"
+    - "--aod-writer-resfile"
+    - "''"
+    - "--aod-writer-resmode"
+    - "'RECREATE'"
+    - "--channel-prefix"
+    - "''"
+    - "--clone"
+    - "''"
+    - "--config"
+    - "'{{ qc_config_uri }}'"
+    - "--fairmq-ipc-prefix"
+    - "'/tmp/pkonopka'"
+    - "--fairmq-rate-logging"
+    - "'0'"
+    - "--fairmq-recv-buffer-size"
+    - "'1000'"
+    - "--fairmq-send-buffer-size"
+    - "'1000'"
+    - "--forwarding-destination"
+    - "'file'"
+    - "--forwarding-policy"
+    - "'dangling'"
+    - "--host"
+    - "''"
+    - "--pipeline"
+    - "''"
+    - "--readers"
+    - "'1'"
+    - "--severity"
+    - "'info'"
+    - "--shm-mlock-segment"
+    - "'false'"
+    - "--shm-segment-id"
+    - "'0'"
+    - "--shm-segment-size"
+    - "'2000000000'"
+    - "--shm-throw-bad-alloc"
+    - "'true'"
+    - "--shm-zero-segment"
+    - "'false'"
+    - "--stacktrace-on-signal"
+    - "'all'"
+    - "--workflow-suffix"
+    - "''"
+    - "--period-timer-stats"
+    - "'10000000'"
+    - "--driver-client-backend"
+    - "'ws://0.0.0.0:25243'"
