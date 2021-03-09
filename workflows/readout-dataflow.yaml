@@ -17,6 +17,7 @@ defaults:
   monitoring_dd_url: "no-op://"
   monitoring_readout_url: "no-op://"
   detector: TST
+  user: flp
 roles:
   - name: host-{{ it }}
     for:
@@ -93,7 +94,7 @@ roles:
             connect:
               - name: buildertosender
                 type: pull
-                target: "{{ Parent().Path }}.qc-subwf.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+                target: "{{ Parent().Path }}.qc-subwf.dpl-output-proxy:downstream"
                 rateLogging: "10"
             task:
               load: stfsender
@@ -116,62 +117,79 @@ roles:
             vars:
               qc_config_uri: consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/stfb_to_daqtask-{{ it }}
             roles:
-              - name: "stfb-raw-proxy"
-                connect:
-                  - name: "from_internal-dpl-clock_to_readout-proxy"
-                    target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
-                    type: "pull"
-                    rateLogging: "60"
-                  - name: "readout-proxy"
-                    target: "{{ Up(2).Path }}.stfb:dpl-chan"
-                    #target: "ipc:///tmp/stf-builder-dpl-pipe-0"
-                    transport: shmem
-                    type: "pull"
-                    rateLogging: "1"
-                task:
-                  load: stfb-raw-proxy
               - name: "internal-dpl-clock"
+                connect:
                 task:
-                  load: stfb-internal-dpl-clock
+                  load: stfb-qc-internal-dpl-clock
+              - name: "readout-proxy"
+                connect:
+                - name: from_internal-dpl-clock_to_readout-proxy
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+                  rateLogging: 0
+                - name: readout-proxy
+                  type: pull
+                  transport: shmem
+                  target: "{{ Up(2).Path }}.stfb:dpl-chan"
+                  rateLogging: 1
+                task:
+                  load: stfb-qc-readout-proxy
+              - name: "dpl-output-proxy"
+                connect:
+                - name: from_readout-proxy_to_dpl-output-proxy
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
+                  rateLogging: 0
+                task:
+                  load: stfb-qc-dpl-output-proxy
               - name: "Dispatcher"
                 connect:
-                  - name: "from_readout-proxy_to_Dispatcher"
-                    target: "{{Parent().Path}}.stfb-raw-proxy:from_readout-proxy_to_Dispatcher"
-                    type: "pull"
-                    rateLogging: "60"
-                  - name: "from_internal-dpl-clock_to_Dispatcher"
-                    target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
-                    type: "pull"
-                    rateLogging: "60"
+                - name: from_internal-dpl-clock_to_Dispatcher
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
+                  rateLogging: 0
+                - name: from_dpl-output-proxy_to_Dispatcher
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.dpl-output-proxy:from_dpl-output-proxy_to_Dispatcher"
+                  rateLogging: 0
                 task:
-                  load: stfb-qc-dispatcher
+                  load: stfb-qc-Dispatcher
               - name: "QC-TASK-RUNNER-dataDistribution"
                 connect:
-                  - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
-                    target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
-                    type: "pull"
-                    rateLogging: "60"
-                  - name: "from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
-                    target: "{{Parent().Path}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
-                    type: "pull"
-                    rateLogging: "60"
+                - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+                  rateLogging: 0
+                - name: from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+                  rateLogging: 0
                 task:
-                  load: stfb-qc-task-runner-dd
+                  load: stfb-qc-QC-TASK-RUNNER-dataDistribution
               - name: "QC-CHECK-RUNNER-QcCheck"
                 connect:
-                  - name: "from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
-                    target: "{{Parent().Path}}.QC-TASK-RUNNER-dataDistribution:from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
-                    type: "pull"
-                    rateLogging: "60"
+                - name: from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.QC-TASK-RUNNER-dataDistribution:from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+                  rateLogging: 0
                 task:
-                  load: stfb-qc-check-runner
-              # - name: "internal-dpl-global-binary-file-sink"
-              #   connect:
-              #     - name: "from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
-              #       target: "{{Parent().Path}}.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
-              #       type: "pull"
-              #   task:
-              #     load: stfb-internal-dpl-global-binary-file-sink
+                  load: stfb-qc-QC-CHECK-RUNNER-QcCheck
+              - name: "internal-dpl-global-binary-file-sink"
+                connect:
+                - name: from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
+                  rateLogging: 0
+                task:
+                  load: stfb-qc-internal-dpl-global-binary-file-sink
           - name: minimal-dpl-wf
             enabled: "{{  minimal_dpl_enabled == 'true' || dpl_workflow == 'minimal-dpl' }}"
             defaults:
