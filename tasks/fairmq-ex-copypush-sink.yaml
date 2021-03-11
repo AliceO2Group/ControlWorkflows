@@ -10,6 +10,7 @@ properties:
   color: false
 command:
   env: []
+  log: "{{ log_task_output }}"
   shell: true
   user: flp
   arguments: []
