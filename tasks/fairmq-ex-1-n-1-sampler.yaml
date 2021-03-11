@@ -1,4 +1,6 @@
 name: fairmq-ex-1-n-1-sampler # Name of the task, used as a unique identifier in workflows
+defaults:
+  log_task_output: none
 control:
   mode: fairmq  # The control mode to be used. This is "fairmq" for all FairMQ devices and "direct" otherwise.
 wants:          # Includes fields "cpu", "memory", "ports". The first two are float, respectively for number of cores
@@ -20,6 +22,9 @@ properties:             # Contains a key-value map of FairMQ properties to push
   color: false
 command:                # Specification of the command to run
   env: []               # List of strings, each of which is an environment variable to set like "VAR=value"
+  log: "{{ log_task_output }}"  # Allowed values: none (task output dropped),
+                                #                 stdout (output pushed to Mesos sandbox logs),
+                                #                 all (output pushed to Mesos sandbox as well as InfoLogger)
   shell: true           # Generally must be true if we use environment modules
   user: flp
   arguments: []         # List of arguments for the command

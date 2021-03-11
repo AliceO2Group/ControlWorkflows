@@ -1,12 +1,16 @@
 name: fairmq-shmmonitor
 defaults:
+  log_task_output: none
+defaults:
   user: flp
+  log: none
 control:
   mode: basic
 wants:
   cpu: 0.01
   memory: 3
 command:
+  log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
   value: >-

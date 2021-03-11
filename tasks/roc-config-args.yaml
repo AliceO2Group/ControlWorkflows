@@ -29,9 +29,11 @@ defaults:
   rocConfigTfLength: "256"
   rocConfigSystemId: "0x0"
   rocConfigFEEId: "0x0"
+  log_task_output: none
 command: 
   env:
     - INFOLOGGER_MODE={{ infologger_mode }}
+  log: "{{ log_task_output }}"
   shell: true
   value: >-
     source /etc/profile.d/modules.sh &&

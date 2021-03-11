@@ -1,6 +1,7 @@
 name: "fairmq-ex-1-n-1"        # The name of the root role, which happens to be an aggregator role.
 defaults:                      # Variable definitions: defaults, overridden by anything
   nProcessors: 4
+  log_task_output: none        # Affects task output, can be none, stdout or all
 vars: {}                       # Variable definitions: vars, override defaults, overridden by user vars.
 roles:                         # A list of child roles.
 # Parametrized name of an iterator role, which generates task roles.

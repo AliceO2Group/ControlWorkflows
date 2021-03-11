@@ -1,4 +1,6 @@
 name: fairmq-ex-copypush-sink
+defaults:
+  log_task_output: none
 control:
   mode: fairmq
 wants:

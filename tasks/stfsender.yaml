@@ -11,12 +11,14 @@ defaults:
   user: flp
   fmq_severity: info
   scheduler_check_cmd: '{{ ddsched_enabled == "true" ? "curl " + dd_discovery_endpoint + " -fs -o /dev/null &&" : "" }}'
+  log_task_output: none
 command:
   env:
     - INFOLOGGER_MODE={{infologger_mode}}
     - http_proxy=""
     - https_proxy=""
     - no_proxy=-ib,.internal
+  log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
   value: >-

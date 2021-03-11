@@ -18,6 +18,7 @@ defaults:
   monitoring_readout_url: "no-op://"
   detector: TST
   user: flp
+  log_task_output: none
 roles:
   - name: host-{{ it }}
     for:

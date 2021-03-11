@@ -2,6 +2,7 @@ name: readout # read by workflow
 defaults:
   readout_cfg_uri: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ task_hostname }}"
   user: flp
+  log_task_output: none
 control:
   mode: direct
 wants:
@@ -16,6 +17,7 @@ bind:
 properties: {}
 command: 
   env: []
+  log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
   arguments:

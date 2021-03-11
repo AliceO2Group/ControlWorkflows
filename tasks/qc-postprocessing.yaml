@@ -3,6 +3,7 @@ defaults:
   pp_task_name: "ExampleTrend"
   pp_task_period: "10"
   user: flp
+  log_task_output: none
 control:
   mode: direct
 wants:
@@ -12,6 +13,7 @@ properties:
   "qcConfiguration": "{{ ToPtree(GetConfig('qc/postprocessing'), 'json') }}"
 command:
   env: []
+  log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
   arguments:

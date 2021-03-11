@@ -24,6 +24,7 @@ All variables except **`hosts`** are optional.
 | Variable | Description | Example | Default |
 | :--- | :--- | :--- | :--- |
 | `hosts` | JSON-formatted list of hosts to control the scale of certain workflows | `["myhost1","myhost2"]` | `[]` |
+| `log_task_output` | Forward task output to InfoLogger and stdout, stdout only, or nowhere | `all`, `stdout` or `none` | depends on WFT, usually `none` |
 | `readout_cfg_uri` | URI of a Readout configuration payload | `consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ task_hostname }}` | depends on WFT |
 | `user` | Name of the Linux user that should run all tasks | `root` | `flp` |
 

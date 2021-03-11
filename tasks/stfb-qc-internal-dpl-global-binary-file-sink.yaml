@@ -1,5 +1,6 @@
 name: stfb-qc-internal-dpl-global-binary-file-sink
 defaults:
+  log_task_output: none
 control:
   mode: "fairmq"
 wants:
@@ -7,6 +8,7 @@ wants:
   memory: 128
 bind:
 command:
+  log: "{{ log_task_output }}"
   shell: true
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&

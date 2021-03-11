@@ -1,6 +1,7 @@
 name: readout-internal-dpl-global-binary-file-sink
 defaults:
   user: flp
+  log_task_output: none
 control:
   mode: "fairmq"
 wants:
@@ -11,6 +12,7 @@ connect:
     type: pull
     rateLogging: "60"
 command:
+  log: "{{ log_task_output }}"
   shell: true
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load QualityControl Control-OCCPlugin &&
