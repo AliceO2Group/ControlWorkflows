@@ -1,6 +1,7 @@
 name: "copypush"
 defaults:
   nSinks: 4
+  log_task_output: none
 roles:
   - name: "sink{{ it }}"
     for:
