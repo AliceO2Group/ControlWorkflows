@@ -1,5 +1,6 @@
 name: stfb-qc-internal-dpl-clock
 defaults:
+  log_task_output: none
 control:
   mode: "fairmq"
 wants:
@@ -22,6 +23,7 @@ bind:
     addressing: ipc
     rateLogging: 0
 command:
+  log: "{{ log_task_output }}"
   shell: true
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&

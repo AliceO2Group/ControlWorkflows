@@ -1,4 +1,6 @@
 name: "multichan"
+defaults:
+  log_task_output: none
 roles:
   - name: "sink"
     connect:

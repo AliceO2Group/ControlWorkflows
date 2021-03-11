@@ -7,9 +7,11 @@ wants:
 defaults:
   rocConfigBypassFwCheck: "false"
   rocConfigForceConfig: "false"
+  log_task_output: none
 command:
   env:
     - INFOLOGGER_MODE={{ infologger_mode }}
+  log: "{{ log_task_output }}"
   shell: true
   value: >-
     source /etc/profile.d/modules.sh &&

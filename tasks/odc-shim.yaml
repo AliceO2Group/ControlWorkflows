@@ -4,6 +4,7 @@ defaults:
   odc_port: "50051"
   user: flp
   odc_topology_path: /etc/o2.d/odc/ex-dds-topology-infinite.xml
+  log_task_output: none
 control:
   mode: direct
 wants:
@@ -17,6 +18,7 @@ command:
     - http_proxy=""
     - https_proxy=""
     - no_proxy=-ib,.internal
+  log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
   arguments:
