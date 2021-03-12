@@ -1,7 +1,6 @@
 name: fairmq-shmmonitor
 defaults:
   log_task_output: none
-defaults:
   user: flp
   log: none
 control:
