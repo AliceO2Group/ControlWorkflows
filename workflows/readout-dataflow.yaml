@@ -91,9 +91,9 @@ roles:
             enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || dpl_workflow == 'qc-daq')}}"
             vars:
               dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }}
-              stfs_input_channel_name: buildertosender
+              stfs_input_channel_name: downstream
             connect:
-              - name: buildertosender
+              - name: downstream
                 type: pull
                 target: "{{ Parent().Path }}.qc-subwf.dpl-output-proxy:downstream"
                 rateLogging: "10"
