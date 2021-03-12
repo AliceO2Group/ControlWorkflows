@@ -85,4 +85,4 @@ command:
     - "--outfile"
     - "'dpl-out.bin'"
     - "--driver-client-backend"
-    - "'ws://0.0.0.0:25243'"
+    - "'stdout://'"

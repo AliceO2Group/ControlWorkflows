@@ -90,4 +90,4 @@ command:
     - "--period-timer-stats"
     - "'10000000'"
     - "--driver-client-backend"
-    - "'ws://0.0.0.0:25243'"
+    - "'stdout://'"
