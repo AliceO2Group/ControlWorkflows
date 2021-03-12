@@ -11,7 +11,7 @@ defaults:
   stfb_standalone: "false"
   odc_enabled: "false"
   odcshim_enabled: "false"
-  roc_cleanup_enabled: "false"
+  roc_cleanup_enabled: "true"
   fmq_cleanup_enabled: "true"
   monitoring_dpl_url: "no-op://"
   monitoring_qc_url: "no-op://"
