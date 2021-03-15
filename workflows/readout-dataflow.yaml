@@ -95,11 +95,11 @@ roles:
             enabled: "{{stfb_standalone == 'false' && qcdd_enabled == 'true'}}"
             vars:
               dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }}
-              stfs_input_channel_name: buildertosender
+              stfs_input_channel_name: downstream
             connect:
-              - name: buildertosender
+              - name: downstream
                 type: pull
-                target: "{{ Parent().Path }}.qc-subwf.dpl-output-proxy:downstream"
+                target: "{{ Parent().Path }}.qc-daq.dpl-output-proxy:downstream"
                 rateLogging: "10"
             task:
               load: stfsender
@@ -127,7 +127,7 @@ roles:
                 rateLogging: "10"
             task:
               load: stfsender
-          - name: qc-subwf
+          - name: qc-daq
             enabled: "{{ qcdd_enabled == 'true' || dpl_workflow == 'qc-daq' }}"
             defaults:
               dpl_config: "/etc/flp.d/qc/stfb-qc.dpl.json"
