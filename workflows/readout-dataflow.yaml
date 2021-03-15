@@ -7,18 +7,20 @@ defaults:
   qcdd_enabled: "false" # qcdd_enabled and minimal_dpl_enabled cannot be both true!
   minimal_dpl_enabled: "false"
   dpl_workflow: "none" # if specified, we use dpl_worfklow to choose what is between STFB and STFS. Otherwise, we fall to the old choice mechanism.
-                       # available options: "none", "qc-daq", "minimal-dpl"
+                       # available options: "none", "qc-daq", "minimal-dpl", "tof-compressor"
   stfb_standalone: "false"
   odc_enabled: "false"
   odcshim_enabled: "false"
   roc_cleanup_enabled: "false"
   fmq_cleanup_enabled: "true"
+  monitoring_dpl_url: "no-op://"
   monitoring_qc_url: "no-op://"
   monitoring_dd_url: "no-op://"
   monitoring_readout_url: "no-op://"
   detector: TST
   user: flp
   log_task_output: none
+  fmq_rate_logging: 10
 roles:
   - name: host-{{ it }}
     for:
@@ -74,6 +76,8 @@ roles:
               load: stfsender
       - name: "data-distribution-dpl"
         enabled: "{{(qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none') && dd_enabled == 'true'}}"
+        defaults:
+          path_to_readout_proxy: "{{ Parent().Path }}.data-distribution-dpl.stfb:dpl-chan"
         roles:
           - name: "stfb"
             enabled: "{{stfb_standalone == 'false'}}"
@@ -88,7 +92,7 @@ roles:
               #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
               load: stfbuilder
           - name: "stfs"
-            enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || dpl_workflow == 'qc-daq')}}"
+            enabled: "{{stfb_standalone == 'false' && qcdd_enabled == 'true'}}"
             vars:
               dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }}
               stfs_input_channel_name: downstream
@@ -100,7 +104,7 @@ roles:
             task:
               load: stfsender
           - name: "stfs"
-            enabled: "{{stfb_standalone == 'false' && (minimal_dpl_enabled == 'true' || dpl_workflow == 'minimal-dpl')}}"
+            enabled: "{{stfb_standalone == 'false' && minimal_dpl_enabled == 'true'}}"
             vars:
               dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }}
               stfs_input_channel_name: downstream
@@ -108,6 +112,18 @@ roles:
               - name: downstream
                 type: pull
                 target: "{{ Parent().Path }}.minimal-dpl-wf.dpl-output-proxy:downstream" # we need some automatic way to find out the wf+task name
+                rateLogging: "10"
+            task:
+              load: stfsender
+          - name: "stfs" # this stfs is for any DPL workflow. We assume that it has a device dpl-output-proxy and a downstream channel
+            enabled: "{{stfb_standalone == 'false' && minimal_dpl_enabled == 'false' && qcdd_enabled == 'false' && dpl_workflow != 'none'}}"
+            vars:
+              dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }}
+              stfs_input_channel_name: downstream
+            connect:
+              - name: downstream
+                type: pull
+                target: "{{ Parent().Path }}.{{ dpl_workflow }}.dpl-output-proxy:downstream"
                 rateLogging: "10"
             task:
               load: stfsender
@@ -221,6 +237,58 @@ roles:
                   rateLogging": "10"
                 task:
                   load: minimal-dpl-dpl-output-proxy
+          - name: tof-compressor
+            # generated with:
+            # o2-dpl-raw-proxy -b --session default --dataspec "x:TOF/RAWDATA;dd/FLP/DISTSUBTIMEFRAME/0" --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
+            # | o2-tof-compressor -b --session default --tof-compressor-rdh-version 6 --tof-compressor-config "x:TOF/RAWDATA" \
+            # | o2-dpl-output-proxy -b --session default --dataspec "A:TOF/CRAWDATA;dd:FLP/DISTSUBTIMEFRAME/0" --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"'
+            enabled: "{{ dpl_workflow == 'tof-compressor' }}"
+            defaults:
+              monitoring_dpl_url: "no-op://"
+              user: "flp"
+              dpl_config: "/etc/flp.d/tof-compressor/tof-compressor.dpl.json"
+            roles:
+              - name: "internal-dpl-clock"
+                connect:
+                task:
+                  load: tof-compressor-internal-dpl-clock
+              - name: "readout-proxy"
+                connect:
+                - name: from_internal-dpl-clock_to_readout-proxy
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+                  rateLogging: 0
+                - name: readout-proxy
+                  type: pull
+                  transport: shmem
+                  target: "{{ path_to_readout_proxy }}"
+                  rateLogging: 1
+                task:
+                  load: tof-compressor-readout-proxy
+              - name: "tof-compressor-0"
+                connect:
+                - name: from_readout-proxy_to_tof-compressor-0
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0"
+                  rateLogging: 0
+                task:
+                  load: tof-compressor-tof-compressor-0
+              - name: "dpl-output-proxy"
+                connect:
+                - name: from_readout-proxy_to_dpl-output-proxy
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
+                  rateLogging: 0
+                - name: from_tof-compressor-0_to_dpl-output-proxy
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.tof-compressor-0:from_tof-compressor-0_to_dpl-output-proxy"
+                  rateLogging: 0
+                task:
+                  load: tof-compressor-dpl-output-proxy
       - name: roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
         defaults:
