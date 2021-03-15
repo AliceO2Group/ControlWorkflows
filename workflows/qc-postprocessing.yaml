@@ -1,8 +1,8 @@
 name: "qc-postprocessing"
 defaults:
   log_task_output: none
+  fmq_rate_logging: 0
 roles:
   - name: "qc-postprocessing-role"
     task:
       load: qc-postprocessing
-

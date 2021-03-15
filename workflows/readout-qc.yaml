@@ -4,6 +4,7 @@ defaults:
   monitoring_dd_url: "no-op://"
   monitoring_readout_url: "no-op://"
   log_task_output: none
+  fmq_rate_logging: 0
 roles:
   - name: readout-{{ it }}
     for:
@@ -33,13 +34,13 @@ roles:
           - name: "from_internal-dpl-clock_to_readout-proxy"
             target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
             type: "pull"
-            rateLogging: "60"
+            rateLogging: "{{ fmq_rate_logging }}"
           - name: "readout-proxy"
             target: "ipc:///tmp/readout-pipe-1"
             # readout-standalone.cfg [consumer-data-sampling] is hardcoded as channel "data-out" with type: pub and transport: zeromq
             # shmem is only possible in push-pull mode
             type: "sub"
-            rateLogging: "1"
+            rateLogging: "{{ fmq_rate_logging }}"
         task:
           load: readout-proxy
       - name: "internal-dpl-clock"
@@ -50,11 +51,11 @@ roles:
           - name: "from_readout-proxy_to_Dispatcher"
             target: "{{Parent().Path}}.readout-proxy:from_readout-proxy_to_Dispatcher"
             type: "pull"
-            rateLogging: "60"
+            rateLogging: "{{ fmq_rate_logging }}"
           - name: "from_internal-dpl-clock_to_Dispatcher"
             target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
             type: "pull"
-            rateLogging: "60"
+            rateLogging: "{{ fmq_rate_logging }}"
         task:
           load: readout-qc-dispatcher
       - name: "QC-TASK-RUNNER-daqTask"
@@ -62,11 +63,11 @@ roles:
           - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-daqTask"
             target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-daqTask"
             type: "pull"
-            rateLogging: "60"
+            rateLogging: "{{ fmq_rate_logging }}"
           - name: "from_Dispatcher_to_QC-TASK-RUNNER-daqTask"
             target: "{{Parent().Path}}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-daqTask"
             type: "pull"
-            rateLogging: "60"
+            rateLogging: "{{ fmq_rate_logging }}"
         task:
           load: readout-qc-task-runner
       - name: "QC-CHECK-RUNNER-Q4H0"
@@ -74,7 +75,7 @@ roles:
           - name: "from_QC-TASK-RUNNER-daqTask_to_QC-CHECK-RUNNER-Q4H0"
             target: "{{Parent().Path}}.QC-TASK-RUNNER-daqTask:from_QC-TASK-RUNNER-daqTask_to_QC-CHECK-RUNNER-Q4H0"
             type: "pull"
-            rateLogging: "60"
+            rateLogging: "{{ fmq_rate_logging }}"
         task:
           load: readout-qc-check-runner
       - name: "internal-dpl-global-binary-file-sink"

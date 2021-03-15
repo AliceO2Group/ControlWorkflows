@@ -48,7 +48,7 @@ roles:
               - name: readout
                 type: pull
                 target: "{{ Up(2).Path }}.readout:readout"
-                rateLogging: "1"
+                rateLogging: "{{ fmq_rate_logging }}"
             task:
               load: stfbuilder-nooutput
           - name: "stfb"
@@ -59,7 +59,7 @@ roles:
               - name: readout
                 type: pull
                 target: "{{ Up(2).Path }}.readout:readout"
-                rateLogging: "1"
+                rateLogging: "{{ fmq_rate_logging }}"
             task:
               load: stfbuilder-senderoutput
           - name: "stfs"
@@ -71,7 +71,7 @@ roles:
               - name: buildertosender
                 type: pull
                 target: "{{ Parent().Path }}.stfb:buildertosender"
-                rateLogging: "1"
+                rateLogging: "{{ fmq_rate_logging }}"
             task:
               load: stfsender
       - name: "data-distribution-dpl"
@@ -87,7 +87,7 @@ roles:
               - name: readout
                 type: pull
                 target: "{{ Up(2).Path }}.readout:readout"
-                rateLogging: "10"
+                rateLogging: "{{ fmq_rate_logging }}"
             task:
               #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
               load: stfbuilder
@@ -100,7 +100,7 @@ roles:
               - name: downstream
                 type: pull
                 target: "{{ Parent().Path }}.qc-daq.dpl-output-proxy:downstream"
-                rateLogging: "10"
+                rateLogging: "{{ fmq_rate_logging }}"
             task:
               load: stfsender
           - name: "stfs"
@@ -112,7 +112,7 @@ roles:
               - name: downstream
                 type: pull
                 target: "{{ Parent().Path }}.minimal-dpl-wf.dpl-output-proxy:downstream" # we need some automatic way to find out the wf+task name
-                rateLogging: "10"
+                rateLogging: "{{ fmq_rate_logging }}"
             task:
               load: stfsender
           - name: "stfs" # this stfs is for any DPL workflow. We assume that it has a device dpl-output-proxy and a downstream channel
@@ -124,7 +124,7 @@ roles:
               - name: downstream
                 type: pull
                 target: "{{ Parent().Path }}.{{ dpl_workflow }}.dpl-output-proxy:downstream"
-                rateLogging: "10"
+                rateLogging: "{{ fmq_rate_logging }}"
             task:
               load: stfsender
           - name: qc-daq
@@ -144,12 +144,12 @@ roles:
                   type: pull
                   transport: shmem
                   target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
-                  rateLogging: 0
+                  rateLogging: "{{ fmq_rate_logging }}"
                 - name: readout-proxy
                   type: pull
                   transport: shmem
                   target: "{{ Up(2).Path }}.stfb:dpl-chan"
-                  rateLogging: 1
+                  rateLogging: "{{ fmq_rate_logging }}"
                 task:
                   load: stfb-qc-readout-proxy
               - name: "dpl-output-proxy"
@@ -158,7 +158,7 @@ roles:
                   type: pull
                   transport: shmem
                   target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
-                  rateLogging: 0
+                  rateLogging: "{{ fmq_rate_logging }}"
                 task:
                   load: stfb-qc-dpl-output-proxy
               - name: "Dispatcher"
@@ -167,12 +167,12 @@ roles:
                   type: pull
                   transport: shmem
                   target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
-                  rateLogging: 0
+                  rateLogging: "{{ fmq_rate_logging }}"
                 - name: from_dpl-output-proxy_to_Dispatcher
                   type: pull
                   transport: shmem
                   target: "{{ Parent().Path }}.dpl-output-proxy:from_dpl-output-proxy_to_Dispatcher"
-                  rateLogging: 0
+                  rateLogging: "{{ fmq_rate_logging }}"
                 task:
                   load: stfb-qc-Dispatcher
               - name: "QC-TASK-RUNNER-dataDistribution"
@@ -181,12 +181,12 @@ roles:
                   type: pull
                   transport: shmem
                   target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
-                  rateLogging: 0
+                  rateLogging: "{{ fmq_rate_logging }}"
                 - name: from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution
                   type: pull
                   transport: shmem
                   target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
-                  rateLogging: 0
+                  rateLogging: "{{ fmq_rate_logging }}"
                 task:
                   load: stfb-qc-QC-TASK-RUNNER-dataDistribution
               - name: "QC-CHECK-RUNNER-QcCheck"
@@ -195,7 +195,7 @@ roles:
                   type: pull
                   transport: shmem
                   target: "{{ Parent().Path }}.QC-TASK-RUNNER-dataDistribution:from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
-                  rateLogging: 0
+                  rateLogging: "{{ fmq_rate_logging }}"
                 task:
                   load: stfb-qc-QC-CHECK-RUNNER-QcCheck
               - name: "internal-dpl-global-binary-file-sink"
@@ -204,7 +204,7 @@ roles:
                   type: pull
                   transport: shmem
                   target: "{{ Parent().Path }}.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-global-binary-file-sink"
-                  rateLogging: 0
+                  rateLogging: "{{ fmq_rate_logging }}"
                 task:
                   load: stfb-qc-internal-dpl-global-binary-file-sink
           - name: minimal-dpl-wf
@@ -221,12 +221,12 @@ roles:
                 - name: "from_internal-dpl-clock_to_readout-proxy"
                   target: "{{Parent().Path}}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
                   type: "pull"
-                  rateLogging: "60"
+                  rateLogging: "{{ fmq_rate_logging }}"
                 - name: "readout-proxy"
                   target: "{{ Up(2).Path }}.stfb:dpl-chan"
                   transport: shmem
                   type: "pull"
-                  rateLogging: "10"
+                  rateLogging: "{{ fmq_rate_logging }}"
                 task:
                   load: minimal-dpl-readout-proxy
               - name: "dpl-output-proxy"
@@ -234,7 +234,7 @@ roles:
                 - name: "from_readout-proxy_to_dpl-output-proxy"
                   target: "{{Parent().Path}}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
                   type: "pull"
-                  rateLogging": "10"
+                  rateLogging": "{{ fmq_rate_logging }}"
                 task:
                   load: minimal-dpl-dpl-output-proxy
           - name: tof-compressor
@@ -258,12 +258,12 @@ roles:
                   type: pull
                   transport: shmem
                   target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
-                  rateLogging: 0
+                  rateLogging: "{{ fmq_rate_logging }}"
                 - name: readout-proxy
                   type: pull
                   transport: shmem
                   target: "{{ path_to_readout_proxy }}"
-                  rateLogging: 1
+                  rateLogging: "{{ fmq_rate_logging }}"
                 task:
                   load: tof-compressor-readout-proxy
               - name: "tof-compressor-0"
@@ -272,7 +272,7 @@ roles:
                   type: pull
                   transport: shmem
                   target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0"
-                  rateLogging: 0
+                  rateLogging: "{{ fmq_rate_logging }}"
                 task:
                   load: tof-compressor-tof-compressor-0
               - name: "dpl-output-proxy"
@@ -281,12 +281,12 @@ roles:
                   type: pull
                   transport: shmem
                   target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
-                  rateLogging: 0
+                  rateLogging: "{{ fmq_rate_logging }}"
                 - name: from_tof-compressor-0_to_dpl-output-proxy
                   type: pull
                   transport: shmem
                   target: "{{ Parent().Path }}.tof-compressor-0:from_tof-compressor-0_to_dpl-output-proxy"
-                  rateLogging: 0
+                  rateLogging: "{{ fmq_rate_logging }}"
                 task:
                   load: tof-compressor-dpl-output-proxy
       - name: roc-ctp-emulators

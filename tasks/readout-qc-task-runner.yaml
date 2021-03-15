@@ -10,16 +10,16 @@ wants:
 connect:
   - name: "from_internal-dpl-clock_to_QC-TASK-RUNNER-daqTask"
     type: "pull"
-    rateLogging: "60"
+    rateLogging: "{{ fmq_rate_logging }}"
   - name: "from_Dispatcher_to_QC-TASK-RUNNER-daqTask"
     type: "pull"
-    rateLogging: "60"
+    rateLogging: "{{ fmq_rate_logging }}"
 bind:
   - name: "from_QC-TASK-RUNNER-daqTask_to_QC-CHECK-RUNNER-Q4H0"
     type: "push"
     transport: shmem
     addressing: ipc
-    rateLogging: "60"
+    rateLogging: "{{ fmq_rate_logging }}"
 command:
   log: "{{ log_task_output }}"
   shell: true
