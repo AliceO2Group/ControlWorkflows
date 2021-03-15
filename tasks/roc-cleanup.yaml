@@ -13,7 +13,7 @@ command:
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load ReadoutCard &&
     yes | roc-cleanup
-  arguements:
+  arguments:
     - "--light"
     
 # date > /etc/o2.d/last-roc-cleanup
