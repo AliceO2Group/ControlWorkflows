@@ -234,7 +234,7 @@ roles:
                 - name: "from_readout-proxy_to_dpl-output-proxy"
                   target: "{{Parent().Path}}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
                   type: "pull"
-                  rateLogging: "{{ fmq_rate_logging }}"
+                  rateLogging": "{{ fmq_rate_logging }}"
                 task:
                   load: minimal-dpl-dpl-output-proxy
           - name: tof-compressor
