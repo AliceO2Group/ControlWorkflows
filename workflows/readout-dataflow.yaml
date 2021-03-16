@@ -7,7 +7,7 @@ defaults:
   qcdd_enabled: "false" # qcdd_enabled and minimal_dpl_enabled cannot be both true!
   minimal_dpl_enabled: "false"
   dpl_workflow: "none" # if specified, we use dpl_worfklow to choose what is between STFB and STFS. Otherwise, we fall to the old choice mechanism.
-                       # available options: "none", "qc-daq", "minimal-dpl", "tof-compressor"
+                       # available options: "none", "qc-daq", "minimal-dpl", "tof-compressor", "hmpid-raw-qc"
   stfb_standalone: "false"
   odc_enabled: "false"
   odcshim_enabled: "false"
@@ -289,6 +289,79 @@ roles:
                   rateLogging: "{{ fmq_rate_logging }}"
                 task:
                   load: tof-compressor-dpl-output-proxy
+          - name: hmpid-raw-qc
+            enabled: "{{ dpl_workflow == 'hmpid-raw-qc' }}" 
+            defaults:
+              monitoring_dpl_url: "no-op://"
+              user: "flp"
+              dpl_config: "/etc/flp.d/hmpid-raw-qc/hmpid-raw-qc.dpl.json"
+              qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/hmpid_raw_qc-{{ it }}"
+              fmq_rate_logging: 0
+            roles:
+              - name: "internal-dpl-clock"
+                connect:
+                task:
+                  load: hmpid-raw-qc-internal-dpl-clock
+              - name: "readout-proxy"
+                connect:
+                - name: from_internal-dpl-clock_to_readout-proxy
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+                  rateLogging: 10
+                - name: readout-proxy
+                  type: pull
+                  transport: shmem
+                  target: "{{ path_to_readout_proxy }}"
+                  rateLogging: 10
+                task:
+                  load: hmpid-raw-qc-readout-proxy
+              - name: "dpl-output-proxy"
+                connect:
+                - name: from_readout-proxy_to_dpl-output-proxy
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
+                  rateLogging: 10
+                task:
+                  load: hmpid-raw-qc-dpl-output-proxy
+              - name: "Dispatcher"
+                connect:
+                - name: from_internal-dpl-clock_to_Dispatcher
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
+                  rateLogging: 10
+                - name: from_dpl-output-proxy_to_Dispatcher
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.dpl-output-proxy:from_dpl-output-proxy_to_Dispatcher"
+                  rateLogging: 10
+                task:
+                  load: hmpid-raw-qc-Dispatcher
+              - name: "QC-TASK-RUNNER-HMPIDRawTask"
+                connect:
+                - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-HMPIDRawTask
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-HMPIDRawTask"
+                  rateLogging: 10
+                - name: from_Dispatcher_to_QC-TASK-RUNNER-HMPIDRawTask
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-HMPIDRawTask"
+                  rateLogging: 10
+                task:
+                  load: hmpid-raw-qc-QC-TASK-RUNNER-HMPIDRawTask
+              - name: "QC-CHECK-RUNNER-sink-QC_HMPIDRawTask-mo_0"
+                connect:
+                - name: from_QC-TASK-RUNNER-HMPIDRawTask_to_QC-CHECK-RUNNER-sink-QC_HMPIDRawTask-mo_0
+                  type: pull
+                  transport: shmem
+                  target: "{{ Parent().Path }}.QC-TASK-RUNNER-HMPIDRawTask:from_QC-TASK-RUNNER-HMPIDRawTask_to_QC-CHECK-RUNNER-sink-QC_HMPIDRawTask-mo_0"
+                  rateLogging: 10
+                task:
+                  load: hmpid-raw-qc-QC-CHECK-RUNNER-sink-QC_HMPIDRawTask-mo_0
       - name: roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
         defaults:
