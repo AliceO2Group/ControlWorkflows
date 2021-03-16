@@ -2,7 +2,7 @@ name: minimal-dpl-internal-dpl-clock
 defaults:
   user: flp
   detector: TST
-  log_task_output: none
+  log_task_output: "none"
 control:
   mode: "fairmq"
 wants:
