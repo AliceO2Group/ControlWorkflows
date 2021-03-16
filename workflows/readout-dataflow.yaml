@@ -20,7 +20,7 @@ defaults:
   detector: TST
   user: flp
   log_task_output: none
-  fmq_rate_logging: 10
+  fmq_rate_logging: "10"
 roles:
   - name: host-{{ it }}
     for:
