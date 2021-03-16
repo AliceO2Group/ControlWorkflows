@@ -382,15 +382,15 @@ roles:
       - name: start
         call:
           func: odc.Start()
-          trigger: before_START
-          await: after_START
+          trigger: before_START_ACTIVITY
+          await: after_START_ACTIVITY
           timeout: 5s
           critical: true
       - name: stop
         call:
           func: odc.Stop()
-          trigger: before_STOP
-          await: after_STOP
+          trigger: before_STOP_ACTIVITY
+          await: after_STOP_ACTIVITY
           timeout: 5s
           critical: true
       - name: reset
