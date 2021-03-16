@@ -11,7 +11,7 @@ wants:
 bind:
   - name: readout
     type: push
-    rateLogging: "{{ fmq_rate_logging }}"
+    rateLogging: "1"
     addressing: ipc
     transport: shmem
 properties: {}

@@ -12,7 +12,7 @@ bind:
     type: "push"
     transport: shmem
     addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
+    rateLogging: "60"
 command:
   log: "{{ log_task_output }}"
   shell: true
