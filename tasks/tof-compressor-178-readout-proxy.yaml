@@ -1,0 +1,275 @@
+name: tof-compressor-178-readout-proxy
+defaults:
+  log_task_output: none
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.15
+  memory: 128
+bind:
+  - name: from_readout-proxy_to_tof-compressor-0
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-1
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-10
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-11
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-12
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-13
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-14
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-15
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-16
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-17
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-18
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-19
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-2
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-20
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-21
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-22
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-23
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-24
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-25
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-26
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-27
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-28
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-29
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-3
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-30
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-31
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-32
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-33
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-34
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-35
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-4
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-5
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-6
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-7
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-8
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_tof-compressor-9
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_dpl-output-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+command:
+  shell: true
+  log: "{{ log_task_output }}"
+  user: "{{ user }}"
+  value: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
+    {{ dpl_command }} | o2-dpl-raw-proxy
+  arguments:
+    - "-b"
+    - "--monitoring-backend"
+    - "'{{ monitoring_dpl_url }}'"
+    - "--session"
+    - "'default'"
+    - "--infologger-severity"
+    - "'{{ infologger_severity }}'"
+    - "--infologger-mode"
+    - "'{{ infologger_mode }}'"
+    - "--driver-client-backend"
+    - "'stdout://'"
+    - "--shm-segment-size"
+    - "'{{ shm_segment_size }}'"
+    - "--shm-throw-bad-alloc"
+    - "'{{ shm_throw_bad_alloc }}'"
+    - "--id"
+    - "'readout-proxy'"
+    - "--shm-monitor"
+    - "'false'"
+    - "--log-color"
+    - "'false'"
+    - "--aod-memory-rate-limit"
+    - "'0'"
+    - "--aod-writer-json"
+    - "''"
+    - "--aod-writer-keep"
+    - "''"
+    - "--aod-writer-ntfmerge"
+    - "-1"
+    - "--aod-writer-resfile"
+    - "''"
+    - "--aod-writer-resmode"
+    - "'RECREATE'"
+    - "--channel-prefix"
+    - "''"
+    - "--clone"
+    - "''"
+    - "--dataspec"
+    - "'x0:TOF/RAWDATA/0;x1:TOF/RAWDATA/1;x2:TOF/RAWDATA/2;x3:TOF/RAWDATA/3;x4:TOF/RAWDATA/4;x5:TOF/RAWDATA/5;x6:TOF/RAWDATA/6;x7:TOF/RAWDATA/7;x8:TOF/RAWDATA/8;x9:TOF/RAWDATA/9;x10:TOF/RAWDATA/10;x11:TOF/RAWDATA/11;x12:TOF/RAWDATA/12;x13:TOF/RAWDATA/13;x14:TOF/RAWDATA/14;x15:TOF/RAWDATA/15;x16:TOF/RAWDATA/16;x17:TOF/RAWDATA/17;x18:TOF/RAWDATA/18;x19:TOF/RAWDATA/19;x56:TOF/RAWDATA/56;x57:TOF/RAWDATA/57;x58:TOF/RAWDATA/58;x59:TOF/RAWDATA/59;x60:TOF/RAWDATA/60;x61:TOF/RAWDATA/61;x62:TOF/RAWDATA/62;x63:TOF/RAWDATA/63;x64:TOF/RAWDATA/64;x65:TOF/RAWDATA/65;x66:TOF/RAWDATA/66;x67:TOF/RAWDATA/67;x68:TOF/RAWDATA/68;x69:TOF/RAWDATA/69;x70:TOF/RAWDATA/70;x71:TOF/RAWDATA/71;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "--fairmq-ipc-prefix"
+    - "'/tmp'"
+    - "--fairmq-rate-logging"
+    - "'0'"
+    - "--fairmq-recv-buffer-size"
+    - "'1000'"
+    - "--fairmq-send-buffer-size"
+    - "'1000'"
+    - "--forwarding-destination"
+    - "'drop'"
+    - "--forwarding-policy"
+    - "'dangling'"
+    - "--pipeline"
+    - "''"
+    - "--readers"
+    - "'1'"
+    - "--severity"
+    - "'info'"
+    - "--shm-mlock-segment"
+    - "'false'"
+    - "--shm-segment-id"
+    - "'0'"
+    - "--shm-zero-segment"
+    - "'false'"
+    - "--stacktrace-on-signal"
+    - "'all'"
+    - "--workflow-suffix"
+    - "''"
+    - "--end-value-enumeration"
+    - "-1"
+    - "--start-value-enumeration"
+    - "'0'"
+    - "--step-value-enumeration"
+    - "'1'"

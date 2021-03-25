@@ -1,0 +1,95 @@
+name: tof-compressor-179-tof-compressor-29
+defaults:
+  log_task_output: none
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.15
+  memory: 128
+bind:
+  - name: from_tof-compressor-29_to_dpl-output-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+command:
+  shell: true
+  log: "{{ log_task_output }}"
+  user: "{{ user }}"
+  value: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
+    {{ dpl_command }} | o2-tof-compressor
+  arguments:
+    - "-b"
+    - "--monitoring-backend"
+    - "'{{ monitoring_dpl_url }}'"
+    - "--session"
+    - "'default'"
+    - "--infologger-severity"
+    - "'{{ infologger_severity }}'"
+    - "--infologger-mode"
+    - "'{{ infologger_mode }}'"
+    - "--driver-client-backend"
+    - "'stdout://'"
+    - "--shm-segment-size"
+    - "'{{ shm_segment_size }}'"
+    - "--shm-throw-bad-alloc"
+    - "'{{ shm_throw_bad_alloc }}'"
+    - "--id"
+    - "'tof-compressor-29'"
+    - "--shm-monitor"
+    - "'false'"
+    - "--log-color"
+    - "'false'"
+    - "--aod-memory-rate-limit"
+    - "'0'"
+    - "--aod-writer-json"
+    - "''"
+    - "--aod-writer-keep"
+    - "''"
+    - "--aod-writer-ntfmerge"
+    - "-1"
+    - "--aod-writer-resfile"
+    - "''"
+    - "--aod-writer-resmode"
+    - "'RECREATE'"
+    - "--channel-prefix"
+    - "''"
+    - "--clone"
+    - "''"
+    - "--fairmq-ipc-prefix"
+    - "'/tmp'"
+    - "--fairmq-rate-logging"
+    - "'0'"
+    - "--fairmq-recv-buffer-size"
+    - "'1000'"
+    - "--fairmq-send-buffer-size"
+    - "'1000'"
+    - "--forwarding-destination"
+    - "'drop'"
+    - "--forwarding-policy"
+    - "'dangling'"
+    - "--pipeline"
+    - "''"
+    - "--readers"
+    - "'1'"
+    - "--severity"
+    - "'info'"
+    - "--shm-mlock-segment"
+    - "'false'"
+    - "--shm-segment-id"
+    - "'0'"
+    - "--shm-zero-segment"
+    - "'false'"
+    - "--stacktrace-on-signal"
+    - "'all'"
+    - "--tof-compressor-config"
+    - "'x20:TOF/RAWDATA/20,x21:TOF/RAWDATA/21,x22:TOF/RAWDATA/22,x23:TOF/RAWDATA/23,x24:TOF/RAWDATA/24,x25:TOF/RAWDATA/25,x26:TOF/RAWDATA/26,x27:TOF/RAWDATA/27,x28:TOF/RAWDATA/28,x30:TOF/RAWDATA/30,x31:TOF/RAWDATA/31,x33:TOF/RAWDATA/33,x34:TOF/RAWDATA/34,x35:TOF/RAWDATA/35,x36:TOF/RAWDATA/36,x37:TOF/RAWDATA/37,x38:TOF/RAWDATA/38,x39:TOF/RAWDATA/39,x40:TOF/RAWDATA/40,x41:TOF/RAWDATA/41,x42:TOF/RAWDATA/42,x43:TOF/RAWDATA/43,x44:TOF/RAWDATA/44,x45:TOF/RAWDATA/45,x46:TOF/RAWDATA/46,x47:TOF/RAWDATA/47,x48:TOF/RAWDATA/48,x49:TOF/RAWDATA/49,x50:TOF/RAWDATA/50,x51:TOF/RAWDATA/51,x52:TOF/RAWDATA/52,x53:TOF/RAWDATA/53,x54:TOF/RAWDATA/54,x55:TOF/RAWDATA/55'"
+    - "--tof-compressor-output-desc"
+    - "'CRAWDATA'"
+    - "--tof-compressor-rdh-version"
+    - "'6'"
+    - "--workflow-suffix"
+    - "''"
+    - "--tof-compressor-output-buffer-size"
+    - "'0'"
