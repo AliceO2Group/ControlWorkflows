@@ -1,9 +1,17 @@
-name: "fairmq-ex-1-n-1"        # The name of the root role, which happens to be an aggregator role.
-defaults:                      # Variable definitions: defaults, overridden by anything
+name: "fairmq-ex-1-n-1-main"
+defaults:
   nProcessors: 4
-vars: {}                       # Variable definitions: vars, override defaults, overridden by user vars.
-roles:                         # A list of child roles.
+  defA: "defA"
+  defB: "defB"
+  defC: "defC"
+vars:
+  varA: "varA"
+roles:
   - name: "processor{{ it }}"
+    defaults:
+      defB: "{{defB}}-{{it}}"
+    vars:
+      varI: "{{varA}}-{{it}}"
     for:
       begin: 1
       end: "{{ nProcessors }}"

@@ -1,4 +1,8 @@
 name: processors-subwf
+defaults:
+  defA: "defAoverridden"
+vars:
+  varA: "varAoverridden"
 roles:
   - name: "processor"
     connect:
