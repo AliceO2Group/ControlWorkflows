@@ -1,0 +1,18 @@
+name: processors-subwf
+roles:
+  - name: "processor"
+    connect:
+      - name: "data1"
+        target: "{{ Up(2).Path }}.sampler:data1"
+        type: "pull"
+        sndBufSize: 1000
+        rcvBufSize: 1000
+        rateLogging: 0
+      - name: "data2"
+        target: "{{ Up(2).Path }}.sink:data2" # Same as {{ parent }}.sink:data2
+        type: "push"
+        sndBufSize: 1000
+        rcvBufSize: 1000
+        rateLogging: 0
+    task:
+      load: fairmq-ex-1-n-1-processor

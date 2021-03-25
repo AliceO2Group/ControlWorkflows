@@ -1,0 +1,17 @@
+name: "fairmq-ex-1-n-1"        # The name of the root role, which happens to be an aggregator role.
+defaults:                      # Variable definitions: defaults, overridden by anything
+  nProcessors: 4
+vars: {}                       # Variable definitions: vars, override defaults, overridden by user vars.
+roles:                         # A list of child roles.
+  - name: "processor{{ it }}"
+    for:
+      begin: 1
+      end: "{{ nProcessors }}"
+      var: it
+    include: fairmq-ex-1-n-1-processors
+  - name: "sampler"
+    task:
+      load: fairmq-ex-1-n-1-sampler
+  - name: "sink"
+    task:
+      load: fairmq-ex-1-n-1-sink
