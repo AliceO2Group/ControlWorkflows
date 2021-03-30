@@ -17,7 +17,6 @@ defaults:
   monitoring_qc_url: "no-op://"
   monitoring_dd_url: "no-op://"
   monitoring_readout_url: "no-op://"
-  detector: TST
   user: flp
   log_task_output: none
   fmq_rate_logging: "10"
@@ -26,6 +25,8 @@ roles:
     for:
       range: "{{ hosts }}"
       var: it
+    defaults:
+      detector: "{{DetectorForHost( it )}}"
     vars:
       readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ it }}"
       readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-stfb-{{ it }}"
