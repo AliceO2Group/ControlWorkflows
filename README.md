@@ -56,10 +56,12 @@ All variables are optional.
 
 | Variable | Description | Default |
 | :--- | :--- | :--- |
-| `odc_enabled` | If true and if the DCS plugin is enabled and configured, AliECS interfaces with the DCS service | `false` |
+| `dcs_enabled` | If true and if the DCS plugin is enabled and configured, AliECS interfaces with the DCS service | `false` |
 | `dcs_detectors` | The list of detectors for DCS SOR/EOR, passed as JSON list (see [protofile](https://github.com/AliceO2Group/Control/blob/master/core/integration/dcs/protos/dcs.proto#L135) for allowed values) | `["NULL_DETECTOR"]` |
 | `dcs_sor_parameters` | A key-value map of string parameters for DCS SOR, passed as JSON object | `{}` (empty JSON document) |
 | `dcs_eor_parameters` | A key-value map of string parameters for DCS EOR, passed as JSON object | `{}` (empty JSON document) |
+
+Example: `coconut env create -w readout-dataflow -e '{"hosts":"[\"alio2-cr1-flp999\"]","dcs_enabled":"true","dcs_detectors":"[\"TPC\",\"ITS\"]"}'`
 
 ### DD scheduler
 
