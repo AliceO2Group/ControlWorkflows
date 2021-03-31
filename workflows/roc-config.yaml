@@ -2,22 +2,35 @@ name: o2-roc-config
 defaults:
   roc_config_uri_enabled: "true"
   log_task_output: none
+  consul_port: 8500
+  consul_prefix: "o2/components/readoutcard"
 roles:
   - name: host-{{ it }}
     for:
       range: "{{ hosts }}"
       var: it
+    defaults:
+      cards: "{{CRUCardsForHost( it )}}"
+      host: "{{ it }}"
     constraints:
       - attribute: machine_id
         value: "{{ it }}"
     roles:
-      - name: roc-config-uri
-        enabled: "{{roc_config_uri_enabled == 'true'}}"
-        task:
-          load: "roc-config-uri"
-          timeout: 10s
-      - name: roc-config-args
-        enabled: "{{roc_config_uri_enabled != 'true'}}"
-        task:
-          load: "roc-config-args"
-          timeout: 10s
+      - name: card-{{ card }}
+        for:
+          range: "{{ cards }}"
+          var: card
+        vars:
+          card: "{{ card }}"
+          card_endpoints: "{{EndpointsForCRUCard( host, card )}}"
+        roles:
+          - name: roc-config-uri
+            enabled: "{{roc_config_uri_enabled == 'true'}}"
+            task:
+              load: "roc-config-uri"
+              timeout: 10s
+          - name: roc-config-args
+            enabled: "{{roc_config_uri_enabled != 'true'}}"
+            task:
+              load: "roc-config-args"
+              timeout: 10s
