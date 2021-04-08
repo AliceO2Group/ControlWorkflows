@@ -33,3 +33,4 @@ command:
     - "--severity={{ fmq_severity }}"
     - "--severity-infologger={{ infologger_severity }}"
     - "--output-channel-name=buildertosender"
+    - "--shm-monitor=false"

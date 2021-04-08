@@ -36,3 +36,4 @@ command:
     - "--discovery-endpoint={{ dd_discovery_endpoint }}"
     - "--discovery-net-if={{ dd_discovery_net_if }}"
     - '{{ ddsched_enabled == "true" ? "" : "--stand-alone" }}'
+    - "--shm-monitor=false"
