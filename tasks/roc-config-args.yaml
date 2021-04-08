@@ -32,13 +32,13 @@ defaults:
   log_task_output: none
 command: 
   env:
-    - INFOLOGGER_MODE={{ infologger_mode }}
+    - O2_INFOLOGGER_MODE={{ infologger_mode }}
   log: "{{ log_task_output }}"
   shell: true
   value: >-
     source /etc/profile.d/modules.sh &&
     MODULEPATH={{ modulepath }} module load ReadoutCard &&
-    roc-config
+    o2-roc-config
   arguments:
     - "--id"
     - "{{ rocConfigId }}"

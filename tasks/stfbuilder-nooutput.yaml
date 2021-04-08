@@ -11,7 +11,7 @@ wants:
   cpu: 0.15
   memory: 128
 command:
-  env: ["INFOLOGGER_MODE={{infologger_mode}}"]
+  env: ["O2_INFOLOGGER_MODE={{infologger_mode}}"]
   log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"

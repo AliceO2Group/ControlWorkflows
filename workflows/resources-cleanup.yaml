@@ -17,8 +17,8 @@ roles:
         task:
           load: "fairmq-shmmonitor"
           timeout: 10s
-      - name: roc-cleanup
+      - name: o2-roc-cleanup
         enabled: "{{roc_cleanup_enabled == 'true'}}"
         task:
-          load: "roc-cleanup"
+          load: "o2-roc-cleanup"
           timeout: 10s
