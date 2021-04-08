@@ -38,44 +38,32 @@ command:
   value: >-
     source /etc/profile.d/modules.sh &&
     MODULEPATH={{ modulepath }} module load ReadoutCard &&
-    o2-roc-config
-  arguments:
-    - "--id"
-    - "{{ rocConfigId }}"
-    - "--links"
-    - "{{ rocConfigLinks }}"
-    - "{{ rocConfigAllowRejection == 'true' ? '--allow-rejection' : '' }}"
-    - "--clock"
-    - "{{ rocConfigClock }}"
-    - "--cru-id"
-    - "{{ rocConfigCruId }}"
-    - "--crorc-id"
-    - "{{ rocConfigCrocId }}"
-    - "--datapathmode"
-    - "{{ rocConfigDatapathMode }}"
-    - "--downstreamdata"
-    - "{{ rocConfigDownstreamData }}"
-    - "--gbtmode"
-    - "{{ rocConfigGbtMode }}"
-    - "--gbtmux"
-    - "{{ rocConfigGbtMux }}"
-    - "{{ rocConfigLoopback == 'true' ? '--loopback' : '' }}"
-    - "{{ rocConfigPonUpstream == 'true' ? '--pon-upstream' : '' }}"
-    - "{{ rocConfigDynOffset == 'true' ? '--dyn-offset' : '' }}"
-    - "--onu-address"
-    - "{{ rocConfigOnuAddress }}"
-    - "{{ rocConfigForceConfig == 'true' ? '--force-config' : '' }}"
-    - "{{ rocConfigBypassFwCheck == 'true' ? '--bypass-fw-check' : '' }}"
-    - "--trigger-window-size"
-    - "{{ rocConfigTriggerWindowSize }}"
-    - "{{ rocConfigNoGBT == 'true' ? '--no-gbt' : '' }}"
-    - "{{ rocConfigUserLogic == 'true' ? '--user-logic' : '' }}"
-    - "{{ rocConfigRunStats == 'true' ? '--run-stats' : '' }}"
-    - "{{ rocConfigUserAndCommonLogic == 'true' ? '--user-and-common-logic' : '' }}"
-    - "{{ rocConfigNoTfDetection == 'true' ? '--no-tf-detection' : '' }}"
-    - "--tf-length"
-    - "{{ rocConfigTfLength }}"
-    - "--system-id"
-    - "{{ rocConfigSystemId }}"
-    - "--fee-id"
-    - "{{ rocConfigFEEId }}"
+    for endpoint in {{ card_endpoints }}
+    do
+      o2-roc-config \
+      --id={{ card }}:$endpoint \
+      --links {{ rocConfigLinks }} \
+      {{ rocConfigAllowRejection == 'true' ? --allow-rejection }} \
+      --clock {{ rocConfigClock }} \
+      --cru-id {{ rocConfigCruId }} \
+      --crorc-id {{ rocConfigCrocId }} \
+      --datapathmode {{ rocConfigDatapathMode }} \
+      --downstreamdata {{ rocConfigDownstreamData }} \
+      --gbtmode {{ rocConfigGbtMode }} \
+      --gbtmux {{ rocConfigGbtMux }} \
+      {{ rocConfigLoopback == 'true' ? --loopback \ }}
+      {{ rocConfigPonUpstream == 'true' ? --pon-upstream \ }} 
+      {{ rocConfigDynOffset == 'true' ? --dyn-offset \ }} 
+      --onu-address {{ rocConfigOnuAddress }} \
+      {{ rocConfigForceConfig == 'true' ? --force-config \ }}
+      {{ rocConfigBypassFwCheck == 'true' ? --bypass-fw-check \ }}
+      --trigger-window-size {{ rocConfigTriggerWindowSize }} \
+      {{ rocConfigNoGBT == 'true' ? --no-gbt \ }}
+      {{ rocConfigUserLogic == 'true' ? --user-logic \ }}
+      {{ rocConfigRunStats == 'true' ? --run-stats }}
+      {{ rocConfigUserAndCommonLogic == 'true' ? --user-and-common-logic \ }}
+      {{ rocConfigNoTfDetection == 'true' ? --no-tf-detection \ }}
+      --tf-length {{ rocConfigTfLength }} \
+      --system-id {{ rocConfigSystemId }} \
+      --fee-id {{ rocConfigFEEId }}
+    done
