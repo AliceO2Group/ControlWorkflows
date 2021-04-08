@@ -187,3 +187,163 @@ These checks are ran automatically against:
 *  `walnut` version: [Control/master](https://github.com/AliceO2Group/Control/tree/master/)
 
 Source code can be found [here.](.github/workflows/template.yml)
+
+# Exporting DPL workflow templates
+
+This piece of documentation explains how to generate a DPL workflow template which should run on an FLP.
+
+All FLPs use the `readout-dataflow` workflow to run the common pieces of software - Readout, STFBuilder, STFSender, ROC and others.
+It can also include one DPL sub-workflow which may perform some data processing and/or quality control.
+
+## Preparing the DPL command
+
+Before exporting the workflow, one should prepare a DPL command which is able to get data from STFBuilder, process it and send the results to the STFSender.
+The first and the last requirements are handled by the input and output DPL proxies.
+The simplest possible DPL workflow command for an FLP receives data from STFBuilder and passes it to STFSender without any processing:
+```bash
+o2-dpl-raw-proxy -b --session default \
+  --dataspec 'x:TST/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
+  --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
+  | o2-dpl-output-proxy -b --session default \
+  --dataspec 'x:TST/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
+  --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"'
+```
+The `--dataspec` arguments define what kind of data is expected both in the input and output proxies.
+The `readout-dataflow` workflow requires that the input proxy contains a channel named `readout-proxy`, while the output proxy should provide the channel `downstream`.
+This way the AliECS can find the other ends of the channels used by the STFBuilder and STFSender to send and receive data.
+There can be only one set of proxies interacting with Data Distribution at the same time.
+The pipe `|` character connects the two or more workflows by letting the preceding one transfer its structure to the next one and letting the last execute all the processes (the pipe does not transfer data, just the workflow configuration!).
+
+Let's consider a more realistic example - the PHOS compressor.
+In such case, the DPL command looks as follows:
+```bash
+o2-dpl-raw-proxy -b --session default \
+  --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
+  --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
+  | o2-phos-reco-workflow -b --input-type raw --output-type cells --session default --disable-root-output \
+  | o2-dpl-output-proxy -b --session default \
+  --dataspec 'A:PHS/CELLS/0;dd:FLP/DISTSUBTIMEFRAME/0' \
+  --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"'
+```
+Notice that the `dataspecs` of the I/O proxies were changed accordingly to the expected data origin and description.
+If you do not know what these should be, you should ask the developer of the workflow in question or investigate yourself the workflow structure by executing it with the `--dump` argument.
+
+While preparing the DPL command, please avoid adding Data Processors which dump data to local files - these might get big during the data-taking and use all available resources.
+Also, this particular workflow structure does not depend on any configuration files, so it always stays the same, unlike QC workflows.
+We will consider such cases [later in the documentation](#exporting-templates-of-workflows-which-need-configuration-files).
+
+## Exporting the templates
+
+Please make sure that you have built and compiled the same software stack on your setup as the one which will run on the target machines.
+If different versions are used, there is a risk that the workflows will not be deployed correctly in case that they were modified.
+Exporting workflow templates is possible since O2@v21.14.
+
+To export a workflow template, follow these steps:
+1. Load the O2 (and QC if needed) environment:
+```bash
+alienv enter O2/latest
+# or
+alienv enter QualityControl/latest # will load also O2
+```
+2. Go to your local ControlWorkflows repository (clone if needed), preferably create a new branch from master.
+3. Run the DPL command with `--o2-control <workflow-name>` argument at the end. For example:
+```bash
+o2-dpl-raw-proxy -b --session default \
+  --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
+  --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
+  | o2-phos-reco-workflow -b --input-type raw --output-type cells --session default --disable-root-output \
+  | o2-dpl-output-proxy -b --session default \
+  --dataspec 'A:PHS/CELLS/0;dd:FLP/DISTSUBTIMEFRAME/0' \
+  --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"' \
+  --o2-control phos-compressor
+```
+If there are no problems with the workflow, you will see a similar output:
+```bash
+[INFO] Dumping the workflow configuration for AliECS.
+[INFO] Creating directories 'workflows' and 'tasks'.
+[INFO] ... created.
+[INFO] Creating a workflow dump 'phos-compressor'.
+[INFO] This topology will connect to the channel 'readout-proxy', which is most likely bound outside. Please provide the path to this channel under the name 'path_to_readout_proxy' in the mother workflow.
+[INFO] Creating a task dump for 'internal-dpl-clock'.
+[INFO] ...created.
+[INFO] Creating a task dump for 'readout-proxy'.
+[INFO] ...created.
+[INFO] Creating a task dump for 'PHOSRawToCellConverterSpec'.
+[INFO] ...created.
+[INFO] Creating a task dump for 'dpl-output-proxy'.
+[INFO] This topology will bind a dangling channel 'downstream'. Please make sure that another device connects to this channel elsewhere.
+[INFO] ...created.
+[INFO] Creating a task dump for 'internal-dpl-injected-dummy-sink'.
+[INFO] ...created.
+```
+The corresponding workflow template (list of processes to run) will be created in the `workflows` directory and the tasks templates (processes configurations) will be put under the `tasks` directory.
+
+4. Commit the new files and push to a remote branch.
+One can run it by pointing the AliECS to respective branch, choosing the `readout-dataflow` workflow in the AliECS GUI and adding the parameter `dpl_workflow : <workflow_name>` in the advanced configuration.
+After confirming that it works, make a PR to the main ControlWorkflows' master branch.
+
+## Exporting templates of workflows which need configuration files
+
+Some DPL workflows require configuration files to run correctly.
+Also the process names, channel names and their arrangement might depend on such configuration files.
+Quality Control workflows fall into this category.
+In such case, exporting templates require a bit more babysitting.
+
+Let's consider a workflow consisting of I/O proxies, MFT decoder and MFT Digit QC Task:
+```bash
+o2-dpl-raw-proxy -b --session default \
+  --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
+  --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
+  | o2-itsmft-stf-decoder-workflow -b --runmft --digits --no-clusters --no-cluster-patterns \
+  | o2-dpl-output-proxy -b --session default \
+  --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
+  --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
+  | o2-qc -b --config json://'${QUALITYCONTROL_ROOT}'/etc/mft-digit-qc-task-FLP-0-TaskLevel-0.json
+```
+If we were to generate and use such workflow template, the QC would look for the QC configuration file under the same path as during the export, which might not be accesible on the target machine.
+Thus, we will substitute it with the expected path of such file in Consul (the configuration store).
+To do so, one may follow the script below (see the associated comments):
+```bash
+#!/usr/bin/env bash
+set -x; # debug mode
+set -e; # exit on error
+set -u; # exit on undefined variable
+
+# Variables
+WF_NAME=mft-digits-qc
+QC_GEN_CONFIG_PATH='json://'${QUALITYCONTROL_ROOT}'/etc/mft-digit-qc-task-FLP-0-TaskLevel-0.json'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/'${WF_NAME}'-{{ it }}'
+QC_CONFIG_PARAM='qc_config_uri'
+
+# Generate the AliECS workflow and task templates
+o2-dpl-raw-proxy -b --session default \
+  --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
+  --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
+  | o2-itsmft-stf-decoder-workflow -b --runmft --digits --no-clusters --no-cluster-patterns \
+  | o2-dpl-output-proxy -b --session default \
+  --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
+  --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
+  | o2-qc --config ${QC_GEN_CONFIG_PATH} -b \
+  --o2-control $WF_NAME
+
+# Add the final QC config file path as a variable in the workflow template
+ESCAPED_QC_FINAL_CONFIG_PATH=$(printf '%s\n' "$QC_FINAL_CONFIG_PATH" | sed -e 's/[\/&]/\\&/g')
+# Will work only with GNU sed (Mac uses BSD sed)
+sed -i /defaults:/\ a\\\ \\\ "${QC_CONFIG_PARAM}":\ \""${ESCAPED_QC_FINAL_CONFIG_PATH}"\" workflows/${WF_NAME}.yaml
+
+# Find all usages of the QC config path which was used to generate the workflow and replace them with the template variable
+ESCAPED_QC_GEN_CONFIG_PATH=$(printf '%s\n' "$QC_GEN_CONFIG_PATH" | sed -e 's/[]\/$*.^[]/\\&/g');
+# Will work only with GNU sed (Mac uses BSD sed)
+sed -i "s/""${ESCAPED_QC_GEN_CONFIG_PATH}""/{{ ""${QC_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME}.yaml tasks/${WF_NAME}-*
+```
+
+After these steps, the workflow should be ready to be committed and tested.
+However, one should also make sure that the required config file is available in Consul under the correct path.
+To do so, one can add it using the Consul GUI (Key/Value panel).
+Otherwise, to install it with each FLP suite, one should add a file template in the [System configuration](https://gitlab.cern.ch/AliceO2Group/system-configuration/) repository under the path `ansible/roles/quality-control/templates` similarly to the other QC files (if it is actually QC).
+Then one should add a new sub-task in `ansible/roles/quality-control/tasks/main.yml` which installs the file (see similar sub-tasks as examples).
+
+## Future improvements
+
+With the future releases we plan to allow for Just-In-Time workflow translation.
+It means that one will not have to export the templates manually anymore and they will only need to provide a file with the standalone DPL command.
