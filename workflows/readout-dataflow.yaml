@@ -290,7 +290,7 @@ roles:
                   rateLogging: "{{ fmq_rate_logging }}"
                 task:
                   load: tof-compressor-dpl-output-proxy
-      - name: roc-ctp-emulators
+      - name: o2-roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
         defaults:
           roc_ctp_emulator_endpoints: '["#0"]'
@@ -300,9 +300,9 @@ roles:
               range: "{{roc_ctp_emulator_endpoints}}"
               var: endpoint_id
             roles:
-              - name: roc-ctp-emulator
+              - name: o2-roc-ctp-emulator
                 task:
-                  load: "roc-ctp-emulator"
+                  load: "o2-roc-ctp-emulator"
                   trigger: enter_RUNNING
                   timeout: 10s
                   critical: false
@@ -313,10 +313,10 @@ roles:
           trigger: DESTROY
           timeout: 10s
           critical: false
-      - name: roc-cleanup
+      - name: o2-roc-cleanup
         enabled: "{{roc_cleanup_enabled == 'true'}}"
         task:
-          load: "roc-cleanup"
+          load: "o2-roc-cleanup"
           trigger: DESTROY
           timeout: 10s
           critical: false

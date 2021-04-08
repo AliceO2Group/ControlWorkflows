@@ -1,4 +1,4 @@
-name: roc-ctp-emulator
+name: o2-roc-ctp-emulator
 defaults:
   user: flp
   roc_id: "#0"
@@ -19,4 +19,4 @@ command:
     - "{{roc_trigger_mode}}"
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load ReadoutCard` &&
-    roc-ctp-emulator
+    o2-roc-ctp-emulator

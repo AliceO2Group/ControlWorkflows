@@ -35,8 +35,8 @@ All variables are optional.
 
 | Variable | Description | Default |
 | :--- | :--- | :--- |
-| `roc_ctp_emulator_enabled` | If true, `roc-ctp-emulator` will run during `START` to get data from CRU without LTU | `false` |
-| `roc_trigger_mode` | Trigger mode for `roc-ctp-emulator` (only if `roc_ctp_emulator_enabled` is `true` ) | `continuous` |
+| `roc_ctp_emulator_enabled` | If true, `o2-roc-ctp-emulator` will run during `START` to get data from CRU without LTU | `false` |
+| `roc_trigger_mode` | Trigger mode for `o2-roc-ctp-emulator` (only if `roc_ctp_emulator_enabled` is `true` ) | `continuous` |
 | `roc_ctp_emulator_endpoints` | List of CRU endpoints to emulate trigger (only if `roc_ctp_emulator_enabled` is `true` ) | `["#0"]` |
 | `detector` | Detector name string, used for dataspec strings and other task parameters | `TEST` |
 | `dd_enabled` | If true, Data Distribution components will run and process data produced by Readout | `true` |
@@ -44,7 +44,7 @@ All variables are optional.
 | `stfb_standalone` | If true, `StfBuilder` runs with `--stand-alone` and `StfSender` is disabled (only if `dd_enabled` is `true`) | `false` |
 | `dd_discovery_net_if` | The name of the InfiniBand interface for `StfSender` output (only if `dd_enabled` is `true`) | `lo` |
 | `dd_discovery_endpoint` | URI of the Data Distribution Consul instance (only if `dd_enabled` is `true`) | `no-op://` |
-| `roc_cleanup_enabled` | Run `roc-cleanup` after environment shutdown | `true` |
+| `roc_cleanup_enabled` | Run `o2-roc-cleanup` after environment shutdown | `true` |
 | `fmq_cleanup_enabled` | Run `fairmq-shmmonitor -c` after environment shutdown | `true` |
 | `fmq_severity` | Severity level for FairMQ (including Data Distribution) `stdout` messages | `info` |
 | `fmq_verbosity` | Verbosity level for FairMQ (including Data Distribution) `stdout` messages | `high` |

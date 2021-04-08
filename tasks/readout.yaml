@@ -24,4 +24,4 @@ command:
     - "{{ readout_cfg_uri }}"
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load Readout Control-OCCPlugin &&
-    readout.exe
+    o2-readout.exe
