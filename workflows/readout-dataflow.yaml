@@ -15,6 +15,7 @@ defaults:
   monitoring_dd_url: "no-op://"
   monitoring_readout_url: "no-op://"
   detector: TST
+  log_task_output: none
 roles:
   - name: host-{{ it }}
     for:

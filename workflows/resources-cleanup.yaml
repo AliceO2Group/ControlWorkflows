@@ -2,6 +2,7 @@ name: resources-cleanup
 defaults:
   roc_cleanup_enabled: "true"
   fmq_cleanup_enabled: "true"
+  log_task_output: none
 roles:
   - name: host-{{ it }}
     for:

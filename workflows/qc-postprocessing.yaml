@@ -1,6 +1,7 @@
 name: "qc-postprocessing"
+defaults:
+  log_task_output: none
 roles:
   - name: "qc-postprocessing-role"
     task:
       load: qc-postprocessing
-

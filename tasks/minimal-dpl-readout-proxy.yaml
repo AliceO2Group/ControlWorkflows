@@ -2,6 +2,7 @@ name: minimal-dpl-readout-proxy
 defaults:
   user: flp
   detector: TST
+  log_task_output: none
 control:
   mode: "fairmq"
 wants:
@@ -14,6 +15,7 @@ bind:
     addressing: ipc
     rateLogging: "10"
 command:
+  log: "{{ log_task_output }}"
   shell: true
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 Control-OCCPlugin &&
@@ -40,4 +42,3 @@ command:
     - "--session"
     - "default"
     - "--shm-monitor false"
-

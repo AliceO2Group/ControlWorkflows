@@ -29,6 +29,7 @@ defaults:
   rocConfigTfLength: "256"
   rocConfigSystemId: "0x0"
   rocConfigFEEId: "0x0"
+  log_task_output: none
 command: 
   env:
     - INFOLOGGER_MODE={{ infologger_mode }}

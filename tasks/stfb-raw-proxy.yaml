@@ -3,6 +3,7 @@ defaults:
   stfb_dataspec: "B:TST/RAWDATA"
   user: flp
   fmq_severity: info
+  log_task_output: none
 control:
   mode: "fairmq"
 wants:
@@ -15,6 +16,7 @@ bind:
     addressing: ipc
     rateLogging: "60"
 command:
+  log: "{{ log_task_output }}"
   shell: true
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load QualityControl Control-OCCPlugin &&

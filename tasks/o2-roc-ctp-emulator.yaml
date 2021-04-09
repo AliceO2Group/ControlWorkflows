@@ -3,12 +3,14 @@ defaults:
   user: flp
   roc_id: "#0"
   roc_trigger_mode: "continuous"
+  log_task_output: none
 control:
   mode: basic
 wants:
   cpu: 0.01
   memory: 3
 command:
+  log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
   arguments:

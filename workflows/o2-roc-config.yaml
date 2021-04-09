@@ -1,6 +1,7 @@
 name: o2-roc-config
 defaults:
   roc_config_uri_enabled: "true"
+  log_task_output: none
 roles:
   - name: host-{{ it }}
     for:
