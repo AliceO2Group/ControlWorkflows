@@ -1,4 +1,4 @@
-name: roc-config
+name: o2-roc-config
 defaults:
   roc_config_uri_enabled: "true"
 roles:

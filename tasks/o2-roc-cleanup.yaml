@@ -1,4 +1,4 @@
-name: roc-cleanup
+name: o2-roc-cleanup
 control:
   mode: basic
 wants:
@@ -6,9 +6,9 @@ wants:
   memory: 3
 command:
   shell: true
-  user: root # roc-cleanup must always run as root!
+  user: root # o2-roc-cleanup must always run as root!
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load ReadoutCard &&
-    yes | roc-cleanup
+    yes | o2-roc-cleanup
     
 # date > /etc/o2.d/last-roc-cleanup

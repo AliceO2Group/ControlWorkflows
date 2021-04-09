@@ -36,7 +36,7 @@ command:
   value: >-
     source /etc/profile.d/modules.sh &&
     MODULEPATH={{ modulepath }} module load ReadoutCard &&
-    roc-config
+    o2-roc-config
   arguments:
     - "--id"
     - "{{ rocConfigId }}"
