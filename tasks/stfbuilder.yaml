@@ -33,3 +33,4 @@ command:
     - "--severity={{ fmq_severity }}"
     - "--severity-infologger={{ infologger_severity }}"
     - "--dpl-channel-name=dpl-chan"
+    - "--shm-monitor=false"

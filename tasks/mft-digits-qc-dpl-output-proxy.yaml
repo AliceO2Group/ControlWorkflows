@@ -1,4 +1,4 @@
-name: minimal-dpl-dpl-output-proxy
+name: mft-digits-qc-dpl-output-proxy
 defaults:
   log_task_output: none
 control:
@@ -7,6 +7,11 @@ wants:
   cpu: 0.15
   memory: 128
 bind:
+  - name: from_dpl-output-proxy_to_mft-stf-decoder
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
   - name: downstream
     type: push
     transport: shmem
@@ -58,7 +63,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--default-port"
     - "'4200'"
     - "--default-transport"
@@ -68,9 +73,9 @@ command:
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
-    - "'1000'"
+    - "'4'"
     - "--fairmq-send-buffer-size"
-    - "'1000'"
+    - "'4'"
     - "--forwarding-destination"
     - "'drop'"
     - "--forwarding-policy"

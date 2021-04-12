@@ -1,4 +1,4 @@
-name: minimal-dpl-dpl-output-proxy
+name: hmpid-raw-qc-QC-CHECK-RUNNER-sink-QC_HMPIDRawTask-mo_0
 defaults:
   log_task_output: none
 control:
@@ -7,18 +7,13 @@ wants:
   cpu: 0.15
   memory: 128
 bind:
-  - name: downstream
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
   user: "{{ user }}"
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-dpl-output-proxy
+    {{ dpl_command }} | o2-qc
   arguments:
     - "-b"
     - "--monitoring-backend"
@@ -36,7 +31,7 @@ command:
     - "--shm-throw-bad-alloc"
     - "'{{ shm_throw_bad_alloc }}'"
     - "--id"
-    - "'dpl-output-proxy'"
+    - "'QC-CHECK-RUNNER-sink-QC_HMPIDRawTask-mo_0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -57,12 +52,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--dataspec"
-    - "'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
-    - "--default-port"
-    - "'4200'"
-    - "--default-transport"
-    - "'shmem'"
+    - "--config"
+    - "'{{ qc_config_uri }}'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -75,14 +66,10 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--output-proxy-address"
-    - "'0.0.0.0'"
-    - "--output-proxy-method"
-    - "'bind'"
+    - "--host"
+    - "''"
     - "--pipeline"
     - "''"
-    - "--proxy-name"
-    - "'dpl-output-proxy'"
     - "--readers"
     - "'1'"
     - "--severity"

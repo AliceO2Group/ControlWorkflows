@@ -1,4 +1,4 @@
-name: minimal-dpl-dpl-output-proxy
+name: tof-compressor-179-tof-compressor-31
 defaults:
   log_task_output: none
 control:
@@ -7,7 +7,7 @@ wants:
   cpu: 0.15
   memory: 128
 bind:
-  - name: downstream
+  - name: from_tof-compressor-31_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -18,7 +18,7 @@ command:
   user: "{{ user }}"
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-dpl-output-proxy
+    {{ dpl_command }} | o2-tof-compressor
   arguments:
     - "-b"
     - "--monitoring-backend"
@@ -36,7 +36,7 @@ command:
     - "--shm-throw-bad-alloc"
     - "'{{ shm_throw_bad_alloc }}'"
     - "--id"
-    - "'dpl-output-proxy'"
+    - "'tof-compressor-31'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -57,12 +57,6 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--dataspec"
-    - "'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
-    - "--default-port"
-    - "'4200'"
-    - "--default-transport"
-    - "'shmem'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -75,14 +69,8 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--output-proxy-address"
-    - "'0.0.0.0'"
-    - "--output-proxy-method"
-    - "'bind'"
     - "--pipeline"
     - "''"
-    - "--proxy-name"
-    - "'dpl-output-proxy'"
     - "--readers"
     - "'1'"
     - "--severity"
@@ -95,5 +83,13 @@ command:
     - "'false'"
     - "--stacktrace-on-signal"
     - "'all'"
+    - "--tof-compressor-config"
+    - "'x20:TOF/RAWDATA/20,x21:TOF/RAWDATA/21,x22:TOF/RAWDATA/22,x23:TOF/RAWDATA/23,x24:TOF/RAWDATA/24,x25:TOF/RAWDATA/25,x26:TOF/RAWDATA/26,x27:TOF/RAWDATA/27,x28:TOF/RAWDATA/28,x30:TOF/RAWDATA/30,x31:TOF/RAWDATA/31,x33:TOF/RAWDATA/33,x34:TOF/RAWDATA/34,x35:TOF/RAWDATA/35,x36:TOF/RAWDATA/36,x37:TOF/RAWDATA/37,x38:TOF/RAWDATA/38,x39:TOF/RAWDATA/39,x40:TOF/RAWDATA/40,x41:TOF/RAWDATA/41,x42:TOF/RAWDATA/42,x43:TOF/RAWDATA/43,x44:TOF/RAWDATA/44,x45:TOF/RAWDATA/45,x46:TOF/RAWDATA/46,x47:TOF/RAWDATA/47,x48:TOF/RAWDATA/48,x49:TOF/RAWDATA/49,x50:TOF/RAWDATA/50,x51:TOF/RAWDATA/51,x52:TOF/RAWDATA/52,x53:TOF/RAWDATA/53,x54:TOF/RAWDATA/54,x55:TOF/RAWDATA/55'"
+    - "--tof-compressor-output-desc"
+    - "'CRAWDATA'"
+    - "--tof-compressor-rdh-version"
+    - "'6'"
     - "--workflow-suffix"
     - "''"
+    - "--tof-compressor-output-buffer-size"
+    - "'0'"

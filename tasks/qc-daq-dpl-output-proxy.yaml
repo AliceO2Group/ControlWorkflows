@@ -1,4 +1,4 @@
-name: minimal-dpl-dpl-output-proxy
+name: qc-daq-dpl-output-proxy
 defaults:
   log_task_output: none
 control:
@@ -7,6 +7,11 @@ wants:
   cpu: 0.15
   memory: 128
 bind:
+  - name: from_dpl-output-proxy_to_Dispatcher
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
   - name: downstream
     type: push
     transport: shmem

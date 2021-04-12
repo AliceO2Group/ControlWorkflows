@@ -1,4 +1,4 @@
-name: minimal-dpl-dpl-output-proxy
+name: mft-raw-qc-internal-dpl-injected-dummy-sink
 defaults:
   log_task_output: none
 control:
@@ -7,18 +7,13 @@ wants:
   cpu: 0.15
   memory: 128
 bind:
-  - name: downstream
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
   user: "{{ user }}"
   value: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-dpl-output-proxy
+    {{ dpl_command }} | o2-dpl-raw-proxy
   arguments:
     - "-b"
     - "--monitoring-backend"
@@ -36,7 +31,7 @@ command:
     - "--shm-throw-bad-alloc"
     - "'{{ shm_throw_bad_alloc }}'"
     - "--id"
-    - "'dpl-output-proxy'"
+    - "'internal-dpl-injected-dummy-sink'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -58,31 +53,21 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
-    - "--default-port"
-    - "'4200'"
-    - "--default-transport"
-    - "'shmem'"
+    - "'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
-    - "'1000'"
+    - "'4'"
     - "--fairmq-send-buffer-size"
-    - "'1000'"
+    - "'4'"
     - "--forwarding-destination"
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--output-proxy-address"
-    - "'0.0.0.0'"
-    - "--output-proxy-method"
-    - "'bind'"
     - "--pipeline"
     - "''"
-    - "--proxy-name"
-    - "'dpl-output-proxy'"
     - "--readers"
     - "'1'"
     - "--severity"
