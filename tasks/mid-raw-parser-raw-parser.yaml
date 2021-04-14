@@ -83,4 +83,4 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--log-level"
-    - "'1'"
+    - "'0'"
