@@ -27,7 +27,6 @@ roles:
       var: it
     defaults:
       detector: "{{DetectorForHost( it )}}"
-      cards: "{{CRUCardsForHost( it )}}"
     vars:
       readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ it }}"
       readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-stfb-{{ it }}"
