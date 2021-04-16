@@ -76,7 +76,7 @@ All variables are optional.
 
 | Variable | Description | Default |
 | :--- | :--- | :--- |
-| `rocConfigLinks` | Value to be passed to the `--links` flag | `0` |
+| `rocConfigLinks` | Value to be passed to the `--links` flag (e.g `1,2,3` or `0-11`) | `0` |
 | `rocConfigAllowRejection` | If true, the flag `--allow-rejection` will be set to the `o2-roc-config` command | `"false"` |
 | `rocConfigClock` | Value to be passed to the `--clock` flag | `LOCAL` |
 | `rocConfigCruId` | Value to be passed to the `--cru-id` flag | `0x0` |
