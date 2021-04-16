@@ -2,15 +2,40 @@ name: !public readout-dataflow
 defaults:
   drop_caches_enabled: "true"
   fmq_initial_shm_cleanup_enabled: "true"
-  roc_ctp_emulator_enabled: "false"
-  dd_enabled: "true"
+  roc_ctp_emulator_enabled: !public
+    value: "false"
+    type: bool
+    label: "ROC CTP emulator"
+    description: "enables or disables the built-in trigger system emulator"
+    widget: checkBox
+    panel: mainPanel
+  dd_enabled: !public
+    value: "true"
+    type: bool
+    label: "Data Distribution"
+    description: "enables or disables any Data Distribution (DD) components in this workflow"
+    widget: checkBox
+    panel: mainPanel
   ddsched_enabled: "false"
   dcs_enabled: "false"
   qcdd_enabled: "false" # qcdd_enabled and minimal_dpl_enabled cannot be both true!
   minimal_dpl_enabled: "false"
-  dpl_workflow: "none" # if specified, we use dpl_worfklow to choose what is between STFB and STFS. Otherwise, we fall to the old choice mechanism.
-                       # available options: "none", "qc-daq", "minimal-dpl", "tof-compressor"
   qc_remote_workflow: "none"
+  # if specified, we use dpl_worfklow to choose what is between STFB and STFS. Otherwise,
+  # we fall to the old choice mechanism.
+  # available options: "none", "qc-daq", "minimal-dpl", "tof-compressor"
+  dpl_workflow: !public
+    value: "none"
+    type: list
+    label: "DPL workflow"
+    description: "selects a DPL subworkflow to inject between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: mainPanel
+    values:
+      - "none"
+      - "qc-daq"
+      - "minimal-dpl"
+      - "tof-compressor"
   stfb_standalone: "false"
   odc_enabled: "false"
   odcshim_enabled: "false"
@@ -21,10 +46,26 @@ defaults:
   monitoring_dd_url: "no-op://"
   monitoring_readout_url: "no-op://"
   user: flp
-  log_task_output: none
-  fmq_rate_logging: "10"
   o2_install_path: "/opt/o2"
   o2_infologger_path: "/opt/o2-InfoLogger"
+  log_task_output: !public
+    value: none
+    type: list
+    label: "Log task output"
+    description: "picks whether the standard output of controlled tasks should be forwarded"
+    widget: dropDownBox
+    panel: mainPanel
+    values:
+      - "none"
+      - "stdout"
+      - "all"
+  fmq_rate_logging: !public
+    value: "10"
+    type: number
+    label: "FairMQ rate logging"
+    description: "sets the frequency at which FairMQ logs channel transfers"
+    widget: spinBox
+    panel: mainPanel
 roles:
   - name: host-{{ it }}
     for:
@@ -214,7 +255,13 @@ roles:
     roles:
       - name: sor
         defaults:
-          dcs_sor_parameters: "{\"key\":\"value\"}"
+          dcs_sor_parameters: !public
+            value: "{}"
+            type: map
+            label: "DCS SOR parameters"
+            description: "additional parameters for the DCS start of run call"
+            widget: dataSheet
+            panel: dcsPanel
         call:
           func: dcs.StartOfRun()
           trigger: before_CONFIGURE
