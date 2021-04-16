@@ -53,12 +53,16 @@ All variables are optional.
 
 ## `o2-roc-config` workflow variables
 
+The workflow requires a string json array of the hosts (e.g `["flp1","flp1"]`) when it is executed. It will retrieve all the cru cards and their endpoints. 
+
+The default behaviour, if no variables are passed, is to apply the configuration from the `o2/components/readoutcard/<host>/cru/<card>/<endpoint>` to all cards and endpoints. All the parameters along with the default values are provided on the following tables. Examples on how to execute the workflow with coconut can be found [here](#examples-of-running-the-`o2-roc-config`-workflow).
+
 ### `o2-roc-config` common variables
 All variables are optional.
 
 | Variable | Description | Default |
 | :--- | :--- | :--- |
-| `roc_config_uri_enabled` | If true, o2-roc-config will run using the `--config-uri` flag and the config found at the consul service under the `{{ consul_prefix }}/{{ host }}/cru/{{ card }}/` | `true` |
+| `roc_config_uri_enabled` | If true, o2-roc-config will run using the `--config-uri` flag and the config found at the consul service under the `{{ consul_prefix }}/{{ host }}/cru/{{ card }}/` | `"true"` |
 | `consul_port` | The port that consul service is running | `8500` |
 | `consul_prefix` | The consul prefix where the cru configuration is stored | `o2/components/readoutcard` |
 | `cards` | A string json array with all the cards in the host, provided by `CRUCardsForHost(hostname)`(e.g `["1251","1276"]`)  | `{{CRUCardsForHost( hostname )}}` |
@@ -73,25 +77,25 @@ All variables are optional.
 | Variable | Description | Default |
 | :--- | :--- | :--- |
 | `rocConfigLinks` | Value to be passed to the `--links` flag | `0` |
-| `rocConfigAllowRejection` | If true, the flag `--allow-rejection` will be set to the `o2-roc-config` command | `false` |
+| `rocConfigAllowRejection` | If true, the flag `--allow-rejection` will be set to the `o2-roc-config` command | `"false"` |
 | `rocConfigClock` | Value to be passed to the `--clock` flag | `LOCAL` |
 | `rocConfigCruId` | Value to be passed to the `--cru-id` flag | `0x0` |
 | `rocConfigCrocId` | Value to be passed to the `--crorc-id` flag | `0x0` |
 | `rocConfigDatapathMode` | Value to be passed to the `--datapathmode` flag | `PACKET` |
 | `rocConfigDownstreamData` | Value to be passed to the `--downstreamdata` flag | `CTP` |
 | `rocConfigGbtMode` | Value to be passed to the `--gbtmode` flag | `GBT` |
-| `rocConfigLoopback` | If true, the flag `--loopback` will be set to the `o2-roc-config` command | `false` |
-| `rocConfigPonUpstream` | If true, the flag `--pon-upstream` will be set to the `o2-roc-config` command | `false` |
-| `rocConfigDynOffset` | If true, the flag `--dyn-offset` will be set to the `o2-roc-config` command | `false` |
+| `rocConfigLoopback` | If true, the flag `--loopback` will be set to the `o2-roc-config` command | `"false"` |
+| `rocConfigPonUpstream` | If true, the flag `--pon-upstream` will be set to the `o2-roc-config` command | `"false"` |
+| `rocConfigDynOffset` | If true, the flag `--dyn-offset` will be set to the `o2-roc-config` command | `"false"` |
 | `rocConfigOnuAddress` | Value to be passed to the `--onu-address` flag | `0` |
-| `rocConfigForceConfig` | If true, the flag `--force-config` will be set to the `o2-roc-config` command | `false` |
-| `rocConfigBypassFwCheck` | If true, the flag `--bypass-fw-check` will be set to the `o2-roc-config` command | `false` |
+| `rocConfigForceConfig` | If true, the flag `--force-config` will be set to the `o2-roc-config` command | `"false"` |
+| `rocConfigBypassFwCheck` | If true, the flag `--bypass-fw-check` will be set to the `o2-roc-config` command | `"false"` |
 | `rocConfigTriggerWindowSize` | Value to be passed to the `--trigger-window-size` flag | `1000` |
-| `rocConfigNoGBT` | If true, the flag `--no-gbt` will be set to the `o2-roc-config` command | `false` |
-| `rocConfigUserLogic` | If true, the flag `--user-logic` will be set to the `o2-roc-config` command | `false` |
-| `rocConfigRunStats` | If true, the flag `--run-stats` will be set to the `o2-roc-config` command | `false` |
-| `rocConfigUserAndCommonLogic` | If true, the flag `--user-and-common-logic` will be set to the `o2-roc-config` command | `false` |
-| `rocConfigNoTfDetection` | If true, the flag `--no-tf-detection` will be set to the `o2-roc-config` command | `false` |
+| `rocConfigNoGBT` | If true, the flag `--no-gbt` will be set to the `o2-roc-config` command | `"false"` |
+| `rocConfigUserLogic` | If true, the flag `--user-logic` will be set to the `o2-roc-config` command | `"false"` |
+| `rocConfigRunStats` | If true, the flag `--run-stats` will be set to the `o2-roc-config` command | `"false"` |
+| `rocConfigUserAndCommonLogic` | If true, the flag `--user-and-common-logic` will be set to the `o2-roc-config` command | `"false"` |
+| `rocConfigNoTfDetection` | If true, the flag `--no-tf-detection` will be set to the `o2-roc-config` command | `"false"` |
 | `rocConfigTfLength` | Value to be passed to the `--tf-length` flag | `256` |
 | `rocConfigSystemId` | Value to be passed to the `--system-id` flag | `0x0` |
 | `rocConfigFEEId` | Value to be passed to the `--fee-id` flag | `0x0` |
