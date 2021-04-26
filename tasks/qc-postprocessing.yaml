@@ -10,7 +10,7 @@ wants:
   cpu: 0.15
   memory: 128
 properties:
-  "qcConfiguration": "{{ ToPtree(GetConfig('qc/postprocessing'), 'json') }}"
+  "qcConfiguration": "{{ ToPtree(GetConfig('qc/ANY/any/postprocessing_daqtask'), 'json') }}"
 command:
   env: []
   log: "{{ log_task_output }}"
