@@ -11,7 +11,6 @@ command:
   shell: true
   user: root # o2-roc-cleanup must always run as root!
   value: >-
-    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load ReadoutCard &&
     yes | o2-roc-cleanup
   arguments:
     - "--light"
