@@ -17,5 +17,4 @@ command:
     - "--id={{roc_id}}"
     - "--trigger-mode"
     - "{{roc_trigger_mode}}"
-  value: >-
-    o2-roc-ctp-emulator
+  value: /opt/o2/bin/o2-roc-ctp-emulator
