@@ -19,6 +19,7 @@ command:
     - http_proxy=""
     - https_proxy=""
     - no_proxy=-ib,.internal
+    - DATADIST_STFS_BUFFER_SIZE=4294967296
   log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
