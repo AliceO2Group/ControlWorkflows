@@ -1,7 +1,7 @@
 name: !public readout-dataflow
 defaults:
   roc_ctp_emulator_enabled: "false"
-  dd_enabled: "false"
+  dd_enabled: "true"
   ddsched_enabled: "false"
   dcs_enabled: "false"
   qcdd_enabled: "false" # qcdd_enabled and minimal_dpl_enabled cannot be both true!
@@ -12,7 +12,7 @@ defaults:
   odc_enabled: "false"
   odcshim_enabled: "false"
   roc_cleanup_enabled: "true"
-  fmq_cleanup_enabled: "false"
+  fmq_cleanup_enabled: "true"
   monitoring_dpl_url: "no-op://"
   monitoring_qc_url: "no-op://"
   monitoring_dd_url: "no-op://"
@@ -20,7 +20,6 @@ defaults:
   user: flp
   log_task_output: none
   fmq_rate_logging: "10"
-  o2_install_path: /opt/o2
 roles:
   - name: host-{{ it }}
     for:
@@ -41,6 +40,79 @@ roles:
           readout_cfg_uri: '{{dd_enabled == "true" ? readout_cfg_uri_stfb : readout_cfg_uri_standalone}}'
         task:
           load: readout
+      - name: "data-distribution"
+        enabled: "{{dd_enabled == 'true' && (qcdd_enabled == 'false' && minimal_dpl_enabled == 'false' && dpl_workflow == 'none')}}"
+        roles:
+          - name: "stfb-standalone"
+            enabled: "{{stfb_standalone}}"
+            connect:
+              - name: readout
+                type: pull
+                target: "{{ Up(2).Path }}.readout:readout"
+                rateLogging: "{{ fmq_rate_logging }}"
+            task:
+              load: stfbuilder-nooutput
+          - name: "stfb"
+            enabled: "{{stfb_standalone == 'false'}}"
+            vars:
+              dd_discovery_stfb_id: stfb-{{ it }}-{{ NewID() }} # must be defined for all stfb roles
+            connect:
+              - name: readout
+                type: pull
+                target: "{{ Up(2).Path }}.readout:readout"
+                rateLogging: "{{ fmq_rate_logging }}"
+            task:
+              load: stfbuilder-senderoutput
+          - name: "stfs"
+            enabled: "{{stfb_standalone == 'false'}}"
+            vars:
+              dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }} # must be defined for all stfs roles
+              stfs_input_channel_name: buildertosender
+            connect:
+              - name: buildertosender
+                type: pull
+                target: "{{ Parent().Path }}.stfb:buildertosender"
+                rateLogging: "{{ fmq_rate_logging }}"
+            task:
+              load: stfsender
+      - name: "data-distribution-dpl"
+        enabled: "{{(qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none') && dd_enabled == 'true'}}"
+        defaults:
+          path_to_readout_proxy: "{{ Parent().Path }}.data-distribution-dpl.stfb:dpl-chan"
+        roles:
+          - name: "stfb"
+            enabled: "{{stfb_standalone == 'false'}}"
+            vars:
+              dd_discovery_stfb_id: stfb-{{ it }}-{{ NewID() }}
+            connect:
+              - name: readout
+                type: pull
+                target: "{{ Up(2).Path }}.readout:readout"
+                rateLogging: "{{ fmq_rate_logging }}"
+            task:
+              #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
+              load: stfbuilder
+          - name: "stfs" # this stfs is for any DPL workflow. We assume that it has a device dpl-output-proxy and a downstream channel
+            enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none')}}"
+            vars:
+              dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }}
+              stfs_input_channel_name: downstream
+            connect:
+              - name: downstream
+                type: pull
+                target: "{{ Parent().Path }}.dpl.dpl-output-proxy:downstream" # The subwf must provide this channel!
+                rateLogging: "{{ fmq_rate_logging }}"
+            task:
+              load: stfsender
+          - name: dpl
+            enabled: "{{ qcdd_enabled == 'true' }}"
+            include: qc-daq            
+          - name: dpl
+            enabled: "{{ minimal_dpl_enabled == 'true' }}"
+            include: minimal-dpl
+          - name: dpl
+            enabled: "{{ dpl_workflow != 'none' }}"
+            include: "{{ dpl_workflow }}"
       - name: o2-roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
         defaults:
@@ -57,10 +129,110 @@ roles:
                   trigger: enter_RUNNING
                   timeout: 10s
                   critical: false
+      - name: fairmq-shmmonitor
+        enabled: "{{fmq_cleanup_enabled == 'true'}}"
+        task:
+          load: "fairmq-shmmonitor"
+          trigger: DESTROY
+          timeout: 10s
+          critical: false
       - name: o2-roc-cleanup
         enabled: "{{roc_cleanup_enabled == 'true'}}"
         task:
           load: "o2-roc-cleanup"
           trigger: DESTROY
           timeout: 10s
+          critical: false
+      - name: ps-aux-on-destroy
+        vars:
+          shell_command: ps aux|grep OCCPlugin
+        task:
+          load: "shell-command"
+          trigger: DESTROY
+          timeout: 10s
+          critical: false
+  - name: odc-shim
+    enabled: "{{odcshim_enabled == 'true'}}"
+    task:
+      load: odc-shim
+  - name: dcs
+    enabled: "{{dcs_enabled == 'true'}}"
+    roles:
+      - name: sor
+        defaults:
+          dcs_sor_parameters: "{\"key\":\"value\"}"
+        call:
+          func: dcs.StartOfRun()
+          trigger: enter_RUNNING
+          timeout: 5s
+          critical: true
+      - name: eor
+        call:
+          func: dcs.EndOfRun()
+          trigger: leave_RUNNING
+          timeout: 5s
+          critical: true
+      - name: cleanup
+        call:
+          func: dcs.Cleanup()
+          trigger: DESTROY
+          timeout: 5s
+          critical: true
+  - name: dd-scheduler
+    enabled: "{{ddsched_enabled == 'true'}}"
+    roles:
+      - name: initialize
+        call:
+          func: ddsched.PartitionInitialize()
+          trigger: before_CONFIGURE
+          timeout: 5s
+          critical: true
+      - name: terminate
+        call:
+          func: ddsched.PartitionTerminate()
+          trigger: after_RESET
+          timeout: 5s
+          critical: true
+      - name: cleanup
+        call:
+          func: ddsched.EnsureTermination()
+          trigger: DESTROY
+          timeout: 5s
+          critical: false
+  - name: odc
+    enabled: "{{odc_enabled == 'true'}}"
+    roles:
+      - name: configure
+        call:
+          func: odc.Configure()
+          trigger: before_CONFIGURE
+          await: after_CONFIGURE
+          timeout: 30s
+          critical: true
+      - name: start
+        call:
+          func: odc.Start()
+          trigger: before_START_ACTIVITY
+          await: after_START_ACTIVITY
+          timeout: 5s
+          critical: true
+      - name: stop
+        call:
+          func: odc.Stop()
+          trigger: before_STOP_ACTIVITY
+          await: after_STOP_ACTIVITY
+          timeout: 5s
+          critical: true
+      - name: reset
+        call:
+          func: odc.Reset()
+          trigger: before_RESET
+          await: after_RESET
+          timeout: 15s
+          critical: true
+      - name: cleanup
+        call:
+          func: odc.EnsureCleanup()
+          trigger: DESTROY
+          timeout: 5s
           critical: false
