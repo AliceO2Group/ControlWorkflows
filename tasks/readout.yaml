@@ -14,6 +14,7 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     addressing: ipc
     transport: shmem
+    sndBufSize: "10"
 properties: {}
 command: 
   env: []
