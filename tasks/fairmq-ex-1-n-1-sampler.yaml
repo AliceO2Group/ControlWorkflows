@@ -8,8 +8,8 @@ wants:          # Includes fields "cpu", "memory", "ports". The first two are fl
                 # such as "8080-8083,9091-10100".
                 # Note: the "ports" string has nothing to do with channels, these are static requests for specific ports
                 # and they should be used sparingly, if at all.
-  cpu: 0.1
-  memory: 128
+  cpu: 0.001
+  memory: 8
 bind:                   # "bind" contains a list of *inbound* channels to configure, and it only applies to FairMQ
                         # devices (method: bind).
 - name: "data1"         # channel name
