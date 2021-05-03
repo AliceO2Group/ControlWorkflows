@@ -12,6 +12,4 @@ command:
   log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
-  value: >-
-    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load FairMQ &&
-    fairmq-shmmonitor -c
+  value: "{{ o2_install_path }}/fairmq-shmmonitor -c"
