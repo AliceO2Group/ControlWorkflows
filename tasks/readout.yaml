@@ -22,4 +22,4 @@ command:
   user: "{{ user }}"
   arguments:
     - "{{ readout_cfg_uri }}"
-  value: "{{ o2_path_bin }}//o2-readout-exe
+  value: "{{ o2_install_path }}/bin/o2-readout-exe

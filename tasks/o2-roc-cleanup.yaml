@@ -10,7 +10,7 @@ command:
   log: "{{ log_task_output }}"
   shell: true
   user: root # o2-roc-cleanup must always run as root!
-  value: yes | {{ o2_path_bin }}/o2-roc-cleanup
+  value: yes | {{ o2_install_path }}/bin/o2-roc-cleanup
   arguments:
     - "--light"
     
