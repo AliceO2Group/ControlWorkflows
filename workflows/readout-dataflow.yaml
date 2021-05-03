@@ -20,7 +20,7 @@ defaults:
   user: flp
   log_task_output: none
   fmq_rate_logging: "10"
-  o2_path_bin: /opt/o2/bin
+  o2_install_path: /opt/o2
 roles:
   - name: host-{{ it }}
     for:

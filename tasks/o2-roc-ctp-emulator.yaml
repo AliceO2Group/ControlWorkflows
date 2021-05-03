@@ -17,4 +17,4 @@ command:
     - "--id={{roc_id}}"
     - "--trigger-mode"
     - "{{roc_trigger_mode}}"
-  value: "{{ o2_path_bin }}/o2-roc-ctp-emulator
+  value: "{{ o2_install_path }}/bin/o2-roc-ctp-emulator
