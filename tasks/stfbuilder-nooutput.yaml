@@ -15,7 +15,7 @@ command:
   log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
-  value: "{{ o2_install_path }}/StfBuilder"
+  value: "{{ o2_install_path }}/bin/StfBuilder"
   arguments:
     - "--session=default"
     - "--transport=shmem"
