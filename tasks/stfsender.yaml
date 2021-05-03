@@ -22,7 +22,7 @@ command:
   log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
-  value: "{{ o2_install_path }}/StfSender"
+  value: "{{ o2_install_path }}/bin/StfSender"
   arguments:
     - "--session=default"
     - "--transport=shmem"
