@@ -16,9 +16,7 @@ command:
   shell: true
   log: "{{ log_task_output }}"
   user: "{{ user }}"
-  value: >-
-    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-qc
+  value: "{{ dpl_command }} | {{ o2_install_path }}/bin/o2-qc"
   arguments:
     - "-b"
     - "--monitoring-backend"
