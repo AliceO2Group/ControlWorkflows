@@ -16,4 +16,4 @@ command:
   value: >-
     source /etc/profile.d/modules.sh &&
     MODULEPATH={{ modulepath }} module load ReadoutCard &&
-    for endpoint in {{ card_endpoints }}; do o2-roc-config --id={{ card }}:$endpoint --config-uri consul-json://{{ inventory_head }}:{{ consul_port }}/{{ consul_prefix }}/{{ host }}/cru/{{ card }}/$endpoint --bypass; done
+    for endpoint in {{ card_endpoints }}; do o2-roc-config --id={{ card }}:$endpoint --config-uri consul-json://{{ inventory_head }}:{{ consul_port }}/{{ consul_prefix }}/{{ host }}/cru/{{ card }}/$endpoint --bypass || exit 1; done

@@ -63,4 +63,4 @@ command:
         --tf-length {{ rocConfigTfLength }}
         --system-id {{ rocConfigSystemId }}
         --fee-id {{ rocConfigFEEId }})
-      o2-roc-config --id={{ card }}:$endpoint ${args[@]};done
+      o2-roc-config --id={{ card }}:$endpoint ${args[@]} || exit 1;done
