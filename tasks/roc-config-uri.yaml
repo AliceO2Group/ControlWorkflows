@@ -14,6 +14,7 @@ command:
   log: "{{ log_task_output }}"
   shell: true
   value: >-
+    echo "Running roc-config"
     source /etc/profile.d/modules.sh &&
     MODULEPATH={{ modulepath }} module load ReadoutCard &&
     for endpoint in {{ card_endpoints }}; do o2-roc-config --id={{ card }}:$endpoint --config-uri consul-json://{{ inventory_head }}:{{ consul_port }}/{{ consul_prefix }}/{{ host }}/cru/{{ card }}/$endpoint --bypass || exit 1; done
