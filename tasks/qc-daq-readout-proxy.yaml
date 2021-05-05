@@ -16,7 +16,7 @@ command:
   shell: true
   log: "{{ log_task_output }}"
   user: "{{ user }}"
-  value: "{{ dpl_command }} | {{ o2_install_path }}/bin/o2-dpl-raw-proxy"
+  value: "{{ dpl_command }} | o2-dpl-raw-proxy"
   arguments:
     - "-b"
     - "--monitoring-backend"
