@@ -8,6 +8,7 @@ wants:
   memory: 8
 bind:
 - name: "data2"
+  global: global_outputch
   type: "pull"
   sndBufSize: 1000
   rcvBufSize: 1000

@@ -13,7 +13,7 @@ roles:
         rcvBufSize: 1000
         rateLogging: 0
       - name: "data2"
-        target: "{{ Up(2).Path }}.sink:data2" # Same as {{ parent }}.sink:data2
+        target: "::global_outputch"
         type: "push"
         sndBufSize: 1000
         rcvBufSize: 1000
