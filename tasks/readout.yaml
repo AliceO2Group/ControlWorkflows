@@ -3,6 +3,10 @@ defaults:
   readout_cfg_uri: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ task_hostname }}"
   user: flp
   log_task_output: none
+  _module_cmdline: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load Readout Control-OCCPlugin &&
+    o2-readout-exe
+  _plain_cmdline: "{{ o2_install_path }}/bin/o2-readout-exe"
 control:
   mode: direct
 wants:
@@ -22,4 +26,4 @@ command:
   user: "{{ user }}"
   arguments:
     - "{{ readout_cfg_uri }}"
-  value: "{{ o2_install_path }}/bin/o2-readout-exe"
+  value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"

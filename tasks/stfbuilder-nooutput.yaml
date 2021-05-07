@@ -7,6 +7,10 @@ defaults:
   fmq_severity: info
   dd_detector_subspec: feeid
   log_task_output: none
+  _module_cmdline: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
+    StfBuilder
+  _plain_cmdline: "{{ o2_install_path }}/bin/StfBuilder"
 wants:
   cpu: 0.15
   memory: 128
@@ -15,7 +19,7 @@ command:
   log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
-  value: "{{ o2_install_path }}/bin/StfBuilder"
+  value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
     - "--session=default"
     - "--transport=shmem"

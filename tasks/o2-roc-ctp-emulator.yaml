@@ -4,6 +4,10 @@ defaults:
   roc_id: "#0"
   roc_trigger_mode: "continuous"
   log_task_output: none
+  _module_cmdline: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load ReadoutCard` &&
+    o2-roc-ctp-emulator
+  _plain_cmdline: "{{ o2_install_path }}/bin/o2-roc-ctp-emulator"
 control:
   mode: basic
 wants:
@@ -17,4 +21,4 @@ command:
     - "--id={{roc_id}}"
     - "--trigger-mode"
     - "{{roc_trigger_mode}}"
-  value: "{{ o2_install_path }}/bin/o2-roc-ctp-emulator"
+  value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
