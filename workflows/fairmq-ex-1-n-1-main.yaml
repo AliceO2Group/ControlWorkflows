@@ -6,6 +6,7 @@ defaults:
   defC: "defC"
 vars:
   varA: "varA"
+  outputChName: "global_outputch"
 roles:
   - name: "processor{{ it }}"
     defaults:
@@ -21,5 +22,12 @@ roles:
     task:
       load: fairmq-ex-1-n-1-sampler
   - name: "sink"
+    bind:
+      - name: "data2"
+        global: "{{outputChName}}"
+        type: "pull"
+        sndBufSize: 1000
+        rcvBufSize: 1000
+        rateLogging: 0  
     task:
       load: fairmq-ex-1-n-1-sink

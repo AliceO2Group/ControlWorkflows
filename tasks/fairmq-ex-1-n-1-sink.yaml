@@ -7,12 +7,12 @@ wants:
   cpu: 0.001
   memory: 8
 bind:
-- name: "data2"
-  global: global_outputch
-  type: "pull"
-  sndBufSize: 1000
-  rcvBufSize: 1000
-  rateLogging: 0
+  - name: "data2"
+    global: global_outputch-default
+    type: "pull"
+    sndBufSize: 1000
+    rcvBufSize: 1000
+    rateLogging: 0
 properties:
   severity: trace
   color: false
