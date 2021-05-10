@@ -1,6 +1,10 @@
 name: o2-roc-cleanup
 defaults:
   log_task_output: none
+  _module_cmdline: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load ReadoutCard &&
+    yes | o2-roc-cleanup
+  _plain_cmdline: yes | {{ o2_install_path }}/bin/o2-roc-cleanup
 control:
   mode: basic
 wants:
@@ -10,9 +14,7 @@ command:
   log: "{{ log_task_output }}"
   shell: true
   user: root # o2-roc-cleanup must always run as root!
-  value: >-
-    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load ReadoutCard &&
-    yes | o2-roc-cleanup
+  value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
     - "--light"
     

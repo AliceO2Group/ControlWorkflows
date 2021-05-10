@@ -1,6 +1,10 @@
 name: qc-daq-Dispatcher
 defaults:
   log_task_output: none
+  _module_cmdline: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
+    {{ dpl_command }} | o2-qc
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
 control:
   mode: "fairmq"
 wants:
@@ -16,9 +20,7 @@ command:
   shell: true
   log: "{{ log_task_output }}"
   user: "{{ user }}"
-  value: >-
-    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-qc
+  value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
     - "-b"
     - "--monitoring-backend"
