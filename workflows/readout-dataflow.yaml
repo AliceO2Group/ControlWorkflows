@@ -8,6 +8,7 @@ defaults:
   minimal_dpl_enabled: "false"
   dpl_workflow: "none" # if specified, we use dpl_worfklow to choose what is between STFB and STFS. Otherwise, we fall to the old choice mechanism.
                        # available options: "none", "qc-daq", "minimal-dpl", "tof-compressor"
+  qc_remote_workflow: "none"
   stfb_standalone: "false"
   odc_enabled: "false"
   odcshim_enabled: "false"
@@ -90,6 +91,14 @@ roles:
                 type: pull
                 target: "{{ Up(2).Path }}.readout:readout"
                 rateLogging: "{{ fmq_rate_logging }}"
+            bind:
+              - name: dpl-chan
+                type: push
+                rateLogging: "{{ fmq_rate_logging }}"
+                transport: shmem
+                addressing: ipc
+                sndBufSize: "4"
+                global: "readout-proxy-{{ it }}"            
             task:
               #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
               load: stfbuilder
@@ -101,7 +110,7 @@ roles:
             connect:
               - name: downstream
                 type: pull
-                target: "{{ Parent().Path }}.dpl.dpl-output-proxy:downstream" # The subwf must provide this channel!
+                target: "::downstream-{{ it }}" # The subwf must provide this channel!
                 rateLogging: "{{ fmq_rate_logging }}"
             task:
               load: stfsender
@@ -149,6 +158,25 @@ roles:
           shell_command: ps aux|grep OCCPlugin
         task:
           load: "shell-command"
+          trigger: DESTROY
+          timeout: 10s
+          critical: false
+  - name: qc-remote-workflow
+    enabled: "{{ qc_remote_workflow != 'none' }}"
+    constraints:
+      - attribute: machine_type
+        value: qcserver
+    vars:
+      user: qc
+      session_id: "{{ environment_id }}" # we can't use "default" because other workflows might already exist on the same QC server
+    roles:
+      - name: dpl
+        enabled: "{{ qc_remote_workflow != 'none' }}"
+        include: "{{ qc_remote_workflow }}"
+      - name: fairmq-shmmonitor
+        enabled: "{{fmq_cleanup_enabled == 'true'}}"
+        task:
+          load: "fairmq-shmmonitor"
           trigger: DESTROY
           timeout: 10s
           critical: false
