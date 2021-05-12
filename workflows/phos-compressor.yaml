@@ -1,15 +1,17 @@
 name: phos-compressor
 vars:
   dpl_command: >-
-    o2-dpl-raw-proxy -b --session default --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-phos-reco-workflow -b --input-type raw --output-type cells --session default --disable-root-output --pedestal {{ phos_pedestal }} --keepGHLG {{ phos_keep_hglg }} | o2-dpl-output-proxy -b --session default --dataspec 'A:PHS/CELLS/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"'
+    o2-dpl-raw-proxy -b --session default --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-phos-reco-workflow -b --input-type raw --output-type cells --session default --disable-root-output --pedestal off --keepHGLG off | o2-dpl-output-proxy -b --session default --dataspec 'A:PHS/CELLS/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"'
 defaults:
-  phos_keep_hglg: off
   phos_pedestal: off
+  phos_keep_hglg: off
   monitoring_dpl_url: "no-op://"
   user: "flp"
   fmq_rate_logging: 0
   shm_segment_size: 10000000000
   shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
 roles:
   - name: "internal-dpl-clock"
     connect:
@@ -25,7 +27,7 @@ roles:
     - name: readout-proxy
       type: pull
       transport: shmem
-      target: "{{ path_to_readout_proxy }}"
+      target: "::readout-proxy-{{ it }}"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: phos-compressor-readout-proxy
@@ -50,6 +52,13 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.PHOSRawToCellConverterSpec:from_PHOSRawToCellConverterSpec_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+    bind:
+    - name: downstream
+      type: push
+      transport: shmem
+      addressing: ipc
+      rateLogging: "{{ fmq_rate_logging }}"
+      global: "downstream-{{ it }}"
     task:
       load: phos-compressor-dpl-output-proxy
   - name: "internal-dpl-injected-dummy-sink"
