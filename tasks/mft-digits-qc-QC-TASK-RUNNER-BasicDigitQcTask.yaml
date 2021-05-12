@@ -1,11 +1,15 @@
 name: mft-digits-qc-QC-TASK-RUNNER-BasicDigitQcTask
 defaults:
   log_task_output: none
+  _module_cmdline: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
+    {{ dpl_command }} | o2-qc
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
 control:
   mode: "fairmq"
 wants:
-  cpu: 0.15
-  memory: 128
+  cpu: 0.01
+  memory: 1
 bind:
   - name: from_QC-TASK-RUNNER-BasicDigitQcTask_to_QC-CHECK-RUNNER-sink-QC_BasicDigitQcT-mo_0
     type: push
@@ -16,15 +20,13 @@ command:
   shell: true
   log: "{{ log_task_output }}"
   user: "{{ user }}"
-  value: >-
-    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-qc
+  value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
     - "-b"
     - "--monitoring-backend"
     - "'{{ monitoring_dpl_url }}'"
     - "--session"
-    - "'default'"
+    - "'{{ session_id }}'"
     - "--infologger-severity"
     - "'{{ infologger_severity }}'"
     - "--infologger-mode"
@@ -85,6 +87,8 @@ command:
     - "'0'"
     - "--shm-zero-segment"
     - "'false'"
+    - "--spawners"
+    - "'1'"
     - "--stacktrace-on-signal"
     - "'all'"
     - "--workflow-suffix"

@@ -1,13 +1,17 @@
-name: tof-compressor-178-tof-compressor-6
+name: tof-compressor-tof-compressor-0_t0
 defaults:
   log_task_output: none
+  _module_cmdline: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
+    {{ dpl_command }} | o2-tof-compressor
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-tof-compressor"
 control:
   mode: "fairmq"
 wants:
-  cpu: 0.15
-  memory: 128
+  cpu: 0.01
+  memory: 1
 bind:
-  - name: from_tof-compressor-6_to_dpl-output-proxy
+  - name: from_tof-compressor-0_t0_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -16,15 +20,13 @@ command:
   shell: true
   log: "{{ log_task_output }}"
   user: "{{ user }}"
-  value: >-
-    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-tof-compressor
+  value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
     - "-b"
     - "--monitoring-backend"
     - "'{{ monitoring_dpl_url }}'"
     - "--session"
-    - "'default'"
+    - "'{{ session_id }}'"
     - "--infologger-severity"
     - "'{{ infologger_severity }}'"
     - "--infologger-mode"
@@ -35,8 +37,10 @@ command:
     - "'{{ shm_segment_size }}'"
     - "--shm-throw-bad-alloc"
     - "'{{ shm_throw_bad_alloc }}'"
+    - "--resources-monitoring"
+    - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'tof-compressor-6'"
+    - "'tof-compressor-0_t0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -57,20 +61,22 @@ command:
     - "''"
     - "--clone"
     - "''"
+    - "--configKeyValues"
+    - "''"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
-    - "'1000'"
+    - "'4'"
     - "--fairmq-send-buffer-size"
-    - "'1000'"
+    - "'4'"
     - "--forwarding-destination"
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
     - "--pipeline"
-    - "''"
+    - "'tof-compressor-0:6'"
     - "--readers"
     - "'1'"
     - "--severity"
@@ -81,10 +87,12 @@ command:
     - "'0'"
     - "--shm-zero-segment"
     - "'false'"
+    - "--spawners"
+    - "'1'"
     - "--stacktrace-on-signal"
     - "'all'"
     - "--tof-compressor-config"
-    - "'x0:TOF/RAWDATA/0,x1:TOF/RAWDATA/1,x2:TOF/RAWDATA/2,x3:TOF/RAWDATA/3,x4:TOF/RAWDATA/4,x5:TOF/RAWDATA/5,x6:TOF/RAWDATA/6,x7:TOF/RAWDATA/7,x8:TOF/RAWDATA/8,x9:TOF/RAWDATA/9,x10:TOF/RAWDATA/10,x11:TOF/RAWDATA/11,x12:TOF/RAWDATA/12,x13:TOF/RAWDATA/13,x14:TOF/RAWDATA/14,x15:TOF/RAWDATA/15,x16:TOF/RAWDATA/16,x17:TOF/RAWDATA/17,x18:TOF/RAWDATA/18,x19:TOF/RAWDATA/19,x56:TOF/RAWDATA/56,x57:TOF/RAWDATA/57,x58:TOF/RAWDATA/58,x59:TOF/RAWDATA/59,x60:TOF/RAWDATA/60,x61:TOF/RAWDATA/61,x62:TOF/RAWDATA/62,x63:TOF/RAWDATA/63,x64:TOF/RAWDATA/64,x65:TOF/RAWDATA/65,x66:TOF/RAWDATA/66,x67:TOF/RAWDATA/67,x68:TOF/RAWDATA/68,x69:TOF/RAWDATA/69,x70:TOF/RAWDATA/70,x71:TOF/RAWDATA/71'"
+    - "'x:TOF/RAWDATA'"
     - "--tof-compressor-output-desc"
     - "'CRAWDATA'"
     - "--tof-compressor-rdh-version"

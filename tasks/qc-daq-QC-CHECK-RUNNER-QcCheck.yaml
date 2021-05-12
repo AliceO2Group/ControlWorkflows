@@ -8,8 +8,8 @@ defaults:
 control:
   mode: "fairmq"
 wants:
-  cpu: 0.15
-  memory: 128
+  cpu: 0.01
+  memory: 1
 bind:
   - name: from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-injected-dummy-sink
     type: push
@@ -26,7 +26,7 @@ command:
     - "--monitoring-backend"
     - "'{{ monitoring_dpl_url }}'"
     - "--session"
-    - "'default'"
+    - "'{{ session_id }}'"
     - "--infologger-severity"
     - "'{{ infologger_severity }}'"
     - "--infologger-mode"
@@ -37,6 +37,8 @@ command:
     - "'{{ shm_segment_size }}'"
     - "--shm-throw-bad-alloc"
     - "'{{ shm_throw_bad_alloc }}'"
+    - "--resources-monitoring"
+    - "'{{ resources_monitoring }}'"
     - "--id"
     - "'QC-CHECK-RUNNER-QcCheck'"
     - "--shm-monitor"
@@ -66,9 +68,9 @@ command:
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
-    - "'1000'"
+    - "'4'"
     - "--fairmq-send-buffer-size"
-    - "'1000'"
+    - "'4'"
     - "--forwarding-destination"
     - "'drop'"
     - "--forwarding-policy"
@@ -87,6 +89,8 @@ command:
     - "'0'"
     - "--shm-zero-segment"
     - "'false'"
+    - "--spawners"
+    - "'1'"
     - "--stacktrace-on-signal"
     - "'all'"
     - "--workflow-suffix"

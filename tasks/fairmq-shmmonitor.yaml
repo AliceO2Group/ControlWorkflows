@@ -3,10 +3,11 @@ defaults:
   log_task_output: none
   user: flp
   log: none
+  session_id: default
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load FairMQ &&
     fairmq-shmmonitor -c
-  _plain_cmdline: "{{ o2_install_path }}/fairmq-shmmonitor -c"
+  _plain_cmdline: "source /etc/profile.d/o2.sh && fairmq-shmmonitor -c"
 control:
   mode: basic
 wants:

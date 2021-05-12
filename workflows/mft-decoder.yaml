@@ -8,6 +8,8 @@ defaults:
   fmq_rate_logging: 0
   shm_segment_size: 10000000000
   shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
 roles:
   - name: "internal-dpl-clock"
     connect:
@@ -23,7 +25,7 @@ roles:
     - name: readout-proxy
       type: pull
       transport: shmem
-      target: "{{ path_to_readout_proxy }}"
+      target: "::readout-proxy-{{ it }}"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: mft-decoder-readout-proxy
@@ -43,5 +45,12 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.mft-stf-decoder:from_mft-stf-decoder_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+    bind:
+    - name: downstream
+      type: push
+      transport: shmem
+      addressing: ipc
+      rateLogging: "{{ fmq_rate_logging }}"
+      global: "downstream-{{ it }}"
     task:
       load: mft-decoder-dpl-output-proxy
