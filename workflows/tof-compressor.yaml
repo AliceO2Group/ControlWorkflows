@@ -1,0 +1,131 @@
+name: tof-compressor
+vars:
+  dpl_command: >-
+    o2-dpl-raw-proxy -b --session default --dataspec 'x0:TOF/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-tof-compressor -b --session default --pipeline tof-compressor-0:6 --tof-compressor-rdh-version 6 --tof-compressor-config x:TOF/RAWDATA | o2-dpl-output-proxy -b --session default --dataspec 'A:TOF/CRAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"'
+defaults:
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 10000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: tof-compressor-internal-dpl-clock
+  - name: "readout-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_readout-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: readout-proxy
+      type: pull
+      transport: shmem
+      target: "::readout-proxy-{{ it }}"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: tof-compressor-readout-proxy
+  - name: "tof-compressor-0_t0"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t0"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: tof-compressor-tof-compressor-0_t0
+  - name: "tof-compressor-0_t1"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t1
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t1"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: tof-compressor-tof-compressor-0_t1
+  - name: "tof-compressor-0_t2"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t2
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t2"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: tof-compressor-tof-compressor-0_t2
+  - name: "tof-compressor-0_t3"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t3
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t3"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: tof-compressor-tof-compressor-0_t3
+  - name: "tof-compressor-0_t4"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t4
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t4"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: tof-compressor-tof-compressor-0_t4
+  - name: "tof-compressor-0_t5"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t5
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t5"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: tof-compressor-tof-compressor-0_t5
+  - name: "dpl-output-proxy"
+    connect:
+    - name: from_readout-proxy_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_tof-compressor-0_t0_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t0:from_tof-compressor-0_t0_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_tof-compressor-0_t1_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t1:from_tof-compressor-0_t1_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_tof-compressor-0_t2_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t2:from_tof-compressor-0_t2_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_tof-compressor-0_t3_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t3:from_tof-compressor-0_t3_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_tof-compressor-0_t4_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t4:from_tof-compressor-0_t4_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_tof-compressor-0_t5_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t5:from_tof-compressor-0_t5_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    bind:
+    - name: downstream
+      type: push
+      transport: shmem
+      addressing: ipc
+      rateLogging: "{{ fmq_rate_logging }}"
+      global: "downstream-{{ it }}"
+    task:
+      load: tof-compressor-dpl-output-proxy
