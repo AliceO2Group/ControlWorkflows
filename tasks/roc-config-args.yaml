@@ -30,12 +30,7 @@ defaults:
   rocConfigSystemId: "0x0"
   rocConfigFEEId: "0x0"
   log_task_output: none
-command: 
-  env:
-    - O2_INFOLOGGER_MODE={{ infologger_mode }}
-  log: "{{ log_task_output }}"
-  shell: true
-  value: >-
+  _module_cmdline: >-
     source /etc/profile.d/modules.sh &&
     MODULEPATH={{ modulepath }} module load ReadoutCard &&
     for endpoint in {{ card_endpoints }};do 
@@ -64,3 +59,37 @@ command:
         --system-id {{ rocConfigSystemId }}
         --fee-id {{ rocConfigFEEId }})
       o2-roc-config --id={{ card }}:$endpoint ${args[@]} || exit 1;done
+  _plain_cmdline: >-
+      source /etc/profile.d/o2.sh && 
+      for endpoint in {{ card_endpoints }};do 
+        args=(--links {{ rocConfigLinks }} 
+          {{ rocConfigAllowRejection == 'true' ? '--allow-rejection' : '' }}
+          --clock {{ rocConfigClock }} 
+          --cru-id {{ rocConfigCruId }} 
+          --crorc-id {{ rocConfigCrocId }} 
+          --datapathmode {{ rocConfigDatapathMode }} 
+          --downstreamdata {{ rocConfigDownstreamData }} 
+          --gbtmode {{ rocConfigGbtMode }} 
+          --gbtmux {{ rocConfigGbtMux }}
+          {{ rocConfigLoopback == 'true' ? '--loopback' : ''}}
+          {{ rocConfigPonUpstream == 'true' ? '--pon-upstream' : ''}}
+          {{ rocConfigDynOffset == 'true' ? '--dyn-offset' : '' }}
+          --onu-address {{ rocConfigOnuAddress }}
+          {{ rocConfigForceConfig == 'true' ? '--force-config' : ''}} 
+          {{ rocConfigBypassFwCheck == 'true' ? '--bypass-fw-check' : ''}} 
+          --trigger-window-size {{ rocConfigTriggerWindowSize }} 
+          {{ rocConfigNoGBT == 'true' ? '--no-gbt' : ''}}
+          {{ rocConfigUserLogic == 'true' ? '--user-logic' : ''}}
+          {{ rocConfigRunStats == 'true' ? '--run-stats' : ''}}
+          {{ rocConfigUserAndCommonLogic == 'true' ? '--user-and-common-logic' : ''}}
+          {{ rocConfigNoTfDetection == 'true' ? '--no-tf-detection'  : ''}}
+          --tf-length {{ rocConfigTfLength }}
+          --system-id {{ rocConfigSystemId }}
+          --fee-id {{ rocConfigFEEId }})
+        o2-roc-config --id={{ card }}:$endpoint ${args[@]} || exit 1;done
+command: 
+  env:
+    - O2_INFOLOGGER_MODE={{ infologger_mode }}
+  log: "{{ log_task_output }}"
+  shell: true
+  value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
