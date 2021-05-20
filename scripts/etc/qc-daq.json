@@ -1,0 +1,75 @@
+{
+    "qc": {
+        "config": {
+            "database": {
+                "implementation": "CCDB",
+                "host": "piotr-ostack:8083",
+                "username": "not_applicable",
+                "password": "not_applicable",
+                "name": "not_applicable"
+            },
+            "Activity": {
+                "number": "42",
+                "type": "2"
+            },
+            "monitoring": {
+                "url": "influxdb-unix:///tmp/telegraf.sock"
+            },
+            "consul": {
+                "url": "piotr-ostack:8500"
+            },
+            "conditionDB": {
+                "url": "piotr-ostack:8083"
+            }
+        },
+        "tasks": {
+            "dataDistribution": {
+                "active": "true",
+                "className": "o2::quality_control_modules::daq::DaqTask",
+                "moduleName": "QcDaq",
+                "detectorName": "DAQ",
+                "cycleDurationSeconds": "10",
+                "maxNumberCycles": "-1",
+                "dataSource": {
+                    "type": "dataSamplingPolicy",
+                    "name": "datadistribution"
+                },
+                "location": "remote"
+            }
+        },
+        "checks": {
+            "QcCheck": {
+                "active": "true",
+                "className": "o2::quality_control_modules::skeleton::SkeletonCheck",
+                "moduleName": "QcSkeleton",
+                "policy": "OnAny",
+                "detectorName" : "DAQ",
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "dataDistribution",
+                        "MOs": [
+                            "payloadSizeInputs"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "dataSamplingPolicies": [
+        {
+            "id": "datadistribution",
+            "active": "true",
+            "machines": [],
+            "query": "readout:TST/RAWDATA",
+            "samplingConditions": [
+                {
+                    "condition": "random",
+                    "fraction": "1.0",
+                    "seed": "1248"
+                }
+            ],
+            "blocking": "false"
+        }
+    ]
+}
