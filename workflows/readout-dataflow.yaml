@@ -33,6 +33,8 @@ roles:
       readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ it }}"
       readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-stfb-{{ it }}"
       dd_discovery_ib_hostname: "{{ it }}-ib" # MUST be defined for all stfb and stfs
+      # dpl_workflow is set to <detector>_dpl_workflow if such an override exists
+      dpl_worfklow: "{{ PrefixedOverride( 'dpl_workflow', ToLower( DetectorForHost( it ) ) ) }}"
     constraints:
       - attribute: machine_id
         value: "{{ it }}"
