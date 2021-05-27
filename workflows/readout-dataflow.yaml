@@ -196,19 +196,19 @@ roles:
           func: dcs.StartOfRun()
           trigger: enter_RUNNING
           timeout: 5s
-          critical: true
+          critical: false
       - name: eor
         call:
           func: dcs.EndOfRun()
           trigger: leave_RUNNING
           timeout: 5s
-          critical: true
+          critical: false
       - name: cleanup
         call:
           func: dcs.Cleanup()
           trigger: DESTROY
           timeout: 5s
-          critical: true
+          critical: false
   - name: dd-scheduler
     enabled: "{{ddsched_enabled == 'true'}}"
     roles:
@@ -217,13 +217,13 @@ roles:
           func: ddsched.PartitionInitialize()
           trigger: before_CONFIGURE
           timeout: 5s
-          critical: true
+          critical: false
       - name: terminate
         call:
           func: ddsched.PartitionTerminate()
           trigger: after_RESET
           timeout: 5s
-          critical: true
+          critical: false
       - name: cleanup
         call:
           func: ddsched.EnsureTermination()
@@ -239,28 +239,28 @@ roles:
           trigger: before_CONFIGURE
           await: after_CONFIGURE
           timeout: 30s
-          critical: true
+          critical: false
       - name: start
         call:
           func: odc.Start()
           trigger: before_START_ACTIVITY
           await: after_START_ACTIVITY
           timeout: 5s
-          critical: true
+          critical: false
       - name: stop
         call:
           func: odc.Stop()
           trigger: before_STOP_ACTIVITY
           await: after_STOP_ACTIVITY
           timeout: 5s
-          critical: true
+          critical: false
       - name: reset
         call:
           func: odc.Reset()
           trigger: before_RESET
           await: after_RESET
           timeout: 15s
-          critical: true
+          critical: false
       - name: cleanup
         call:
           func: odc.EnsureCleanup()
