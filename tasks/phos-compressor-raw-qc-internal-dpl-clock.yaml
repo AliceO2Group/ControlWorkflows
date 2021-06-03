@@ -47,6 +47,8 @@ command:
     - "'{{ shm_segment_size }}'"
     - "--shm-throw-bad-alloc"
     - "'{{ shm_throw_bad_alloc }}'"
+    - "--resources-monitoring"
+    - "'{{ resources_monitoring }}'"
     - "--id"
     - "'internal-dpl-clock'"
     - "--shm-monitor"
