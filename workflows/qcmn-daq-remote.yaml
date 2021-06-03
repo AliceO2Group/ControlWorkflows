@@ -10,6 +10,7 @@ defaults:
   shm_segment_size: 10000000000
   shm_throw_bad_alloc: false
   session_id: default
+  resources_monitoring: 15
 roles:
   - name: "internal-dpl-clock"
     connect:
