@@ -1,4 +1,4 @@
-name: "qc-postprocessing"
+name: !public qc-postprocessing
 defaults:
   log_task_output: none
   fmq_rate_logging: 0
