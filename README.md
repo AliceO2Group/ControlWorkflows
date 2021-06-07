@@ -193,7 +193,13 @@ Source code can be found [here.](.github/workflows/template.yml)
 This piece of documentation explains how to generate a DPL workflow template which should run on an FLP.
 
 All FLPs use the `readout-dataflow` workflow to run the common pieces of software - Readout, STFBuilder, STFSender, ROC and others.
-It can also include one DPL sub-workflow which may perform some data processing and/or quality control.
+It can also include DPL sub-workflows which may perform some data processing and/or quality control (max. one per FLP).
+Additionally, a remote QC workflow can be added (e.g. with Mergers).
+
+All available DPL workflows can be (re)generated with scripts stored in the `scripts` directory.
+Use [`generate-all-dpl-workflows.sh`](scripts/generate-all-dpl-workflows.sh) to regenerate all the DPL workflows, or any particular script to regenerate only the selected one.
+All scripts should be executed from within the `scripts` directory. 
+When adding a new workflow template, please consider providing also a script, so it can be regenerated in case of need. 
 
 ## Preparing the DPL command
 
@@ -280,6 +286,7 @@ The corresponding workflow template (list of processes to run) will be created i
 
 4. Commit the new files and push to a remote branch.
 One can run it by pointing the AliECS to respective branch, choosing the `readout-dataflow` workflow in the AliECS GUI and adding the parameter `dpl_workflow : <workflow_name>` in the advanced configuration.
+If running a setup with multiple detectors, add the 3-letter detector prefix to the key (e.g. `tof_dpl_workflow`).
 After confirming that it works, make a PR to the main ControlWorkflows' master branch.
 
 ## Exporting templates of workflows which need configuration files
@@ -341,7 +348,18 @@ After these steps, the workflow should be ready to be committed and tested.
 However, one should also make sure that the required config file is available in Consul under the correct path.
 To do so, one can add it using the Consul GUI (Key/Value panel).
 Otherwise, to install it with each FLP suite, one should add a file template in the [System configuration](https://gitlab.cern.ch/AliceO2Group/system-configuration/) repository under the path `ansible/roles/quality-control/templates` similarly to the other QC files (if it is actually QC).
-Then one should add a new sub-task in `ansible/roles/quality-control/tasks/main.yml` which installs the file (see similar sub-tasks as examples).
+Then one should add the file to the corresponding sub-task in `ansible/roles/quality-control/tasks/main.yml`.
+
+## Generating multinode QC workflows
+
+If the expected production setup includes QC running in parallel on many nodes, one should generate two workflow templates - one for the FLP part, another one which should run on a QC server.
+First, one should prepare DPL commands and QC config file according to the [multinode QC setup documentation](https://github.com/AliceO2Group/QualityControl/blob/master/doc/Advanced.md#multi-node-setups).
+Then, the two workflows should be generated with `-local` and `-remote` name suffixes respectively, as it is done e.g. in [`scripts/qcmn-daq.sh`](scripts/qcmn-daq.sh).
+Following this example, the full setup can be run by adding the following parameters in the advanced configuration panel:
+```
+"dpl_workflow" : "qcmn-daq-local"
+"qc_remote_workflow" : "qcmn-daq-remote"
+```
 
 ## Future improvements
 

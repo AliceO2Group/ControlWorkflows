@@ -12,6 +12,16 @@ set -u;
 # - do not name workflows so one name includes other. e.g. 'its-qc-one' and 'its-qc'.
 #   otherwise the sed commands for 'its-qc's TTs might affect 'its-qc-one' as well.
 
+# Checks if current pwd matches the location of this script, exits if it is not
+function check_pwd() {
+  DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
+  if [[ $DIR != $PWD ]]; then
+    echo 'Please execute this script while being in its directory'
+    exit 1
+  fi
+}
+
+check_pwd
 
 # ./datasampling-02.sh # this is a test workflow, no need for it in production
 ./hmpid-raw-qcmn.sh
