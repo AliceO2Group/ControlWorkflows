@@ -35,7 +35,7 @@ roles:                         # A list of child roles.
         # a specific "processor3".
         # By whatever means, the target must ultimately contain a valid complete path to a role, followed by a ":"
         # and the name of the inbound channel (as it appears in the bind spec of the task template).
-        target: "{{ Parent().Path }}.sampler:data1"
+        target: "tcp://127.0.0.1:47777"
         type: "pull"
         sndBufSize: 1000
         rcvBufSize: 1000

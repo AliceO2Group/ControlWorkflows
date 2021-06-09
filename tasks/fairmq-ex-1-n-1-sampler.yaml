@@ -17,6 +17,7 @@ bind:                   # "bind" contains a list of *inbound* channels to config
   sndBufSize: 1000      # other FairMQ channel properties to push
   rcvBufSize: 1000
   rateLogging: 0
+  target: "tcp://*:47777"
 properties:             # Contains a key-value map of FairMQ properties to push
   severity: trace
   color: false
