@@ -1,0 +1,18 @@
+{
+  "dataSamplingPolicies": [
+    {
+      "id": "mch-raw-rnd",
+      "active": "true",
+      "machines": [],
+      "query" : "raw:MCH/RAWDATA",
+      "outputs" : "raw-sampled:MCH/RAWDATA_SAMPLED",
+      "samplingConditions": [
+        {
+          "condition": "random",
+          "fraction": "1",
+          "seed": "22222"
+        }
+      ]
+    }
+  ]
+}
