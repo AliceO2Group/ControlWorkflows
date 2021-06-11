@@ -28,6 +28,7 @@ check_pwd
 ./hmpid-raw-qc.sh
 ./its-qc-fhr-fee.sh
 ./its-qcmn-fhr-fee.sh
+./mch-qcmn-digits.sh
 ./mft-decoder.sh
 ./mft-digits-qc.sh
 # ./mft-raw-digits-qc.sh # disabled until the MFT decoder is fixed and we optimize the workflow
