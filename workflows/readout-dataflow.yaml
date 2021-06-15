@@ -141,6 +141,15 @@ roles:
                   trigger: enter_RUNNING
                   timeout: 10s
                   critical: false
+      - name: drop-caches
+        enabled: "{{drop_caches_enabled == 'true'}}"
+        vars:
+          shell_command: "echo 3 > /proc/sys/vm/drop_caches"
+        task:
+          load: "shell-command"
+          trigger: before_CONFIGURE
+          timeout: 5s
+          critical: false
       - name: fairmq-shmmonitor
         enabled: "{{fmq_cleanup_enabled == 'true'}}"
         task:
