@@ -35,5 +35,6 @@ command:
     - "--detector-subspec={{ dd_detector_subspec }}"
     - "--severity={{ fmq_severity }}"
     - "--severity-infologger={{ infologger_severity }}"
+    - "--monitoring-backend='{{ monitoring_dd_url }}'"
     - "--dpl-channel-name=dpl-chan"
     - "--shm-monitor=false"

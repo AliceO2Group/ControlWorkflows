@@ -33,6 +33,7 @@ command:
     - "--input-channel-name={{ stfs_input_channel_name }}"
     - "--severity={{ fmq_severity }}"
     - "--severity-infologger={{ infologger_severity }}"
+    - "--monitoring-backend='{{ monitoring_dd_url }}'"
     - "--discovery-partition={{ environment_id }}"
     - "--discovery-id={{ dd_discovery_stfs_id }}"
     - "--discovery-endpoint={{ dd_discovery_endpoint }}"
