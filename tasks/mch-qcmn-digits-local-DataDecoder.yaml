@@ -106,5 +106,3 @@ command:
     - "''"
     - "--fec-map"
     - "''"
-    - "--sampa-bc-offset"
-    - "'339986'"
