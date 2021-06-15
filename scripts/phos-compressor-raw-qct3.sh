@@ -6,7 +6,7 @@ set -u;
 
 WF_NAME=phos-compressor-raw-qct3
 QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/phos-compressor-raw-qc.json'
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/'${WF_NAME}'-{{ it }}'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/phos-compressor-raw-qc'
 QC_CONFIG_PARAM='qc_config_uri'
 
 cd ..
