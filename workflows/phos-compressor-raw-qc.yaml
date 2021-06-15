@@ -41,27 +41,6 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: phos-compressor-raw-qc-PHOSRawToCellConverterSpec
-  - name: "dpl-output-proxy"
-    connect:
-    - name: from_readout-proxy_to_dpl-output-proxy
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
-      rateLogging: "{{ fmq_rate_logging }}"
-    - name: from_PHOSRawToCellConverterSpec_to_dpl-output-proxy
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.PHOSRawToCellConverterSpec:from_PHOSRawToCellConverterSpec_to_dpl-output-proxy"
-      rateLogging: "{{ fmq_rate_logging }}"
-    bind:
-    - name: downstream
-      type: push
-      transport: shmem
-      addressing: ipc
-      rateLogging: "{{ fmq_rate_logging }}"
-      global: "downstream-{{ it }}"
-    task:
-      load: phos-compressor-raw-qc-dpl-output-proxy
   - name: "Dispatcher"
     connect:
     - name: from_internal-dpl-clock_to_Dispatcher
@@ -73,11 +52,6 @@ roles:
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.PHOSRawToCellConverterSpec:from_PHOSRawToCellConverterSpec_to_Dispatcher"
-      rateLogging: "{{ fmq_rate_logging }}"
-    - name: from_dpl-output-proxy_to_Dispatcher
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.dpl-output-proxy:from_dpl-output-proxy_to_Dispatcher"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: phos-compressor-raw-qc-Dispatcher
@@ -113,3 +87,24 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: phos-compressor-raw-qc-QC-CHECK-RUNNER-sink-QC_QcTask-mo_0
+  - name: "dpl-output-proxy"
+    connect:
+    - name: from_readout-proxy_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_Dispatcher_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    bind:
+    - name: downstream
+      type: push
+      transport: shmem
+      addressing: ipc
+      rateLogging: "{{ fmq_rate_logging }}"
+      global: "downstream-{{ it }}"
+    task:
+      load: phos-compressor-raw-qc-dpl-output-proxy

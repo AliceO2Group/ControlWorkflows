@@ -11,12 +11,12 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_PHOSRawToCellConverterSpec_to_dpl-output-proxy
+  - name: from_PHOSRawToCellConverterSpec_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_PHOSRawToCellConverterSpec_to_internal-dpl-injected-dummy-sink
+  - name: from_PHOSRawToCellConverterSpec_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -77,6 +77,8 @@ command:
     - "'4'"
     - "--fairmq-send-buffer-size"
     - "'4'"
+    - "--flpId"
+    - "'0'"
     - "--forwarding-destination"
     - "'drop'"
     - "--forwarding-policy"
@@ -88,7 +90,7 @@ command:
     - "--output-type"
     - "'cells'"
     - "--pipeline"
-    - "''"
+    - "'PHOSRawToCellConverterSpec:1'"
     - "--readers"
     - "'1'"
     - "--severity"
