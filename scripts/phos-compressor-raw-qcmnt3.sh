@@ -29,7 +29,7 @@ sed -i '/--keepHGLG/{n;s/.*/    - "{{ phos_keep_hglg }}"/}' tasks/${WF_NAME}-*
 
 
 # QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/its-qcmn-fhr-fee'
-WF_NAME=phos-compressor-raw-qcmn-remote
+WF_NAME=phos-compressor-raw-qcmnt3-remote
 
 o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
 
