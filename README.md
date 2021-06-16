@@ -387,7 +387,7 @@ It means that one will not have to export the templates manually anymore and the
 
 If you have read everything above, you can now follow these simplified instructions. 
 
-3. Access a FLP with the proper FLP Suite
+3. Access an FLP with the proper FLP Suite
 1. Prepare the workflow
     2. Clone ControlWorkflows from your fork: `git clone https://github.com/<yourGHusername>/ControlWorkflows.git`
     3. Make sure that you are in line with the correct branch:
