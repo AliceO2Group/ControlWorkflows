@@ -409,3 +409,4 @@ If you have read everything above, you can now follow these simplified instructi
     1. Add the variable `log_task_output` and set it to `all` to make sure you can see the output of the tasks in the Infologger.
     4. Do not enable QC but enable DD.
     5. Run and check that everything is fine
+2. Add the new scripts, if any, to `scripts/generate-all-dpl-workflows.sh`

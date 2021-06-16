@@ -39,6 +39,9 @@ check_pwd
 ./phos-compressor-raw-qc.sh
 ./phos-compressor-raw-qcmn.sh
 ./phos-compressor.sh
+./phos-compressor-raw-qct3.sh
+./phos-compressor-raw-qcmnt3.sh
+./phos-compressort3.sh
 ./qc-daq.sh
 ./qcmn-daq.sh
 ./tof-compressor.sh
