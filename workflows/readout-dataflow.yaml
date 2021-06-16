@@ -145,6 +145,7 @@ roles:
         enabled: "{{drop_caches_enabled == 'true'}}"
         vars:
           shell_command: "echo 3 > /proc/sys/vm/drop_caches"
+          user: root
         task:
           load: "shell-command"
           trigger: before_CONFIGURE
