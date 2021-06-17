@@ -23,6 +23,7 @@ command:
   arguments:
     - "--session=default"
     - "--transport=shmem"
+    - "--monitoring-backend='{{ monitoring_dd_url }}'"
     - "--detector-rdh={{ rdh_version }}"
     - "--detector-subspec={{dd_detector_subspec}}"
     - "--severity={{ fmq_severity }}"
