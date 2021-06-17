@@ -1,13 +1,30 @@
 # FLP Suite Workflow Configuration
 The [`ControlWorkflows`](https://github.com/AliceO2Group/ControlWorkflows) repository hosts the configuration tree for AliECS workflow templates (WFT) and task templates (TT).
 
-Available workflow templates:
-
-* `qc-postprocessing` - QualityControl post-processing workflow
-* `readout-dataflow` - Main FLP workflow
-* `readout-qc` - QualityControl workflow with Readout as source
-* `readout-stfb-qc` - QualityControl workflow with StfBuilder as source
-
+<!--TOC generated with https://github.com/ekalinin/github-markdown-toc-->
+<!--./gh-md-toc --insert /path/to/README.md-->
+<!--ts-->
+* [FLP Suite Workflow Configuration](#flp-suite-workflow-configuration)
+  * [Notes on input data types](#notes-on-input-data-types)
+  * [Common workflow variables](#common-workflow-variables)
+  * [readout-dataflow workflow variables](#readout-dataflow-workflow-variables)
+  * [o2-roc-config workflow variables](#o2-roc-config-workflow-variables)
+    * [o2-roc-config common variables](#o2-roc-config-common-variables)
+    * [o2-roc-config config-args variables](#o2-roc-config-config-args-variables)
+    * [Examples of running the o2-roc-config workflow](#examples-of-running-the-o2-roc-config-workflow)
+  * [Integration variables](#integration-variables)
+    * [DCS](#dcs)
+    * [DD scheduler](#dd-scheduler)
+    * [ODC](#odc)
+  * [Plugin configuration](#plugin-configuration)
+  * [Notes on the CI Pipeline](#notes-on-the-ci-pipeline)
+  * [Exporting DPL workflow templates](#exporting-dpl-workflow-templates)
+    * [Preparing the DPL command](#preparing-the-dpl-command)
+    * [Exporting the templates](#exporting-the-templates)
+    * [Exporting templates of workflows which need configuration files](#exporting-templates-of-workflows-which-need-configuration-files)
+    * [Generating multinode QC workflows](#generating-multinode-qc-workflows)
+    * [Future improvements](#future-improvements)
+<!--te-->
 
 ## Notes on input data types
 
@@ -175,7 +192,7 @@ ddSchedulerEndpoint: some-other-host-ib:50000
 odcEndpoint: yet-another-host-ib:22334
 ```
 
-# Notes on the CI Pipeline
+## Notes on the CI Pipeline
 
 In order to ensure a successful addition or modification of a template (task/workflow), every pull request will run a `walnut check` command against each file individually. 
 
@@ -188,7 +205,7 @@ These checks are ran automatically against:
 
 Source code can be found [here.](.github/workflows/template.yml)
 
-# Exporting DPL workflow templates
+## Exporting DPL workflow templates
 
 This piece of documentation explains how to generate a DPL workflow template which should run on an FLP.
 
@@ -201,7 +218,7 @@ Use [`generate-all-dpl-workflows.sh`](scripts/generate-all-dpl-workflows.sh) to 
 All scripts should be executed from within the `scripts` directory. 
 When adding a new workflow template, please consider providing also a script, so it can be regenerated in case of need. 
 
-## Preparing the DPL command
+### Preparing the DPL command
 
 Before exporting the workflow, one should prepare a DPL command which is able to get data from STFBuilder, process it and send the results to the STFSender.
 The first and the last requirements are handled by the input and output DPL proxies.
@@ -238,7 +255,7 @@ While preparing the DPL command, please avoid adding Data Processors which dump 
 Also, this particular workflow structure does not depend on any configuration files, so it always stays the same, unlike QC workflows.
 We will consider such cases [later in the documentation](#exporting-templates-of-workflows-which-need-configuration-files).
 
-## Exporting the templates
+### Exporting the templates
 
 Please make sure that you have built and compiled the same software stack on your setup as the one which will run on the target machines.
 If different versions are used, there is a risk that the workflows will not be deployed correctly in case that they were modified.
@@ -289,7 +306,7 @@ One can run it by pointing the AliECS to respective branch, choosing the `readou
 If running a setup with multiple detectors, add the 3-letter detector prefix to the key (e.g. `tof_dpl_workflow`).
 After confirming that it works, make a PR to the main ControlWorkflows' master branch.
 
-## Exporting templates of workflows which need configuration files
+### Exporting templates of workflows which need configuration files
 
 Some DPL workflows require configuration files to run correctly.
 Also the process names, channel names and their arrangement might depend on such configuration files.
@@ -350,7 +367,7 @@ To do so, one can add it using the Consul GUI (Key/Value panel).
 Otherwise, to install it with each FLP suite, one should add a file template in the [System configuration](https://gitlab.cern.ch/AliceO2Group/system-configuration/) repository under the path `ansible/roles/quality-control/templates` similarly to the other QC files (if it is actually QC).
 Then one should add the file to the corresponding sub-task in `ansible/roles/quality-control/tasks/main.yml`.
 
-## Generating multinode QC workflows
+### Generating multinode QC workflows
 
 If the expected production setup includes QC running in parallel on many nodes, one should generate two workflow templates - one for the FLP part, another one which should run on a QC server.
 First, one should prepare DPL commands and QC config file according to the [multinode QC setup documentation](https://github.com/AliceO2Group/QualityControl/blob/master/doc/Advanced.md#multi-node-setups).
@@ -361,7 +378,35 @@ Following this example, the full setup can be run by adding the following parame
 "qc_remote_workflow" : "qcmn-daq-remote"
 ```
 
-## Future improvements
+### Future improvements
 
 With the future releases we plan to allow for Just-In-Time workflow translation.
 It means that one will not have to export the templates manually anymore and they will only need to provide a file with the standalone DPL command.
+
+### Exporting worfklows for Dummies
+
+If you have read everything above, you can now follow these simplified instructions. 
+
+3. Access an FLP with the proper FLP Suite
+1. Prepare the workflow
+    2. Clone ControlWorkflows from your fork: `git clone https://github.com/<yourGHusername>/ControlWorkflows.git`
+    3. Make sure that you are in line with the correct branch:
+       ```
+       git remote add upstream https://github.com/AliceO2Group/ControlWorkflows.git
+       git fetch upstream 
+       git checkout flp-suite-v0.xx.0
+       git checkout -b my-branch
+       ```
+    3. Update a script in `ControlWorkflows/scripts` or add a new one
+    4. Run the script to re-generate the workflow(s): `cd ControlWorkflows/scripts ; ./my-script.sh`
+    1. If you need to use config files, refer to [this section](#exporting-templates-of-workflows-which-need-configuration-files)
+    5. Commit and push the changes
+1. Test it
+    1. Add the fork to the control: `coconut repo add github.com/<yourGHusername>/ControlWorkflows.git`
+    2. In the ECS, create a new environment.
+    3. Set the fork and the branch to match yours.
+    4. Add the variable `dpl_workflow` and set it to the name of the workflow
+    1. Add the variable `log_task_output` and set it to `all` to make sure you can see the output of the tasks in the Infologger.
+    4. Do not enable QC but enable DD.
+    5. Run and check that everything is fine
+2. Add the new scripts, if any, to `scripts/generate-all-dpl-workflows.sh`
