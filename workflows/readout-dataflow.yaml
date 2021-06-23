@@ -1,5 +1,6 @@
 name: !public readout-dataflow
 defaults:
+  drop_caches_enabled: "true"
   roc_ctp_emulator_enabled: "false"
   dd_enabled: "true"
   ddsched_enabled: "false"
