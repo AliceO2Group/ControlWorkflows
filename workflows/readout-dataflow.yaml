@@ -250,7 +250,7 @@ roles:
           func: odc.Configure()
           trigger: before_CONFIGURE
           await: after_CONFIGURE
-          timeout: 30s
+          timeout: 600s
           critical: true
       - name: start
         call:
