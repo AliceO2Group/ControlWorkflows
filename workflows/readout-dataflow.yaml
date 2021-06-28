@@ -1,6 +1,7 @@
 name: !public readout-dataflow
 defaults:
   drop_caches_enabled: "true"
+  fmq_initial_shm_cleanup_enabled: "true"
   roc_ctp_emulator_enabled: "false"
   dd_enabled: "true"
   ddsched_enabled: "false"
@@ -23,6 +24,7 @@ defaults:
   log_task_output: none
   fmq_rate_logging: "10"
   o2_install_path: "/opt/o2"
+  o2_infologger_path: "/opt/o2-InfoLogger"
 roles:
   - name: host-{{ it }}
     for:
@@ -150,7 +152,27 @@ roles:
         task:
           load: "shell-command"
           trigger: before_CONFIGURE
-          timeout: 5s
+          timeout: 10s
+          critical: false
+      - name: fairmq-shmcleanup
+        enabled: "{{fmq_initial_shm_cleanup_enabled == 'true'}}"
+        vars:
+          shell_command: >-
+            for SHM_FILE in /dev/shm/*; do
+              if [ -f $SHM_FILE ] ; then
+                if ! fuser -s $SHM_FILE ; then
+                  rm -f $SHM_FILE ;
+                  echo "freed unused shared memory $SHM_FILE" | {{o2_infologger_path}}/bin/o2-infologger-log -x -s Debug -o System=ECS -o Facility=core/shmcleanup -o Partition={{environment_id}} -o Role={{it}} ;
+                else
+                  echo "could not free shared memory in use $SHM_FILE" | {{o2_infologger_path}}/bin/o2-infologger-log -x -s Warning -o System=ECS -o Facility=core/shmcleanup -o Partition={{environment_id}} -o Role={{it}} ;
+                fi;
+              fi;
+            done
+          user: root
+        task:
+          load: "shell-command"
+          trigger: before_CONFIGURE
+          timeout: 10s
           critical: false
       - name: fairmq-shmmonitor
         enabled: "{{fmq_cleanup_enabled == 'true'}}"
