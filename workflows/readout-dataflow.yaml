@@ -157,23 +157,13 @@ roles:
       - name: fairmq-shmcleanup
         enabled: "{{fmq_initial_shm_cleanup_enabled == 'true'}}"
         vars:
-          shell_command: >-
-            for SHM_FILE in /dev/shm/*; do
-              if [ -f $SHM_FILE ] ; then
-                if ! fuser -s $SHM_FILE ; then
-                  rm -f $SHM_FILE ;
-                  echo "freed unused shared memory $SHM_FILE" | {{o2_infologger_path}}/bin/o2-infologger-log -x -s Debug -o System=ECS -o Facility=core/shmcleanup -o Partition={{environment_id}} -o Role={{it}} ;
-                else
-                  echo "could not free shared memory in use $SHM_FILE" | {{o2_infologger_path}}/bin/o2-infologger-log -x -s Warning -o System=ECS -o Facility=core/shmcleanup -o Partition={{environment_id}} -o Role={{it}} ;
-                fi;
-              fi;
-            done
+          shell_command: "source /etc/profile.d/o2.sh && O2_PARTITION={{environment_id}} O2_ROLE={{it}} o2-aliecs-shmcleaner"
           user: root
         task:
           load: "shell-command"
           trigger: before_CONFIGURE
           timeout: 10s
-          critical: false
+          critical: true
       - name: fairmq-shmmonitor
         enabled: "{{fmq_cleanup_enabled == 'true'}}"
         task:
