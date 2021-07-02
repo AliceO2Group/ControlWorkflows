@@ -205,13 +205,13 @@ roles:
           dcs_sor_parameters: "{\"key\":\"value\"}"
         call:
           func: dcs.StartOfRun()
-          trigger: enter_RUNNING
+          trigger: before_CONFIGURE
           timeout: 5s
           critical: true
       - name: eor
         call:
           func: dcs.EndOfRun()
-          trigger: leave_RUNNING
+          trigger: after_RESET
           timeout: 5s
           critical: true
       - name: cleanup
