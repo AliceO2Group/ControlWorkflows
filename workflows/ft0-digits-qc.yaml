@@ -1,0 +1,94 @@
+name: ft0-digits-qc
+vars:
+  dpl_command: >-
+    o2-dpl-raw-proxy -b --session default --dataspec 'A1:FT0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' | o2-ft0-flp-dpl-workflow -b --session=default --severity=debug --disable-root-output --ignore-dist-stf | o2-dpl-output-proxy -b --session default --dataspec 'digits:FT0/DIGITSBC/0;channels:FT0/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' | o2-qc --config {{ qc_config_uri }} -b
+defaults:
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/ft0-digits-qc-{{ it }}"
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 10000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: ft0-digits-qc-internal-dpl-clock
+  - name: "readout-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_readout-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: readout-proxy
+      type: pull
+      transport: shmem
+      target: "::readout-proxy-{{ it }}"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: ft0-digits-qc-readout-proxy
+  - name: "ft0-datareader-dpl"
+    connect:
+    - name: from_readout-proxy_to_ft0-datareader-dpl
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_ft0-datareader-dpl"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: ft0-digits-qc-ft0-datareader-dpl
+  - name: "QC-TASK-RUNNER-DigitQcTask"
+    connect:
+    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-DigitQcTask
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-DigitQcTask"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_ft0-datareader-dpl_to_QC-TASK-RUNNER-DigitQcTask
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ft0-datareader-dpl:from_ft0-datareader-dpl_to_QC-TASK-RUNNER-DigitQcTask"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: ft0-digits-qc-QC-TASK-RUNNER-DigitQcTask
+  - name: "QC-CHECK-RUNNER-DummyAnalysisCheck"
+    connect:
+    - name: from_QC-TASK-RUNNER-DigitQcTask_to_QC-CHECK-RUNNER-DummyAnalysisCheck
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.QC-TASK-RUNNER-DigitQcTask:from_QC-TASK-RUNNER-DigitQcTask_to_QC-CHECK-RUNNER-DummyAnalysisCheck"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: ft0-digits-qc-QC-CHECK-RUNNER-DummyAnalysisCheck
+  - name: "internal-dpl-injected-dummy-sink"
+    connect:
+    - name: from_QC-CHECK-RUNNER-DummyAnalysisCheck_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-DummyAnalysisCheck:from_QC-CHECK-RUNNER-DummyAnalysisCheck_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: ft0-digits-qc-internal-dpl-injected-dummy-sink
+  - name: "dpl-output-proxy"
+    connect:
+    - name: from_readout-proxy_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_QC-TASK-RUNNER-DigitQcTask_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.QC-TASK-RUNNER-DigitQcTask:from_QC-TASK-RUNNER-DigitQcTask_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    bind:
+    - name: downstream
+      type: push
+      transport: shmem
+      addressing: ipc
+      rateLogging: "{{ fmq_rate_logging }}"
+      global: "downstream-{{ it }}"
+    task:
+      load: ft0-digits-qc-dpl-output-proxy
