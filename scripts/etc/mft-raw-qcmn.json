@@ -23,9 +23,9 @@
       }
     },
     "tasks": {
-      "BasicReadoutHeaderQcTask": {
+      "QcMFTReadoutTask": {
         "active": "true",
-        "className": "o2::quality_control_modules::mft::BasicReadoutHeaderQcTask",
+        "className": "o2::quality_control_modules::mft::QcMFTReadoutTask",
         "moduleName": "QcMFT",
         "detectorName": "MFT",
         "cycleDurationSeconds": "60",
@@ -51,16 +51,16 @@
       }
     },
     "checks": {
-      "BasicReadoutHeaderQcCheck": {
+      "QcMFTReadoutCheck": {
         "active": "true",
-        "className": "o2::quality_control_modules::mft::BasicReadoutHeaderQcCheck",
+        "className": "o2::quality_control_modules::mft::QcMFTReadoutCheck",
         "moduleName": "QcMFT",
         "detectorName": "MFT",
         "policy": "OnEachSeparately",
         "dataSource": [{
           "type": "Task",
-          "name": "BasicReadoutHeaderQcTask",
-          "MOs": ["mMFT_SummaryLaneStatus_H"]
+          "name": "QcMFTReadoutTask",
+          "MOs": ["mMFTSummaryLaneStatus"]
         }]
       }
     }    
