@@ -1,4 +1,4 @@
-name: mft-raw-qc-QC-TASK-RUNNER-BasicReadoutHeaderQcTask
+name: mft-raw-qcmn-local-QC-TASK-RUNNER-QcMFTReadoutTask
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,7 +11,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_QC-TASK-RUNNER-BasicReadoutHeaderQcTask_to_QC-CHECK-RUNNER-BasicReadoutHeaderQcCheck
+  - name: from_QC-TASK-RUNNER-QcMFTReadoutTask_to_QcMFTReadoutTask-proxy-1
     type: push
     transport: shmem
     addressing: ipc
@@ -40,7 +40,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'QC-TASK-RUNNER-BasicReadoutHeaderQcTask'"
+    - "'QC-TASK-RUNNER-QcMFTReadoutTask'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -76,7 +76,8 @@ command:
     - "--forwarding-policy"
     - "'dangling'"
     - "--host"
-    - "''"
+    - "'alio2-cr1-flp182'"
+    - "--local"
     - "--pipeline"
     - "''"
     - "--readers"

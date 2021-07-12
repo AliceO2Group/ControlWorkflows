@@ -5,7 +5,7 @@ set -e;
 set -u;
 
 WF_NAME=mft-digits-qc
-QC_GEN_CONFIG_PATH='json://'${QUALITYCONTROL_ROOT}'/etc/mft-digit-qc-task-FLP-0-TaskLevel-0.json'
+QC_GEN_CONFIG_PATH='json://'${QUALITYCONTROL_ROOT}'/etc/qc-mft-digit.json'
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/'${WF_NAME}'-{{ it }}'
 QC_CONFIG_PARAM='qc_config_uri'
 
