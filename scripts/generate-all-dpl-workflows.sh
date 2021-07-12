@@ -24,6 +24,7 @@ function check_pwd() {
 check_pwd
 
 # ./datasampling-02.sh # this is a test workflow, no need for it in production
+./ft0-digits-qc.sh
 ./hmpid-raw-qcmn.sh
 ./hmpid-raw-qc.sh
 ./its-qc-fhr-fee.sh

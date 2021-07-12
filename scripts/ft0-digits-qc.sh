@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-set -x; # debug mode
+#set -x; # debug mode
 set -e; # exit on error
 set -u; # exit on undefined variable
 
 # Variables
 WF_NAME=ft0-digits-qc
-QC_GEN_CONFIG_PATH='json://'${QUALITYCONTROL_ROOT}'/etc/ft0-digits-qc.json'
+QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/ft0-digits-qc.json'
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/'${WF_NAME}'-{{ it }}'
 QC_CONFIG_PARAM='qc_config_uri'
 
@@ -13,8 +13,8 @@ QC_CONFIG_PARAM='qc_config_uri'
 o2-dpl-raw-proxy -b --session default \
   --dataspec 'A1:FT0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
-  | o2-ft0-flp-dpl-workflow -b --session=default --severity=debug --disable-root-output --ignore-dist-stf \
-  | o2-dpl-output-proxy -b --session default --dataspec "digits:FT0/DIGITSBC/0;channels:FT0/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0" \
+  | o2-ft0-flp-dpl-workflow -b --session default --disable-root-output \
+  | o2-dpl-output-proxy -b --session default --dataspec 'digits:FT0/DIGITSBC/0;channels:FT0/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
   | o2-qc --config ${QC_GEN_CONFIG_PATH} -b \
   --o2-control $WF_NAME

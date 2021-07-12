@@ -16,6 +16,11 @@ bind:
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_ft0-datareader-dpl_to_dpl-output-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -76,13 +81,12 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--ignore-dist-stf"
     - "--pipeline"
     - "''"
     - "--readers"
     - "'1'"
     - "--severity"
-    - "'debug'"
+    - "'info'"
     - "--shm-mlock-segment"
     - "'false'"
     - "--shm-segment-id"
