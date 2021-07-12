@@ -1,4 +1,4 @@
-name: mft-raw-qcmn-remote-QC-CHECK-RUNNER-BasicReadoutHeaderQcCheck
+name: mft-raw-qc-QC-TASK-RUNNER-QcMFTReadoutTask
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,7 +11,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_QC-CHECK-RUNNER-BasicReadoutHeaderQcCheck_to_internal-dpl-injected-dummy-sink
+  - name: from_QC-TASK-RUNNER-QcMFTReadoutTask_to_QC-CHECK-RUNNER-QcMFTReadoutCheck
     type: push
     transport: shmem
     addressing: ipc
@@ -40,7 +40,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'QC-CHECK-RUNNER-BasicReadoutHeaderQcCheck'"
+    - "'QC-TASK-RUNNER-QcMFTReadoutTask'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -81,7 +81,6 @@ command:
     - "''"
     - "--readers"
     - "'1'"
-    - "--remote"
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"
@@ -96,3 +95,5 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
+    - "--period-timer-cycle"
+    - "'60000000'"

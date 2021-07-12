@@ -1,4 +1,4 @@
-name: mft-raw-qcmn-local-BasicReadoutHeaderQcTask-proxy-1
+name: mft-digits-qc-QC-TASK-RUNNER-QcMFTDigitTask
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,6 +11,11 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+  - name: from_QC-TASK-RUNNER-QcMFTDigitTask_to_QC-CHECK-RUNNER-QcMFTDigitCheck
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -35,7 +40,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'BasicReadoutHeaderQcTask-proxy-1'"
+    - "'QC-TASK-RUNNER-QcMFTDigitTask'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -71,8 +76,7 @@ command:
     - "--forwarding-policy"
     - "'dangling'"
     - "--host"
-    - "'alio2-cr1-flp182'"
-    - "--local"
+    - "''"
     - "--pipeline"
     - "''"
     - "--readers"
@@ -91,3 +95,5 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
+    - "--period-timer-cycle"
+    - "'60000000'"
