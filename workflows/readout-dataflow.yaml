@@ -1,7 +1,19 @@
 name: !public readout-dataflow
 defaults:
-  drop_caches_enabled: "true"
-  fmq_initial_shm_cleanup_enabled: "true"
+  drop_caches_enabled: !public
+    value: "true"
+    type: bool
+    label: "Preemptive operating system cache cleanup"
+    description: "drops reclaimable slab object cache and page cache before CONFIGURE transition"
+    widget: checkBox
+    panel: mainPanel
+  fmq_initial_shm_cleanup_enabled: !public
+    value: "true"
+    type: bool
+    label: "Preemptive unused shared memory cleanup"
+    description: "deletes any unused shared memory files before CONFIGURE transition"
+    widget: checkBox
+    panel: mainPanel
   roc_ctp_emulator_enabled: !public
     value: "false"
     type: bool
@@ -12,35 +24,111 @@ defaults:
   dd_enabled: !public
     value: "true"
     type: bool
-    label: "Data Distribution"
+    label: "Data Distribution FLP components"
     description: "enables or disables any Data Distribution (DD) components in this workflow"
     widget: checkBox
     panel: mainPanel
-  ddsched_enabled: "false"
-  dcs_enabled: "false"
-  qcdd_enabled: "false" # qcdd_enabled and minimal_dpl_enabled cannot be both true!
-  minimal_dpl_enabled: "false"
-  qc_remote_workflow: "none"
+  ddsched_enabled: !public
+    value: "false"
+    type: bool
+    label: "Data Distribution scheduler integration"
+    description: "enables or disables communication with the Data Distribution (DD) scheduler"
+    widget: checkBox
+    panel: mainPanel
+  dcs_enabled: !public
+    value: "false"
+    type: bool
+    label: "DCS integration"
+    description: "enables or disables communication with the DCS (Detector Control System)"
+    widget: checkBox
+    panel: mainPanel
+  qcdd_enabled: !public
+    value: "false" # TODO: qcdd_enabled and minimal_dpl_enabled cannot be both true!
+    type: bool
+    label: "QualityControl from DD"
+    description: "enables or disables QualityControl subworkflows attached to Data Distribution components"
+    widget: checkBox
+    panel: mainPanel
+  minimal_dpl_enabled: !public
+    value: "false" # TODO: qcdd_enabled and minimal_dpl_enabled cannot be both true!
+    type: bool
+    label: "Minimal DPL subworkflow"
+    description: "enables or disables the minimal DPL subworkflow attached to Data Distribution components"
+    widget: checkBox
+    panel: mainPanel
+  qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "QualityControl remote workflow"
+    description: "selects a remote QualityControl workflow"
+    widget: dropDownBox
+    panel: mainPanel
+    values:
+      - none
+      - hmpid-raw-qcmn-remote
+      - its-qcmn-fhr-fee-remote
+      - mch-qcmn-digits-remote
+      - mft-raw-qcmn-remote
+      - phos-compressor-raw-qcmn-remote
+      - phos-compressor-raw-qcmnt3-remote
+      - qcmn-daq-remote
+      - tof-qcmn-compressor-remote
   # if specified, we use dpl_worfklow to choose what is between STFB and STFS. Otherwise,
   # we fall to the old choice mechanism.
   # available options: "none", "qc-daq", "minimal-dpl", "tof-compressor"
   dpl_workflow: !public
     value: "none"
-    type: list
+    type: string      # not multiple choice -> the type is string, not list
     label: "DPL workflow"
     description: "selects a DPL subworkflow to inject between StfBuilder and StfSender"
     widget: dropDownBox
     panel: mainPanel
     values:
-      - "none"
-      - "qc-daq"
-      - "minimal-dpl"
-      - "tof-compressor"
+      - none
+      - ft0-digits-qc
+      - hmpid-raw-qc
+      - hmpid-raw-qcmn-local
+      - its-qc-fhr-fee
+      - its-qcmn-fhr-fee-local
+      - mch-qcmn-digits-local
+      - mft-decoder
+      - mft-digits-qc
+      - mft-raw-qc
+      - mft-raw-qcmn-local
+      - mid-raw-parser
+      - minimal-dpl
+      - phos-compressor-raw-qc
+      - phos-compressor-raw-qcmn-local
+      - phos-compressor-raw-qcmnt3-local
+      - phos-compressor-raw-qct3
+      - phos-compressor
+      - phos-compressort3
+      - qc-daq
+      - qcmn-daq-local
+      - tof-compressor
+      - tof-qcmn-compressor-local
   stfb_standalone: "false"
-  odc_enabled: "false"
-  odcshim_enabled: "false"
-  roc_cleanup_enabled: "true"
-  fmq_cleanup_enabled: "true"
+  odc_enabled: !public
+    value: "false"
+    type: bool
+    label: "EPN integration"
+    description: "enables or disables EPN subcontrol integration"
+    widget: checkBox
+    panel: mainPanel
+  roc_cleanup_enabled: !public
+    value: "true"
+    type: bool
+    label: "ReadoutCard cleanup on shutdown"
+    description: "enables or disables the ROC cleanup procedure on environment DESTROY"
+    widget: checkBox
+    panel: mainPanel
+  fmq_cleanup_enabled: !public
+    value: "true"
+    type: bool
+    label: "FairMQ cleanup on shutdown"
+    description: "enables or disables the FairMQ shared memory cleanup procedure on environment DESTROY"
+    widget: checkBox
+    panel: mainPanel
   monitoring_dpl_url: "no-op://"
   monitoring_qc_url: "no-op://"
   monitoring_dd_url: "no-op://"
@@ -50,7 +138,7 @@ defaults:
   o2_infologger_path: "/opt/o2-InfoLogger"
   log_task_output: !public
     value: none
-    type: list
+    type: string
     label: "Log task output"
     description: "picks whether the standard output of controlled tasks should be forwarded"
     widget: dropDownBox
@@ -246,10 +334,6 @@ roles:
           trigger: DESTROY
           timeout: 10s
           critical: false
-  - name: odc-shim
-    enabled: "{{odcshim_enabled == 'true'}}"
-    task:
-      load: odc-shim
   - name: dcs
     enabled: "{{dcs_enabled == 'true'}}"
     roles:
