@@ -11,6 +11,15 @@
       "Activity": {
         "number": "42",
         "type": "2"
+      },
+      "monitoring": {
+        "url": "influxdb-unix:///tmp/telegraf.sock"
+      },
+      "consul": {
+        "url": "null:8500"
+      },
+      "conditionDB": {
+        "url": "null:8083"
       }
     },
     "tasks": {
