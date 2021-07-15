@@ -35,6 +35,7 @@ check_pwd
 ./mft-digits-qc.sh
 # ./mft-raw-digits-qc.sh # disabled until the MFT decoder is fixed and we optimize the workflow
 ./mft-raw-qcmn.sh
+./mft-raw-direct-qcmn.sh
 ./mft-raw-qc.sh
 ./mid-raw-parser.sh
 ./minimal-dpl.sh
