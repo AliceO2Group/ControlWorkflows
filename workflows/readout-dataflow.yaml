@@ -65,6 +65,7 @@ defaults:
     panel: mainPanel
     values:
       - none
+      - emc-qcmn-epn-remote
       - hmpid-raw-qcmn-remote
       - its-qcmn-fhr-fee-remote
       - mch-qcmn-digits-remote
