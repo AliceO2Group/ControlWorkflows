@@ -69,6 +69,7 @@ defaults:
       - hmpid-raw-qcmn-remote
       - its-qcmn-fhr-fee-remote
       - mch-qcmn-digits-remote
+      - mft-raw-direct-qcmn-remote
       - mft-raw-qcmn-remote
       - phos-compressor-raw-qcmn-remote
       - phos-compressor-raw-qcmnt3-remote
@@ -94,6 +95,7 @@ defaults:
       - mch-qcmn-digits-local
       - mft-decoder
       - mft-digits-qc
+      - mft-raw-direct-qcmn-local
       - mft-raw-qc
       - mft-raw-qcmn-local
       - mid-raw-parser
