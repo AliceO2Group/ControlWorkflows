@@ -387,10 +387,10 @@ It means that one will not have to export the templates manually anymore and the
 
 If you have read everything above, you can now follow these simplified instructions. 
 
-3. Access an FLP with the proper FLP Suite
-1. Prepare the workflow
-    2. Clone ControlWorkflows from your fork: `git clone https://github.com/<yourGHusername>/ControlWorkflows.git`
-    3. Make sure that you are in line with the correct branch:
+1. Access an FLP with the proper FLP Suite
+2. Prepare the workflow
+    1. Clone ControlWorkflows from your fork: `git clone https://github.com/<yourGHusername>/ControlWorkflows.git`
+    2. Make sure that you are in line with the correct branch:
        ```
        git remote add upstream https://github.com/AliceO2Group/ControlWorkflows.git
        git fetch upstream 
@@ -399,9 +399,9 @@ If you have read everything above, you can now follow these simplified instructi
        ```
     3. Update a script in `ControlWorkflows/scripts` or add a new one
     4. Run the script to re-generate the workflow(s): `cd ControlWorkflows/scripts ; ./my-script.sh`
-    1. If you need to use config files, refer to [this section](#exporting-templates-of-workflows-which-need-configuration-files)
-    5. Commit and push the changes
-1. Test it
+    5. If you need to use config files, refer to [this section](#exporting-templates-of-workflows-which-need-configuration-files)
+    6. Commit and push the changes
+3. Test it
     1. Add the fork to the control: `coconut repo add github.com/<yourGHusername>/ControlWorkflows.git`
     2. In the ECS, create a new environment.
     3. Set the fork and the branch to match yours.
@@ -409,4 +409,4 @@ If you have read everything above, you can now follow these simplified instructi
     1. Add the variable `log_task_output` and set it to `all` to make sure you can see the output of the tasks in the Infologger.
     4. Do not enable QC but enable DD.
     5. Run and check that everything is fine
-2. Add the new scripts, if any, to `scripts/generate-all-dpl-workflows.sh`
+4. Add the new scripts, if any, to `scripts/generate-all-dpl-workflows.sh`
