@@ -87,6 +87,8 @@ defaults:
     panel: mainPanel
     values:
       - none
+      - cpv-compressor
+      - cpv-qc-compressor
       - ft0-digits-qc
       - hmpid-raw-qc
       - hmpid-raw-qcmn-local
