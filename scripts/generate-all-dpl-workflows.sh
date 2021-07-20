@@ -25,7 +25,7 @@ check_pwd
 
 # ./datasampling-02.sh # this is a test workflow, no need for it in production
 ./cpv-compressor.sh
-./cpv-compressor-qc.sh
+./cpv-qc-compressor.sh
 ./ft0-digits-qc.sh
 ./emc-qcmn-epn.sh
 ./hmpid-raw-qcmn.sh
