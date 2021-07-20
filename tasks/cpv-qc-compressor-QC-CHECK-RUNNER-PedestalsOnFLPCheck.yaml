@@ -1,17 +1,17 @@
-name: cpv-compressor-qc-readout-proxy
+name: cpv-qc-compressor-QC-CHECK-RUNNER-PedestalsOnFLPCheck
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-dpl-raw-proxy
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-dpl-raw-proxy"
+    {{ dpl_command }} | o2-qc
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_readout-proxy_to_CPVRawToDigitConverterSpec
+  - name: from_QC-CHECK-RUNNER-PedestalsOnFLPCheck_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
@@ -40,7 +40,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'readout-proxy'"
+    - "'QC-CHECK-RUNNER-PedestalsOnFLPCheck'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -61,8 +61,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--dataspec"
-    - "'x0:CPV/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "--config"
+    - "'{{ qc_config_uri }}'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -75,6 +75,8 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--host"
+    - "''"
     - "--pipeline"
     - "''"
     - "--readers"

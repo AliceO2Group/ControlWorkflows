@@ -7,7 +7,7 @@ set -u;
 WF_NAME=cpv-qc-compressor
 
 # check
-QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/cpv-compressor-qc.json'
+QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/cpv-qc-compressor.json'
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/cpv-qc-compressor'
 QC_CONFIG_PARAM='qc_config_uri'
 

@@ -1,22 +1,22 @@
-name: cpv-compressor-qc-internal-dpl-clock
+name: cpv-qc-compressor-QC-TASK-RUNNER-PedestalsOnFLP
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-dpl-raw-proxy
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-dpl-raw-proxy"
+    {{ dpl_command }} | o2-qc
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-clock_to_readout-proxy
+  - name: from_QC-TASK-RUNNER-PedestalsOnFLP_to_QC-CHECK-RUNNER-PedestalsOnFLPCheck
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-PedestalsOnFLP
+  - name: from_QC-TASK-RUNNER-PedestalsOnFLP_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -45,7 +45,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-clock'"
+    - "'QC-TASK-RUNNER-PedestalsOnFLP'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -66,8 +66,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--dataspec"
-    - "'x0:CPV/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "--config"
+    - "'{{ qc_config_uri }}'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -80,6 +80,8 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--host"
+    - "''"
     - "--pipeline"
     - "''"
     - "--readers"
@@ -98,3 +100,5 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
+    - "--period-timer-cycle"
+    - "'1410065408'"
