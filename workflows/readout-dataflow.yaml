@@ -157,7 +157,7 @@ defaults:
     type: number
     label: "FairMQ rate logging"
     description: "sets the frequency at which FairMQ logs channel transfers"
-    widget: spinBox
+    widget: editBox
     panel: mainPanel
 roles:
   - name: host-{{ it }}
