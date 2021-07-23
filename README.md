@@ -369,7 +369,9 @@ Then one should add the file to the corresponding sub-task in `ansible/roles/qua
 
 ### Generating multinode QC workflows
 
-If the expected production setup includes QC running in parallel on many nodes, one should generate two workflow templates - one for the FLP part, another one which should run on a QC server.
+#### Parallel QC running FLPs
+
+If the expected production setup includes QC running in parallel on many FLPs, one should generate two workflow templates - one for the FLP part, another one which should run on a QC server.
 First, one should prepare DPL commands and QC config file according to the [multinode QC setup documentation](https://github.com/AliceO2Group/QualityControl/blob/master/doc/Advanced.md#multi-node-setups).
 Then, the two workflows should be generated with `-local` and `-remote` name suffixes respectively, as it is done e.g. in [`scripts/qcmn-daq.sh`](scripts/qcmn-daq.sh).
 Following this example, the full setup can be run by adding the following parameters in the advanced configuration panel:
@@ -377,6 +379,34 @@ Following this example, the full setup can be run by adding the following parame
 "dpl_workflow" : "qcmn-daq-local"
 "qc_remote_workflow" : "qcmn-daq-remote"
 ```
+
+#### Parallel QC running on EPNs
+
+In this case, the local part of the QC workflow is run on EPNs (controlled by ODC), while the remote part is still executed on QC servers (controlled directly by AliECS).
+
+First, please make sure that the QC config file contains valid `"remoteMachine"` and `"remotePort"` parameters, as they are not dynamically assigned for connections between the two control systems.
+The remote machine name might need the `.cern.ch` suffix.
+Please use the port number between 47700 and 47799.
+It is highly advised to check the connection with a simple TCP client/server application beforehand (e.g. `nc`).
+Also, do not forget to add `"localControl" : "odc"` in the QC task configuration, which will make AliECS templates avoid dynamic resource assignement.
+
+The EPN part will require exporting a DDS topology file, which then should be run as any other DDS topologies.
+Please contact the EPN team for details.
+
+The QC server part requires an AliECS template, which should be generated similarly to the one for the FLP case.
+No local counterpart is needed.
+Please refer to [`scripts/emc-qcmn-epn.sh`](scripts/emc-qcmn-epn.sh) as an example.
+In that case, the AliECS-controlled part of the workflow can be run with the follwing parameter in the advanced configuration panel.
+```
+"qc_remote_workflow" : "emc-qcmn-epn-remote"
+```
+
+#### Different parallel QC running on FLPs and EPNs
+
+Currently recommended way to approach this is to combine the FLP and EPN config files and use different `"localMachines"` for them.
+Then, one can export the AliECS templates and DDS topologies for the local QC workflows by invoking them with different `--host` parameters.
+
+The remote part should be just one.
 
 ### Future improvements
 
