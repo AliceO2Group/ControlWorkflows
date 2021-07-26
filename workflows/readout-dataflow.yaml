@@ -28,6 +28,7 @@ defaults:
     description: "enables or disables any Data Distribution (DD) components in this workflow"
     widget: checkBox
     panel: mainPanel
+    index: -100
   ddsched_enabled: !public
     value: "false"
     type: bool
@@ -35,6 +36,8 @@ defaults:
     description: "enables or disables communication with the Data Distribution (DD) scheduler"
     widget: checkBox
     panel: mainPanel
+    index: -90
+    visibleif: dd_enabled.value == true
   dcs_enabled: !public
     value: "false"
     type: bool
@@ -42,6 +45,7 @@ defaults:
     description: "enables or disables communication with the DCS (Detector Control System)"
     widget: checkBox
     panel: mainPanel
+    index: -200
   qcdd_enabled: !public
     value: "false" # TODO: qcdd_enabled and minimal_dpl_enabled cannot be both true!
     type: bool
@@ -152,6 +156,7 @@ defaults:
       - "none"
       - "stdout"
       - "all"
+    index: 100
   fmq_rate_logging: !public
     value: "10"
     type: number
@@ -159,6 +164,7 @@ defaults:
     description: "sets the frequency at which FairMQ logs channel transfers"
     widget: editBox
     panel: mainPanel
+    index: 200
 roles:
   - name: host-{{ it }}
     for:
