@@ -383,6 +383,7 @@ Following this example, the full setup can be run by adding the following parame
 #### Parallel QC running on EPNs
 
 In this case, the local part of the QC workflow is run on EPNs (controlled by ODC), while the remote part is still executed on QC servers (controlled directly by AliECS).
+Both parts should use the same version of QC and the underlying software stack.
 
 First, please make sure that the QC config file contains valid `"remoteMachine"` and `"remotePort"` parameters, as they are not dynamically assigned for connections between the two control systems.
 The remote machine name might need the `.cern.ch` suffix.
