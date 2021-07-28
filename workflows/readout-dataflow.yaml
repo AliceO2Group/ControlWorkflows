@@ -59,6 +59,7 @@ defaults:
       - qc-daq
       - qcmn-daq-local
       - tof-compressor
+      - tof-full-qcmn-local
       - tof-qcmn-compressor-local
   qc_remote_workflow: !public
     value: "none"
@@ -78,6 +79,7 @@ defaults:
       - phos-compressor-raw-qcmn-remote
       - phos-compressor-raw-qcmnt3-remote
       - qcmn-daq-remote
+      - tof-full-qcmn-remote
       - tof-qcmn-compressor-remote        
   ###############################
   # Cleanup Operations Panel
