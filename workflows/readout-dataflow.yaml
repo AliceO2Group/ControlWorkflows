@@ -129,7 +129,7 @@ defaults:
     panel: Monitoring        
   monitoring_dd_url: !public 
     value: "no-op://"
-     type: string
+    type: string
     label: "Data Distribution URL"
     description: "Monitoring URL for Data Distribution"
     widget: editBox      
