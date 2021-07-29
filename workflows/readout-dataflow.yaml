@@ -1,5 +1,8 @@
 name: !public readout-dataflow
 defaults:
+  ###############################
+  # Basic Configuration Panel
+  ###############################
   dcs_enabled: !public
     value: "false"
     type: bool
@@ -76,6 +79,9 @@ defaults:
       - phos-compressor-raw-qcmnt3-remote
       - qcmn-daq-remote
       - tof-qcmn-compressor-remote        
+  ###############################
+  # Cleanup Operations Panel
+  ###############################      
   drop_caches_enabled: !public
     value: "true"
     type: bool
@@ -104,40 +110,33 @@ defaults:
     description: "Enable/disable the FairMQ shared memory cleanup procedure on environment DESTROY"
     widget: checkBox
     panel: CleanupOperations
-  roc_ctp_emulator_enabled: !public
-    value: "false"
-    type: bool
-    label: "ROC CTP emulator"
-    description: "enables or disables the built-in trigger system emulator"
-    widget: checkBox
-    panel: Trigger
-  ddsched_enabled: !public  # this one should disappear and be merged with odc_enabled
-    value: "false"
-    type: bool
-    label: "Data Distribution scheduler integration"
-    description: "enables or disables communication with the Data Distribution (DD) scheduler"
-    widget: checkBox
-    panel: TBD
-    index: -90
-    visibleif: dd_enabled.value == true
-  qcdd_enabled: !public
-    value: "false" # TODO: qcdd_enabled and minimal_dpl_enabled cannot be both true!
-    type: bool
-    label: "QualityControl from DD"
-    description: "enables or disables QualityControl subworkflows attached to Data Distribution components"
-    widget: checkBox
-    panel: TBD
-  # if specified, we use dpl_worfklow to choose what is between STFB and STFS. Otherwise,
-  # we fall to the old choice mechanism.
-  # available options: "none", "qc-daq", "minimal-dpl", "tof-compressor"
-  stfb_standalone: "false"
-  monitoring_dpl_url: "no-op://"
-  monitoring_qc_url: "no-op://"
-  monitoring_dd_url: "no-op://"
-  monitoring_readout_url: "no-op://"
-  user: flp
-  o2_install_path: "/opt/o2"
-  o2_infologger_path: "/opt/o2-InfoLogger"
+  ###############################
+  # Monitoring Panel
+  ###############################
+  monitoring_dpl_url: !public
+    va.lue: "no-op://"
+    type: string
+    label: "DPL URL"
+    description: "Monitoring URL for DPL"
+    widget: editBox    
+    panel: Monitoring    
+  monitoring_qc_url: !public 
+    value: "no-op://"
+    type: string
+    label: "QC URL"
+    description: "Monitoring URL for QC"
+    widget: editBox    
+    panel: Monitoring        
+  monitoring_dd_url: !public 
+    value: "no-op://"
+     type: string
+    label: "Data Distribution URL"
+    description: "Monitoring URL for Data Distribution"
+    widget: editBox      
+    panel: Monitoring            
+  ###############################
+  # Logging Panel
+  ###############################
   log_task_output: !public
     value: none
     type: string
@@ -158,6 +157,17 @@ defaults:
     widget: editBox
     panel: Logging
     index: 200
+  ###############################
+  # Other variables
+  ###############################
+  stfb_standalone: "false"
+  user: flp
+  o2_install_path: "/opt/o2"
+  o2_infologger_path: "/opt/o2-InfoLogger"    
+  monitoring_readout_url: "no-op://" # is this used somewhere ? Or does it need config push ?
+  qcdd_enabled: "false" # I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
+  minimal_dpl_enabled: "false" # I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow 
+  ddsched_enabled: "false" # this one should disappear and be merged with odc_enabled
 roles:
   - name: host-{{ it }}
     for:
