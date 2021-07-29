@@ -347,9 +347,9 @@ roles:
             value: "{}"
             type: map
             label: "DCS SOR parameters"
-            description: "additional parameters for the DCS start of run call"
+            description: "additional parameters for the DCS SOR"
             widget: dataSheet
-            panel: dcsPanel
+            panel: DCS
         call:
           func: dcs.StartOfRun()
           trigger: before_CONFIGURE
