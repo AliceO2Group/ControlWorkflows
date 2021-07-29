@@ -1,94 +1,35 @@
 name: !public readout-dataflow
 defaults:
-  drop_caches_enabled: !public
-    value: "true"
-    type: bool
-    label: "Preemptive operating system cache cleanup"
-    description: "drops reclaimable slab object cache and page cache before CONFIGURE transition"
-    widget: checkBox
-    panel: mainPanel
-  fmq_initial_shm_cleanup_enabled: !public
-    value: "true"
-    type: bool
-    label: "Preemptive unused shared memory cleanup"
-    description: "deletes any unused shared memory files before CONFIGURE transition"
-    widget: checkBox
-    panel: mainPanel
-  roc_ctp_emulator_enabled: !public
-    value: "false"
-    type: bool
-    label: "ROC CTP emulator"
-    description: "enables or disables the built-in trigger system emulator"
-    widget: checkBox
-    panel: mainPanel
-  dd_enabled: !public
-    value: "true"
-    type: bool
-    label: "Data Distribution FLP components"
-    description: "enables or disables any Data Distribution (DD) components in this workflow"
-    widget: checkBox
-    panel: mainPanel
-    index: -100
-  ddsched_enabled: !public
-    value: "false"
-    type: bool
-    label: "Data Distribution scheduler integration"
-    description: "enables or disables communication with the Data Distribution (DD) scheduler"
-    widget: checkBox
-    panel: mainPanel
-    index: -90
-    visibleif: dd_enabled.value == true
   dcs_enabled: !public
     value: "false"
     type: bool
-    label: "DCS integration"
-    description: "enables or disables communication with the DCS (Detector Control System)"
+    label: "DCS"
+    description: "Enable/disable DCS SOR/EOR commands"
     widget: checkBox
-    panel: mainPanel
+    panel: BasicConfiguration
     index: -200
-  qcdd_enabled: !public
-    value: "false" # TODO: qcdd_enabled and minimal_dpl_enabled cannot be both true!
+  dd_enabled: !public
+    value: "true"
     type: bool
-    label: "QualityControl from DD"
-    description: "enables or disables QualityControl subworkflows attached to Data Distribution components"
+    label: "Data Distribution (FLP)"
+    description: "Enable/disable Data Distribution components running on FLPs (StfBuilder and StfSender)"
     widget: checkBox
-    panel: mainPanel
-  minimal_dpl_enabled: !public
-    value: "false" # TODO: qcdd_enabled and minimal_dpl_enabled cannot be both true!
+    panel: BasicConfiguration
+    index: -100
+  odc_enabled: !public
+    value: "false"
     type: bool
-    label: "Minimal DPL subworkflow"
-    description: "enables or disables the minimal DPL subworkflow attached to Data Distribution components"
+    label: "EPN"
+    description: "Enable/disable EPN"
     widget: checkBox
-    panel: mainPanel
-  qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "QualityControl remote workflow"
-    description: "selects a remote QualityControl workflow"
-    widget: dropDownBox
-    panel: mainPanel
-    values:
-      - none
-      - emc-qcmn-epn-remote
-      - hmpid-raw-qcmn-remote
-      - its-qcmn-fhr-fee-remote
-      - mch-qcmn-digits-remote
-      - mft-raw-direct-qcmn-remote
-      - mft-raw-qcmn-remote
-      - phos-compressor-raw-qcmn-remote
-      - phos-compressor-raw-qcmnt3-remote
-      - qcmn-daq-remote
-      - tof-qcmn-compressor-remote
-  # if specified, we use dpl_worfklow to choose what is between STFB and STFS. Otherwise,
-  # we fall to the old choice mechanism.
-  # available options: "none", "qc-daq", "minimal-dpl", "tof-compressor"
+    panel: BasicConfiguration
   dpl_workflow: !public
     value: "none"
     type: string      # not multiple choice -> the type is string, not list
-    label: "DPL workflow"
-    description: "selects a DPL subworkflow to inject between StfBuilder and StfSender"
+    label: "FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: mainPanel
+    panel: BasicConfiguration
     values:
       - none
       - cpv-compressor
@@ -116,14 +57,66 @@ defaults:
       - qcmn-daq-local
       - tof-compressor
       - tof-qcmn-compressor-local
-  stfb_standalone: "false"
-  odc_enabled: !public
-    value: "false"
+  qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "QualityControl remote workflow"
+    description: "QC workflow to execute on QC servers"
+    widget: dropDownBox
+    panel: BasicConfiguration
+    values:
+      - none
+      - emc-qcmn-epn-remote
+      - hmpid-raw-qcmn-remote
+      - its-qcmn-fhr-fee-remote
+      - mch-qcmn-digits-remote
+      - mft-raw-direct-qcmn-remote
+      - mft-raw-qcmn-remote
+      - phos-compressor-raw-qcmn-remote
+      - phos-compressor-raw-qcmnt3-remote
+      - qcmn-daq-remote
+      - tof-qcmn-compressor-remote        
+  drop_caches_enabled: !public
+    value: "true"
     type: bool
-    label: "EPN integration"
-    description: "enables or disables EPN subcontrol integration"
+    label: "Preemptive operating system cache cleanup"
+    description: "drops reclaimable slab object cache and page cache before CONFIGURE transition"
     widget: checkBox
     panel: mainPanel
+  fmq_initial_shm_cleanup_enabled: !public
+    value: "true"
+    type: bool
+    label: "Preemptive unused shared memory cleanup"
+    description: "deletes any unused shared memory files before CONFIGURE transition"
+    widget: checkBox
+    panel: mainPanel
+  roc_ctp_emulator_enabled: !public
+    value: "false"
+    type: bool
+    label: "ROC CTP emulator"
+    description: "enables or disables the built-in trigger system emulator"
+    widget: checkBox
+    panel: mainPanel
+  ddsched_enabled: !public
+    value: "false"
+    type: bool
+    label: "Data Distribution scheduler integration"
+    description: "enables or disables communication with the Data Distribution (DD) scheduler"
+    widget: checkBox
+    panel: mainPanel
+    index: -90
+    visibleif: dd_enabled.value == true
+  qcdd_enabled: !public
+    value: "false" # TODO: qcdd_enabled and minimal_dpl_enabled cannot be both true!
+    type: bool
+    label: "QualityControl from DD"
+    description: "enables or disables QualityControl subworkflows attached to Data Distribution components"
+    widget: checkBox
+    panel: mainPanel
+  # if specified, we use dpl_worfklow to choose what is between STFB and STFS. Otherwise,
+  # we fall to the old choice mechanism.
+  # available options: "none", "qc-daq", "minimal-dpl", "tof-compressor"
+  stfb_standalone: "false"
   roc_cleanup_enabled: !public
     value: "true"
     type: bool
