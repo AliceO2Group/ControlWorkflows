@@ -168,6 +168,7 @@ defaults:
   qcdd_enabled: "false" # I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
   minimal_dpl_enabled: "false" # I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow 
   ddsched_enabled: "false" # this one should disappear and be merged with odc_enabled
+  roc_ctp_emulator_enabled: "false"
 roles:
   - name: host-{{ it }}
     for:
