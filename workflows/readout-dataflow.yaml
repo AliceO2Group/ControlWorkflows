@@ -19,7 +19,7 @@ defaults:
     widget: checkBox
     panel: BasicConfiguration
     index: -100
-  odc_enabled: !public # TODO: this should be the single var that enables both ODC and DD Scheduler
+  epn_enabled: !public # TODO: this should be the single var that enables both ODC and DD Scheduler
     value: "false"
     type: bool
     label: "EPN"
@@ -180,8 +180,8 @@ defaults:
   fmq_rate_logging: !public
     value: "10"
     type: number
-    label: "FairMQ logging rate"
-    description: "sets the frequency at which FairMQ logs channel transfers"
+    label: "FairMQ rate logging"
+    description: "sets the interval at which FairMQ logs channel transfer rates"
     widget: editBox
     panel: Logging
     index: 3
@@ -214,9 +214,11 @@ defaults:
   monitoring_readout_url: "no-op://" # TODO: is this used somewhere ? I could not find it anywhere in the workflows 
   qcdd_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
   minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow 
-  ddsched_enabled: "false" # TODO: this one should disappear and be merged with odc_enabled
   roc_ctp_emulator_enabled: "false"
   odc_plugin: "epn"
+vars:
+  ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
+  odc_enabled: "{{ epn_enabled }}"
 roles:
   - name: host-{{ it }}
     for:
@@ -406,7 +408,7 @@ roles:
         # DCS Panel
         ###############################        
           dcs_detectors: !public
-            value: "{}"
+            value: "[]"
             type: string
             label: "Detectors"
             description: "Detector list"
@@ -429,13 +431,19 @@ roles:
             widget: editBox            
             panel: DCS
             index: 3
-          run_type: !public  
-            value: ""
+          run_type: !public # enum from AliECS common/runtype
+            value: "NONE"
             type: string
             label: "Run Type"
             description: "Run type for DCS SOR/EOR"
-            widget: editBox
+            widget: comboBox
             panel: DCS
+            values:
+              - NONE
+              - PHYSICS
+              - TECHNICAL
+              - PEDESTAL
+              - PULSER
             index: 4        
         call:
           func: dcs.StartOfRun()
