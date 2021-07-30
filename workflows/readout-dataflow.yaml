@@ -137,6 +137,27 @@ defaults:
   ###############################
   # Logging Panel
   ###############################
+  infologger_severity: !public
+    value: info
+    type: string
+    label: "DPL log level"
+    description: "Minimun DPL logging severity which is sent to InfoLogger"
+    widget: dropDownBox
+    panel: Logging
+    values:
+      - "nolog"
+      - "fatal"
+      - "error"
+      - "warn"
+      - "state"
+      - "info"
+      - "debug"
+      - "debug1"
+      - "debug2"
+      - "debug3"
+      - "debug4"
+      - "trace"
+    index: 1 
   log_task_output: !public
     value: none
     type: string
@@ -148,7 +169,7 @@ defaults:
       - "none"
       - "stdout"
       - "all"
-    index: 100
+    index: 2
   fmq_rate_logging: !public
     value: "10"
     type: number
@@ -156,7 +177,7 @@ defaults:
     description: "sets the frequency at which FairMQ logs channel transfers"
     widget: editBox
     panel: Logging
-    index: 200
+    index: 3
   ###############################
   # EPN Panel
   ###############################        
