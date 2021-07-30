@@ -3,7 +3,7 @@ defaults:
   ###############################
   # Basic Configuration Panel
   ###############################
-  dcs_enabled: !public
+  dcs_enabled: !public # TODO: if false, DCS panel should be disabled
     value: "false"
     type: bool
     label: "DCS"
@@ -19,7 +19,7 @@ defaults:
     widget: checkBox
     panel: BasicConfiguration
     index: -100
-  odc_enabled: !public # this should be the single var that enables both ODC and DD Scheduler
+  odc_enabled: !public # TODO: this should be the single var that enables both ODC and DD Scheduler
     value: "false"
     type: bool
     label: "EPN"
@@ -28,7 +28,7 @@ defaults:
     panel: BasicConfiguration
   dpl_workflow: !public
     value: "none"
-    type: string      # not multiple choice -> the type is string, not list
+    type: string
     label: "FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
@@ -82,58 +82,65 @@ defaults:
   ###############################
   # Cleanup Operations Panel
   ###############################      
-  drop_caches_enabled: !public
-    value: "true"
-    type: bool
-    label: "FLP cache cleanup"
-    description: "Enable/disable deletion of system cache and page cache before CONFIGURE transition"
-    widget: checkBox
-    panel: CleanupOperations
-  fmq_initial_shm_cleanup_enabled: !public
-    value: "true"
-    type: bool
-    label: "FLP SHM cleanup"
-    description: "Enable/disable deletion of unused shared memory files before CONFIGURE transition"
-    widget: checkBox
-    panel: CleanupOperations
-  roc_cleanup_enabled: !public
-    value: "true"
-    type: bool
-    label: "ReadoutCard cleanup on shutdown"
-    description: "Enable/disable the ROC cleanup procedure on environment DESTROY"
-    widget: checkBox
-    panel: CleanupOperations
-  fmq_cleanup_enabled: !public
-    value: "true"
-    type: bool
-    label: "FairMQ cleanup on shutdown"
-    description: "Enable/disable the FairMQ shared memory cleanup procedure on environment DESTROY"
-    widget: checkBox
-    panel: CleanupOperations
+  drop_caches_enabled: "true"
+  fmq_initial_shm_cleanup_enabled: "true"  
+  roc_cleanup_enabled: "true"
+  fmq_cleanup_enabled: "true"
+  #drop_caches_enabled: !public
+  #  value: "true"
+  #  type: bool
+  #  label: "FLP cache cleanup"
+  #  description: "Enable/disable deletion of system cache and page cache before CONFIGURE transition"
+  #  widget: checkBox
+  #  panel: CleanupOperations
+  #fmq_initial_shm_cleanup_enabled: !public
+  #  value: "true"
+  #  type: bool
+  #  label: "FLP SHM cleanup"
+  #  description: "Enable/disable deletion of unused shared memory files before CONFIGURE transition"
+  #  widget: checkBox
+  #  panel: CleanupOperations
+  #roc_cleanup_enabled: !public
+  #  value: "true"
+  #  type: bool
+  #  label: "ReadoutCard cleanup on shutdown"
+  #  description: "Enable/disable the ROC cleanup procedure on environment DESTROY"
+  #  widget: checkBox
+  #  panel: CleanupOperations
+  #fmq_cleanup_enabled: !public
+  #  value: "true"
+  #  type: bool
+  #  label: "FairMQ cleanup on shutdown"
+  #  description: "Enable/disable the FairMQ shared memory cleanup procedure on environment DESTROY"
+  #  widget: checkBox
+  #  panel: CleanupOperations
   ###############################
   # Monitoring Panel
   ###############################
-  monitoring_dpl_url: !public
-    va.lue: "no-op://"
-    type: string
-    label: "DPL URL"
-    description: "Monitoring URL for DPL"
-    widget: editBox    
-    panel: Monitoring    
-  monitoring_qc_url: !public 
-    value: "no-op://"
-    type: string
-    label: "QC URL"
-    description: "Monitoring URL for QC"
-    widget: editBox    
-    panel: Monitoring        
-  monitoring_dd_url: !public 
-    value: "no-op://"
-    type: string
-    label: "Data Distribution URL"
-    description: "Monitoring URL for Data Distribution"
-    widget: editBox      
-    panel: Monitoring            
+  monitoring_dpl_url: "no-op://"
+  monitoring_qc_url: "no-op://"
+  monitoring_dd_url: "no-op://"
+  #monitoring_dpl_url:
+  #  va.lue: "no-op://"
+  #  type: string
+  #  label: "DPL URL"
+  #  description: "Monitoring URL for DPL"
+  #  widget: editBox    
+  #  panel: Monitoring    
+  #monitoring_qc_url: !public 
+  #  value: "no-op://"
+  #  type: string
+  #  label: "QC URL"
+  #  description: "Monitoring URL for QC"
+  #  widget: editBox    
+  #  panel: Monitoring        
+  #monitoring_dd_url: !public 
+  #  value: "no-op://"
+  #  type: string
+  #  label: "Data Distribution URL"
+  #  description: "Monitoring URL for Data Distribution"
+  #  widget: editBox      
+  #  panel: Monitoring            
   ###############################
   # Logging Panel
   ###############################
@@ -141,7 +148,7 @@ defaults:
     value: info
     type: string
     label: "DPL log level"
-    description: "Minimun DPL logging severity which is sent to InfoLogger"
+    description: "Minimum DPL logging severity which is sent to InfoLogger"
     widget: dropDownBox
     panel: Logging
     values:
@@ -197,14 +204,6 @@ defaults:
     widget: editBox
     panel: EPN
     index: 2
-  odc_plugin: !public
-    value: "epn"
-    type: string
-    label: "Plugin"
-    description: "ODC plugin name"
-    widget: editBox
-    panel: EPN
-    index: 3 
   ###############################
   # Other variables
   ###############################
@@ -212,11 +211,12 @@ defaults:
   user: flp
   o2_install_path: "/opt/o2"
   o2_infologger_path: "/opt/o2-InfoLogger"    
-  monitoring_readout_url: "no-op://" # is this used somewhere ? Or does it need config push ?
-  qcdd_enabled: "false" # I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
-  minimal_dpl_enabled: "false" # I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow 
-  ddsched_enabled: "false" # this one should disappear and be merged with odc_enabled
+  monitoring_readout_url: "no-op://" # TODO: is this used somewhere ? I could not find it anywhere in the workflows 
+  qcdd_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
+  minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow 
+  ddsched_enabled: "false" # TODO: this one should disappear and be merged with odc_enabled
   roc_ctp_emulator_enabled: "false"
+  odc_plugin: "epn"
 roles:
   - name: host-{{ it }}
     for:
