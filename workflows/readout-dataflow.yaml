@@ -352,15 +352,35 @@ roles:
   - name: dcs
     enabled: "{{dcs_enabled == 'true'}}"
     roles:
-      - name: sor
+      - name: sor      
         defaults:
+        ###############################
+        # DCS Panel
+        ###############################        
+          dcs_detectors: !public
+            value: "{}"
+            type: string
+            label: "Detectors"
+            description: "Detector list"
+            widget: editBox
+            panel: DCS
+            index: 1
           dcs_sor_parameters: !public
             value: "{}"
-            type: map
-            label: "DCS SOR parameters"
+            type: string
+            label: "SOR parameters"
             description: "additional parameters for the DCS SOR"
-            widget: dataSheet
+            widget: editBox
             panel: DCS
+            index: 2
+          dcs_eor_parameters: !public
+            value: "{}"
+            type: string
+            label: "EOR parameters"
+            description: "additional parameters for the DCS EOR"
+            widget: editBox            
+            panel: DCS
+            index: 3
         call:
           func: dcs.StartOfRun()
           trigger: before_CONFIGURE
