@@ -158,6 +158,33 @@ defaults:
     panel: Logging
     index: 200
   ###############################
+  # EPN Panel
+  ###############################        
+  odc_topology: !public
+    value: ""
+    type: string
+    label: "Topology"
+    description: "DDS topology to be executed on EPNs"
+    widget: editBox
+    panel: EPN
+    index: 1
+  odc_resources: !public
+    value: "{}"
+    type: string
+    label: "Resources"
+    description: "EPN resources to be used"
+    widget: editBox
+    panel: EPN
+    index: 2
+  odc_plugin: !public
+    value: "epn"
+    type: string
+    label: "Plugin"
+    description: "ODC plugin name"
+    widget: editBox
+    panel: EPN
+    index: 3 
+  ###############################
   # Other variables
   ###############################
   stfb_standalone: "false"
