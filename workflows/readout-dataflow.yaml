@@ -408,6 +408,14 @@ roles:
             widget: editBox            
             panel: DCS
             index: 3
+          run_type: !public  
+            value: ""
+            type: string
+            label: "Run Type"
+            description: "Run type for DCS SOR/EOR"
+            widget: editBox
+            panel: DCS
+            index: 4        
         call:
           func: dcs.StartOfRun()
           trigger: before_CONFIGURE
