@@ -6,6 +6,7 @@ defaults:
   user: flp
   fmq_severity: info
   dd_detector_subspec: feeid
+  dd_discovery_endpoint: "no-op://" # location of consul docker instance
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
@@ -32,6 +33,8 @@ command:
     - "--session=default"
     - "--transport=shmem"
     - "--monitoring-backend='{{ monitoring_dd_url }}'"
+    - "--discovery-partition={{ environment_id }}"
+    - "--discovery-endpoint={{ dd_discovery_endpoint }}"
     - "--detector-rdh={{ rdh_version }}"
     - "--detector-subspec={{ dd_detector_subspec }}"
     - "--severity={{ fmq_severity }}"
