@@ -1,30 +1,224 @@
 name: !public readout-dataflow
 defaults:
+  ###############################
+  # Basic Configuration Panel
+  ###############################
+  dcs_enabled: !public # TODO: if false, DCS panel should be disabled
+    value: "false"
+    type: bool
+    label: "DCS"
+    description: "Enable/disable DCS SOR/EOR commands"
+    widget: checkBox
+    panel: BasicConfiguration
+    index: -200
+  dd_enabled: !public
+    value: "true"
+    type: bool
+    label: "Data Distribution (FLP)"
+    description: "Enable/disable Data Distribution components running on FLPs (StfBuilder and StfSender)"
+    widget: checkBox
+    panel: BasicConfiguration
+    index: -100
+  epn_enabled: !public # TODO: this should be the single var that enables both ODC and DD Scheduler
+    value: "false"
+    type: bool
+    label: "EPN"
+    description: "Enable/disable EPN"
+    widget: checkBox
+    panel: BasicConfiguration
+  dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: BasicConfiguration
+    values:
+      - none
+      - cpv-compressor
+      - cpv-qc-compressor
+      - ft0-digits-qc
+      - hmpid-raw-qc
+      - hmpid-raw-qcmn-local
+      - its-qc-fhr-fee
+      - its-qcmn-fhr-fee-local
+      - mch-qcmn-digits-local
+      - mft-decoder
+      - mft-digits-qc
+      - mft-raw-direct-qcmn-local
+      - mft-raw-qc
+      - mft-raw-qcmn-local
+      - mid-raw-parser
+      - minimal-dpl
+      - phos-compressor-raw-qc
+      - phos-compressor-raw-qcmn-local
+      - phos-compressor-raw-qcmnt3-local
+      - phos-compressor-raw-qct3
+      - phos-compressor
+      - phos-compressort3
+      - qc-daq
+      - qcmn-daq-local
+      - tof-compressor
+      - tof-qcmn-compressor-local
+  qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "QC remote workflow"
+    description: "QC workflow to execute on QC servers"
+    widget: dropDownBox
+    panel: BasicConfiguration
+    values:
+      - none
+      - emc-qcmn-epn-remote
+      - hmpid-raw-qcmn-remote
+      - its-qcmn-fhr-fee-remote
+      - mch-qcmn-digits-remote
+      - mft-raw-direct-qcmn-remote
+      - mft-raw-qcmn-remote
+      - phos-compressor-raw-qcmn-remote
+      - phos-compressor-raw-qcmnt3-remote
+      - qcmn-daq-remote
+      - tof-qcmn-compressor-remote        
+  ###############################
+  # Cleanup Operations Panel
+  ###############################      
   drop_caches_enabled: "true"
-  fmq_initial_shm_cleanup_enabled: "true"
-  roc_ctp_emulator_enabled: "false"
-  dd_enabled: "true"
-  ddsched_enabled: "false"
-  dcs_enabled: "false"
-  qcdd_enabled: "false" # qcdd_enabled and minimal_dpl_enabled cannot be both true!
-  minimal_dpl_enabled: "false"
-  dpl_workflow: "none" # if specified, we use dpl_worfklow to choose what is between STFB and STFS. Otherwise, we fall to the old choice mechanism.
-                       # available options: "none", "qc-daq", "minimal-dpl", "tof-compressor"
-  qc_remote_workflow: "none"
-  stfb_standalone: "false"
-  odc_enabled: "false"
-  odcshim_enabled: "false"
+  fmq_initial_shm_cleanup_enabled: "true"  
   roc_cleanup_enabled: "true"
   fmq_cleanup_enabled: "true"
+  #drop_caches_enabled: !public
+  #  value: "true"
+  #  type: bool
+  #  label: "FLP cache cleanup"
+  #  description: "Enable/disable deletion of system cache and page cache before CONFIGURE transition"
+  #  widget: checkBox
+  #  panel: CleanupOperations
+  #fmq_initial_shm_cleanup_enabled: !public
+  #  value: "true"
+  #  type: bool
+  #  label: "FLP SHM cleanup"
+  #  description: "Enable/disable deletion of unused shared memory files before CONFIGURE transition"
+  #  widget: checkBox
+  #  panel: CleanupOperations
+  #roc_cleanup_enabled: !public
+  #  value: "true"
+  #  type: bool
+  #  label: "ReadoutCard cleanup on shutdown"
+  #  description: "Enable/disable the ROC cleanup procedure on environment DESTROY"
+  #  widget: checkBox
+  #  panel: CleanupOperations
+  #fmq_cleanup_enabled: !public
+  #  value: "true"
+  #  type: bool
+  #  label: "FairMQ cleanup on shutdown"
+  #  description: "Enable/disable the FairMQ shared memory cleanup procedure on environment DESTROY"
+  #  widget: checkBox
+  #  panel: CleanupOperations
+  ###############################
+  # Monitoring Panel
+  ###############################
   monitoring_dpl_url: "no-op://"
   monitoring_qc_url: "no-op://"
   monitoring_dd_url: "no-op://"
-  monitoring_readout_url: "no-op://"
+  #monitoring_dpl_url:
+  #  va.lue: "no-op://"
+  #  type: string
+  #  label: "DPL URL"
+  #  description: "Monitoring URL for DPL"
+  #  widget: editBox    
+  #  panel: Monitoring    
+  #monitoring_qc_url: !public 
+  #  value: "no-op://"
+  #  type: string
+  #  label: "QC URL"
+  #  description: "Monitoring URL for QC"
+  #  widget: editBox    
+  #  panel: Monitoring        
+  #monitoring_dd_url: !public 
+  #  value: "no-op://"
+  #  type: string
+  #  label: "Data Distribution URL"
+  #  description: "Monitoring URL for Data Distribution"
+  #  widget: editBox      
+  #  panel: Monitoring            
+  ###############################
+  # Logging Panel
+  ###############################
+  infologger_severity: !public
+    value: info
+    type: string
+    label: "DPL log level"
+    description: "Minimum DPL logging severity which is sent to InfoLogger"
+    widget: dropDownBox
+    panel: Logging
+    values:
+      - "nolog"
+      - "fatal"
+      - "error"
+      - "warn"
+      - "state"
+      - "info"
+      - "debug"
+      - "debug1"
+      - "debug2"
+      - "debug3"
+      - "debug4"
+      - "trace"
+    index: 1 
+  log_task_output: !public
+    value: none
+    type: string
+    label: "Task stdout"
+    description: "Select to where the standard output of controlled tasks should be forwarded to (select 'all' for InfoLogger)"
+    widget: dropDownBox
+    panel: Logging
+    values:
+      - "none"
+      - "stdout"
+      - "all"
+    index: 2
+  fmq_rate_logging: !public
+    value: "10"
+    type: number
+    label: "FairMQ rate logging"
+    description: "sets the interval at which FairMQ logs channel transfer rates"
+    widget: editBox
+    panel: Logging
+    index: 3
+  ###############################
+  # EPN Panel
+  ###############################        
+  odc_topology: !public
+    value: ""
+    type: string
+    label: "Topology"
+    description: "DDS topology to be executed on EPNs"
+    widget: editBox
+    panel: EPN
+    index: 1
+  odc_resources: !public
+    value: "{}"
+    type: string
+    label: "Resources"
+    description: "EPN resources to be used"
+    widget: editBox
+    panel: EPN
+    index: 2
+  ###############################
+  # Other variables
+  ###############################
+  stfb_standalone: "false"
   user: flp
-  log_task_output: none
-  fmq_rate_logging: "10"
   o2_install_path: "/opt/o2"
-  o2_infologger_path: "/opt/o2-InfoLogger"
+  o2_infologger_path: "/opt/o2-InfoLogger"    
+  monitoring_readout_url: "no-op://" # TODO: is this used somewhere ? I could not find it anywhere in the workflows 
+  qcdd_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
+  minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow 
+  roc_ctp_emulator_enabled: "false"
+  odc_plugin: "epn"
+vars:
+  ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
+  odc_enabled: "{{ epn_enabled }}"
 roles:
   - name: host-{{ it }}
     for:
@@ -205,16 +399,52 @@ roles:
           trigger: DESTROY
           timeout: 10s
           critical: false
-  - name: odc-shim
-    enabled: "{{odcshim_enabled == 'true'}}"
-    task:
-      load: odc-shim
   - name: dcs
     enabled: "{{dcs_enabled == 'true'}}"
     roles:
-      - name: sor
+      - name: sor      
         defaults:
-          dcs_sor_parameters: "{\"key\":\"value\"}"
+        ###############################
+        # DCS Panel
+        ###############################        
+          dcs_detectors: !public
+            value: "[]"
+            type: string
+            label: "Detectors"
+            description: "Detector list"
+            widget: editBox
+            panel: DCS
+            index: 1
+          dcs_sor_parameters: !public
+            value: "{}"
+            type: string
+            label: "SOR parameters"
+            description: "additional parameters for the DCS SOR"
+            widget: editBox
+            panel: DCS
+            index: 2
+          dcs_eor_parameters: !public
+            value: "{}"
+            type: string
+            label: "EOR parameters"
+            description: "additional parameters for the DCS EOR"
+            widget: editBox            
+            panel: DCS
+            index: 3
+          run_type: !public # enum from AliECS common/runtype
+            value: "NONE"
+            type: string
+            label: "Run Type"
+            description: "Run type for DCS SOR/EOR"
+            widget: comboBox
+            panel: DCS
+            values:
+              - NONE
+              - PHYSICS
+              - TECHNICAL
+              - PEDESTAL
+              - PULSER
+            index: 4        
         call:
           func: dcs.StartOfRun()
           trigger: before_CONFIGURE
