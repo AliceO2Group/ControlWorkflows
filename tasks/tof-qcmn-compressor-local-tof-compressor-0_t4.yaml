@@ -1,17 +1,17 @@
-name: tof-full-qcmn-local-QC-TASK-RUNNER-TaskRaw
+name: tof-qcmn-compressor-local-tof-compressor-0_t4
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-qc
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
+    {{ dpl_command }} | o2-tof-compressor
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-tof-compressor"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_QC-TASK-RUNNER-TaskRaw_to_TaskRaw-proxy-1
+  - name: from_tof-compressor-0_t4_to_Dispatcher
     type: push
     transport: shmem
     addressing: ipc
@@ -40,7 +40,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'QC-TASK-RUNNER-TaskRaw'"
+    - "'tof-compressor-0_t4'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -61,8 +61,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--config"
-    - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -75,11 +75,8 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--host"
-    - "'alio2-cr1-flp178'"
-    - "--local"
     - "--pipeline"
-    - "''"
+    - "'tof-compressor-0:6'"
     - "--readers"
     - "'1'"
     - "--severity"
@@ -94,7 +91,13 @@ command:
     - "'1'"
     - "--stacktrace-on-signal"
     - "'all'"
+    - "--tof-compressor-config"
+    - "'x:TOF/RAWDATA'"
+    - "--tof-compressor-output-desc"
+    - "'CRAWDATA'"
+    - "--tof-compressor-rdh-version"
+    - "'6'"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-cycle"
-    - "'10000000'"
+    - "--tof-compressor-output-buffer-size"
+    - "'0'"

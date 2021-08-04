@@ -6,8 +6,8 @@ defaults:
   session_id: default
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load FairMQ &&
-    fairmq-shmmonitor
-  _plain_cmdline: "source /etc/profile.d/o2.sh && fairmq-shmmonitor"
+    fairmq-shmmonitor -c
+  _plain_cmdline: "source /etc/profile.d/o2.sh && fairmq-shmmonitor -c"
 control:
   mode: basic
 wants:
@@ -18,7 +18,3 @@ command:
   shell: true
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
-  arguments:
-    - "-c"
-    - "-s"
-    - "{{ session_id }}"
