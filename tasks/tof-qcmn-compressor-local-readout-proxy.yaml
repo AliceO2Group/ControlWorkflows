@@ -16,32 +16,12 @@ bind:
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_readout-proxy_to_dpl-output-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
   - name: from_readout-proxy_to_tof-compressor-0_t1
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
   - name: from_readout-proxy_to_tof-compressor-0_t2
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_readout-proxy_to_tof-compressor-0_t3
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_readout-proxy_to_tof-compressor-0_t4
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_readout-proxy_to_tof-compressor-0_t5
     type: push
     transport: shmem
     addressing: ipc

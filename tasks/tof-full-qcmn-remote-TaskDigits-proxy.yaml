@@ -1,21 +1,27 @@
-name: tof-qcmn-compressor-local-tof-compressor-0_t5
+name: tof-full-qcmn-remote-TaskDigits-proxy
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-tof-compressor
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-tof-compressor"
+    {{ dpl_command }} | o2-qc
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tof-compressor-0_t5_to_Dispatcher
+  - name: from_TaskDigits-proxy_to_MERGER-TaskDigits1l-0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
+  - name: TaskDigits-proxy
+    type: pull
+    transport: zeromq
+    addressing: tcp
+    rateLogging: "{{ fmq_rate_logging }}"
+    target: "tcp://*:47708"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -40,7 +46,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'tof-compressor-0_t5'"
+    - "'TaskDigits-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -61,8 +67,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--configKeyValues"
-    - "''"
+    - "--config"
+    - "'{{ qc_config_uri }}'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -75,10 +81,13 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--host"
+    - "''"
     - "--pipeline"
-    - "'tof-compressor-0:6'"
+    - "''"
     - "--readers"
     - "'1'"
+    - "--remote"
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"
@@ -91,13 +100,15 @@ command:
     - "'1'"
     - "--stacktrace-on-signal"
     - "'all'"
-    - "--tof-compressor-config"
-    - "'x:TOF/RAWDATA'"
-    - "--tof-compressor-output-desc"
-    - "'CRAWDATA'"
-    - "--tof-compressor-rdh-version"
-    - "'6'"
     - "--workflow-suffix"
     - "''"
-    - "--tof-compressor-output-buffer-size"
+    - "--end-value-enumeration"
+    - "-1"
+    - "--orbit-multiplier-enumeration"
     - "'0'"
+    - "--orbit-offset-enumeration"
+    - "'0'"
+    - "--start-value-enumeration"
+    - "'0'"
+    - "--step-value-enumeration"
+    - "'1'"

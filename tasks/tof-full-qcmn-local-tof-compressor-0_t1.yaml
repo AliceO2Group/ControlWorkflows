@@ -1,4 +1,4 @@
-name: tof-qcmn-compressor-local-tof-compressor-0_t0
+name: tof-full-qcmn-local-tof-compressor-0_t1
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,12 +11,12 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tof-compressor-0_t0_to_Dispatcher
+  - name: from_tof-compressor-0_t1_to_Dispatcher
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_tof-compressor-0_t0_to_dpl-output-proxy
+  - name: from_tof-compressor-0_t1_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -45,7 +45,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'tof-compressor-0_t0'"
+    - "'tof-compressor-0_t1'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"

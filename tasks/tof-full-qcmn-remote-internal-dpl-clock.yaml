@@ -1,22 +1,32 @@
-name: tof-qcmn-compressor-local-tof-compressor-0_t0
+name: tof-full-qcmn-remote-internal-dpl-clock
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-tof-compressor
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-tof-compressor"
+    {{ dpl_command }} | o2-qc
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tof-compressor-0_t0_to_Dispatcher
+  - name: from_internal-dpl-clock_to_TaskRaw-proxy
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_tof-compressor-0_t0_to_dpl-output-proxy
+  - name: from_internal-dpl-clock_to_TaskDigits-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_internal-dpl-clock_to_MERGER-TaskDigits1l-0
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_internal-dpl-clock_to_MERGER-TaskRaw1l-0
     type: push
     transport: shmem
     addressing: ipc
@@ -45,7 +55,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'tof-compressor-0_t0'"
+    - "'internal-dpl-clock'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -66,8 +76,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--configKeyValues"
-    - "''"
+    - "--config"
+    - "'{{ qc_config_uri }}'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -80,10 +90,13 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--host"
+    - "''"
     - "--pipeline"
-    - "'tof-compressor-0:3'"
+    - "''"
     - "--readers"
     - "'1'"
+    - "--remote"
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"
@@ -96,13 +109,5 @@ command:
     - "'1'"
     - "--stacktrace-on-signal"
     - "'all'"
-    - "--tof-compressor-config"
-    - "'x:TOF/RAWDATA'"
-    - "--tof-compressor-output-desc"
-    - "'CRAWDATA'"
-    - "--tof-compressor-rdh-version"
-    - "'6'"
     - "--workflow-suffix"
     - "''"
-    - "--tof-compressor-output-buffer-size"
-    - "'0'"

@@ -51,5 +51,5 @@ check_pwd
 ./qcmn-daq.sh
 ./tof-compressor.sh
 ./tof-qcmn-compressor.sh
-
+./tof-full-qcmn.sh
 
