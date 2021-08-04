@@ -300,6 +300,7 @@ If there are no problems with the workflow, you will see a similar output:
 [INFO] ...created.
 ```
 The corresponding workflow template (list of processes to run) will be created in the `workflows` directory and the tasks templates (processes configurations) will be put under the `tasks` directory.
+Please also add the new workflow to the `dpl_workflow` list in `workflows/readout-dataflow.yaml`.
 
 4. Commit the new files and push to a remote branch.
 One can run it by pointing the AliECS to respective branch, choosing the `readout-dataflow` workflow in the AliECS GUI and adding the parameter `dpl_workflow : <workflow_name>` in the advanced configuration.
@@ -379,6 +380,7 @@ Following this example, the full setup can be run by adding the following parame
 "dpl_workflow" : "qcmn-daq-local"
 "qc_remote_workflow" : "qcmn-daq-remote"
 ```
+Do not forget to add both workflows to the coresponding lists in `workflows/readout-dataflow.yaml`.
 
 #### Parallel QC running on EPNs
 
@@ -431,7 +433,8 @@ If you have read everything above, you can now follow these simplified instructi
     3. Update a script in `ControlWorkflows/scripts` or add a new one
     4. Run the script to re-generate the workflow(s): `cd ControlWorkflows/scripts ; ./my-script.sh`
     5. If you need to use config files, refer to [this section](#exporting-templates-of-workflows-which-need-configuration-files)
-    6. Commit and push the changes
+    6. Add the new workflow names to the lists in `workflows/readout-dataflow.yaml`
+    7. Commit and push the changes
 3. Test it
     1. Add the fork to the control: `coconut repo add github.com/<yourGHusername>/ControlWorkflows.git`
     2. In the ECS, create a new environment.
