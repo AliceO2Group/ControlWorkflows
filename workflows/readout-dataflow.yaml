@@ -85,7 +85,9 @@ defaults:
   # Cleanup Operations Panel
   ###############################      
   drop_caches_enabled: "true"
-  fmq_initial_shm_cleanup_enabled: "true"  
+  drop_caches_timeout: "30s"
+  fmq_initial_shm_cleanup_enabled: "true"
+  fmq_initial_shm_cleanup_timeout: "30s"
   roc_cleanup_enabled: "true"
   fmq_cleanup_enabled: "true"
   #drop_caches_enabled: !public
@@ -348,8 +350,8 @@ roles:
         task:
           load: "shell-command"
           trigger: before_CONFIGURE
-          timeout: 10s
-          critical: true
+          timeout: "{{ drop_caches_timeout }}"
+          critical: false # TODO: if this is set true, some basic task finished events aren't parsed correctly
       - name: fairmq-shmcleanup
         enabled: "{{fmq_initial_shm_cleanup_enabled == 'true'}}"
         vars:
@@ -358,8 +360,8 @@ roles:
         task:
           load: "shell-command"
           trigger: before_CONFIGURE
-          timeout: 10s
-          critical: true
+          timeout: "{{ fmq_initial_shm_cleanup_timeout }}"
+          critical: false
       - name: fairmq-shmmonitor
         enabled: "{{fmq_cleanup_enabled == 'true'}}"
         task:
