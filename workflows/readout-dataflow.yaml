@@ -598,6 +598,7 @@ defaults:
   minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow 
   roc_ctp_emulator_enabled: "false"
   odc_plugin: "epn"
+  dpl_workflow: none
 vars:
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
