@@ -26,41 +26,419 @@ defaults:
     description: "Enable/disable EPN"
     widget: checkBox
     panel: BasicConfiguration
-  dpl_workflow: !public
+  cpv_dpl_workflow: !public
     value: "none"
     type: string
-    label: "FLP Local Processing/QC"
+    label: "CPV FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: BasicConfiguration
+    panel: Detectors.CPV
     values:
       - none
       - cpv-compressor
       - cpv-qc-compressor
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  cpv_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "CPV SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: Detectors.CPV
+  cpv_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "CPV EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: Detectors.CPV
+  emc_dpl_workflow:
+    value: "none"
+    type: string
+    label: "EMCAL FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: Detectors.EMCAL
+    values:
+      - none
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  emc_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "EMCAL SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: Detectors.EMCAL
+  emc_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "EMCAL EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: Detectors.EMCAL
+  fdd_dpl_workflow:
+    value: "none"
+    type: string
+    label: "FDD FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: Detectors.FDD
+    values:
+      - none
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  fdd_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "FDD SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: Detectors.FDD
+  fdd_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "FDD EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: Detectors.FDD
+  ft0_dpl_workflow:
+    value: "none"
+    type: string
+    label: "FT0 FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: Detectors.FT0
+    values:
+      - none
       - ft0-digits-qc
-      - hmpid-raw-qc
-      - hmpid-raw-qcmn-local
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  ft0_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "FT0 SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: Detectors.FT0
+  ft0_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "FT0 EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: Detectors.FT0
+  fv0_dpl_workflow:
+    value: "none"
+    type: string
+    label: "FV0 FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: Detectors.FV0
+    values:
+      - none
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  fv0_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "FV0 SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: Detectors.FV0
+  fv0_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "FV0 EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: Detectors.FV0
+  its_dpl_workflow:
+    value: "none"
+    type: string
+    label: "ITS FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: Detectors.ITS
+    values:
+      - none
       - its-qc-fhr-fee
       - its-qcmn-fhr-fee-local
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  its_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "ITS SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: Detectors.ITS
+  its_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "ITS EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: Detectors.ITS
+  hmp_dpl_workflow:
+    value: "none"
+    type: string
+    label: "HMPID FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: Detectors.HMPID
+    values:
+      - none
+      - hmpid-raw-qc
+      - hmpid-raw-qcmn-local
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  hmp_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "HMPID SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: Detectors.HMPID
+  hmp_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "HMPID EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: Detectors.HMPID
+  mch_dpl_workflow:
+    value: "none"
+    type: string
+    label: "MCH FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: Detectors.MCH
+    values:
+      - none
       - mch-qcmn-digits-local
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  mch_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "MCH SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: Detectors.MCH
+  mch_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "MCH EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: Detectors.MCH
+  mft_dpl_workflow:
+    value: "none"
+    type: string
+    label: "MFT FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: Detectors.MFT
+    values:
+      - none
       - mft-decoder
       - mft-digits-qc
       - mft-raw-direct-qcmn-local
       - mft-raw-qc
       - mft-raw-qcmn-local
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  mft_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "MFT SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: Detectors.MFT
+  mft_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "MFT EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: Detectors.MFT
+  mid_dpl_workflow:
+    value: "none"
+    type: string
+    label: "MID FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: Detectors.MID
+    values:
+      - none
       - mid-raw-parser
       - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  mid_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "MID SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: Detectors.MID
+  mid_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "MID EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: Detectors.MID
+  phs_dpl_workflow:
+    value: "none"
+    type: string
+    label: "PHOS FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: Detectors.PHOS
+    values:
+      - none
       - phos-compressor-raw-qc
       - phos-compressor-raw-qcmn-local
       - phos-compressor-raw-qcmnt3-local
       - phos-compressor-raw-qct3
       - phos-compressor
       - phos-compressort3
+      - minimal-dpl
       - qc-daq
       - qcmn-daq-local
+  phs_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "PHOS SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: Detectors.PHOS
+  phs_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "PHOS EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: Detectors.PHOS
+  tof_dpl_workflow:
+    value: "none"
+    type: string
+    label: "TOF FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: Detectors.TOF
+    values:
+      - none
       - tof-compressor
       - tof-full-qcmn-local
       - tof-qcmn-compressor-local
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  tof_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "TOF SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: Detectors.TOF
+  tof_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "TOF EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: Detectors.TOF
+  tpc_dpl_workflow:
+    value: "none"
+    type: string
+    label: "TPC FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: Detectors.TPC
+    values:
+      - none
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  tpc_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "TPC SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: Detectors.TPC
+  tpc_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "TPC EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: Detectors.TPC
+  trd_dpl_workflow:
+    value: "none"
+    type: string
+    label: "TRD FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: Detectors.TRD
+    values:
+      - none
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  trd_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "TRD SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: Detectors.TRD
+  trd_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "TRD EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: Detectors.TRD
+  zdc_dpl_workflow:
+    value: "none"
+    type: string
+    label: "ZDC FLP Local Processing/QC"
+    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    widget: dropDownBox
+    panel: Detectors.ZDC
+    values:
+      - none
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  zdc_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "ZDC SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: Detectors.ZDC
+  zdc_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "ZDC EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: Detectors.ZDC
   qc_remote_workflow: !public
     value: "none"
     type: string
@@ -398,50 +776,51 @@ roles:
         include: "{{ qc_remote_workflow }}"
   - name: dcs
     enabled: "{{dcs_enabled == 'true'}}"
+    defaults:
+    ###############################
+    # DCS Panel
+    ###############################
+      dcs_detectors: !public
+        value: "[]"
+        type: string
+        label: "Detectors"
+        description: "Detector list"
+        widget: editBox
+        panel: DCS
+        index: 1
+      dcs_sor_parameters: !public
+        value: "{}"
+        type: string
+        label: "Global SOR parameters"
+        description: "additional parameters for the DCS SOR"
+        widget: editBox
+        panel: DCS
+        index: 2
+      dcs_eor_parameters: !public
+        value: "{}"
+        type: string
+        label: "Global EOR parameters"
+        description: "additional parameters for the DCS EOR"
+        widget: editBox
+        panel: DCS
+        index: 3
+      run_type: !public # enum from AliECS common/runtype
+        value: "NONE"
+        type: string
+        label: "Run Type"
+        description: "Run type for DCS SOR/EOR"
+        widget: comboBox
+        panel: DCS
+        values:
+          - NONE
+          - PHYSICS
+          - TECHNICAL
+          - PEDESTAL
+          - PULSER
+          - LASER
+        index: 4
     roles:
       - name: sor      
-        defaults:
-        ###############################
-        # DCS Panel
-        ###############################        
-          dcs_detectors: !public
-            value: "[]"
-            type: string
-            label: "Detectors"
-            description: "Detector list"
-            widget: editBox
-            panel: DCS
-            index: 1
-          dcs_sor_parameters: !public
-            value: "{}"
-            type: string
-            label: "SOR parameters"
-            description: "additional parameters for the DCS SOR"
-            widget: editBox
-            panel: DCS
-            index: 2
-          dcs_eor_parameters: !public
-            value: "{}"
-            type: string
-            label: "EOR parameters"
-            description: "additional parameters for the DCS EOR"
-            widget: editBox            
-            panel: DCS
-            index: 3
-          run_type: !public # enum from AliECS common/runtype
-            value: "NONE"
-            type: string
-            label: "Run Type"
-            description: "Run type for DCS SOR/EOR"
-            widget: comboBox
-            panel: DCS
-            values:
-              - NONE
-              - PHYSICS
-              - TECHNICAL
-              - PEDESTAL
-              - PULSER
-            index: 4        
         call:
           func: dcs.StartOfRun()
           trigger: before_CONFIGURE
