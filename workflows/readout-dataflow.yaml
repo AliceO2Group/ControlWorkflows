@@ -599,6 +599,7 @@ defaults:
   roc_ctp_emulator_enabled: "false"
   odc_plugin: "epn"
   dpl_workflow: none
+  detectors: "{{ DetectorsForHosts(hosts) }}"
 vars:
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
@@ -781,14 +782,7 @@ roles:
     ###############################
     # DCS Panel
     ###############################
-      dcs_detectors: !public
-        value: "[]"
-        type: string
-        label: "Detectors"
-        description: "Detector list"
-        widget: editBox
-        panel: DCS
-        index: 1
+      dcs_detectors: "{{ detectors }}"
       dcs_sor_parameters: !public
         value: "{}"
         type: string
