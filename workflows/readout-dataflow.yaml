@@ -818,13 +818,13 @@ roles:
       - name: sor      
         call:
           func: dcs.StartOfRun()
-          trigger: before_CONFIGURE
+          trigger: enter_RUNNING
           timeout: 5s
           critical: true
       - name: eor
         call:
           func: dcs.EndOfRun()
-          trigger: after_RESET
+          trigger: leave_RUNNING
           timeout: 5s
           critical: true
       - name: cleanup
