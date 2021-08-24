@@ -72,12 +72,12 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: its-qcmn-fhr-fee-local-QC-TASK-RUNNER-ITSFEE
-  - name: "FHRTask-proxy-1"
+  - name: "FHRTask-proxy"
     connect:
-    - name: from_QC-TASK-RUNNER-FHRTask_to_FHRTask-proxy-1
+    - name: from_QC-TASK-RUNNER-FHRTask_to_FHRTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-FHRTask:from_QC-TASK-RUNNER-FHRTask_to_FHRTask-proxy-1"
+      target: "{{ Parent().Path }}.QC-TASK-RUNNER-FHRTask:from_QC-TASK-RUNNER-FHRTask_to_FHRTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     - name: FHRTask-proxy
       type: push
@@ -85,13 +85,13 @@ roles:
       target: "::FHRTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: its-qcmn-fhr-fee-local-FHRTask-proxy-1
-  - name: "ITSFEE-proxy-1"
+      load: its-qcmn-fhr-fee-local-FHRTask-proxy
+  - name: "ITSFEE-proxy"
     connect:
-    - name: from_QC-TASK-RUNNER-ITSFEE_to_ITSFEE-proxy-1
+    - name: from_QC-TASK-RUNNER-ITSFEE_to_ITSFEE-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-ITSFEE:from_QC-TASK-RUNNER-ITSFEE_to_ITSFEE-proxy-1"
+      target: "{{ Parent().Path }}.QC-TASK-RUNNER-ITSFEE:from_QC-TASK-RUNNER-ITSFEE_to_ITSFEE-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     - name: ITSFEE-proxy
       type: push
@@ -99,7 +99,7 @@ roles:
       target: "::ITSFEE-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: its-qcmn-fhr-fee-local-ITSFEE-proxy-1
+      load: its-qcmn-fhr-fee-local-ITSFEE-proxy
   - name: "dpl-output-proxy"
     connect:
     - name: from_Dispatcher_to_dpl-output-proxy

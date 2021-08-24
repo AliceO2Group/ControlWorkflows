@@ -11,7 +11,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_QC-TASK-RUNNER-QcMFTReadoutTask_to_QcMFTReadoutTask-proxy-1
+  - name: from_QC-TASK-RUNNER-QcMFTReadoutTask_to_QcMFTReadoutTask-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -83,13 +83,19 @@ command:
     - "--host"
     - "'alio2-cr1-flp182'"
     - "--local"
+    - "--local-batch"
+    - "''"
     - "--pipeline"
     - "''"
     - "--readers"
     - "'1'"
+    - "--remote-batch"
+    - "''"
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"
+    - "'false'"
+    - "--shm-mlock-segment-on-creation"
     - "'false'"
     - "--shm-segment-id"
     - "'0'"

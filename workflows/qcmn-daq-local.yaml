@@ -58,12 +58,12 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: qcmn-daq-local-QC-TASK-RUNNER-MultiNodeLocal
-  - name: "MultiNodeLocal-proxy-1"
+  - name: "MultiNodeLocal-proxy"
     connect:
-    - name: from_QC-TASK-RUNNER-MultiNodeLocal_to_MultiNodeLocal-proxy-1
+    - name: from_QC-TASK-RUNNER-MultiNodeLocal_to_MultiNodeLocal-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-MultiNodeLocal:from_QC-TASK-RUNNER-MultiNodeLocal_to_MultiNodeLocal-proxy-1"
+      target: "{{ Parent().Path }}.QC-TASK-RUNNER-MultiNodeLocal:from_QC-TASK-RUNNER-MultiNodeLocal_to_MultiNodeLocal-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     - name: MultiNodeLocal-proxy
       type: push
@@ -71,7 +71,7 @@ roles:
       target: "::MultiNodeLocal-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: qcmn-daq-local-MultiNodeLocal-proxy-1
+      load: qcmn-daq-local-MultiNodeLocal-proxy
   - name: "dpl-output-proxy"
     connect:
     - name: from_readout-proxy_to_dpl-output-proxy
