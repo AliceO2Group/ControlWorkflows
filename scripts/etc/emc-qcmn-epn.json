@@ -32,7 +32,7 @@
                 "maxNumberCycles": "-1",
                 "dataSource": {
                     "type": "dataSamplingPolicy",
-                    "query": "datadistribution"
+                    "name": "datadistribution"
                 },
                 "taskParameters": {
                     "nothing": "rien"

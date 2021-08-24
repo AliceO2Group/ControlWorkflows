@@ -1,4 +1,4 @@
-name: qcmn-daq-local-MultiNodeLocal-proxy-1
+name: phos-compressor-raw-qcmn-local-QcTask-proxy
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -35,7 +35,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'MultiNodeLocal-proxy-1'"
+    - "'QcTask-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -71,15 +71,21 @@ command:
     - "--forwarding-policy"
     - "'dangling'"
     - "--host"
-    - "'alio2-cr1-mvs01'"
+    - "'alio2-cr1-flp164'"
     - "--local"
+    - "--local-batch"
+    - "''"
     - "--pipeline"
     - "''"
     - "--readers"
     - "'1'"
+    - "--remote-batch"
+    - "''"
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"
+    - "'false'"
+    - "--shm-mlock-segment-on-creation"
     - "'false'"
     - "--shm-segment-id"
     - "'0'"
