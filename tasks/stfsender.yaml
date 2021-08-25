@@ -23,6 +23,7 @@ command:
     - http_proxy=""
     - https_proxy=""
     - no_proxy=-ib,.internal
+    - O2_DETECTOR={{ detector }}
   log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"

@@ -16,6 +16,7 @@ defaults:
 command:
   env:
     - O2_INFOLOGGER_MODE={{ infologger_mode }}
+    - O2_DETECTOR={{ detector }}
   log: "{{ log_task_output }}"
   shell: true
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"

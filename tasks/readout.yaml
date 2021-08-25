@@ -23,6 +23,7 @@ command:
   env: []
   log: "{{ log_task_output }}"
   shell: true
+  env: ["O2_DETECTOR={{ detector }}"]
   user: "{{ user }}"
   arguments:
     - "{{ readout_cfg_uri }}"
