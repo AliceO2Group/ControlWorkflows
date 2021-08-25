@@ -20,7 +20,6 @@ bind:
     transport: shmem
 properties: {}
 command: 
-  env: []
   log: "{{ log_task_output }}"
   shell: true
   env: ["O2_DETECTOR={{ detector }}"]
