@@ -54,7 +54,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
-  emc_dpl_workflow:
+  emc_dpl_workflow: !public
     value: "none"
     type: string
     label: "EMCAL FLP Local Processing/QC"
@@ -80,7 +80,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
-  fdd_dpl_workflow:
+  fdd_dpl_workflow: !public
     value: "none"
     type: string
     label: "FDD FLP Local Processing/QC"
@@ -106,7 +106,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
-  ft0_dpl_workflow:
+  ft0_dpl_workflow: !public
     value: "none"
     type: string
     label: "FT0 FLP Local Processing/QC"
@@ -133,7 +133,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
-  fv0_dpl_workflow:
+  fv0_dpl_workflow: !public
     value: "none"
     type: string
     label: "FV0 FLP Local Processing/QC"
@@ -159,7 +159,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
-  its_dpl_workflow:
+  its_dpl_workflow: !public
     value: "none"
     type: string
     label: "ITS FLP Local Processing/QC"
@@ -187,7 +187,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
-  hmp_dpl_workflow:
+  hmp_dpl_workflow: !public
     value: "none"
     type: string
     label: "HMPID FLP Local Processing/QC"
@@ -215,7 +215,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
-  mch_dpl_workflow:
+  mch_dpl_workflow: !public
     value: "none"
     type: string
     label: "MCH FLP Local Processing/QC"
@@ -242,7 +242,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
-  mft_dpl_workflow:
+  mft_dpl_workflow: !public
     value: "none"
     type: string
     label: "MFT FLP Local Processing/QC"
@@ -273,7 +273,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
-  mid_dpl_workflow:
+  mid_dpl_workflow: !public
     value: "none"
     type: string
     label: "MID FLP Local Processing/QC"
@@ -300,7 +300,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
-  phs_dpl_workflow:
+  phs_dpl_workflow: !public
     value: "none"
     type: string
     label: "PHOS FLP Local Processing/QC"
@@ -332,7 +332,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
-  tof_dpl_workflow:
+  tof_dpl_workflow: !public
     value: "none"
     type: string
     label: "TOF FLP Local Processing/QC"
@@ -361,7 +361,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
-  tpc_dpl_workflow:
+  tpc_dpl_workflow: !public
     value: "none"
     type: string
     label: "TPC FLP Local Processing/QC"
@@ -387,7 +387,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
-  trd_dpl_workflow:
+  trd_dpl_workflow: !public
     value: "none"
     type: string
     label: "TRD FLP Local Processing/QC"
@@ -413,7 +413,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
-  zdc_dpl_workflow:
+  zdc_dpl_workflow: !public
     value: "none"
     type: string
     label: "ZDC FLP Local Processing/QC"
