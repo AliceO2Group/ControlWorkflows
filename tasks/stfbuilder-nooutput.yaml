@@ -2,11 +2,13 @@ name: stfbuilder-nooutput
 control:
   mode: fairmq
 defaults:
+  detector: TST
   rdh_version: "6"
   user: flp
   fmq_severity: info
   dd_detector_subspec: feeid
   log_task_output: none
+  stfb_run_type: "{{ ((detector == 'ITS' || detector == 'MFT') && (run_type == 'CALIBRATION')) ? 'topology' : 'physics'}}"
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
     StfBuilder
@@ -29,3 +31,5 @@ command:
     - "--severity={{ fmq_severity }}"
     - "--severity-infologger={{ infologger_severity }}"
     - "--stand-alone"
+    - "--detector={{ detector }}"
+    - "--run-type={{ stfb_run_type }}"
