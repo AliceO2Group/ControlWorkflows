@@ -608,9 +608,8 @@ roles:
     for:
       range: "{{ hosts }}"
       var: it
-    defaults:
-      detector: "{{DetectorForHost( it )}}"
     vars:
+      detector: "{{DetectorForHost( it )}}"
       readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ it }}"
       readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-stfb-{{ it }}"
       dd_discovery_ib_hostname: "{{ it }}-ib" # MUST be defined for all stfb and stfs
@@ -813,6 +812,7 @@ roles:
           - PEDESTAL
           - PULSER
           - LASER
+          - CALIBRATION
         index: 4
     roles:
       - name: sor      
