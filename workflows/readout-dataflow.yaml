@@ -40,16 +40,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  cpv_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "CPV QC remote workflow"
-    description: "QC workflow to execute on QC servers"
-    widget: dropDownBox
-    panel: FLP_LocalProcessing
-    values:
-      - none
-      - qcmn-daq-remote
   cpv_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -76,17 +66,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  emc_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "EMC QC remote workflow"
-    description: "QC workflow to execute on QC servers"
-    widget: dropDownBox
-    panel: FLP_LocalProcessing
-    values:
-      - none
-      - emc-qcmn-epn-remote
-      - qcmn-daq-remote
   emc_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -113,16 +92,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  fdd_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "FDD QC remote workflow"
-    description: "QC workflow to execute on QC servers"
-    widget: dropDownBox
-    panel: FLP_LocalProcessing
-    values:
-      - none
-      - qcmn-daq-remote
   fdd_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -150,16 +119,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  ft0_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "FT0 QC remote workflow"
-    description: "QC workflow to execute on QC servers"
-    widget: dropDownBox
-    panel: FLP_LocalProcessing
-    values:
-      - none
-      - qcmn-daq-remote
   ft0_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -186,16 +145,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  fv0_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "FV0 QC remote workflow"
-    description: "QC workflow to execute on QC servers"
-    widget: dropDownBox
-    panel: FLP_LocalProcessing
-    values:
-      - none
-      - qcmn-daq-remote
   fv0_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -224,17 +173,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  its_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "ITS QC remote workflow"
-    description: "QC workflow to execute on QC servers"
-    widget: dropDownBox
-    panel: FLP_LocalProcessing
-    values:
-      - none
-      - its-qcmn-fhr-fee-remote
-      - qcmn-daq-remote
   its_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -263,17 +201,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  hmp_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "HMPID QC remote workflow"
-    description: "QC workflow to execute on QC servers"
-    widget: dropDownBox
-    panel: FLP_LocalProcessing
-    values:
-      - none
-      - hmpid-raw-qcmn-remote
-      - qcmn-daq-remote
   hmp_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -301,17 +228,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  mch_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "MCH QC remote workflow"
-    description: "QC workflow to execute on QC servers"
-    widget: dropDownBox
-    panel: FLP_LocalProcessing
-    values:
-      - none
-      - mch-qcmn-digits-remote
-      - qcmn-daq-remote
   mch_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -343,18 +259,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  mft_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "MFT QC remote workflow"
-    description: "QC workflow to execute on QC servers"
-    widget: dropDownBox
-    panel: FLP_LocalProcessing
-    values:
-      - none
-      - mft-raw-direct-qcmn-remote
-      - mft-raw-qcmn-remote
-      - qcmn-daq-remote
   mft_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -382,16 +286,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  mid_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "MID QC remote workflow"
-    description: "QC workflow to execute on QC servers"
-    widget: dropDownBox
-    panel: FLP_LocalProcessing
-    values:
-      - none
-      - qcmn-daq-remote
   mid_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -424,18 +318,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  phs_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "PHOS QC remote workflow"
-    description: "QC workflow to execute on QC servers"
-    widget: dropDownBox
-    panel: FLP_LocalProcessing
-    values:
-      - none
-      - phos-compressor-raw-qcmn-remote
-      - phos-compressor-raw-qcmnt3-remote
-      - qcmn-daq-remote
   phs_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -465,18 +347,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  tof_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "TOF QC remote workflow"
-    description: "QC workflow to execute on QC servers"
-    widget: dropDownBox
-    panel: FLP_LocalProcessing
-    values:
-      - none
-      - qcmn-daq-remote
-      - tof-full-qcmn-remote
-      - tof-qcmn-compressor-remote
   tof_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -503,16 +373,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  tpc_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "TPC QC remote workflow"
-    description: "QC workflow to execute on QC servers"
-    widget: dropDownBox
-    panel: FLP_LocalProcessing
-    values:
-      - none
-      - qcmn-daq-remote
   tpc_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -539,16 +399,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  trd_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "TRD QC remote workflow"
-    description: "QC workflow to execute on QC servers"
-    widget: dropDownBox
-    panel: FLP_LocalProcessing
-    values:
-      - none
-      - qcmn-daq-remote
   trd_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -575,16 +425,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  zdc_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "ZDC QC remote workflow"
-    description: "QC workflow to execute on QC servers"
-    widget: dropDownBox
-    panel: FLP_LocalProcessing
-    values:
-      - none
-      - qcmn-daq-remote
   zdc_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -599,6 +439,26 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+  qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "QC remote workflow"
+    description: "QC workflow to execute on QC servers"
+    widget: dropDownBox
+    panel: BasicConfiguration
+    values:
+      - none
+      - emc-qcmn-epn-remote
+      - hmpid-raw-qcmn-remote
+      - its-qcmn-fhr-fee-remote
+      - mch-qcmn-digits-remote
+      - mft-raw-direct-qcmn-remote
+      - mft-raw-qcmn-remote
+      - phos-compressor-raw-qcmn-remote
+      - phos-compressor-raw-qcmnt3-remote
+      - qcmn-daq-remote
+      - tof-full-qcmn-remote
+      - tof-qcmn-compressor-remote        
   ###############################
   # Cleanup Operations Panel
   ###############################      
@@ -903,27 +763,18 @@ roles:
           trigger: DESTROY
           timeout: 10s
           critical: false
-  - name: qc-servers
+  - name: qc-remote-workflow
+    enabled: "{{ qc_remote_workflow != 'none' }}"
     constraints:
       - attribute: machine_type
         value: qcserver
-    defaults:
-      qc_remote_workflow: none
     vars:
       user: qc
       session_id: "{{ environment_id }}" # we can't use "default" because other workflows might already exist on the same QC server
     roles:
-      - name: qc-remote-workflow-{{ det }}
+      - name: dpl
         enabled: "{{ qc_remote_workflow != 'none' }}"
-        for:
-          range: "{{ detectors }}"
-          var: det
-        vars:
-          qc_remote_workflow: "{{ PrefixedOverride( 'qc_remote_workflow', ToLower( det ) ) }}"
-        roles:
-          - name: dpl
-            enabled: "{{ qc_remote_workflow != 'none' }}"
-            include: "{{ qc_remote_workflow }}"
+        include: "{{ qc_remote_workflow }}"
   - name: dcs
     enabled: "{{dcs_enabled == 'true'}}"
     defaults:
