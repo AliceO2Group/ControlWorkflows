@@ -26,6 +26,14 @@ defaults:
     description: "Enable/disable EPN"
     widget: checkBox
     panel: BasicConfiguration
+  qc_remote_workflow: !public # TODO: if false, DCS panel should be disabled
+    value: "false"
+    type: bool
+    label: "QC remote"
+    description: "Enable/disable QC remote"
+    widget: checkBox
+    panel: FLP_LocalProcessing
+    index: -200
   cpv_dpl_workflow: !public
     value: "none"
     type: string
@@ -904,6 +912,7 @@ roles:
           timeout: 10s
           critical: false
   - name: qc-servers
+    enabled: "{{ qc_remote_enabled == 'true' }}"
     constraints:
       - attribute: machine_type
         value: qcserver
@@ -914,7 +923,6 @@ roles:
       session_id: "{{ environment_id }}" # we can't use "default" because other workflows might already exist on the same QC server
     roles:
       - name: qc-remote-workflow-{{ det }}
-        enabled: "{{ qc_remote_workflow != 'none' }}"
         for:
           range: "{{ detectors }}"
           var: det
