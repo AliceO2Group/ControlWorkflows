@@ -932,6 +932,12 @@ roles:
           - name: dpl
             enabled: "{{ qc_remote_workflow != 'none' }}"
             include: "{{ qc_remote_workflow }}"
+          - name: echo task
+            enabled: "{{ qc_remote_workflow == 'none' }}"
+            vars:
+              shell_command: echo
+            task:
+              load: "shell-command"
   - name: dcs
     enabled: "{{dcs_enabled == 'true'}}"
     defaults:
