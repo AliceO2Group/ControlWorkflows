@@ -91,6 +91,8 @@ command:
     - "'dangling'"
     - "--input-type"
     - "'raw'"
+    - "--labels"
+    - "''"
     - "--output-type"
     - "'digits'"
     - "--pipeline"

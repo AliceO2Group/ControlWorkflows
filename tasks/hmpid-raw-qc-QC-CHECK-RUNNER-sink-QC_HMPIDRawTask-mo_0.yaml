@@ -73,6 +73,8 @@ command:
     - "'dangling'"
     - "--host"
     - "''"
+    - "--labels"
+    - "''"
     - "--local-batch"
     - "''"
     - "--pipeline"

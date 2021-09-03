@@ -90,6 +90,8 @@ command:
     - "'dangling'"
     - "--hbfutils-config"
     - "'o2simdigitizerworkflow_configuration.ini'"
+    - "--labels"
+    - "''"
     - "--pipeline"
     - "''"
     - "--readers"

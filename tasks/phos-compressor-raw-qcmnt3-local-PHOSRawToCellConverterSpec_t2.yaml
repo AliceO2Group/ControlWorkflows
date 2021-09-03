@@ -93,6 +93,8 @@ command:
     - "'o2simdigitizerworkflow_configuration.ini'"
     - "--input-type"
     - "'raw'"
+    - "--labels"
+    - "''"
     - "--output-type"
     - "'cells'"
     - "--pipeline"

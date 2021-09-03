@@ -81,6 +81,8 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--labels"
+    - "''"
     - "--pipeline"
     - "'tof-compressor-0:3'"
     - "--readers"

@@ -78,6 +78,8 @@ command:
     - "'dangling'"
     - "--host"
     - "'alio2-cr1-flp187'"
+    - "--labels"
+    - "''"
     - "--local"
     - "--local-batch"
     - "''"

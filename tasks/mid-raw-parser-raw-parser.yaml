@@ -76,6 +76,8 @@ command:
     - "'dangling'"
     - "--input-spec"
     - "'A:MID/RAWDATA'"
+    - "--labels"
+    - "''"
     - "--pipeline"
     - "''"
     - "--readers"

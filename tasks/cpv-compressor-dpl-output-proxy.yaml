@@ -81,6 +81,8 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--labels"
+    - "''"
     - "--output-proxy-address"
     - "'0.0.0.0'"
     - "--output-proxy-method"
