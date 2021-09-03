@@ -26,7 +26,7 @@ defaults:
     description: "Enable/disable EPN"
     widget: checkBox
     panel: BasicConfiguration
-  qc_remote_workflow: !public # TODO: if false, DCS panel should be disabled
+  qc_remote_workflow: !public # TODO: if false, all per-detector remote QC workflows vars should be disabled
     value: "false"
     type: bool
     label: "QC remote"
