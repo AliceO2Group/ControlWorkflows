@@ -71,6 +71,8 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--labels"
+    - "''"
     - "--pipeline"
     - "''"
     - "--readers"

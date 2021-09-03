@@ -83,6 +83,8 @@ command:
     - "'dangling'"
     - "--host"
     - "'alio2-cr1-mvs01'"
+    - "--labels"
+    - "''"
     - "--local"
     - "--local-batch"
     - "''"

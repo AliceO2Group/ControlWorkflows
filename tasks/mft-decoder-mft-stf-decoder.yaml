@@ -79,6 +79,8 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--labels"
+    - "''"
     - "--no-cluster-patterns"
     - "--no-clusters"
     - "--noise-file"
