@@ -24,6 +24,7 @@ bind:
 command:
   shell: true
   log: "{{ log_task_output }}"
+  env: ["O2_DETECTOR={{ detector }}"]
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
@@ -70,7 +71,7 @@ command:
     - "''"
     - "--disable-root-output"
     - "--fairmq-ipc-prefix"
-    - "'/tmp/flp'"
+    - "'/tmp'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
@@ -81,6 +82,8 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--labels"
+    - "''"
     - "--pipeline"
     - "''"
     - "--readers"
@@ -88,6 +91,8 @@ command:
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"
+    - "'false'"
+    - "--shm-mlock-segment-on-creation"
     - "'false'"
     - "--shm-segment-id"
     - "'0'"
