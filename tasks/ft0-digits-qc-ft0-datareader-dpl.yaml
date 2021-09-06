@@ -71,7 +71,7 @@ command:
     - "''"
     - "--disable-root-output"
     - "--fairmq-ipc-prefix"
-    - "'/tmp'"
+    - "'/tmp/flp'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"

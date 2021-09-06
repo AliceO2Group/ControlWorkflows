@@ -1,4 +1,4 @@
-name: ft0-digits-qc-internal-dpl-injected-dummy-sink
+name: fv0-digits-qc-internal-dpl-clock
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,6 +11,16 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+  - name: from_internal-dpl-clock_to_readout-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-DigitQcTask
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -36,7 +46,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-injected-dummy-sink'"
+    - "'internal-dpl-clock'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -58,9 +68,9 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'A1:FT0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "'A1:FV0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--fairmq-ipc-prefix"
-    - "'/tmp'"
+    - "'/tmp/flp'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
