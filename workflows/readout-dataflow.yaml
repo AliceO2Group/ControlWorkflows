@@ -932,6 +932,9 @@ roles:
           - name: dpl
             enabled: "{{ qc_remote_workflow != 'none' }}"
             include: "{{ qc_remote_workflow }}"
+          # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list
+          # however if the {{det}}_qc_remote_workflow is none there is a ghost role deployed which is never active
+          # for that cases we deploy a plain echo task which will transition the role and eventually the wf to active 
           - name: echo task
             enabled: "{{ qc_remote_workflow == 'none' }}"
             vars:
