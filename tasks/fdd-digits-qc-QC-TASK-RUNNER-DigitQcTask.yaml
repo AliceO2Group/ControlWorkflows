@@ -1,4 +1,4 @@
-name: ft0-digits-qc-QC-TASK-RUNNER-DigitQcTask
+name: fdd-digits-qc-QC-TASK-RUNNER-DigitQcTask
 defaults:
   log_task_output: none
   _module_cmdline: >-

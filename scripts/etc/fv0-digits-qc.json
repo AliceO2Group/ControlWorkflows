@@ -25,17 +25,17 @@
       "tasks": {
         "DigitQcTask": {
           "active": "true",
-          "className": "o2::quality_control_modules::ft0::DigitQcTask",
-          "moduleName": "QcFT0",
-          "detectorName": "FT0",
+          "className": "o2::quality_control_modules::fv0::DigitQcTask",
+          "moduleName": "QcFV0",
+          "detectorName": "FV0",
           "cycleDurationSeconds": "60",
           "maxNumberCycles": "-1",
           "dataSource": {
               "type": "direct",
-              "query": "digits:FT0/DIGITSBC/0;channels:FT0/DIGITSCH/0"
+              "query": "digits:FV0/DIGITSBC/0;channels:FV0/DIGITSCH/0"
             },
           "taskParameters": {
-            "ChannelIDs": "204,205"
+            "ChannelIDs": "0,1,2,3,4,5,6,7,8,9"
           },
           "location": "local",
           "localMachines": [
