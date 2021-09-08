@@ -386,7 +386,7 @@ defaults:
     panel: FLP_LocalProcessing
     values:
       - none
-      - mid-raw-parser
+      - mid-raw-decoder
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
