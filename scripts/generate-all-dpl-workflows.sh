@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 #set -x;
-set -e;
-set -u;
+set -e
+set -u
 
 # This will run all the scripts for regenerating the WFTs&TTs.
 # Please note that:
@@ -41,7 +41,7 @@ check_pwd
 ./mft-raw-qcmn.sh
 ./mft-raw-direct-qcmn.sh
 ./mft-raw-qc.sh
-./mid-raw-parser.sh
+./mid-raw-decoder.sh
 ./minimal-dpl.sh
 ./phos-compressor-raw-qc.sh
 ./phos-compressor-raw-qcmn.sh
@@ -54,4 +54,3 @@ check_pwd
 ./tof-compressor.sh
 ./tof-qcmn-compressor.sh
 ./tof-full-qcmn.sh
-
