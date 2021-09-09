@@ -60,7 +60,7 @@ command:
     - "--config"
     - "'{{ qc_config_uri }}'"
     - "--fairmq-ipc-prefix"
-    - "'/tmp/flp'"
+    - "'/tmp'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"

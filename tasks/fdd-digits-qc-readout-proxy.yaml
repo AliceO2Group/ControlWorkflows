@@ -65,7 +65,7 @@ command:
     - "--dataspec"
     - "'A1:FDD/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--fairmq-ipc-prefix"
-    - "'/tmp/flp'"
+    - "'/tmp'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
