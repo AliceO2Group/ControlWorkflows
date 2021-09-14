@@ -118,6 +118,7 @@ defaults:
     panel: FLP_LocalProcessing
     values:
       - none
+      - fdd-digits-qc
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -191,6 +192,7 @@ defaults:
     panel: FLP_LocalProcessing
     values:
       - none
+      - fv0-digits-qc
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
