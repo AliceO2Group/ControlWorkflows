@@ -228,7 +228,9 @@ defaults:
     values:
       - none
       - its-qc-fhr-fee
+      - its-qc-fhr-fee-no-ds
       - its-qcmn-fhr-fee-local
+      - its-qcmn-fhr-fee-no-ds-local
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -242,6 +244,7 @@ defaults:
     values:
       - none
       - its-qcmn-fhr-fee-remote
+      - its-qcmn-fhr-fee-no-ds-remote
       - qcmn-daq-remote
   its_dcs_sor_parameters: !public
     value: "{}"
