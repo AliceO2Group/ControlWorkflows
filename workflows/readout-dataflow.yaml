@@ -3,14 +3,6 @@ defaults:
   ###############################
   # Basic Configuration Panel
   ###############################
-  ctp_global_run_enabled: !public
-    value: "false"
-    type: bool
-    label: "CTP Global Run"
-    description: "Enable/disable CTP Global Run"
-    widget: checkBox
-    panel: CTPConfiguration
-    index: -200
   dcs_enabled: !public # TODO: if false, DCS panel should be disabled
     value: "false"
     type: bool
@@ -651,6 +643,95 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+  ###############################
+  # CTP Panel
+  ###############################
+  ctp_global_run_enabled: !public
+    value: "false"
+    type: bool
+    label: "CTP Global Run"
+    description: "Enable/disable CTP Global Run"
+    widget: checkBox
+    panel: CTP
+    index: -200  
+  ctp_load_parameters: !public
+    value: ""
+    type: string
+    label: "CTP Global Config File"
+    description: "config file for the CTP Global Run Load"
+    widget: editBox
+    panel: CTP
+  ctp_run_parameters: !public
+    value: ""
+    type: string
+    label: "CTP Start Run Config"
+    description: "config for the CTP Run Start"
+    widget: editBox
+    panel: CTP
+  ###############################
+  # Cleanup Operations Panel
+  ###############################      
+  drop_caches_enabled: "true"
+  drop_caches_timeout: "30s"
+  fmq_initial_shm_cleanup_enabled: "true"
+  fmq_initial_shm_cleanup_timeout: "30s"
+  roc_cleanup_enabled: "true"
+  fmq_cleanup_enabled: "true"
+  #drop_caches_enabled: !public
+  #  value: "true"
+  #  type: bool
+  #  label: "FLP cache cleanup"
+  #  description: "Enable/disable deletion of system cache and page cache before CONFIGURE transition"
+  #  widget: checkBox
+  #  panel: CleanupOperations
+  #fmq_initial_shm_cleanup_enabled: !public
+  #  value: "true"
+  #  type: bool
+  #  label: "FLP SHM cleanup"
+  #  description: "Enable/disable deletion of unused shared memory files before CONFIGURE transition"
+  #  widget: checkBox
+  #  panel: CleanupOperations
+  #roc_cleanup_enabled: !public
+  #  value: "true"
+  #  type: bool
+  #  label: "ReadoutCard cleanup on shutdown"
+  #  description: "Enable/disable the ROC cleanup procedure on environment DESTROY"
+  #  widget: checkBox
+  #  panel: CleanupOperations
+  #fmq_cleanup_enabled: !public
+  #  value: "true"
+  #  type: bool
+  #  label: "FairMQ cleanup on shutdown"
+  #  description: "Enable/disable the FairMQ shared memory cleanup procedure on environment DESTROY"
+  #  widget: checkBox
+  #  panel: CleanupOperations
+  ###############################
+  # Monitoring Panel
+  ###############################
+  monitoring_dpl_url: "no-op://"
+  monitoring_qc_url: "no-op://"
+  monitoring_dd_url: "no-op://"
+  #monitoring_dpl_url:
+  #  va.lue: "no-op://"
+  #  type: string
+  #  label: "DPL URL"
+  #  description: "Monitoring URL for DPL"
+  #  widget: editBox    
+  #  panel: Monitoring    
+  #monitoring_qc_url: !public 
+  #  value: "no-op://"
+  #  type: string
+  #  label: "QC URL"
+  #  description: "Monitoring URL for QC"
+  #  widget: editBox    
+  #  panel: Monitoring        
+  #monitoring_dd_url: !public 
+  #  value: "no-op://"
+  #  type: string
+  #  label: "Data Distribution URL"
+  #  description: "Monitoring URL for Data Distribution"
+  #  widget: editBox      
+  #  panel: Monitoring            
   ###############################
   # Logging Panel
   ###############################
