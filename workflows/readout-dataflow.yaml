@@ -668,6 +668,31 @@ defaults:
     description: "config for the CTP Run Start"
     widget: editBox
     panel: CTP
+  ctp_run_mode: !public
+    value: "none"
+    type: string
+    label: "CTP Start Run Trigger Mode"
+    description: "config for the CTP Run Start"
+    widget: dropDownBox
+    panel: CTP
+    values:
+      - none
+      - trig
+      - cont
+  ctp_run_ph_bc: !public
+    value: ""
+    type: string
+    label: "CTP Start Run Ph Bc"
+    description: "BC-downscaled rate of physics triggers"
+    widget: editBox
+    panel: CTP
+  ctp_run_ph_rnd: !public
+    value: ""
+    type: string
+    label: "CTP Start PH RND"
+    description: "rate of physics triggers generated randomly"
+    widget: editBox
+    panel: CTP
   ###############################
   # Cleanup Operations Panel
   ###############################      
