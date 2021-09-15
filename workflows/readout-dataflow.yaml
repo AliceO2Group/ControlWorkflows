@@ -3,6 +3,14 @@ defaults:
   ###############################
   # Basic Configuration Panel
   ###############################
+  ctp_global_run_enabled: !public
+    value: "false"
+    type: bool
+    label: "CTP Global Run"
+    description: "Enable/disable CTP Global Run"
+    widget: checkBox
+    panel: CTPConfiguration
+    index: -200
   dcs_enabled: !public # TODO: if false, DCS panel should be disabled
     value: "false"
     type: bool
@@ -1056,3 +1064,32 @@ roles:
           trigger: DESTROY
           timeout: 1m
           critical: false
+  - name: ctp
+    defaults:
+      ctp_detectors: "{{ detectors }}"
+    roles:
+      - name: load
+        call:
+          func: ctp.RunLoad()
+          trigger: enter_RUNNING
+          timeout: 5s
+          critical: true
+      - name: start
+        call:
+          func: ctp.RunStart()
+          trigger: after_START_ACTIVITY
+          timeout: 5s
+          critical: true
+      - name: stop
+        call:
+          func: ctp.RunStop()
+          trigger: before_STOP_ACTIVITY
+          await: after_STOP_ACTIVITY
+          timeout: 5s
+          critical: true
+      - name: unload
+        call:
+          func: ctp.RunUnload()
+          trigger: after_STOP_ACTIVITY
+          timeout: 5s
+          critical: true
