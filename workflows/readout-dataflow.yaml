@@ -610,70 +610,6 @@ defaults:
     widget: editBox
     panel: DCS
   ###############################
-  # Cleanup Operations Panel
-  ###############################      
-  drop_caches_enabled: "true"
-  drop_caches_timeout: "30s"
-  fmq_initial_shm_cleanup_enabled: "true"
-  fmq_initial_shm_cleanup_timeout: "30s"
-  roc_cleanup_enabled: "true"
-  fmq_cleanup_enabled: "true"
-  #drop_caches_enabled: !public
-  #  value: "true"
-  #  type: bool
-  #  label: "FLP cache cleanup"
-  #  description: "Enable/disable deletion of system cache and page cache before CONFIGURE transition"
-  #  widget: checkBox
-  #  panel: CleanupOperations
-  #fmq_initial_shm_cleanup_enabled: !public
-  #  value: "true"
-  #  type: bool
-  #  label: "FLP SHM cleanup"
-  #  description: "Enable/disable deletion of unused shared memory files before CONFIGURE transition"
-  #  widget: checkBox
-  #  panel: CleanupOperations
-  #roc_cleanup_enabled: !public
-  #  value: "true"
-  #  type: bool
-  #  label: "ReadoutCard cleanup on shutdown"
-  #  description: "Enable/disable the ROC cleanup procedure on environment DESTROY"
-  #  widget: checkBox
-  #  panel: CleanupOperations
-  #fmq_cleanup_enabled: !public
-  #  value: "true"
-  #  type: bool
-  #  label: "FairMQ cleanup on shutdown"
-  #  description: "Enable/disable the FairMQ shared memory cleanup procedure on environment DESTROY"
-  #  widget: checkBox
-  #  panel: CleanupOperations
-  ###############################
-  # Monitoring Panel
-  ###############################
-  monitoring_dpl_url: "no-op://"
-  monitoring_qc_url: "no-op://"
-  monitoring_dd_url: "no-op://"
-  #monitoring_dpl_url:
-  #  va.lue: "no-op://"
-  #  type: string
-  #  label: "DPL URL"
-  #  description: "Monitoring URL for DPL"
-  #  widget: editBox    
-  #  panel: Monitoring    
-  #monitoring_qc_url: !public 
-  #  value: "no-op://"
-  #  type: string
-  #  label: "QC URL"
-  #  description: "Monitoring URL for QC"
-  #  widget: editBox    
-  #  panel: Monitoring        
-  #monitoring_dd_url: !public 
-  #  value: "no-op://"
-  #  type: string
-  #  label: "Data Distribution URL"
-  #  description: "Monitoring URL for Data Distribution"
-  #  widget: editBox      
-  #  panel: Monitoring            
-  ###############################
   # Logging Panel
   ###############################
   infologger_severity: !public
@@ -750,17 +686,26 @@ defaults:
   ###############################
   # Other variables
   ###############################
-  stfb_standalone: "false"
-  user: flp
+  detectors: "{{ DetectorsForHosts(hosts) }}"
+  dpl_workflow: none
+  drop_caches_enabled: "true"
+  drop_caches_timeout: "30s"
+  fmq_initial_shm_cleanup_enabled: "true"
+  fmq_initial_shm_cleanup_timeout: "30s"
+  fmq_cleanup_enabled: "true"
+  minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow 
+  monitoring_dd_url: "no-op://"  
+  monitoring_dpl_url: "no-op://"
+  monitoring_qc_url: "no-op://"
+  monitoring_readout_url: "no-op://" # TODO: is this used somewhere ? I could not find it anywhere in the workflows 
   o2_install_path: "/opt/o2"
   o2_infologger_path: "/opt/o2-InfoLogger"    
-  monitoring_readout_url: "no-op://" # TODO: is this used somewhere ? I could not find it anywhere in the workflows 
-  qcdd_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
-  minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow 
-  roc_ctp_emulator_enabled: "false"
   odc_plugin: "epn"
-  dpl_workflow: none
-  detectors: "{{ DetectorsForHosts(hosts) }}"
+  qcdd_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
+  roc_cleanup_enabled: "true"
+  roc_ctp_emulator_enabled: "false"
+  stfb_standalone: "false"
+  user: flp
 vars:
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
