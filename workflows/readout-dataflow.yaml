@@ -32,7 +32,7 @@ defaults:
     label: "QC remote"
     description: "Enable/disable QC remote"
     widget: checkBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     index: -200
   cpv_dpl_workflow: !public
     value: "none"
@@ -40,7 +40,7 @@ defaults:
     label: "CPV FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - cpv-compressor
@@ -54,7 +54,7 @@ defaults:
     label: "CPV QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - qcmn-daq-remote
@@ -78,7 +78,7 @@ defaults:
     label: "EMCAL FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - minimal-dpl
@@ -90,7 +90,7 @@ defaults:
     label: "EMC QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - emc-qcmn-epn-remote
@@ -115,7 +115,7 @@ defaults:
     label: "FDD FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - fdd-digits-qc
@@ -128,7 +128,7 @@ defaults:
     label: "FDD QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - qcmn-daq-remote
@@ -152,7 +152,7 @@ defaults:
     label: "FT0 FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - ft0-digits-qc
@@ -165,7 +165,7 @@ defaults:
     label: "FT0 QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - qcmn-daq-remote
@@ -189,7 +189,7 @@ defaults:
     label: "FV0 FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - fv0-digits-qc
@@ -202,7 +202,7 @@ defaults:
     label: "FV0 QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - qcmn-daq-remote
@@ -226,7 +226,7 @@ defaults:
     label: "ITS FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - its-qc-fhr-fee
@@ -240,7 +240,7 @@ defaults:
     label: "ITS QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - its-qcmn-fhr-fee-remote
@@ -265,7 +265,7 @@ defaults:
     label: "HMPID FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - hmpid-raw-qc
@@ -279,7 +279,7 @@ defaults:
     label: "HMPID QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - hmpid-raw-qcmn-remote
@@ -304,7 +304,7 @@ defaults:
     label: "MCH FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - mch-qcmn-digits-local
@@ -317,7 +317,7 @@ defaults:
     label: "MCH QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - mch-qcmn-digits-remote
@@ -342,7 +342,7 @@ defaults:
     label: "MFT FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - mft-decoder
@@ -359,7 +359,7 @@ defaults:
     label: "MFT QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - mft-raw-direct-qcmn-remote
@@ -385,7 +385,7 @@ defaults:
     label: "MID FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - mid-raw-decoder
@@ -398,7 +398,7 @@ defaults:
     label: "MID QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - qcmn-daq-remote
@@ -422,7 +422,7 @@ defaults:
     label: "PHOS FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - phos-compressor-raw-qc
@@ -440,7 +440,7 @@ defaults:
     label: "PHOS QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - phos-compressor-raw-qcmn-remote
@@ -466,7 +466,7 @@ defaults:
     label: "TOF FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - tof-compressor
@@ -481,7 +481,7 @@ defaults:
     label: "TOF QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - qcmn-daq-remote
@@ -507,7 +507,7 @@ defaults:
     label: "TPC FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - minimal-dpl
@@ -519,7 +519,7 @@ defaults:
     label: "TPC QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - qcmn-daq-remote
@@ -543,7 +543,7 @@ defaults:
     label: "TRD FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - minimal-dpl
@@ -555,7 +555,7 @@ defaults:
     label: "TRD QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - qcmn-daq-remote
@@ -579,7 +579,7 @@ defaults:
     label: "ZDC FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - minimal-dpl
@@ -591,7 +591,7 @@ defaults:
     label: "ZDC QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLP_Local_Processing
     values:
       - none
       - qcmn-daq-remote
@@ -609,70 +609,6 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
-  ###############################
-  # Cleanup Operations Panel
-  ###############################      
-  drop_caches_enabled: "true"
-  drop_caches_timeout: "30s"
-  fmq_initial_shm_cleanup_enabled: "true"
-  fmq_initial_shm_cleanup_timeout: "30s"
-  roc_cleanup_enabled: "true"
-  fmq_cleanup_enabled: "true"
-  #drop_caches_enabled: !public
-  #  value: "true"
-  #  type: bool
-  #  label: "FLP cache cleanup"
-  #  description: "Enable/disable deletion of system cache and page cache before CONFIGURE transition"
-  #  widget: checkBox
-  #  panel: CleanupOperations
-  #fmq_initial_shm_cleanup_enabled: !public
-  #  value: "true"
-  #  type: bool
-  #  label: "FLP SHM cleanup"
-  #  description: "Enable/disable deletion of unused shared memory files before CONFIGURE transition"
-  #  widget: checkBox
-  #  panel: CleanupOperations
-  #roc_cleanup_enabled: !public
-  #  value: "true"
-  #  type: bool
-  #  label: "ReadoutCard cleanup on shutdown"
-  #  description: "Enable/disable the ROC cleanup procedure on environment DESTROY"
-  #  widget: checkBox
-  #  panel: CleanupOperations
-  #fmq_cleanup_enabled: !public
-  #  value: "true"
-  #  type: bool
-  #  label: "FairMQ cleanup on shutdown"
-  #  description: "Enable/disable the FairMQ shared memory cleanup procedure on environment DESTROY"
-  #  widget: checkBox
-  #  panel: CleanupOperations
-  ###############################
-  # Monitoring Panel
-  ###############################
-  monitoring_dpl_url: "no-op://"
-  monitoring_qc_url: "no-op://"
-  monitoring_dd_url: "no-op://"
-  #monitoring_dpl_url:
-  #  va.lue: "no-op://"
-  #  type: string
-  #  label: "DPL URL"
-  #  description: "Monitoring URL for DPL"
-  #  widget: editBox    
-  #  panel: Monitoring    
-  #monitoring_qc_url: !public 
-  #  value: "no-op://"
-  #  type: string
-  #  label: "QC URL"
-  #  description: "Monitoring URL for QC"
-  #  widget: editBox    
-  #  panel: Monitoring        
-  #monitoring_dd_url: !public 
-  #  value: "no-op://"
-  #  type: string
-  #  label: "Data Distribution URL"
-  #  description: "Monitoring URL for Data Distribution"
-  #  widget: editBox      
-  #  panel: Monitoring            
   ###############################
   # Logging Panel
   ###############################
@@ -750,17 +686,26 @@ defaults:
   ###############################
   # Other variables
   ###############################
-  stfb_standalone: "false"
-  user: flp
+  detectors: "{{ DetectorsForHosts(hosts) }}"
+  dpl_workflow: none
+  drop_caches_enabled: "true"
+  drop_caches_timeout: "30s"
+  fmq_initial_shm_cleanup_enabled: "true"
+  fmq_initial_shm_cleanup_timeout: "30s"
+  fmq_cleanup_enabled: "true"
+  minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow 
+  monitoring_dd_url: "no-op://"  
+  monitoring_dpl_url: "no-op://"
+  monitoring_qc_url: "no-op://"
+  monitoring_readout_url: "no-op://" # TODO: is this used somewhere ? I could not find it anywhere in the workflows 
   o2_install_path: "/opt/o2"
   o2_infologger_path: "/opt/o2-InfoLogger"    
-  monitoring_readout_url: "no-op://" # TODO: is this used somewhere ? I could not find it anywhere in the workflows 
-  qcdd_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
-  minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow 
-  roc_ctp_emulator_enabled: "false"
   odc_plugin: "epn"
-  dpl_workflow: none
-  detectors: "{{ DetectorsForHosts(hosts) }}"
+  qcdd_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
+  roc_cleanup_enabled: "true"
+  roc_ctp_emulator_enabled: "false"
+  stfb_standalone: "false"
+  user: flp
 vars:
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
@@ -986,12 +931,18 @@ roles:
         panel: DCS
         values:
           - NONE
-          - PHYSICS
-          - TECHNICAL
-          - PEDESTAL
-          - PULSER
+          - CALIBRATION_ITHR_TUNING
+          - CALIBRATION_VCASN_TUNING
+          - CALIBRATION_THR_SCAN
+          - CALIBRATION_DIGITAL_SCAN
+          - CALIBRATION_ANALOG_SCAN
+          - CALIBRATION_FHR
+          - CALIBRATION_ALPIDE_SCAN	  
           - LASER
-          - CALIBRATION
+          - PEDESTAL
+          - PHYSICS
+          - PULSER
+          - TECHNICAL
         index: 4
     roles:
       - name: sor      
