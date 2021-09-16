@@ -29,6 +29,9 @@ check_pwd
 ./fdd-digits-qc.sh
 ./ft0-digits-qc.sh
 ./fv0-digits-qc.sh
+./emc-qcmn-local-flp.sh
+./emc-qcmn-remote-flp.sh
+./emc-qcmn-remote-flpepn.sh
 ./emc-qcmn-epn.sh
 ./hmpid-raw-qcmn.sh
 ./hmpid-raw-qc.sh

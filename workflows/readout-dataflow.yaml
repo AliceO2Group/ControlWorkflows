@@ -87,6 +87,7 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
+      - emc-qcmn-flp-local
   emc_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -96,7 +97,9 @@ defaults:
     panel: FLP_Local_Processing
     values:
       - none
+      - emc-qcmn-flp-remote
       - emc-qcmn-epn-remote
+      - emc-qcmn-flpepn-remote
       - qcmn-daq-remote
   emc_dcs_sor_parameters: !public
     value: "{}"
