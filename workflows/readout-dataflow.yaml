@@ -746,6 +746,7 @@ defaults:
     values:
       - physics
       - topology
+    index: 3
   ###############################
   # Other variables
   ###############################
