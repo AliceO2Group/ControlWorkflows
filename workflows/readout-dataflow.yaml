@@ -32,7 +32,7 @@ defaults:
     label: "QC remote"
     description: "Enable/disable QC remote"
     widget: checkBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     index: -200
   cpv_dpl_workflow: !public
     value: "none"
@@ -40,7 +40,7 @@ defaults:
     label: "CPV FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - cpv-compressor
@@ -54,7 +54,7 @@ defaults:
     label: "CPV QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - qcmn-daq-remote
@@ -78,7 +78,7 @@ defaults:
     label: "EMCAL FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - minimal-dpl
@@ -90,7 +90,7 @@ defaults:
     label: "EMC QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - emc-qcmn-epn-remote
@@ -115,7 +115,7 @@ defaults:
     label: "FDD FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - fdd-digits-qc
@@ -128,7 +128,7 @@ defaults:
     label: "FDD QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - qcmn-daq-remote
@@ -152,7 +152,7 @@ defaults:
     label: "FT0 FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - ft0-digits-qc
@@ -165,7 +165,7 @@ defaults:
     label: "FT0 QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - qcmn-daq-remote
@@ -189,7 +189,7 @@ defaults:
     label: "FV0 FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - fv0-digits-qc
@@ -202,7 +202,7 @@ defaults:
     label: "FV0 QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - qcmn-daq-remote
@@ -226,7 +226,7 @@ defaults:
     label: "ITS FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - its-qc-fhr-fee
@@ -240,7 +240,7 @@ defaults:
     label: "ITS QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - its-qcmn-fhr-fee-remote
@@ -265,7 +265,7 @@ defaults:
     label: "HMPID FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - hmpid-raw-qc
@@ -279,7 +279,7 @@ defaults:
     label: "HMPID QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - hmpid-raw-qcmn-remote
@@ -304,7 +304,7 @@ defaults:
     label: "MCH FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - mch-qcmn-digits-local
@@ -317,7 +317,7 @@ defaults:
     label: "MCH QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - mch-qcmn-digits-remote
@@ -342,7 +342,7 @@ defaults:
     label: "MFT FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - mft-decoder
@@ -359,7 +359,7 @@ defaults:
     label: "MFT QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - mft-raw-direct-qcmn-remote
@@ -385,7 +385,7 @@ defaults:
     label: "MID FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - mid-raw-decoder
@@ -398,7 +398,7 @@ defaults:
     label: "MID QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - qcmn-daq-remote
@@ -422,7 +422,7 @@ defaults:
     label: "PHOS FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - phos-compressor-raw-qc
@@ -440,7 +440,7 @@ defaults:
     label: "PHOS QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - phos-compressor-raw-qcmn-remote
@@ -466,7 +466,7 @@ defaults:
     label: "TOF FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - tof-compressor
@@ -481,7 +481,7 @@ defaults:
     label: "TOF QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - qcmn-daq-remote
@@ -507,7 +507,7 @@ defaults:
     label: "TPC FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - minimal-dpl
@@ -519,7 +519,7 @@ defaults:
     label: "TPC QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - qcmn-daq-remote
@@ -543,7 +543,7 @@ defaults:
     label: "TRD FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - minimal-dpl
@@ -555,7 +555,7 @@ defaults:
     label: "TRD QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - qcmn-daq-remote
@@ -579,7 +579,7 @@ defaults:
     label: "ZDC FLP Local Processing/QC"
     description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - minimal-dpl
@@ -591,7 +591,7 @@ defaults:
     label: "ZDC QC remote workflow"
     description: "QC workflow to execute on QC servers"
     widget: dropDownBox
-    panel: FLP_LocalProcessing
+    panel: FLPLocalProcessing
     values:
       - none
       - qcmn-daq-remote
