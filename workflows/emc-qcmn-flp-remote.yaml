@@ -1,0 +1,77 @@
+name: emc-qcmn-flp-remote
+vars:
+  dpl_command: >-
+    o2-qc --config {{ qc_config_uri }} --remote -b
+defaults:
+  qc_remote_machine: "alio2-cr1-qc02"
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/emc-qcmn-flp"
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 10000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+constraints:
+  - attribute: machine_id
+    value: "{{ qc_remote_machine }}"
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: emc-qcmn-flp-remote-internal-dpl-clock
+  - name: "RawTask-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_RawTask-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_RawTask-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    bind:
+    - name: RawTask-proxy
+      type: pull
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      global: "RawTask-proxy"
+    task:
+      load: emc-qcmn-flp-remote-RawTask-proxy
+  - name: "MERGER-RawTask1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MERGER-RawTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-RawTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_RawTask-proxy_to_MERGER-RawTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.RawTask-proxy:from_RawTask-proxy_to_MERGER-RawTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: emc-qcmn-flp-remote-MERGER-RawTask1l-0
+  - name: "QC-CHECK-RUNNER-RawCheck"
+    connect:
+    - name: from_MERGER-RawTask1l-0_to_QC-CHECK-RUNNER-RawCheck
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MERGER-RawTask1l-0:from_MERGER-RawTask1l-0_to_QC-CHECK-RUNNER-RawCheck"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: emc-qcmn-flp-remote-QC-CHECK-RUNNER-RawCheck
+  - name: "internal-dpl-injected-dummy-sink"
+    connect:
+    - name: from_QC-CHECK-RUNNER-RawCheck_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-RawCheck:from_QC-CHECK-RUNNER-RawCheck_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: emc-qcmn-flp-remote-internal-dpl-injected-dummy-sink
+  - name: fairmq-shmmonitor
+    enabled: "{{fmq_cleanup_enabled == 'true'}}"
+    task:
+      load: "fairmq-shmmonitor"
+      trigger: DESTROY
+      timeout: 10s
+      critical: false
