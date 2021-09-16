@@ -986,12 +986,18 @@ roles:
         panel: DCS
         values:
           - NONE
-          - PHYSICS
-          - TECHNICAL
-          - PEDESTAL
-          - PULSER
+          - CALIBRATION_ITHR_TUNING
+          - CALIBRATION_VCASN_TUNING
+          - CALIBRATION_THR_SCAN
+          - CALIBRATION_DIGITAL_SCAN
+          - CALIBRATION_ANALOG_SCAN
+          - CALIBRATION_FHR
+          - CALIBRATION_ALPIDE_SCAN	  
           - LASER
-          - CALIBRATION
+          - PEDESTAL
+          - PHYSICS
+          - PULSER
+          - TECHNICAL
         index: 4
     roles:
       - name: sor      
