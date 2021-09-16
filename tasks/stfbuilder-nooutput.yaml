@@ -8,7 +8,7 @@ defaults:
   fmq_severity: info
   dd_detector_subspec: feeid
   log_task_output: none
-  stfb_run_type: "{{ ((detector == 'ITS' || detector == 'MFT') && (run_type == 'CALIBRATION')) ? 'topology' : 'physics'}}"
+  stfb_dd_mode: "physics"
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
     StfBuilder
@@ -32,4 +32,4 @@ command:
     - "--severity-infologger={{ infologger_severity }}"
     - "--stand-alone"
     - "--detector={{ detector }}"
-    - "--run-type={{ stfb_run_type }}"
+    - "--run-type={{ stfb_dd_mode }}"
