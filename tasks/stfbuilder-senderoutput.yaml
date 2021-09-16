@@ -9,7 +9,7 @@ defaults:
   dd_detector_subspec: feeid
   dd_discovery_endpoint: "no-op://" # location of consul docker instance
   log_task_output: none
-  stfb_run_type: "{{ ((detector == 'ITS' || detector == 'MFT') && (run_type == 'CALIBRATION')) ? 'topology' : 'physics'}}"
+  stfb_dd_mode: "physics"  
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
     StfBuilder
@@ -43,4 +43,4 @@ command:
     - "--output-channel-name=buildertosender"
     - "--shm-monitor=false"
     - "--detector={{ detector }}"
-    - "--run-type={{ stfb_run_type }}"
+    - "--run-type={{ stfb_dd_mode }}"

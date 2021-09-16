@@ -736,6 +736,16 @@ defaults:
     widget: editBox
     panel: EPN
     index: 2
+  stfb_dd_mode: !public
+    value: "physics"
+    type: string
+    label: "DD mode"
+    description: "Data Distribution mode"
+    widget: dropDownBox
+    panel: EPN
+    values:
+      - physics
+      - topology
   ###############################
   # Other variables
   ###############################
