@@ -646,10 +646,10 @@ defaults:
       - "all"
     index: 2
   fmq_rate_logging: !public
-    value: "10"
+    value: "0"
     type: number
     label: "FairMQ rate logging"
-    description: "sets the interval at which FairMQ logs channel transfer rates"
+    description: "sets the interval at which FairMQ logs channel transfer rates (0 to disable)"
     widget: editBox
     panel: Logging
     index: 3
