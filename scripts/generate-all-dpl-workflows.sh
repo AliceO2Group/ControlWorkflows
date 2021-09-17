@@ -34,6 +34,8 @@ check_pwd
 ./hmpid-raw-qc.sh
 ./its-qc-fhr-fee.sh
 ./its-qcmn-fhr-fee.sh
+./its-qc-fhr-fee-no-ds.sh
+./its-qcmn-fhr-fee-no-ds.sh
 ./mch-qcmn-digits.sh
 ./mft-decoder.sh
 ./mft-digits-qc.sh
