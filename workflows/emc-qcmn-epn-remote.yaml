@@ -20,42 +20,42 @@ roles:
     connect:
     task:
       load: emc-qcmn-epn-remote-internal-dpl-clock
-  - name: "DigitsQC-proxy"
+  - name: "DigitsTask-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_DigitsQC-proxy
+    - name: from_internal-dpl-clock_to_DigitsTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_DigitsQC-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_DigitsTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     bind:
-    - name: DigitsQC-proxy
+    - name: DigitsTask-proxy
       type: pull
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47702"
     task:
-      load: emc-qcmn-epn-remote-DigitsQC-proxy
-  - name: "MERGER-DigitsQC1l-0"
+      load: emc-qcmn-epn-remote-DigitsTask-proxy
+  - name: "MERGER-DigitsTask1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-DigitsQC1l-0
+    - name: from_internal-dpl-clock_to_MERGER-DigitsTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-DigitsQC1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-DigitsTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
-    - name: from_DigitsQC-proxy_to_MERGER-DigitsQC1l-0
+    - name: from_DigitsTask-proxy_to_MERGER-DigitsTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.DigitsQC-proxy:from_DigitsQC-proxy_to_MERGER-DigitsQC1l-0"
+      target: "{{ Parent().Path }}.DigitsTask-proxy:from_DigitsTask-proxy_to_MERGER-DigitsTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: emc-qcmn-epn-remote-MERGER-DigitsQC1l-0
+      load: emc-qcmn-epn-remote-MERGER-DigitsTask1l-0
   - name: "QC-CHECK-RUNNER-4280"
     connect:
-    - name: from_MERGER-DigitsQC1l-0_to_QC-CHECK-RUNNER-4280
+    - name: from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-4280
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-DigitsQC1l-0:from_MERGER-DigitsQC1l-0_to_QC-CHECK-RUNNER-4280"
+      target: "{{ Parent().Path }}.MERGER-DigitsTask1l-0:from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-4280"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: emc-qcmn-epn-remote-QC-CHECK-RUNNER-4280

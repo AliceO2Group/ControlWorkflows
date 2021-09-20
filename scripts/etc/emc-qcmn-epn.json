@@ -23,7 +23,7 @@
             }
         },
         "tasks": {
-            "DigitsQC": {
+            "DigitsTask": {
                 "active": "true",
                 "className": "o2::quality_control_modules::emcal::DigitsQcTask",
                 "moduleName": "QcEMCAL",
@@ -32,16 +32,16 @@
                 "maxNumberCycles": "-1",
                 "dataSource": {
                     "type": "dataSamplingPolicy",
-                    "name": "datadistribution"
+                    "name": "emccells"
                 },
                 "taskParameters": {
                     "nothing": "rien"
                 },
                 "location": "local",
                 "localMachines": [
-                    "localhost"
+                    "epn"
                 ],
-                "remoteMachine": "alio2-cr1-qme08-ib",
+                "remoteMachine": "alio2-cr1-qc02",
                 "remotePort": "47702",
                 "mergingMode": "delta",
                 "localControl": "odc"
@@ -57,7 +57,7 @@
                 "dataSource": [
                     {
                         "type": "Task",
-                        "name": "DigitsQC",
+                        "name": "DigitsTask",
                         "MOs": [
                             "digitAmplitudeHG_CAL",
                             "digitAmplitudeHG_PHYS"
@@ -74,7 +74,7 @@
                 "dataSource": [
                     {
                         "type": "Task",
-                        "name": "DigitsQC",
+                        "name": "DigitsTask",
                         "MOs": [
                             "digitAmplitudeLG_CAL",
                             "digitAmplitudeLG_PHYS"
@@ -91,7 +91,7 @@
                 "dataSource": [
                     {
                         "type": "Task",
-                        "name": "DigitsQC",
+                        "name": "DigitsTask",
                         "MOs": [
                             "digitTimeHG_CAL",
                             "digitTimeHG_PHYS"
@@ -108,7 +108,7 @@
                 "dataSource": [
                     {
                         "type": "Task",
-                        "name": "DigitsQC",
+                        "name": "DigitsTask",
                         "MOs": [
                             "digitTimeLG_CAL",
                             "digitTimeLG_PHYS"
@@ -125,7 +125,7 @@
                 "dataSource": [
                     {
                         "type": "Task",
-                        "name": "DigitsQC",
+                        "name": "DigitsTask",
                         "MOs": [
                             "digitAmplitudeEMCAL_CAL",
                             "digitAmplitudeEMCAL_PHYS"
@@ -142,7 +142,7 @@
                 "dataSource": [
                     {
                         "type": "Task",
-                        "name": "DigitsQC",
+                        "name": "DigitsTask",
                         "MOs": [
                             "digitAmplitudeDCAL_CAL",
                             "digitAmplitudeDCAL_PHYS"
@@ -154,9 +154,9 @@
     },
     "dataSamplingPolicies": [
         {
-            "id": "datadistribution",
+            "id": "emccells",
             "active": "true",
-            "machines": [],
+            "machines": ["epn"],
             "query": "emcal-digits:EMC/CELLS/0;emcal-triggerecords:EMC/CELLSTRGR/0",
             "samplingConditions": [
                 {
