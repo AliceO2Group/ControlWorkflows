@@ -1005,7 +1005,7 @@ defaults:
     values: 
       - "production/production.desc"
     index: 2
-  pdp_workflow_name: 
+  pdp_workflow_name: !public
     value: "synchronous-workflow-1numa"
     type: string
     label: "Workflow name"
@@ -1016,7 +1016,7 @@ defaults:
       - "synchronous-workflow"
       - "synchronous-workflow-1numa"
     index: 3
-  pdp_detector_list_global:
+  pdp_detector_list_global: !public
     value: ""
     type: string
     label: "Detector list (Global)"
@@ -1024,7 +1024,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 4
-  pdp_detector_list_qc:
+  pdp_detector_list_qc: !public
     value: ""
     type: string
     label: "Detector list (QC)"
@@ -1032,7 +1032,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 5
-  pdp_detector_list_calib:
+  pdp_detector_list_calib: !public
     value: ""
     type: string
     label: "Detector list (Calibration)"
@@ -1040,7 +1040,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 6
-  pdp_workflow_parameters:
+  pdp_workflow_parameters: !public
     value: "QC,CALIB,GPU,CTF,EVENT_DISPLAY"
     type: string
     label: "Workflow parameters"
@@ -1048,7 +1048,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 7
-  pdp_nr_compute_nodes:
+  pdp_nr_compute_nodes: !public
     value: "0"
     type: string
     label: "# of compute nodes"
@@ -1056,7 +1056,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 8
-  pdp_raw_decoder_multi_factor:
+  pdp_raw_decoder_multi_factor: !public
     value: "1"
     type: string
     label: "Raw decoder multiplicity factor"
@@ -1064,7 +1064,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 9
-  pdp_ctf_encoder_multi_factor:
+  pdp_ctf_encoder_multi_factor: !public
     value: "1"
     type: string
     label: "CTP encoder multiplicity factor"
@@ -1072,7 +1072,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 10
-  pdp_reco_process_multi_factor:
+  pdp_reco_process_multi_factor: !public
     value: "1"
     type: string
     label: "Reconstruction process multiplicity factor"
