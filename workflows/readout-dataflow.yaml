@@ -693,6 +693,102 @@ defaults:
       - topology
     index: 3
   ###############################
+  # PDP Panel
+  ###############################
+  pdp_o2_data_processing_hash: !public
+    value: "v0.10"
+    type: string
+    label: "O2 Data Processing Hash"
+    description: ""
+    widget: editBox
+    panel: PDP
+    index: 1
+  pdp_topology_description: !public
+    value: "production/production.desc"
+    type: string
+    label: "Topology description library file"
+    description: ""
+    widget: dropDownBox
+    panel: PDP
+    values: 
+      - "production/production.desc"
+    index: 2
+  pdp_workflow_name: 
+    value: "synchronous-workflow-1numa"
+    type: string
+    label: "Workflow name"
+    description: ""
+    widget: comboBox
+    panel: PDP
+    values: 
+      - "synchronous-workflow"
+      - "synchronous-workflow-1numa"
+    index: 3
+  pdp_detector_list_global:
+    value: ""
+    type: string
+    label: "Detector list (Global)"
+    description: "Comma separated global list of detectors. If left empty, defaults to the list of detectors currently active in the AliECS environment"
+    widget: editBox
+    panel: PDP
+    index: 4
+  pdp_detector_list_qc:
+    value: ""
+    type: string
+    label: "Detector list (QC)"
+    description: "Comma separated list of detectors to include in QC. If left empty, defaults to the list of detectors currently active in the AliECS environment"
+    widget: editBox
+    panel: PDP
+    index: 5
+  pdp_detector_list_calib:
+    value: ""
+    type: string
+    label: "Detector list (Calibration)"
+    description: "Comma separated list of detectors to include in Calibration. If left empty, defaults to the list of detectors currently active in the AliECS environment"
+    widget: editBox
+    panel: PDP
+    index: 6
+  pdp_workflow_parameters:
+    value: "QC,CALIB,GPU,CTF,EVENT_DISPLAY"
+    type: string
+    label: "Workflow parameters"
+    description: "Comma separated list of components to include in workflow"
+    widget: editBox
+    panel: PDP
+    index: 7
+  pdp_nr_compute_nodes:
+    value: "0"
+    type: string
+    label: "# of compute nodes"
+    description: "Number of compute nodes"
+    widget: editBox
+    panel: PDP
+    index: 8
+  pdp_raw_decoder_multi_factor:
+    value: "1"
+    type: string
+    label: "Raw decoder multiplicity factor"
+    description: ""
+    widget: editBox
+    panel: PDP
+    index: 9
+  pdp_ctf_encoder_multi_factor:
+    value: "1"
+    type: string
+    label: "CTP encoder multiplicity factor"
+    description: ""
+    widget: editBox
+    panel: PDP
+    index: 10
+  pdp_reco_process_multi_factor:
+    value: "1"
+    type: string
+    label: "Reconstruction process multiplicity factor"
+    description: ""
+    widget: editBox
+    panel: PDP
+    index: 11    
+  ###############################
   # Other variables
   ###############################
   detectors: "{{ DetectorsForHosts(hosts) }}"
