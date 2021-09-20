@@ -1050,7 +1050,7 @@ defaults:
     index: 7
   pdp_nr_compute_nodes: !public
     value: "0"
-    type: string
+    type: number
     label: "# of compute nodes"
     description: "Number of compute nodes"
     widget: editBox
@@ -1058,7 +1058,7 @@ defaults:
     index: 8
   pdp_raw_decoder_multi_factor: !public
     value: "1"
-    type: string
+    type: number
     label: "Raw decoder multiplicity factor"
     description: ""
     widget: editBox
@@ -1066,7 +1066,7 @@ defaults:
     index: 9
   pdp_ctf_encoder_multi_factor: !public
     value: "1"
-    type: string
+    type: number
     label: "CTP encoder multiplicity factor"
     description: ""
     widget: editBox
@@ -1074,7 +1074,7 @@ defaults:
     index: 10
   pdp_reco_process_multi_factor: !public
     value: "1"
-    type: string
+    type: number
     label: "Reconstruction process multiplicity factor"
     description: ""
     widget: editBox
