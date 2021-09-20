@@ -1,4 +1,4 @@
-name: emc-qcmn-epn-remote-internal-dpl-clock
+name: emc-qcmn-epn-remote-DigitsTask-proxy
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,16 +11,17 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-clock_to_DigitsTask-proxy
+  - name: from_DigitsTask-proxy_to_MERGER-DigitsTask1l-0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_internal-dpl-clock_to_MERGER-DigitsTask1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
+  - name: DigitsTask-proxy
+    type: pull
+    transport: zeromq
+    addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
+    target: "tcp://*:47702"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -46,7 +47,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-clock'"
+    - "'DigitsTask-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -110,3 +111,13 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
+    - "--end-value-enumeration"
+    - "-1"
+    - "--orbit-multiplier-enumeration"
+    - "'0'"
+    - "--orbit-offset-enumeration"
+    - "'0'"
+    - "--start-value-enumeration"
+    - "'0'"
+    - "--step-value-enumeration"
+    - "'1'"
