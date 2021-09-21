@@ -695,6 +695,18 @@ defaults:
   ###############################
   # PDP Panel
   ###############################
+  pdp_config_option:
+    value: "Workflow repository hash"
+    type: string
+    label: "PDP configuration mode"
+    description: ""
+    widget: radioButtonBox
+    panel: PDP
+    values: 
+      - "Manual XML"
+      - "Workflow repository hash"
+      - "Workflow repository path"
+    index: 1
   pdp_o2_data_processing_hash: !public
     value: "v0.10"
     type: string
