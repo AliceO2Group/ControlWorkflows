@@ -777,6 +777,7 @@ defaults:
   ###############################
   # EPN Global Processing Panel
   ###############################        
+<<<<<<< HEAD
   pdp_panel_mode: !public
     value: "Shifter"
     type: string
@@ -796,6 +797,17 @@ defaults:
     widget: editBox
     panel: "EPN_Global_Processing"
     index: 0
+||||||| parent of 8083aa00 (Add correct visibility)
+  odc_topology: !public
+    value: ""
+    type: string
+    label: "Topology"
+    description: "DDS topology to be executed on EPNs"
+    widget: editBox
+    panel: EPN
+    index: 1
+=======
+>>>>>>> 8083aa00 (Add correct visibility)
   odc_resources: !public
     value: ""
     type: string
@@ -999,6 +1011,15 @@ defaults:
       - "Repository hash"
       - "Repository path"
     index: 0
+  odc_topology: !public
+    value: ""
+    type: string
+    label: "Topology"
+    description: "Workflow name"
+    widget: editBox
+    panel: PDP
+    index: 1 
+    visibleif: $$pdp_config_option === "Manual XML"
   pdp_o2_data_processing_hash: !public
     value: "v0.10"
     type: string
@@ -1007,7 +1028,16 @@ defaults:
     widget: editBox
     panel: PDP
     index: 1
-    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
+    visibleif: $$pdp_config_option === "Repository hash"
+  pdp_o2_data_processing_path: !public
+    value: ""
+    type: string
+    label: "O2 Data Processing Path"
+    description: ""
+    widget: editBox
+    panel: PDP
+    index: 1
+    visibleif: $$pdp_config_option === "Repository path"    
   pdp_topology_description: !public
     value: "production/production.desc"
     type: string
@@ -1018,6 +1048,7 @@ defaults:
     values: 
       - "production/production.desc"
     index: 2
+    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
   pdp_workflow_name: !public
     value: "synchronous-workflow-1numa"
     type: string
@@ -1029,6 +1060,7 @@ defaults:
       - "synchronous-workflow"
       - "synchronous-workflow-1numa"
     index: 3
+    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
   pdp_detector_list_global: !public
     value: ""
     type: string
@@ -1037,6 +1069,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 4
+    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
   pdp_detector_list_qc: !public
     value: ""
     type: string
@@ -1045,6 +1078,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 5
+    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
   pdp_detector_list_calib: !public
     value: ""
     type: string
@@ -1053,6 +1087,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 6
+    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
   pdp_workflow_parameters: !public
     value: "QC,CALIB,GPU,CTF,EVENT_DISPLAY"
     type: string
@@ -1061,6 +1096,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 7
+    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
   pdp_nr_compute_nodes: !public
     value: "0"
     type: number
@@ -1069,6 +1105,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 8
+    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
   pdp_raw_decoder_multi_factor: !public
     value: "1"
     type: number
@@ -1077,6 +1114,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 9
+    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
   pdp_ctf_encoder_multi_factor: !public
     value: "1"
     type: number
@@ -1085,6 +1123,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 10
+    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
   pdp_reco_process_multi_factor: !public
     value: "1"
     type: number
@@ -1093,6 +1132,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 11    
+    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
   pdp_extra_env_vars: !public
     value: ""
     type: string
@@ -1101,6 +1141,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 12
+    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
   ###############################
   # Other variables
   ###############################
