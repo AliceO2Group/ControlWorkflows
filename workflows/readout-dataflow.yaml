@@ -828,7 +828,7 @@ defaults:
     type: string
     label: "Topology description library file"
     description: ""
-    widget: dropDownBox
+    widget: comboBox
     panel: PDP
     values: 
       - "production/production.desc"
@@ -908,6 +908,14 @@ defaults:
     widget: editBox
     panel: PDP
     index: 11    
+  pdp_extra_env_vars: !public
+    value: ""
+    type: string
+    label: "Extra ENV variables"
+    description: "Extra environment variables"
+    widget: editBox
+    panel: PDP
+    index: 12
   ###############################
   # Other variables
   ###############################
