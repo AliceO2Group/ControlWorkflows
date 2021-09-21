@@ -815,7 +815,7 @@ defaults:
   ###############################
   # PDP Panel
   ###############################
-  pdp_config_option:
+  pdp_config_option: !public
     value: "Workflow repository hash"
     type: string
     label: "PDP configuration mode"
