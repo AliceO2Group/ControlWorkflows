@@ -811,7 +811,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 1
-    visibleif: pdp_config_option.value == "Repository hash"
+    visibleif: $$pdp_config_option === "Repository hash"
   pdp_topology_description: !public
     value: "production/production.desc"
     type: string
