@@ -800,7 +800,7 @@ defaults:
     panel: PDP
     values: 
       - "Manual XML"
-      - "Repository Hash"
+      - "Repository hash"
       - "Repository path"
     index: 0
   pdp_o2_data_processing_hash: !public
@@ -811,6 +811,7 @@ defaults:
     widget: editBox
     panel: PDP
     index: 1
+    visibleif: pdp_config_option.value == "Repository hash" || pdp_config_option.value == "Repository path"
   pdp_topology_description: !public
     value: "production/production.desc"
     type: string
