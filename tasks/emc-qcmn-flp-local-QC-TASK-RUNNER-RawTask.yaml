@@ -106,4 +106,4 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--period-timer-cycle"
-    - "'10000000'"
+    - "'60000000'"
