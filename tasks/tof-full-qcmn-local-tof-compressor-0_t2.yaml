@@ -68,7 +68,7 @@ command:
     - "--clone"
     - "''"
     - "--configKeyValues"
-    - "''"
+    - "'HBFUtils.nHBFPerTF=128;'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
