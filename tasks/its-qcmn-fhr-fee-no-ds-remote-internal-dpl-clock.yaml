@@ -80,7 +80,7 @@ command:
     - "--config"
     - "'{{ qc_config_uri }}'"
     - "--fairmq-ipc-prefix"
-    - "'/tmp/its'"
+    - "'/tmp'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"

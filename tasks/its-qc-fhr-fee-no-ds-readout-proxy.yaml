@@ -65,7 +65,7 @@ command:
     - "--dataspec"
     - "'filter:ITS/RAWDATA;G:FLP/DISTSUBTIMEFRAME'"
     - "--fairmq-ipc-prefix"
-    - "'/tmp/its'"
+    - "'/tmp'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
