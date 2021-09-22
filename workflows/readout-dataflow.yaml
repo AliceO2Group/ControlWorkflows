@@ -814,10 +814,10 @@ defaults:
     description: ""
     widget: radioButtonBox
     panel: PDP
-    values: 
-      - "Manual XML"
+    values:       
       - "Repository hash"
       - "Repository path"
+      - "Manual XML"
     index: 0
   odc_topology: !public
     value: ""
@@ -870,7 +870,7 @@ defaults:
     index: 3
     visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
   pdp_detector_list_global: !public
-    value: ""
+    value: "ALL"
     type: string
     label: "Detector list (Global)"
     description: "Comma separated global list of detectors. If left empty, defaults to the list of detectors currently active in the AliECS environment"
@@ -879,7 +879,7 @@ defaults:
     index: 4
     visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
   pdp_detector_list_qc: !public
-    value: ""
+    value: "ALL"
     type: string
     label: "Detector list (QC)"
     description: "Comma separated list of detectors to include in QC. If left empty, defaults to the list of detectors currently active in the AliECS environment"
@@ -888,7 +888,7 @@ defaults:
     index: 5
     visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
   pdp_detector_list_calib: !public
-    value: ""
+    value: "ALL"
     type: string
     label: "Detector list (Calibration)"
     description: "Comma separated list of detectors to include in Calibration. If left empty, defaults to the list of detectors currently active in the AliECS environment"
