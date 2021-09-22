@@ -1024,7 +1024,7 @@ defaults:
     value: "v0.10"
     type: string
     label: "O2 Data Processing Hash"
-    description: ""
+    description: "Commit hash or tag of O2DataProcessing to use"
     widget: editBox
     panel: PDP
     index: 1
@@ -1033,7 +1033,7 @@ defaults:
     value: ""
     type: string
     label: "O2 Data Processing Path"
-    description: ""
+    description: "Full path in the EPN shared home folder to O2DataProcessing repository"
     widget: editBox
     panel: PDP
     index: 1
@@ -1042,7 +1042,7 @@ defaults:
     value: "production/production.desc"
     type: string
     label: "Topology description library file"
-    description: ""
+    description: "Topology description file in O2DataProcessing repository"
     widget: comboBox
     panel: PDP
     values: 
@@ -1053,7 +1053,7 @@ defaults:
     value: "synchronous-workflow-1numa"
     type: string
     label: "Workflow name"
-    description: ""
+    description: "Workflow name in the Topology description library file"
     widget: comboBox
     panel: PDP
     values: 
@@ -1065,7 +1065,7 @@ defaults:
     value: "ALL"
     type: string
     label: "Detector list (Global)"
-    description: "Comma separated global list of detectors. If left empty, defaults to the list of detectors currently active in the AliECS environment"
+    description: "Comma-separated list of detectors for EPN processing. Empty string means no detectors. 'ALL' is an abbreviation to include all detectors."
     widget: editBox
     panel: PDP
     index: 4
@@ -1074,7 +1074,7 @@ defaults:
     value: "ALL"
     type: string
     label: "Detector list (QC)"
-    description: "Comma separated list of detectors to include in QC. If left empty, defaults to the list of detectors currently active in the AliECS environment"
+    description: "Comma-separated list of detectors for EPN QC. Empty string means no detectors. 'ALL' is an abbreviation to include all detectors."
     widget: editBox
     panel: PDP
     index: 5
@@ -1083,7 +1083,7 @@ defaults:
     value: "ALL"
     type: string
     label: "Detector list (Calibration)"
-    description: "Comma separated list of detectors to include in Calibration. If left empty, defaults to the list of detectors currently active in the AliECS environment"
+    description: "Comma-separated list of detectors for calibration. Empty string means no detectors. 'ALL' is an abbreviation to include all detectors."
     widget: editBox
     panel: PDP
     index: 6
@@ -1092,7 +1092,7 @@ defaults:
     value: "QC,CALIB,GPU,CTF,EVENT_DISPLAY"
     type: string
     label: "Workflow parameters"
-    description: "Comma separated list of components to include in workflow"
+    description: "Comma-separated list of workflow parameters. Valid parameters are: QC,CALIB,GPU,CTF,EVENT_DISPLAY,CTF_ONLY."
     widget: editBox
     panel: PDP
     index: 7
@@ -1101,7 +1101,7 @@ defaults:
     value: "0"
     type: number
     label: "# of compute nodes"
-    description: "Number of compute nodes"
+    description: "Set to 0 to request default number of compute nodes for the selected workflow. A value > 0 runs the workflow on that many compute nodes."
     widget: editBox
     panel: PDP
     index: 8
@@ -1110,7 +1110,7 @@ defaults:
     value: "1"
     type: number
     label: "Raw decoder multiplicity factor"
-    description: ""
+    description: "Multiply the number of raw decoder processing instance on EPN by this factor"
     widget: editBox
     panel: PDP
     index: 9
@@ -1118,8 +1118,8 @@ defaults:
   pdp_ctf_encoder_multi_factor: !public
     value: "1"
     type: number
-    label: "CTP encoder multiplicity factor"
-    description: ""
+    label: "CTF encoder multiplicity factor"
+    description: "Multiply the number of CTF encoder processing instance on EPN by this factor"
     widget: editBox
     panel: PDP
     index: 10
@@ -1128,7 +1128,7 @@ defaults:
     value: "1"
     type: number
     label: "Reconstruction process multiplicity factor"
-    description: ""
+    description: "Multiply the number of instances of other reconstruction processes by this factor"
     widget: editBox
     panel: PDP
     index: 11    
@@ -1137,7 +1137,7 @@ defaults:
     value: ""
     type: string
     label: "Extra ENV variables"
-    description: "Extra environment variables"
+    description: "Additional environment variables exported when running the workflow generation script"
     widget: editBox
     panel: PDP
     index: 12
