@@ -690,7 +690,7 @@ defaults:
     label: "Workflow configuration mode"
     description: ""
     widget: radioButtonBox
-    panel: PDP
+    panel: "EPN Global Processing"
     values:       
       - "Repository hash"
       - "Repository path"
