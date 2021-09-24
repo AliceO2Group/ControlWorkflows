@@ -36,9 +36,9 @@
         },
         "location": "local",
         "mergingMode": "delta",
-          "localControl": "odc",
-	  "localMachines": [ "epn" ]
-
+        "localControl": "odc",
+	    "localMachines": [ "epn" ],
+        "remotePort": "47790"
       }
     },
     "checks": {
