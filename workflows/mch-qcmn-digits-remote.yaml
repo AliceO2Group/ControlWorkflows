@@ -33,7 +33,7 @@ roles:
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
-      target: "tcp://*:36543"
+      target: "tcp://*:47790"
     task:
       load: mch-qcmn-digits-remote-QcTaskMCHDigits-proxy
   - name: "MERGER-QcTaskMCHDigits1l-0"
