@@ -1,22 +1,27 @@
-name: mch-qcmn-digits-local-Dispatcher
+name: mch-qcmn-digits-local-mch-data-decoder
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-datasampling-standalone
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-datasampling-standalone"
+    {{ dpl_command }} | o2-mch-raw-to-digits-workflow
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-mch-raw-to-digits-workflow"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_Dispatcher_to_mch-data-decoder
+  - name: from_mch-data-decoder_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_Dispatcher_to_dpl-output-proxy
+  - name: from_mch-data-decoder_to_QC-TASK-RUNNER-QcTaskMCHDigits
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_mch-data-decoder_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -46,7 +51,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'Dispatcher'"
+    - "'mch-data-decoder'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -67,10 +72,10 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--config"
-    - "'{{ ds_config_uri }}'"
-    - "--dispatchers"
-    - "'1'"
+    - "--configKeyValues"
+    - "'HBFUtils.nHBFPerTF=128'"
+    - "--dataspec"
+    - "'TF:MCH/RAWDATA_SAMPLED'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -83,6 +88,8 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--hbfutils-config"
+    - "'o2simdigitizerworkflow_configuration.ini'"
     - "--labels"
     - "''"
     - "--pipeline"
@@ -105,5 +112,7 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-stats"
-    - "'10000000'"
+    - "--cru-map"
+    - "''"
+    - "--fec-map"
+    - "''"
