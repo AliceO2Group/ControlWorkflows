@@ -35,21 +35,8 @@
           "query" : "digits:MCH/DIGITS;orbits:MCH/ORBITS"
         },
         "location": "local",
-        "localMachines": [
-          "alio2-cr1-flp148",
-          "alio2-cr1-flp149",
-          "alio2-cr1-flp150",
-          "alio2-cr1-flp151",
-          "alio2-cr1-flp152",
-          "alio2-cr1-flp153",
-          "alio2-cr1-flp154",
-          "alio2-cr1-flp155",
-          "alio2-cr1-flp156",
-          "alio2-cr1-flp157",
-          "alio2-cr1-flp158"
-        ],
-        "remoteMachine" : "anything",
-        "remotePort" : "54543"
+        "mergingMode": "delta",
+        "localControl": "odc"
       }
     },
     "checks": {
@@ -58,6 +45,7 @@
         "className": "o2::quality_control_modules::muonchambers::PhysicsCheck",
         "moduleName": "QcMuonChambers",
         "policy": "OnAll",
+        "detectorName": "MCH",
         "dataSource": [{
           "type": "Task",
           "name": "QcTaskMCHDigits",
