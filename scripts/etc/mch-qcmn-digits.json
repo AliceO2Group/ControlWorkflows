@@ -36,7 +36,9 @@
         },
         "location": "local",
         "mergingMode": "delta",
-        "localControl": "odc"
+          "localControl": "odc",
+	  "localMachines": [ "epn" ]
+
       }
     },
     "checks": {
