@@ -37,8 +37,9 @@
         "location": "local",
         "mergingMode": "delta",
         "localControl": "odc",
-	    "localMachines": [ "epn" ],
-        "remotePort": "47790"
+        "localMachines": [ "epn" ],
+        "remotePort": "47790",
+	"remoteMachine": "alio2-cr1-qme07"  
       }
     },
     "checks": {
