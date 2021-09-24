@@ -39,7 +39,7 @@
         "localControl": "odc",
         "localMachines": [ "epn" ],
         "remotePort": "47790",
-	"remoteMachine": "alio2-cr1-qme07"  
+	"remoteMachine": "alio2-cr1-qc01"  
       }
     },
     "checks": {
