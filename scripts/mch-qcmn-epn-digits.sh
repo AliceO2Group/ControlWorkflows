@@ -33,7 +33,7 @@ cd ..
 
 o2-dpl-raw-proxy ${ARGS_ALL} --dataspec "${PROXY_INSPEC};x:FLP/DISTSUBTIMEFRAME/0" \
     --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://@tf-builder-pipe-0,transport=shmem,rateLogging=1"' \
-  | o2-dpl-output-proxy -b --session default --dataspec "${PROXY_INSPEC};x:FLP/DISTSUBTIMEFRAME/0" --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"'
+  | o2-dpl-output-proxy ${ARGS_ALL} --dataspec "${PROXY_INSPEC};x:FLP/DISTSUBTIMEFRAME/0" --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' --o2-control $WF_NAME
 
 # add the templated QC config file path
 ESCAPED_QC_FINAL_CONFIG_PATH=$(printf '%s\n' "$QC_FINAL_CONFIG_PATH" | sed -e 's/[\/&]/\\&/g')
