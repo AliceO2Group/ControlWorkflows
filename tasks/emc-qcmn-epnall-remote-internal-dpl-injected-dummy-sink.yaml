@@ -1,4 +1,4 @@
-name: emc-qcmn-flpepn-remote-MERGER-DigitsQC1l-0
+name: emc-qcmn-epnall-remote-internal-dpl-injected-dummy-sink
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,11 +11,6 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_MERGER-DigitsQC1l-0_to_QC-CHECK-RUNNER-4280
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -41,7 +36,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'MERGER-DigitsQC1l-0'"
+    - "'internal-dpl-injected-dummy-sink'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -105,5 +100,3 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-publish"
-    - "'10000000'"

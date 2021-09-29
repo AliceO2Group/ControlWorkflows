@@ -1,4 +1,4 @@
-name: emc-qcmn-flpepn-remote-DigitsQC-proxy
+name: emc-qcmn-epnall-remote-MERGER-DigitsTask1l-0
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,17 +11,11 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_DigitsQC-proxy_to_MERGER-DigitsQC1l-0
+  - name: from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-4280
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: DigitsQC-proxy
-    type: pull
-    transport: zeromq
-    addressing: tcp
-    rateLogging: "{{ fmq_rate_logging }}"
-    target: "tcp://*:47702"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -47,7 +41,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'DigitsQC-proxy'"
+    - "'MERGER-DigitsTask1l-0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -111,13 +105,5 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--end-value-enumeration"
-    - "-1"
-    - "--orbit-multiplier-enumeration"
-    - "'0'"
-    - "--orbit-offset-enumeration"
-    - "'0'"
-    - "--start-value-enumeration"
-    - "'0'"
-    - "--step-value-enumeration"
-    - "'1'"
+    - "--period-timer-publish"
+    - "'60000000'"
