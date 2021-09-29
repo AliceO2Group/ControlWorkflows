@@ -1,4 +1,4 @@
-name: ft0-digits-qc-ds-pipe-readout-proxy
+name: ft0-digits-pipe-readout-proxy_t1
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,27 +11,27 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_readout-proxy_to_ft0-datareader-dpl_t0
+  - name: from_readout-proxy_t1_to_ft0-datareader-dpl_t0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_readout-proxy_to_ft0-datareader-dpl_t1
+  - name: from_readout-proxy_t1_to_ft0-datareader-dpl_t1
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_readout-proxy_to_ft0-datareader-dpl_t2
+  - name: from_readout-proxy_t1_to_ft0-datareader-dpl_t2
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_readout-proxy_to_ft0-datareader-dpl_t3
+  - name: from_readout-proxy_t1_to_ft0-datareader-dpl_t3
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_readout-proxy_to_ft0-datareader-dpl_t4
+  - name: from_readout-proxy_t1_to_ft0-datareader-dpl_t4
     type: push
     transport: shmem
     addressing: ipc
@@ -61,7 +61,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'readout-proxy'"
+    - "'readout-proxy_t1'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -99,7 +99,7 @@ command:
     - "--labels"
     - "''"
     - "--pipeline"
-    - "''"
+    - "'readout-proxy:5'"
     - "--readers"
     - "'1'"
     - "--severity"
