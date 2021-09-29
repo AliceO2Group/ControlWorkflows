@@ -211,6 +211,8 @@ defaults:
       - fv0-digits-pipe
       - fv0-digits-qc-ds-pipe
       - fv0-digits-qc-ds
+      - fv0-digits-qc-postproc-ds-pipe
+      - fv0-digits-qc-postproc-ds
       - fv0-digits-qc
       - fv0-digits
       - minimal-dpl

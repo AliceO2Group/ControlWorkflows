@@ -41,6 +41,8 @@ check_pwd
 ./fv0-digits-pipe.sh
 ./fv0-digits-qc-ds-pipe.sh
 ./fv0-digits-qc-ds.sh
+./fv0-digits-qc-postproc-ds-pipe.sh
+./fv0-digits-qc-postproc-ds.sh
 ./fv0-digits-qc.sh
 ./fv0-digits.sh
 ./emc-qcmn-local-flp.sh
