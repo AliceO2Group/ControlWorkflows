@@ -6,10 +6,10 @@ set -u;
 
 source helpers.sh
 
-WF_NAME=mch-qcmn-digits-local
+WF_NAME=mch-qcmn-epn-digits-local
 
-QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/mch-qcmn-digits.json'
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mch-qcmn-digits'
+QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/mch-qcmn-epn-digits.json'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mch-qcmn-epn-digits'
 QC_CONFIG_PARAM='qc_config_uri'
 
 DS_GEN_CONFIG_PATH='json://'`pwd`'/etc/mch-digits-datasampling.json'
@@ -26,6 +26,10 @@ CONFIG_HOME=`pwd`'etc'
 cd ..
 
 # DPL commands to generate the AliECS dump
+
+# IMPORTANT NOTE ABOUT THE DS POLICY
+# The Dispatcher sends data to the Decoder that sends data to QC task. This is different from the normal scheme.
+# Thus the datasampling policy is not included in the config file of the task.
 
 o2-dpl-raw-proxy ${ARGS_ALL} --dataspec "${PROXY_INSPEC};x:FLP/DISTSUBTIMEFRAME/0" \
     --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://@tf-builder-pipe-0,transport=shmem,rateLogging=1"' \
@@ -53,7 +57,7 @@ sed -i "s/""${ESCAPED_DS_GEN_CONFIG_PATH}""/{{ ""${DS_CONFIG_PARAM}"" }}/g" work
 
 
 
-WF_NAME=mch-qcmn-digits-remote
+WF_NAME=mch-qcmn-epn-digits-remote
 
 o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
 

@@ -329,7 +329,7 @@ defaults:
     panel: FLP_Local_Processing
     values:
       - none
-      - mch-qcmn-digits-remote
+      - mch-qcmn-epn-digits-remote
       - qcmn-daq-remote
   mch_dcs_sor_parameters: !public
     value: "{}"
