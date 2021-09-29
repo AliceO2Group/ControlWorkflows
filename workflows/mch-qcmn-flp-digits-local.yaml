@@ -1,10 +1,10 @@
-name: mch-qcmn-digits-local
+name: mch-qcmn-flp-digits-local
 vars:
   dpl_command: >-
     o2-dpl-raw-proxy -b --session default --dataspec 'A:MCH/RAWDATA;x:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://@tf-builder-pipe-0,transport=shmem,rateLogging=1"' | o2-datasampling-standalone -b --session default --config {{ ds_config_uri }} | o2-mch-raw-to-digits-workflow -b --session default --dataspec TF:MCH/RAWDATA_SAMPLED --configKeyValues HBFUtils.nHBFPerTF=128 | o2-dpl-output-proxy -b --session default --dataspec 'A:MCH/RAWDATA;x:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' | o2-qc -b --session default --config {{ qc_config_uri }} --local --host alio2-cr1-flp148
 defaults:
   ds_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mch-digits-datasampling"
-  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mch-qcmn-digits"
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mch-qcmn-flp-digits"
   monitoring_dpl_url: "no-op://"
   user: "flp"
   fmq_rate_logging: 0
@@ -16,7 +16,7 @@ roles:
   - name: "internal-dpl-clock"
     connect:
     task:
-      load: mch-qcmn-digits-local-internal-dpl-clock
+      load: mch-qcmn-flp-digits-local-internal-dpl-clock
   - name: "readout-proxy"
     connect:
     - name: from_internal-dpl-clock_to_readout-proxy
@@ -30,7 +30,7 @@ roles:
       target: "::readout-proxy-{{ it }}"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mch-qcmn-digits-local-readout-proxy
+      load: mch-qcmn-flp-digits-local-readout-proxy
   - name: "Dispatcher"
     connect:
     - name: from_internal-dpl-clock_to_Dispatcher
@@ -44,7 +44,7 @@ roles:
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_Dispatcher"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mch-qcmn-digits-local-Dispatcher
+      load: mch-qcmn-flp-digits-local-Dispatcher
   - name: "mch-data-decoder"
     connect:
     - name: from_readout-proxy_to_mch-data-decoder
@@ -58,7 +58,7 @@ roles:
       target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_mch-data-decoder"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mch-qcmn-digits-local-mch-data-decoder
+      load: mch-qcmn-flp-digits-local-mch-data-decoder
   - name: "QC-TASK-RUNNER-QcTaskMCHDigits"
     connect:
     - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-QcTaskMCHDigits
@@ -72,7 +72,7 @@ roles:
       target: "{{ Parent().Path }}.mch-data-decoder:from_mch-data-decoder_to_QC-TASK-RUNNER-QcTaskMCHDigits"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mch-qcmn-digits-local-QC-TASK-RUNNER-QcTaskMCHDigits
+      load: mch-qcmn-flp-digits-local-QC-TASK-RUNNER-QcTaskMCHDigits
   - name: "internal-dpl-injected-dummy-sink"
     connect:
     - name: from_mch-data-decoder_to_internal-dpl-injected-dummy-sink
@@ -81,7 +81,7 @@ roles:
       target: "{{ Parent().Path }}.mch-data-decoder:from_mch-data-decoder_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mch-qcmn-digits-local-internal-dpl-injected-dummy-sink
+      load: mch-qcmn-flp-digits-local-internal-dpl-injected-dummy-sink
   - name: "QcTaskMCHDigits-proxy"
     connect:
     - name: from_QC-TASK-RUNNER-QcTaskMCHDigits_to_QcTaskMCHDigits-proxy
@@ -95,7 +95,7 @@ roles:
       target: "::QcTaskMCHDigits-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mch-qcmn-digits-local-QcTaskMCHDigits-proxy
+      load: mch-qcmn-flp-digits-local-QcTaskMCHDigits-proxy
   - name: "dpl-output-proxy"
     connect:
     - name: from_Dispatcher_to_dpl-output-proxy
@@ -116,4 +116,4 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       global: "downstream-{{ it }}"
     task:
-      load: mch-qcmn-digits-local-dpl-output-proxy
+      load: mch-qcmn-flp-digits-local-dpl-output-proxy

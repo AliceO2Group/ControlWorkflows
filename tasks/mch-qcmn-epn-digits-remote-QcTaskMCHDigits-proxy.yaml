@@ -1,26 +1,27 @@
-name: mch-qcmn-digits-local-Dispatcher
+name: mch-qcmn-epn-digits-remote-QcTaskMCHDigits-proxy
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-datasampling-standalone
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-datasampling-standalone"
+    {{ dpl_command }} | o2-qc
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_Dispatcher_to_mch-data-decoder
+  - name: from_QcTaskMCHDigits-proxy_to_MERGER-QcTaskMCHDigits1l-0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_Dispatcher_to_dpl-output-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
+  - name: QcTaskMCHDigits-proxy
+    type: pull
+    transport: zeromq
+    addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
+    target: "tcp://*:47790"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -46,7 +47,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'Dispatcher'"
+    - "'QcTaskMCHDigits-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -68,9 +69,7 @@ command:
     - "--clone"
     - "''"
     - "--config"
-    - "'{{ ds_config_uri }}'"
-    - "--dispatchers"
-    - "'1'"
+    - "'{{ qc_config_uri }}'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -83,12 +82,19 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--host"
+    - "''"
     - "--labels"
+    - "''"
+    - "--local-batch"
     - "''"
     - "--pipeline"
     - "''"
     - "--readers"
     - "'1'"
+    - "--remote"
+    - "--remote-batch"
+    - "''"
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"
@@ -105,5 +111,13 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-stats"
-    - "'10000000'"
+    - "--end-value-enumeration"
+    - "-1"
+    - "--orbit-multiplier-enumeration"
+    - "'0'"
+    - "--orbit-offset-enumeration"
+    - "'0'"
+    - "--start-value-enumeration"
+    - "'0'"
+    - "--step-value-enumeration"
+    - "'1'"

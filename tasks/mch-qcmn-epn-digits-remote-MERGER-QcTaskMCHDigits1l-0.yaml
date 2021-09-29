@@ -1,22 +1,17 @@
-name: mch-qcmn-digits-local-DataDecoder
+name: mch-qcmn-epn-digits-remote-MERGER-QcTaskMCHDigits1l-0
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-mch-raw-to-digits-workflow
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-mch-raw-to-digits-workflow"
+    {{ dpl_command }} | o2-qc
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_DataDecoder_to_internal-dpl-injected-dummy-sink
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_DataDecoder_to_dpl-output-proxy
+  - name: from_MERGER-QcTaskMCHDigits1l-0_to_QC-CHECK-RUNNER-QcCheckMCHPhysics
     type: push
     transport: shmem
     addressing: ipc
@@ -46,7 +41,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'DataDecoder'"
+    - "'MERGER-QcTaskMCHDigits1l-0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -67,10 +62,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--configKeyValues"
-    - "'HBFUtils.nHBFPerTF=128'"
-    - "--dataspec"
-    - "'TF:MCH/RAWDATA_SAMPLED'"
+    - "--config"
+    - "'{{ qc_config_uri }}'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -83,14 +76,19 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--hbfutils-config"
-    - "'o2simdigitizerworkflow_configuration.ini'"
+    - "--host"
+    - "''"
     - "--labels"
+    - "''"
+    - "--local-batch"
     - "''"
     - "--pipeline"
     - "''"
     - "--readers"
     - "'1'"
+    - "--remote"
+    - "--remote-batch"
+    - "''"
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"
@@ -107,7 +105,5 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--cru-map"
-    - "''"
-    - "--fec-map"
-    - "''"
+    - "--period-timer-publish"
+    - "'60000000'"

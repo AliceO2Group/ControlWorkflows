@@ -1,10 +1,10 @@
-name: mch-qcmn-digits-remote
+name: mch-qcmn-flp-digits-remote
 vars:
   dpl_command: >-
     o2-qc --config {{ qc_config_uri }} --remote -b
 defaults:
   qc_remote_machine: "alio2-cr1-qc01"
-  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mch-qcmn-digits"
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mch-qcmn-flp-digits"
   monitoring_dpl_url: "no-op://"
   user: "flp"
   fmq_rate_logging: 0
@@ -19,7 +19,7 @@ roles:
   - name: "internal-dpl-clock"
     connect:
     task:
-      load: mch-qcmn-digits-remote-internal-dpl-clock
+      load: mch-qcmn-flp-digits-remote-internal-dpl-clock
   - name: "QcTaskMCHDigits-proxy"
     connect:
     - name: from_internal-dpl-clock_to_QcTaskMCHDigits-proxy
@@ -33,9 +33,9 @@ roles:
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
-      target: "tcp://*:47790"
+      global: "QcTaskMCHDigits-proxy"
     task:
-      load: mch-qcmn-digits-remote-QcTaskMCHDigits-proxy
+      load: mch-qcmn-flp-digits-remote-QcTaskMCHDigits-proxy
   - name: "MERGER-QcTaskMCHDigits1l-0"
     connect:
     - name: from_internal-dpl-clock_to_MERGER-QcTaskMCHDigits1l-0
@@ -49,7 +49,7 @@ roles:
       target: "{{ Parent().Path }}.QcTaskMCHDigits-proxy:from_QcTaskMCHDigits-proxy_to_MERGER-QcTaskMCHDigits1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mch-qcmn-digits-remote-MERGER-QcTaskMCHDigits1l-0
+      load: mch-qcmn-flp-digits-remote-MERGER-QcTaskMCHDigits1l-0
   - name: "QC-CHECK-RUNNER-QcCheckMCHPhysics"
     connect:
     - name: from_MERGER-QcTaskMCHDigits1l-0_to_QC-CHECK-RUNNER-QcCheckMCHPhysics
@@ -58,7 +58,7 @@ roles:
       target: "{{ Parent().Path }}.MERGER-QcTaskMCHDigits1l-0:from_MERGER-QcTaskMCHDigits1l-0_to_QC-CHECK-RUNNER-QcCheckMCHPhysics"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mch-qcmn-digits-remote-QC-CHECK-RUNNER-QcCheckMCHPhysics
+      load: mch-qcmn-flp-digits-remote-QC-CHECK-RUNNER-QcCheckMCHPhysics
   - name: "internal-dpl-injected-dummy-sink"
     connect:
     - name: from_QC-CHECK-RUNNER-QcCheckMCHPhysics_to_internal-dpl-injected-dummy-sink
@@ -67,7 +67,7 @@ roles:
       target: "{{ Parent().Path }}.QC-CHECK-RUNNER-QcCheckMCHPhysics:from_QC-CHECK-RUNNER-QcCheckMCHPhysics_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mch-qcmn-digits-remote-internal-dpl-injected-dummy-sink
+      load: mch-qcmn-flp-digits-remote-internal-dpl-injected-dummy-sink
   - name: fairmq-shmmonitor
     enabled: "{{fmq_cleanup_enabled == 'true'}}"
     task:
