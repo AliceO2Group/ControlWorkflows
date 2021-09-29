@@ -100,6 +100,7 @@ defaults:
       - none
       - emc-qcmn-flp-remote
       - emc-qcmn-epn-remote
+      - emc-qcmn-epnall-remote
       - emc-qcmn-flpepn-remote
       - qcmn-daq-remote
   emc_dcs_sor_parameters: !public
