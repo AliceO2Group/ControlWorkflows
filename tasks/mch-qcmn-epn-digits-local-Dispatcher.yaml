@@ -1,22 +1,22 @@
-name: mch-qcmn-digits-local-readout-proxy
+name: mch-qcmn-epn-digits-local-Dispatcher
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-dpl-raw-proxy
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-dpl-raw-proxy"
+    {{ dpl_command }} | o2-datasampling-standalone
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-datasampling-standalone"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_readout-proxy_to_Dispatcher
+  - name: from_Dispatcher_to_mch-data-decoder
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_readout-proxy_to_mch-data-decoder
+  - name: from_Dispatcher_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -46,7 +46,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'readout-proxy'"
+    - "'Dispatcher'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -67,8 +67,10 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--dataspec"
-    - "'A:MCH/RAWDATA;x:FLP/DISTSUBTIMEFRAME/0'"
+    - "--config"
+    - "'{{ ds_config_uri }}'"
+    - "--dispatchers"
+    - "'1'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -103,3 +105,5 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
+    - "--period-timer-stats"
+    - "'10000000'"
