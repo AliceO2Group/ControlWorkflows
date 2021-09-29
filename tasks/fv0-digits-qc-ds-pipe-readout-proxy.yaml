@@ -1,22 +1,37 @@
-name: fdd-digits-qc-QC-TASK-RUNNER-DigitQcTask
+name: fv0-digits-qc-ds-pipe-readout-proxy
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-qc
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
+    {{ dpl_command }} | o2-dpl-raw-proxy
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-dpl-raw-proxy"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_QC-TASK-RUNNER-DigitQcTask_to_QC-CHECK-RUNNER-sink-QC_DigitQcTask-mo_0
+  - name: from_readout-proxy_to_fv0-datareader-dpl_t0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_QC-TASK-RUNNER-DigitQcTask_to_dpl-output-proxy
+  - name: from_readout-proxy_to_fv0-datareader-dpl_t1
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_fv0-datareader-dpl_t2
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_fv0-datareader-dpl_t3
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_readout-proxy_to_fv0-datareader-dpl_t4
     type: push
     transport: shmem
     addressing: ipc
@@ -46,7 +61,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'QC-TASK-RUNNER-DigitQcTask'"
+    - "'readout-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -67,8 +82,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--config"
-    - "'{{ qc_config_uri }}'"
+    - "--dataspec"
+    - "'A1:FV0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -81,18 +96,12 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--host"
-    - "''"
     - "--labels"
-    - "''"
-    - "--local-batch"
     - "''"
     - "--pipeline"
     - "''"
     - "--readers"
     - "'1'"
-    - "--remote-batch"
-    - "''"
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"

@@ -124,7 +124,11 @@ defaults:
     panel: FLP_Local_Processing
     values:
       - none
+      - fdd-digits-pipe
+      - fdd-digits-qc-ds-pipe
+      - fdd-digits-qc-ds
       - fdd-digits-qc
+      - fdd-digits
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -161,7 +165,13 @@ defaults:
     panel: FLP_Local_Processing
     values:
       - none
+      - ft0-digits-pipe
+      - ft0-digits-qc-ds-pipe
+      - ft0-digits-qc-ds
+      - ft0-digits-qc-postproc-ds-pipe
+      - ft0-digits-qc-postproc-ds
       - ft0-digits-qc
+      - ft0-digits
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -198,7 +208,11 @@ defaults:
     panel: FLP_Local_Processing
     values:
       - none
+      - fv0-digits-pipe
+      - fv0-digits-qc-ds-pipe
+      - fv0-digits-qc-ds
       - fv0-digits-qc
+      - fv0-digits
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local

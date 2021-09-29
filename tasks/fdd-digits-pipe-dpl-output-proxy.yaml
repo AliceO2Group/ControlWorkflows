@@ -1,26 +1,22 @@
-name: fdd-digits-qc-QC-TASK-RUNNER-DigitQcTask
+name: fdd-digits-pipe-dpl-output-proxy
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-qc
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
+    {{ dpl_command }} | o2-dpl-output-proxy
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-dpl-output-proxy"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_QC-TASK-RUNNER-DigitQcTask_to_QC-CHECK-RUNNER-sink-QC_DigitQcTask-mo_0
+  - name: downstream
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_QC-TASK-RUNNER-DigitQcTask_to_dpl-output-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
+    global: "downstream-{{ it }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -46,7 +42,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'QC-TASK-RUNNER-DigitQcTask'"
+    - "'dpl-output-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -67,8 +63,12 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--config"
-    - "'{{ qc_config_uri }}'"
+    - "--dataspec"
+    - "'digits:FDD/DIGITSBC/0;channels:FDD/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "--default-port"
+    - "'4200'"
+    - "--default-transport"
+    - "'shmem'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -81,18 +81,18 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--host"
-    - "''"
     - "--labels"
     - "''"
-    - "--local-batch"
-    - "''"
+    - "--output-proxy-address"
+    - "'0.0.0.0'"
+    - "--output-proxy-method"
+    - "'bind'"
     - "--pipeline"
     - "''"
+    - "--proxy-name"
+    - "'dpl-output-proxy'"
     - "--readers"
     - "'1'"
-    - "--remote-batch"
-    - "''"
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"
