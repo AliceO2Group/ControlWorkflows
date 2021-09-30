@@ -84,6 +84,8 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--hbfutils-config"
+    - "'o2simdigitizerworkflow_configuration.ini'"
     - "--input-type"
     - "'raw'"
     - "--labels"
