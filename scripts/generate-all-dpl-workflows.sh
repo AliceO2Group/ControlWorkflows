@@ -26,9 +26,25 @@ check_pwd
 # ./datasampling-02.sh # this is a test workflow, no need for it in production
 ./cpv-compressor.sh
 ./cpv-qc-compressor.sh
+./fdd-digits-pipe.sh
+./fdd-digits-qc-ds-pipe.sh
+./fdd-digits-qc-ds.sh
 ./fdd-digits-qc.sh
+./fdd-digits.sh
+./ft0-digits-pipe.sh
+./ft0-digits-qc-ds-pipe.sh
+./ft0-digits-qc-ds.sh
+./ft0-digits-qc-postproc-ds-pipe.sh
+./ft0-digits-qc-postproc-ds.sh
 ./ft0-digits-qc.sh
+./ft0-digits.sh
+./fv0-digits-pipe.sh
+./fv0-digits-qc-ds-pipe.sh
+./fv0-digits-qc-ds.sh
+./fv0-digits-qc-postproc-ds-pipe.sh
+./fv0-digits-qc-postproc-ds.sh
 ./fv0-digits-qc.sh
+./fv0-digits.sh
 ./emc-qcmn-local-flp.sh
 ./emc-qcmn-remote-flp.sh
 ./emc-qcmn-remote-flpepn.sh
