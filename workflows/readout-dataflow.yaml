@@ -298,6 +298,7 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
+      - hmpid-raw-to-pedestals
   hmp_qc_remote_workflow: !public
     value: "none"
     type: string
