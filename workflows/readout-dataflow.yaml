@@ -840,6 +840,15 @@ defaults:
     panel: "EPN Global Processing"
     index: 18
     visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
+  pdp_wipe_workflow_cache: !public
+    value: "false"
+    type: bool
+    label: "Wipe workflow cache"
+    description: "Delete workflow cache"
+    widget: checkBox
+    panel: "EPN Global Processing"
+    index: 19
+    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"    
   ###############################
   # Other variables
   ###############################
