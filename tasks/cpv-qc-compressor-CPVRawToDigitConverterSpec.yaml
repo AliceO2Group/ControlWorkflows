@@ -16,11 +16,6 @@ bind:
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_CPVRawToDigitConverterSpec_to_internal-dpl-injected-dummy-sink
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
   - name: from_CPVRawToDigitConverterSpec_to_dpl-output-proxy
     type: push
     transport: shmem
@@ -119,3 +114,4 @@ command:
     - "''"
     - "--ccdb-url"
     - "'http://ccdb-test.cern.ch:8080'"
+    - "--pedestal"
