@@ -59,6 +59,7 @@ check_pwd
 ./mch-qcmn-digits.sh
 ./mft-decoder.sh
 ./mft-digits-qc.sh
+./mft-full-qcmn.sh
 # ./mft-raw-digits-qc.sh # disabled until the MFT decoder is fixed and we optimize the workflow
 ./mft-raw-qcmn.sh
 ./mft-raw-direct-qcmn.sh
