@@ -32,10 +32,10 @@ defaults:
   qc_remote_enabled: !public # TODO: if false, all per-detector remote QC workflows vars should be disabled
     value: "false"
     type: bool
-    label: "QC remote"
-    description: "Enable/disable QC remote"
+    label: "QC node workflows"
+    description: "Enable/disable running workflows on the QC nodes"
     widget: checkBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     index: -200
   cpv_dpl_workflow: !public
     value: "none"
@@ -43,7 +43,7 @@ defaults:
     label: "CPV FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - cpv-compressor
@@ -57,7 +57,7 @@ defaults:
     label: "CPV QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -81,7 +81,7 @@ defaults:
     label: "EMCAL FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - minimal-dpl
@@ -91,10 +91,10 @@ defaults:
   emc_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "EMC QC node workflow"
+    label: "EMCAL QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - emc-qcmn-flp-remote
@@ -121,7 +121,7 @@ defaults:
     label: "FDD FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - fdd-digits-pipe
@@ -138,7 +138,7 @@ defaults:
     label: "FDD QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -162,7 +162,7 @@ defaults:
     label: "FT0 FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - ft0-digits-pipe
@@ -181,7 +181,7 @@ defaults:
     label: "FT0 QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -205,7 +205,7 @@ defaults:
     label: "FV0 FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - fv0-digits-pipe
@@ -224,7 +224,7 @@ defaults:
     label: "FV0 QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -248,7 +248,7 @@ defaults:
     label: "ITS FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - its-qc-fhr-fee
@@ -264,7 +264,7 @@ defaults:
     label: "ITS QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - its-qcmn-fhr-fee-remote
@@ -290,7 +290,7 @@ defaults:
     label: "HMPID FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - hmpid-raw-qc
@@ -305,7 +305,7 @@ defaults:
     label: "HMPID QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - hmpid-raw-qcmn-remote
@@ -330,7 +330,7 @@ defaults:
     label: "MCH FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - mch-qcmn-digits-local
@@ -343,7 +343,7 @@ defaults:
     label: "MCH QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - mch-qcmn-digits-remote
@@ -368,7 +368,7 @@ defaults:
     label: "MFT FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - mft-decoder
@@ -385,7 +385,7 @@ defaults:
     label: "MFT QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - mft-raw-direct-qcmn-remote
@@ -411,7 +411,7 @@ defaults:
     label: "MID FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - mid-raw-decoder
@@ -424,7 +424,7 @@ defaults:
     label: "MID QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -448,7 +448,7 @@ defaults:
     label: "PHOS FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - phos-compressor-raw-qc
@@ -466,7 +466,7 @@ defaults:
     label: "PHOS QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - phos-compressor-raw-qcmn-remote
@@ -492,7 +492,7 @@ defaults:
     label: "TOF FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - tof-compressor
@@ -507,7 +507,7 @@ defaults:
     label: "TOF QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -533,7 +533,7 @@ defaults:
     label: "TPC FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - minimal-dpl
@@ -545,7 +545,7 @@ defaults:
     label: "TPC QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -569,7 +569,7 @@ defaults:
     label: "TRD FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - minimal-dpl
@@ -581,7 +581,7 @@ defaults:
     label: "TRD QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -605,7 +605,7 @@ defaults:
     label: "ZDC FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - minimal-dpl
@@ -617,7 +617,7 @@ defaults:
     label: "ZDC QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: AliECS_Workflows
+    panel: aliecs_Workflows
     values:
       - none
       - qcmn-daq-remote
