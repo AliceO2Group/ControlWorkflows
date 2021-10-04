@@ -76,3 +76,4 @@ check_pwd
 ./tof-compressor.sh
 ./tof-qcmn-compressor.sh
 ./tof-full-qcmn.sh
+./tpc-full-qcmn-remote.sh
