@@ -51,6 +51,7 @@ check_pwd
 ./emc-qcmn-epn.sh
 ./hmpid-raw-qcmn.sh
 ./hmpid-raw-qc.sh
+./hmpid-raw-to-pedestals.sh
 ./its-qc-fhr-fee.sh
 ./its-qcmn-fhr-fee.sh
 ./its-qc-fhr-fee-no-ds.sh
@@ -75,3 +76,4 @@ check_pwd
 ./tof-compressor.sh
 ./tof-qcmn-compressor.sh
 ./tof-full-qcmn.sh
+./tpc-full-qcmn-remote.sh

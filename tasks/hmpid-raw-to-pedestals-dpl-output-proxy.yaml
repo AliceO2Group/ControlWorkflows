@@ -1,21 +1,22 @@
-name: mft-decoder-mft-stf-decoder
+name: hmpid-raw-to-pedestals-dpl-output-proxy
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-itsmft-stf-decoder-workflow
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-itsmft-stf-decoder-workflow"
+    {{ dpl_command }} | o2-dpl-output-proxy
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-dpl-output-proxy"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_mft-stf-decoder_to_dpl-output-proxy
+  - name: downstream
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
+    global: "downstream-{{ it }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -41,7 +42,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'mft-stf-decoder'"
+    - "'dpl-output-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -62,13 +63,14 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--configKeyValues"
-    - "''"
-    - "--dict-file"
-    - "'/tmp/_DUMMY_'"
-    - "--digits"
+    - "--dataspec"
+    - "'A:HMP/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "--default-port"
+    - "'4200'"
+    - "--default-transport"
+    - "'shmem'"
     - "--fairmq-ipc-prefix"
-    - "'/tmp'"
+    - "'/tmp/kalexopo'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
@@ -81,14 +83,16 @@ command:
     - "'dangling'"
     - "--labels"
     - "''"
-    - "--no-clusters"
-    - "--noise-file"
-    - "'/tmp/_DUMMY_'"
+    - "--output-proxy-address"
+    - "'0.0.0.0'"
+    - "--output-proxy-method"
+    - "'bind'"
     - "--pipeline"
     - "''"
+    - "--proxy-name"
+    - "'dpl-output-proxy'"
     - "--readers"
     - "'1'"
-    - "--runmft"
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"
@@ -105,7 +109,3 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--decoder-verbosity"
-    - "'0'"
-    - "--nthreads"
-    - "'1'"

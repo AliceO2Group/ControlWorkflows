@@ -1,17 +1,52 @@
-name: mft-decoder-mft-stf-decoder
+name: tpc-full-qcmn-remote-internal-dpl-clock
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-itsmft-stf-decoder-workflow
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-itsmft-stf-decoder-workflow"
+    {{ dpl_command }} | o2-qc
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_mft-stf-decoder_to_dpl-output-proxy
+  - name: from_internal-dpl-clock_to_PID-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_internal-dpl-clock_to_Tracks-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_internal-dpl-clock_to_random-cluster
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_internal-dpl-clock_to_random-rawdata
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_internal-dpl-clock_to_MERGER-PID1l-0
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_internal-dpl-clock_to_MERGER-Tracks1l-0
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-Clusters
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-RawDigits
     type: push
     transport: shmem
     addressing: ipc
@@ -41,7 +76,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'mft-stf-decoder'"
+    - "'internal-dpl-clock'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -62,11 +97,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--configKeyValues"
-    - "''"
-    - "--dict-file"
-    - "'/tmp/_DUMMY_'"
-    - "--digits"
+    - "--config"
+    - "'{{ qc_config_uri }}'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -79,16 +111,19 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--host"
+    - "''"
     - "--labels"
     - "''"
-    - "--no-clusters"
-    - "--noise-file"
-    - "'/tmp/_DUMMY_'"
+    - "--local-batch"
+    - "''"
     - "--pipeline"
     - "''"
     - "--readers"
     - "'1'"
-    - "--runmft"
+    - "--remote"
+    - "--remote-batch"
+    - "''"
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"
@@ -105,7 +140,3 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--decoder-verbosity"
-    - "'0'"
-    - "--nthreads"
-    - "'1'"
