@@ -1,0 +1,165 @@
+name: mft-full-qcmn-remote
+vars:
+  dpl_command: >-
+    o2-qc --config {{ qc_config_uri }} --remote -b
+defaults:
+  qc_remote_machine: "alio2-cr1-qme05"
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mft-full-qcmn-{{ it }}"
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 10000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+constraints:
+  - attribute: machine_id
+    value: "{{ qc_remote_machine }}"
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: mft-full-qcmn-remote-internal-dpl-clock
+  - name: "QcMFTClusterTask-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_QcMFTClusterTask-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QcMFTClusterTask-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    bind:
+    - name: QcMFTClusterTask-proxy
+      type: pull
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47797"
+    task:
+      load: mft-full-qcmn-remote-QcMFTClusterTask-proxy
+  - name: "QcMFTDigitTask-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_QcMFTDigitTask-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QcMFTDigitTask-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    bind:
+    - name: QcMFTDigitTask-proxy
+      type: pull
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      global: "QcMFTDigitTask-proxy"
+    task:
+      load: mft-full-qcmn-remote-QcMFTDigitTask-proxy
+  - name: "QcMFTReadoutTask-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_QcMFTReadoutTask-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QcMFTReadoutTask-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    bind:
+    - name: QcMFTReadoutTask-proxy
+      type: pull
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      global: "QcMFTReadoutTask-proxy"
+    task:
+      load: mft-full-qcmn-remote-QcMFTReadoutTask-proxy
+  - name: "MERGER-QcMFTClusterTask1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MERGER-QcMFTClusterTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-QcMFTClusterTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_QcMFTClusterTask-proxy_to_MERGER-QcMFTClusterTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.QcMFTClusterTask-proxy:from_QcMFTClusterTask-proxy_to_MERGER-QcMFTClusterTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: mft-full-qcmn-remote-MERGER-QcMFTClusterTask1l-0
+  - name: "MERGER-QcMFTDigitTask1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MERGER-QcMFTDigitTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-QcMFTDigitTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_QcMFTDigitTask-proxy_to_MERGER-QcMFTDigitTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.QcMFTDigitTask-proxy:from_QcMFTDigitTask-proxy_to_MERGER-QcMFTDigitTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: mft-full-qcmn-remote-MERGER-QcMFTDigitTask1l-0
+  - name: "MERGER-QcMFTReadoutTask1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MERGER-QcMFTReadoutTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-QcMFTReadoutTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_QcMFTReadoutTask-proxy_to_MERGER-QcMFTReadoutTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.QcMFTReadoutTask-proxy:from_QcMFTReadoutTask-proxy_to_MERGER-QcMFTReadoutTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: mft-full-qcmn-remote-MERGER-QcMFTReadoutTask1l-0
+  - name: "QC-CHECK-RUNNER-QcMFTClusterCheck"
+    connect:
+    - name: from_MERGER-QcMFTClusterTask1l-0_to_QC-CHECK-RUNNER-QcMFTClusterCheck
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MERGER-QcMFTClusterTask1l-0:from_MERGER-QcMFTClusterTask1l-0_to_QC-CHECK-RUNNER-QcMFTClusterCheck"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: mft-full-qcmn-remote-QC-CHECK-RUNNER-QcMFTClusterCheck
+  - name: "QC-CHECK-RUNNER-QcMFTDigitCheck"
+    connect:
+    - name: from_MERGER-QcMFTDigitTask1l-0_to_QC-CHECK-RUNNER-QcMFTDigitCheck
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MERGER-QcMFTDigitTask1l-0:from_MERGER-QcMFTDigitTask1l-0_to_QC-CHECK-RUNNER-QcMFTDigitCheck"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: mft-full-qcmn-remote-QC-CHECK-RUNNER-QcMFTDigitCheck
+  - name: "QC-CHECK-RUNNER-QcMFTReadoutCheck"
+    connect:
+    - name: from_MERGER-QcMFTReadoutTask1l-0_to_QC-CHECK-RUNNER-QcMFTReadoutCheck
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MERGER-QcMFTReadoutTask1l-0:from_MERGER-QcMFTReadoutTask1l-0_to_QC-CHECK-RUNNER-QcMFTReadoutCheck"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: mft-full-qcmn-remote-QC-CHECK-RUNNER-QcMFTReadoutCheck
+  - name: "internal-dpl-injected-dummy-sink"
+    connect:
+    - name: from_QC-CHECK-RUNNER-QcMFTClusterCheck_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-QcMFTClusterCheck:from_QC-CHECK-RUNNER-QcMFTClusterCheck_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_QC-CHECK-RUNNER-QcMFTDigitCheck_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-QcMFTDigitCheck:from_QC-CHECK-RUNNER-QcMFTDigitCheck_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_QC-CHECK-RUNNER-QcMFTReadoutCheck_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-QcMFTReadoutCheck:from_QC-CHECK-RUNNER-QcMFTReadoutCheck_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: mft-full-qcmn-remote-internal-dpl-injected-dummy-sink
+  - name: fairmq-shmmonitor
+    enabled: "{{fmq_cleanup_enabled == 'true'}}"
+    task:
+      load: "fairmq-shmmonitor"
+      trigger: DESTROY
+      timeout: 10s
+      critical: false

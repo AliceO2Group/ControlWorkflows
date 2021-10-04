@@ -377,6 +377,7 @@ defaults:
       - mft-raw-direct-qcmn-local
       - mft-raw-qc
       - mft-raw-qcmn-local
+      - mft-full-qcmn-local
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -391,6 +392,7 @@ defaults:
       - none
       - mft-raw-direct-qcmn-remote
       - mft-raw-qcmn-remote
+      - mft-full-qcmn-remote
       - qcmn-daq-remote
   mft_dcs_sor_parameters: !public
     value: "{}"
