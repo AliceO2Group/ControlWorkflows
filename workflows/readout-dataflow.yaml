@@ -48,6 +48,7 @@ defaults:
       - none
       - cpv-compressor
       - cpv-qc-compressor
+      - cpv-pedestal-calib-qc
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local

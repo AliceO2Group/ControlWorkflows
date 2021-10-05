@@ -1,22 +1,26 @@
-name: cpv-compressor-dpl-output-proxy
+name: cpv-pedestal-calib-qc-QC-TASK-RUNNER-PedestalsOnFLP
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-dpl-output-proxy
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-dpl-output-proxy"
+    {{ dpl_command }} | o2-qc
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: downstream
+  - name: from_QC-TASK-RUNNER-PedestalsOnFLP_to_QC-CHECK-RUNNER-PedestalsOnFLPCheck
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-    global: "downstream-{{ it }}"
+  - name: from_QC-TASK-RUNNER-PedestalsOnFLP_to_dpl-output-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -42,7 +46,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'dpl-output-proxy'"
+    - "'QC-TASK-RUNNER-PedestalsOnFLP'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -63,12 +67,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--dataspec"
-    - "'x0:CPV/RAWDATA;A:CPV/DIGITS/0;A:CPV/DIGITTRIGREC/0;A:CPV/RAWHWERRORS/0;dd:FLP/DISTSUBTIMEFRAME/0'"
-    - "--default-port"
-    - "'4200'"
-    - "--default-transport"
-    - "'shmem'"
+    - "--config"
+    - "'{{ qc_config_uri }}'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -81,18 +81,18 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--host"
+    - "''"
     - "--labels"
     - "''"
-    - "--output-proxy-address"
-    - "'0.0.0.0'"
-    - "--output-proxy-method"
-    - "'bind'"
+    - "--local-batch"
+    - "''"
     - "--pipeline"
     - "''"
-    - "--proxy-name"
-    - "'dpl-output-proxy'"
     - "--readers"
     - "'1'"
+    - "--remote-batch"
+    - "''"
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"
@@ -109,3 +109,5 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
+    - "--period-timer-cycle"
+    - "'100000000'"
