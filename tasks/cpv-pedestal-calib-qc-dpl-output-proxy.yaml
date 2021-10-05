@@ -1,4 +1,4 @@
-name: cpv-compressor-dpl-output-proxy
+name: cpv-pedestal-calib-qc-dpl-output-proxy
 defaults:
   log_task_output: none
   _module_cmdline: >-

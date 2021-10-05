@@ -26,6 +26,7 @@ check_pwd
 # ./datasampling-02.sh # this is a test workflow, no need for it in production
 ./cpv-compressor.sh
 ./cpv-qc-compressor.sh
+./cpv-pedestal-calib-qc.sh
 ./fdd-digits-pipe.sh
 ./fdd-digits-qc-ds-pipe.sh
 ./fdd-digits-qc-ds.sh
