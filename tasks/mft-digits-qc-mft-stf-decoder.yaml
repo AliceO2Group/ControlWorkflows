@@ -69,6 +69,8 @@ command:
     - "''"
     - "--configKeyValues"
     - "''"
+    - "--dataspec"
+    - "''"
     - "--dict-file"
     - "''"
     - "--digits"
