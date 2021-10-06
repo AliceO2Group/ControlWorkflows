@@ -70,7 +70,7 @@ command:
     - "--dataspec"
     - "'x:HMP/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--fairmq-ipc-prefix"
-    - "'/tmp/kalexopo'"
+    - "'/tmp'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
