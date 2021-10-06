@@ -1,4 +1,4 @@
-name: emc-qcmn-flp-remote-QC-CHECK-RUNNER-RawCheck
+name: emc-qcmn-flpepn-remote-QC-CHECK-RUNNER-3Z80
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,7 +11,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_QC-CHECK-RUNNER-RawCheck_to_internal-dpl-injected-dummy-sink
+  - name: from_QC-CHECK-RUNNER-3Z80_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
@@ -41,7 +41,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'QC-CHECK-RUNNER-RawCheck'"
+    - "'QC-CHECK-RUNNER-3Z80'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"

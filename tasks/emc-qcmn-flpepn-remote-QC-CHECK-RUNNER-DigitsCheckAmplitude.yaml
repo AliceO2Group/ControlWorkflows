@@ -1,4 +1,4 @@
-name: emc-qcmn-flpepn-remote-QC-CHECK-RUNNER-4280
+name: emc-qcmn-flpepn-remote-QC-CHECK-RUNNER-DigitsCheckAmplitude
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,7 +11,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_QC-CHECK-RUNNER-4280_to_internal-dpl-injected-dummy-sink
+  - name: from_QC-CHECK-RUNNER-DigitsCheckAmplitude_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
@@ -41,7 +41,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'QC-CHECK-RUNNER-4280'"
+    - "'QC-CHECK-RUNNER-DigitsCheckAmplitude'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
