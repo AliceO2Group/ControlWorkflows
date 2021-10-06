@@ -57,6 +57,8 @@ check_pwd
 ./its-qcmn-fhr-fee.sh
 ./its-qc-fhr-fee-no-ds.sh
 ./its-qcmn-fhr-fee-no-ds.sh
+./mch-qcmn-epn-digits.sh
+./mch-qcmn-flp-digits.sh
 ./mch-qcmn-digits.sh
 ./mft-decoder.sh
 ./mft-digits-qc.sh
