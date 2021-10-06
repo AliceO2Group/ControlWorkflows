@@ -64,6 +64,8 @@ command:
     - "''"
     - "--configKeyValues"
     - "''"
+    - "--dataspec"
+    - "''"
     - "--dict-file"
     - "'/tmp/_DUMMY_'"
     - "--digits"

@@ -57,7 +57,8 @@ check_pwd
 ./its-qcmn-fhr-fee.sh
 ./its-qc-fhr-fee-no-ds.sh
 ./its-qcmn-fhr-fee-no-ds.sh
-./mch-qcmn-digits.sh
+./mch-qcmn-flp-digits.sh
+./mch-qcmn-epn-digits.sh
 ./mft-decoder.sh
 ./mft-digits-qc.sh
 ./mft-full-qcmn.sh
@@ -78,4 +79,4 @@ check_pwd
 ./tof-compressor.sh
 ./tof-qcmn-compressor.sh
 ./tof-full-qcmn.sh
-./tpc-full-qcmn-remote.sh
+./tpc-full-qcmn.sh

@@ -65,7 +65,7 @@ command:
     - "--configKeyValues"
     - "''"
     - "--fairmq-ipc-prefix"
-    - "'/tmp/kalexopo'"
+    - "'/tmp'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
