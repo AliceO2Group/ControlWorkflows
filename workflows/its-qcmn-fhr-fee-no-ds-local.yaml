@@ -80,7 +80,7 @@ roles:
       target: "{{ Parent().Path }}.QC-TASK-RUNNER-ITSFEE:from_QC-TASK-RUNNER-ITSFEE_to_ITSFEE-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     - name: ITSFEE-proxy
-      type: push
+      type: pub
       transport: zeromq
       target: "::ITSFEE-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
@@ -94,7 +94,7 @@ roles:
       target: "{{ Parent().Path }}.QC-TASK-RUNNER-FHRTask:from_QC-TASK-RUNNER-FHRTask_to_FHRTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     - name: FHRTask-proxy
-      type: push
+      type: pub
       transport: zeromq
       target: "::FHRTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"

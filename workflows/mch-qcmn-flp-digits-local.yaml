@@ -90,7 +90,7 @@ roles:
       target: "{{ Parent().Path }}.QC-TASK-RUNNER-QcTaskMCHDigits:from_QC-TASK-RUNNER-QcTaskMCHDigits_to_QcTaskMCHDigits-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     - name: QcTaskMCHDigits-proxy
-      type: push
+      type: pub
       transport: zeromq
       target: "::QcTaskMCHDigits-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
