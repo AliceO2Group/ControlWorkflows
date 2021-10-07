@@ -66,7 +66,7 @@ roles:
       target: "{{ Parent().Path }}.QC-TASK-RUNNER-HMPIDRawTask:from_QC-TASK-RUNNER-HMPIDRawTask_to_HMPIDRawTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     - name: HMPIDRawTask-proxy
-      type: push
+      type: pub
       transport: zeromq
       target: "::HMPIDRawTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
