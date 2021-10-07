@@ -659,7 +659,7 @@ defaults:
     description: "config file for the CTP Global Run Load"
     widget: editBox
     panel: CTP
-  ctp_runtime_config: !public
+  ctp_runtime_config_file: !public
     value: ""
     type: string
     label: "CTP Start Run Config"
@@ -1172,6 +1172,7 @@ roles:
   - name: ctp
     defaults:
       ctp_detectors: "{{ detectors }}"
+      ctp_runtime_config: "{{ GetRuntimeConfig('ctp', ctp_runtime_config_file) }}"
     roles:
       - name: load
         call:
