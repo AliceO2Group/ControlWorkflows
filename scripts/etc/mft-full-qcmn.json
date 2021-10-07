@@ -47,8 +47,8 @@
         "cycleDurationSeconds": "60",
         "maxNumberCycles": "-1",
         "dataSource": {
-          "type": "dataSamplingPolicy",
-          "name": "mft-digits"
+          "type": "direct",
+          "query": "randomdigit:MFT/DIGITS/0"
         },
         "taskParameters": {
           "FLP": "0",
@@ -122,20 +122,6 @@
     }    
   },
   "dataSamplingPolicies": [
-    {
-      "id": "mft-digits",
-      "active": "true",
-      "machines": [ "flp" ],
-      "query": "randomdigit:MFT/DIGITS/0",
-      "samplingConditions": [
-        {
-          "condition": "random",
-          "fraction": "0.01",
-          "seed": "0"
-        }
-      ],
-      "blocking": "false"
-    },
     {
       "id": "mft-clusters",
       "active": "true",

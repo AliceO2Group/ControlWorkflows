@@ -16,12 +16,12 @@ bind:
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-QcMFTReadoutTask
+  - name: from_internal-dpl-clock_to_Dispatcher
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_internal-dpl-clock_to_Dispatcher
+  - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-QcMFTReadoutTask
     type: push
     transport: shmem
     addressing: ipc
