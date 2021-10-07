@@ -996,19 +996,19 @@ roles:
           func: ddsched.PartitionInitialize()
           trigger: before_CONFIGURE
           await: after_CONFIGURE
-          timeout: 5s
+          timeout: 5m
           critical: true
       - name: terminate
         call:
           func: ddsched.PartitionTerminate()
           trigger: after_RESET
-          timeout: 5s
+          timeout: 5m
           critical: true
       - name: cleanup
         call:
           func: ddsched.EnsureTermination()
           trigger: DESTROY
-          timeout: 5s
+          timeout: 1m
           critical: false
   - name: odc
     enabled: "{{odc_enabled == 'true'}}"
