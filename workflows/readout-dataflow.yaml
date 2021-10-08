@@ -169,6 +169,7 @@ defaults:
       - none
       - ft0-digits-pipe
       - ft0-digits-qc-ds-pipe
+      - ft0-digits-qc-ds-pipe-raw
       - ft0-digits-qc-ds
       - ft0-digits-qc-postproc-ds-pipe
       - ft0-digits-qc-postproc-ds
@@ -212,6 +213,7 @@ defaults:
       - none
       - fv0-digits-pipe
       - fv0-digits-qc-ds-pipe
+      - fv0-digits-qc-ds-pipe-raw
       - fv0-digits-qc-ds
       - fv0-digits-qc-postproc-ds-pipe
       - fv0-digits-qc-postproc-ds
