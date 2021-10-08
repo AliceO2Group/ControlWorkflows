@@ -1018,32 +1018,32 @@ roles:
           func: odc.Configure()
           trigger: before_CONFIGURE
           await: after_CONFIGURE
-          timeout: 60s
+          timeout: 1m
           critical: true
       - name: start
         call:
           func: odc.Start()
           trigger: before_START_ACTIVITY
           await: after_START_ACTIVITY
-          timeout: 20s
+          timeout: 1m
           critical: true
       - name: stop
         call:
           func: odc.Stop()
           trigger: before_STOP_ACTIVITY
           await: after_STOP_ACTIVITY
-          timeout: 20s
+          timeout: 1m
           critical: true
       - name: reset
         call:
           func: odc.Reset()
           trigger: before_RESET
           await: after_RESET
-          timeout: 30s
+          timeout: 1m
           critical: true
       - name: cleanup
         call:
           func: odc.EnsureCleanup()
           trigger: DESTROY
-          timeout: 20s
+          timeout: 1m
           critical: false
