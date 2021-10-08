@@ -974,19 +974,19 @@ roles:
         call:
           func: dcs.StartOfRun()
           trigger: enter_RUNNING
-          timeout: 5s
+          timeout: 30s
           critical: true
       - name: eor
         call:
           func: dcs.EndOfRun()
           trigger: leave_RUNNING
-          timeout: 5s
+          timeout: 30s
           critical: true
       - name: cleanup
         call:
           func: dcs.Cleanup()
           trigger: DESTROY
-          timeout: 5s
+          timeout: 30s
           critical: true
   - name: dd-scheduler
     enabled: "{{ddsched_enabled == 'true'}}"
