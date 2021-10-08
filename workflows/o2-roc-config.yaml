@@ -28,9 +28,9 @@ roles:
             enabled: "{{roc_config_uri_enabled == 'true'}}"
             task:
               load: "roc-config-uri"
-              timeout: 10s
+              timeout: 20s
           - name: roc-config-args
             enabled: "{{roc_config_uri_enabled != 'true'}}"
             task:
               load: "roc-config-args"
-              timeout: 10s
+              timeout: 20s
