@@ -26,6 +26,14 @@ defaults:
     description: "Enable/disable EPN"
     widget: checkBox
     panel: Basic_Configuration
+  ctp_enabled: !public
+    value: "false"
+    type: bool
+    label: "CTP"
+    description: "Enable/disable CTP"
+    widget: checkBox
+    panel: Basic_Configuration
+    index: 100
   ###############################
   # DCS and FLP Processing Panel
   ###############################    
@@ -1108,6 +1116,7 @@ roles:
           timeout: 1m
           critical: false
   - name: ctp
+    enabled: "{{ctp_enabled == 'true'}}"
     defaults:
       ctp_detectors: "{{ detectors }}"
       ctp_runtime_config: "{{ GetRuntimeConfig('ctp', ctp_runtime_config_file) }}"
