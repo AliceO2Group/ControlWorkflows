@@ -29,7 +29,7 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     bind:
     - name: DigitsTask-proxy
-      type: pull
+      type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
@@ -45,7 +45,7 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     bind:
     - name: RawTask-proxy
-      type: pull
+      type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
@@ -80,35 +80,35 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: emc-qcmn-epnall-remote-MERGER-RawTask1l-0
-  - name: "QC-CHECK-RUNNER-4280"
+  - name: "QC-CHECK-RUNNER-3Z80"
     connect:
-    - name: from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-4280
+    - name: from_MERGER-RawTask1l-0_to_QC-CHECK-RUNNER-3Z80
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-DigitsTask1l-0:from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-4280"
+      target: "{{ Parent().Path }}.MERGER-RawTask1l-0:from_MERGER-RawTask1l-0_to_QC-CHECK-RUNNER-3Z80"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: emc-qcmn-epnall-remote-QC-CHECK-RUNNER-4280
-  - name: "QC-CHECK-RUNNER-RawCheck"
+      load: emc-qcmn-epnall-remote-QC-CHECK-RUNNER-3Z80
+  - name: "QC-CHECK-RUNNER-DigitsCheckAmplitude"
     connect:
-    - name: from_MERGER-RawTask1l-0_to_QC-CHECK-RUNNER-RawCheck
+    - name: from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-DigitsCheckAmplitude
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-RawTask1l-0:from_MERGER-RawTask1l-0_to_QC-CHECK-RUNNER-RawCheck"
+      target: "{{ Parent().Path }}.MERGER-DigitsTask1l-0:from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-DigitsCheckAmplitude"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: emc-qcmn-epnall-remote-QC-CHECK-RUNNER-RawCheck
+      load: emc-qcmn-epnall-remote-QC-CHECK-RUNNER-DigitsCheckAmplitude
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_QC-CHECK-RUNNER-4280_to_internal-dpl-injected-dummy-sink
+    - name: from_QC-CHECK-RUNNER-3Z80_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-4280:from_QC-CHECK-RUNNER-4280_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-3Z80:from_QC-CHECK-RUNNER-3Z80_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
-    - name: from_QC-CHECK-RUNNER-RawCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_QC-CHECK-RUNNER-DigitsCheckAmplitude_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-RawCheck:from_QC-CHECK-RUNNER-RawCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-DigitsCheckAmplitude:from_QC-CHECK-RUNNER-DigitsCheckAmplitude_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: emc-qcmn-epnall-remote-internal-dpl-injected-dummy-sink

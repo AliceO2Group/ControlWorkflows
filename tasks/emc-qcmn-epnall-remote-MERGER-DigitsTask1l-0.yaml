@@ -11,7 +11,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-4280
+  - name: from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-DigitsCheckAmplitude
     type: push
     transport: shmem
     addressing: ipc
