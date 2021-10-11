@@ -1135,7 +1135,6 @@ roles:
         call:
           func: ctp.RunStop()
           trigger: before_STOP_ACTIVITY
-          await: after_STOP_ACTIVITY
           timeout: 5s
           critical: true
       - name: unload
