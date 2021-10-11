@@ -29,8 +29,8 @@ defaults:
   ctp_enabled: !public
     value: "false"
     type: bool
-    label: "CTP"
-    description: "Enable/disable CTP"
+    label: "TRG"
+    description: "Enable/disable TRG"
     widget: checkBox
     panel: Basic_Configuration
     index: 100
@@ -652,30 +652,34 @@ defaults:
     widget: editBox
     panel: DCS
   ###############################
-  # CTP Panel
+  # TRG Panel
   ###############################
   ctp_global_run_enabled: !public
     value: "false"
     type: bool
     label: "CTP Global Run"
-    description: "Enable/disable CTP Global Run"
+    description: "If enabled, send commands to CTP. If disabled, send commands to LTU."
     widget: checkBox
-    panel: CTP
-    index: -200  
+    panel: TRG
+    index: 0  
   ctp_load_parameters: !public
     value: ""
     type: string
-    label: "CTP Global Config File"
-    description: "config file for the CTP Global Run Load"
+    label: "CTP Configuration"
+    description: "Configuration file for the CTP Global Run"
     widget: editBox
-    panel: CTP
+    panel: TRG
+    index: 1
+    visibleif: $$ctp_global_run_enabled === true
   ctp_runtime_config_file: !public
     value: ""
     type: string
-    label: "CTP Start Run Config"
-    description: "config for the CTP Run Start"
+    label: "LTU Configuration"
+    description: "configuration file for the LTU Standalone Run"
     widget: editBox
-    panel: CTP
+    panel: TRG
+    visibleif: $$ctp_global_run_enabled === false
+    index: 2
   # !! Not used by the ctpd !! 
   # ctp_run_mode: !public
   #   value: "none"
