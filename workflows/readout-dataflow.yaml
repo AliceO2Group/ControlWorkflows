@@ -670,7 +670,7 @@ defaults:
     widget: editBox
     panel: TRG
     index: 1
-    visibleif: $$ctp_global_run_enabled === true
+    visibleif: $$ctp_global_run_enabled == true
   ctp_runtime_config_file: !public
     value: ""
     type: string
@@ -678,7 +678,7 @@ defaults:
     description: "configuration file for the LTU Standalone Run"
     widget: editBox
     panel: TRG
-    visibleif: $$ctp_global_run_enabled === false
+    visibleif: $$ctp_global_run_enabled == false
     index: 2
   # !! Not used by the ctpd !! 
   # ctp_run_mode: !public
