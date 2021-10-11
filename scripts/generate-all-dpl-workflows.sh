@@ -34,6 +34,7 @@ check_pwd
 ./fdd-digits.sh
 ./ft0-digits-pipe.sh
 ./ft0-digits-qc-ds-pipe.sh
+./ft0-digits-qc-ds-pipe-raw.sh
 ./ft0-digits-qc-ds.sh
 ./ft0-digits-qc-postproc-ds-pipe.sh
 ./ft0-digits-qc-postproc-ds.sh
@@ -41,6 +42,7 @@ check_pwd
 ./ft0-digits.sh
 ./fv0-digits-pipe.sh
 ./fv0-digits-qc-ds-pipe.sh
+./fv0-digits-qc-ds-pipe-raw.sh
 ./fv0-digits-qc-ds.sh
 ./fv0-digits-qc-postproc-ds-pipe.sh
 ./fv0-digits-qc-postproc-ds.sh
