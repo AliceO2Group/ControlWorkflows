@@ -999,6 +999,7 @@ defaults:
       - "Repository path"
       - "Manual XML"
     index: 3
+    visibleif: $$pdp_panel_mode === "Expert"
   odc_topology: !public
     value: ""
     type: string
@@ -1039,6 +1040,7 @@ defaults:
       - processing
       - processing-disk
     index: 7        
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_workflow_name: !public
     value: "synchronous-workflow-1numa"
     type: string
@@ -1088,7 +1090,7 @@ defaults:
     widget: editBox
     panel: "EPN_Global_Processing"
     index: 12
-    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_workflow_parameters: !public
     value: "QC,CALIB,GPU,CTF,EVENT_DISPLAY"
     type: string
@@ -1124,7 +1126,7 @@ defaults:
     widget: editBox
     panel: "EPN_Global_Processing"
     index: 16
-    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_reco_process_multi_factor: !public
     value: "1"
     type: number
