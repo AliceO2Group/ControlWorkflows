@@ -26,38 +26,47 @@ defaults:
     description: "Enable/disable EPN"
     widget: checkBox
     panel: Basic_Configuration
+  ctp_enabled: !public
+    value: "false"
+    type: bool
+    label: "TRG"
+    description: "Enable/disable TRG"
+    widget: checkBox
+    panel: Basic_Configuration
+    index: 100
   ###############################
-  # DCS and FLP Local Processing Panel
+  # DCS and FLP Processing Panel
   ###############################    
   qc_remote_enabled: !public # TODO: if false, all per-detector remote QC workflows vars should be disabled
     value: "false"
     type: bool
-    label: "QC remote"
-    description: "Enable/disable QC remote"
+    label: "QC node workflows"
+    description: "Enable/disable running workflows on the QC nodes"
     widget: checkBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     index: -200
   cpv_dpl_workflow: !public
     value: "none"
     type: string
-    label: "CPV FLP Local Processing/QC"
-    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    label: "CPV FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - cpv-compressor
       - cpv-qc-compressor
+      - cpv-pedestal-calib-qc
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
   cpv_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "CPV QC remote workflow"
-    description: "QC workflow to execute on QC servers"
+    label: "CPV QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -78,10 +87,10 @@ defaults:
   emc_dpl_workflow: !public
     value: "none"
     type: string
-    label: "EMCAL FLP Local Processing/QC"
-    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    label: "EMCAL FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - minimal-dpl
@@ -91,14 +100,15 @@ defaults:
   emc_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "EMC QC remote workflow"
-    description: "QC workflow to execute on QC servers"
+    label: "EMCAL QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - emc-qcmn-flp-remote
       - emc-qcmn-epn-remote
+      - emc-qcmn-epnall-remote
       - emc-qcmn-flpepn-remote
       - qcmn-daq-remote
   emc_dcs_sor_parameters: !public
@@ -118,23 +128,27 @@ defaults:
   fdd_dpl_workflow: !public
     value: "none"
     type: string
-    label: "FDD FLP Local Processing/QC"
-    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    label: "FDD FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
+      - fdd-digits-pipe
+      - fdd-digits-qc-ds-pipe
+      - fdd-digits-qc-ds
       - fdd-digits-qc
+      - fdd-digits
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
   fdd_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "FDD QC remote workflow"
-    description: "QC workflow to execute on QC servers"
+    label: "FDD QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -155,23 +169,30 @@ defaults:
   ft0_dpl_workflow: !public
     value: "none"
     type: string
-    label: "FT0 FLP Local Processing/QC"
-    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    label: "FT0 FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
+      - ft0-digits-pipe
+      - ft0-digits-qc-ds-pipe
+      - ft0-digits-qc-ds-pipe-raw
+      - ft0-digits-qc-ds
+      - ft0-digits-qc-postproc-ds-pipe
+      - ft0-digits-qc-postproc-ds
       - ft0-digits-qc
+      - ft0-digits
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
   ft0_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "FT0 QC remote workflow"
-    description: "QC workflow to execute on QC servers"
+    label: "FT0 QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -192,23 +213,30 @@ defaults:
   fv0_dpl_workflow: !public
     value: "none"
     type: string
-    label: "FV0 FLP Local Processing/QC"
-    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    label: "FV0 FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
+      - fv0-digits-pipe
+      - fv0-digits-qc-ds-pipe
+      - fv0-digits-qc-ds-pipe-raw
+      - fv0-digits-qc-ds
+      - fv0-digits-qc-postproc-ds-pipe
+      - fv0-digits-qc-postproc-ds
       - fv0-digits-qc
+      - fv0-digits
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
   fv0_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "FV0 QC remote workflow"
-    description: "QC workflow to execute on QC servers"
+    label: "FV0 QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -229,10 +257,10 @@ defaults:
   its_dpl_workflow: !public
     value: "none"
     type: string
-    label: "ITS FLP Local Processing/QC"
-    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    label: "ITS FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - its-qc-fhr-fee
@@ -245,10 +273,10 @@ defaults:
   its_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "ITS QC remote workflow"
-    description: "QC workflow to execute on QC servers"
+    label: "ITS QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - its-qcmn-fhr-fee-remote
@@ -271,10 +299,10 @@ defaults:
   hmp_dpl_workflow: !public
     value: "none"
     type: string
-    label: "HMPID FLP Local Processing/QC"
-    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    label: "HMPID FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - hmpid-raw-qc
@@ -282,13 +310,14 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
+      - hmpid-raw-to-pedestals
   hmp_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "HMPID QC remote workflow"
-    description: "QC workflow to execute on QC servers"
+    label: "HMPID QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - hmpid-raw-qcmn-remote
@@ -310,26 +339,27 @@ defaults:
   mch_dpl_workflow: !public
     value: "none"
     type: string
-    label: "MCH FLP Local Processing/QC"
-    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    label: "MCH FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
-      - mch-qcmn-digits-local
+      - mch-qcmn-flp-digits-local
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
   mch_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "MCH QC remote workflow"
-    description: "QC workflow to execute on QC servers"
+    label: "MCH QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
-      - mch-qcmn-digits-remote
+      - mch-qcmn-epn-digits-remote
+      - mch-qcmn-flp-digits-remote
       - qcmn-daq-remote
   mch_dcs_sor_parameters: !public
     value: "{}"
@@ -348,10 +378,10 @@ defaults:
   mft_dpl_workflow: !public
     value: "none"
     type: string
-    label: "MFT FLP Local Processing/QC"
-    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    label: "MFT FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - mft-decoder
@@ -359,20 +389,22 @@ defaults:
       - mft-raw-direct-qcmn-local
       - mft-raw-qc
       - mft-raw-qcmn-local
+      - mft-full-qcmn-local
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
   mft_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "MFT QC remote workflow"
-    description: "QC workflow to execute on QC servers"
+    label: "MFT QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - mft-raw-direct-qcmn-remote
       - mft-raw-qcmn-remote
+      - mft-full-qcmn-remote
       - qcmn-daq-remote
   mft_dcs_sor_parameters: !public
     value: "{}"
@@ -391,10 +423,10 @@ defaults:
   mid_dpl_workflow: !public
     value: "none"
     type: string
-    label: "MID FLP Local Processing/QC"
-    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    label: "MID FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - mid-raw-decoder
@@ -404,10 +436,10 @@ defaults:
   mid_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "MID QC remote workflow"
-    description: "QC workflow to execute on QC servers"
+    label: "MID QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -428,10 +460,10 @@ defaults:
   phs_dpl_workflow: !public
     value: "none"
     type: string
-    label: "PHOS FLP Local Processing/QC"
-    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    label: "PHOS FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - phos-compressor-raw-qc
@@ -446,10 +478,10 @@ defaults:
   phs_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "PHOS QC remote workflow"
-    description: "QC workflow to execute on QC servers"
+    label: "PHOS QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - phos-compressor-raw-qcmn-remote
@@ -472,10 +504,10 @@ defaults:
   tof_dpl_workflow: !public
     value: "none"
     type: string
-    label: "TOF FLP Local Processing/QC"
-    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    label: "TOF FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - tof-compressor
@@ -487,10 +519,10 @@ defaults:
   tof_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "TOF QC remote workflow"
-    description: "QC workflow to execute on QC servers"
+    label: "TOF QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -513,10 +545,10 @@ defaults:
   tpc_dpl_workflow: !public
     value: "none"
     type: string
-    label: "TPC FLP Local Processing/QC"
-    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    label: "TPC FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - minimal-dpl
@@ -525,13 +557,14 @@ defaults:
   tpc_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "TPC QC remote workflow"
-    description: "QC workflow to execute on QC servers"
+    label: "TPC QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - qcmn-daq-remote
+      - tpc-full-qcmn-remote
   tpc_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -549,10 +582,10 @@ defaults:
   trd_dpl_workflow: !public
     value: "none"
     type: string
-    label: "TRD FLP Local Processing/QC"
-    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    label: "TRD FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - minimal-dpl
@@ -561,10 +594,10 @@ defaults:
   trd_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "TRD QC remote workflow"
-    description: "QC workflow to execute on QC servers"
+    label: "TRD QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -585,10 +618,10 @@ defaults:
   zdc_dpl_workflow: !public
     value: "none"
     type: string
-    label: "ZDC FLP Local Processing/QC"
-    description: "FLP DPL subworkflow to execute between StfBuilder and StfSender"
+    label: "ZDC FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - minimal-dpl
@@ -597,10 +630,10 @@ defaults:
   zdc_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "ZDC QC remote workflow"
-    description: "QC workflow to execute on QC servers"
+    label: "ZDC QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: FLP_Local_Processing
+    panel: ALIECS_Workflows
     values:
       - none
       - qcmn-daq-remote
@@ -618,6 +651,61 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+  ###############################
+  # TRG Panel
+  ###############################
+  ctp_global_run_enabled: !public
+    value: "false"
+    type: bool
+    label: "CTP Global Run"
+    description: "If enabled, send commands to CTP. If disabled, send commands to LTU."
+    widget: checkBox
+    panel: TRG
+    index: 0  
+  ctp_load_parameters: !public
+    value: ""
+    type: string
+    label: "CTP Configuration"
+    description: "Configuration file for the CTP Global Run"
+    widget: editBox
+    panel: TRG
+    index: 1
+    visibleif: $$ctp_global_run_enabled === "true"
+  ctp_runtime_config_file: !public
+    value: ""
+    type: string
+    label: "LTU Configuration"
+    description: "configuration file for the LTU Standalone Run"
+    widget: editBox
+    panel: TRG
+    visibleif: $$ctp_global_run_enabled === "false"
+    index: 2
+  # !! Not used by the ctpd !! 
+  # ctp_run_mode: !public
+  #   value: "none"
+  #   type: string
+  #   label: "CTP Start Run Trigger Mode"
+  #   description: "config for the CTP Run Start"
+  #   widget: dropDownBox
+  #   panel: CTP
+  #   values:
+  #     - none
+  #     - trig
+  #     - cont
+  # ctp_run_ph_bc: !public
+  #   value: ""
+  #   type: string
+  #   label: "CTP Start Run Ph Bc"
+  #   description: "BC-downscaled rate of physics triggers"
+  #   widget: editBox
+  #   panel: CTP
+  # ctp_run_ph_rnd: !public
+  #   value: ""
+  #   type: string
+  #   label: "CTP Start PH RND"
+  #   description: "rate of physics triggers generated randomly"
+  #   widget: editBox
+  #   panel: CTP
   ###############################
   # Logging Panel
   ###############################
@@ -1115,19 +1203,19 @@ roles:
         call:
           func: dcs.StartOfRun()
           trigger: enter_RUNNING
-          timeout: 5s
+          timeout: 30s
           critical: true
       - name: eor
         call:
           func: dcs.EndOfRun()
           trigger: leave_RUNNING
-          timeout: 5s
+          timeout: 30s
           critical: true
       - name: cleanup
         call:
           func: dcs.Cleanup()
           trigger: DESTROY
-          timeout: 5s
+          timeout: 30s
           critical: true
   - name: dd-scheduler
     enabled: "{{ddsched_enabled == 'true'}}"
@@ -1137,19 +1225,19 @@ roles:
           func: ddsched.PartitionInitialize()
           trigger: before_CONFIGURE
           await: after_CONFIGURE
-          timeout: 5s
+          timeout: 5m
           critical: true
       - name: terminate
         call:
           func: ddsched.PartitionTerminate()
           trigger: after_RESET
-          timeout: 5s
+          timeout: 5m
           critical: true
       - name: cleanup
         call:
           func: ddsched.EnsureTermination()
           trigger: DESTROY
-          timeout: 5s
+          timeout: 1m
           critical: false
   - name: odc
     enabled: "{{odc_enabled == 'true'}}"
@@ -1159,32 +1247,62 @@ roles:
           func: odc.Configure()
           trigger: before_CONFIGURE
           await: after_CONFIGURE
-          timeout: 30s
+          timeout: 1m
           critical: true
       - name: start
         call:
           func: odc.Start()
           trigger: before_START_ACTIVITY
           await: after_START_ACTIVITY
-          timeout: 5s
+          timeout: 1m
           critical: true
       - name: stop
         call:
           func: odc.Stop()
           trigger: before_STOP_ACTIVITY
           await: after_STOP_ACTIVITY
-          timeout: 5s
+          timeout: 1m
           critical: true
       - name: reset
         call:
           func: odc.Reset()
           trigger: before_RESET
           await: after_RESET
-          timeout: 15s
+          timeout: 1m
           critical: true
       - name: cleanup
         call:
           func: odc.EnsureCleanup()
           trigger: DESTROY
-          timeout: 5s
+          timeout: 1m
           critical: false
+  - name: ctp
+    enabled: "{{ctp_enabled == 'true'}}"
+    defaults:
+      ctp_detectors: "{{ detectors }}"
+      ctp_runtime_config: "{{ GetRuntimeConfig('ctp', ctp_runtime_config_file) }}"
+    roles:
+      - name: load
+        call:
+          func: ctp.RunLoad()
+          trigger: enter_RUNNING
+          timeout: 5s
+          critical: true
+      - name: start
+        call:
+          func: ctp.RunStart()
+          trigger: after_START_ACTIVITY
+          timeout: 5s
+          critical: true
+      - name: stop
+        call:
+          func: ctp.RunStop()
+          trigger: before_STOP_ACTIVITY
+          timeout: 5s
+          critical: true
+      - name: unload
+        call:
+          func: ctp.RunUnload()
+          trigger: after_STOP_ACTIVITY
+          timeout: 5s
+          critical: true

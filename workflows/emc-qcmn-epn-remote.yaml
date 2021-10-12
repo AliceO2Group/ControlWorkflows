@@ -29,7 +29,7 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     bind:
     - name: DigitsTask-proxy
-      type: pull
+      type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
@@ -50,21 +50,21 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: emc-qcmn-epn-remote-MERGER-DigitsTask1l-0
-  - name: "QC-CHECK-RUNNER-4280"
+  - name: "QC-CHECK-RUNNER-DigitsCheckAmplitude"
     connect:
-    - name: from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-4280
+    - name: from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-DigitsCheckAmplitude
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-DigitsTask1l-0:from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-4280"
+      target: "{{ Parent().Path }}.MERGER-DigitsTask1l-0:from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-DigitsCheckAmplitude"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: emc-qcmn-epn-remote-QC-CHECK-RUNNER-4280
+      load: emc-qcmn-epn-remote-QC-CHECK-RUNNER-DigitsCheckAmplitude
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_QC-CHECK-RUNNER-4280_to_internal-dpl-injected-dummy-sink
+    - name: from_QC-CHECK-RUNNER-DigitsCheckAmplitude_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-4280:from_QC-CHECK-RUNNER-4280_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-DigitsCheckAmplitude:from_QC-CHECK-RUNNER-DigitsCheckAmplitude_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: emc-qcmn-epn-remote-internal-dpl-injected-dummy-sink

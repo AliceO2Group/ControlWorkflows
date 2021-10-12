@@ -1,0 +1,118 @@
+name: fv0-digits-qc-postproc-ds-pipe-fv0-datareader-dpl_t1
+defaults:
+  log_task_output: none
+  _module_cmdline: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
+    {{ dpl_command }} | o2-fv0-flp-dpl-workflow
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-fv0-flp-dpl-workflow"
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.01
+  memory: 1
+bind:
+  - name: from_fv0-datareader-dpl_t1_to_Dispatcher
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_fv0-datareader-dpl_t1_to_dpl-output-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+command:
+  shell: true
+  log: "{{ log_task_output }}"
+  env: ["O2_DETECTOR={{ detector }}"]
+  user: "{{ user }}"
+  value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
+  arguments:
+    - "-b"
+    - "--monitoring-backend"
+    - "'{{ monitoring_dpl_url }}'"
+    - "--session"
+    - "'{{ session_id }}'"
+    - "--infologger-severity"
+    - "'{{ infologger_severity }}'"
+    - "--infologger-mode"
+    - "'{{ infologger_mode }}'"
+    - "--driver-client-backend"
+    - "'stdout://'"
+    - "--shm-segment-size"
+    - "'{{ shm_segment_size }}'"
+    - "--shm-throw-bad-alloc"
+    - "'{{ shm_throw_bad_alloc }}'"
+    - "--resources-monitoring"
+    - "'{{ resources_monitoring }}'"
+    - "--id"
+    - "'fv0-datareader-dpl_t1'"
+    - "--shm-monitor"
+    - "'false'"
+    - "--log-color"
+    - "'false'"
+    - "--aod-memory-rate-limit"
+    - "'0'"
+    - "--aod-writer-json"
+    - "''"
+    - "--aod-writer-keep"
+    - "''"
+    - "--aod-writer-ntfmerge"
+    - "-1"
+    - "--aod-writer-resfile"
+    - "''"
+    - "--aod-writer-resmode"
+    - "'RECREATE'"
+    - "--channel-prefix"
+    - "''"
+    - "--clone"
+    - "''"
+    - "--configKeyValues"
+    - "''"
+    - "--disable-root-output"
+    - "--fairmq-ipc-prefix"
+    - "'/tmp'"
+    - "--fairmq-rate-logging"
+    - "'0'"
+    - "--fairmq-recv-buffer-size"
+    - "'4'"
+    - "--fairmq-send-buffer-size"
+    - "'4'"
+    - "--forwarding-destination"
+    - "'drop'"
+    - "--forwarding-policy"
+    - "'dangling'"
+    - "--labels"
+    - "''"
+    - "--pipeline"
+    - "'fv0-datareader-dpl:5'"
+    - "--readers"
+    - "'1'"
+    - "--severity"
+    - "'info'"
+    - "--shm-mlock-segment"
+    - "'false'"
+    - "--shm-mlock-segment-on-creation"
+    - "'false'"
+    - "--shm-segment-id"
+    - "'0'"
+    - "--shm-zero-segment"
+    - "'false'"
+    - "--spawners"
+    - "'1'"
+    - "--stacktrace-on-signal"
+    - "'all'"
+    - "--workflow-suffix"
+    - "''"
+    - "--ccdb-path"
+    - "''"
+    - "--lut-path"
+    - "''"
+    - "--reserve-map-dig"
+    - "'0'"
+    - "--reserve-vec-buffer"
+    - "'0'"
+    - "--reserve-vec-chdata"
+    - "'0'"
+    - "--reserve-vec-dig"
+    - "'0'"
