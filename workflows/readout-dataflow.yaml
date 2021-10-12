@@ -753,25 +753,6 @@ defaults:
   ###############################
   # EPN Global Processing Panel
   ###############################        
-  odc_resources: !public
-    value: "{}"
-    type: string
-    label: "Resources"
-    description: "EPN resources to be used"
-    widget: editBox
-    panel: "EPN_Global_Processing"
-    index: 0
-  stfb_dd_mode: !public
-    value: "physics"
-    type: string
-    label: "Data Distribution mode"
-    description: "Data Distribution mode. physics: standard time based data distribution. topology: special topological data distribution for ITS and MFT calibration runs."
-    widget: dropDownBox
-    panel: "EPN_Global_Processing"
-    values:
-      - physics
-      - topology
-    index: 1
   pdp_panel_mode: !public
     value: "Shifter"
     type: string
@@ -782,6 +763,25 @@ defaults:
     values:       
       - "Shifter"
       - "Expert"
+    index: 0  
+  odc_resources: !public
+    value: "{}"
+    type: string
+    label: "Resources"
+    description: "EPN resources to be used"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 1
+  stfb_dd_mode: !public
+    value: "physics"
+    type: string
+    label: "Data Distribution mode"
+    description: "Data Distribution mode. physics: standard time based data distribution. topology: special topological data distribution for ITS and MFT calibration runs."
+    widget: dropDownBox
+    panel: "EPN_Global_Processing"
+    values:
+      - physics
+      - topology
     index: 2
   pdp_config_option: !public
     value: "Repository hash"
@@ -795,6 +795,7 @@ defaults:
       - "Repository path"
       - "Manual XML"
     index: 3
+    visibleif: $$pdp_panel_mode === "Expert"
   odc_topology: !public
     value: ""
     type: string
@@ -835,6 +836,7 @@ defaults:
       - processing
       - processing-disk
     index: 7        
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_workflow_name: !public
     value: "synchronous-workflow-1numa"
     type: string
@@ -884,7 +886,7 @@ defaults:
     widget: editBox
     panel: "EPN_Global_Processing"
     index: 12
-    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_workflow_parameters: !public
     value: "QC,CALIB,GPU,CTF,EVENT_DISPLAY"
     type: string
@@ -920,7 +922,7 @@ defaults:
     widget: editBox
     panel: "EPN_Global_Processing"
     index: 16
-    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_reco_process_multi_factor: !public
     value: "1"
     type: number
