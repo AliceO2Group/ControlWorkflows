@@ -1,4 +1,4 @@
-name: tof-full-qcmn-remote-MERGER-TaskRaw1l-0
+name: tof-full-qcmn-remote-PP-TASK-RUNNER-TOFTrendingHits
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,7 +11,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_MERGER-TaskRaw1l-0_to_QC-CHECK-RUNNER-JRA0
+  - name: from_PP-TASK-RUNNER-TOFTrendingHits_to_QC-CHECK-RUNNER-sink-QC_TOFTrendingHi-mo_0
     type: push
     transport: shmem
     addressing: ipc
@@ -41,7 +41,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'MERGER-TaskRaw1l-0'"
+    - "'PP-TASK-RUNNER-TOFTrendingHits'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -105,5 +105,5 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-publish"
-    - "'60000000'"
+    - "--period-timer-pp-TOFTrendingHits"
+    - "'10000000'"
