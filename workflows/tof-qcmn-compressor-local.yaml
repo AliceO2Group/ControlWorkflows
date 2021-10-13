@@ -103,7 +103,7 @@ roles:
       target: "{{ Parent().Path }}.QC-TASK-RUNNER-TaskRaw:from_QC-TASK-RUNNER-TaskRaw_to_TaskRaw-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     - name: TaskRaw-proxy
-      type: push
+      type: pub
       transport: zeromq
       target: "::TaskRaw-proxy"
       rateLogging: "{{ fmq_rate_logging }}"

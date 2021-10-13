@@ -66,7 +66,7 @@ roles:
       target: "{{ Parent().Path }}.QC-TASK-RUNNER-MultiNodeLocal:from_QC-TASK-RUNNER-MultiNodeLocal_to_MultiNodeLocal-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     - name: MultiNodeLocal-proxy
-      type: push
+      type: pub
       transport: zeromq
       target: "::MultiNodeLocal-proxy"
       rateLogging: "{{ fmq_rate_logging }}"

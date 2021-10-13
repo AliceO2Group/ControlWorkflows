@@ -29,7 +29,7 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     bind:
     - name: TaskRaw-proxy
-      type: pull
+      type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
@@ -45,7 +45,7 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     bind:
     - name: TaskDigits-proxy
-      type: pull
+      type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
