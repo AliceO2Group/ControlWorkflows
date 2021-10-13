@@ -221,8 +221,8 @@ defaults:
     panel: ALIECS_Workflows
     values:
       - none
-      - ft0-digits-qc-full
-      - ft0-digits-qc-full-raw
+      - fv0-digits-qc-full
+      - fv0-digits-qc-full-raw
       - fv0-digits-pipe
       - fv0-digits-qc-ds-pipe
       - fv0-digits-qc-ds-pipe-raw
