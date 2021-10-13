@@ -1124,6 +1124,7 @@ roles:
     defaults:
       ctp_detectors: "{{ detectors }}"
       ctp_runtime_config: "{{ GetRuntimeConfig('ctp', ctp_runtime_config_file) }}"
+      ctp_global_config: "{{ GetRuntimeConfig('trg/ctp', ctp_load_parameters) }}"
     roles:
       - name: load
         call:
