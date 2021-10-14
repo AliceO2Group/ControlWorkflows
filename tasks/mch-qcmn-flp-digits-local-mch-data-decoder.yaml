@@ -76,6 +76,8 @@ command:
     - "'HBFUtils.nHBFPerTF=128'"
     - "--dataspec"
     - "'TF:MCH/RAWDATA_SAMPLED'"
+    - "--early-forward-policy"
+    - "'never'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"

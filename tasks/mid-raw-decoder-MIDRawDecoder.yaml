@@ -71,6 +71,8 @@ command:
     - "''"
     - "--crate-masks-file"
     - "'{{ mid_crate_masks_file }}'"
+    - "--early-forward-policy"
+    - "'never'"
     - "--electronics-delay-file"
     - "'{{ mid_electronics_delay_file }}'"
     - "--fairmq-ipc-prefix"
