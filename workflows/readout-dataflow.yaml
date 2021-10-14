@@ -780,6 +780,14 @@ defaults:
       - physics
       - topology
     index: 3
+  odc_partitions_cleanup: !public
+    value: "true"
+    type: bool
+    label: "EPN partitions cleanup"
+    description: "If enabled, orphaned EPN partitions are cleaned up on environment deployment and shutdown"
+    widget: checkBox
+    panel: EPN
+    index: 4
   ###############################
   # Other variables
   ###############################
@@ -1085,6 +1093,14 @@ roles:
   - name: odc
     enabled: "{{odc_enabled == 'true'}}"
     roles:
+      - name: deploy
+        enabled: "{{odc_partitions_cleanup == 'true'}}"
+        call:
+          func: odc.PreDeploymentCleanup()
+          trigger: before_DEPLOY
+          await: after_DEPLOY
+          timeout: 1m
+          critical: false
       - name: configure
         call:
           func: odc.Configure()
@@ -1114,8 +1130,16 @@ roles:
           timeout: 1m
           critical: true
       - name: cleanup
+        enabled: "{{odc_partitions_cleanup == 'true'}}"
         call:
           func: odc.EnsureCleanup()
+          trigger: DESTROY
+          timeout: 1m
+          critical: false
+      - name: legacy-cleanup
+        enabled: "{{odc_partitions_cleanup == 'false'}}"
+        call:
+          func: odc.EnsureCleanupLegacy()
           trigger: DESTROY
           timeout: 1m
           critical: false
