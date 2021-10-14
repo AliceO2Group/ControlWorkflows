@@ -5,7 +5,7 @@ set -e;
 set -u;
 
 QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/ft0-full-qcmn.json'
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/ft0-full-qcmn-{{ it }}'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/ft0-full-qcmn'
 QC_CONFIG_PARAM='qc_config_uri'
 
 source helpers.sh
