@@ -444,6 +444,7 @@ defaults:
     panel: ALIECS_Workflows
     values:
       - none
+      - mid-qcmn-epn-digits
       - qcmn-daq-remote
   mid_dcs_sor_parameters: !public
     value: "{}"
