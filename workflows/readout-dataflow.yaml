@@ -223,6 +223,8 @@ defaults:
       - none
       - fv0-digits-qc-full
       - fv0-digits-qc-full-raw
+      - fv0-digits-qc-full-nocalib
+      - fv0-digits-qc-full-nocalib-raw
       - fv0-digits-pipe
       - fv0-digits-qc-ds-pipe
       - fv0-digits-qc-ds-pipe-raw
