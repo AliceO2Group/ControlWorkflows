@@ -11,7 +11,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_MERGER-RawTask1l-0_to_QC-CHECK-RUNNER-3Z80
+  - name: from_MERGER-RawTask1l-0_to_QC-CHECK-RUNNER-bY90
     type: push
     transport: shmem
     addressing: ipc
@@ -64,6 +64,8 @@ command:
     - "''"
     - "--config"
     - "'{{ qc_config_uri }}'"
+    - "--early-forward-policy"
+    - "'never'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
