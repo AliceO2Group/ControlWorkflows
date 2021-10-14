@@ -69,6 +69,8 @@ command:
     - "''"
     - "--configKeyValues"
     - "'HBFUtils.nHBFPerTF=128;'"
+    - "--early-forward-policy"
+    - "'never'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"

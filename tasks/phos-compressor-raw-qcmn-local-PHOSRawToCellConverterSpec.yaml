@@ -75,6 +75,8 @@ command:
     - "--configKeyValues"
     - "''"
     - "--disable-root-output"
+    - "--early-forward-policy"
+    - "'never'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"

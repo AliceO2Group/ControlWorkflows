@@ -59,6 +59,8 @@ command:
     - "''"
     - "--configKeyValues"
     - "''"
+    - "--early-forward-policy"
+    - "'never'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
