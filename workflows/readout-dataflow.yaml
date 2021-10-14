@@ -57,6 +57,7 @@ defaults:
       - cpv-compressor
       - cpv-qc-compressor
       - cpv-pedestal-calib-qc
+      - cpv-physics-testing
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
