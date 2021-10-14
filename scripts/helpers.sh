@@ -17,14 +17,35 @@ function add_qc_remote_machine_attribute() {
 
   # add the default for QC remote machine
   ESCAPED_QC_REMOTE_MACHINE=$(printf '%s\n' "$MACHINE" | sed -e 's/[\/&]/\\&/g')
-  sed -i /defaults:/\ a\\\ \\\ "qc_remote_machine":\ \""${ESCAPED_QC_REMOTE_MACHINE}"\" $FILE
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' "/defaults:/a\\
+  qc_remote_machine: \"${ESCAPED_QC_REMOTE_MACHINE}\"
+    " "$FILE"
+  else
+    sed -i /defaults:/\ a\\\ \\\ "qc_remote_machine":\ \""${ESCAPED_QC_REMOTE_MACHINE}"\" $FILE
+  fi
 
   # add the attribute
   if [ ! -z $(grep "constraints:" "$FILE") ]; then
     # we naively assume that the string is the leftmost level.
-    sed -i /constraints:/\ a\\\ \\\ -\ attribute:\ machine_id\\\n\ \ \ \ value:\ "\""{{\ qc_remote_machine\ }}"\"" $FILE
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      sed -i '' "/constraints:/a\\
+  - attribute: machine_id\\
+    value:\ \"{{\ qc_remote_machine\ }}\"
+" $FILE
+    else
+      sed -i /constraints:/\ a\\\ \\\ -\ attribute:\ machine_id\\\n\ \ \ \ value:\ "\""{{\ qc_remote_machine\ }}"\"" $FILE
+    fi
   else
-    sed -i /roles:/i\ \ constraints:\\\n\ \ -\ attribute:\ machine_id\\\n\ \ \ \ value:\ "\""{{\ qc_remote_machine\ }}"\"" $FILE
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      sed -i '' "/roles:/i\\
+constraints:\\
+  - attribute: machine_id\\
+    value:\ \"{{\ qc_remote_machine\ }}\"
+" $FILE
+    else
+      sed -i /roles:/i\ \ constraints:\\\n\ \ -\ attribute:\ machine_id\\\n\ \ \ \ value:\ "\""{{\ qc_remote_machine\ }}"\"" $FILE
+    fi
   fi
 }
 
