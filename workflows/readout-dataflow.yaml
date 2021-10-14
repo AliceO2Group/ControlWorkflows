@@ -197,6 +197,7 @@ defaults:
     panel: ALIECS_Workflows
     values:
       - none
+      - ft0-full-qcmn-remote
       - qcmn-daq-remote
   ft0_dcs_sor_parameters: !public
     value: "{}"

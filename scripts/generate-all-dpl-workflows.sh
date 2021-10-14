@@ -32,6 +32,7 @@ check_pwd
 ./fdd-digits-qc-ds.sh
 ./fdd-digits-qc.sh
 ./fdd-digits.sh
+./ft0-full-qcmn.sh
 ./ft0-digits-qc-full.sh
 ./ft0-digits-qc-full-raw.sh
 ./ft0-digits-pipe.sh
