@@ -5,8 +5,8 @@ set -u; # exit on undefined variable
 
 # Variables
 WF_NAME=ft0-digits-qc-full-nocalib-raw
-QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/ft0-digits-qc-full.json'
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/ft0-digits-qc-full-{{ it }}'
+QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/ft0-digits-qc-full-nocalib.json'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/ft0-digits-qc-full-nocalib-{{ it }}'
 QC_CONFIG_PARAM='qc_config_uri'
 
 DS_GEN_CONFIG_PATH='json://'`pwd`'/etc/ft0-digits-datasampling.json'

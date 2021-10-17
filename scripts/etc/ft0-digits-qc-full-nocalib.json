@@ -92,20 +92,7 @@
           "thresholdWarning": "1e-6",
           "thresholdError": "0.01"
         }
-      },
-      "CalibratedChannelTimeCheck": {
-          "active": "true",
-          "className": "o2::quality_control_modules::ft0::ChannelTimeCalibrationCheck",
-          "moduleName": "QcFT0",
-          "policy": "OnAny",
-          "detectorName": "FT0",
-          "dataSource": [{
-            "type": "Task",
-            "name": "CalibrationTask",
-            "MOs": ["Calibrated_time_per_channel"]
-          }],
-          "checkParameters": {"MeanWarning": 3, "MeanError": 5, "RMSWarning": 999, "RMSError": 999, "MinEntries": 0}
-        }
+      }
     },
     "postprocessing": {
      "BasicPPTask": {
