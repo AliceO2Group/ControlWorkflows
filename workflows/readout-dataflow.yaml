@@ -177,6 +177,8 @@ defaults:
       - none
       - ft0-digits-qc-full
       - ft0-digits-qc-full-raw
+      - ft0-digits-qc-full-nocalib
+      - ft0-digits-qc-full-nocalib-raw
       - ft0-digits-pipe
       - ft0-digits-qc-ds-pipe
       - ft0-digits-qc-ds-pipe-raw
