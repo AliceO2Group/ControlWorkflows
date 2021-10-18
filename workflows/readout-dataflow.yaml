@@ -1016,7 +1016,7 @@ defaults:
     description: "Commit hash or tag of O2DataProcessing to use"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 5
+    index: 2
     visibleif: $$pdp_config_option === "Repository hash"
   pdp_o2_data_processing_path: !public
     value: ""
