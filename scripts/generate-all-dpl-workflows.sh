@@ -68,6 +68,7 @@ check_pwd
 ./mft-raw-qcmn.sh
 ./mft-raw-direct-qcmn.sh
 ./mft-raw-qc.sh
+./mft-raw-cluster-qcmn.sh
 ./mid-raw-decoder.sh
 ./minimal-dpl.sh
 ./phos-compressor-raw-qc.sh
