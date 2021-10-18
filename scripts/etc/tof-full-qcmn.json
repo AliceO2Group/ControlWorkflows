@@ -60,7 +60,7 @@
         "localMachines": [
           "epn"
         ],
-        "remoteMachine": "alio2-cr1-qc01.cern.ch",
+        "remoteMachine": "alio2-cr1-qc03.cern.ch",
         "remotePort": "47708",
         "mergingMode": "delta",
         "localControl": "odc"
@@ -154,6 +154,38 @@
             ]
           }
         ]
+      },
+      "TOFRawsTime": {
+        "active": "true",
+        "className": "o2::quality_control_modules::tof::CheckRawTime",
+        "moduleName": "QcTOF",
+        "policy": "OnAny",
+        "detectorName": "TOF",
+        "dataSource": [
+          {
+            "type": "Task",
+            "name": "TaskDigits",
+            "MOs": [
+              "TOFRawsTime"
+            ]
+          }
+        ]
+      },
+      "TOFRawsToT": {
+        "active": "true",
+        "className": "o2::quality_control_modules::tof::CheckRawToT",
+        "moduleName": "QcTOF",
+        "policy": "OnAny",
+        "detectorName": "TOF",
+        "dataSource": [
+          {
+            "type": "Task",
+            "name": "TaskDigits",
+            "MOs": [
+              "TOFRawsToT"
+            ]
+          }
+        ]
       }
     }
   },
@@ -166,6 +198,26 @@
         "alio2-cr1-flp179"
       ],
       "query": "dataframe:TOF/CRAWDATA",
+      "samplingConditions": [
+        {
+          "condition": "random",
+          "fraction": "0.1",
+          "seed": "1234"
+        }
+      ],
+      "blocking": "false"
+    }
+  ],
+  "dataSamplingPolicies": [
+    {
+      "id": "digi-local",
+      "active": "true",
+      "machines": [
+        "epn",
+        "localhost"
+      ],
+      "port": "30333",
+      "query": "tofdigits:TOF/DIGITS/0;readoutwin:TOF/READOUTWINDOW/0",
       "samplingConditions": [
         {
           "condition": "random",
