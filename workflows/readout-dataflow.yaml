@@ -763,9 +763,17 @@ defaults:
     values:       
       - "Shifter"
       - "Expert"
-    index: 0  
-  odc_resources: !public
-    value: "{}"
+    index: -1  
+  odc_n_epns: !public
+    value: "10"
+    type: number
+    label: "# of EPNs"
+    description: "Number of EPNs to use"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 0
+  odc_resources:
+    value: "{"zone":"online", "n":N}"
     type: string
     label: "Resources"
     description: "EPN resources to be used"
@@ -783,6 +791,7 @@ defaults:
       - physics
       - topology
     index: 2
+  visibleif: $$pdp_panel_mode === "Expert"  
   pdp_config_option: !public
     value: "Repository hash"
     type: string
@@ -848,7 +857,7 @@ defaults:
       - "synchronous-workflow"
       - "synchronous-workflow-1numa"
     index: 8
-    visibleif: $$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path"
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_topology_description: !public
     value: "production/production.desc"
     type: string
