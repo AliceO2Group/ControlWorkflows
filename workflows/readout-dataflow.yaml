@@ -1300,6 +1300,8 @@ roles:
           critical: false
   - name: odc
     enabled: "{{odc_enabled == 'true'}}"
+    vars:
+      odc_resources: '{{odc_resources == "" ? "{\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}" : odc_resources }}'
     roles:
       - name: deploy
         enabled: "{{odc_partitions_cleanup == 'true'}}"
