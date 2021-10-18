@@ -984,6 +984,15 @@ defaults:
     panel: "EPN_Global_Processing"
     index: 19
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  odc_partitions_cleanup: !public
+    value: "true"
+    type: bool
+    label: "EPN partitions cleanup"
+    description: "If enabled, orphaned EPN partitions are cleaned up on environment deployment and shutdown"
+    widget: checkBox
+    panel: "EPN_Global_Processing"
+    index: 20
+    visibleif: $$pdp_panel_mode === "Expert"
   ###############################
   # PDP Panel
   ###############################
