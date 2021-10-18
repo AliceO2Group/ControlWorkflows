@@ -831,8 +831,8 @@ defaults:
     description: "Full path in the EPN shared home folder to O2DataProcessing repository"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 6
-    visibleif: $$pdp_config_option === "Repository path" && $$pdp_panel_mode === "Expert"
+    index: 2
+    visibleif: $$pdp_config_option === "Repository path"
   tfb_dd_mode: !public
     value: "processing"
     type: string
