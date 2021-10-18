@@ -814,7 +814,7 @@ defaults:
     values:
       - physics
       - topology
-    index: 2
+    index: 4
     visibleif: $$pdp_panel_mode === "Expert"  
   pdp_config_option: !public
     value: "Repository hash"
@@ -836,7 +836,7 @@ defaults:
     description: "Workflow name"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 4 
+    index: 2 
     visibleif: $$pdp_config_option === "Manual XML"
   pdp_o2_data_processing_hash: !public
     value: "v0.10"
