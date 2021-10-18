@@ -776,7 +776,7 @@ defaults:
     value: ""
     type: string
     label: "Resources"
-    description: "EPN resources to be used, defaults to '{"zone":"online", "n":N}' where N is the value set in '# of EPNs'"
+    description: "EPN resources to be used, defaults to '{\"zone\":\"online\", \"n\":N}' where N is the value set in '# of EPNs'"
     widget: editBox
     panel: "EPN_Global_Processing"
     index: 1
