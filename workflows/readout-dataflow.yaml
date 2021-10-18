@@ -791,7 +791,7 @@ defaults:
       - physics
       - topology
     index: 2
-  visibleif: $$pdp_panel_mode === "Expert"  
+    visibleif: $$pdp_panel_mode === "Expert"  
   pdp_config_option: !public
     value: "Repository hash"
     type: string
@@ -822,7 +822,7 @@ defaults:
     widget: editBox
     panel: "EPN_Global_Processing"
     index: 5
-    visibleif: $$pdp_config_option === "Repository hash" && $$pdp_panel_mode === "Expert"
+    visibleif: $$pdp_config_option === "Repository hash"
   pdp_o2_data_processing_path: !public
     value: ""
     type: string
