@@ -797,7 +797,7 @@ defaults:
     panel: "EPN_Global_Processing"
     index: 0
   odc_resources:
-    value: "{"zone":"online", "n":N}"
+    value: "{\"zone\":\"online\", \"n\":N}"
     type: string
     label: "Resources"
     description: "EPN resources to be used"
