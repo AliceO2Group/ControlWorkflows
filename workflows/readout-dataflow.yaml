@@ -666,11 +666,13 @@ defaults:
     panel: TRG
     index: 0  
   ctp_load_parameters: !public
-    value: ""
+    value: "GLOBAL.pd"
     type: string
     label: "CTP Configuration"
     description: "Configuration file for the CTP Global Run"
-    widget: editBox
+    widget: comboBox    
+    values:
+      - "GLOBAL.pd"
     panel: TRG
     index: 1
     visibleif: $$ctp_global_run_enabled === "true"
