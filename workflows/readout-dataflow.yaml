@@ -281,6 +281,9 @@ defaults:
       - none
       - its-qcmn-fhr-fee-remote
       - its-qcmn-fhr-fee-no-ds-remote
+      - its-qcmn-cluster-track-remote
+      - its-qcmn-flp-epn-remote
+      - its-qcmn-flp-epn-no-ds-remote
       - qcmn-daq-remote
   its_dcs_sor_parameters: !public
     value: "{}"

@@ -1,0 +1,121 @@
+name: its-qcmn-cluster-track-remote
+vars:
+  dpl_command: >-
+    o2-qc --config {{ qc_config_uri }} --remote -b
+defaults:
+  qc_remote_machine: "alio2-cr1-qme04"
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/its-qcmn-cluster-track"
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 10000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+constraints:
+  - attribute: machine_id
+    value: "{{ qc_remote_machine }}"
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: its-qcmn-cluster-track-remote-internal-dpl-clock
+  - name: "ITSClusterTask-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_ITSClusterTask-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_ITSClusterTask-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    bind:
+    - name: ITSClusterTask-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47705"
+    task:
+      load: its-qcmn-cluster-track-remote-ITSClusterTask-proxy
+  - name: "ITSTrackTask-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_ITSTrackTask-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_ITSTrackTask-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    bind:
+    - name: ITSTrackTask-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47706"
+    task:
+      load: its-qcmn-cluster-track-remote-ITSTrackTask-proxy
+  - name: "MERGER-ITSClusterTask1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MERGER-ITSClusterTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-ITSClusterTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_ITSClusterTask-proxy_to_MERGER-ITSClusterTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ITSClusterTask-proxy:from_ITSClusterTask-proxy_to_MERGER-ITSClusterTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: its-qcmn-cluster-track-remote-MERGER-ITSClusterTask1l-0
+  - name: "MERGER-ITSTrackTask1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MERGER-ITSTrackTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-ITSTrackTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_ITSTrackTask-proxy_to_MERGER-ITSTrackTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ITSTrackTask-proxy:from_ITSTrackTask-proxy_to_MERGER-ITSTrackTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: its-qcmn-cluster-track-remote-MERGER-ITSTrackTask1l-0
+  - name: "QC-CHECK-RUNNER-ITSClusterCheck"
+    connect:
+    - name: from_MERGER-ITSClusterTask1l-0_to_QC-CHECK-RUNNER-ITSClusterCheck
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MERGER-ITSClusterTask1l-0:from_MERGER-ITSClusterTask1l-0_to_QC-CHECK-RUNNER-ITSClusterCheck"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: its-qcmn-cluster-track-remote-QC-CHECK-RUNNER-ITSClusterCheck
+  - name: "QC-CHECK-RUNNER-ITSTrackCheck"
+    connect:
+    - name: from_MERGER-ITSTrackTask1l-0_to_QC-CHECK-RUNNER-ITSTrackCheck
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MERGER-ITSTrackTask1l-0:from_MERGER-ITSTrackTask1l-0_to_QC-CHECK-RUNNER-ITSTrackCheck"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: its-qcmn-cluster-track-remote-QC-CHECK-RUNNER-ITSTrackCheck
+  - name: "internal-dpl-injected-dummy-sink"
+    connect:
+    - name: from_QC-CHECK-RUNNER-ITSClusterCheck_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-ITSClusterCheck:from_QC-CHECK-RUNNER-ITSClusterCheck_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_QC-CHECK-RUNNER-ITSTrackCheck_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-ITSTrackCheck:from_QC-CHECK-RUNNER-ITSTrackCheck_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: its-qcmn-cluster-track-remote-internal-dpl-injected-dummy-sink
+  - name: fairmq-shmmonitor
+    enabled: "{{fmq_cleanup_enabled == 'true'}}"
+    task:
+      load: "fairmq-shmmonitor"
+      trigger: DESTROY
+      timeout: 10s
+      critical: false
