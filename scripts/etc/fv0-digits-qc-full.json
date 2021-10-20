@@ -1,0 +1,250 @@
+{
+  "qc": {
+    "config": {
+      "database": {
+        "implementation": "CCDB",
+        "host": "alio2-cr1-hv-qcdb1.cern.ch:8083",
+        "username": "not_applicable",
+        "password": "not_applicable",
+        "name": "not_applicable"
+      },
+      "Activity": {
+        "number": "42",
+        "type": "2"
+      },
+      "monitoring": {
+        "url": "influxdb-unix:///tmp/telegraf.sock"
+      },
+      "consul": {
+        "url": "alio2-cr1-hv-aliecs.cern.ch:8500"
+      },
+      "conditionDB": {
+        "url": "alio2-cr1-hv-qcdb1.cern.ch:8083"
+      },
+      "infologger": {                     "": "Configuration of the Infologger (optional).",
+        "filterDiscardDebug": "false",    "": "Set to true to discard debug and trace messages (default: false)",
+        "filterDiscardLevel": "21",       "": "Message at this level or above are discarded (default: 21 - Trace)"
+      }
+    },
+    "tasks": {
+      "DigitQcTask": {
+        "active": "true",
+        "className": "o2::quality_control_modules::fv0::DigitQcTask",
+        "moduleName": "QcFV0",
+        "detectorName": "FV0",
+        "cycleDurationSeconds": "60",
+        "maxNumberCycles": "-1",
+        "dataSource": {
+          "type": "direct",
+          "query": "digits:FV0/SUB_DIGITSBC/0;channels:FV0/SUB_DIGITSCH/0"
+        },
+        "taskParameters": {},
+        "resetAfterCycles": "1"
+      },
+      "TriggerQcTask": {
+        "active": "true",
+        "className": "o2::quality_control_modules::fv0::TriggerQcTask",
+        "moduleName": "QcFV0",
+        "detectorName": "FV0",
+        "cycleDurationSeconds": "60",
+        "maxNumberCycles": "-1",
+        "dataSource": {
+          "type": "direct",
+          "query": "digits:FV0/SUB_DIGITSBC/0;channels:FV0/SUB_DIGITSCH/0"
+        },
+        "taskParameters": {
+          "thresholdTimeLow":"-192",
+          "thresholdTimeHigh":"192",
+          "modeSide":"A+C",
+          "modeThresholdVar":"Ampl"
+        }
+      },
+      "CalibrationTask": {
+          "active": "true",
+          "className": "o2::quality_control_modules::fv0::CalibrationTask",
+          "moduleName": "QcFV0",
+          "detectorName": "FV0",
+          "mergingMode": "entire",
+          "cycleDurationSeconds": "60",
+          "maxNumberCycles": "-1",
+          "dataSource": {
+            "type": "direct",
+            "query": "digits:FV0/SUB_DIGITSBC/0;channels:FV0/SUB_DIGITSCH/0"
+          },
+          "taskParameters": {"CCDBUrl": "http://ccdb-test.cern.ch:8080"}
+        }
+    },
+    "checks": {
+      "CFDEffCheck": {
+        "active": "true",
+        "className": "o2::quality_control_modules::fv0::CFDEffCheck",
+        "moduleName": "QcFV0",
+        "policy": "OnAny",
+        "detectorName": "FV0",
+        "dataSource": [{
+          "type": "Task",
+          "name": "DigitQcTask",
+          "MOs": ["CFD_efficiency"]
+        }],
+        "checkParameters": {
+          "thresholdWarning": "0.99",
+          "thresholdError": "0.8"
+        }
+      },
+      "OutOfBunchCollCheck": {
+        "active": "true",
+        "className": "o2::quality_control_modules::fv0::OutOfBunchCollCheck",
+        "moduleName": "QcFV0",
+        "policy": "OnAny",
+        "detectorName": "FV0",
+        "dataSource": [{
+          "type": "PostProcessing",
+          "name": "OutOfBunchCollTask",
+          "MOs": ["OutOfBunchColl_TrgMinBias"]
+        }],
+        "checkParameters": {
+          "thresholdWarning": "1e-6",
+          "thresholdError": "0.01"
+        }
+      }
+    },
+    "postprocessing": {
+     "BasicPPTask": {
+        "active": "true",
+        "className": "o2::quality_control_modules::fv0::BasicPPTask",
+        "moduleName": "QcFV0",
+        "detectorName": "FV0",
+        "custom":{
+          "numOrbitsInTF": "256",
+          "cycleDurationMoName":"CycleDurationNTF"
+        },
+        "initTrigger": [
+          "newobject:qcdb:qc/FV0/MO/DigitQcTask/CycleDurationNTF"
+        ],
+        "updateTrigger": [
+          "newobject:qcdb:qc/FV0/MO/DigitQcTask/CycleDurationNTF"
+        ],
+        "stopTrigger": [
+          "userorcontrol"
+        ]
+      },
+      "OutOfBunchCollTask": {
+         "active": "true",
+         "className": "o2::quality_control_modules::fv0::OutOfBunchCollTask",
+         "moduleName": "QcFV0",
+         "detectorName": "FV0",
+         "initTrigger": [
+           "newobject:qcdb:qc/FV0/MO/DigitQcTask/OutOfBunchColl_TrgMinBias"
+         ],
+         "updateTrigger": [
+           "newobject:qcdb:qc/FV0/MO/DigitQcTask/OutOfBunchColl_TrgMinBias"
+         ],
+         "stopTrigger": [
+           "userorcontrol"
+         ]
+       },
+      "TrendPlusPlus": {
+        "active": "true",
+        "className": "o2::quality_control::postprocessing::TrendingTask",
+        "moduleName": "QcFV0",
+        "detectorName": "FV0",
+        "dataSources": [
+          {
+            "type": "repository",
+            "path": "qc/FV0/MO/DigitQcTask",
+            "names": [
+              "CycleDuration",
+              "CycleDurationNTF",
+              "Amp_channel0",
+              "Time_channel0",
+              "Amp_channel1",
+              "Time_channel1",
+              "Amp_channel2",
+              "Time_channel2",
+              "Amp_channel3",
+              "Time_channel3",
+              "Amp_channel4",
+              "Time_channel4",
+              "Amp_channel5",
+              "Time_channel5",
+              "Amp_channel6",
+              "Time_channel6",
+              "Amp_channel7",
+              "Time_channel7",
+              "Amp_channel8",
+              "Time_channel8",
+              "Amp_channel9",
+              "Time_channel9",
+              "Amp_channel10",
+              "Time_channel10",
+              "Amp_channel11",
+              "Time_channel11"
+            ],
+            "reductorName": "o2::quality_control_modules::common::TH1Reductor",
+            "moduleName": "QcCommon"
+          }
+        ],
+    "plots": [
+          {
+            "name": "trend_cycle_duration",
+            "title": "cycle duration [ns]",
+            "varexp": "CycleDuration.entries:time",
+            "selection": "",
+            "option": "*L"
+          },
+          {
+            "name": "trend_cycle_duration_ntf",
+            "title": "cycle duration [TimeFrames]",
+            "varexp": "CycleDurationNTF.entries:time",
+            "selection": "",
+            "option": "*L"
+          },
+          {
+            "name": "cycle_duration_corr",
+            "title": "cycle duration: ns/TF;time;cycle duration [ns/TimeFrames]",
+            "varexp": "CycleDuration.entries/CycleDurationNTF.entries:time",
+            "selection": "",
+            "option": "*L"
+          },
+          {
+            "name": "cycle_duration_ntf_corr",
+            "title": "TF duration [ns];#TF;TF duration [ns]",
+            "varexp": "CycleDuration.entries/CycleDurationNTF.entries:CycleDurationNTF.entries",
+            "selection": "",
+            "option": "colz"
+          },
+          {
+            "name": "trend_mean_amp0",
+            "title": "Mean trend of the amplitude, channel0",
+            "varexp": "Amp_channel0.mean:time",
+            "selection": "",
+            "option": "*L"
+          },
+          {
+            "name": "trend_mean_amp1",
+            "title": "Mean trend of the amplitude, channel1",
+            "varexp": "Amp_channel1.mean:time",
+            "selection": "",
+            "option": "*L"
+          },
+          {
+            "name": "trend_mean_amp2",
+            "title": "Mean trend of the amplitude, channel2",
+            "varexp": "Amp_channel2.mean:time",
+            "selection": "",
+            "option": "*L"
+          }
+        ],
+        "initTrigger": [
+          "newobject:qcdb:qc/FV0/MO/DigitQcTask/CycleDuration"
+        ],
+        "updateTrigger": [
+          "newobject:qcdb:qc/FV0/MO/DigitQcTask/CycleDuration"
+        ],
+        "stopTrigger": [
+          "userorcontrol"
+        ]
+      }
+    }
+  }
+}

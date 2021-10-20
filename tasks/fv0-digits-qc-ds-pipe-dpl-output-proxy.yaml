@@ -91,6 +91,8 @@ command:
     - "'bind'"
     - "--pipeline"
     - "''"
+    - "--proxy-channel-name"
+    - "'downstream'"
     - "--proxy-name"
     - "'dpl-output-proxy'"
     - "--readers"

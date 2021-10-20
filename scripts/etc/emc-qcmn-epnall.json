@@ -8,6 +8,10 @@
 			    "password": "not_applicable",
 			    "name": "not_applicable"
 			},
+			"infologger": {
+				"filterDiscardDebug": "true",
+				"filterDiscardLevel": "1"
+			},
 			"Activity": {
 			    "number": "42",
 			    "type": "2"
@@ -99,6 +103,36 @@
 						"type": "Task",
 						"name": "RawTask",
 						"MOs": ["ErrorTypePerSM"]
+					}
+				]
+			},
+			"RawPayloadCheck": {
+				"active": "true",
+				"className": "o2::quality_control_modules::emcal::RawCheck",
+				"moduleName": "QcEMCAL",
+				"policy": "OnEachSeparately",
+				"dataSource": [
+					{
+						"type": "Task",
+						"name": "RawTask",
+						"MOs": [
+							"PayloadSizeTFPerDDL"
+						]
+					}
+				]
+			},
+			"FECPayloadCheck": {
+				"active": "true",
+				"className": "o2::quality_control_modules::emcal::RawCheck",
+				"moduleName": "QcEMCAL",
+				"policy": "OnEachSeparately",
+				"dataSource": [
+					{
+						"type": "Task",
+						"name": "RawTask",
+						"MOs": [
+							"FECidMaxChWithInput_perSM"
+						]
 					}
 				]
 			},

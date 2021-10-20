@@ -32,6 +32,11 @@ check_pwd
 ./fdd-digits-qc-ds.sh
 ./fdd-digits-qc.sh
 ./fdd-digits.sh
+./ft0-qcmn.sh
+./ft0-digits-qc-full.sh
+./ft0-digits-qc-full-raw.sh
+./ft0-digits-qc-full-nocalib.sh
+./ft0-digits-qc-full-nocalib-raw.sh
 ./ft0-digits-pipe.sh
 ./ft0-digits-qc-ds-pipe.sh
 ./ft0-digits-qc-ds-pipe-raw.sh
@@ -40,6 +45,11 @@ check_pwd
 ./ft0-digits-qc-postproc-ds.sh
 ./ft0-digits-qc.sh
 ./ft0-digits.sh
+./fv0-qcmn.sh
+./fv0-digits-qc-full.sh
+./fv0-digits-qc-full-raw.sh
+./fv0-digits-qc-full-nocalib.sh
+./fv0-digits-qc-full-nocalib-raw.sh
 ./fv0-digits-pipe.sh
 ./fv0-digits-qc-ds-pipe.sh
 ./fv0-digits-qc-ds-pipe-raw.sh
@@ -59,6 +69,9 @@ check_pwd
 ./its-qcmn-fhr-fee.sh
 ./its-qc-fhr-fee-no-ds.sh
 ./its-qcmn-fhr-fee-no-ds.sh
+./its-qcmn-cluster-track.sh
+./its-qcmn-flp-epn.sh
+./its-qcmn-flp-epn-no-ds.sh
 ./mch-qcmn-flp-digits.sh
 ./mch-qcmn-epn-digits.sh
 ./mft-decoder.sh
@@ -68,7 +81,9 @@ check_pwd
 ./mft-raw-qcmn.sh
 ./mft-raw-direct-qcmn.sh
 ./mft-raw-qc.sh
+./mft-raw-cluster-qcmn.sh
 ./mid-raw-decoder.sh
+./mid-qcmn-epn-digits.sh
 ./minimal-dpl.sh
 ./phos-compressor-raw-qc.sh
 ./phos-compressor-raw-qcmn.sh

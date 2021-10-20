@@ -176,6 +176,10 @@ defaults:
     panel: ALIECS_Workflows
     values:
       - none
+      - ft0-digits-qc-full
+      - ft0-digits-qc-full-raw
+      - ft0-digits-qc-full-nocalib
+      - ft0-digits-qc-full-nocalib-raw
       - ft0-digits-pipe
       - ft0-digits-qc-ds-pipe
       - ft0-digits-qc-ds-pipe-raw
@@ -196,6 +200,7 @@ defaults:
     panel: ALIECS_Workflows
     values:
       - none
+      - ft0-qcmn-remote
       - qcmn-daq-remote
   ft0_dcs_sor_parameters: !public
     value: "{}"
@@ -220,6 +225,10 @@ defaults:
     panel: ALIECS_Workflows
     values:
       - none
+      - fv0-digits-qc-full
+      - fv0-digits-qc-full-raw
+      - fv0-digits-qc-full-nocalib
+      - fv0-digits-qc-full-nocalib-raw
       - fv0-digits-pipe
       - fv0-digits-qc-ds-pipe
       - fv0-digits-qc-ds-pipe-raw
@@ -240,6 +249,7 @@ defaults:
     panel: ALIECS_Workflows
     values:
       - none
+      - fv0-qcmn-remote
       - qcmn-daq-remote
   fv0_dcs_sor_parameters: !public
     value: "{}"
@@ -282,6 +292,9 @@ defaults:
       - none
       - its-qcmn-fhr-fee-remote
       - its-qcmn-fhr-fee-no-ds-remote
+      - its-qcmn-cluster-track-remote
+      - its-qcmn-flp-epn-remote
+      - its-qcmn-flp-epn-no-ds-remote
       - qcmn-daq-remote
   its_dcs_sor_parameters: !public
     value: "{}"
@@ -391,6 +404,7 @@ defaults:
       - mft-raw-qc
       - mft-raw-qcmn-local
       - mft-full-qcmn-local
+      - mft-raw-cluster-qcmn-local
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -406,6 +420,7 @@ defaults:
       - mft-raw-direct-qcmn-remote
       - mft-raw-qcmn-remote
       - mft-full-qcmn-remote
+      - mft-raw-cluster-qcmn-remote
       - qcmn-daq-remote
   mft_dcs_sor_parameters: !public
     value: "{}"
@@ -443,6 +458,7 @@ defaults:
     panel: ALIECS_Workflows
     values:
       - none
+      - mid-qcmn-epn-digits
       - qcmn-daq-remote
   mid_dcs_sor_parameters: !public
     value: "{}"
@@ -664,11 +680,13 @@ defaults:
     panel: TRG
     index: 0  
   ctp_load_parameters: !public
-    value: ""
+    value: "GLOBAL.pd"
     type: string
     label: "CTP Configuration"
     description: "Configuration file for the CTP Global Run"
-    widget: editBox
+    widget: comboBox    
+    values:
+      - "GLOBAL.pd"
     panel: TRG
     index: 1
     visibleif: $$ctp_global_run_enabled === "true"
@@ -1055,7 +1073,7 @@ roles:
         call:
           func: dcs.StartOfRun()
           trigger: enter_RUNNING
-          timeout: 30s
+          timeout: 120s
           critical: true
       - name: eor
         call:
