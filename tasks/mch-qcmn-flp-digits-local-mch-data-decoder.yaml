@@ -116,5 +116,7 @@ command:
     - "''"
     - "--cru-map"
     - "''"
+    - "--error-log-frequency"
+    - "'6000'"
     - "--fec-map"
     - "''"
