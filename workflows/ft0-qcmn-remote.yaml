@@ -1,10 +1,10 @@
-name: ft0-full-qcmn-remote
+name: ft0-qcmn-remote
 vars:
   dpl_command: >-
     o2-qc --config {{ qc_config_uri }} --remote -b
 defaults:
-  qc_remote_machine: "alio2-cr1-qc04"
-  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/ft0-full-qcmn"
+  qc_remote_machine: "alio2-cr1-qme02"
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/ft0-qcmn"
   monitoring_dpl_url: "no-op://"
   user: "flp"
   fmq_rate_logging: 0
@@ -19,7 +19,7 @@ roles:
   - name: "internal-dpl-clock"
     connect:
     task:
-      load: ft0-full-qcmn-remote-internal-dpl-clock
+      load: ft0-qcmn-remote-internal-dpl-clock
   - name: "DigitQcTaskFT0-proxy"
     connect:
     - name: from_internal-dpl-clock_to_DigitQcTaskFT0-proxy
@@ -35,7 +35,7 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47721"
     task:
-      load: ft0-full-qcmn-remote-DigitQcTaskFT0-proxy
+      load: ft0-qcmn-remote-DigitQcTaskFT0-proxy
   - name: "MERGER-DigitQcTaskFT01l-0"
     connect:
     - name: from_internal-dpl-clock_to_MERGER-DigitQcTaskFT01l-0
@@ -49,7 +49,7 @@ roles:
       target: "{{ Parent().Path }}.DigitQcTaskFT0-proxy:from_DigitQcTaskFT0-proxy_to_MERGER-DigitQcTaskFT01l-0"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: ft0-full-qcmn-remote-MERGER-DigitQcTaskFT01l-0
+      load: ft0-qcmn-remote-MERGER-DigitQcTaskFT01l-0
   - name: "QC-CHECK-RUNNER-sink-QC_DigitQcTaskFT-mo_0"
     connect:
     - name: from_MERGER-DigitQcTaskFT01l-0_to_QC-CHECK-RUNNER-sink-QC_DigitQcTaskFT-mo_0
@@ -58,7 +58,7 @@ roles:
       target: "{{ Parent().Path }}.MERGER-DigitQcTaskFT01l-0:from_MERGER-DigitQcTaskFT01l-0_to_QC-CHECK-RUNNER-sink-QC_DigitQcTaskFT-mo_0"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: ft0-full-qcmn-remote-QC-CHECK-RUNNER-sink-QC_DigitQcTaskFT-mo_0
+      load: ft0-qcmn-remote-QC-CHECK-RUNNER-sink-QC_DigitQcTaskFT-mo_0
   - name: fairmq-shmmonitor
     enabled: "{{fmq_cleanup_enabled == 'true'}}"
     task:

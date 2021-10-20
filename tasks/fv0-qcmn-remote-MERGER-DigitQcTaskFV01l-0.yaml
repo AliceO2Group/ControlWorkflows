@@ -1,4 +1,4 @@
-name: ft0-full-qcmn-remote-DigitQcTaskFT0-proxy
+name: fv0-qcmn-remote-MERGER-DigitQcTaskFV01l-0
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,17 +11,11 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_DigitQcTaskFT0-proxy_to_MERGER-DigitQcTaskFT01l-0
+  - name: from_MERGER-DigitQcTaskFV01l-0_to_QC-CHECK-RUNNER-sink-QC_DigitQcTaskFV-mo_0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: DigitQcTaskFT0-proxy
-    type: sub
-    transport: zeromq
-    addressing: tcp
-    rateLogging: "{{ fmq_rate_logging }}"
-    target: "tcp://*:47721"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -47,7 +41,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'DigitQcTaskFT0-proxy'"
+    - "'MERGER-DigitQcTaskFV01l-0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -70,6 +64,8 @@ command:
     - "''"
     - "--config"
     - "'{{ qc_config_uri }}'"
+    - "--early-forward-policy"
+    - "'never'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
@@ -111,13 +107,5 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--end-value-enumeration"
-    - "-1"
-    - "--orbit-multiplier-enumeration"
-    - "'0'"
-    - "--orbit-offset-enumeration"
-    - "'0'"
-    - "--start-value-enumeration"
-    - "'0'"
-    - "--step-value-enumeration"
-    - "'1'"
+    - "--period-timer-publish"
+    - "'60000000'"
