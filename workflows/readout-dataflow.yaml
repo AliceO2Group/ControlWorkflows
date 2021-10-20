@@ -1071,7 +1071,7 @@ roles:
         call:
           func: dcs.StartOfRun()
           trigger: enter_RUNNING
-          timeout: 30s
+          timeout: 120s
           critical: true
       - name: eor
         call:
