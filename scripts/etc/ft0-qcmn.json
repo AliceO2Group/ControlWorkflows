@@ -29,7 +29,7 @@
           "moduleName": "QcFT0",
           "detectorName": "FT0",
           "cycleDurationSeconds": "60",
-          "maxNumberCycles": "-1"
+          "maxNumberCycles": "-1",
           "dataSource": {
               "type": "dataSamplingPolicy",
               "name": "ft0-digits"
