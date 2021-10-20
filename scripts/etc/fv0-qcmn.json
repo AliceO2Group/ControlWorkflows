@@ -23,16 +23,16 @@
         }
       },
       "tasks": {
-        "DigitQcTaskFT0": {
+        "DigitQcTaskFV0": {
           "active": "true",
-          "className": "o2::quality_control_modules::ft0::DigitQcTask",
-          "moduleName": "QcFT0",
-          "detectorName": "FT0",
+          "className": "o2::quality_control_modules::fv0::DigitQcTask",
+          "moduleName": "QcFV0",
+          "detectorName": "FV0",
           "cycleDurationSeconds": "60",
           "maxNumberCycles": "-1",
           "dataSource": {
               "type": "dataSamplingPolicy",
-              "name": "ft0-digits"
+              "name": "fv0-digits"
             },
           "taskParameters": {
             "ChannelIDs": "0,1,2,3,4,5,6,7,8,9,10,11"
@@ -41,8 +41,8 @@
           "localMachines": [
             "epn"
           ],
-          "remoteMachine": "alio2-cr1-qc04.cern.ch",
-          "remotePort": "47721",
+          "remoteMachine": "alio2-cr1-qme02.cern.ch",
+          "remotePort": "47722",
           "mergingMode": "delta",
           "localControl": "odc"
         }
@@ -50,11 +50,11 @@
   },
   "dataSamplingPolicies": [
     {
-      "id": "ft0-digits",
+      "id": "fv0-digits",
       "active": "true",
       "machines": [],
       "query_comment" : "query is in the format of binding1:origin1/description1/subSpec1[;binding2:...]",
-      "query": "digits:FT0/DIGITSBC/0;channels:FT0/DIGITSCH/0",
+      "query": "digits:FV0/DIGITSBC/0;channels:FV0/DIGITSCH/0",
       "samplingConditions": [
         {
           "condition": "random",
