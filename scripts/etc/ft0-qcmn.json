@@ -29,8 +29,7 @@
           "moduleName": "QcFT0",
           "detectorName": "FT0",
           "cycleDurationSeconds": "60",
-          "maxNumberCycles": "-1",
-          "resetAfterCycles": "1",
+          "maxNumberCycles": "-1"
           "dataSource": {
               "type": "dataSamplingPolicy",
               "name": "ft0-digits"
@@ -44,7 +43,7 @@
           ],
           "remoteMachine": "alio2-cr1-qme02.cern.ch",
           "remotePort": "47721",
-          "mergingMode": "entire",
+          "mergingMode": "delta",
           "localControl": "odc"
         }
       }
