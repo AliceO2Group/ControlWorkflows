@@ -71,6 +71,8 @@ command:
     - "'{{ ds_config_uri }}'"
     - "--dispatchers"
     - "'1'"
+    - "--early-forward-policy"
+    - "'never'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"

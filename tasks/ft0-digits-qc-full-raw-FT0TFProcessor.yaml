@@ -68,6 +68,8 @@ command:
     - "--clone"
     - "''"
     - "--dispatcher-mode"
+    - "--early-forward-policy"
+    - "'never'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"
