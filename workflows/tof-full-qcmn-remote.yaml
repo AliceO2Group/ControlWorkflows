@@ -89,6 +89,15 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: tof-full-qcmn-remote-MERGER-TaskRaw1l-0
+  - name: "QC-CHECK-RUNNER-3920"
+    connect:
+    - name: from_MERGER-TaskDigits1l-0_to_QC-CHECK-RUNNER-3920
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MERGER-TaskDigits1l-0:from_MERGER-TaskDigits1l-0_to_QC-CHECK-RUNNER-3920"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: tof-full-qcmn-remote-QC-CHECK-RUNNER-3920
   - name: "QC-CHECK-RUNNER-JRA0"
     connect:
     - name: from_MERGER-TaskRaw1l-0_to_QC-CHECK-RUNNER-JRA0
@@ -98,15 +107,6 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: tof-full-qcmn-remote-QC-CHECK-RUNNER-JRA0
-  - name: "QC-CHECK-RUNNER-CheckRawMultiplicity"
-    connect:
-    - name: from_MERGER-TaskDigits1l-0_to_QC-CHECK-RUNNER-CheckRawMultiplicity
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.MERGER-TaskDigits1l-0:from_MERGER-TaskDigits1l-0_to_QC-CHECK-RUNNER-CheckRawMultiplicity"
-      rateLogging: "{{ fmq_rate_logging }}"
-    task:
-      load: tof-full-qcmn-remote-QC-CHECK-RUNNER-CheckRawMultiplicity
   - name: "QC-CHECK-RUNNER-sink-QC_TOFTrendingHi-mo_0"
     connect:
     - name: from_PP-TASK-RUNNER-TOFTrendingHits_to_QC-CHECK-RUNNER-sink-QC_TOFTrendingHi-mo_0
@@ -118,15 +118,15 @@ roles:
       load: tof-full-qcmn-remote-QC-CHECK-RUNNER-sink-QC_TOFTrendingHi-mo_0
   - name: "internal-dpl-injected-dummy-sink"
     connect:
+    - name: from_QC-CHECK-RUNNER-3920_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-3920:from_QC-CHECK-RUNNER-3920_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
     - name: from_QC-CHECK-RUNNER-JRA0_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.QC-CHECK-RUNNER-JRA0:from_QC-CHECK-RUNNER-JRA0_to_internal-dpl-injected-dummy-sink"
-      rateLogging: "{{ fmq_rate_logging }}"
-    - name: from_QC-CHECK-RUNNER-CheckRawMultiplicity_to_internal-dpl-injected-dummy-sink
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-CheckRawMultiplicity:from_QC-CHECK-RUNNER-CheckRawMultiplicity_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: tof-full-qcmn-remote-internal-dpl-injected-dummy-sink
