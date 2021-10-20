@@ -175,6 +175,10 @@ defaults:
     panel: ALIECS_Workflows
     values:
       - none
+      - ft0-digits-qc-full
+      - ft0-digits-qc-full-raw
+      - ft0-digits-qc-full-nocalib
+      - ft0-digits-qc-full-nocalib-raw
       - ft0-digits-pipe
       - ft0-digits-qc-ds-pipe
       - ft0-digits-qc-ds-pipe-raw
@@ -195,6 +199,7 @@ defaults:
     panel: ALIECS_Workflows
     values:
       - none
+      - ft0-full-qcmn-remote
       - qcmn-daq-remote
   ft0_dcs_sor_parameters: !public
     value: "{}"
@@ -219,6 +224,10 @@ defaults:
     panel: ALIECS_Workflows
     values:
       - none
+      - fv0-digits-qc-full
+      - fv0-digits-qc-full-raw
+      - fv0-digits-qc-full-nocalib
+      - fv0-digits-qc-full-nocalib-raw
       - fv0-digits-pipe
       - fv0-digits-qc-ds-pipe
       - fv0-digits-qc-ds-pipe-raw
