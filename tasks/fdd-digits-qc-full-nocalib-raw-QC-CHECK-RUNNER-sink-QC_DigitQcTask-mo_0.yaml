@@ -1,26 +1,16 @@
-name: fdd-digits-qc-ds-pipe-fdd-datareader-dpl_t0
+name: fdd-digits-qc-full-nocalib-raw-QC-CHECK-RUNNER-sink-QC_DigitQcTask-mo_0
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-fdd-flp-dpl-workflow
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-fdd-flp-dpl-workflow"
+    {{ dpl_command }} | o2-qc
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_fdd-datareader-dpl_t0_to_FDDDigitWriterRaw
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_fdd-datareader-dpl_t0_to_dpl-output-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -46,7 +36,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'fdd-datareader-dpl_t0'"
+    - "'QC-CHECK-RUNNER-sink-QC_DigitQcTask-mo_0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -67,8 +57,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--configKeyValues"
-    - "''"
+    - "--config"
+    - "'{{ qc_config_uri }}'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -83,12 +73,18 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--host"
+    - "''"
     - "--labels"
     - "''"
+    - "--local-batch"
+    - "''"
     - "--pipeline"
-    - "'fdd-datareader-dpl:5'"
+    - "''"
     - "--readers"
     - "'1'"
+    - "--remote-batch"
+    - "''"
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"
@@ -105,15 +101,3 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--ccdb-path"
-    - "''"
-    - "--lut-path"
-    - "''"
-    - "--reserve-map-dig"
-    - "'0'"
-    - "--reserve-vec-buffer"
-    - "'0'"
-    - "--reserve-vec-chdata"
-    - "'0'"
-    - "--reserve-vec-dig"
-    - "'0'"
