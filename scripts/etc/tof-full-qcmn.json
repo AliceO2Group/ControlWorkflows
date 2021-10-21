@@ -105,7 +105,7 @@
     },
     "checks": {
       "CheckDiagnostics": {
-        "active": "true",
+        "active": "false",
         "className": "o2::quality_control_modules::tof::CheckDiagnostics",
         "moduleName": "QcTOF",
         "detectorName": "TOF",
@@ -121,7 +121,7 @@
         ]
       },
       "CheckCompressedData": {
-        "active": "true",
+        "active": "false",
         "className": "o2::quality_control_modules::tof::CheckCompressedData",
         "moduleName": "QcTOF",
         "detectorName": "TOF",
@@ -140,7 +140,7 @@
         ]
       },
       "CheckRawMultiplicity": {
-        "active": "true",
+        "active": "false",
         "className": "o2::quality_control_modules::tof::CheckRawMultiplicity",
         "moduleName": "QcTOF",
         "policy": "OnAny",
@@ -156,7 +156,7 @@
         ]
       },
       "TOFRawsTime": {
-        "active": "true",
+        "active": "false",
         "className": "o2::quality_control_modules::tof::CheckRawTime",
         "moduleName": "QcTOF",
         "policy": "OnAny",
@@ -172,7 +172,7 @@
         ]
       },
       "TOFRawsToT": {
-        "active": "true",
+        "active": "false",
         "className": "o2::quality_control_modules::tof::CheckRawToT",
         "moduleName": "QcTOF",
         "policy": "OnAny",
