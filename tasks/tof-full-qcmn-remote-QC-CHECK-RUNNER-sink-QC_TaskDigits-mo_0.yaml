@@ -1,4 +1,4 @@
-name: tof-full-qcmn-remote-MERGER-TaskDigits1l-0
+name: tof-full-qcmn-remote-QC-CHECK-RUNNER-sink-QC_TaskDigits-mo_0
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,11 +11,6 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_MERGER-TaskDigits1l-0_to_QC-CHECK-RUNNER-sink-QC_TaskDigits-mo_0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -41,7 +36,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'MERGER-TaskDigits1l-0'"
+    - "'QC-CHECK-RUNNER-sink-QC_TaskDigits-mo_0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -107,5 +102,3 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-publish"
-    - "'60000000'"
