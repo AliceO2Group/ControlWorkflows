@@ -36,7 +36,7 @@ defaults:
     index: 100
   ###############################
   # DCS and FLP Processing Panel
-  ###############################    
+  ###############################
   qc_remote_enabled: !public # TODO: if false, all per-detector remote QC workflows vars should be disabled
     value: "false"
     type: bool
@@ -683,13 +683,13 @@ defaults:
     description: "If enabled, send commands to CTS. If disabled, send commands to LTU."
     widget: checkBox
     panel: TRG
-    index: 0  
+    index: 0
   trg_load_parameters: !public
     value: "GLOBAL.pd"
     type: string
     label: "TRG Configuration"
     description: "Configuration file for the TRG/CTP Global Run"
-    widget: comboBox    
+    widget: comboBox
     values:
       - "GLOBAL.pd"
     panel: TRG
@@ -704,7 +704,7 @@ defaults:
     panel: TRG
     visibleif: $$trg_global_run_enabled === "false"
     index: 2
-  # !! Not used by the ctpd !! 
+  # !! Not used by the ctpd !!
   # trg_run_mode: !public
   #   value: "none"
   #   type: string
@@ -753,7 +753,7 @@ defaults:
       - "debug3"
       - "debug4"
       - "trace"
-    index: 1 
+    index: 1
   log_task_output: !public
     value: none
     type: string
@@ -776,7 +776,7 @@ defaults:
     index: 3
   ###############################
   # EPN Global Processing Panel
-  ###############################        
+  ###############################
   pdp_panel_mode: !public
     value: "Shifter"
     type: string
@@ -784,10 +784,10 @@ defaults:
     description: ""
     widget: radioButtonBox
     panel: "EPN_Global_Processing"
-    values:       
+    values:
       - "Shifter"
       - "Expert"
-    index: -1  
+    index: -1000
   odc_n_epns: !public
     value: "10"
     type: number
@@ -795,7 +795,7 @@ defaults:
     description: "Number of EPNs to use"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 0
+    index: -999
   odc_resources: !public
     value: ""
     type: string
@@ -803,7 +803,7 @@ defaults:
     description: "EPN resources to be used, defaults to '{\"zone\":\"online\", \"n\":N}' where N is the value set in '# of EPNs'"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 1
+    index: 3
     visibleif: $$pdp_panel_mode === "Expert"
   stfb_dd_mode: !public
     value: "physics"
@@ -822,22 +822,22 @@ defaults:
     type: string
     label: "Workflow configuration mode"
     description: ""
-    widget: radioButtonBox
+    widget: dropDownBox
     panel: "EPN_Global_Processing"
-    values:       
+    values:
       - "Repository hash"
       - "Repository path"
       - "Manual XML"
-    index: 3
+    index: -800
     visibleif: $$pdp_panel_mode === "Expert"
   odc_topology: !public
     value: ""
     type: string
     label: "Topology"
-    description: "Workflow name"
+    description: "DDS topology name to be executed on EPNs"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 2 
+    index: 2
     visibleif: $$pdp_config_option === "Manual XML"
   pdp_o2_data_processing_hash: !public
     value: "v0.10"
@@ -869,28 +869,28 @@ defaults:
       - disk
       - processing
       - processing-disk
-    index: 7        
+    index: 7
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_workflow_name: !public
     value: "synchronous-workflow-1numa"
     type: string
     label: "Workflow name"
-    description: "Workflow name in the Topology description library file"
+    description: "Workflow name in the topology description library file"
     widget: comboBox
     panel: "EPN_Global_Processing"
-    values: 
+    values:
       - "synchronous-workflow"
       - "synchronous-workflow-1numa"
     index: 8
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
-  pdp_topology_description: !public
+  pdp_topology_description_library_file: !public
     value: "production/production.desc"
     type: string
     label: "Topology description library file"
     description: "Topology description file in O2DataProcessing repository"
     widget: comboBox
     panel: "EPN_Global_Processing"
-    values: 
+    values:
       - "production/production.desc"
     index: 9
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
@@ -964,7 +964,7 @@ defaults:
     description: "Multiply the number of instances of other reconstruction processes by this factor"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 17    
+    index: 17
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_extra_env_vars: !public
     value: ""
@@ -1003,13 +1003,13 @@ defaults:
   fmq_initial_shm_cleanup_enabled: "true"
   fmq_initial_shm_cleanup_timeout: "30s"
   fmq_cleanup_enabled: "true"
-  minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow 
-  monitoring_dd_url: "no-op://"  
+  minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow
+  monitoring_dd_url: "no-op://"
   monitoring_dpl_url: "no-op://"
   monitoring_qc_url: "no-op://"
-  monitoring_readout_url: "no-op://" # TODO: is this used somewhere ? I could not find it anywhere in the workflows 
+  monitoring_readout_url: "no-op://" # TODO: is this used somewhere ? I could not find it anywhere in the workflows
   o2_install_path: "/opt/o2"
-  o2_infologger_path: "/opt/o2-InfoLogger"    
+  o2_infologger_path: "/opt/o2-InfoLogger"
   odc_plugin: "epn"
   qcdd_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
   roc_cleanup_enabled: "true"
@@ -1019,6 +1019,9 @@ defaults:
 vars:
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
+  pdp_detectors_global: "{{detectors}}"
+  pdp_detectors_qc: "{{detectors}}"
+  pdp_detectors_calib: "{{detectors}}"
 roles:
   - name: host-{{ it }}
     for:
@@ -1096,7 +1099,7 @@ roles:
                 transport: shmem
                 addressing: ipc
                 sndBufSize: "4"
-                global: "readout-proxy-{{ it }}"            
+                global: "readout-proxy-{{ it }}"
             task:
               #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
               load: stfbuilder
@@ -1114,7 +1117,7 @@ roles:
               load: stfsender
           - name: dpl
             enabled: "{{ qcdd_enabled == 'true' }}"
-            include: qc-daq            
+            include: qc-daq
           - name: dpl
             enabled: "{{ minimal_dpl_enabled == 'true' }}"
             include: minimal-dpl
@@ -1202,7 +1205,7 @@ roles:
             include: "{{ qc_remote_workflow }}"
           # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list
           # however if the {{det}}_qc_remote_workflow is none there is a ghost role deployed which is never active
-          # for that cases we deploy a plain echo task which will transition the role and eventually the wf to active 
+          # for that cases we deploy a plain echo task which will transition the role and eventually the wf to active
           - name: echo task
             enabled: "{{ qc_remote_workflow == 'none' }}"
             vars:
@@ -1247,7 +1250,7 @@ roles:
           - CALIBRATION_DIGITAL_SCAN
           - CALIBRATION_ANALOG_SCAN
           - CALIBRATION_FHR
-          - CALIBRATION_ALPIDE_SCAN	  
+          - CALIBRATION_ALPIDE_SCAN
           - LASER
           - PEDESTAL
           - PHYSICS
@@ -1255,7 +1258,7 @@ roles:
           - TECHNICAL
         index: 4
     roles:
-      - name: sor      
+      - name: sor
         call:
           func: dcs.StartOfRun()
           trigger: enter_RUNNING
