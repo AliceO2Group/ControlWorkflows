@@ -1,26 +1,22 @@
-name: fdd-digits-qc-ds-pipe-fdd-datareader-dpl_t0
+name: fdd-digits-qc-full-nocalib-dpl-output-proxy
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-fdd-flp-dpl-workflow
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-fdd-flp-dpl-workflow"
+    {{ dpl_command }} | o2-dpl-output-proxy
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-dpl-output-proxy"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_fdd-datareader-dpl_t0_to_FDDDigitWriterRaw
+  - name: downstream
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_fdd-datareader-dpl_t0_to_dpl-output-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
+    global: "downstream-{{ it }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -46,7 +42,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'fdd-datareader-dpl_t0'"
+    - "'dpl-output-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -67,8 +63,12 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--configKeyValues"
-    - "''"
+    - "--dataspec"
+    - "'digits:FDD/DIGITSBC/0;channels:FDD/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "--default-port"
+    - "'4200'"
+    - "--default-transport"
+    - "'shmem'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -85,8 +85,16 @@ command:
     - "'dangling'"
     - "--labels"
     - "''"
+    - "--output-proxy-address"
+    - "'0.0.0.0'"
+    - "--output-proxy-method"
+    - "'bind'"
     - "--pipeline"
-    - "'fdd-datareader-dpl:5'"
+    - "''"
+    - "--proxy-channel-name"
+    - "'downstream'"
+    - "--proxy-name"
+    - "'dpl-output-proxy'"
     - "--readers"
     - "'1'"
     - "--severity"
@@ -105,15 +113,3 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--ccdb-path"
-    - "''"
-    - "--lut-path"
-    - "''"
-    - "--reserve-map-dig"
-    - "'0'"
-    - "--reserve-vec-buffer"
-    - "'0'"
-    - "--reserve-vec-chdata"
-    - "'0'"
-    - "--reserve-vec-dig"
-    - "'0'"

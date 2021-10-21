@@ -1,7 +1,7 @@
 name: fdd-digits-qc-ds-pipe
 vars:
   dpl_command: >-
-    o2-dpl-raw-proxy -b --session default --dataspec 'A1:FDD/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' --pipeline readout-proxy:5 | o2-fdd-flp-dpl-workflow -b --session default --disable-root-output --pipeline fdd-datareader-dpl:5 | o2-dpl-output-proxy -b --session default --dataspec 'digits:FDD/DIGITSBC/0;channels:FDD/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' | o2-qc --config {{ qc_config_uri }} -b
+    o2-dpl-raw-proxy -b --session default --dataspec 'A1:FDD/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' --pipeline readout-proxy:5 | o2-fdd-flp-dpl-workflow -b --session default --output-dir=/tmp --nevents 10000 --pipeline fdd-datareader-dpl:5 | o2-dpl-output-proxy -b --session default --dataspec 'digits:FDD/DIGITSBC/0;channels:FDD/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' | o2-qc --config {{ qc_config_uri }} -b
 defaults:
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/fdd-digits-qc-ds-{{ it }}"
   monitoring_dpl_url: "no-op://"
@@ -231,6 +231,35 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: fdd-digits-qc-ds-pipe-fdd-datareader-dpl_t4
+  - name: "FDDDigitWriterRaw"
+    connect:
+    - name: from_fdd-datareader-dpl_t0_to_FDDDigitWriterRaw
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.fdd-datareader-dpl_t0:from_fdd-datareader-dpl_t0_to_FDDDigitWriterRaw"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_fdd-datareader-dpl_t1_to_FDDDigitWriterRaw
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.fdd-datareader-dpl_t1:from_fdd-datareader-dpl_t1_to_FDDDigitWriterRaw"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_fdd-datareader-dpl_t2_to_FDDDigitWriterRaw
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.fdd-datareader-dpl_t2:from_fdd-datareader-dpl_t2_to_FDDDigitWriterRaw"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_fdd-datareader-dpl_t3_to_FDDDigitWriterRaw
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.fdd-datareader-dpl_t3:from_fdd-datareader-dpl_t3_to_FDDDigitWriterRaw"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: from_fdd-datareader-dpl_t4_to_FDDDigitWriterRaw
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.fdd-datareader-dpl_t4:from_fdd-datareader-dpl_t4_to_FDDDigitWriterRaw"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: fdd-digits-qc-ds-pipe-FDDDigitWriterRaw
   - name: "Dispatcher"
     connect:
     - name: from_internal-dpl-clock_to_Dispatcher
@@ -238,30 +267,10 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
       rateLogging: "{{ fmq_rate_logging }}"
-    - name: from_fdd-datareader-dpl_t0_to_Dispatcher
+    - name: from_FDDDigitWriterRaw_to_Dispatcher
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.fdd-datareader-dpl_t0:from_fdd-datareader-dpl_t0_to_Dispatcher"
-      rateLogging: "{{ fmq_rate_logging }}"
-    - name: from_fdd-datareader-dpl_t1_to_Dispatcher
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.fdd-datareader-dpl_t1:from_fdd-datareader-dpl_t1_to_Dispatcher"
-      rateLogging: "{{ fmq_rate_logging }}"
-    - name: from_fdd-datareader-dpl_t2_to_Dispatcher
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.fdd-datareader-dpl_t2:from_fdd-datareader-dpl_t2_to_Dispatcher"
-      rateLogging: "{{ fmq_rate_logging }}"
-    - name: from_fdd-datareader-dpl_t3_to_Dispatcher
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.fdd-datareader-dpl_t3:from_fdd-datareader-dpl_t3_to_Dispatcher"
-      rateLogging: "{{ fmq_rate_logging }}"
-    - name: from_fdd-datareader-dpl_t4_to_Dispatcher
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.fdd-datareader-dpl_t4:from_fdd-datareader-dpl_t4_to_Dispatcher"
+      target: "{{ Parent().Path }}.FDDDigitWriterRaw:from_FDDDigitWriterRaw_to_Dispatcher"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: fdd-digits-qc-ds-pipe-Dispatcher

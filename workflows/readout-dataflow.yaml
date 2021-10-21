@@ -134,6 +134,8 @@ defaults:
     panel: ALIECS_Workflows
     values:
       - none
+      - fdd-digits-qc-full-nocalib
+      - fdd-digits-qc-full-nocalib-raw
       - fdd-digits-pipe
       - fdd-digits-qc-ds-pipe
       - fdd-digits-qc-ds
@@ -151,6 +153,7 @@ defaults:
     panel: ALIECS_Workflows
     values:
       - none
+      - fdd-qcmn-remote
       - qcmn-daq-remote
   fdd_dcs_sor_parameters: !public
     value: "{}"
