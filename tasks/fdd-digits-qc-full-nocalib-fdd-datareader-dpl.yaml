@@ -1,4 +1,4 @@
-name: fdd-digits-qc-ds-pipe-fdd-datareader-dpl_t0
+name: fdd-digits-qc-full-nocalib-fdd-datareader-dpl
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,12 +11,12 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_fdd-datareader-dpl_t0_to_FDDDigitWriterRaw
+  - name: from_fdd-datareader-dpl_to_FDDDigitWriterRaw
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_fdd-datareader-dpl_t0_to_dpl-output-proxy
+  - name: from_fdd-datareader-dpl_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -46,7 +46,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'fdd-datareader-dpl_t0'"
+    - "'fdd-datareader-dpl'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -86,7 +86,7 @@ command:
     - "--labels"
     - "''"
     - "--pipeline"
-    - "'fdd-datareader-dpl:5'"
+    - "'fdd-datareader-dpl:1'"
     - "--readers"
     - "'1'"
     - "--severity"

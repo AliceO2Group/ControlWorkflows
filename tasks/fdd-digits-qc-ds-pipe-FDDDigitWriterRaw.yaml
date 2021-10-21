@@ -1,4 +1,4 @@
-name: fdd-digits-qc-ds-pipe-fdd-datareader-dpl_t0
+name: fdd-digits-qc-ds-pipe-FDDDigitWriterRaw
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,12 +11,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_fdd-datareader-dpl_t0_to_FDDDigitWriterRaw
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_fdd-datareader-dpl_t0_to_dpl-output-proxy
+  - name: from_FDDDigitWriterRaw_to_Dispatcher
     type: push
     transport: shmem
     addressing: ipc
@@ -46,7 +41,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'fdd-datareader-dpl_t0'"
+    - "'FDDDigitWriterRaw'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -105,15 +100,21 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--ccdb-path"
-    - "''"
-    - "--lut-path"
-    - "''"
-    - "--reserve-map-dig"
-    - "'0'"
-    - "--reserve-vec-buffer"
-    - "'0'"
-    - "--reserve-vec-chdata"
-    - "'0'"
-    - "--reserve-vec-dig"
-    - "'0'"
+    - "--autosave"
+    - "-1"
+    - "--fdd-DIGITSBC-branch-name"
+    - "'FDDDigit'"
+    - "--fdd-DIGITSCH-branch-name"
+    - "'FDDDigitCh'"
+    - "--nevents"
+    - "'10000'"
+    - "--outfile"
+    - "'o2_fdddigits.root'"
+    - "--output-dir"
+    - "'/tmp'"
+    - "--terminate"
+    - "'process'"
+    - "--treename"
+    - "'o2sim'"
+    - "--treetitle"
+    - "'o2sim'"

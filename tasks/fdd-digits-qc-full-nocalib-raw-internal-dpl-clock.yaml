@@ -1,22 +1,32 @@
-name: fdd-digits-qc-ds-pipe-fdd-datareader-dpl_t0
+name: fdd-digits-qc-full-nocalib-raw-internal-dpl-clock
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-fdd-flp-dpl-workflow
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-fdd-flp-dpl-workflow"
+    {{ dpl_command }} | o2-dpl-raw-proxy
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-dpl-raw-proxy"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_fdd-datareader-dpl_t0_to_FDDDigitWriterRaw
+  - name: from_internal-dpl-clock_to_readout-proxy
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_fdd-datareader-dpl_t0_to_dpl-output-proxy
+  - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-TrendPlusPlus
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_internal-dpl-clock_to_Dispatcher
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-DigitQcTask
     type: push
     transport: shmem
     addressing: ipc
@@ -46,7 +56,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'fdd-datareader-dpl_t0'"
+    - "'internal-dpl-clock'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -67,8 +77,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--configKeyValues"
-    - "''"
+    - "--dataspec"
+    - "'A1:FDD/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -86,7 +96,9 @@ command:
     - "--labels"
     - "''"
     - "--pipeline"
-    - "'fdd-datareader-dpl:5'"
+    - "'readout-proxy:1'"
+    - "--proxy-name"
+    - "'readout-proxy'"
     - "--readers"
     - "'1'"
     - "--severity"
@@ -105,15 +117,3 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--ccdb-path"
-    - "''"
-    - "--lut-path"
-    - "''"
-    - "--reserve-map-dig"
-    - "'0'"
-    - "--reserve-vec-buffer"
-    - "'0'"
-    - "--reserve-vec-chdata"
-    - "'0'"
-    - "--reserve-vec-dig"
-    - "'0'"

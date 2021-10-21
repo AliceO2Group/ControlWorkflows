@@ -1,0 +1,21 @@
+{
+  "dataSamplingPolicies": [
+    {
+      "id": "samplingFDD",
+      "active": "true",
+      "machines": [
+        "localhost"
+      ],
+      "query": "digits:FDD/DIGITSBC/0;channels:FDD/DIGITSCH/0",
+      "outputs": "digits_sampled:FDD/SUB_DIGITSBC/0;channels_sampled:FDD/SUB_DIGITSCH/0",
+      "samplingConditions": [
+        {
+          "condition": "random",
+          "fraction": "1.",
+          "seed": "1234"
+        }
+      ],
+      "blocking": "false"
+    } 
+  ]
+}
