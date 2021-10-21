@@ -787,7 +787,7 @@ defaults:
     values:       
       - "Shifter"
       - "Expert"
-    index: -1  
+    index: -1000
   odc_n_epns: !public
     value: "10"
     type: number
@@ -795,7 +795,46 @@ defaults:
     description: "Number of EPNs to use"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 0
+    index: -999
+  odc_configuration_method: !public
+    value: "Workflow repository hash"
+    type: string
+    label: "Configuration method"
+    description: "Method for generating EPN workflow configuration"
+    widget: dropDownBox
+    values:
+      - "Workflow repository hash"
+      - "Workflow repository path"
+      - "Manual XML"
+    panel: EPN
+    index: -100
+  odc_o2_data_processing_hash: !public
+    value: "v0.10"
+    type: string
+    label: "Data processing hash"
+    description: "Hash (version) of O² data processing source to be executed on EPNs"
+    widget: editBox
+    panel: EPN
+    index: 1
+    visibleif: $$odc_configuration_method === "Workflow repository hash"
+  odc_o2_data_processing_path: !public
+    value: ""
+    type: string
+    label: "Data processing path"
+    description: "Path of O² data processing source to be executed on EPNs"
+    widget: editBox
+    panel: EPN
+    index: 1
+    visibleif: $$odc_configuration_method === "Workflow repository path"
+  odc_topology: !public
+    value: ""
+    type: string
+    label: "Topology"
+    description: "DDS topology to be executed on EPNs"
+    widget: editBox
+    panel: EPN
+    index: 1
+    visibleif: $$odc_configuration_method === "Manual XML"
   odc_resources: !public
     value: ""
     type: string
@@ -984,6 +1023,52 @@ defaults:
     panel: "EPN_Global_Processing"
     index: 19
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  odc_tfbuilder_mode: !public
+    value: "processing"
+    type: string
+    label: "DD TfBuilder mode"
+    description: "Data Distribution TfBuilder mode"
+    widget: dropDownBox
+    panel: EPN
+    values:
+      - processing
+      - disk
+      - processing-disk
+      - discard
+    index: 4
+    visibleif: $$odc_configuration_method === "Workflow repository path" || $$odc_configuration_method === "Workflow repository hash"
+  odc_topology_description_library_file: !public
+    value: "production/production.desc"
+    type: string
+    label: "Topology description library file"
+    description: "Path to a topology description file to use for EPN processing"
+    widget: comboBox
+    panel: EPN
+    values:
+      - production/production.desc
+    index: 5
+    visibleif: $$odc_configuration_method === "Workflow repository path" || $$odc_configuration_method === "Workflow repository hash"
+  odc_workflow_name_in_library_file: !public
+    value: "synchronous-workflow-1numa"
+    type: string
+    label: "Workflow name in library file"
+    description: "Name of a workflow in a selected topology description library file"
+    widget: comboBox
+    panel: EPN
+    values:
+      - synchronous-workflow-1numa
+      - synchronous-workflow
+    index: 6
+    visibleif: $$odc_configuration_method === "Workflow repository path" || $$odc_configuration_method === "Workflow repository hash"
+  odc_workflow_parameters: !public
+    value: "QC,CALIB,GPU,CTF,EVENT_DISPLAY"
+    type: string
+    label: "Workflow parameters"
+    description: "Comma-separated list of boolean parameters to pass to the EPN workflow"
+    widget: editBox
+    panel: EPN
+    index: 7
+    visibleif: $$odc_configuration_method === "Workflow repository path" || $$odc_configuration_method === "Workflow repository hash"
   odc_partitions_cleanup: !public
     value: "true"
     type: bool
@@ -1189,6 +1274,9 @@ defaults:
 vars:
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
+  odc_detectors_global: "{{detectors}}"
+  odc_detectors_qc: "{{detectors}}"
+  odc_detectors_calib: "{{detectors}}"
 roles:
   - name: host-{{ it }}
     for:
