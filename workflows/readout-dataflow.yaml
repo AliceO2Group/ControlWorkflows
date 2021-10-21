@@ -1198,3 +1198,9 @@ roles:
           trigger: after_STOP_ACTIVITY
           timeout: 5s
           critical: true
+      - name: cleanup
+        call:
+          func: ctp.Cleanup()
+          trigger: DESTROY
+          timeout: 5s
+          critical: false
