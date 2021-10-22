@@ -70,6 +70,7 @@ defaults:
     panel: ALIECS_Workflows
     values:
       - none
+      - cpv-physics-qcmn-epn-remote
       - qcmn-daq-remote
   cpv_dcs_sor_parameters: !public
     value: "{}"
