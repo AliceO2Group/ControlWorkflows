@@ -1,4 +1,4 @@
-name: cpv-physics-qcmn-epn-remote-CPVPhysicsTask-proxy
+name: cpv-physics-qcmn-epn-remote-MERGER-PhysicsOnEPNs1l-0
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,17 +11,11 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_CPVPhysicsTask-proxy_to_MERGER-CPVPhysicsTask1l-0
+  - name: from_MERGER-PhysicsOnEPNs1l-0_to_QC-CHECK-RUNNER-sink-QC_PhysicsOnEPNs-mo_0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: CPVPhysicsTask-proxy
-    type: sub
-    transport: zeromq
-    addressing: tcp
-    rateLogging: "{{ fmq_rate_logging }}"
-    target: "tcp://*:47768"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -47,7 +41,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'CPVPhysicsTask-proxy'"
+    - "'MERGER-PhysicsOnEPNs1l-0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -113,13 +107,5 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--end-value-enumeration"
-    - "-1"
-    - "--orbit-multiplier-enumeration"
-    - "'0'"
-    - "--orbit-offset-enumeration"
-    - "'0'"
-    - "--start-value-enumeration"
-    - "'0'"
-    - "--step-value-enumeration"
-    - "'1'"
+    - "--period-timer-publish"
+    - "'30000000'"
