@@ -1,0 +1,56 @@
+name: cpv-physics
+vars:
+  dpl_command: >-
+    o2-dpl-raw-proxy -b --session default --dataspec 'x0:CPV/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-cpv-reco-workflow -b --session default --input-type raw --output-type digits --disable-root-input --disable-root-output --disable-mc --ccdb-url http://o2-ccdb.internal | o2-dpl-output-proxy -b --session default --dataspec 'x0:CPV/RAWDATA;DIG:CPV/DIGITS/0;DTR:CPV/DIGITTRIGREC/0;ERR:CPV/RAWHWERRORS/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"'
+defaults:
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 10000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: cpv-physics-internal-dpl-clock
+  - name: "readout-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_readout-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    - name: readout-proxy
+      type: pull
+      transport: shmem
+      target: "::readout-proxy-{{ it }}"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: cpv-physics-readout-proxy
+  - name: "CPVRawToDigitConverterSpec"
+    connect:
+    - name: from_readout-proxy_to_CPVRawToDigitConverterSpec
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_CPVRawToDigitConverterSpec"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: cpv-physics-CPVRawToDigitConverterSpec
+  - name: "dpl-output-proxy"
+    connect:
+    - name: from_CPVRawToDigitConverterSpec_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.CPVRawToDigitConverterSpec:from_CPVRawToDigitConverterSpec_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+    bind:
+    - name: downstream
+      type: push
+      transport: shmem
+      addressing: ipc
+      rateLogging: "{{ fmq_rate_logging }}"
+      global: "downstream-{{ it }}"
+    task:
+      load: cpv-physics-dpl-output-proxy

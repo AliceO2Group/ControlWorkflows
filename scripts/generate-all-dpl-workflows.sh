@@ -27,6 +27,9 @@ check_pwd
 ./cpv-compressor.sh
 ./cpv-qc-compressor.sh
 ./cpv-pedestal-calib-qc.sh
+./cpv-physics.sh
+./cpv-physics-testing.sh
+./cpv-physics-qcmn-epn.sh
 ./fdd-qcmn-remote.sh
 ./fdd-digits-qc-full-nocalib.sh
 ./fdd-digits-qc-full-nocalib-raw.sh
