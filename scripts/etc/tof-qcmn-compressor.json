@@ -50,7 +50,7 @@
     },
     "checks": {
       "CheckDiagnostics": {
-        "active": "false",
+        "active": "true",
         "className": "o2::quality_control_modules::tof::CheckDiagnostics",
         "moduleName": "QcTOF",
         "detectorName": "TOF",
@@ -66,7 +66,7 @@
         ]
       },
       "CheckCompressedData": {
-        "active": "false",
+        "active": "true",
         "className": "o2::quality_control_modules::tof::CheckCompressedData",
         "moduleName": "QcTOF",
         "detectorName": "TOF",
