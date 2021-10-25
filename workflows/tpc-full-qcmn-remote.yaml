@@ -31,6 +31,7 @@ roles:
     - name: PID-proxy
       type: sub
       transport: zeromq
+      rcvBufSize: 2
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47732"
