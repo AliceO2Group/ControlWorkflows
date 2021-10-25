@@ -96,4 +96,4 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--ccdb-path"
-    - "'http://o2-ccdb.internal'"
+    - "'http://ccdb-test.cern.ch:8080'"
