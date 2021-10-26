@@ -495,6 +495,7 @@ defaults:
       - phos-compressor-raw-qct3
       - phos-compressor
       - phos-compressort3
+      - phos-raw-clusters-local
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -509,6 +510,7 @@ defaults:
       - none
       - phos-compressor-raw-qcmn-remote
       - phos-compressor-raw-qcmnt3-remote
+      - phos-raw-clusters-remote
       - qcmn-daq-remote
   phs_dcs_sor_parameters: !public
     value: "{}"
