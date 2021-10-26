@@ -1,27 +1,22 @@
-name: phos-raw-clusters-local-PHOSRawToCellConverterSpec_t0
+name: phos-raw-clusters-local-Dispatcher
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-phos-reco-workflow
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-phos-reco-workflow"
+    {{ dpl_command }} | o2-qc
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_PHOSRawToCellConverterSpec_t0_to_internal-dpl-injected-dummy-sink
+  - name: from_Dispatcher_to_QC-TASK-RUNNER-RawTask
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_PHOSRawToCellConverterSpec_t0_to_Dispatcher
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_PHOSRawToCellConverterSpec_t0_to_dpl-output-proxy
+  - name: from_Dispatcher_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -51,7 +46,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'PHOSRawToCellConverterSpec_t0'"
+    - "'Dispatcher'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -72,9 +67,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--configKeyValues"
-    - "''"
-    - "--disable-root-output"
+    - "--config"
+    - "'{{ qc_config_uri }}'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -85,24 +79,23 @@ command:
     - "'4'"
     - "--fairmq-send-buffer-size"
     - "'4'"
-    - "--flpId"
-    - "'0'"
     - "--forwarding-destination"
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--hbfutils-config"
-    - "'o2simdigitizerworkflow_configuration.ini'"
-    - "--input-type"
-    - "'raw'"
+    - "--host"
+    - "'flp'"
     - "--labels"
     - "''"
-    - "--output-type"
-    - "'cells'"
+    - "--local"
+    - "--local-batch"
+    - "''"
     - "--pipeline"
-    - "'PHOSRawToCellConverterSpec:3'"
+    - "''"
     - "--readers"
     - "'1'"
+    - "--remote-batch"
+    - "''"
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"
@@ -119,13 +112,5 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--fillchi2"
-    - "'off'"
-    - "--fitmethod"
-    - "'default'"
-    - "--keepHGLG"
-    - "{{ phos_keep_hglg }}"
-    - "--mappingpath"
-    - "''"
-    - "--pedestal"
-    - "{{ phos_pedestal }}"
+    - "--period-timer-stats"
+    - "'10000000'"
