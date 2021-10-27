@@ -1167,6 +1167,41 @@ roles:
           trigger: DESTROY
           timeout: 1m
           critical: false
+  - name: testplugin
+    enabled: "{{testplugin_enabled == 'true'}}"
+    roles:
+      - name: cfg-noop2-1
+        vars:
+          testplugin_message: runs second (concurrent) and takes 8s
+        call:
+          func: testplugin.Noop()
+          trigger: before_CONFIGURE
+          critical: false
+          timeout: 8s
+      - name: cfg-noop1
+        vars:
+          testplugin_message: runs first and takes 5s
+        call:
+          func: testplugin.Noop()
+          trigger: before_CONFIGURE-1
+          critical: false
+          timeout: 5s
+      - name: cfg-noop3
+        vars:
+          testplugin_message: runs third and takes 3s
+        call:
+          func: testplugin.Noop()
+          trigger: before_CONFIGURE+20
+          critical: false
+          timeout: 3s
+      - name: cfg-noop2-2
+        vars:
+          testplugin_message: runs second (concurrent) and takes 2s
+        call:
+          func: testplugin.Noop()
+          trigger: before_CONFIGURE
+          critical: false
+          timeout: 2s
   - name: trg
     enabled: "{{trg_enabled == 'true'}}"
     defaults:
