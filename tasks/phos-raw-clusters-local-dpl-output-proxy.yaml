@@ -64,7 +64,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'CEL:PHS/CELLS/0;CTR:PHS/CELLTRIGREC/0;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "'x:PHS/RAWDATA;CEL:PHS/CELLS/0;CTR:PHS/CELLTRIGREC/0;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--default-port"
     - "'4200'"
     - "--default-transport"
