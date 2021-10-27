@@ -1201,6 +1201,6 @@ roles:
       - name: cleanup
         call:
           func: trg.Cleanup()
-          trigger: DESTROY
+          trigger: DESTROY-100
           timeout: 5s
           critical: false
