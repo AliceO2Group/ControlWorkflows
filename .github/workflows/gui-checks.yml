@@ -41,6 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
+            fetch-depth: 0
             path: ControlWorkflows
       - run: (echo "Checks will be ran against branch ${GITHUB_HEAD_REF}")
       - run: (cd ControlWorkflows; git checkout ${GITHUB_HEAD_REF})
