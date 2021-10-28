@@ -43,6 +43,8 @@ jobs:
         with:
             path: ControlWorkflows
       - run: (echo "Checks will be ran against branch ${GITHUB_HEAD_REF}")
+      - run: (git checkout ${GITHUB_HEAD_REF})
+      - run: (git checkout ${GITHUB_BASE_REF})
       - name: Run GUI variables checks for WORKFLOWS
         working-directory: ./ControlWorkflows
         run: |
