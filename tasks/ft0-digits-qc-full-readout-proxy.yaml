@@ -88,6 +88,8 @@ command:
     - "'1'"
     - "--severity"
     - "'info'"
+    - "--shm-allocation"
+    - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
     - "'false'"
     - "--shm-mlock-segment-on-creation"

@@ -11,12 +11,12 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_PHOSRawToCellConverterSpec_t2_to_internal-dpl-injected-dummy-sink
+  - name: from_PHOSRawToCellConverterSpec_t2_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_PHOSRawToCellConverterSpec_t2_to_dpl-output-proxy
+  - name: from_PHOSRawToCellConverterSpec_t2_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
@@ -100,6 +100,8 @@ command:
     - "'1'"
     - "--severity"
     - "'info'"
+    - "--shm-allocation"
+    - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
     - "'false'"
     - "--shm-mlock-segment-on-creation"
