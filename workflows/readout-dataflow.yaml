@@ -26,7 +26,7 @@ defaults:
     description: "Enable/disable EPN"
     widget: checkBox
     panel: Basic_Configuration
-  ctp_enabled: !public
+  trg_enabled: !public
     value: "false"
     type: bool
     label: "TRG"
@@ -679,60 +679,60 @@ defaults:
   ###############################
   # TRG Panel
   ###############################
-  ctp_global_run_enabled: !public
+  trg_global_run_enabled: !public
     value: "false"
     type: bool
-    label: "CTP Global Run"
-    description: "If enabled, send commands to CTP. If disabled, send commands to LTU."
+    label: "TRG Global Run"
+    description: "If enabled, send commands to CTS. If disabled, send commands to LTU."
     widget: checkBox
     panel: TRG
     index: 0  
-  ctp_load_parameters: !public
+  trg_load_parameters: !public
     value: "GLOBAL.pd"
     type: string
-    label: "CTP Configuration"
-    description: "Configuration file for the CTP Global Run"
+    label: "TRG Configuration"
+    description: "Configuration file for the TRG/CTP Global Run"
     widget: comboBox    
     values:
       - "GLOBAL.pd"
     panel: TRG
     index: 1
-    visibleif: $$ctp_global_run_enabled === "true"
-  ctp_runtime_config_file: !public
+    visibleif: $$trg_global_run_enabled === "true"
+  trg_runtime_config_file: !public
     value: ""
     type: string
     label: "LTU Configuration"
     description: "configuration file for the LTU Standalone Run"
     widget: editBox
     panel: TRG
-    visibleif: $$ctp_global_run_enabled === "false"
+    visibleif: $$trg_global_run_enabled === "false"
     index: 2
   # !! Not used by the ctpd !! 
-  # ctp_run_mode: !public
+  # trg_run_mode: !public
   #   value: "none"
   #   type: string
-  #   label: "CTP Start Run Trigger Mode"
-  #   description: "config for the CTP Run Start"
+  #   label: "TRG Start Run Trigger Mode"
+  #   description: "config for the TRG Run Start"
   #   widget: dropDownBox
-  #   panel: CTP
+  #   panel: TRG
   #   values:
   #     - none
   #     - trig
   #     - cont
-  # ctp_run_ph_bc: !public
+  # trg_run_ph_bc: !public
   #   value: ""
   #   type: string
-  #   label: "CTP Start Run Ph Bc"
+  #   label: "TRG Start Run Ph Bc"
   #   description: "BC-downscaled rate of physics triggers"
   #   widget: editBox
-  #   panel: CTP
-  # ctp_run_ph_rnd: !public
+  #   panel: TRG
+  # trg_run_ph_rnd: !public
   #   value: ""
   #   type: string
-  #   label: "CTP Start PH RND"
+  #   label: "TRG Start PH RND"
   #   description: "rate of physics triggers generated randomly"
   #   widget: editBox
-  #   panel: CTP
+  #   panel: TRG
   ###############################
   # Logging Panel
   ###############################
@@ -1081,7 +1081,7 @@ roles:
         call:
           func: dcs.StartOfRun()
           trigger: enter_RUNNING
-          timeout: 120s
+          timeout: 140s
           critical: true
       - name: eor
         call:
@@ -1170,34 +1170,40 @@ roles:
           trigger: DESTROY
           timeout: 1m
           critical: false
-  - name: ctp
-    enabled: "{{ctp_enabled == 'true'}}"
+  - name: trg
+    enabled: "{{trg_enabled == 'true'}}"
     defaults:
-      ctp_detectors: "{{ detectors }}"
-      ctp_runtime_config: "{{ GetRuntimeConfig('trg/ltu', ctp_runtime_config_file) }}"
-      ctp_global_config: "{{ GetRuntimeConfig('trg/ctp', ctp_load_parameters) }}"
+      trg_detectors: "{{ detectors }}"
+      trg_runtime_config: "{{ GetRuntimeConfig('trg/ltu', trg_runtime_config_file) }}"
+      trg_global_config: "{{ GetRuntimeConfig('trg/ctp', trg_load_parameters) }}"
     roles:
       - name: load
         call:
-          func: ctp.RunLoad()
+          func: trg.RunLoad()
           trigger: enter_RUNNING
           timeout: 5s
           critical: true
       - name: start
         call:
-          func: ctp.RunStart()
+          func: trg.RunStart()
           trigger: after_START_ACTIVITY
           timeout: 5s
           critical: true
       - name: stop
         call:
-          func: ctp.RunStop()
+          func: trg.RunStop()
           trigger: before_STOP_ACTIVITY
           timeout: 5s
           critical: true
       - name: unload
         call:
-          func: ctp.RunUnload()
+          func: trg.RunUnload()
           trigger: after_STOP_ACTIVITY
           timeout: 5s
           critical: true
+      - name: cleanup
+        call:
+          func: trg.Cleanup()
+          trigger: DESTROY-100
+          timeout: 5s
+          critical: false
