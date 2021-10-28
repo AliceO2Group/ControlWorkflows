@@ -46,7 +46,7 @@ jobs:
       - name: Run GUI variables checks for WORKFLOWS
         working-directory: ./ControlWorkflows
         run: |
-          DIFF_CHANGES=$(git diff $GITHUB_BASE_REF..$GITHUB_HEAD_REF)
+          DIFF_CHANGES=$(git diff $GITHUB_BASE_REF $GITHUB_HEAD_REF)
           echo $DIFF_CHANGES
           echo "CHANGES_ABOVE"
           RESULT_WORKFLOWS=$(grep -nr env.LIST_OF_VARIABLES <<<$DIFF_CHANGES)
