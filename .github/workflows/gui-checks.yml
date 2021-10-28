@@ -55,8 +55,6 @@ jobs:
           RESULT_WORKFLOWS=$(grep -nr env.LIST_OF_VARIABLES <<<$DIFF_CHANGES)
           echo $RESULT_WORKFLOWS
           echo "RESULT_CHANGES_ABOVE"
-      - name: Check results of grep commands
-        run: |
           if [ -z "$RESULT_WORKFLOWS" ];
           then
             echo "WORKFLOWS folder did not find any breaking changes"
