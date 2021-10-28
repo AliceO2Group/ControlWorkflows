@@ -8,7 +8,7 @@ on:
     branches:
       - 'master'
 env:
-  LIST_OF_VARIABLES: dcs_enabled\|trg_enabled\|epn_enabled\|odc_topology\|odc_enabled\|qcdd_enabled\|dd_enabled\|ddsched_enabled\|minimal_dpl_enabled\|readout_cfg_uri\|qc_config_uri
+  LIST_OF_VARIABLES: "dcs_enabled\|trg_enabled\|epn_enabled\|odc_topology\|odc_enabled\|qcdd_enabled\|dd_enabled\|ddsched_enabled\|minimal_dpl_enabled\|readout_cfg_uri\|qc_config_uri"
 jobs:
   # tasks-directory-check:
   #   name: Checks no changes to fix variables are done in tasks directory
