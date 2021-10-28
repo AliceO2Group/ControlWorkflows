@@ -94,7 +94,7 @@ command:
     - "--readers"
     - "'1'"
     - "--severity"
-    - "'info'"
+    - "'warning'"
     - "--shm-mlock-segment"
     - "'false'"
     - "--shm-mlock-segment-on-creation"
