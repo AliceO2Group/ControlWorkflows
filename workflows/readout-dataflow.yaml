@@ -15,7 +15,7 @@ defaults:
     value: "true"
     type: bool
     label: "Data Distribution (FLP)"
-    description: "Enable/disable Data Distribution components running on FLPs (StfBuilder and StfSender)"
+    description: "Enable/disable Data Distr2ibution components running on FLPs (StfBuilder and StfSender)"
     widget: checkBox
     panel: Basic_Configuration
     index: -100
