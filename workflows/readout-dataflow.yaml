@@ -26,7 +26,7 @@ defaults:
     description: "Enable/disable EPN"
     widget: checkBox
     panel: Basic_Configuration
-  trgt_enabled: !public
+  trg_enabled: !public
     value: "false"
     type: bool
     label: "TRG"
