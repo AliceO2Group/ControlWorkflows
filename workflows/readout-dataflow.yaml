@@ -19,7 +19,7 @@ defaults:
     widget: checkBox
     panel: Basic_Configuration
     index: -100
-  epn_enabled: !public # TODO: this should be the single var that enables both ODC and DD Scheduler
+  epn_e2nabled: !public # TODO: this should be the single var that enables both ODC and DD Scheduler
     value: "false"
     type: bool
     label: "EPN"
