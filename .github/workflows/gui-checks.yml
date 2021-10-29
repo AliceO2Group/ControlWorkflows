@@ -29,7 +29,7 @@ jobs:
           git diff $GITHUB_BASE_REF $GITHUB_HEAD_REF -U0 --word-diff > workflow_changes.txt
           echo "$(<workflow_changes.txt )"
           echo "CHANGES_ABOVE"
-          RESULT_WORKFLOWS=$(grep ${{env.LIST_OF_VARIABLES}} workflow_changes.txt)
+          RESULT_WORKFLOWS=$(grep "${{env.LIST_OF_VARIABLES}}" workflow_changes.txt)
           echo $RESULT_WORKFLOWS
           echo "RESULT_CHANGES_ABOVE"
           if [ -z "$RESULT_WORKFLOWS" ];
