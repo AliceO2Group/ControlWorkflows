@@ -31,6 +31,7 @@ jobs:
           if [ -z "$RESULT_WORKFLOWS" ];
           then
             echo "WORKFLOWS folder did not find any breaking changes"
+            exit 0
           else 
             echo "------------------"
             echo "Identified keys that were changed:"
