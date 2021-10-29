@@ -28,6 +28,7 @@ jobs:
         run: |
           git diff $GITHUB_BASE_REF $GITHUB_HEAD_REF -U0 --word-diff > changes.txt
           RESULT_WORKFLOWS=$(grep "${{env.LIST_OF_VARIABLES}}" changes.txt)
+          echo $RESULT_WORKFLOWS
           if [ -z "$RESULT_WORKFLOWS" ];
           then
             echo "WORKFLOWS folder did not find any breaking changes"
