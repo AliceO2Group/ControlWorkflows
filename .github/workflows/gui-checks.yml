@@ -26,8 +26,8 @@ jobs:
       - name: Run GUI variables checks for WORKFLOWS
         working-directory: ./ControlWorkflows
         run: |
-          git diff $GITHUB_BASE_REF $GITHUB_HEAD_REF -U0 --word-diff > changes.txt
-          RESULT_WORKFLOWS=$(grep "${{env.LIST_OF_VARIABLES}}" changes.txt)
+          git diff $GITHUB_BASE_REF $GITHUB_HEAD_REF -U0 --word-diff > workflow_changes.txt
+          RESULT_WORKFLOWS=$(grep "${{env.LIST_OF_VARIABLES}}" workflow_changes.txt)
           echo $RESULT_WORKFLOWS
           if [ -z "$RESULT_WORKFLOWS" ];
           then
