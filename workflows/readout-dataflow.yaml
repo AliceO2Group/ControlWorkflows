@@ -826,15 +826,6 @@ defaults:
     panel: EPN
     index: 1
     visibleif: $$odc_configuration_method === "Workflow repository path"
-  odc_topology: !public
-    value: ""
-    type: string
-    label: "Topology"
-    description: "DDS topology to be executed on EPNs"
-    widget: editBox
-    panel: EPN
-    index: 1
-    visibleif: $$odc_configuration_method === "Manual XML"
   odc_resources: !public
     value: ""
     type: string
