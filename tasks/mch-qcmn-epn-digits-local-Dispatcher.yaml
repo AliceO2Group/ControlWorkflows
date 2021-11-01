@@ -74,7 +74,7 @@ command:
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
-    - "'/tmp'"
+    - "'@'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
