@@ -778,43 +778,224 @@ defaults:
     panel: Logging
     index: 3
   ###############################
-  # EPN Panel
+  # EPN Global Processing Panel
   ###############################        
+  pdp_panel_mode: !public
+    value: "Shifter"
+    type: string
+    label: "Panel mode"
+    description: ""
+    widget: radioButtonBox
+    panel: "EPN_Global_Processing"
+    values:       
+      - "Shifter"
+      - "Expert"
+    index: -1  
+  odc_n_epns: !public
+    value: "10"
+    type: number
+    label: "# of EPNs"
+    description: "Number of EPNs to use"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 0
+  odc_resources: !public
+    value: ""
+    type: string
+    label: "Resources"
+    description: "EPN resources to be used, defaults to '{\"zone\":\"online\", \"n\":N}' where N is the value set in '# of EPNs'"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 1
+    visibleif: $$pdp_panel_mode === "Expert"
+  stfb_dd_mode: !public
+    value: "physics"
+    type: string
+    label: "Data Distribution mode"
+    description: "Data Distribution mode. physics: standard time based data distribution. topology: special topological data distribution for ITS and MFT calibration runs."
+    widget: dropDownBox
+    panel: "EPN_Global_Processing"
+    values:
+      - physics
+      - topology
+    index: 4
+    visibleif: $$pdp_panel_mode === "Expert"
+  pdp_config_option: !public
+    value: "Repository hash"
+    type: string
+    label: "Workflow configuration mode"
+    description: ""
+    widget: radioButtonBox
+    panel: "EPN_Global_Processing"
+    values:       
+      - "Repository hash"
+      - "Repository path"
+      - "Manual XML"
+    index: 3
+    visibleif: $$pdp_panel_mode === "Expert"
   odc_topology: !public
     value: ""
     type: string
     label: "Topology"
-    description: "DDS topology to be executed on EPNs"
+    description: "Workflow name"
     widget: editBox
-    panel: EPN
-    index: 1
-  odc_resources: !public
-    value: "{}"
+    panel: "EPN_Global_Processing"
+    index: 2 
+    visibleif: $$pdp_config_option === "Manual XML"
+  pdp_o2_data_processing_hash: !public
+    value: "v0.10"
     type: string
-    label: "Resources"
-    description: "EPN resources to be used"
+    label: "O2 Data Processing Hash"
+    description: "Commit hash or tag of O2DataProcessing to use"
     widget: editBox
-    panel: EPN
+    panel: "EPN_Global_Processing"
     index: 2
-  stfb_dd_mode: !public
-    value: "physics"
+    visibleif: $$pdp_config_option === "Repository hash"
+  pdp_o2_data_processing_path: !public
+    value: ""
     type: string
-    label: "DD mode"
-    description: "Data Distribution mode"
+    label: "O2 Data Processing Path"
+    description: "Full path in the EPN shared home folder to O2DataProcessing repository"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 2
+    visibleif: $$pdp_config_option === "Repository path"
+  tfb_dd_mode: !public
+    value: "processing"
+    type: string
+    label: "TF Builder mode"
+    description: "Time Frame Builder mode. processing: TfBuilder builds time frames and forwards them to DPL. disk: TfBuilder builds time frames and stores the raw time frame to disk. processing-disk: combination of processing and disk. discard: TfBuilder builds time frames in memory and discards them immediately."
     widget: dropDownBox
-    panel: EPN
+    panel: "EPN_Global_Processing"
     values:
-      - physics
-      - topology
-    index: 3
+      - discard
+      - disk
+      - processing
+      - processing-disk
+    index: 7        
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_workflow_name: !public
+    value: "synchronous-workflow-1numa"
+    type: string
+    label: "Workflow name"
+    description: "Workflow name in the Topology description library file"
+    widget: comboBox
+    panel: "EPN_Global_Processing"
+    values: 
+      - "synchronous-workflow"
+      - "synchronous-workflow-1numa"
+    index: 8
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_topology_description: !public
+    value: "production/production.desc"
+    type: string
+    label: "Topology description library file"
+    description: "Topology description file in O2DataProcessing repository"
+    widget: comboBox
+    panel: "EPN_Global_Processing"
+    values: 
+      - "production/production.desc"
+    index: 9
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_detector_list_global: !public
+    value: "ALL"
+    type: string
+    label: "Detector list (Global)"
+    description: "Comma-separated list of detectors for EPN processing. Empty string means no detectors. 'ALL' is an abbreviation to include all detectors."
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 10
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_detector_list_qc: !public
+    value: "ALL"
+    type: string
+    label: "Detector list (QC)"
+    description: "Comma-separated list of detectors for EPN QC. Empty string means no detectors. 'ALL' is an abbreviation to include all detectors."
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 11
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_detector_list_calib: !public
+    value: "ALL"
+    type: string
+    label: "Detector list (Calibration)"
+    description: "Comma-separated list of detectors for calibration. Empty string means no detectors. 'ALL' is an abbreviation to include all detectors."
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 12
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_workflow_parameters: !public
+    value: "QC,CALIB,GPU,CTF,EVENT_DISPLAY"
+    type: string
+    label: "Workflow parameters"
+    description: "Comma-separated list of workflow parameters. Valid parameters are: QC,CALIB,GPU,CTF,EVENT_DISPLAY,CTF_ONLY."
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 13
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_nr_compute_nodes: !public
+    value: "0"
+    type: number
+    label: "# of compute nodes"
+    description: "Set to 0 to request default number of compute nodes for the selected workflow. A value > 0 runs the workflow on that many compute nodes."
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 14
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_raw_decoder_multi_factor: !public
+    value: "1"
+    type: number
+    label: "Raw decoder multiplicity factor"
+    description: "Multiply the number of raw decoder processing instance on EPN by this factor"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 15
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_ctf_encoder_multi_factor: !public
+    value: "1"
+    type: number
+    label: "CTF encoder multiplicity factor"
+    description: "Multiply the number of CTF encoder processing instance on EPN by this factor"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 16
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_reco_process_multi_factor: !public
+    value: "1"
+    type: number
+    label: "Reconstruction process multiplicity factor"
+    description: "Multiply the number of instances of other reconstruction processes by this factor"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 17    
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_extra_env_vars: !public
+    value: ""
+    type: string
+    label: "Extra ENV variables"
+    description: "Additional environment variables exported when running the workflow generation script"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 18
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_wipe_workflow_cache: !public
+    value: "false"
+    type: bool
+    label: "Wipe workflow cache"
+    description: "Delete workflow cache"
+    widget: checkBox
+    panel: "EPN_Global_Processing"
+    index: 19
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   odc_partitions_cleanup: !public
     value: "true"
     type: bool
     label: "EPN partitions cleanup"
     description: "If enabled, orphaned EPN partitions are cleaned up on environment deployment and shutdown"
     widget: checkBox
-    panel: EPN
-    index: 4
+    panel: "EPN_Global_Processing"
+    index: 20
+    visibleif: $$pdp_panel_mode === "Expert"
   ###############################
   # Other variables
   ###############################
