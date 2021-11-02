@@ -1050,6 +1050,7 @@ defaults:
   ###############################
   detectors: "{{ DetectorsForHosts(hosts) }}"
   dpl_workflow: none
+  dpl_command: none
   drop_caches_enabled: "true"
   drop_caches_timeout: "30s"
   fmq_initial_shm_cleanup_enabled: "true"
@@ -1084,6 +1085,7 @@ roles:
       dd_discovery_ib_hostname: "{{ it }}-ib" # MUST be defined for all stfb and stfs
       # dpl_workflow is set to <detector>_dpl_workflow if such an override exists
       dpl_workflow: "{{ PrefixedOverride( 'dpl_workflow', ToLower( DetectorForHost( it ) ) ) }}"
+      dpl_command: "{{ PrefixedOverride( 'dpl_command', ToLower( DetectorForHost( it ) ) ) }}"
     constraints:
       - attribute: machine_id
         value: "{{ it }}"
@@ -1094,7 +1096,7 @@ roles:
         task:
           load: readout
       - name: "data-distribution"
-        enabled: "{{dd_enabled == 'true' && (qcdd_enabled == 'false' && minimal_dpl_enabled == 'false' && dpl_workflow == 'none')}}"
+        enabled: "{{dd_enabled == 'true' && (qcdd_enabled == 'false' && minimal_dpl_enabled == 'false' && dpl_workflow == 'none' && dpl_command == 'none')}}"
         roles:
           - name: "stfb-standalone"
             enabled: "{{stfb_standalone}}"
@@ -1129,7 +1131,7 @@ roles:
             task:
               load: stfsender
       - name: "data-distribution-dpl"
-        enabled: "{{(qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none') && dd_enabled == 'true'}}"
+        enabled: "{{(qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none' || dpl_command != 'none') && dd_enabled == 'true'}}"
         defaults:
           path_to_readout_proxy: "{{ Parent().Path }}.data-distribution-dpl.stfb:dpl-chan"
         roles:
@@ -1154,7 +1156,7 @@ roles:
               #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
               load: stfbuilder
           - name: "stfs" # this stfs is for any DPL workflow. We assume that it has a device dpl-output-proxy and a downstream channel
-            enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none')}}"
+            enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none' || dpl_command != 'none')}}"
             vars:
               dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }}
               stfs_input_channel_name: downstream
@@ -1174,6 +1176,9 @@ roles:
           - name: dpl
             enabled: "{{ dpl_workflow != 'none' }}"
             include: "{{ dpl_workflow }}"
+          - name: dpl
+            enabled: "{{ dpl_command != 'none' }}"
+            include: "{{ GenerateDplSubworkflow(dpl_command) }}"
       - name: o2-roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
         defaults:
