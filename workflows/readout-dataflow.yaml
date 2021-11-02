@@ -777,6 +777,7 @@ defaults:
   ###############################
   # EPN Global Processing Panel
   ###############################
+  pdp_generator_script_path: /home/epn/pdp/gen_topo.sh
   pdp_panel_mode: !public
     value: "Shifter"
     type: string
@@ -984,6 +985,30 @@ defaults:
     panel: "EPN_Global_Processing"
     index: 19
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_beam_type: !public
+    value: "cosmic"
+    type: string
+    label: "Beam type"
+    description: "Beam type used in this environment"
+    widget: dropDownBox
+    panel: "EPN_Global_Processing"
+    values:
+      - PbPb
+      - pp
+      - pPb
+      - cosmic
+      - technical
+    index: 20
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_n_hbf_per_tf: !public
+    value: "128"
+    type: number
+    label: "# of HBFs per TF"
+    description: "Number of HBFs per TF for EPN processing"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 21
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   odc_partitions_cleanup: !public
     value: "true"
     type: bool
@@ -991,7 +1016,7 @@ defaults:
     description: "If enabled, orphaned EPN partitions are cleaned up on environment deployment and shutdown"
     widget: checkBox
     panel: "EPN_Global_Processing"
-    index: 20
+    index: 22
     visibleif: $$pdp_panel_mode === "Expert"
   ###############################
   # Other variables
@@ -1019,9 +1044,6 @@ defaults:
 vars:
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
-  pdp_detectors_global: "{{detectors}}"
-  pdp_detectors_qc: "{{detectors}}"
-  pdp_detectors_calib: "{{detectors}}"
 roles:
   - name: host-{{ it }}
     for:
