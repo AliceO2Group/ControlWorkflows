@@ -76,7 +76,7 @@ command:
     - "--electronics-delay-file"
     - "'{{ mid_electronics_delay_file }}'"
     - "--fairmq-ipc-prefix"
-    - "'/tmp'"
+    - "'@'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
