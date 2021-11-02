@@ -1,27 +1,31 @@
-name: cpv-physics-qcmn-epn-remote-CPVPhysicsTask-proxy
+name: phos-raw-clusters-local-PHOSRawToCellConverterSpec_t0
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-qc
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
+    {{ dpl_command }} | o2-phos-reco-workflow
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-phos-reco-workflow"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_CPVPhysicsTask-proxy_to_MERGER-CPVPhysicsTask1l-0
+  - name: from_PHOSRawToCellConverterSpec_t0_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: CPVPhysicsTask-proxy
-    type: sub
-    transport: zeromq
-    addressing: tcp
+  - name: from_PHOSRawToCellConverterSpec_t0_to_Dispatcher
+    type: push
+    transport: shmem
+    addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-    target: "tcp://*:47768"
+  - name: from_PHOSRawToCellConverterSpec_t0_to_dpl-output-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -47,7 +51,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'CPVPhysicsTask-proxy'"
+    - "'PHOSRawToCellConverterSpec_t0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -68,8 +72,9 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--config"
-    - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
+    - "--disable-root-output"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -80,23 +85,24 @@ command:
     - "'4'"
     - "--fairmq-send-buffer-size"
     - "'4'"
+    - "--flpId"
+    - "'0'"
     - "--forwarding-destination"
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--host"
-    - "''"
+    - "--hbfutils-config"
+    - "'o2simdigitizerworkflow_configuration.ini'"
+    - "--input-type"
+    - "'raw'"
     - "--labels"
     - "''"
-    - "--local-batch"
-    - "''"
+    - "--output-type"
+    - "'cells'"
     - "--pipeline"
-    - "''"
+    - "'PHOSRawToCellConverterSpec:3'"
     - "--readers"
     - "'1'"
-    - "--remote"
-    - "--remote-batch"
-    - "''"
     - "--severity"
     - "'info'"
     - "--shm-mlock-segment"
@@ -113,13 +119,13 @@ command:
     - "'all'"
     - "--workflow-suffix"
     - "''"
-    - "--end-value-enumeration"
-    - "-1"
-    - "--orbit-multiplier-enumeration"
-    - "'0'"
-    - "--orbit-offset-enumeration"
-    - "'0'"
-    - "--start-value-enumeration"
-    - "'0'"
-    - "--step-value-enumeration"
-    - "'1'"
+    - "--fillchi2"
+    - "'off'"
+    - "--fitmethod"
+    - "'default'"
+    - "--keepHGLG"
+    - "{{ phos_keep_hglg }}"
+    - "--mappingpath"
+    - "''"
+    - "--pedestal"
+    - "{{ phos_pedestal }}"

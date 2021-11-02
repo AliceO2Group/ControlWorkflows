@@ -1,11 +1,11 @@
-name: phos-compressor-raw-qcmnt3-local
+name: phos-raw-clusters-local
 vars:
   dpl_command: >-
-    o2-dpl-raw-proxy -b --session default --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-phos-reco-workflow -b --input-type raw --output-type cells --session default --disable-root-output --pedestal off --keepHGLG off --pipeline PHOSRawToCellConverterSpec:3 | o2-qc -b --config {{ qc_config_uri }} --local --host alio2-cr1-flp164 | o2-dpl-output-proxy -b --session default --dataspec 'CEL:PHS/CELLS/0;CTR:PHS/CELLTRIGREC/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"'
+    o2-dpl-raw-proxy -b --session default --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-phos-reco-workflow -b --input-type raw --output-type cells --session default --disable-root-output --pedestal off --keepHGLG off --pipeline PHOSRawToCellConverterSpec:3 | o2-qc -b --config {{ qc_config_uri }} --local --host flp | o2-dpl-output-proxy -b --session default --dataspec 'x:PHS/RAWDATA;CEL:PHS/CELLS/0;CTR:PHS/CELLTRIGREC/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"'
 defaults:
   phos_pedestal: off
   phos_keep_hglg: off
-  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/phos-compressor-raw-qcmn"
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/phos-raw-clusters-flpepn"
   monitoring_dpl_url: "no-op://"
   user: "flp"
   fmq_rate_logging: 0
@@ -17,7 +17,7 @@ roles:
   - name: "internal-dpl-clock"
     connect:
     task:
-      load: phos-compressor-raw-qcmnt3-local-internal-dpl-clock
+      load: phos-raw-clusters-local-internal-dpl-clock
   - name: "readout-proxy"
     connect:
     - name: from_internal-dpl-clock_to_readout-proxy
@@ -31,7 +31,7 @@ roles:
       target: "::readout-proxy-{{ it }}"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: phos-compressor-raw-qcmnt3-local-readout-proxy
+      load: phos-raw-clusters-local-readout-proxy
   - name: "PHOSRawToCellConverterSpec_t0"
     connect:
     - name: from_readout-proxy_to_PHOSRawToCellConverterSpec_t0
@@ -40,7 +40,7 @@ roles:
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_PHOSRawToCellConverterSpec_t0"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: phos-compressor-raw-qcmnt3-local-PHOSRawToCellConverterSpec_t0
+      load: phos-raw-clusters-local-PHOSRawToCellConverterSpec_t0
   - name: "PHOSRawToCellConverterSpec_t1"
     connect:
     - name: from_readout-proxy_to_PHOSRawToCellConverterSpec_t1
@@ -49,7 +49,7 @@ roles:
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_PHOSRawToCellConverterSpec_t1"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: phos-compressor-raw-qcmnt3-local-PHOSRawToCellConverterSpec_t1
+      load: phos-raw-clusters-local-PHOSRawToCellConverterSpec_t1
   - name: "PHOSRawToCellConverterSpec_t2"
     connect:
     - name: from_readout-proxy_to_PHOSRawToCellConverterSpec_t2
@@ -58,7 +58,7 @@ roles:
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_PHOSRawToCellConverterSpec_t2"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: phos-compressor-raw-qcmnt3-local-PHOSRawToCellConverterSpec_t2
+      load: phos-raw-clusters-local-PHOSRawToCellConverterSpec_t2
   - name: "Dispatcher"
     connect:
     - name: from_internal-dpl-clock_to_Dispatcher
@@ -82,21 +82,21 @@ roles:
       target: "{{ Parent().Path }}.PHOSRawToCellConverterSpec_t2:from_PHOSRawToCellConverterSpec_t2_to_Dispatcher"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: phos-compressor-raw-qcmnt3-local-Dispatcher
-  - name: "QC-TASK-RUNNER-QcTask"
+      load: phos-raw-clusters-local-Dispatcher
+  - name: "QC-TASK-RUNNER-RawTask"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-QcTask
+    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-RawTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-QcTask"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-RawTask"
       rateLogging: "{{ fmq_rate_logging }}"
-    - name: from_Dispatcher_to_QC-TASK-RUNNER-QcTask
+    - name: from_Dispatcher_to_QC-TASK-RUNNER-RawTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-QcTask"
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-RawTask"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: phos-compressor-raw-qcmnt3-local-QC-TASK-RUNNER-QcTask
+      load: phos-raw-clusters-local-QC-TASK-RUNNER-RawTask
   - name: "internal-dpl-injected-dummy-sink"
     connect:
     - name: from_PHOSRawToCellConverterSpec_t0_to_internal-dpl-injected-dummy-sink
@@ -115,21 +115,21 @@ roles:
       target: "{{ Parent().Path }}.PHOSRawToCellConverterSpec_t2:from_PHOSRawToCellConverterSpec_t2_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: phos-compressor-raw-qcmnt3-local-internal-dpl-injected-dummy-sink
-  - name: "QcTask-proxy"
+      load: phos-raw-clusters-local-internal-dpl-injected-dummy-sink
+  - name: "RawTask-proxy"
     connect:
-    - name: from_QC-TASK-RUNNER-QcTask_to_QcTask-proxy
+    - name: from_QC-TASK-RUNNER-RawTask_to_RawTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-QcTask:from_QC-TASK-RUNNER-QcTask_to_QcTask-proxy"
+      target: "{{ Parent().Path }}.QC-TASK-RUNNER-RawTask:from_QC-TASK-RUNNER-RawTask_to_RawTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-    - name: QcTask-proxy
+    - name: RawTask-proxy
       type: pub
       transport: zeromq
-      target: "::QcTask-proxy"
+      target: "::RawTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: phos-compressor-raw-qcmnt3-local-QcTask-proxy
+      load: phos-raw-clusters-local-RawTask-proxy
   - name: "dpl-output-proxy"
     connect:
     - name: from_PHOSRawToCellConverterSpec_t0_to_dpl-output-proxy
@@ -160,4 +160,4 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       global: "downstream-{{ it }}"
     task:
-      load: phos-compressor-raw-qcmnt3-local-dpl-output-proxy
+      load: phos-raw-clusters-local-dpl-output-proxy

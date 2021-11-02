@@ -1,4 +1,4 @@
-name: phos-compressor-raw-qcmnt3-local-dpl-output-proxy
+name: phos-raw-clusters-local-dpl-output-proxy
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -64,7 +64,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'CEL:PHS/CELLS/0;CTR:PHS/CELLTRIGREC/0;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "'x:PHS/RAWDATA;CEL:PHS/CELLS/0;CTR:PHS/CELLTRIGREC/0;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--default-port"
     - "'4200'"
     - "--default-transport"
@@ -72,7 +72,7 @@ command:
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
-    - "'@'"
+    - "'/tmp'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
@@ -99,8 +99,6 @@ command:
     - "'1'"
     - "--severity"
     - "'info'"
-    - "--shm-allocation"
-    - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
     - "'false'"
     - "--shm-mlock-segment-on-creation"

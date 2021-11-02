@@ -23,7 +23,7 @@
       }
     },
     "tasks": {
-      "CPVPhysicsTask": {
+      "PhysicsOnEPNs": {
         "active": "true",
         "className": "o2::quality_control_modules::cpv::PhysicsTask",
         "moduleName": "QcCPV",
@@ -42,7 +42,7 @@
             "epn"
         ],
         "remoteMachine": "alio2-cr1-qme07.cern.ch",
-				"remotePort": "47768",
+        "remotePort": "47768",
         "mergingMode": "delta",
         "localControl": "odc",
         "": ""

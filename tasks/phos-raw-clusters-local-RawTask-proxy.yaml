@@ -1,22 +1,16 @@
-name: phos-compressor-raw-qcmnt3-local-dpl-output-proxy
+name: phos-raw-clusters-local-RawTask-proxy
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-dpl-output-proxy
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-dpl-output-proxy"
+    {{ dpl_command }} | o2-qc
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-qc"
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: downstream
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    global: "downstream-{{ it }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -42,7 +36,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'dpl-output-proxy'"
+    - "'RawTask-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -63,16 +57,12 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--dataspec"
-    - "'CEL:PHS/CELLS/0;CTR:PHS/CELLTRIGREC/0;dd:FLP/DISTSUBTIMEFRAME/0'"
-    - "--default-port"
-    - "'4200'"
-    - "--default-transport"
-    - "'shmem'"
+    - "--config"
+    - "'{{ qc_config_uri }}'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
-    - "'@'"
+    - "'/tmp'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
@@ -83,24 +73,21 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--host"
+    - "'flp'"
     - "--labels"
     - "''"
-    - "--output-proxy-address"
-    - "'0.0.0.0'"
-    - "--output-proxy-method"
-    - "'bind'"
+    - "--local"
+    - "--local-batch"
+    - "''"
     - "--pipeline"
     - "''"
-    - "--proxy-channel-name"
-    - "'downstream'"
-    - "--proxy-name"
-    - "'dpl-output-proxy'"
     - "--readers"
     - "'1'"
+    - "--remote-batch"
+    - "''"
     - "--severity"
     - "'info'"
-    - "--shm-allocation"
-    - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
     - "'false'"
     - "--shm-mlock-segment-on-creation"
