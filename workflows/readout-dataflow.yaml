@@ -822,7 +822,7 @@ defaults:
     index: 4
     visibleif: $$pdp_panel_mode === "Expert"
   pdp_config_option: !public
-    value: "Repository path"
+    value: "Manual XML"
     type: string
     label: "Workflow configuration mode"
     description: ""
@@ -899,28 +899,28 @@ defaults:
     index: 9
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_detector_list_global: !public
-    value: "ALL"
+    value: "default"
     type: string
     label: "Detector list (Global)"
-    description: "Comma-separated list of detectors for EPN processing. Empty string means no detectors. 'ALL' is an abbreviation to include all detectors."
+    description: "Comma-separated list of detectors for EPN processing. Empty string means no detectors. 'default' is an abbreviation to include all detectors."
     widget: editBox
     panel: "EPN_Global_Processing"
     index: 10
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_detector_list_qc: !public
-    value: "ALL"
+    value: "default"
     type: string
     label: "Detector list (QC)"
-    description: "Comma-separated list of detectors for EPN QC. Empty string means no detectors. 'ALL' is an abbreviation to include all detectors."
+    description: "Comma-separated list of detectors for EPN QC. Empty string means no detectors. 'default' is an abbreviation to include all detectors."
     widget: editBox
     panel: "EPN_Global_Processing"
     index: 11
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_detector_list_calib: !public
-    value: "ALL"
+    value: "default"
     type: string
     label: "Detector list (Calibration)"
-    description: "Comma-separated list of detectors for calibration. Empty string means no detectors. 'ALL' is an abbreviation to include all detectors."
+    description: "Comma-separated list of detectors for calibration. Empty string means no detectors. 'default' is an abbreviation to include all detectors."
     widget: editBox
     panel: "EPN_Global_Processing"
     index: 12
