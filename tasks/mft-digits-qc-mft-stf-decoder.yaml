@@ -93,6 +93,8 @@ command:
     - "''"
     - "--readers"
     - "'1'"
+    - "--report-dds-collection-index"
+    - "-1"
     - "--runmft"
     - "--severity"
     - "'info'"
