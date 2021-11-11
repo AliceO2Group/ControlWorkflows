@@ -98,6 +98,8 @@ command:
     - "'1'"
     - "--stacktrace-on-signal"
     - "'all'"
+    - "--time-calib-fitting-nbins"
+    - "'2'"
     - "--workflow-suffix"
     - "''"
     - "--max-delay"
