@@ -59,7 +59,7 @@ defaults:
         --system-id {{ rocConfigSystemId }}
         --fee-id {{ rocConfigFEEId }})
       o2-roc-config --id={{ card }}:$endpoint ${args[@]} || exit 1;done
-  _plain_cmdline: "source /etc/profile.d/o2.sh && 
+  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} 
       for endpoint in {{ card_endpoints }};do 
         args=(--links {{ rocConfigLinks }} 
           {{ rocConfigAllowRejection == 'true' ? '--allow-rejection' : '' }}
