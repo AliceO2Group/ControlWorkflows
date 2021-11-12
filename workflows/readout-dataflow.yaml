@@ -34,6 +34,14 @@ defaults:
     widget: checkBox
     panel: Basic_Configuration
     index: 100
+  extra_env_vars: !public
+    value: ""
+    type: string
+    label: "Additional environment variables"
+    description: "Space-separated list of environment variables, injected into the environment of all controlled processes (syntax as for the 'export' command)"
+    widget: editBox
+    panel: Basic_Configuration
+    index: 999
   ###############################
   # DCS and FLP Processing Panel
   ###############################
