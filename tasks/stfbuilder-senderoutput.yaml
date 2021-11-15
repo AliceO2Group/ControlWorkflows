@@ -36,7 +36,7 @@ command:
     - "--transport=shmem"
     - "--monitoring-backend='{{ monitoring_dd_url }}'"
     - "--discovery-partition={{ environment_id }}"
-    - "--discovery-endpoint={{ dd_discovery_endpoint }}"
+    - '{{ ddsched_enabled == "true" ? "--discovery-endpoint=" + dd_discovery_endpoint : "" }}'
     - "--detector-rdh={{ rdh_version }}"
     - "--detector-subspec={{ dd_detector_subspec }}"
     - "--severity={{ fmq_severity }}"
