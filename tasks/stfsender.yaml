@@ -37,7 +37,7 @@ command:
     - "--monitoring-backend='{{ monitoring_dd_url }}'"
     - "--discovery-partition={{ environment_id }}"
     - "--discovery-id={{ dd_discovery_stfs_id }}"
-    - '{{ ddsched_enabled == "true" ? "--discovery-endpoint={{ dd_discovery_endpoint }}" : "" }}'
+    - '{{ ddsched_enabled == "true" ? "--discovery-endpoint=" + dd_discovery_endpoint : "" }}'
     - "--discovery-net-if={{ dd_discovery_net_if }}"
     - '{{ ddsched_enabled == "true" ? "" : "--stand-alone" }}'
     - "--shm-monitor=false"
