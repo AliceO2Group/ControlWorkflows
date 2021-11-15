@@ -283,6 +283,7 @@ defaults:
       - its-qc-fhr-fee-no-ds
       - its-qcmn-fhr-fee-local
       - its-qcmn-fhr-fee-no-ds-local
+      - its-qcmn-fhr-fee-no-ds-entire-local
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -297,6 +298,7 @@ defaults:
       - none
       - its-qcmn-fhr-fee-remote
       - its-qcmn-fhr-fee-no-ds-remote
+      - its-qcmn-fhr-fee-no-ds-entire-remote
       - its-qcmn-cluster-track-remote
       - its-qcmn-flp-epn-remote
       - its-qcmn-flp-epn-no-ds-remote
