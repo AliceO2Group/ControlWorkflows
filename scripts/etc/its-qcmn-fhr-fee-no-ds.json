@@ -55,8 +55,7 @@
           "alio2-cr1-flp194",
           "alio2-cr1-flp195",
           "alio2-cr1-flp196",
-          "alio2-cr1-flp197",
-          "alio2-cr1-flp198"
+          "alio2-cr1-flp197"
         ],
         "remotePort": "33012",
         "remoteMachine": "alio2-cr1-qme04"
@@ -84,8 +83,7 @@
           "alio2-cr1-flp194",
           "alio2-cr1-flp195",
           "alio2-cr1-flp196",
-          "alio2-cr1-flp197",
-          "alio2-cr1-flp198"
+          "alio2-cr1-flp197"
        ],
        "remotePort": "44154",
        "remoteMachine": "alio2-cr1-qme04"
