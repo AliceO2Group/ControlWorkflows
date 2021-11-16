@@ -11,22 +11,12 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_mft-stf-decoder_to_QC-TASK-RUNNER-QcMFTReadoutTask
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
   - name: from_mft-stf-decoder_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_mft-stf-decoder_to_Dispatcher
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_mft-stf-decoder_to_dpl-output-proxy
+  - name: from_mft-stf-decoder_to_QC-TASK-RUNNER-QcMFTDigitTask
     type: push
     transport: shmem
     addressing: ipc
@@ -80,7 +70,7 @@ command:
     - "--configKeyValues"
     - "'MFTClustererParam.noiseFilePath=/tmp/_DUMMY_;MFTClustererParam.dictFilePath=/tmp/_DUMMY_'"
     - "--dataspec"
-    - "''"
+    - "'TF:MFT/RAWDATA_SMP'"
     - "--digits"
     - "--early-forward-policy"
     - "'never'"
@@ -96,6 +86,7 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--ignore-dist-stf"
     - "--labels"
     - "''"
     - "--no-clusters"

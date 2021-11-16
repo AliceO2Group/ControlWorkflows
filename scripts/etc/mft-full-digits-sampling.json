@@ -1,0 +1,18 @@
+{
+  "dataSamplingPolicies": [
+    {
+      "id": "mft-raw-rnd",
+      "active": "true",
+      "machines": [],
+      "query" : "raw:MFT/RAWDATA",
+      "outputs" : "raw-sampled:MFT/RAWDATA_SMP",
+      "samplingConditions": [
+        {
+          "condition": "random",
+          "fraction": "0.05",
+          "seed": "0"
+        }
+      ]
+    }
+  ]
+}
