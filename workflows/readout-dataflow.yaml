@@ -800,7 +800,7 @@ defaults:
     widget: editBox
     panel: "EPN_Global_Processing"
     index: -999
-  odc_resources: !public
+  odc_resources_spec: !public
     value: "default"
     type: string
     label: "Resources"
@@ -1326,7 +1326,7 @@ roles:
   - name: odc
     enabled: "{{odc_enabled == 'true'}}"
     vars:
-      odc_resources: '{{TrimSpace(odc_resources) == "default" ? "{\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}" : odc_resources }}'
+      odc_resources: '{{TrimSpace(odc_resources_spec) == "default" ? "{\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}" : odc_resources_spec }}'
       odc_script: '{{ odc_enabled == "true" ? odc.GenerateEPNWorkflowScript() : "" }}'
     roles:
       - name: deploy
