@@ -1,38 +1,1061 @@
 name: !public readout-dataflow
 defaults:
+  ###############################
+  # Basic Configuration Panel
+  ###############################
+  dcs_enabled: !public # TODO: if false, DCS panel should be disabled
+    value: "false"
+    type: bool
+    label: "DCS"
+    description: "Enable/disable DCS SOR/EOR commands"
+    widget: checkBox
+    panel: Basic_Configuration
+    index: -200
+  dd_enabled: !public
+    value: "true"
+    type: bool
+    label: "Data Distribution (FLP)"
+    description: "Enable/disable Data Distribution components running on FLPs (StfBuilder and StfSender)"
+    widget: checkBox
+    panel: Basic_Configuration
+    index: -100
+  epn_enabled: !public # TODO: this should be the single var that enables both ODC and DD Scheduler
+    value: "false"
+    type: bool
+    label: "EPN"
+    description: "Enable/disable EPN"
+    widget: checkBox
+    panel: Basic_Configuration
+  trg_enabled: !public
+    value: "false"
+    type: bool
+    label: "TRG"
+    description: "Enable/disable TRG"
+    widget: checkBox
+    panel: Basic_Configuration
+    index: 100
+  ###############################
+  # DCS and FLP Processing Panel
+  ###############################
+  qc_remote_enabled: !public # TODO: if false, all per-detector remote QC workflows vars should be disabled
+    value: "false"
+    type: bool
+    label: "QC node workflows"
+    description: "Enable/disable running workflows on the QC nodes"
+    widget: checkBox
+    panel: ALIECS_Workflows
+    index: -200
+  cpv_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "CPV FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - cpv-compressor
+      - cpv-qc-compressor
+      - cpv-pedestal-calib-qc
+      - cpv-physics
+      - cpv-physics-testing
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  cpv_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "CPV QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - cpv-physics-qcmn-epn-remote
+      - qcmn-daq-remote
+  cpv_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "CPV SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: DCS
+  cpv_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "CPV EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: DCS
+  emc_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "EMCAL FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+      - emc-qcmn-flp-local
+  emc_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "EMCAL QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - emc-qcmn-flp-remote
+      - emc-qcmn-epn-remote
+      - emc-qcmn-epnall-remote
+      - emc-qcmn-flpepn-remote
+      - qcmn-daq-remote
+  emc_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "EMCAL SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: DCS
+  emc_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "EMCAL EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: DCS
+  fdd_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "FDD FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - fdd-digits-qc-full-nocalib
+      - fdd-digits-qc-full-nocalib-raw
+      - fdd-digits-pipe
+      - fdd-digits-qc-ds-pipe
+      - fdd-digits-qc-ds
+      - fdd-digits-qc
+      - fdd-digits
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  fdd_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "FDD QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - fdd-qcmn-remote
+      - qcmn-daq-remote
+  fdd_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "FDD SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: DCS
+  fdd_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "FDD EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: DCS
+  ft0_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "FT0 FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - ft0-digits-qc-full
+      - ft0-digits-qc-full-raw
+      - ft0-digits-qc-full-nocalib
+      - ft0-digits-qc-full-nocalib-raw
+      - ft0-digits-pipe
+      - ft0-digits-qc-ds-pipe
+      - ft0-digits-qc-ds-pipe-raw
+      - ft0-digits-qc-ds
+      - ft0-digits-qc-postproc-ds-pipe
+      - ft0-digits-qc-postproc-ds
+      - ft0-digits-qc
+      - ft0-digits
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  ft0_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "FT0 QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - ft0-qcmn-remote
+      - qcmn-daq-remote
+  ft0_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "FT0 SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: DCS
+  ft0_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "FT0 EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: DCS
+  fv0_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "FV0 FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - fv0-digits-qc-full
+      - fv0-digits-qc-full-raw
+      - fv0-digits-qc-full-nocalib
+      - fv0-digits-qc-full-nocalib-raw
+      - fv0-digits-pipe
+      - fv0-digits-qc-ds-pipe
+      - fv0-digits-qc-ds-pipe-raw
+      - fv0-digits-qc-ds
+      - fv0-digits-qc-postproc-ds-pipe
+      - fv0-digits-qc-postproc-ds
+      - fv0-digits-qc
+      - fv0-digits
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  fv0_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "FV0 QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - fv0-qcmn-remote
+      - qcmn-daq-remote
+  fv0_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "FV0 SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: DCS
+  fv0_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "FV0 EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: DCS
+  its_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "ITS FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - its-qc-fhr-fee
+      - its-qc-fhr-fee-no-ds
+      - its-qcmn-fhr-fee-local
+      - its-qcmn-fhr-fee-no-ds-local
+      - its-qcmn-fhr-fee-no-ds-entire-local
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  its_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "ITS QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - its-qcmn-fhr-fee-remote
+      - its-qcmn-fhr-fee-no-ds-remote
+      - its-qcmn-fhr-fee-no-ds-entire-remote
+      - its-qcmn-cluster-track-remote
+      - its-qcmn-flp-epn-remote
+      - its-qcmn-flp-epn-no-ds-remote
+      - qcmn-daq-remote
+  its_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "ITS SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: DCS
+  its_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "ITS EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: DCS
+  hmp_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "HMPID FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - hmpid-raw-qc
+      - hmpid-raw-qcmn-local
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+      - hmpid-raw-to-pedestals
+  hmp_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "HMPID QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - hmpid-raw-qcmn-remote
+      - qcmn-daq-remote
+  hmp_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "HMPID SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: DCS
+  hmp_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "HMPID EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: DCS
+  mch_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "MCH FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - mch-qcmn-flp-digits-local
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  mch_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "MCH QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - mch-qcmn-epn-digits-remote
+      - mch-qcmn-flp-digits-remote
+      - qcmn-daq-remote
+      - mch-digits-epn
+  mch_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "MCH SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: DCS
+  mch_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "MCH EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: DCS
+  mft_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "MFT FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - mft-decoder
+      - mft-digits-qc
+      - mft-raw-direct-qcmn-local
+      - mft-raw-qc
+      - mft-raw-qcmn-local
+      - mft-full-qcmn-local
+      - mft-raw-cluster-qcmn-local
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  mft_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "MFT QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - mft-raw-direct-qcmn-remote
+      - mft-raw-qcmn-remote
+      - mft-full-qcmn-remote
+      - mft-raw-cluster-qcmn-remote
+      - qcmn-daq-remote
+  mft_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "MFT SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: DCS
+  mft_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "MFT EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: DCS
+  mid_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "MID FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - mid-raw-decoder
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  mid_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "MID QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - mid-qcmn-epn-digits
+      - qcmn-daq-remote
+  mid_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "MID SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: DCS
+  mid_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "MID EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: DCS
+  phs_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "PHOS FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - phos-compressor-raw-qc
+      - phos-compressor-raw-qcmn-local
+      - phos-compressor-raw-qcmnt3-local
+      - phos-compressor-raw-qct3
+      - phos-compressor
+      - phos-compressort3
+      - phos-raw-clusters-local
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  phs_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "PHOS QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - phos-compressor-raw-qcmn-remote
+      - phos-compressor-raw-qcmnt3-remote
+      - phos-raw-clusters-remote
+      - qcmn-daq-remote
+  phs_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "PHOS SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: DCS
+  phs_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "PHOS EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: DCS
+  tof_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "TOF FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - tof-compressor
+      - tof-full-qcmn-local
+      - tof-qcmn-compressor-local
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  tof_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "TOF QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - qcmn-daq-remote
+      - tof-full-qcmn-remote
+      - tof-qcmn-compressor-remote
+  tof_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "TOF SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: DCS
+  tof_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "TOF EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: DCS
+  tpc_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "TPC FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  tpc_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "TPC QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - qcmn-daq-remote
+      - tpc-full-qcmn-remote
+  tpc_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "TPC SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: DCS
+  tpc_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "TPC EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: DCS
+  trd_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "TRD FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  trd_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "TRD QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - qcmn-daq-remote
+  trd_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "TRD SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: DCS
+  trd_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "TRD EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: DCS
+  zdc_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "ZDC FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  zdc_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "ZDC QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: ALIECS_Workflows
+    values:
+      - none
+      - qcmn-daq-remote
+  zdc_dcs_sor_parameters: !public
+    value: "{}"
+    type: string
+    label: "ZDC SOR parameters"
+    description: "additional parameters for the DCS SOR"
+    widget: editBox
+    panel: DCS
+  zdc_dcs_eor_parameters: !public
+    value: "{}"
+    type: string
+    label: "ZDC EOR parameters"
+    description: "additional parameters for the DCS EOR"
+    widget: editBox
+    panel: DCS
+  ###############################
+  # TRG Panel
+  ###############################
+  trg_global_run_enabled: !public
+    value: "false"
+    type: bool
+    label: "TRG Global Run"
+    description: "If enabled, send commands to CTS. If disabled, send commands to LTU."
+    widget: checkBox
+    panel: TRG
+    index: 0
+  trg_load_parameters: !public
+    value: "GLOBAL.pd"
+    type: string
+    label: "TRG Configuration"
+    description: "Configuration file for the TRG/CTP Global Run"
+    widget: comboBox
+    values:
+      - "GLOBAL.pd"
+    panel: TRG
+    index: 1
+    visibleif: $$trg_global_run_enabled === "true"
+  trg_runtime_config_file: !public
+    value: ""
+    type: string
+    label: "LTU Configuration"
+    description: "configuration file for the LTU Standalone Run"
+    widget: editBox
+    panel: TRG
+    visibleif: $$trg_global_run_enabled === "false"
+    index: 2
+  # !! Not used by the ctpd !!
+  # trg_run_mode: !public
+  #   value: "none"
+  #   type: string
+  #   label: "TRG Start Run Trigger Mode"
+  #   description: "config for the TRG Run Start"
+  #   widget: dropDownBox
+  #   panel: TRG
+  #   values:
+  #     - none
+  #     - trig
+  #     - cont
+  # trg_run_ph_bc: !public
+  #   value: ""
+  #   type: string
+  #   label: "TRG Start Run Ph Bc"
+  #   description: "BC-downscaled rate of physics triggers"
+  #   widget: editBox
+  #   panel: TRG
+  # trg_run_ph_rnd: !public
+  #   value: ""
+  #   type: string
+  #   label: "TRG Start PH RND"
+  #   description: "rate of physics triggers generated randomly"
+  #   widget: editBox
+  #   panel: TRG
+  ###############################
+  # Logging Panel
+  ###############################
+  infologger_severity: !public
+    value: info
+    type: string
+    label: "DPL log level"
+    description: "Minimum DPL logging severity which is sent to InfoLogger"
+    widget: dropDownBox
+    panel: Logging
+    values:
+      - "nolog"
+      - "fatal"
+      - "error"
+      - "warn"
+      - "state"
+      - "info"
+      - "debug"
+      - "debug1"
+      - "debug2"
+      - "debug3"
+      - "debug4"
+      - "trace"
+    index: 1
+  log_task_output: !public
+    value: none
+    type: string
+    label: "Task stdout"
+    description: "Select to where the standard output of controlled tasks should be forwarded to (select 'all' for InfoLogger)"
+    widget: dropDownBox
+    panel: Logging
+    values:
+      - "none"
+      - "stdout"
+      - "all"
+    index: 2
+  fmq_rate_logging: !public
+    value: "0"
+    type: number
+    label: "FairMQ rate logging"
+    description: "sets the interval at which FairMQ logs channel transfer rates (0 to disable)"
+    widget: editBox
+    panel: Logging
+    index: 3
+  ###############################
+  # EPN Global Processing Panel
+  ###############################
+  pdp_generator_script_path: /home/epn/pdp/gen_topo.sh
+  pdp_panel_mode: !public
+    value: "Shifter"
+    type: string
+    label: "Panel mode"
+    description: ""
+    widget: radioButtonBox
+    panel: "EPN_Global_Processing"
+    values:
+      - "Shifter"
+      - "Expert"
+    index: -1000
+  odc_n_epns: !public
+    value: "10"
+    type: number
+    label: "# of EPNs"
+    description: "Number of EPNs to use"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: -999
+  odc_resources_spec: !public
+    value: "default"
+    type: string
+    label: "Resources"
+    description: "EPN resources to be used, the value 'default' results in '{\"zone\":\"online\", \"n\":N}' where N is the value set in '# of EPNs'"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 3
+    visibleif: $$pdp_panel_mode === "Expert"
+  stfb_dd_mode: !public
+    value: "physics"
+    type: string
+    label: "Data Distribution mode"
+    description: "Data Distribution mode. physics: standard time based data distribution. topology: special topological data distribution for ITS and MFT calibration runs."
+    widget: dropDownBox
+    panel: "EPN_Global_Processing"
+    values:
+      - physics
+      - topology
+    index: 4
+    visibleif: $$pdp_panel_mode === "Expert"
+  pdp_config_option: !public
+    value: "Manual XML"
+    type: string
+    label: "Workflow configuration mode"
+    description: ""
+    widget: dropDownBox
+    panel: "EPN_Global_Processing"
+    values:
+      - "Repository hash"
+      - "Repository path"
+      - "Manual XML"
+    index: -800
+    visibleif: $$pdp_panel_mode === "Expert"
+  odc_topology: !public
+    value: ""
+    type: string
+    label: "Topology"
+    description: "DDS topology name to be executed on EPNs"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 2
+    visibleif: $$pdp_config_option === "Manual XML"
+  pdp_o2_data_processing_hash: !public
+    value: "v0.20"
+    type: string
+    label: "O2 Data Processing Hash"
+    description: "Commit hash or tag of O2DataProcessing to use"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 2
+    visibleif: $$pdp_config_option === "Repository hash"
+  pdp_o2_data_processing_path: !public
+    value: "/home/pdp/alice/O2DataProcessing"
+    type: string
+    label: "O2 Data Processing Path"
+    description: "Full path in the EPN shared home folder to O2DataProcessing repository"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 2
+    visibleif: $$pdp_config_option === "Repository path"
+  tfb_dd_mode: !public
+    value: "processing"
+    type: string
+    label: "TF Builder mode"
+    description: "Time Frame Builder mode. processing: TfBuilder builds time frames and forwards them to DPL. disk: TfBuilder builds time frames and stores the raw time frame to disk. processing-disk: combination of processing and disk. discard: TfBuilder builds time frames in memory and discards them immediately."
+    widget: dropDownBox
+    panel: "EPN_Global_Processing"
+    values:
+      - discard
+      - disk
+      - processing
+      - processing-disk
+    index: 7
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_workflow_name: !public
+    value: "synchronous-workflow-1numa"
+    type: string
+    label: "Workflow name"
+    description: "Workflow name in the topology description library file"
+    widget: comboBox
+    panel: "EPN_Global_Processing"
+    values:
+      - "synchronous-workflow"
+      - "synchronous-workflow-1numa"
+    index: 8
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_topology_description_library_file: !public
+    value: "production/production.desc"
+    type: string
+    label: "Topology description library file"
+    description: "Topology description file in O2DataProcessing repository"
+    widget: comboBox
+    panel: "EPN_Global_Processing"
+    values:
+      - "production/production.desc"
+    index: 9
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_detector_list_global: !public
+    value: "default"
+    type: string
+    label: "Detector list (Global)"
+    description: "Comma-separated list of detectors for EPN processing. Empty string means no detectors. 'default' is an abbreviation to include all detectors."
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 10
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_detector_list_qc: !public
+    value: "default"
+    type: string
+    label: "Detector list (QC)"
+    description: "Comma-separated list of detectors for EPN QC. Empty string means no detectors. 'default' is an abbreviation to include all detectors."
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 11
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_detector_list_calib: !public
+    value: "default"
+    type: string
+    label: "Detector list (Calibration)"
+    description: "Comma-separated list of detectors for calibration. Empty string means no detectors. 'default' is an abbreviation to include all detectors."
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 12
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_workflow_parameters: !public
+    value: "QC,CALIB,GPU,CTF,EVENT_DISPLAY"
+    type: string
+    label: "Workflow parameters"
+    description: "Comma-separated list of workflow parameters. Valid parameters are: QC,CALIB,GPU,CTF,EVENT_DISPLAY,CTF_ONLY."
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 13
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_nr_compute_nodes: !public
+    value: "-1"
+    type: number
+    label: "# of compute nodes"
+    description: "Set to -1 to request default number of compute nodes for the selected workflow. A non-negative value runs the workflow on that many compute nodes."
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 14
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_raw_decoder_multi_factor: !public
+    value: "1"
+    type: number
+    label: "Raw decoder multiplicity factor"
+    description: "Multiply the number of raw decoder processing instance on EPN by this factor"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 15
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_ctf_encoder_multi_factor: !public
+    value: "1"
+    type: number
+    label: "CTF encoder multiplicity factor"
+    description: "Multiply the number of CTF encoder processing instance on EPN by this factor"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 16
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_reco_process_multi_factor: !public
+    value: "1"
+    type: number
+    label: "Reconstruction process multiplicity factor"
+    description: "Multiply the number of instances of other reconstruction processes by this factor"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 17
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_extra_env_vars: !public
+    value: ""
+    type: string
+    label: "Extra ENV variables"
+    description: "Additional environment variables exported when running the workflow generation script"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 18
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_wipe_workflow_cache: !public
+    value: "false"
+    type: bool
+    label: "Wipe workflow cache"
+    description: "Delete workflow cache"
+    widget: checkBox
+    panel: "EPN_Global_Processing"
+    index: 19
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_beam_type: !public
+    value: "cosmic"
+    type: string
+    label: "Beam type"
+    description: "Beam type used in this environment"
+    widget: dropDownBox
+    panel: "EPN_Global_Processing"
+    values:
+      - PbPb
+      - pp
+      - pPb
+      - cosmic
+      - technical
+    index: 20
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_n_hbf_per_tf: !public
+    value: "128"
+    type: number
+    label: "# of HBFs per TF"
+    description: "Number of HBFs per TF for EPN processing"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 21
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  odc_partitions_cleanup: !public
+    value: "true"
+    type: bool
+    label: "EPN partitions cleanup"
+    description: "If enabled, orphaned EPN partitions are cleaned up on environment deployment and shutdown"
+    widget: checkBox
+    panel: "EPN_Global_Processing"
+    index: 22
+    visibleif: $$pdp_panel_mode === "Expert"
+  ###############################
+  # Other variables
+  ###############################
+  detectors: "{{ DetectorsForHosts(hosts) }}"
+  dpl_workflow: none
   drop_caches_enabled: "true"
+  drop_caches_timeout: "30s"
   fmq_initial_shm_cleanup_enabled: "true"
-  roc_ctp_emulator_enabled: "false"
-  dd_enabled: "true"
-  ddsched_enabled: "false"
-  dcs_enabled: "false"
-  qcdd_enabledtest: "false" # qcdd_enabled and minimal_dpl_enabled cannot be both true!
-  minimal_dpl_enabled: "false"
-  dpl_workflow: "none" # if specified, we use dpl_worfklow to choose what is between STFB and STFS. Otherwise, we fall to the old choice mechanism.
-                       # available options: "none", "qc-daq", "minimal-dpl", "tof-compressor"
-  qc_remote_workflow: "none"
-  stfb_standalone: "false"
-  odc_enabled: "false"
-  odcshim_enabled: "false"
-  roc_cleanup_enabled: "true"
+  fmq_initial_shm_cleanup_timeout: "30s"
   fmq_cleanup_enabled: "true"
+  minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow
+  monitoring_dd_url: "no-op://"
   monitoring_dpl_url: "no-op://"
   monitoring_qc_url: "no-op://"
-  monitoring_dd_url: "no-op://"
-  monitoring_readout_url: "no-op://"
-  user: flp
-  log_task_output: none
-  fmq_rate_logging: "10"
+  monitoring_readout_url: "no-op://" # TODO: is this used somewhere ? I could not find it anywhere in the workflows
   o2_install_path: "/opt/o2"
   o2_infologger_path: "/opt/o2-InfoLogger"
+  odc_plugin: "epn"
+  qcdd_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
+  roc_cleanup_enabled: "true"
+  roc_ctp_emulator_enabled: "false"
+  stfb_standalone: "false"
+  user: flp
+vars:
+  ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
+  odc_enabled: "{{ epn_enabled }}"
 roles:
   - name: host-{{ it }}
     for:
       range: "{{ hosts }}"
       var: it
-    defaults:
-      detector: "{{DetectorForHost( it )}}"
     vars:
+      detector: "{{DetectorForHost( it )}}"
       readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ it }}"
       readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-stfb-{{ it }}"
       dd_discovery_ib_hostname: "{{ it }}-ib" # MUST be defined for all stfb and stfs
@@ -103,7 +1126,7 @@ roles:
                 transport: shmem
                 addressing: ipc
                 sndBufSize: "4"
-                global: "readout-proxy-{{ it }}"            
+                global: "readout-proxy-{{ it }}"
             task:
               #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
               load: stfbuilder
@@ -121,7 +1144,7 @@ roles:
               load: stfsender
           - name: dpl
             enabled: "{{ qcdd_enabled == 'true' }}"
-            include: qc-daq            
+            include: qc-daq
           - name: dpl
             enabled: "{{ minimal_dpl_enabled == 'true' }}"
             include: minimal-dpl
@@ -152,8 +1175,8 @@ roles:
         task:
           load: "shell-command"
           trigger: before_CONFIGURE
-          timeout: 10s
-          critical: true
+          timeout: "{{ drop_caches_timeout }}"
+          critical: false # TODO: if this is set true, some basic task finished events aren't parsed correctly
       - name: fairmq-shmcleanup
         enabled: "{{fmq_initial_shm_cleanup_enabled == 'true'}}"
         vars:
@@ -162,8 +1185,8 @@ roles:
         task:
           load: "shell-command"
           trigger: before_CONFIGURE
-          timeout: 10s
-          critical: true
+          timeout: "{{ fmq_initial_shm_cleanup_timeout }}"
+          critical: false
       - name: fairmq-shmmonitor
         enabled: "{{fmq_cleanup_enabled == 'true'}}"
         task:
@@ -186,51 +1209,99 @@ roles:
           trigger: DESTROY
           timeout: 10s
           critical: false
-  - name: qc-remote-workflow
-    enabled: "{{ qc_remote_workflow != 'none' }}"
+  - name: qc-servers
+    enabled: "{{ qc_remote_enabled == 'true' }}"
     constraints:
       - attribute: machine_type
         value: qcserver
+    defaults:
+      qc_remote_workflow: none
     vars:
       user: qc
       session_id: "{{ environment_id }}" # we can't use "default" because other workflows might already exist on the same QC server
     roles:
-      - name: dpl
-        enabled: "{{ qc_remote_workflow != 'none' }}"
-        include: "{{ qc_remote_workflow }}"
-      - name: fairmq-shmmonitor
-        enabled: "{{fmq_cleanup_enabled == 'true'}}"
-        task:
-          load: "fairmq-shmmonitor"
-          trigger: DESTROY
-          timeout: 10s
-          critical: false
-  - name: odc-shim
-    enabled: "{{odcshim_enabled == 'true'}}"
-    task:
-      load: odc-shim
+      - name: qc-remote-workflow-{{ det }}
+        for:
+          range: "{{ detectors }}"
+          var: det
+        vars:
+          qc_remote_workflow: "{{ PrefixedOverride( 'qc_remote_workflow', ToLower( det ) ) }}"
+        roles:
+          - name: dpl
+            enabled: "{{ qc_remote_workflow != 'none' }}"
+            include: "{{ qc_remote_workflow }}"
+          # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list
+          # however if the {{det}}_qc_remote_workflow is none there is a ghost role deployed which is never active
+          # for that cases we deploy a plain echo task which will transition the role and eventually the wf to active
+          - name: echo task
+            enabled: "{{ qc_remote_workflow == 'none' }}"
+            vars:
+              shell_command: echo
+            task:
+              load: "shell-command"
   - name: dcs
     enabled: "{{dcs_enabled == 'true'}}"
+    defaults:
+    ###############################
+    # DCS Panel
+    ###############################
+      dcs_detectors: "{{ detectors }}"
+      dcs_sor_parameters: !public
+        value: "{}"
+        type: string
+        label: "Global SOR parameters"
+        description: "additional parameters for the DCS SOR"
+        widget: editBox
+        panel: DCS
+        index: 2
+      dcs_eor_parameters: !public
+        value: "{}"
+        type: string
+        label: "Global EOR parameters"
+        description: "additional parameters for the DCS EOR"
+        widget: editBox
+        panel: DCS
+        index: 3
+      run_type: !public # enum from AliECS common/runtype
+        value: "NONE"
+        type: string
+        label: "Run Type"
+        description: "Run type for DCS SOR/EOR"
+        widget: comboBox
+        panel: DCS
+        values:
+          - NONE
+          - CALIBRATION_ITHR_TUNING
+          - CALIBRATION_VCASN_TUNING
+          - CALIBRATION_THR_SCAN
+          - CALIBRATION_DIGITAL_SCAN
+          - CALIBRATION_ANALOG_SCAN
+          - CALIBRATION_FHR
+          - CALIBRATION_ALPIDE_SCAN
+          - LASER
+          - PEDESTAL
+          - PHYSICS
+          - PULSER
+          - TECHNICAL
+        index: 4
     roles:
       - name: sor
-        defaults:
-          dcs_sor_parameters: "{\"key\":\"value\"}"
         call:
           func: dcs.StartOfRun()
-          trigger: before_CONFIGURE
-          timeout: 5s
+          trigger: enter_RUNNING
+          timeout: 140s
           critical: true
       - name: eor
         call:
           func: dcs.EndOfRun()
-          trigger: after_RESET
-          timeout: 5s
+          trigger: leave_RUNNING
+          timeout: 30s
           critical: true
       - name: cleanup
         call:
           func: dcs.Cleanup()
           trigger: DESTROY
-          timeout: 5s
+          timeout: 30s
           critical: true
   - name: dd-scheduler
     enabled: "{{ddsched_enabled == 'true'}}"
@@ -240,54 +1311,110 @@ roles:
           func: ddsched.PartitionInitialize()
           trigger: before_CONFIGURE
           await: after_CONFIGURE
-          timeout: 5s
+          timeout: 5m
           critical: true
       - name: terminate
         call:
           func: ddsched.PartitionTerminate()
           trigger: after_RESET
-          timeout: 5s
+          timeout: 5m
           critical: true
       - name: cleanup
         call:
           func: ddsched.EnsureTermination()
           trigger: DESTROY
-          timeout: 5s
+          timeout: 1m
           critical: false
   - name: odc
     enabled: "{{odc_enabled == 'true'}}"
+    vars:
+      odc_resources: '{{TrimSpace(odc_resources_spec) == "default" ? "{\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}" : odc_resources_spec }}'
+      odc_script: '{{ odc_enabled == "true" ? odc.GenerateEPNWorkflowScript() : "" }}'
     roles:
+      - name: deploy
+        enabled: "{{odc_partitions_cleanup == 'true'}}"
+        call:
+          func: odc.PreDeploymentCleanup()
+          trigger: before_DEPLOY
+          await: after_DEPLOY
+          timeout: 1m
+          critical: false
       - name: configure
         call:
           func: odc.Configure()
           trigger: before_CONFIGURE
           await: after_CONFIGURE
-          timeout: 30s
+          timeout: 1m
           critical: true
       - name: start
         call:
           func: odc.Start()
           trigger: before_START_ACTIVITY
           await: after_START_ACTIVITY
-          timeout: 5s
+          timeout: 1m
           critical: true
       - name: stop
         call:
           func: odc.Stop()
           trigger: before_STOP_ACTIVITY
           await: after_STOP_ACTIVITY
-          timeout: 5s
+          timeout: 1m
           critical: true
       - name: reset
         call:
           func: odc.Reset()
           trigger: before_RESET
           await: after_RESET
-          timeout: 15s
+          timeout: 1m
           critical: true
       - name: cleanup
+        enabled: "{{odc_partitions_cleanup == 'true'}}"
         call:
           func: odc.EnsureCleanup()
           trigger: DESTROY
+          timeout: 1m
+          critical: false
+      - name: legacy-cleanup
+        enabled: "{{odc_partitions_cleanup == 'false'}}"
+        call:
+          func: odc.EnsureCleanupLegacy()
+          trigger: DESTROY
+          timeout: 1m
+          critical: false
+  - name: trg
+    enabled: "{{trg_enabled == 'true'}}"
+    defaults:
+      trg_detectors: "{{ detectors }}"
+      trg_runtime_config: "{{ GetRuntimeConfig('trg/ltu', trg_runtime_config_file) }}"
+      trg_global_config: "{{ GetRuntimeConfig('trg/ctp', trg_load_parameters) }}"
+    roles:
+      - name: load
+        call:
+          func: trg.RunLoad()
+          trigger: enter_RUNNING
+          timeout: 5s
+          critical: true
+      - name: start
+        call:
+          func: trg.RunStart()
+          trigger: after_START_ACTIVITY
+          timeout: 5s
+          critical: true
+      - name: stop
+        call:
+          func: trg.RunStop()
+          trigger: before_STOP_ACTIVITY
+          timeout: 5s
+          critical: true
+      - name: unload
+        call:
+          func: trg.RunUnload()
+          trigger: after_STOP_ACTIVITY
+          timeout: 5s
+          critical: true
+      - name: cleanup
+        call:
+          func: trg.Cleanup()
+          trigger: DESTROY-100
           timeout: 5s
           critical: false

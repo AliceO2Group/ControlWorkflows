@@ -16,11 +16,6 @@ bind:
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-  - name: from_CPVRawToDigitConverterSpec_to_internal-dpl-injected-dummy-sink
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
   - name: from_CPVRawToDigitConverterSpec_to_dpl-output-proxy
     type: push
     transport: shmem
@@ -29,6 +24,7 @@ bind:
 command:
   shell: true
   log: "{{ log_task_output }}"
+  env: ["O2_DETECTOR={{ detector }}"]
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
@@ -76,8 +72,10 @@ command:
     - "--disable-mc"
     - "--disable-root-input"
     - "--disable-root-output"
+    - "--early-forward-policy"
+    - "'never'"
     - "--fairmq-ipc-prefix"
-    - "'/tmp'"
+    - "'@'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
@@ -88,8 +86,12 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--hbfutils-config"
+    - "'o2simdigitizerworkflow_configuration.ini'"
     - "--input-type"
     - "'raw'"
+    - "--labels"
+    - "''"
     - "--output-type"
     - "'digits'"
     - "--pipeline"
@@ -98,7 +100,11 @@ command:
     - "'1'"
     - "--severity"
     - "'info'"
+    - "--shm-allocation"
+    - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
+    - "'false'"
+    - "--shm-mlock-segment-on-creation"
     - "'false'"
     - "--shm-segment-id"
     - "'0'"
@@ -112,3 +118,4 @@ command:
     - "''"
     - "--ccdb-url"
     - "'http://ccdb-test.cern.ch:8080'"
+    - "--pedestal"

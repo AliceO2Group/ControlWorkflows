@@ -23,6 +23,7 @@ command:
     - http_proxy=""
     - https_proxy=""
     - no_proxy=-ib,.internal
+    - O2_DETECTOR={{ detector }}
   log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
@@ -36,7 +37,7 @@ command:
     - "--monitoring-backend='{{ monitoring_dd_url }}'"
     - "--discovery-partition={{ environment_id }}"
     - "--discovery-id={{ dd_discovery_stfs_id }}"
-    - "--discovery-endpoint={{ dd_discovery_endpoint }}"
+    - '{{ ddsched_enabled == "true" ? "--discovery-endpoint=" + dd_discovery_endpoint : "" }}'
     - "--discovery-net-if={{ dd_discovery_net_if }}"
     - '{{ ddsched_enabled == "true" ? "" : "--stand-alone" }}'
     - "--shm-monitor=false"
