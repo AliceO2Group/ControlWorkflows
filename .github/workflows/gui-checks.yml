@@ -23,7 +23,6 @@ jobs:
             path: ControlWorkflows
       - run: (echo "Changes are coming from branch ${GITHUB_REF}")
       - run: (echo "Checks will be ran against branch ${GITHUB_BASE_REF}")
-      - run: (cd ControlWorkflows; git fetch ${GITHUB_BASE_REF})
       - name: Run GUI variables checks for differences
         working-directory: ./ControlWorkflows
         run: |
