@@ -22,13 +22,13 @@ jobs:
             fetch-depth: 0
             path: ControlWorkflows
       - run: (echo "Changes are coming from branch ${GITHUB_REF}")
-      - run: (echo "Checks will be ran against branch ${GITHUB_HEAD_REF}")
-      - run: (cd ControlWorkflows; git checkout ${GITHUB_HEAD_REF})
+      - run: (echo "Checks will be ran against branch ${GITHUB_BASE_REF}")
+      - run: (cd ControlWorkflows; git checkout ${GITHUB_BASE_REF})
       - run: (cd ControlWorkflows; git checkout ${GITHUB_REF})
       - name: Run GUI variables checks for differences
         working-directory: ./ControlWorkflows
         run: |
-          git diff $GITHUB_REF $GITHUB_HEAD_REF -U0 --word-diff > workflow_changes.txt
+          git diff $GITHUB_REF $GITHUB_BASE_REF -U0 --word-diff > workflow_changes.txt
           RESULT_WORKFLOWS=$(grep "${{env.LIST_OF_VARIABLES}}" workflow_changes.txt) || true 
           # grep command returns exit code != 0 if it fails to find a match, thus we use || true
           if [ -z "$RESULT_WORKFLOWS" ];
