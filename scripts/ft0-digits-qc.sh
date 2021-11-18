@@ -9,6 +9,8 @@ QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/ft0-digits-qc.json'
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/'${WF_NAME}'-{{ it }}'
 QC_CONFIG_PARAM='qc_config_uri'
 
+cd ..
+
 # Generate the AliECS workflow and task templates
 o2-dpl-raw-proxy -b --session default \
   --dataspec 'A1:FT0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \

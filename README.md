@@ -300,6 +300,7 @@ If there are no problems with the workflow, you will see a similar output:
 [INFO] ...created.
 ```
 The corresponding workflow template (list of processes to run) will be created in the `workflows` directory and the tasks templates (processes configurations) will be put under the `tasks` directory.
+Please also add the new workflow to the `dpl_workflow` list in `workflows/readout-dataflow.yaml`.
 
 4. Commit the new files and push to a remote branch.
 One can run it by pointing the AliECS to respective branch, choosing the `readout-dataflow` workflow in the AliECS GUI and adding the parameter `dpl_workflow : <workflow_name>` in the advanced configuration.
@@ -369,7 +370,9 @@ Then one should add the file to the corresponding sub-task in `ansible/roles/qua
 
 ### Generating multinode QC workflows
 
-If the expected production setup includes QC running in parallel on many nodes, one should generate two workflow templates - one for the FLP part, another one which should run on a QC server.
+#### Parallel QC running FLPs
+
+If the expected production setup includes QC running in parallel on many FLPs, one should generate two workflow templates - one for the FLP part, another one which should run on a QC server.
 First, one should prepare DPL commands and QC config file according to the [multinode QC setup documentation](https://github.com/AliceO2Group/QualityControl/blob/master/doc/Advanced.md#multi-node-setups).
 Then, the two workflows should be generated with `-local` and `-remote` name suffixes respectively, as it is done e.g. in [`scripts/qcmn-daq.sh`](scripts/qcmn-daq.sh).
 Following this example, the full setup can be run by adding the following parameters in the advanced configuration panel:
@@ -377,6 +380,36 @@ Following this example, the full setup can be run by adding the following parame
 "dpl_workflow" : "qcmn-daq-local"
 "qc_remote_workflow" : "qcmn-daq-remote"
 ```
+Do not forget to add both workflows to the coresponding lists in `workflows/readout-dataflow.yaml`.
+
+#### Parallel QC running on EPNs
+
+In this case, the local part of the QC workflow is run on EPNs (controlled by ODC), while the remote part is still executed on QC servers (controlled directly by AliECS).
+Both parts should use the same version of QC and the underlying software stack.
+
+First, please make sure that the QC config file contains valid `"remoteMachine"` and `"remotePort"` parameters, as they are not dynamically assigned for connections between the two control systems.
+The remote machine name might need the `.cern.ch` suffix.
+Please use the port number between 47700 and 47799.
+It is highly advised to check the connection with a simple TCP client/server application beforehand (e.g. `nc`).
+Also, do not forget to add `"localControl" : "odc"` in the QC task configuration, which will make AliECS templates avoid dynamic resource assignement.
+
+The EPN part will require exporting a DDS topology file, which then should be run as any other DDS topologies.
+Please contact the EPN team for details.
+
+The QC server part requires an AliECS template, which should be generated similarly to the one for the FLP case.
+No local counterpart is needed.
+Please refer to [`scripts/emc-qcmn-epn.sh`](scripts/emc-qcmn-epn.sh) as an example.
+In that case, the AliECS-controlled part of the workflow can be run with the follwing parameter in the advanced configuration panel.
+```
+"qc_remote_workflow" : "emc-qcmn-epn-remote"
+```
+
+#### Different parallel QC running on FLPs and EPNs
+
+Currently recommended way to approach this is to combine the FLP and EPN config files and use different `"localMachines"` for them.
+Then, one can export the AliECS templates and DDS topologies for the local QC workflows by invoking them with different `--host` parameters.
+
+The remote part should be just one.
 
 ### Future improvements
 
@@ -400,7 +433,8 @@ If you have read everything above, you can now follow these simplified instructi
     3. Update a script in `ControlWorkflows/scripts` or add a new one
     4. Run the script to re-generate the workflow(s): `cd ControlWorkflows/scripts ; ./my-script.sh`
     5. If you need to use config files, refer to [this section](#exporting-templates-of-workflows-which-need-configuration-files)
-    6. Commit and push the changes
+    6. Add the new workflow names to the lists in `workflows/readout-dataflow.yaml`
+    7. Commit and push the changes
 3. Test it
     1. Add the fork to the control: `coconut repo add github.com/<yourGHusername>/ControlWorkflows.git`
     2. In the ECS, create a new environment.
@@ -408,5 +442,5 @@ If you have read everything above, you can now follow these simplified instructi
     4. Add the variable `dpl_workflow` and set it to the name of the workflow
     1. Add the variable `log_task_output` and set it to `all` to make sure you can see the output of the tasks in the Infologger.
     4. Do not enable QC but enable DD.
-    5. Run and check that everything is fine
+    5. Run and check that it starts and stops without failures.
 4. Add the new scripts, if any, to `scripts/generate-all-dpl-workflows.sh`

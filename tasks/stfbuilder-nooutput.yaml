@@ -2,11 +2,14 @@ name: stfbuilder-nooutput
 control:
   mode: fairmq
 defaults:
+  detector: TST
   rdh_version: "6"
   user: flp
   fmq_severity: info
   dd_detector_subspec: feeid
   log_task_output: none
+  stfb_dd_mode: "physics"
+  stfb_fee_mask: "0xffff"
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
     StfBuilder
@@ -15,7 +18,7 @@ wants:
   cpu: 0.15
   memory: 128
 command:
-  env: ["O2_INFOLOGGER_MODE={{infologger_mode}}","INFOLOGGER_MODE={{infologger_mode}}"]
+  env: ["O2_INFOLOGGER_MODE={{infologger_mode}}","INFOLOGGER_MODE={{infologger_mode}}","O2_DETECTOR={{ detector }}","DATADIST_FEE_MASK={{ stfb_fee_mask }}"]
   log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
@@ -29,3 +32,5 @@ command:
     - "--severity={{ fmq_severity }}"
     - "--severity-infologger={{ infologger_severity }}"
     - "--stand-alone"
+    - "--detector={{ detector }}"
+    - "--run-type={{ stfb_dd_mode }}"

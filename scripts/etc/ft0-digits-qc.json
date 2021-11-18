@@ -45,20 +45,6 @@
           "remotePort": "30132",
           "mergingMode": "entire"
         }
-      },
-      "checks": {
-        "DummyAnalysisCheck": {
-          "active": "true",
-          "className": "o2::quality_control_modules::skeleton::SkeletonCheck",
-          "moduleName": "QcSkeleton",
-          "policy": "OnAny",
-          "detectorName": "FT0",
-          "dataSource": [{
-            "type": "Task",
-            "name": "DigitQcTask",
-            "MOs": ["example"]
-          }]
-        }
       }
     }
 }
