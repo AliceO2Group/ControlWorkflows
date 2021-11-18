@@ -6,7 +6,7 @@ defaults:
   dd_enabled: "true"
   ddsched_enabled: "false"
   dcs_enabled: "false"
-  qcdd_enabled: "false" # qcdd_enabled and minimal_dpl_enabled cannot be both true!
+  qcdd_enabledtest: "false" # qcdd_enabled and minimal_dpl_enabled cannot be both true!
   minimal_dpl_enabled: "false"
   dpl_workflow: "none" # if specified, we use dpl_worfklow to choose what is between STFB and STFS. Otherwise, we fall to the old choice mechanism.
                        # available options: "none", "qc-daq", "minimal-dpl", "tof-compressor"
