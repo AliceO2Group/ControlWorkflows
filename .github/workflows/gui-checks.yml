@@ -7,7 +7,6 @@ on:
   push:
     branches:
       - 'master'
-      - 'improv/OGUI-1018/checks-for-forked-repo'
 env:
   LIST_OF_VARIABLES: \[-dcs_enabled:-\]\|\[-trg_enabled:-\]\|\[-epn_enabled:-\]\|\[-odc_topology:-\]\|\[-odc_enabled:-\]\|\[-qcdd_enabled:-\]\|\[-dd_enabled:-\]\|\[-ddsched_enabled:-\]\|\[-minimal_dpl_enabled:-\]\|\[-readout_cfg_uri:-\]\|\[-qc_config_uri:-\]
 jobs:
@@ -21,8 +20,8 @@ jobs:
         with:
             fetch-depth: 0
             path: ControlWorkflows
-      - run: (echo "Changes are coming from branch ${{ github.event.pull_request.base.sha }} ")
-      - run: (echo "Checks will be ran against branch ${{ github.sha }}")
+      - run: (echo "Changes are coming from commit ${{ github.event.pull_request.base.sha }} ")
+      - run: (echo "Checks will be ran against commit ${{ github.sha }}")
       - name: Run GUI variables checks for differences
         working-directory: ./ControlWorkflows
         run: |
