@@ -7,6 +7,7 @@ on:
   push:
     branches:
       - 'master'
+      - 'improv/OGUI-1018/checks-for-forked-repo'
 env:
   LIST_OF_VARIABLES: \[-dcs_enabled:-\]\|\[-trg_enabled:-\]\|\[-epn_enabled:-\]\|\[-odc_topology:-\]\|\[-odc_enabled:-\]\|\[-qcdd_enabled:-\]\|\[-dd_enabled:-\]\|\[-ddsched_enabled:-\]\|\[-minimal_dpl_enabled:-\]\|\[-readout_cfg_uri:-\]\|\[-qc_config_uri:-\]
 jobs:
