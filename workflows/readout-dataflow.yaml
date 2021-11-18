@@ -1037,7 +1037,7 @@ defaults:
   monitoring_dd_url: "no-op://"
   monitoring_dpl_url: "no-op://"
   monitoring_qc_url: "no-op://"
-  monitoring_readout_url: "no-op://" # TODO: is this used somewhere ? I could not find it anywhere in the workflows
+  monitoring_readout_url: "nsso-op://" # TODO: is this used somewhere ? I could not find it anywhere in the workflows
   o2_install_path: "/opt/o2"
   o2_infologger_path: "/opt/o2-InfoLogger"
   odc_plugin: "epn"
