@@ -194,16 +194,13 @@ odcEndpoint: yet-another-host-ib:22334
 
 ## Notes on the CI Pipeline
 
-In order to ensure a successful addition or modification of a template (task/workflow), every pull request will run a `walnut check` command against each file individually. 
+In order to ensure a successful collaboration with [AliECS GUI](https://github.com/AliceO2Group/WebUi/tree/dev/Control#control-gui), every pull request will run a `git diff` command to ensure no changes are done to the naming of certain variables (full list [here](https://github.com/AliceO2Group/WebUi/tree/dev/Control#list-of-fixed-variables-used-by-aliecs-gui-for-user-logic)) that are used on the AliECS GUI side. 
 
-If there is an error during the execution of `walnut check` command, the pipeline will stop and print out the exit code and the output provided by the command.
+If the checks identify any such breaking changes, the pipeline will fail with information on what labels were identified. In such case the developer of AliECS GUI should be notified before the pull request is merged. 
 
-These checks are ran automatically against:
-*  os: `macOS-latest`, go-version: `1.15.0` 
-*  os: `ubuntu-18.04`, go-version: `1.15.0` 
-*  `walnut` version: [Control/master](https://github.com/AliceO2Group/Control/tree/master/)
+These checks are ran automatically against `macOS-latest`.
 
-Source code can be found [here.](.github/workflows/template.yml)
+Source code can be found [here.](.github/workflows/gui-checks.yml)
 
 ## Exporting DPL workflow templates
 
