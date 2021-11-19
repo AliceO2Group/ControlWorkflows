@@ -645,7 +645,7 @@ defaults:
   tst_dpl_workflow: !public
     value: "none"
     type: string
-    label: "tst FLP workflow"
+    label: "TST FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
     panel: ALIECS_Workflows
@@ -657,7 +657,7 @@ defaults:
   tst_qc_remote_workflow: !public
     value: "none"
     type: string
-    label: "tst QC node workflow"
+    label: "TST QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
     panel: ALIECS_Workflows
