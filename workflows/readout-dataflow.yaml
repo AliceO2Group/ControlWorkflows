@@ -1068,6 +1068,7 @@ defaults:
   roc_ctp_emulator_enabled: "false"
   stfb_standalone: "false"
   user: flp
+  extra_env_vars: ""
 vars:
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
