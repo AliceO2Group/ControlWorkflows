@@ -18,6 +18,8 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+properties:
+  qcConfiguration: "{{ ToPtree(GetConfig('qc/ANY/any/stfb_to_daqtask-mvs03'), 'json') }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -85,8 +87,6 @@ command:
     - "--labels"
     - "''"
     - "--local-batch"
-    - "''"
-    - "--override-values"
     - "''"
     - "--pipeline"
     - "''"
