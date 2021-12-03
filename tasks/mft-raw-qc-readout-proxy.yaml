@@ -11,7 +11,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_readout-proxy_to_Dispatcher
+  - name: from_readout-proxy_to_QC-TASK-RUNNER-QcMFTReadout
     type: push
     transport: shmem
     addressing: ipc

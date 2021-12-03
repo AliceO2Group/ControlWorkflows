@@ -1,4 +1,4 @@
-name: cpv-pedestal-calib-qc-QC-CHECK-RUNNER-PedestalsOnFLPCheck
+name: mft-raw-qc-QC-TASK-RUNNER-QcMFTReadout
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,7 +11,12 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_QC-CHECK-RUNNER-PedestalsOnFLPCheck_to_internal-dpl-injected-dummy-sink
+  - name: from_QC-TASK-RUNNER-QcMFTReadout_to_QC-CHECK-RUNNER-QcMFTReadout
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+  - name: from_QC-TASK-RUNNER-QcMFTReadout_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -41,7 +46,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'QC-CHECK-RUNNER-PedestalsOnFLPCheck'"
+    - "'QC-TASK-RUNNER-QcMFTReadout'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -114,3 +119,5 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
+    - "--period-timer-cycle"
+    - "'60000000'"
