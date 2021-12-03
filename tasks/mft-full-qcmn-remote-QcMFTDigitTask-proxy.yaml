@@ -90,6 +90,8 @@ command:
     - "''"
     - "--local-batch"
     - "''"
+    - "--override-values"
+    - "''"
     - "--pipeline"
     - "''"
     - "--readers"

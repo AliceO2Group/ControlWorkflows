@@ -30,43 +30,29 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: mft-raw-qc-readout-proxy
-  - name: "Dispatcher"
+  - name: "QC-TASK-RUNNER-QcMFTReadout"
     connect:
-    - name: from_internal-dpl-clock_to_Dispatcher
+    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-QcMFTReadout
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-QcMFTReadout"
       rateLogging: "{{ fmq_rate_logging }}"
-    - name: from_readout-proxy_to_Dispatcher
+    - name: from_readout-proxy_to_QC-TASK-RUNNER-QcMFTReadout
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_Dispatcher"
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_QC-TASK-RUNNER-QcMFTReadout"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mft-raw-qc-Dispatcher
-  - name: "QC-TASK-RUNNER-QcMFTReadoutTask"
+      load: mft-raw-qc-QC-TASK-RUNNER-QcMFTReadout
+  - name: "QC-CHECK-RUNNER-QcMFTReadout"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-QcMFTReadoutTask
+    - name: from_QC-TASK-RUNNER-QcMFTReadout_to_QC-CHECK-RUNNER-QcMFTReadout
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-QcMFTReadoutTask"
-      rateLogging: "{{ fmq_rate_logging }}"
-    - name: from_Dispatcher_to_QC-TASK-RUNNER-QcMFTReadoutTask
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-QcMFTReadoutTask"
+      target: "{{ Parent().Path }}.QC-TASK-RUNNER-QcMFTReadout:from_QC-TASK-RUNNER-QcMFTReadout_to_QC-CHECK-RUNNER-QcMFTReadout"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mft-raw-qc-QC-TASK-RUNNER-QcMFTReadoutTask
-  - name: "QC-CHECK-RUNNER-QcMFTReadoutCheck"
-    connect:
-    - name: from_QC-TASK-RUNNER-QcMFTReadoutTask_to_QC-CHECK-RUNNER-QcMFTReadoutCheck
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-QcMFTReadoutTask:from_QC-TASK-RUNNER-QcMFTReadoutTask_to_QC-CHECK-RUNNER-QcMFTReadoutCheck"
-      rateLogging: "{{ fmq_rate_logging }}"
-    task:
-      load: mft-raw-qc-QC-CHECK-RUNNER-QcMFTReadoutCheck
+      load: mft-raw-qc-QC-CHECK-RUNNER-QcMFTReadout
   - name: "dpl-output-proxy"
     connect:
     - name: from_readout-proxy_to_dpl-output-proxy
@@ -74,10 +60,10 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-    - name: from_Dispatcher_to_dpl-output-proxy
+    - name: from_QC-TASK-RUNNER-QcMFTReadout_to_dpl-output-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_dpl-output-proxy"
+      target: "{{ Parent().Path }}.QC-TASK-RUNNER-QcMFTReadout:from_QC-TASK-RUNNER-QcMFTReadout_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     bind:
     - name: downstream
@@ -90,10 +76,10 @@ roles:
       load: mft-raw-qc-dpl-output-proxy
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_QC-CHECK-RUNNER-QcMFTReadoutCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_QC-CHECK-RUNNER-QcMFTReadout_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-QcMFTReadoutCheck:from_QC-CHECK-RUNNER-QcMFTReadoutCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-QcMFTReadout:from_QC-CHECK-RUNNER-QcMFTReadout_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: mft-raw-qc-internal-dpl-injected-dummy-sink
