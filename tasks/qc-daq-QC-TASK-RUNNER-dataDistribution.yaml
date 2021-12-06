@@ -19,7 +19,7 @@ bind:
     sndBufSize: 4
     rcvBufSize: 4
 properties:
-  qcConfiguration: "{{ ToPtree(GetConfig('qc/ANY/any/stfb_to_daqtask-mvs03'), 'json') }}"
+  qcConfiguration: "{{ ToPtree(GetConfig('qc/ANY/any/stfb_to_daqtask-cr1-mvs03'), 'json') }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
