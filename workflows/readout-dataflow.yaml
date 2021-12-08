@@ -1085,7 +1085,7 @@ roles:
       dd_discovery_ib_hostname: "{{ it }}-ib" # MUST be defined for all stfb and stfs
       # dpl_workflow is set to <detector>_dpl_workflow if such an override exists
       dpl_workflow: "{{ PrefixedOverride( 'dpl_workflow', ToLower( DetectorForHost( it ) ) ) }}"
-      dpl_command: "{{ PrefixedOverride( 'dpl_command', ToLower( DetectorForHost( it ) ) ) }}"
+      dpl_command: "source /etc/profile.d/o2.sh && {{ PrefixedOverride( 'dpl_command', ToLower( DetectorForHost( it ) ) ) }}"
     constraints:
       - attribute: machine_id
         value: "{{ it }}"
