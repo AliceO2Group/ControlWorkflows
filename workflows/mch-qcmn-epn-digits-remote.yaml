@@ -27,6 +27,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QcTaskMCHDigits-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     bind:
     - name: QcTaskMCHDigits-proxy
       type: sub
@@ -43,11 +45,15 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-QcTaskMCHDigits1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: from_QcTaskMCHDigits-proxy_to_MERGER-QcTaskMCHDigits1l-0
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.QcTaskMCHDigits-proxy:from_QcTaskMCHDigits-proxy_to_MERGER-QcTaskMCHDigits1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: mch-qcmn-epn-digits-remote-MERGER-QcTaskMCHDigits1l-0
   - name: "QC-CHECK-RUNNER-QcCheckMCHPhysics"
@@ -57,6 +63,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.MERGER-QcTaskMCHDigits1l-0:from_MERGER-QcTaskMCHDigits1l-0_to_QC-CHECK-RUNNER-QcCheckMCHPhysics"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: mch-qcmn-epn-digits-remote-QC-CHECK-RUNNER-QcCheckMCHPhysics
   - name: "internal-dpl-injected-dummy-sink"
@@ -66,6 +74,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.QC-CHECK-RUNNER-QcCheckMCHPhysics:from_QC-CHECK-RUNNER-QcCheckMCHPhysics_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: mch-qcmn-epn-digits-remote-internal-dpl-injected-dummy-sink
   - name: fairmq-shmmonitor
