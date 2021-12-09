@@ -23,6 +23,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: readout-proxy
       type: pull
       transport: shmem
@@ -37,6 +39,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_mft-stf-decoder"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: mft-digits-qc-mft-stf-decoder
   - name: "Dispatcher"
@@ -46,11 +50,15 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: from_mft-stf-decoder_to_Dispatcher
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.mft-stf-decoder:from_mft-stf-decoder_to_Dispatcher"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: mft-digits-qc-Dispatcher
   - name: "QC-TASK-RUNNER-QcMFTDigitTask"
@@ -60,11 +68,15 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-QcMFTDigitTask"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: from_Dispatcher_to_QC-TASK-RUNNER-QcMFTDigitTask
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-QcMFTDigitTask"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: mft-digits-qc-QC-TASK-RUNNER-QcMFTDigitTask
   - name: "QC-CHECK-RUNNER-QcMFTDigitCheck"
@@ -74,6 +86,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.QC-TASK-RUNNER-QcMFTDigitTask:from_QC-TASK-RUNNER-QcMFTDigitTask_to_QC-CHECK-RUNNER-QcMFTDigitCheck"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: mft-digits-qc-QC-CHECK-RUNNER-QcMFTDigitCheck
   - name: "dpl-output-proxy"
@@ -83,6 +97,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.mft-stf-decoder:from_mft-stf-decoder_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     bind:
     - name: downstream
       type: push
@@ -99,5 +115,7 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.QC-CHECK-RUNNER-QcMFTDigitCheck:from_QC-CHECK-RUNNER-QcMFTDigitCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: mft-digits-qc-internal-dpl-injected-dummy-sink

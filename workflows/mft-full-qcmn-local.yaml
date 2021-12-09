@@ -24,6 +24,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: readout-proxy
       type: pull
       transport: shmem
@@ -38,11 +40,15 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: from_readout-proxy_to_Dispatcher
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_Dispatcher"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: mft-full-qcmn-local-Dispatcher
   - name: "QC-TASK-RUNNER-QcMFTReadoutTask"
@@ -52,11 +58,15 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-QcMFTReadoutTask"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: from_Dispatcher_to_QC-TASK-RUNNER-QcMFTReadoutTask
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-QcMFTReadoutTask"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: mft-full-qcmn-local-QC-TASK-RUNNER-QcMFTReadoutTask
   - name: "mft-stf-decoder"
@@ -66,6 +76,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_mft-stf-decoder"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: mft-full-qcmn-local-mft-stf-decoder
   - name: "QC-TASK-RUNNER-QcMFTDigitTask"
@@ -75,11 +87,15 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-QcMFTDigitTask"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: from_mft-stf-decoder_to_QC-TASK-RUNNER-QcMFTDigitTask
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.mft-stf-decoder:from_mft-stf-decoder_to_QC-TASK-RUNNER-QcMFTDigitTask"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: mft-full-qcmn-local-QC-TASK-RUNNER-QcMFTDigitTask
   - name: "QcMFTReadoutTask-proxy"
@@ -89,6 +105,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.QC-TASK-RUNNER-QcMFTReadoutTask:from_QC-TASK-RUNNER-QcMFTReadoutTask_to_QcMFTReadoutTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: QcMFTReadoutTask-proxy
       type: pub
       transport: zeromq
@@ -103,6 +121,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.mft-stf-decoder:from_mft-stf-decoder_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: mft-full-qcmn-local-internal-dpl-injected-dummy-sink
   - name: "QcMFTDigitTask-proxy"
@@ -112,6 +132,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.QC-TASK-RUNNER-QcMFTDigitTask:from_QC-TASK-RUNNER-QcMFTDigitTask_to_QcMFTDigitTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: QcMFTDigitTask-proxy
       type: pub
       transport: zeromq
@@ -126,11 +148,15 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: from_QC-TASK-RUNNER-QcMFTReadoutTask_to_dpl-output-proxy
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.QC-TASK-RUNNER-QcMFTReadoutTask:from_QC-TASK-RUNNER-QcMFTReadoutTask_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     bind:
     - name: downstream
       type: push

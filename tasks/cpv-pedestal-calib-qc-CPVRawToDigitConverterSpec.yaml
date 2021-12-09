@@ -16,11 +16,15 @@ bind:
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
   - name: from_CPVRawToDigitConverterSpec_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -121,5 +125,5 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--ccdb-url"
-    - "'http://ccdb-test.cern.ch:8080'"
+    - "'http://alice-ccdb.cern.ch/'"
     - "--pedestal"
