@@ -16,8 +16,6 @@ bind:
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
   - name: HMPIDRawTask-proxy
     type: sub
     transport: zeromq

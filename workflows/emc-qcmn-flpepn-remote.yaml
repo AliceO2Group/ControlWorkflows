@@ -27,8 +27,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_DigitsTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     bind:
     - name: DigitsTask-proxy
       type: sub
@@ -45,8 +43,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_RawTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     bind:
     - name: RawTask-proxy
       type: sub
@@ -63,15 +59,11 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-DigitsTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_DigitsTask-proxy_to_MERGER-DigitsTask1l-0
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.DigitsTask-proxy:from_DigitsTask-proxy_to_MERGER-DigitsTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: emc-qcmn-flpepn-remote-MERGER-DigitsTask1l-0
   - name: "MERGER-RawTask1l-0"
@@ -81,15 +73,11 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-RawTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_RawTask-proxy_to_MERGER-RawTask1l-0
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.RawTask-proxy:from_RawTask-proxy_to_MERGER-RawTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: emc-qcmn-flpepn-remote-MERGER-RawTask1l-0
   - name: "QC-CHECK-RUNNER-bY90"
@@ -99,8 +87,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.MERGER-RawTask1l-0:from_MERGER-RawTask1l-0_to_QC-CHECK-RUNNER-bY90"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: emc-qcmn-flpepn-remote-QC-CHECK-RUNNER-bY90
   - name: "QC-CHECK-RUNNER-DigitsCheckAmplitude"
@@ -110,8 +96,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.MERGER-DigitsTask1l-0:from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-DigitsCheckAmplitude"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: emc-qcmn-flpepn-remote-QC-CHECK-RUNNER-DigitsCheckAmplitude
   - name: "internal-dpl-injected-dummy-sink"
@@ -121,15 +105,11 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.QC-CHECK-RUNNER-bY90:from_QC-CHECK-RUNNER-bY90_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_QC-CHECK-RUNNER-DigitsCheckAmplitude_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.QC-CHECK-RUNNER-DigitsCheckAmplitude:from_QC-CHECK-RUNNER-DigitsCheckAmplitude_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: emc-qcmn-flpepn-remote-internal-dpl-injected-dummy-sink
   - name: fairmq-shmmonitor

@@ -24,8 +24,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: readout-proxy
       type: pull
       transport: shmem
@@ -40,15 +38,11 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_to_Dispatcher
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_Dispatcher"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: mch-qcmn-epn-digits-local-Dispatcher
   - name: "mch-data-decoder"
@@ -58,15 +52,11 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_mch-data-decoder"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_Dispatcher_to_mch-data-decoder
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_mch-data-decoder"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: mch-qcmn-epn-digits-local-mch-data-decoder
   - name: "dpl-output-proxy"
@@ -76,15 +66,11 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_mch-data-decoder_to_dpl-output-proxy
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.mch-data-decoder:from_mch-data-decoder_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     bind:
     - name: downstream
       type: push
@@ -101,7 +87,5 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.mch-data-decoder:from_mch-data-decoder_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: mch-qcmn-epn-digits-local-internal-dpl-injected-dummy-sink

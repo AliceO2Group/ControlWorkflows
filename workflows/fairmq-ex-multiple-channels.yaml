@@ -7,14 +7,10 @@ roles:
       - name: "data"
         target: "{{ Parent().Path }}.sampler:data"
         type: "pull"
-        sndBufSize: 1000
-        rcvBufSize: 1000
         rateLogging: 0
       - name: "broadcast"
         target: "{{ Parent().Path }}.broadcaster:broadcast"
         type: "sub"
-        sndBufSize: 1000
-        rcvBufSize: 1000
         rateLogging: 0
     task:
       load: fairmq-ex-multiple-channels-sink
@@ -23,8 +19,6 @@ roles:
       - name: "broadcast"
         target: "{{ Parent().Path }}.broadcaster:broadcast"
         type: "sub"
-        sndBufSize: 1000
-        rcvBufSize: 1000
         rateLogging: 0
     task:
       load: fairmq-ex-multiple-channels-sampler

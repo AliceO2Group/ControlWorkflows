@@ -22,8 +22,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: readout-proxy
       type: pull
       transport: shmem
@@ -38,8 +36,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_ft0-datareader-dpl"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: ft0-digits-ft0-datareader-dpl
   - name: "dpl-output-proxy"
@@ -49,8 +45,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.ft0-datareader-dpl:from_ft0-datareader-dpl_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     bind:
     - name: downstream
       type: push

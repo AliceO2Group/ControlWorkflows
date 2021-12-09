@@ -24,8 +24,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: readout-proxy
       type: pull
       transport: shmem
@@ -40,8 +38,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_PHOSRawToCellConverterSpec_t0"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: phos-compressort3-PHOSRawToCellConverterSpec_t0
   - name: "PHOSRawToCellConverterSpec_t1"
@@ -51,8 +47,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_PHOSRawToCellConverterSpec_t1"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: phos-compressort3-PHOSRawToCellConverterSpec_t1
   - name: "PHOSRawToCellConverterSpec_t2"
@@ -62,8 +56,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_PHOSRawToCellConverterSpec_t2"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: phos-compressort3-PHOSRawToCellConverterSpec_t2
   - name: "dpl-output-proxy"
@@ -73,22 +65,16 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.PHOSRawToCellConverterSpec_t0:from_PHOSRawToCellConverterSpec_t0_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_PHOSRawToCellConverterSpec_t1_to_dpl-output-proxy
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.PHOSRawToCellConverterSpec_t1:from_PHOSRawToCellConverterSpec_t1_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_PHOSRawToCellConverterSpec_t2_to_dpl-output-proxy
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.PHOSRawToCellConverterSpec_t2:from_PHOSRawToCellConverterSpec_t2_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     bind:
     - name: downstream
       type: push
@@ -105,21 +91,15 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.PHOSRawToCellConverterSpec_t0:from_PHOSRawToCellConverterSpec_t0_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_PHOSRawToCellConverterSpec_t1_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.PHOSRawToCellConverterSpec_t1:from_PHOSRawToCellConverterSpec_t1_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_PHOSRawToCellConverterSpec_t2_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.PHOSRawToCellConverterSpec_t2:from_PHOSRawToCellConverterSpec_t2_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: phos-compressort3-internal-dpl-injected-dummy-sink

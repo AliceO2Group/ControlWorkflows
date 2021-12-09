@@ -22,8 +22,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy_t0"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: readout-proxy
       type: pull
       transport: shmem
@@ -38,8 +36,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy_t1"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: readout-proxy
       type: pull
       transport: shmem
@@ -54,8 +50,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy_t2"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: readout-proxy
       type: pull
       transport: shmem
@@ -70,8 +64,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy_t3"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: readout-proxy
       type: pull
       transport: shmem
@@ -86,8 +78,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy_t4"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: readout-proxy
       type: pull
       transport: shmem
@@ -102,36 +92,26 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t0:from_readout-proxy_t0_to_fv0-datareader-dpl_t0"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t1_to_fv0-datareader-dpl_t0
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t1:from_readout-proxy_t1_to_fv0-datareader-dpl_t0"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t2_to_fv0-datareader-dpl_t0
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t2:from_readout-proxy_t2_to_fv0-datareader-dpl_t0"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t3_to_fv0-datareader-dpl_t0
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t3:from_readout-proxy_t3_to_fv0-datareader-dpl_t0"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t4_to_fv0-datareader-dpl_t0
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t4:from_readout-proxy_t4_to_fv0-datareader-dpl_t0"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: fv0-digits-pipe-fv0-datareader-dpl_t0
   - name: "fv0-datareader-dpl_t1"
@@ -141,36 +121,26 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t0:from_readout-proxy_t0_to_fv0-datareader-dpl_t1"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t1_to_fv0-datareader-dpl_t1
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t1:from_readout-proxy_t1_to_fv0-datareader-dpl_t1"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t2_to_fv0-datareader-dpl_t1
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t2:from_readout-proxy_t2_to_fv0-datareader-dpl_t1"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t3_to_fv0-datareader-dpl_t1
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t3:from_readout-proxy_t3_to_fv0-datareader-dpl_t1"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t4_to_fv0-datareader-dpl_t1
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t4:from_readout-proxy_t4_to_fv0-datareader-dpl_t1"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: fv0-digits-pipe-fv0-datareader-dpl_t1
   - name: "fv0-datareader-dpl_t2"
@@ -180,36 +150,26 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t0:from_readout-proxy_t0_to_fv0-datareader-dpl_t2"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t1_to_fv0-datareader-dpl_t2
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t1:from_readout-proxy_t1_to_fv0-datareader-dpl_t2"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t2_to_fv0-datareader-dpl_t2
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t2:from_readout-proxy_t2_to_fv0-datareader-dpl_t2"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t3_to_fv0-datareader-dpl_t2
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t3:from_readout-proxy_t3_to_fv0-datareader-dpl_t2"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t4_to_fv0-datareader-dpl_t2
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t4:from_readout-proxy_t4_to_fv0-datareader-dpl_t2"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: fv0-digits-pipe-fv0-datareader-dpl_t2
   - name: "fv0-datareader-dpl_t3"
@@ -219,36 +179,26 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t0:from_readout-proxy_t0_to_fv0-datareader-dpl_t3"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t1_to_fv0-datareader-dpl_t3
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t1:from_readout-proxy_t1_to_fv0-datareader-dpl_t3"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t2_to_fv0-datareader-dpl_t3
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t2:from_readout-proxy_t2_to_fv0-datareader-dpl_t3"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t3_to_fv0-datareader-dpl_t3
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t3:from_readout-proxy_t3_to_fv0-datareader-dpl_t3"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t4_to_fv0-datareader-dpl_t3
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t4:from_readout-proxy_t4_to_fv0-datareader-dpl_t3"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: fv0-digits-pipe-fv0-datareader-dpl_t3
   - name: "fv0-datareader-dpl_t4"
@@ -258,36 +208,26 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t0:from_readout-proxy_t0_to_fv0-datareader-dpl_t4"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t1_to_fv0-datareader-dpl_t4
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t1:from_readout-proxy_t1_to_fv0-datareader-dpl_t4"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t2_to_fv0-datareader-dpl_t4
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t2:from_readout-proxy_t2_to_fv0-datareader-dpl_t4"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t3_to_fv0-datareader-dpl_t4
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t3:from_readout-proxy_t3_to_fv0-datareader-dpl_t4"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_readout-proxy_t4_to_fv0-datareader-dpl_t4
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy_t4:from_readout-proxy_t4_to_fv0-datareader-dpl_t4"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: fv0-digits-pipe-fv0-datareader-dpl_t4
   - name: "dpl-output-proxy"
@@ -297,36 +237,26 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.fv0-datareader-dpl_t0:from_fv0-datareader-dpl_t0_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_fv0-datareader-dpl_t1_to_dpl-output-proxy
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.fv0-datareader-dpl_t1:from_fv0-datareader-dpl_t1_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_fv0-datareader-dpl_t2_to_dpl-output-proxy
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.fv0-datareader-dpl_t2:from_fv0-datareader-dpl_t2_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_fv0-datareader-dpl_t3_to_dpl-output-proxy
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.fv0-datareader-dpl_t3:from_fv0-datareader-dpl_t3_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_fv0-datareader-dpl_t4_to_dpl-output-proxy
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.fv0-datareader-dpl_t4:from_fv0-datareader-dpl_t4_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     bind:
     - name: downstream
       type: push

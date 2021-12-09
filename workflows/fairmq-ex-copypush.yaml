@@ -12,8 +12,6 @@ roles:
       - name: "data"
         target: "{{ Parent().Path }}.sampler:data"
         type: "pull"
-        sndBufSize: 1000
-        rcvBufSize: 1000
         rateLogging: 0
     task:
       load: fairmq-ex-copypush-sink

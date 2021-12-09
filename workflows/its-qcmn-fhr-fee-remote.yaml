@@ -27,8 +27,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_FHRTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     bind:
     - name: FHRTask-proxy
       type: sub
@@ -45,8 +43,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_ITSFEE-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     bind:
     - name: ITSFEE-proxy
       type: sub
@@ -63,15 +59,11 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-FHRTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_FHRTask-proxy_to_MERGER-FHRTask1l-0
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.FHRTask-proxy:from_FHRTask-proxy_to_MERGER-FHRTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: its-qcmn-fhr-fee-remote-MERGER-FHRTask1l-0
   - name: "MERGER-ITSFEE1l-0"
@@ -81,15 +73,11 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-ITSFEE1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_ITSFEE-proxy_to_MERGER-ITSFEE1l-0
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.ITSFEE-proxy:from_ITSFEE-proxy_to_MERGER-ITSFEE1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: its-qcmn-fhr-fee-remote-MERGER-ITSFEE1l-0
   - name: "QC-CHECK-RUNNER-FHRCheck"
@@ -99,8 +87,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.MERGER-FHRTask1l-0:from_MERGER-FHRTask1l-0_to_QC-CHECK-RUNNER-FHRCheck"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: its-qcmn-fhr-fee-remote-QC-CHECK-RUNNER-FHRCheck
   - name: "QC-CHECK-RUNNER-ITSFeeCheck"
@@ -110,8 +96,6 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.MERGER-ITSFEE1l-0:from_MERGER-ITSFEE1l-0_to_QC-CHECK-RUNNER-ITSFeeCheck"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: its-qcmn-fhr-fee-remote-QC-CHECK-RUNNER-ITSFeeCheck
   - name: "internal-dpl-injected-dummy-sink"
@@ -121,15 +105,11 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.QC-CHECK-RUNNER-FHRCheck:from_QC-CHECK-RUNNER-FHRCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     - name: from_QC-CHECK-RUNNER-ITSFeeCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.QC-CHECK-RUNNER-ITSFeeCheck:from_QC-CHECK-RUNNER-ITSFeeCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
     task:
       load: its-qcmn-fhr-fee-remote-internal-dpl-injected-dummy-sink
   - name: fairmq-shmmonitor

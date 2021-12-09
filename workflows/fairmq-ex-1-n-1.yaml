@@ -37,14 +37,10 @@ roles:                         # A list of child roles.
         # and the name of the inbound channel (as it appears in the bind spec of the task template).
         target: "{{ Parent().Path }}.sampler:data1"
         type: "pull"
-        sndBufSize: 1000
-        rcvBufSize: 1000
         rateLogging: 0
       - name: "data2"
         target: "{{ Up(1).Path }}.sink:data2" # Same as {{ parent }}.sink:data2
         type: "push"
-        sndBufSize: 1000
-        rcvBufSize: 1000
         rateLogging: 0
     task:     # The current is an iterator role which templates for a task role, so instead of a "roles" entry
               # we have a "task" entry.
