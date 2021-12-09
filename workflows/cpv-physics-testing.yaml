@@ -22,6 +22,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: readout-proxy
       type: pull
       transport: shmem
@@ -36,6 +38,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_CPVRawToDigitConverterSpec"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: cpv-physics-testing-CPVRawToDigitConverterSpec
   - name: "dpl-output-proxy"
@@ -45,6 +49,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.CPVRawToDigitConverterSpec:from_CPVRawToDigitConverterSpec_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     bind:
     - name: downstream
       type: push

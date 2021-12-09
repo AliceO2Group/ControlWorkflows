@@ -27,6 +27,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TaskRaw-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     bind:
     - name: TaskRaw-proxy
       type: sub
@@ -43,11 +45,15 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-TaskRaw1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: from_TaskRaw-proxy_to_MERGER-TaskRaw1l-0
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.TaskRaw-proxy:from_TaskRaw-proxy_to_MERGER-TaskRaw1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: tof-qcmn-compressor-remote-MERGER-TaskRaw1l-0
   - name: "QC-CHECK-RUNNER-JRA0"
@@ -57,6 +63,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.MERGER-TaskRaw1l-0:from_MERGER-TaskRaw1l-0_to_QC-CHECK-RUNNER-JRA0"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: tof-qcmn-compressor-remote-QC-CHECK-RUNNER-JRA0
   - name: "internal-dpl-injected-dummy-sink"
@@ -66,6 +74,8 @@ roles:
       transport: shmem
       target: "{{ Parent().Path }}.QC-CHECK-RUNNER-JRA0:from_QC-CHECK-RUNNER-JRA0_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: tof-qcmn-compressor-remote-internal-dpl-injected-dummy-sink
   - name: fairmq-shmmonitor
