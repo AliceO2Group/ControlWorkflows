@@ -871,16 +871,16 @@ defaults:
     value: "v0.20"
     type: string
     label: "O2 Data Processing Hash"
-    description: "Commit hash or tag of O2DataProcessing to use"
+    description: "Commit hash or tag of O2DPG to use"
     widget: editBox
     panel: "EPN_Global_Processing"
     index: 2
     visibleif: $$pdp_config_option === "Repository hash"
   pdp_o2_data_processing_path: !public
-    value: "/home/pdp/alice/O2DataProcessing"
+    value: "/home/pdp/alice/O2DPG/DATA"
     type: string
     label: "O2 Data Processing Path"
-    description: "Full path in the EPN shared home folder to O2DataProcessing repository"
+    description: "Path to the DATA folder of the O2DPG repository to use in the EPN shared home folder"
     widget: editBox
     panel: "EPN_Global_Processing"
     index: 2
@@ -915,7 +915,7 @@ defaults:
     value: "production/production.desc"
     type: string
     label: "Topology description library file"
-    description: "Topology description file in O2DataProcessing repository"
+    description: "Topology description file in O2DPG repository"
     widget: comboBox
     panel: "EPN_Global_Processing"
     values:
