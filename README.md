@@ -18,6 +18,7 @@ The [`ControlWorkflows`](https://github.com/AliceO2Group/ControlWorkflows) repos
     * [ODC](#odc)
   * [Plugin configuration](#plugin-configuration)
   * [Notes on the CI Pipeline](#notes-on-the-ci-pipeline)
+  * [JIT DPL workflow generation](#jit-dpl-workflow-generation)
   * [Exporting DPL workflow templates](#exporting-dpl-workflow-templates)
     * [Preparing the DPL command](#preparing-the-dpl-command)
     * [Exporting the templates](#exporting-the-templates)
@@ -190,6 +191,36 @@ integrationPlugins:
 dcsServiceEndpoint: some-host:50051
 ddSchedulerEndpoint: some-other-host-ib:50000
 odcEndpoint: yet-another-host-ib:22334
+```
+
+## JIT DPL workflow generation
+
+Starting from AliECS v0.29.3 it's possible to use DPL workflows that are generated just-in-time during environment
+creation.
+
+A templated DPL command may be passed through the `dpl_command` variable, prefixed with the detector code (
+e.g. `its_dpl_command` for the ITS). The variable may be set through the AliECS GUI environment creation page under
+the "Advanced Configuration" panel.
+
+For example, the equivalent of the [minimal DPL workflow](./workflows/minimal-dpl.yaml) can be achieved by setting the
+following KV pair (assuming ITS as a target):
+
+- through the "Add single pair:" key and value fields.
+
+*key*: `its_dpl_command`
+
+*value*:
+
+```bash
+o2-dpl-raw-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' | o2-dpl-output-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"'
+```
+
+- through the "Add a JSON with multiple pairs:" field (make sure to escape the inner `"`):
+
+```json
+{
+  "its_dpl_command": "o2-dpl-raw-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config \"name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10\"' | o2-dpl-output-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config \"name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem\"'"
+}
 ```
 
 ## Notes on the CI Pipeline
