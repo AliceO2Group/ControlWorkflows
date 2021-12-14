@@ -1085,7 +1085,7 @@ roles:
       dd_discovery_ib_hostname: "{{ it }}-ib" # MUST be defined for all stfb and stfs
       # dpl_workflow is set to <detector>_dpl_workflow if such an override exists
       dpl_workflow: "{{ PrefixedOverride( 'dpl_workflow', ToLower( DetectorForHost( it ) ) ) }}"
-      dpl_command: "source /etc/profile.d/o2.sh && {{ PrefixedOverride( 'dpl_command', ToLower( DetectorForHost( it ) ) ) }}"
+      dpl_command: "{{ PrefixedOverride( 'dpl_command', ToLower( DetectorForHost( it ) ) ) }}"
     constraints:
       - attribute: machine_id
         value: "{{ it }}"
@@ -1177,8 +1177,10 @@ roles:
             enabled: "{{ dpl_workflow != 'none' }}"
             include: "{{ dpl_workflow }}"
           - name: dpl
+            vars:
+              sourced_dpl_command: "source /etc/profile.d/o2.sh && {{ dpl_command }}"
             enabled: "{{ dpl_command != 'none' }}"
-            include: "{{ GenerateDplSubworkflow(dpl_command) }}"
+            include: "{{ GenerateDplSubworkflow(sourced_dpl_command) }}"
       - name: o2-roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
         defaults:
