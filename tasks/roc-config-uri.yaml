@@ -13,8 +13,9 @@ vars:
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load ReadoutCard &&
     for endpoint in {{ card_endpoints }}; do o2-roc-config --id={{ card }}:$endpoint --config-uri consul-json://{{ inventory_head }}:{{ consul_port }}/{{ consul_prefix }}/{{ host }}/cru/{{ card }}/$endpoint --bypass {{ rocConfigForceConfig == 'true' ? '--force-config' : ''}} {{ rocConfigExtraParams }} || exit 1; done
-  _plain_cmdline: "source /etc/profile.d/o2.sh &&
-  for endpoint in {{ card_endpoints }}; do o2-roc-config --id={{ card }}:$endpoint --config-uri consul-json://{{ inventory_head }}:{{ consul_port }}/{{ consul_prefix }}/{{ host }}/cru/{{ card }}/$endpoint --bypass {{ rocConfigForceConfig == 'true' ? '--force-config' : ''}} {{ rocConfigExtraParams }} || exit 1; done"
+  _plain_cmdline: >-
+    source /etc/profile.d/o2.sh &&
+    for endpoint in {{ card_endpoints }}; do o2-roc-config --id={{ card }}:$endpoint --config-uri consul-json://{{ inventory_head }}:{{ consul_port }}/{{ consul_prefix }}/{{ host }}/cru/{{ card }}/$endpoint --bypass {{ rocConfigForceConfig == 'true' ? '--force-config' : ''}} {{ rocConfigExtraParams }} || exit 1; done
 command:
   env:
     - O2_INFOLOGGER_MODE={{ infologger_mode }}
