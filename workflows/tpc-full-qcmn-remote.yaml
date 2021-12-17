@@ -20,6 +20,24 @@ roles:
     connect:
     task:
       load: tpc-full-qcmn-remote-internal-dpl-clock
+  - name: "Clusters-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_Clusters-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Clusters-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: Clusters-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47730"
+    task:
+      load: tpc-full-qcmn-remote-Clusters-proxy
   - name: "PID-proxy"
     connect:
     - name: from_internal-dpl-clock_to_PID-proxy
@@ -38,6 +56,24 @@ roles:
       target: "tcp://*:47732"
     task:
       load: tpc-full-qcmn-remote-PID-proxy
+  - name: "RawDigits-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_RawDigits-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_RawDigits-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: RawDigits-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47731"
+    task:
+      load: tpc-full-qcmn-remote-RawDigits-proxy
   - name: "Tracks-proxy"
     connect:
     - name: from_internal-dpl-clock_to_Tracks-proxy
@@ -56,42 +92,24 @@ roles:
       target: "tcp://*:47733"
     task:
       load: tpc-full-qcmn-remote-Tracks-proxy
-  - name: "random-cluster"
+  - name: "MERGER-Clusters1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_random-cluster
+    - name: from_internal-dpl-clock_to_MERGER-Clusters1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_random-cluster"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-Clusters1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    bind:
-    - name: random-cluster
-      type: sub
-      transport: zeromq
-      addressing: tcp
-      rateLogging: "{{ fmq_rate_logging }}"
-      target: "tcp://*:47730"
-    task:
-      load: tpc-full-qcmn-remote-random-cluster
-  - name: "random-rawdata"
-    connect:
-    - name: from_internal-dpl-clock_to_random-rawdata
+    - name: from_Clusters-proxy_to_MERGER-Clusters1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_random-rawdata"
+      target: "{{ Parent().Path }}.Clusters-proxy:from_Clusters-proxy_to_MERGER-Clusters1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    bind:
-    - name: random-rawdata
-      type: sub
-      transport: zeromq
-      addressing: tcp
-      rateLogging: "{{ fmq_rate_logging }}"
-      target: "tcp://*:47731"
     task:
-      load: tpc-full-qcmn-remote-random-rawdata
+      load: tpc-full-qcmn-remote-MERGER-Clusters1l-0
   - name: "MERGER-PID1l-0"
     connect:
     - name: from_internal-dpl-clock_to_MERGER-PID1l-0
@@ -110,6 +128,24 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-full-qcmn-remote-MERGER-PID1l-0
+  - name: "MERGER-RawDigits1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MERGER-RawDigits1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-RawDigits1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_RawDigits-proxy_to_MERGER-RawDigits1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.RawDigits-proxy:from_RawDigits-proxy_to_MERGER-RawDigits1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-qcmn-remote-MERGER-RawDigits1l-0
   - name: "MERGER-Tracks1l-0"
     connect:
     - name: from_internal-dpl-clock_to_MERGER-Tracks1l-0
@@ -128,48 +164,12 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-full-qcmn-remote-MERGER-Tracks1l-0
-  - name: "QC-TASK-RUNNER-Clusters"
-    connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-Clusters
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-Clusters"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    - name: from_random-cluster_to_QC-TASK-RUNNER-Clusters
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.random-cluster:from_random-cluster_to_QC-TASK-RUNNER-Clusters"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: tpc-full-qcmn-remote-QC-TASK-RUNNER-Clusters
-  - name: "QC-TASK-RUNNER-RawDigits"
-    connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-RawDigits
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-RawDigits"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    - name: from_random-rawdata_to_QC-TASK-RUNNER-RawDigits
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.random-rawdata:from_random-rawdata_to_QC-TASK-RUNNER-RawDigits"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: tpc-full-qcmn-remote-QC-TASK-RUNNER-RawDigits
   - name: "QC-CHECK-RUNNER-sink-QC_Clusters-mo_0"
     connect:
-    - name: from_QC-TASK-RUNNER-Clusters_to_QC-CHECK-RUNNER-sink-QC_Clusters-mo_0
+    - name: from_MERGER-Clusters1l-0_to_QC-CHECK-RUNNER-sink-QC_Clusters-mo_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-Clusters:from_QC-TASK-RUNNER-Clusters_to_QC-CHECK-RUNNER-sink-QC_Clusters-mo_0"
+      target: "{{ Parent().Path }}.MERGER-Clusters1l-0:from_MERGER-Clusters1l-0_to_QC-CHECK-RUNNER-sink-QC_Clusters-mo_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -188,10 +188,10 @@ roles:
       load: tpc-full-qcmn-remote-QC-CHECK-RUNNER-sink-QC_PID-mo_0
   - name: "QC-CHECK-RUNNER-sink-QC_RawDigits-mo_0"
     connect:
-    - name: from_QC-TASK-RUNNER-RawDigits_to_QC-CHECK-RUNNER-sink-QC_RawDigits-mo_0
+    - name: from_MERGER-RawDigits1l-0_to_QC-CHECK-RUNNER-sink-QC_RawDigits-mo_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-RawDigits:from_QC-TASK-RUNNER-RawDigits_to_QC-CHECK-RUNNER-sink-QC_RawDigits-mo_0"
+      target: "{{ Parent().Path }}.MERGER-RawDigits1l-0:from_MERGER-RawDigits1l-0_to_QC-CHECK-RUNNER-sink-QC_RawDigits-mo_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
