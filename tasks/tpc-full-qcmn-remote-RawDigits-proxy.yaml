@@ -1,4 +1,4 @@
-name: tpc-full-qcmn-remote-MERGER-Tracks1l-0
+name: tpc-full-qcmn-remote-RawDigits-proxy
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,13 +11,19 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_MERGER-Tracks1l-0_to_QC-CHECK-RUNNER-sink-QC_Tracks-mo_0
+  - name: from_RawDigits-proxy_to_MERGER-RawDigits1l-0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+  - name: RawDigits-proxy
+    type: sub
+    transport: zeromq
+    addressing: tcp
+    rateLogging: "{{ fmq_rate_logging }}"
+    target: "tcp://*:47731"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -43,7 +49,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'MERGER-Tracks1l-0'"
+    - "'RawDigits-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -117,5 +123,13 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-publish"
-    - "'60000000'"
+    - "--end-value-enumeration"
+    - "-1"
+    - "--orbit-multiplier-enumeration"
+    - "'0'"
+    - "--orbit-offset-enumeration"
+    - "'0'"
+    - "--start-value-enumeration"
+    - "'0'"
+    - "--step-value-enumeration"
+    - "'1'"
