@@ -1,4 +1,4 @@
-name: tpc-full-qcmn-remote-internal-dpl-clock
+name: tpc-full-qcmn-remote-QC-TASK-RUNNER-DummyTask
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -11,70 +11,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-clock_to_Clusters-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_PID-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_RawDigits-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_Tracks-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_random-rawdata-om
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-Clusters1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-PID1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-RawDigits1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-Tracks1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-DummyTask
+  - name: from_QC-TASK-RUNNER-DummyTask_to_QC-CHECK-RUNNER-sink-QC_DummyTask-mo_0
     type: push
     transport: shmem
     addressing: ipc
@@ -106,7 +43,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-clock'"
+    - "'QC-TASK-RUNNER-DummyTask'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -180,3 +117,5 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
+    - "--period-timer-cycle"
+    - "'1316134912'"

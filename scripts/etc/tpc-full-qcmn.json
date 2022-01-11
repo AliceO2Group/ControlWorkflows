@@ -58,6 +58,21 @@
         "remoteMachine": "alio2-cr1-qts01.cern.ch",
         "localControl": "odc"
       },
+      "DummyTask": {
+        "active": "true", "" : "this dummy task is to redirect sampled data to a TPC machine which performs additional monitoring",
+        "className": "o2::quality_control_modules::skeleton::SkeletonTask",
+        "moduleName": "QcSkeleton",
+        "detectorName": "TST",
+        "cycleDurationSeconds": "10000000",
+        "maxNumberCycles": "-1",
+        "dataSource": {
+          "type": "dataSamplingPolicy",
+          "name": "random-rawdata-om"
+        },
+        "location": "remote",
+        "remoteMachine": "tpc-login-ib",
+        "localControl": "odc"
+      },
       "Clusters": {
         "active": "true",
         "className": "o2::quality_control_modules::tpc::Clusters",
@@ -187,6 +202,26 @@
         }
       ],
       "blocking": "false"
-    }
+    },
+    {
+      "id": "random-rawdata-om",
+      "active": "true",
+      "machines": [
+        "localhost",
+        "epn"
+      ],
+      "port": "32629",
+      "query": "inputRaw:TPC/RAWDATA",
+      "outputs": "sampled-rawdata:DS2/RAWDATA",
+      "samplingConditions": [
+        {
+          "condition": "random",
+          "fraction": "0.0005",
+          "seed": "0",
+          "timesliceId": "tfCounter"
+        }
+      ],
+      "blocking": "false"
+    }   
   ]
 }
