@@ -4,7 +4,8 @@ defaults:
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
     {{ dpl_command }} | o2-calibration-ft0-calibration
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-calibration-ft0-calibration"
+  _plain_cmdline: >-
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-calibration-ft0-calibration
 control:
   mode: "fairmq"
 wants:
@@ -101,7 +102,7 @@ command:
     - "--stacktrace-on-signal"
     - "'all'"
     - "--time-calib-fitting-nbins"
-    - "'2'"
+    - "'100'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
@@ -111,6 +112,4 @@ command:
     - "--max-delay"
     - "'3'"
     - "--tf-per-slot"
-    - "'5'"
-    - "--updateInterval"
-    - "'10'"
+    - "'56000'"
