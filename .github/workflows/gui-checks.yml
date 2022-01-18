@@ -8,7 +8,7 @@ on:
     branches:
       - 'master'
 env:
-  LIST_OF_VARIABLES: \[-dcs_enabled:-\]\|\[-trg_enabled:-\]\|\[-epn_enabled:-\]\|\[-odc_topology:-\]\|\[-odc_enabled:-\]\|\[-qcdd_enabled:-\]\|\[-dd_enabled:-\]\|\[-ddsched_enabled:-\]\|\[-minimal_dpl_enabled:-\]\|\[-readout_cfg_uri:-\]\|\[-qc_config_uri:-\]
+  LIST_OF_VARIABLES: \[-dcs_enabled:-\]\|\[-trg_enabled:-\]\|\[-epn_enabled:-\]\|\[-odc_topology:-\]\|\[-odc_enabled:-\]\|\[-qcdd_enabled:-\]\|\[-dd_enabled:-\]\|\[-ddsched_enabled:-\]\|\[-minimal_dpl_enabled:-\]\|\[-readout_cfg_uri:-\]\|\[-qc_config_uri:-\]|\[-pdp_config_option:-\]|\[-pdp_o2_data_processing_hash:-\]|\[-pdp_topology_description_library_file:-\]|\[-pdp_workflow_name:-\]|\[-pdp_o2_data_processing_path:-\]
 jobs:
   directories-check:
     name: Checks no changes are done to fix variables in workflows or tasks directory
