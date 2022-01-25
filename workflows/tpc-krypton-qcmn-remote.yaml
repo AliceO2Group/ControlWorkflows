@@ -20,53 +20,53 @@ roles:
     connect:
     task:
       load: tpc-krypton-qcmn-remote-internal-dpl-clock
-  - name: "random-kr-cluster"
+  - name: "KrClusters-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_random-kr-cluster
+    - name: from_internal-dpl-clock_to_KrClusters-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_random-kr-cluster"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_KrClusters-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: random-kr-cluster
+    - name: KrClusters-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
-      global: "random-kr-cluster"
+      target: "tcp://*:47730"
     task:
-      load: tpc-krypton-qcmn-remote-random-kr-cluster
-  - name: "QC-TASK-RUNNER-KrClusters_EPN"
+      load: tpc-krypton-qcmn-remote-KrClusters-proxy
+  - name: "MERGER-KrClusters1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-KrClusters_EPN
+    - name: from_internal-dpl-clock_to_MERGER-KrClusters1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-KrClusters_EPN"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-KrClusters1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_random-kr-cluster_to_QC-TASK-RUNNER-KrClusters_EPN
+    - name: from_KrClusters-proxy_to_MERGER-KrClusters1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.random-kr-cluster:from_random-kr-cluster_to_QC-TASK-RUNNER-KrClusters_EPN"
+      target: "{{ Parent().Path }}.KrClusters-proxy:from_KrClusters-proxy_to_MERGER-KrClusters1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-krypton-qcmn-remote-QC-TASK-RUNNER-KrClusters_EPN
-  - name: "QC-CHECK-RUNNER-sink-QC_KrClusters_EP-mo_0"
+      load: tpc-krypton-qcmn-remote-MERGER-KrClusters1l-0
+  - name: "QC-CHECK-RUNNER-sink-QC_KrClusters-mo_0"
     connect:
-    - name: from_QC-TASK-RUNNER-KrClusters_EPN_to_QC-CHECK-RUNNER-sink-QC_KrClusters_EP-mo_0
+    - name: from_MERGER-KrClusters1l-0_to_QC-CHECK-RUNNER-sink-QC_KrClusters-mo_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-KrClusters_EPN:from_QC-TASK-RUNNER-KrClusters_EPN_to_QC-CHECK-RUNNER-sink-QC_KrClusters_EP-mo_0"
+      target: "{{ Parent().Path }}.MERGER-KrClusters1l-0:from_MERGER-KrClusters1l-0_to_QC-CHECK-RUNNER-sink-QC_KrClusters-mo_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-krypton-qcmn-remote-QC-CHECK-RUNNER-sink-QC_KrClusters_EP-mo_0
+      load: tpc-krypton-qcmn-remote-QC-CHECK-RUNNER-sink-QC_KrClusters-mo_0
   - name: fairmq-shmmonitor
     enabled: "{{fmq_cleanup_enabled == 'true'}}"
     task:

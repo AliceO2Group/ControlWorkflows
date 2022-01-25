@@ -23,7 +23,7 @@
       }
     },
     "tasks": {
-      "KrClusters_EPN": {
+      "KrClusters": {
         "active": "true",
         "className": "o2::quality_control_modules::tpc::Clusters",
         "moduleName": "QcTPC",
@@ -53,10 +53,17 @@
           "SigmaTimeXMax": "2.5",
           "TimeBinNBins": "1000",
           "TimeBinXMin": "1",
-          "TimeBinXMax": "100001"
+          "TimeBinXMax": "100001",
+          "mergeableOutput": "true"
         },
-        "location": "remote",
-        "remoteMachine": "alio2-cr1-qts01.cern.ch"
+        "location": "local",
+        "localMachines": [
+          "localhost",
+          "epn"
+        ],
+        "remotePort": "47730",
+        "remoteMachine": "alio2-cr1-qts01.cern.ch",
+        "localControl": "odc"
       }
     }
   },
@@ -74,11 +81,11 @@
         {
           "condition": "random",
           "fraction": "0.01",
-          "seed": "0"
+          "seed": "0",
+          "timesliceId": "tfCounter"
         }
       ],
       "blocking": "false"
     }
   ]
 }
-
