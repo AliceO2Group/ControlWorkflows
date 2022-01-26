@@ -20,8 +20,8 @@ OUTSPEC='downstream:TPC/1DIDC;downstream:TPC/IDCGROUP'
 pedestalFile="/home/tpc/IDCs/FLP/Pedestals.root"
 
 # TODO: Adjust path and check this ends up properly in the script
-CRUS='$(/home/tpc/IDCs/FLP/getCRUs.sh)'
-
+#CRUS='$(/home/tpc/IDCs/FLP/getCRUs.sh)'
+CRUS="11,13"
 # TODO: Adjust merger and port, if the port is change this also must be done
 #       in the merger script
 MERGER=epn102-ib
