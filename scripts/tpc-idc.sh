@@ -24,7 +24,7 @@ CRUS='$(/home/tpc/IDCs/FLP/getCRUs.sh)'
 
 # TODO: Adjust merger and port, if the port is change this also must be done
 #       in the merger script
-MERGER=epn160-ib
+MERGER=epn102-ib
 PORT=30453
 
 ARGS_ALL="-b --session default --shm-segment-size $GLOBAL_SHMSIZE"
