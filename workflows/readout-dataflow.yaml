@@ -594,6 +594,7 @@ defaults:
       - qcmn-daq-remote
       - tpc-full-qcmn-remote
       - tpc-full-nodummy-qcmn-remote
+      - tpc-idc-merger
   tpc_dcs_sor_parameters: !public
     value: "{}"
     type: string
