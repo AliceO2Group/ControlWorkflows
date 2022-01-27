@@ -14,10 +14,10 @@ cd ..
 
 export GLOBAL_SHMSIZE=$(( 16 << 30 )) #  GB for the global SHMEM
 #PROXY_INSPEC="A:TPC/RAWDATA"
-PROXY_INSPEC="A:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0"
+PROXY_INSPEC="x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0"
 
 #OUTSPEC='downstream:TPC/1DIDC;downstream:TPC/IDCGROUP'
-OUTSPEC='downstream:TPC/1DIDC;downstream:TPC/IDCGROUP'
+OUTSPEC=${PROXY_INSPEC}';downstream:TPC/1DIDC;downstream:TPC/IDCGROUP'
 # TODO: Adjust path to pedestal file
 pedestalFile="/home/tpc/IDCs/FLP/Pedestals.root"
 
