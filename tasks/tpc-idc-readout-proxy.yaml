@@ -12,13 +12,6 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_readout-proxy_to_tpc-idc-to-vector
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
   - name: from_readout-proxy_to_dpl-output-proxy
     type: push
     transport: shmem
@@ -73,7 +66,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
