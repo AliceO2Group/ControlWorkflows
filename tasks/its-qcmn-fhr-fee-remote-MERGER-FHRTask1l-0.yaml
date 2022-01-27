@@ -12,7 +12,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_MERGER-FHRTask1l-0_to_QC-CHECK-RUNNER-FHRCheck
+  - name: from_MERGER-FHRTask1l-0_to_qc-check-ITSFHRCheck
     type: push
     transport: shmem
     addressing: ipc

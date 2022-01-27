@@ -92,41 +92,41 @@ roles:
       rcvBufSize: 4
     task:
       load: its-qcmn-fhr-fee-no-ds-entire-remote-MERGER-ITSFEE1l-0
-  - name: "QC-CHECK-RUNNER-FHRCheck"
+  - name: "qc-check-ITSFHRCheck"
     connect:
-    - name: from_MERGER-FHRTask1l-0_to_QC-CHECK-RUNNER-FHRCheck
+    - name: from_MERGER-FHRTask1l-0_to_qc-check-ITSFHRCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-FHRTask1l-0:from_MERGER-FHRTask1l-0_to_QC-CHECK-RUNNER-FHRCheck"
+      target: "{{ Parent().Path }}.MERGER-FHRTask1l-0:from_MERGER-FHRTask1l-0_to_qc-check-ITSFHRCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: its-qcmn-fhr-fee-no-ds-entire-remote-QC-CHECK-RUNNER-FHRCheck
-  - name: "QC-CHECK-RUNNER-ITSFeeCheck"
+      load: its-qcmn-fhr-fee-no-ds-entire-remote-qc-check-ITSFHRCheck
+  - name: "qc-check-ITSITSFeeCheck"
     connect:
-    - name: from_MERGER-ITSFEE1l-0_to_QC-CHECK-RUNNER-ITSFeeCheck
+    - name: from_MERGER-ITSFEE1l-0_to_qc-check-ITSITSFeeCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-ITSFEE1l-0:from_MERGER-ITSFEE1l-0_to_QC-CHECK-RUNNER-ITSFeeCheck"
+      target: "{{ Parent().Path }}.MERGER-ITSFEE1l-0:from_MERGER-ITSFEE1l-0_to_qc-check-ITSITSFeeCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: its-qcmn-fhr-fee-no-ds-entire-remote-QC-CHECK-RUNNER-ITSFeeCheck
+      load: its-qcmn-fhr-fee-no-ds-entire-remote-qc-check-ITSITSFeeCheck
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_QC-CHECK-RUNNER-FHRCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-ITSFHRCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-FHRCheck:from_QC-CHECK-RUNNER-FHRCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-ITSFHRCheck:from_qc-check-ITSFHRCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_QC-CHECK-RUNNER-ITSFeeCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-ITSITSFeeCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-ITSFeeCheck:from_QC-CHECK-RUNNER-ITSFeeCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-ITSITSFeeCheck:from_qc-check-ITSITSFeeCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

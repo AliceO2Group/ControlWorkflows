@@ -84,46 +84,46 @@ roles:
       rcvBufSize: 4
     task:
       load: fdd-digits-qc-full-nocalib-Dispatcher
-  - name: "QC-TASK-RUNNER-DigitQcTask"
+  - name: "qc-task-FDD-DigitQcTask"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-DigitQcTask
+    - name: from_internal-dpl-clock_to_qc-task-FDD-DigitQcTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-DigitQcTask"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-FDD-DigitQcTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Dispatcher_to_QC-TASK-RUNNER-DigitQcTask
+    - name: from_Dispatcher_to_qc-task-FDD-DigitQcTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-DigitQcTask"
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-FDD-DigitQcTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: fdd-digits-qc-full-nocalib-QC-TASK-RUNNER-DigitQcTask
-  - name: "QC-CHECK-RUNNER-sink-QC_TrendPlusPlus-mo_0"
+      load: fdd-digits-qc-full-nocalib-qc-task-FDD-DigitQcTask
+  - name: "qc-check-sink-QC_TrendPlusPlus-mo_0"
     connect:
-    - name: from_PP-TASK-RUNNER-TrendPlusPlus_to_QC-CHECK-RUNNER-sink-QC_TrendPlusPlus-mo_0
+    - name: from_PP-TASK-RUNNER-TrendPlusPlus_to_qc-check-sink-QC_TrendPlusPlus-mo_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-TrendPlusPlus:from_PP-TASK-RUNNER-TrendPlusPlus_to_QC-CHECK-RUNNER-sink-QC_TrendPlusPlus-mo_0"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-TrendPlusPlus:from_PP-TASK-RUNNER-TrendPlusPlus_to_qc-check-sink-QC_TrendPlusPlus-mo_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: fdd-digits-qc-full-nocalib-QC-CHECK-RUNNER-sink-QC_TrendPlusPlus-mo_0
-  - name: "QC-CHECK-RUNNER-sink-QC_DigitQcTask-mo_0"
+      load: fdd-digits-qc-full-nocalib-qc-check-sink-QC_TrendPlusPlus-mo_0
+  - name: "qc-check-sink-QC_DigitQcTask_0"
     connect:
-    - name: from_QC-TASK-RUNNER-DigitQcTask_to_QC-CHECK-RUNNER-sink-QC_DigitQcTask-mo_0
+    - name: from_qc-task-FDD-DigitQcTask_to_qc-check-sink-QC_DigitQcTask_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-DigitQcTask:from_QC-TASK-RUNNER-DigitQcTask_to_QC-CHECK-RUNNER-sink-QC_DigitQcTask-mo_0"
+      target: "{{ Parent().Path }}.qc-task-FDD-DigitQcTask:from_qc-task-FDD-DigitQcTask_to_qc-check-sink-QC_DigitQcTask_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: fdd-digits-qc-full-nocalib-QC-CHECK-RUNNER-sink-QC_DigitQcTask-mo_0
+      load: fdd-digits-qc-full-nocalib-qc-check-sink-QC_DigitQcTask_0
   - name: "dpl-output-proxy"
     connect:
     - name: from_fdd-datareader-dpl_to_dpl-output-proxy

@@ -51,35 +51,35 @@ roles:
       rcvBufSize: 4
     task:
       load: qc-daq-Dispatcher
-  - name: "QC-TASK-RUNNER-dataDistribution"
+  - name: "qc-task-DAQ-dataDistribution"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution
+    - name: from_internal-dpl-clock_to_qc-task-DAQ-dataDistribution
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-dataDistribution"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-DAQ-dataDistribution"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution
+    - name: from_Dispatcher_to_qc-task-DAQ-dataDistribution
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-dataDistribution"
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-DAQ-dataDistribution"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: qc-daq-QC-TASK-RUNNER-dataDistribution
-  - name: "QC-CHECK-RUNNER-QcCheck"
+      load: qc-daq-qc-task-DAQ-dataDistribution
+  - name: "qc-check-DAQQcCheck"
     connect:
-    - name: from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck
+    - name: from_qc-task-DAQ-dataDistribution_to_qc-check-DAQQcCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-dataDistribution:from_QC-TASK-RUNNER-dataDistribution_to_QC-CHECK-RUNNER-QcCheck"
+      target: "{{ Parent().Path }}.qc-task-DAQ-dataDistribution:from_qc-task-DAQ-dataDistribution_to_qc-check-DAQQcCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: qc-daq-QC-CHECK-RUNNER-QcCheck
+      load: qc-daq-qc-check-DAQQcCheck
   - name: "dpl-output-proxy"
     connect:
     - name: from_readout-proxy_to_dpl-output-proxy
@@ -107,10 +107,10 @@ roles:
       load: qc-daq-dpl-output-proxy
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-DAQQcCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-QcCheck:from_QC-CHECK-RUNNER-QcCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-DAQQcCheck:from_qc-check-DAQQcCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

@@ -61,35 +61,35 @@ roles:
       rcvBufSize: 4
     task:
       load: mft-digits-qc-Dispatcher
-  - name: "QC-TASK-RUNNER-QcMFTDigitTask"
+  - name: "qc-task-MFT-QcMFTDigitTask"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-QcMFTDigitTask
+    - name: from_internal-dpl-clock_to_qc-task-MFT-QcMFTDigitTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-QcMFTDigitTask"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-MFT-QcMFTDigitTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Dispatcher_to_QC-TASK-RUNNER-QcMFTDigitTask
+    - name: from_Dispatcher_to_qc-task-MFT-QcMFTDigitTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-QcMFTDigitTask"
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-MFT-QcMFTDigitTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-digits-qc-QC-TASK-RUNNER-QcMFTDigitTask
-  - name: "QC-CHECK-RUNNER-QcMFTDigitCheck"
+      load: mft-digits-qc-qc-task-MFT-QcMFTDigitTask
+  - name: "qc-check-MFTQcMFTDigitCheck"
     connect:
-    - name: from_QC-TASK-RUNNER-QcMFTDigitTask_to_QC-CHECK-RUNNER-QcMFTDigitCheck
+    - name: from_qc-task-MFT-QcMFTDigitTask_to_qc-check-MFTQcMFTDigitCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-QcMFTDigitTask:from_QC-TASK-RUNNER-QcMFTDigitTask_to_QC-CHECK-RUNNER-QcMFTDigitCheck"
+      target: "{{ Parent().Path }}.qc-task-MFT-QcMFTDigitTask:from_qc-task-MFT-QcMFTDigitTask_to_qc-check-MFTQcMFTDigitCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-digits-qc-QC-CHECK-RUNNER-QcMFTDigitCheck
+      load: mft-digits-qc-qc-check-MFTQcMFTDigitCheck
   - name: "dpl-output-proxy"
     connect:
     - name: from_mft-stf-decoder_to_dpl-output-proxy
@@ -110,10 +110,10 @@ roles:
       load: mft-digits-qc-dpl-output-proxy
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_QC-CHECK-RUNNER-QcMFTDigitCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-MFTQcMFTDigitCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-QcMFTDigitCheck:from_QC-CHECK-RUNNER-QcMFTDigitCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-MFTQcMFTDigitCheck:from_qc-check-MFTQcMFTDigitCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
