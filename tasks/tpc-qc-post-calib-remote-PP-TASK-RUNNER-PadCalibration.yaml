@@ -12,7 +12,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_PP-TASK-RUNNER-PadCalibration_to_QC-CHECK-RUNNER-PadCalibrationCheck2D
+  - name: from_PP-TASK-RUNNER-PadCalibration_to_qc-check-TPCPadCalibrationCheck2D
     type: push
     transport: shmem
     addressing: ipc

@@ -77,17 +77,17 @@ roles:
       rcvBufSize: 4
     task:
       load: ft0-digits-qc-full-ft0-datareader-dpl
-  - name: "QC-CHECK-RUNNER-OutOfBunchCollCheck"
+  - name: "qc-check-FT0OutOfBunchCollCheck"
     connect:
-    - name: from_PP-TASK-RUNNER-OutOfBunchCollTask_to_QC-CHECK-RUNNER-OutOfBunchCollCheck
+    - name: from_PP-TASK-RUNNER-OutOfBunchCollTask_to_qc-check-FT0OutOfBunchCollCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-OutOfBunchCollTask:from_PP-TASK-RUNNER-OutOfBunchCollTask_to_QC-CHECK-RUNNER-OutOfBunchCollCheck"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-OutOfBunchCollTask:from_PP-TASK-RUNNER-OutOfBunchCollTask_to_qc-check-FT0OutOfBunchCollCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: ft0-digits-qc-full-QC-CHECK-RUNNER-OutOfBunchCollCheck
+      load: ft0-digits-qc-full-qc-check-FT0OutOfBunchCollCheck
   - name: "FT0DigitWriterRaw"
     connect:
     - name: from_ft0-datareader-dpl_to_FT0DigitWriterRaw
@@ -128,60 +128,60 @@ roles:
       rcvBufSize: 4
     task:
       load: ft0-digits-qc-full-FT0TFProcessor
-  - name: "QC-TASK-RUNNER-CalibrationTask"
+  - name: "qc-task-FT0-CalibrationTask"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-CalibrationTask
+    - name: from_internal-dpl-clock_to_qc-task-FT0-CalibrationTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-CalibrationTask"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-FT0-CalibrationTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_FT0TFProcessor_to_QC-TASK-RUNNER-CalibrationTask
+    - name: from_FT0TFProcessor_to_qc-task-FT0-CalibrationTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.FT0TFProcessor:from_FT0TFProcessor_to_QC-TASK-RUNNER-CalibrationTask"
+      target: "{{ Parent().Path }}.FT0TFProcessor:from_FT0TFProcessor_to_qc-task-FT0-CalibrationTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: ft0-digits-qc-full-QC-TASK-RUNNER-CalibrationTask
-  - name: "QC-TASK-RUNNER-DigitQcTask"
+      load: ft0-digits-qc-full-qc-task-FT0-CalibrationTask
+  - name: "qc-task-FT0-DigitQcTask"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-DigitQcTask
+    - name: from_internal-dpl-clock_to_qc-task-FT0-DigitQcTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-DigitQcTask"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-FT0-DigitQcTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_QC-TASK-RUNNER-CalibrationTask_to_QC-TASK-RUNNER-DigitQcTask
+    - name: from_qc-task-FT0-CalibrationTask_to_qc-task-FT0-DigitQcTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-CalibrationTask:from_QC-TASK-RUNNER-CalibrationTask_to_QC-TASK-RUNNER-DigitQcTask"
+      target: "{{ Parent().Path }}.qc-task-FT0-CalibrationTask:from_qc-task-FT0-CalibrationTask_to_qc-task-FT0-DigitQcTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: ft0-digits-qc-full-QC-TASK-RUNNER-DigitQcTask
-  - name: "QC-TASK-RUNNER-TriggerQcTask"
+      load: ft0-digits-qc-full-qc-task-FT0-DigitQcTask
+  - name: "qc-task-FT0-TriggerQcTask"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-TriggerQcTask
+    - name: from_internal-dpl-clock_to_qc-task-FT0-TriggerQcTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-TriggerQcTask"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-FT0-TriggerQcTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_QC-TASK-RUNNER-DigitQcTask_to_QC-TASK-RUNNER-TriggerQcTask
+    - name: from_qc-task-FT0-DigitQcTask_to_qc-task-FT0-TriggerQcTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-DigitQcTask:from_QC-TASK-RUNNER-DigitQcTask_to_QC-TASK-RUNNER-TriggerQcTask"
+      target: "{{ Parent().Path }}.qc-task-FT0-DigitQcTask:from_qc-task-FT0-DigitQcTask_to_qc-task-FT0-TriggerQcTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: ft0-digits-qc-full-QC-TASK-RUNNER-TriggerQcTask
+      load: ft0-digits-qc-full-qc-task-FT0-TriggerQcTask
   - name: "calib-ft0-channel-time"
     connect:
     - name: from_FT0TFProcessor_to_calib-ft0-channel-time
@@ -193,61 +193,61 @@ roles:
       rcvBufSize: 4
     task:
       load: ft0-digits-qc-full-calib-ft0-channel-time
-  - name: "QC-CHECK-RUNNER-CFDEffCheck"
+  - name: "qc-check-FT0CFDEffCheck"
     connect:
-    - name: from_QC-TASK-RUNNER-DigitQcTask_to_QC-CHECK-RUNNER-CFDEffCheck
+    - name: from_qc-task-FT0-DigitQcTask_to_qc-check-FT0CFDEffCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-DigitQcTask:from_QC-TASK-RUNNER-DigitQcTask_to_QC-CHECK-RUNNER-CFDEffCheck"
+      target: "{{ Parent().Path }}.qc-task-FT0-DigitQcTask:from_qc-task-FT0-DigitQcTask_to_qc-check-FT0CFDEffCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: ft0-digits-qc-full-QC-CHECK-RUNNER-CFDEffCheck
-  - name: "QC-CHECK-RUNNER-CalibratedChannelTimeCheck"
+      load: ft0-digits-qc-full-qc-check-FT0CFDEffCheck
+  - name: "qc-check-FT0CalibratedChannelTimeCheck"
     connect:
-    - name: from_QC-TASK-RUNNER-CalibrationTask_to_QC-CHECK-RUNNER-CalibratedChannelTimeCheck
+    - name: from_qc-task-FT0-CalibrationTask_to_qc-check-FT0CalibratedChannelTimeCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-CalibrationTask:from_QC-TASK-RUNNER-CalibrationTask_to_QC-CHECK-RUNNER-CalibratedChannelTimeCheck"
+      target: "{{ Parent().Path }}.qc-task-FT0-CalibrationTask:from_qc-task-FT0-CalibrationTask_to_qc-check-FT0CalibratedChannelTimeCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: ft0-digits-qc-full-QC-CHECK-RUNNER-CalibratedChannelTimeCheck
-  - name: "QC-CHECK-RUNNER-sink-QC_BasicPPTask-mo_0"
+      load: ft0-digits-qc-full-qc-check-FT0CalibratedChannelTimeCheck
+  - name: "qc-check-sink-QC_BasicPPTask-mo_0"
     connect:
-    - name: from_PP-TASK-RUNNER-BasicPPTask_to_QC-CHECK-RUNNER-sink-QC_BasicPPTask-mo_0
+    - name: from_PP-TASK-RUNNER-BasicPPTask_to_qc-check-sink-QC_BasicPPTask-mo_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-BasicPPTask:from_PP-TASK-RUNNER-BasicPPTask_to_QC-CHECK-RUNNER-sink-QC_BasicPPTask-mo_0"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-BasicPPTask:from_PP-TASK-RUNNER-BasicPPTask_to_qc-check-sink-QC_BasicPPTask-mo_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: ft0-digits-qc-full-QC-CHECK-RUNNER-sink-QC_BasicPPTask-mo_0
-  - name: "QC-CHECK-RUNNER-sink-QC_TrendPlusPlus-mo_0"
+      load: ft0-digits-qc-full-qc-check-sink-QC_BasicPPTask-mo_0
+  - name: "qc-check-sink-QC_TrendPlusPlus-mo_0"
     connect:
-    - name: from_PP-TASK-RUNNER-TrendPlusPlus_to_QC-CHECK-RUNNER-sink-QC_TrendPlusPlus-mo_0
+    - name: from_PP-TASK-RUNNER-TrendPlusPlus_to_qc-check-sink-QC_TrendPlusPlus-mo_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-TrendPlusPlus:from_PP-TASK-RUNNER-TrendPlusPlus_to_QC-CHECK-RUNNER-sink-QC_TrendPlusPlus-mo_0"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-TrendPlusPlus:from_PP-TASK-RUNNER-TrendPlusPlus_to_qc-check-sink-QC_TrendPlusPlus-mo_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: ft0-digits-qc-full-QC-CHECK-RUNNER-sink-QC_TrendPlusPlus-mo_0
-  - name: "QC-CHECK-RUNNER-sink-QC_TriggerQcTask-mo_0"
+      load: ft0-digits-qc-full-qc-check-sink-QC_TrendPlusPlus-mo_0
+  - name: "qc-check-sink-QC_TriggerQcTask_0"
     connect:
-    - name: from_QC-TASK-RUNNER-TriggerQcTask_to_QC-CHECK-RUNNER-sink-QC_TriggerQcTask-mo_0
+    - name: from_qc-task-FT0-TriggerQcTask_to_qc-check-sink-QC_TriggerQcTask_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-TriggerQcTask:from_QC-TASK-RUNNER-TriggerQcTask_to_QC-CHECK-RUNNER-sink-QC_TriggerQcTask-mo_0"
+      target: "{{ Parent().Path }}.qc-task-FT0-TriggerQcTask:from_qc-task-FT0-TriggerQcTask_to_qc-check-sink-QC_TriggerQcTask_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: ft0-digits-qc-full-QC-CHECK-RUNNER-sink-QC_TriggerQcTask-mo_0
+      load: ft0-digits-qc-full-qc-check-sink-QC_TriggerQcTask_0
   - name: "ccdb-populator"
     connect:
     - name: from_calib-ft0-channel-time_to_ccdb-populator
@@ -261,24 +261,24 @@ roles:
       load: ft0-digits-qc-full-ccdb-populator
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_QC-CHECK-RUNNER-OutOfBunchCollCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-FT0OutOfBunchCollCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-OutOfBunchCollCheck:from_QC-CHECK-RUNNER-OutOfBunchCollCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-FT0OutOfBunchCollCheck:from_qc-check-FT0OutOfBunchCollCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_QC-CHECK-RUNNER-CFDEffCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-FT0CFDEffCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-CFDEffCheck:from_QC-CHECK-RUNNER-CFDEffCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-FT0CFDEffCheck:from_qc-check-FT0CFDEffCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_QC-CHECK-RUNNER-CalibratedChannelTimeCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-FT0CalibratedChannelTimeCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-CalibratedChannelTimeCheck:from_QC-CHECK-RUNNER-CalibratedChannelTimeCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-FT0CalibratedChannelTimeCheck:from_qc-check-FT0CalibratedChannelTimeCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

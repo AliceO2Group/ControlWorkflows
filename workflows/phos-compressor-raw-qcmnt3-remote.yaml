@@ -56,17 +56,17 @@ roles:
       rcvBufSize: 4
     task:
       load: phos-compressor-raw-qcmnt3-remote-MERGER-QcTask1l-0
-  - name: "QC-CHECK-RUNNER-sink-QC_QcTask-mo_0"
+  - name: "qc-check-sink-QC_QcTask_0"
     connect:
-    - name: from_MERGER-QcTask1l-0_to_QC-CHECK-RUNNER-sink-QC_QcTask-mo_0
+    - name: from_MERGER-QcTask1l-0_to_qc-check-sink-QC_QcTask_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-QcTask1l-0:from_MERGER-QcTask1l-0_to_QC-CHECK-RUNNER-sink-QC_QcTask-mo_0"
+      target: "{{ Parent().Path }}.MERGER-QcTask1l-0:from_MERGER-QcTask1l-0_to_qc-check-sink-QC_QcTask_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: phos-compressor-raw-qcmnt3-remote-QC-CHECK-RUNNER-sink-QC_QcTask-mo_0
+      load: phos-compressor-raw-qcmnt3-remote-qc-check-sink-QC_QcTask_0
   - name: fairmq-shmmonitor
     enabled: "{{fmq_cleanup_enabled == 'true'}}"
     task:

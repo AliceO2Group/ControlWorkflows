@@ -12,7 +12,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_fv0-datareader-dpl_to_QC-TASK-RUNNER-DigitQcTask
+  - name: from_fv0-datareader-dpl_to_qc-task-FV0-DigitQcTask
     type: push
     transport: shmem
     addressing: ipc

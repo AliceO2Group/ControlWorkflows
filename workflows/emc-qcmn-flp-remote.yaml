@@ -56,23 +56,23 @@ roles:
       rcvBufSize: 4
     task:
       load: emc-qcmn-flp-remote-MERGER-RawTask1l-0
-  - name: "QC-CHECK-RUNNER-bY90"
+  - name: "qc-check-DETbY90"
     connect:
-    - name: from_MERGER-RawTask1l-0_to_QC-CHECK-RUNNER-bY90
+    - name: from_MERGER-RawTask1l-0_to_qc-check-DETbY90
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-RawTask1l-0:from_MERGER-RawTask1l-0_to_QC-CHECK-RUNNER-bY90"
+      target: "{{ Parent().Path }}.MERGER-RawTask1l-0:from_MERGER-RawTask1l-0_to_qc-check-DETbY90"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: emc-qcmn-flp-remote-QC-CHECK-RUNNER-bY90
+      load: emc-qcmn-flp-remote-qc-check-DETbY90
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_QC-CHECK-RUNNER-bY90_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-DETbY90_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-bY90:from_QC-CHECK-RUNNER-bY90_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-DETbY90:from_qc-check-DETbY90_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
