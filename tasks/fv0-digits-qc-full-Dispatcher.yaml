@@ -19,7 +19,7 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_Dispatcher_to_QC-TASK-RUNNER-CalibrationTask
+  - name: from_Dispatcher_to_qc-task-FV0-CalibrationTask
     type: push
     transport: shmem
     addressing: ipc
