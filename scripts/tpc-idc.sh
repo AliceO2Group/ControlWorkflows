@@ -38,6 +38,7 @@ o2-dpl-raw-proxy -b --session default \
   --dataspec "${PROXY_INSPEC}" \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
   | o2-tpc-idc-to-vector $ARGS_ALL \
+  --input-spec "x:TPC/RAWDATA" \
   --crus ${CRUS} \
   --pedestal-file $pedestalFile \
   --severity info \

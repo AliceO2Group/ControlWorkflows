@@ -93,7 +93,7 @@ command:
     - "--forwarding-policy"
     - "'dangling'"
     - "--input-spec"
-    - "'A:TPC/RAWDATA'"
+    - "'x:TPC/RAWDATA'"
     - "--labels"
     - "''"
     - "--pipeline"
