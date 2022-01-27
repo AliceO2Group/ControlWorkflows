@@ -103,7 +103,7 @@ command:
     - "--labels"
     - "''"
     - "--lanes"
-    - "'10'"
+    - "'64'"
     - "--minIDCsPerTF"
     - "'10'"
     - "--nthreads"
