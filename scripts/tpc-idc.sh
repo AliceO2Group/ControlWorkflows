@@ -30,7 +30,8 @@ CRUS="11,13"
 MERGER=epn102-ib
 PORT=30453
 
-ARGS_ALL="-b --session default --shm-segment-size $GLOBAL_SHMSIZE"
+ARGS_ALL="-b --session default "
+#--shm-segment-size $GLOBAL_SHMSIZE"
 
 
 o2-dpl-raw-proxy -b --session default \
