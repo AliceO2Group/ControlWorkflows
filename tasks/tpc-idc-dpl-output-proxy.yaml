@@ -59,7 +59,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'downstream:TPC/1DIDC;downstream:TPC/IDCGROUP'"
+    - "'x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0;downstream:TPC/1DIDC;downstream:TPC/IDCGROUP'"
     - "--default-port"
     - "'4200'"
     - "--default-transport"

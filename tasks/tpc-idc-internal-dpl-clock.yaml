@@ -66,7 +66,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'A:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "'x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
