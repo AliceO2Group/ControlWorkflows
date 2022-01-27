@@ -33,7 +33,7 @@ ARGS_ALL="-b --session default --shm-segment-size $GLOBAL_SHMSIZE"
 
 o2-dpl-raw-proxy $ARGS_ALL \
   --dataspec "$PROXY_INSPEC" \
-  --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://tmp/stf-builder-pipe-0,transport=shmem,rateLogging=1"' \
+  --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
   | o2-tpc-idc-to-vector $ARGS_ALL \
   --crus ${CRUS} \
   --pedestal-file $pedestalFile \
