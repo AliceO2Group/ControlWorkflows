@@ -1,7 +1,7 @@
 name: tpc-idc
 vars:
   dpl_command: >-
-    o2-dpl-raw-proxy -b --session default --dataspec 'x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' | o2-tpc-idc-to-vector -b --session default --shm-segment-size 17179869184 --crus 11,13 --pedestal-file /home/tpc/IDCs/FLP/Pedestals.root --severity info | o2-dpl-output-proxy -b --session default --dataspec 'x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"'
+    o2-dpl-raw-proxy -b --session default --dataspec 'x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' | o2-tpc-idc-to-vector -b --session default --crus 11,13 --pedestal-file /home/tpc/IDCs/FLP/Pedestals.root --severity info | o2-dpl-output-proxy -b --session default --dataspec 'x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"'
 defaults:
   monitoring_dpl_url: "no-op://"
   user: "flp"
