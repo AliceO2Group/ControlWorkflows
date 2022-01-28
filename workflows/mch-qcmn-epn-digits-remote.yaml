@@ -56,23 +56,23 @@ roles:
       rcvBufSize: 4
     task:
       load: mch-qcmn-epn-digits-remote-MERGER-QcTaskMCHDigits1l-0
-  - name: "QC-CHECK-RUNNER-QcCheckMCHPhysics"
+  - name: "qc-check-MCHQcCheckMCHPhysics"
     connect:
-    - name: from_MERGER-QcTaskMCHDigits1l-0_to_QC-CHECK-RUNNER-QcCheckMCHPhysics
+    - name: from_MERGER-QcTaskMCHDigits1l-0_to_qc-check-MCHQcCheckMCHPhysics
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-QcTaskMCHDigits1l-0:from_MERGER-QcTaskMCHDigits1l-0_to_QC-CHECK-RUNNER-QcCheckMCHPhysics"
+      target: "{{ Parent().Path }}.MERGER-QcTaskMCHDigits1l-0:from_MERGER-QcTaskMCHDigits1l-0_to_qc-check-MCHQcCheckMCHPhysics"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mch-qcmn-epn-digits-remote-QC-CHECK-RUNNER-QcCheckMCHPhysics
+      load: mch-qcmn-epn-digits-remote-qc-check-MCHQcCheckMCHPhysics
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_QC-CHECK-RUNNER-QcCheckMCHPhysics_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-MCHQcCheckMCHPhysics_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-QcCheckMCHPhysics:from_QC-CHECK-RUNNER-QcCheckMCHPhysics_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-MCHQcCheckMCHPhysics:from_qc-check-MCHQcCheckMCHPhysics_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

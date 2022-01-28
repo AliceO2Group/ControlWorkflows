@@ -50,30 +50,30 @@ roles:
       rcvBufSize: 4
     task:
       load: qcmn-daq-local-Dispatcher
-  - name: "QC-TASK-RUNNER-MultiNodeLocal"
+  - name: "qc-task-DAQ-MultiNodeLocal"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-MultiNodeLocal
+    - name: from_internal-dpl-clock_to_qc-task-DAQ-MultiNodeLocal
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-MultiNodeLocal"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-DAQ-MultiNodeLocal"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Dispatcher_to_QC-TASK-RUNNER-MultiNodeLocal
+    - name: from_Dispatcher_to_qc-task-DAQ-MultiNodeLocal
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-MultiNodeLocal"
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-DAQ-MultiNodeLocal"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: qcmn-daq-local-QC-TASK-RUNNER-MultiNodeLocal
+      load: qcmn-daq-local-qc-task-DAQ-MultiNodeLocal
   - name: "MultiNodeLocal-proxy"
     connect:
-    - name: from_QC-TASK-RUNNER-MultiNodeLocal_to_MultiNodeLocal-proxy
+    - name: from_qc-task-DAQ-MultiNodeLocal_to_MultiNodeLocal-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-MultiNodeLocal:from_QC-TASK-RUNNER-MultiNodeLocal_to_MultiNodeLocal-proxy"
+      target: "{{ Parent().Path }}.qc-task-DAQ-MultiNodeLocal:from_qc-task-DAQ-MultiNodeLocal_to_MultiNodeLocal-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
