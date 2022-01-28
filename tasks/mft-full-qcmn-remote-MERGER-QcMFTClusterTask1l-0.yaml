@@ -12,7 +12,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_MERGER-QcMFTClusterTask1l-0_to_QC-CHECK-RUNNER-QcMFTClusterCheck
+  - name: from_MERGER-QcMFTClusterTask1l-0_to_qc-check-MFTQcMFTClusterCheck
     type: push
     transport: shmem
     addressing: ipc

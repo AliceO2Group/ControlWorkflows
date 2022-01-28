@@ -12,7 +12,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_MERGER-QcTaskMCHDigits1l-0_to_QC-CHECK-RUNNER-QcCheckMCHPhysics
+  - name: from_MERGER-QcTaskMCHDigits1l-0_to_qc-check-DETQcCheckMCHPhysics
     type: push
     transport: shmem
     addressing: ipc

@@ -26,7 +26,7 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-QcTask
+  - name: from_internal-dpl-clock_to_qc-task-PHS-QcTask
     type: push
     transport: shmem
     addressing: ipc

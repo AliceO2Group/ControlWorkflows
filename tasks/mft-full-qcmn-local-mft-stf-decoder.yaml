@@ -19,7 +19,7 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_mft-stf-decoder_to_QC-TASK-RUNNER-QcMFTDigitTask
+  - name: from_mft-stf-decoder_to_qc-task-MFT-QcMFTDigitTask
     type: push
     transport: shmem
     addressing: ipc

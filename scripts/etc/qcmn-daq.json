@@ -51,7 +51,7 @@
         "className": "o2::quality_control_modules::skeleton::SkeletonCheck",
         "moduleName": "QcSkeleton",
         "policy": "OnAny",
-        "detectorName": "TST",
+        "detectorName": "DAQ",
         "dataSource": [{
           "type": "Task",
           "name": "MultiNodeLocal",

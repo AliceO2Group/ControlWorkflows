@@ -92,41 +92,41 @@ roles:
       rcvBufSize: 4
     task:
       load: emc-qcmn-flpepn-remote-MERGER-RawTask1l-0
-  - name: "QC-CHECK-RUNNER-bY90"
+  - name: "qc-check-DETbY90"
     connect:
-    - name: from_MERGER-RawTask1l-0_to_QC-CHECK-RUNNER-bY90
+    - name: from_MERGER-RawTask1l-0_to_qc-check-DETbY90
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-RawTask1l-0:from_MERGER-RawTask1l-0_to_QC-CHECK-RUNNER-bY90"
+      target: "{{ Parent().Path }}.MERGER-RawTask1l-0:from_MERGER-RawTask1l-0_to_qc-check-DETbY90"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: emc-qcmn-flpepn-remote-QC-CHECK-RUNNER-bY90
-  - name: "QC-CHECK-RUNNER-DigitsCheckAmplitude"
+      load: emc-qcmn-flpepn-remote-qc-check-DETbY90
+  - name: "qc-check-EMCDigitsCheckAmplitude"
     connect:
-    - name: from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-DigitsCheckAmplitude
+    - name: from_MERGER-DigitsTask1l-0_to_qc-check-EMCDigitsCheckAmplitude
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-DigitsTask1l-0:from_MERGER-DigitsTask1l-0_to_QC-CHECK-RUNNER-DigitsCheckAmplitude"
+      target: "{{ Parent().Path }}.MERGER-DigitsTask1l-0:from_MERGER-DigitsTask1l-0_to_qc-check-EMCDigitsCheckAmplitude"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: emc-qcmn-flpepn-remote-QC-CHECK-RUNNER-DigitsCheckAmplitude
+      load: emc-qcmn-flpepn-remote-qc-check-EMCDigitsCheckAmplitude
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_QC-CHECK-RUNNER-bY90_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-DETbY90_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-bY90:from_QC-CHECK-RUNNER-bY90_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-DETbY90:from_qc-check-DETbY90_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_QC-CHECK-RUNNER-DigitsCheckAmplitude_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-EMCDigitsCheckAmplitude_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-DigitsCheckAmplitude:from_QC-CHECK-RUNNER-DigitsCheckAmplitude_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-EMCDigitsCheckAmplitude:from_qc-check-EMCDigitsCheckAmplitude_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

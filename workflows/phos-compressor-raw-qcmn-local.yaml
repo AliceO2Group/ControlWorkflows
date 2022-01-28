@@ -63,24 +63,24 @@ roles:
       rcvBufSize: 4
     task:
       load: phos-compressor-raw-qcmn-local-Dispatcher
-  - name: "QC-TASK-RUNNER-QcTask"
+  - name: "qc-task-PHS-QcTask"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-QcTask
+    - name: from_internal-dpl-clock_to_qc-task-PHS-QcTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-QcTask"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-PHS-QcTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Dispatcher_to_QC-TASK-RUNNER-QcTask
+    - name: from_Dispatcher_to_qc-task-PHS-QcTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-QcTask"
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-PHS-QcTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: phos-compressor-raw-qcmn-local-QC-TASK-RUNNER-QcTask
+      load: phos-compressor-raw-qcmn-local-qc-task-PHS-QcTask
   - name: "internal-dpl-injected-dummy-sink"
     connect:
     - name: from_PHOSRawToCellConverterSpec_to_internal-dpl-injected-dummy-sink
@@ -94,10 +94,10 @@ roles:
       load: phos-compressor-raw-qcmn-local-internal-dpl-injected-dummy-sink
   - name: "QcTask-proxy"
     connect:
-    - name: from_QC-TASK-RUNNER-QcTask_to_QcTask-proxy
+    - name: from_qc-task-PHS-QcTask_to_QcTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-QcTask:from_QC-TASK-RUNNER-QcTask_to_QcTask-proxy"
+      target: "{{ Parent().Path }}.qc-task-PHS-QcTask:from_qc-task-PHS-QcTask_to_QcTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

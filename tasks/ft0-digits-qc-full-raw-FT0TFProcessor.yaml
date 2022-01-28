@@ -12,7 +12,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_FT0TFProcessor_to_QC-TASK-RUNNER-CalibrationTask
+  - name: from_FT0TFProcessor_to_qc-task-FT0-CalibrationTask
     type: push
     transport: shmem
     addressing: ipc
