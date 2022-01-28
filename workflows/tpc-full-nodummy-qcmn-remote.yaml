@@ -1,0 +1,217 @@
+name: tpc-full-nodummy-qcmn-remote
+vars:
+  dpl_command: >-
+    o2-qc --config {{ qc_config_uri }} --remote -b
+defaults:
+  qc_remote_machine: "alio2-cr1-qts01"
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-nodummy-qcmn"
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 90000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+constraints:
+  - attribute: machine_id
+    value: "{{ qc_remote_machine }}"
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: tpc-full-nodummy-qcmn-remote-internal-dpl-clock
+  - name: "Clusters-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_Clusters-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Clusters-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: Clusters-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47730"
+    task:
+      load: tpc-full-nodummy-qcmn-remote-Clusters-proxy
+  - name: "PID-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_PID-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PID-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: PID-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47732"
+    task:
+      load: tpc-full-nodummy-qcmn-remote-PID-proxy
+  - name: "RawDigits-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_RawDigits-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_RawDigits-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: RawDigits-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47731"
+    task:
+      load: tpc-full-nodummy-qcmn-remote-RawDigits-proxy
+  - name: "Tracks-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_Tracks-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Tracks-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: Tracks-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47733"
+    task:
+      load: tpc-full-nodummy-qcmn-remote-Tracks-proxy
+  - name: "MERGER-Clusters1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MERGER-Clusters1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-Clusters1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_Clusters-proxy_to_MERGER-Clusters1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.Clusters-proxy:from_Clusters-proxy_to_MERGER-Clusters1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-remote-MERGER-Clusters1l-0
+  - name: "MERGER-PID1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MERGER-PID1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-PID1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_PID-proxy_to_MERGER-PID1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PID-proxy:from_PID-proxy_to_MERGER-PID1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-remote-MERGER-PID1l-0
+  - name: "MERGER-RawDigits1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MERGER-RawDigits1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-RawDigits1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_RawDigits-proxy_to_MERGER-RawDigits1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.RawDigits-proxy:from_RawDigits-proxy_to_MERGER-RawDigits1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-remote-MERGER-RawDigits1l-0
+  - name: "MERGER-Tracks1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MERGER-Tracks1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-Tracks1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_Tracks-proxy_to_MERGER-Tracks1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.Tracks-proxy:from_Tracks-proxy_to_MERGER-Tracks1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-remote-MERGER-Tracks1l-0
+  - name: "QC-CHECK-RUNNER-sink-QC_Clusters-mo_0"
+    connect:
+    - name: from_MERGER-Clusters1l-0_to_QC-CHECK-RUNNER-sink-QC_Clusters-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MERGER-Clusters1l-0:from_MERGER-Clusters1l-0_to_QC-CHECK-RUNNER-sink-QC_Clusters-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-remote-QC-CHECK-RUNNER-sink-QC_Clusters-mo_0
+  - name: "QC-CHECK-RUNNER-sink-QC_PID-mo_0"
+    connect:
+    - name: from_MERGER-PID1l-0_to_QC-CHECK-RUNNER-sink-QC_PID-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MERGER-PID1l-0:from_MERGER-PID1l-0_to_QC-CHECK-RUNNER-sink-QC_PID-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-remote-QC-CHECK-RUNNER-sink-QC_PID-mo_0
+  - name: "QC-CHECK-RUNNER-sink-QC_RawDigits-mo_0"
+    connect:
+    - name: from_MERGER-RawDigits1l-0_to_QC-CHECK-RUNNER-sink-QC_RawDigits-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MERGER-RawDigits1l-0:from_MERGER-RawDigits1l-0_to_QC-CHECK-RUNNER-sink-QC_RawDigits-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-remote-QC-CHECK-RUNNER-sink-QC_RawDigits-mo_0
+  - name: "QC-CHECK-RUNNER-sink-QC_Tracks-mo_0"
+    connect:
+    - name: from_MERGER-Tracks1l-0_to_QC-CHECK-RUNNER-sink-QC_Tracks-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MERGER-Tracks1l-0:from_MERGER-Tracks1l-0_to_QC-CHECK-RUNNER-sink-QC_Tracks-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-remote-QC-CHECK-RUNNER-sink-QC_Tracks-mo_0
+  - name: fairmq-shmmonitor
+    enabled: "{{fmq_cleanup_enabled == 'true'}}"
+    task:
+      load: "fairmq-shmmonitor"
+      trigger: DESTROY
+      timeout: 10s
+      critical: false
