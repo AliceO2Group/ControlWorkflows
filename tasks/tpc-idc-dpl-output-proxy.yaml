@@ -12,12 +12,6 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: downstream
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    global: "downstream-{{ it }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
