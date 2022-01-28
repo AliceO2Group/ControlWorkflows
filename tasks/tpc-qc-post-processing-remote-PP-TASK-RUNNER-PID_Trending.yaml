@@ -12,7 +12,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_PP-TASK-RUNNER-PID_Trending_to_QC-CHECK-RUNNER-CheckOfPID_Trending
+  - name: from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPCCheckOfPID_Trending
     type: push
     transport: shmem
     addressing: ipc

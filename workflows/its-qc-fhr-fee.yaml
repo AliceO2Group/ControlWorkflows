@@ -50,64 +50,64 @@ roles:
       rcvBufSize: 4
     task:
       load: its-qc-fhr-fee-Dispatcher
-  - name: "QC-TASK-RUNNER-FHRTask"
+  - name: "qc-task-ITS-FHRTask"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-FHRTask
+    - name: from_internal-dpl-clock_to_qc-task-ITS-FHRTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-FHRTask"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-ITS-FHRTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Dispatcher_to_QC-TASK-RUNNER-FHRTask
+    - name: from_Dispatcher_to_qc-task-ITS-FHRTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-FHRTask"
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-ITS-FHRTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: its-qc-fhr-fee-QC-TASK-RUNNER-FHRTask
-  - name: "QC-TASK-RUNNER-ITSFEE"
+      load: its-qc-fhr-fee-qc-task-ITS-FHRTask
+  - name: "qc-task-ITS-ITSFEE"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-ITSFEE
+    - name: from_internal-dpl-clock_to_qc-task-ITS-ITSFEE
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-ITSFEE"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-ITS-ITSFEE"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Dispatcher_to_QC-TASK-RUNNER-ITSFEE
+    - name: from_Dispatcher_to_qc-task-ITS-ITSFEE
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-ITSFEE"
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-ITS-ITSFEE"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: its-qc-fhr-fee-QC-TASK-RUNNER-ITSFEE
-  - name: "QC-CHECK-RUNNER-FHRCheck"
+      load: its-qc-fhr-fee-qc-task-ITS-ITSFEE
+  - name: "qc-check-ITSFHRCheck"
     connect:
-    - name: from_QC-TASK-RUNNER-FHRTask_to_QC-CHECK-RUNNER-FHRCheck
+    - name: from_qc-task-ITS-FHRTask_to_qc-check-ITSFHRCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-FHRTask:from_QC-TASK-RUNNER-FHRTask_to_QC-CHECK-RUNNER-FHRCheck"
+      target: "{{ Parent().Path }}.qc-task-ITS-FHRTask:from_qc-task-ITS-FHRTask_to_qc-check-ITSFHRCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: its-qc-fhr-fee-QC-CHECK-RUNNER-FHRCheck
-  - name: "QC-CHECK-RUNNER-ITSFeeCheck"
+      load: its-qc-fhr-fee-qc-check-ITSFHRCheck
+  - name: "qc-check-ITSITSFeeCheck"
     connect:
-    - name: from_QC-TASK-RUNNER-ITSFEE_to_QC-CHECK-RUNNER-ITSFeeCheck
+    - name: from_qc-task-ITS-ITSFEE_to_qc-check-ITSITSFeeCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-ITSFEE:from_QC-TASK-RUNNER-ITSFEE_to_QC-CHECK-RUNNER-ITSFeeCheck"
+      target: "{{ Parent().Path }}.qc-task-ITS-ITSFEE:from_qc-task-ITS-ITSFEE_to_qc-check-ITSITSFeeCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: its-qc-fhr-fee-QC-CHECK-RUNNER-ITSFeeCheck
+      load: its-qc-fhr-fee-qc-check-ITSITSFeeCheck
   - name: "dpl-output-proxy"
     connect:
     - name: from_Dispatcher_to_dpl-output-proxy
@@ -128,17 +128,17 @@ roles:
       load: its-qc-fhr-fee-dpl-output-proxy
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_QC-CHECK-RUNNER-FHRCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-ITSFHRCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-FHRCheck:from_QC-CHECK-RUNNER-FHRCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-ITSFHRCheck:from_qc-check-ITSFHRCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_QC-CHECK-RUNNER-ITSFeeCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-ITSITSFeeCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-CHECK-RUNNER-ITSFeeCheck:from_QC-CHECK-RUNNER-ITSFeeCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-ITSITSFeeCheck:from_qc-check-ITSITSFeeCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

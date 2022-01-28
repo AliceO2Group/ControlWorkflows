@@ -26,14 +26,14 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-FHRTask
+  - name: from_internal-dpl-clock_to_qc-task-ITS-FHRTask
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-ITSFEE
+  - name: from_internal-dpl-clock_to_qc-task-ITS-ITSFEE
     type: push
     transport: shmem
     addressing: ipc

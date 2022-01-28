@@ -47,21 +47,21 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-CalibrationTask
+  - name: from_internal-dpl-clock_to_qc-task-FT0-CalibrationTask
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-DigitQcTask
+  - name: from_internal-dpl-clock_to_qc-task-FT0-DigitQcTask
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-TriggerQcTask
+  - name: from_internal-dpl-clock_to_qc-task-FT0-TriggerQcTask
     type: push
     transport: shmem
     addressing: ipc

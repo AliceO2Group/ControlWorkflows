@@ -69,24 +69,24 @@ roles:
       rcvBufSize: 4
     task:
       load: mch-qcmn-flp-digits-local-mch-data-decoder
-  - name: "QC-TASK-RUNNER-QcTaskMCHDigits"
+  - name: "qc-task-MCH-QcTaskMCHDigits"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-QcTaskMCHDigits
+    - name: from_internal-dpl-clock_to_qc-task-MCH-QcTaskMCHDigits
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-QcTaskMCHDigits"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-MCH-QcTaskMCHDigits"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_mch-data-decoder_to_QC-TASK-RUNNER-QcTaskMCHDigits
+    - name: from_mch-data-decoder_to_qc-task-MCH-QcTaskMCHDigits
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.mch-data-decoder:from_mch-data-decoder_to_QC-TASK-RUNNER-QcTaskMCHDigits"
+      target: "{{ Parent().Path }}.mch-data-decoder:from_mch-data-decoder_to_qc-task-MCH-QcTaskMCHDigits"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mch-qcmn-flp-digits-local-QC-TASK-RUNNER-QcTaskMCHDigits
+      load: mch-qcmn-flp-digits-local-qc-task-MCH-QcTaskMCHDigits
   - name: "internal-dpl-injected-dummy-sink"
     connect:
     - name: from_mch-data-decoder_to_internal-dpl-injected-dummy-sink
@@ -100,10 +100,10 @@ roles:
       load: mch-qcmn-flp-digits-local-internal-dpl-injected-dummy-sink
   - name: "QcTaskMCHDigits-proxy"
     connect:
-    - name: from_QC-TASK-RUNNER-QcTaskMCHDigits_to_QcTaskMCHDigits-proxy
+    - name: from_qc-task-MCH-QcTaskMCHDigits_to_QcTaskMCHDigits-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-QcTaskMCHDigits:from_QC-TASK-RUNNER-QcTaskMCHDigits_to_QcTaskMCHDigits-proxy"
+      target: "{{ Parent().Path }}.qc-task-MCH-QcTaskMCHDigits:from_qc-task-MCH-QcTaskMCHDigits_to_QcTaskMCHDigits-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

@@ -50,30 +50,30 @@ roles:
       rcvBufSize: 4
     task:
       load: mft-raw-qcmn-local-Dispatcher
-  - name: "QC-TASK-RUNNER-QcMFTReadoutTask"
+  - name: "qc-task-MFT-QcMFTReadoutTask"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-QcMFTReadoutTask
+    - name: from_internal-dpl-clock_to_qc-task-MFT-QcMFTReadoutTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-QcMFTReadoutTask"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-MFT-QcMFTReadoutTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Dispatcher_to_QC-TASK-RUNNER-QcMFTReadoutTask
+    - name: from_Dispatcher_to_qc-task-MFT-QcMFTReadoutTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-QcMFTReadoutTask"
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-MFT-QcMFTReadoutTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-raw-qcmn-local-QC-TASK-RUNNER-QcMFTReadoutTask
+      load: mft-raw-qcmn-local-qc-task-MFT-QcMFTReadoutTask
   - name: "QcMFTReadoutTask-proxy"
     connect:
-    - name: from_QC-TASK-RUNNER-QcMFTReadoutTask_to_QcMFTReadoutTask-proxy
+    - name: from_qc-task-MFT-QcMFTReadoutTask_to_QcMFTReadoutTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-QcMFTReadoutTask:from_QC-TASK-RUNNER-QcMFTReadoutTask_to_QcMFTReadoutTask-proxy"
+      target: "{{ Parent().Path }}.qc-task-MFT-QcMFTReadoutTask:from_qc-task-MFT-QcMFTReadoutTask_to_QcMFTReadoutTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
