@@ -50,30 +50,30 @@ roles:
       rcvBufSize: 4
     task:
       load: hmpid-raw-qcmn-local-Dispatcher
-  - name: "QC-TASK-RUNNER-HMPIDRawTask"
+  - name: "qc-task-HMP-HMPIDRawTask"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-HMPIDRawTask
+    - name: from_internal-dpl-clock_to_qc-task-HMP-HMPIDRawTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-HMPIDRawTask"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-HMP-HMPIDRawTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Dispatcher_to_QC-TASK-RUNNER-HMPIDRawTask
+    - name: from_Dispatcher_to_qc-task-HMP-HMPIDRawTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-HMPIDRawTask"
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-HMP-HMPIDRawTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: hmpid-raw-qcmn-local-QC-TASK-RUNNER-HMPIDRawTask
+      load: hmpid-raw-qcmn-local-qc-task-HMP-HMPIDRawTask
   - name: "HMPIDRawTask-proxy"
     connect:
-    - name: from_QC-TASK-RUNNER-HMPIDRawTask_to_HMPIDRawTask-proxy
+    - name: from_qc-task-HMP-HMPIDRawTask_to_HMPIDRawTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-HMPIDRawTask:from_QC-TASK-RUNNER-HMPIDRawTask_to_HMPIDRawTask-proxy"
+      target: "{{ Parent().Path }}.qc-task-HMP-HMPIDRawTask:from_qc-task-HMP-HMPIDRawTask_to_HMPIDRawTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

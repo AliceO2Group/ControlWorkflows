@@ -12,7 +12,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_Dispatcher_to_QC-TASK-RUNNER-DigitQcTask
+  - name: from_Dispatcher_to_qc-task-FDD-DigitQcTask
     type: push
     transport: shmem
     addressing: ipc

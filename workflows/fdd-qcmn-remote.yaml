@@ -56,17 +56,17 @@ roles:
       rcvBufSize: 4
     task:
       load: fdd-qcmn-remote-MERGER-DigitQcTaskFDD1l-0
-  - name: "QC-CHECK-RUNNER-sink-QC_DigitQcTaskFD-mo_0"
+  - name: "qc-check-sink-QC_DigitQcTaskFDD_0"
     connect:
-    - name: from_MERGER-DigitQcTaskFDD1l-0_to_QC-CHECK-RUNNER-sink-QC_DigitQcTaskFD-mo_0
+    - name: from_MERGER-DigitQcTaskFDD1l-0_to_qc-check-sink-QC_DigitQcTaskFDD_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-DigitQcTaskFDD1l-0:from_MERGER-DigitQcTaskFDD1l-0_to_QC-CHECK-RUNNER-sink-QC_DigitQcTaskFD-mo_0"
+      target: "{{ Parent().Path }}.MERGER-DigitQcTaskFDD1l-0:from_MERGER-DigitQcTaskFDD1l-0_to_qc-check-sink-QC_DigitQcTaskFDD_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: fdd-qcmn-remote-QC-CHECK-RUNNER-sink-QC_DigitQcTaskFD-mo_0
+      load: fdd-qcmn-remote-qc-check-sink-QC_DigitQcTaskFDD_0
   - name: fairmq-shmmonitor
     enabled: "{{fmq_cleanup_enabled == 'true'}}"
     task:

@@ -50,48 +50,48 @@ roles:
       rcvBufSize: 4
     task:
       load: its-qcmn-fhr-fee-no-ds-local-Dispatcher
-  - name: "QC-TASK-RUNNER-ITSFEE"
+  - name: "qc-task-ITS-ITSFEE"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-ITSFEE
+    - name: from_internal-dpl-clock_to_qc-task-ITS-ITSFEE
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-ITSFEE"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-ITS-ITSFEE"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Dispatcher_to_QC-TASK-RUNNER-ITSFEE
+    - name: from_Dispatcher_to_qc-task-ITS-ITSFEE
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-ITSFEE"
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-ITS-ITSFEE"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: its-qcmn-fhr-fee-no-ds-local-QC-TASK-RUNNER-ITSFEE
-  - name: "QC-TASK-RUNNER-FHRTask"
+      load: its-qcmn-fhr-fee-no-ds-local-qc-task-ITS-ITSFEE
+  - name: "qc-task-ITS-FHRTask"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-FHRTask
+    - name: from_internal-dpl-clock_to_qc-task-ITS-FHRTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-FHRTask"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-ITS-FHRTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Dispatcher_to_QC-TASK-RUNNER-FHRTask
+    - name: from_Dispatcher_to_qc-task-ITS-FHRTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-FHRTask"
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-ITS-FHRTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: its-qcmn-fhr-fee-no-ds-local-QC-TASK-RUNNER-FHRTask
+      load: its-qcmn-fhr-fee-no-ds-local-qc-task-ITS-FHRTask
   - name: "ITSFEE-proxy"
     connect:
-    - name: from_QC-TASK-RUNNER-ITSFEE_to_ITSFEE-proxy
+    - name: from_qc-task-ITS-ITSFEE_to_ITSFEE-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-ITSFEE:from_QC-TASK-RUNNER-ITSFEE_to_ITSFEE-proxy"
+      target: "{{ Parent().Path }}.qc-task-ITS-ITSFEE:from_qc-task-ITS-ITSFEE_to_ITSFEE-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -104,10 +104,10 @@ roles:
       load: its-qcmn-fhr-fee-no-ds-local-ITSFEE-proxy
   - name: "FHRTask-proxy"
     connect:
-    - name: from_QC-TASK-RUNNER-FHRTask_to_FHRTask-proxy
+    - name: from_qc-task-ITS-FHRTask_to_FHRTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-FHRTask:from_QC-TASK-RUNNER-FHRTask_to_FHRTask-proxy"
+      target: "{{ Parent().Path }}.qc-task-ITS-FHRTask:from_qc-task-ITS-FHRTask_to_FHRTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -120,10 +120,10 @@ roles:
       load: its-qcmn-fhr-fee-no-ds-local-FHRTask-proxy
   - name: "dpl-output-proxy"
     connect:
-    - name: from_QC-TASK-RUNNER-ITSFEE_to_dpl-output-proxy
+    - name: from_qc-task-ITS-ITSFEE_to_dpl-output-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-ITSFEE:from_QC-TASK-RUNNER-ITSFEE_to_dpl-output-proxy"
+      target: "{{ Parent().Path }}.qc-task-ITS-ITSFEE:from_qc-task-ITS-ITSFEE_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

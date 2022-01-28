@@ -50,30 +50,30 @@ roles:
       rcvBufSize: 4
     task:
       load: emc-qcmn-flp-local-Dispatcher
-  - name: "QC-TASK-RUNNER-RawTask"
+  - name: "qc-task-EMC-RawTask"
     connect:
-    - name: from_internal-dpl-clock_to_QC-TASK-RUNNER-RawTask
+    - name: from_internal-dpl-clock_to_qc-task-EMC-RawTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_QC-TASK-RUNNER-RawTask"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-EMC-RawTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Dispatcher_to_QC-TASK-RUNNER-RawTask
+    - name: from_Dispatcher_to_qc-task-EMC-RawTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_QC-TASK-RUNNER-RawTask"
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-EMC-RawTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: emc-qcmn-flp-local-QC-TASK-RUNNER-RawTask
+      load: emc-qcmn-flp-local-qc-task-EMC-RawTask
   - name: "RawTask-proxy"
     connect:
-    - name: from_QC-TASK-RUNNER-RawTask_to_RawTask-proxy
+    - name: from_qc-task-EMC-RawTask_to_RawTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.QC-TASK-RUNNER-RawTask:from_QC-TASK-RUNNER-RawTask_to_RawTask-proxy"
+      target: "{{ Parent().Path }}.qc-task-EMC-RawTask:from_qc-task-EMC-RawTask_to_RawTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
