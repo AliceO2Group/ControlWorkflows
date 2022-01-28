@@ -12,7 +12,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_PP-TASK-RUNNER-TrendPlusPlus_to_QC-CHECK-RUNNER-sink-QC_TrendPlusPlus-mo_0
+  - name: from_PP-TASK-RUNNER-TrendPlusPlus_to_qc-check-sink-QC_TrendPlusPlus-mo_0
     type: push
     transport: shmem
     addressing: ipc
