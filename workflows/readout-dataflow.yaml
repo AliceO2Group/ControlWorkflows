@@ -993,7 +993,7 @@ defaults:
     value: "QC,CALIB,GPU,CTF,EVENT_DISPLAY"
     type: string
     label: "Workflow parameters"
-    description: "Comma-separated list of workflow parameters. Valid parameters are: QC,CALIB,GPU,CTF,EVENT_DISPLAY,CTF_ONLY."
+    description: "Comma-separated list of workflow parameters. Valid parameters are: QC,CALIB,GPU,CTF,EVENT_DISPLAY."
     widget: editBox
     panel: "EPN_Global_Processing"
     index: 603
@@ -1043,6 +1043,15 @@ defaults:
     panel: "EPN_Global_Processing"
     index: 701
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_epn_shm_recreate: !public
+    value: "false"
+    type: bool
+    label: "Recreate EPN SHM Segments (not working)"
+    description: "If the EPN SHM Manager tool is used, this instructs it to destroy and recreate the segment."
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 701
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_wipe_workflow_cache: !public
     value: "false"
     type: bool
@@ -1050,7 +1059,7 @@ defaults:
     description: "Delete workflow cache"
     widget: checkBox
     panel: "EPN_Global_Processing"
-    index: 702
+    index: 703
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_beam_type: !public
     value: "cosmic"
