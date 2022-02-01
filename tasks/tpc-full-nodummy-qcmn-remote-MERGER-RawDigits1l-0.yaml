@@ -4,14 +4,15 @@ defaults:
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
     {{ dpl_command }} | o2-qc
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-qc"
+  _plain_cmdline: >-
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-qc
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_MERGER-RawDigits1l-0_to_QC-CHECK-RUNNER-sink-QC_RawDigits-mo_0
+  - name: from_MERGER-RawDigits1l-0_to_qc-check-sink-QC_RawDigits_0
     type: push
     transport: shmem
     addressing: ipc
