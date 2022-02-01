@@ -955,11 +955,8 @@ defaults:
     type: number
     label: "% of raw data to store (not working)"
     description: "In case of a 'disk' TfBuilder mode, selects the fraction of raw data to be stored in percent"
-    widget: comboBox
+    widget: editBox
     panel: "EPN_Global_Processing"
-    values:
-      - "production/production.desc"
-      - "production/no-processing.desc"
     index: 102
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "disk" || $$tfb_dd_mode === "processing-disk") $$pdp_panel_mode === "Expert"
   pdp_detector_list_global: !public
