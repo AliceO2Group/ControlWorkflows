@@ -1164,6 +1164,7 @@ defaults:
   o2_infologger_path: "/opt/o2-InfoLogger"
   odc_plugin: "epn"
   qcdd_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
+  readout_ctp_enabled: "false"
   roc_cleanup_enabled: "true"
   roc_ctp_emulator_enabled: "false"
   stfb_standalone: "false"
@@ -1174,6 +1175,50 @@ vars:
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
 roles:
+  ####
+  # CTP READOUT START
+  ####
+  - name: "readout-ctp"
+    enabled: "{{ readout_ctp_enabled == 'true' }}"
+    vars:
+      ctp_readout_host: "cru-ctp3"
+      readout_cfg_uri_ctp: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-ctp" #TODO: Update
+      dd_discovery_ib_hostname: "{{ ctp_readout_host }}-ib" # MUST be defined for all stfb and stfs
+    constraints:
+      - attribute: machine_id
+        value:  "{{ ctp_readout_host }}"
+    roles:
+      - name: "readout"
+        vars:
+          readout_cfg_uri: "{{ readout_cfg_uri_ctp }}" 
+        task:
+          load: readout
+      - name: "data-distribution"
+        roles:
+        - name: "stfb"
+          vars:
+            dd_discovery_stfb_id: stfb-{{ ctp_readout_host }}-{{ NewID() }} # must be defined for all stfb roles
+          connect:
+            - name: readout
+              type: pull
+              target: "{{ Up(2).Path }}.readout:readout"
+              rateLogging: "{{ fmq_rate_logging }}"
+          task:
+            load: stfbuilder-senderoutput
+        - name: "stfs"
+          vars:
+            dd_discovery_stfs_id: stfs-{{ ctp_readout_host }}-{{ NewID() }} # must be defined for all stfs roles
+            stfs_input_channel_name: buildertosender
+          connect:
+            - name: buildertosender
+              type: pull
+              target: "{{ Parent().Path }}.stfb:buildertosender"
+              rateLogging: "{{ fmq_rate_logging }}"
+          task:
+            load: stfsender
+    ####
+    # CTP READOUT END
+    ####
   - name: host-{{ it }}
     for:
       range: "{{ hosts }}"
@@ -1190,6 +1235,7 @@ roles:
       - attribute: machine_id
         value: "{{ it }}"
     roles:
+
       - name: "readout"
         vars:
           readout_cfg_uri: '{{dd_enabled == "true" ? readout_cfg_uri_stfb : readout_cfg_uri_standalone}}'
