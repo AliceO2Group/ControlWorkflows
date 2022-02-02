@@ -364,7 +364,7 @@
     "checks": {
       "PadCalibrationCheck2D": {
         "active": "true",
-        "className": "o2::quality_control_modules::tpc::PadCalibrationCheck2D",
+        "className": "o2::quality_control_modules::tpc::PadCalibrationCheck",
         "moduleName": "QcTPC",
         "policy": "OnEachSeparately",
         "detectorName": "TPC",
