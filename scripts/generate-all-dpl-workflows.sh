@@ -68,6 +68,7 @@ check_pwd
 ./emc-qcmn-remote-flp.sh
 ./emc-qcmn-remote-flpepn.sh
 ./emc-qcmn-epn.sh
+./emc-qcmn-epnall.sh
 ./hmpid-raw-qcmn.sh
 ./hmpid-raw-qc.sh
 ./hmpid-raw-to-pedestals.sh

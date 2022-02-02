@@ -826,29 +826,16 @@ defaults:
     widget: editBox
     panel: "EPN_Global_Processing"
     index: -999
-  odc_resources_spec: !public
-    value: "default"
-    type: string
-    label: "Resources"
-    description: "EPN resources to be used, the value 'default' results in '{\"zone\":\"online\", \"n\":N}' where N is the value set in '# of EPNs'"
+  odc_n_epns_max_fail: !public
+    value: "0"
+    type: number
+    label: "Max # of EPNs allowed to fail (not yet working)"
+    description: "Maximum number of EPNs that are allowed to fail during startup without triggering an error during start of run"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 3
-    visibleif: $$pdp_panel_mode === "Expert"
-  stfb_dd_mode: !public
-    value: "physics"
-    type: string
-    label: "Data Distribution mode"
-    description: "Data Distribution mode. physics: standard time based data distribution. topology: special topological data distribution for ITS and MFT calibration runs."
-    widget: dropDownBox
-    panel: "EPN_Global_Processing"
-    values:
-      - physics
-      - topology
-    index: 4
-    visibleif: $$pdp_panel_mode === "Expert"
+    index: -998
   pdp_config_option: !public
-    value: "Manual XML"
+    value: "Repository hash"
     type: string
     label: "Workflow configuration mode"
     description: ""
@@ -867,7 +854,7 @@ defaults:
     description: "DDS topology name to be executed on EPNs"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 2
+    index: -799
     visibleif: $$pdp_config_option === "Manual XML"
   pdp_o2_data_processing_hash: !public
     value: "v0.20"
@@ -876,7 +863,7 @@ defaults:
     description: "Commit hash or tag of O2DPG to use"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 2
+    index: -799
     visibleif: $$pdp_config_option === "Repository hash"
   pdp_o2_data_processing_path: !public
     value: "/home/pdp/alice/O2DPG/DATA"
@@ -885,8 +872,47 @@ defaults:
     description: "Path to the DATA folder of the O2DPG repository to use in the EPN shared home folder"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 2
+    index: -799
     visibleif: $$pdp_config_option === "Repository path"
+  pdp_o2pdpsuite_version: !public
+    value: "default"
+    type: string
+    label: "O2PDPSuite Version"
+    description: "Version of O2PDPSuite to be used. Set to 'default' to use the default version set by RC. Set to empty '' to use the default version of the workflow. Otherwise specify the O2PDPSuite package(s) to load."
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: -798
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_qcjson_version: !public
+    value: "default"
+    type: string
+    label: "QC JSON Version"
+    description: "Version of QC JSON files to fetch from consul. Set to 'default' to use the default version set by RC. Otherwise specify the version directly."
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: -797
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  odc_resources_spec: !public
+    value: "default"
+    type: string
+    label: "Resources"
+    description: "EPN resources to be used, the value 'default' results in '{\"zone\":\"online\", \"n\":N}' where N is the value set in '# of EPNs'"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: -600
+    visibleif: $$pdp_panel_mode === "Expert"
+  stfb_dd_mode: !public
+    value: "physics"
+    type: string
+    label: "Data Distribution mode"
+    description: "Data Distribution mode. physics: standard time based data distribution. topology: special topological data distribution for ITS and MFT calibration runs."
+    widget: dropDownBox
+    panel: "EPN_Global_Processing"
+    values:
+      - physics
+      - topology
+    index: -599
+    visibleif: $$pdp_panel_mode === "Expert"
   tfb_dd_mode: !public
     value: "processing"
     type: string
@@ -899,7 +925,7 @@ defaults:
       - disk
       - processing
       - processing-disk
-    index: 7
+    index: -598
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_workflow_name: !public
     value: "synchronous-workflow-1numa"
@@ -911,8 +937,8 @@ defaults:
     values:
       - "synchronous-workflow"
       - "synchronous-workflow-1numa"
-    index: 8
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    index: 100
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") $$pdp_panel_mode === "Expert"
   pdp_topology_description_library_file: !public
     value: "production/production.desc"
     type: string
@@ -922,8 +948,18 @@ defaults:
     panel: "EPN_Global_Processing"
     values:
       - "production/production.desc"
-    index: 9
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+      - "production/no-processing.desc"
+    index: 101
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") $$pdp_panel_mode === "Expert"
+  epn_store_raw_data_fraction: !public
+    value: "100"
+    type: number
+    label: "% of raw data to store (not working)"
+    description: "In case of a 'disk' TfBuilder mode, selects the fraction of raw data to be stored in percent"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 102
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "disk" || $$tfb_dd_mode === "processing-disk") $$pdp_panel_mode === "Expert"
   pdp_detector_list_global: !public
     value: "default"
     type: string
@@ -931,7 +967,7 @@ defaults:
     description: "Comma-separated list of detectors for EPN processing. Empty string means no detectors. 'default' is an abbreviation to include all detectors."
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 10
+    index: 600
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_detector_list_qc: !public
     value: "default"
@@ -940,7 +976,7 @@ defaults:
     description: "Comma-separated list of detectors for EPN QC. Empty string means no detectors. 'default' is an abbreviation to include all detectors."
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 11
+    index: 601
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_detector_list_calib: !public
     value: "default"
@@ -949,25 +985,16 @@ defaults:
     description: "Comma-separated list of detectors for calibration. Empty string means no detectors. 'default' is an abbreviation to include all detectors."
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 12
+    index: 602
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_workflow_parameters: !public
     value: "QC,CALIB,GPU,CTF,EVENT_DISPLAY"
     type: string
     label: "Workflow parameters"
-    description: "Comma-separated list of workflow parameters. Valid parameters are: QC,CALIB,GPU,CTF,EVENT_DISPLAY,CTF_ONLY."
+    description: "Comma-separated list of workflow parameters. Valid parameters are: QC,CALIB,GPU,CTF,EVENT_DISPLAY."
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 13
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
-  pdp_nr_compute_nodes: !public
-    value: "-1"
-    type: number
-    label: "# of compute nodes"
-    description: "Set to -1 to request default number of compute nodes for the selected workflow. A non-negative value runs the workflow on that many compute nodes."
-    widget: editBox
-    panel: "EPN_Global_Processing"
-    index: 14
+    index: 603
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_raw_decoder_multi_factor: !public
     value: "1"
@@ -985,7 +1012,7 @@ defaults:
     description: "Multiply the number of CTF encoder processing instance on EPN by this factor"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 16
+    index: 604
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_reco_process_multi_factor: !public
     value: "1"
@@ -994,7 +1021,7 @@ defaults:
     description: "Multiply the number of instances of other reconstruction processes by this factor"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 17
+    index: 605
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_extra_env_vars: !public
     value: ""
@@ -1003,7 +1030,25 @@ defaults:
     description: "Additional environment variables exported when running the workflow generation script"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 18
+    index: 700
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_epn_shmid: !public
+    value: ""
+    type: string
+    label: "EPN SHM Id (not working)"
+    description: "If the EPN SHM Manager tool is used, the SHMId configured here must match the SHM Id used by the tool"
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 701
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_epn_shm_recreate: !public
+    value: "false"
+    type: bool
+    label: "Recreate EPN SHM Segments (not working)"
+    description: "If the EPN SHM Manager tool is used, this instructs it to destroy and recreate the segment."
+    widget: editBox
+    panel: "EPN_Global_Processing"
+    index: 701
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_wipe_workflow_cache: !public
     value: "false"
@@ -1012,7 +1057,7 @@ defaults:
     description: "Delete workflow cache"
     widget: checkBox
     panel: "EPN_Global_Processing"
-    index: 19
+    index: 703
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_beam_type: !public
     value: "cosmic"
@@ -1027,7 +1072,7 @@ defaults:
       - pPb
       - cosmic
       - technical
-    index: 20
+    index: 800
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_n_hbf_per_tf: !public
     value: "128"
@@ -1036,7 +1081,7 @@ defaults:
     description: "Number of HBFs per TF for EPN processing"
     widget: editBox
     panel: "EPN_Global_Processing"
-    index: 21
+    index: 801
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   odc_partitions_cleanup: !public
     value: "true"
@@ -1045,7 +1090,7 @@ defaults:
     description: "If enabled, orphaned EPN partitions are cleaned up on environment deployment and shutdown"
     widget: checkBox
     panel: "EPN_Global_Processing"
-    index: 22
+    index: 900
     visibleif: $$pdp_panel_mode === "Expert"
   ###############################
   # Other variables
