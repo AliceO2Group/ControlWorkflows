@@ -3,6 +3,14 @@ defaults:
   ###############################
   # General Configuration Panel
   ###############################
+  ctp_enabled: !public
+    value: "false"
+    type: bool
+    label: "CTP"
+    description: "Enable/disable CTP readout"
+    widget: checkBox
+    panel: Basic_Configuration
+    index: -300
   dcs_enabled: !public # TODO: if false, DCS panel should be disabled
     value: "false"
     type: bool
@@ -1164,7 +1172,6 @@ defaults:
   o2_infologger_path: "/opt/o2-InfoLogger"
   odc_plugin: "epn"
   qcdd_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
-  readout_ctp_enabled: "false"
   roc_cleanup_enabled: "true"
   roc_ctp_emulator_enabled: "false"
   stfb_standalone: "false"
@@ -1179,7 +1186,7 @@ roles:
   # CTP READOUT START
   ####
   - name: "readout-ctp"
-    enabled: "{{ readout_ctp_enabled == 'true' }}"
+    enabled: "{{ ctp_enabled == 'true' }}"
     vars:
       ctp_readout_host: "cru-ctp3"
       readout_cfg_uri_ctp: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-ctp" #TODO: Update
