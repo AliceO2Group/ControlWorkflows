@@ -1228,6 +1228,7 @@ defaults:
   o2_infologger_path: "/opt/o2-InfoLogger"
   odc_plugin: "epn"
   qcdd_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
+  readout_ctp_enabled: "false"
   roc_cleanup_enabled: "true"
   roc_ctp_emulator_enabled: "false"
   stfb_standalone: "false"
@@ -1327,6 +1328,7 @@ roles:
       - attribute: machine_id
         value: "{{ it }}"
     roles:
+
       - name: "readout"
         vars:
           readout_cfg_uri: '{{dd_enabled == "true" ? readout_cfg_uri_stfb : readout_cfg_uri_standalone}}'
