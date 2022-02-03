@@ -12,7 +12,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_readout-proxy_to_HMP-DataDecoder
+  - name: from_readout-proxy_to_HMP-PestalsCalculation
     type: push
     transport: shmem
     addressing: ipc
@@ -103,6 +103,8 @@ command:
     - "--shm-mlock-segment"
     - "'false'"
     - "--shm-mlock-segment-on-creation"
+    - "'false'"
+    - "--shm-no-cleanup"
     - "'false'"
     - "--shm-segment-id"
     - "'0'"
