@@ -937,7 +937,7 @@ defaults:
       - "synchronous-workflow"
       - "synchronous-workflow-1numa"
     index: 100
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") $$pdp_panel_mode === "Expert"
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
   pdp_topology_description_library_file: !public
     value: "production/production.desc"
     type: string
@@ -949,7 +949,7 @@ defaults:
       - "production/production.desc"
       - "production/no-processing.desc"
     index: 101
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") $$pdp_panel_mode === "Expert"
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
   epn_store_raw_data_fraction: !public
     value: "100"
     type: number
@@ -958,7 +958,7 @@ defaults:
     widget: editBox
     panel: "EPN_Global_Processing"
     index: 102
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "disk" || $$tfb_dd_mode === "processing-disk") $$pdp_panel_mode === "Expert"
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "disk" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
   pdp_detector_list_global: !public
     value: "default"
     type: string
