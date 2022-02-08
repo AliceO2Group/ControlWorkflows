@@ -10,7 +10,6 @@ defaults:
   dd_discovery_endpoint: "no-op://" # location of consul docker instance
   user: flp
   fmq_severity: info
-  scheduler_check_cmd: '{{ ddsched_enabled == "true" ? "curl " + dd_discovery_endpoint + " -fs -o /dev/null &&" : "" }}'
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&

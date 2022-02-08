@@ -857,7 +857,7 @@ defaults:
     index: -799
     visibleif: $$pdp_config_option === "Manual XML"
   pdp_o2_data_processing_hash: !public
-    value: "v0.20"
+    value: "nightly-20220201"
     type: string
     label: "O2 Data Processing Hash"
     description: "Commit hash or tag of O2DPG to use"
