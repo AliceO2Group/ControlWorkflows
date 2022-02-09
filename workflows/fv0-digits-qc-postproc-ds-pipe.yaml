@@ -96,17 +96,17 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: fv0-digits-qc-postproc-ds-pipe-readout-proxy_t4
-  - name: "PP-TASK-RUNNER-TrendPlus"
+  - name: "PP-TASK-RUNNER-TrendingTask"
     connect:
-    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-TrendPlus
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-TrendingTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-TrendPlus"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-TrendingTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: fv0-digits-qc-postproc-ds-pipe-PP-TASK-RUNNER-TrendPlus
+      load: fv0-digits-qc-postproc-ds-pipe-PP-TASK-RUNNER-TrendingTask
   - name: "fv0-datareader-dpl_t0"
     connect:
     - name: from_readout-proxy_t0_to_fv0-datareader-dpl_t0
@@ -366,17 +366,17 @@ roles:
       rcvBufSize: 4
     task:
       load: fv0-digits-qc-postproc-ds-pipe-qc-task-FV0-DigitQcTask
-  - name: "qc-check-sink-QC_TrendPlus-mo_0"
+  - name: "qc-check-sink-QC_TrendingTask-mo_0"
     connect:
-    - name: from_PP-TASK-RUNNER-TrendPlus_to_qc-check-sink-QC_TrendPlus-mo_0
+    - name: from_PP-TASK-RUNNER-TrendingTask_to_qc-check-sink-QC_TrendingTask-mo_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-TrendPlus:from_PP-TASK-RUNNER-TrendPlus_to_qc-check-sink-QC_TrendPlus-mo_0"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-TrendingTask:from_PP-TASK-RUNNER-TrendingTask_to_qc-check-sink-QC_TrendingTask-mo_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: fv0-digits-qc-postproc-ds-pipe-qc-check-sink-QC_TrendPlus-mo_0
+      load: fv0-digits-qc-postproc-ds-pipe-qc-check-sink-QC_TrendingTask-mo_0
   - name: "qc-check-sink-QC_DigitQcTask_0"
     connect:
     - name: from_qc-task-FV0-DigitQcTask_to_qc-check-sink-QC_DigitQcTask_0
