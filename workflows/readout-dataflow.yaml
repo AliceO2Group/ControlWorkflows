@@ -1223,6 +1223,34 @@ roles:
               rateLogging: "{{ fmq_rate_logging }}"
           task:
             load: stfsender
+      - name: drop-caches
+        enabled: "{{drop_caches_enabled == 'true'}}"
+        vars:
+          shell_command: echo 3 > /proc/sys/vm/drop_caches && echo "system caches dropped" | O2_SYSTEM=ECS O2_PARTITION={{environment_id}} O2_ROLE={{it}} {{o2_infologger_path}}/bin/o2-infologger-log -x -s Info -o Facility=core/dropcaches
+          user: root
+        task:
+          load: "shell-command"
+          trigger: before_CONFIGURE
+          timeout: "{{ drop_caches_timeout }}"
+          critical: false # TODO: if this is set true, some basic task finished events aren't parsed correctly
+      - name: fairmq-shmcleanup
+        enabled: "{{fmq_initial_shm_cleanup_enabled == 'true'}}"
+        vars:
+          shell_command: "source /etc/profile.d/o2.sh && O2_PARTITION={{environment_id}} O2_ROLE={{it}} o2-aliecs-shmcleaner"
+          user: root
+        task:
+          load: "shell-command"
+          trigger: before_CONFIGURE
+          timeout: "{{ fmq_initial_shm_cleanup_timeout }}"
+          critical: false
+      - name: fairmq-shmmonitor
+        enabled: "{{fmq_cleanup_enabled == 'true'}}"
+        task:
+          load: "fairmq-shmmonitor"
+          trigger: DESTROY
+          timeout: 10s
+          critical: false
+
     ####
     # CTP READOUT END
     ####
