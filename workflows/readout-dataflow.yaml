@@ -34,6 +34,14 @@ defaults:
     widget: checkBox
     panel: Basic_Configuration
     index: 100
+  ccdb_enabled: !public
+    value: "true"
+    type: bool
+    label: "CCDB/GRP"
+    description: "Enable/disable CCDB GRP object upload"
+    widget: checkBox
+    panel: Basic_Configuration
+    index: 200
   ###############################
   # DCS and FLP Processing Panel
   ###############################
@@ -1454,3 +1462,19 @@ roles:
           trigger: DESTROY-100
           timeout: 5s
           critical: false
+  - name: ccdb
+    enabled: "{{ccdb_enabled == 'true'}}"
+    defaults:
+    roles:
+      - name: start
+        call:
+          func: ccdb.RunStart()
+          trigger: after_START_ACTIVITY
+          timeout: 10s
+          critical: true
+      - name: stop
+        call:
+          func: ccdb.RunStop()
+          trigger: before_STOP_ACTIVITY
+          timeout: 10s
+          critical: true
