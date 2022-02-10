@@ -1308,9 +1308,16 @@ roles:
           trigger: DESTROY
           timeout: 10s
           critical: false
+<<<<<<< HEAD
   ##################
   # CTP Readout role
   ##################
+=======
+
+    ####
+    # CTP READOUT END
+    ####
+>>>>>>> b340dc06... [readout-ctp] Add shmem cleaners
   - name: host-{{ it }}
     for:
       range: "{{ hosts }}"
