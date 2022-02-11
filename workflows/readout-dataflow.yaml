@@ -1,7 +1,7 @@
 name: !public readout-dataflow
 defaults:
   ###############################
-  # Basic Configuration Panel
+  # General Configuration Panel
   ###############################
   dcs_enabled: !public # TODO: if false, DCS panel should be disabled
     value: "false"
@@ -9,7 +9,7 @@ defaults:
     label: "DCS"
     description: "Enable/disable DCS SOR/EOR commands"
     widget: checkBox
-    panel: Basic_Configuration
+    panel: General_Configuration
     index: 0
   dd_enabled: !public
     value: "true"
@@ -17,7 +17,7 @@ defaults:
     label: "Data Distribution (FLP)"
     description: "Enable/disable Data Distribution components running on FLPs (StfBuilder and StfSender)"
     widget: checkBox
-    panel: Basic_Configuration
+    panel: General_Configuration
     index: 1
   epn_enabled: !public # TODO: this should be the single var that enables both ODC and DD Scheduler
     value: "false"
@@ -25,7 +25,7 @@ defaults:
     label: "EPN"
     description: "Enable/disable EPN"
     widget: checkBox
-    panel: Basic_Configuration
+    panel: General_Configuration
     index: 2    
   trg_enabled: !public
     value: "false"
@@ -33,7 +33,7 @@ defaults:
     label: "TRG"
     description: "Enable/disable TRG"
     widget: checkBox
-    panel: Basic_Configuration
+    panel: General_Configuration
     index: 3
   trg_global_run_enabled: !public
     value: "false"
@@ -41,7 +41,7 @@ defaults:
     label: "TRG Global Run"
     description: "If enabled, send commands to CTS. If disabled, send commands to LTU."
     widget: checkBox
-    panel: Basic_Configuration
+    panel: General_Configuration
     index: 4    
   ###############################
   # DCS and FLP Workflows Panel
