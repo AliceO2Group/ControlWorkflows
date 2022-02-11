@@ -39,9 +39,10 @@ defaults:
     value: "false"
     type: bool
     label: "TRG Global Run"
-    description: "If enabled, send commands to CTS. If disabled, send commands to LTU."
+    description: "If enabled, send commands to CTP. If disabled, send commands to LTU."
     widget: checkBox
     panel: General_Configuration
+    visibleif: $$trg_enabled === "true"
     index: 4    
   ###############################
   # DCS and FLP Workflows Panel
