@@ -723,7 +723,7 @@ defaults:
       - "GLOBAL.pd"
     panel: TRG
     index: 1
-    visibleif: $$trg_enabled && $$trg_global_run_enabled === "true"
+    visibleif: $$trg_enabled === "true" && $$trg_global_run_enabled === "true"
   trg_runtime_config_file: !public
     value: ""
     type: string
@@ -731,7 +731,7 @@ defaults:
     description: "configuration file for the LTU Standalone Run"
     widget: editBox
     panel: TRG
-    visibleif: $$trg_enabled && $$trg_global_run_enabled === "false"
+    visibleif: $$trg_enabled === "true" && $$trg_global_run_enabled === "false"
     index: 2    
   # !! Not used by the ctpd !!
   # trg_run_mode: !public
