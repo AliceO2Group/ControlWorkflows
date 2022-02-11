@@ -41,7 +41,7 @@ defaults:
     label: "TRG Global Run"
     description: "If enabled, send commands to CTS. If disabled, send commands to LTU."
     widget: checkBox
-    panel: TRG
+    panel: Basic_Configuration
     index: 4    
   ###############################
   # DCS and FLP Workflows Panel
