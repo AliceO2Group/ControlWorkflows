@@ -115,3 +115,5 @@ command:
     - "'0'"
     - "--workflow-suffix"
     - "''"
+    - "--completion-policy"
+    - "wait"
