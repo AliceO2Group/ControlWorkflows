@@ -4,7 +4,7 @@ defaults:
   # General Configuration Panel
   ###############################
   dcs_enabled: !public # TODO: if false, DCS panel should be disabled
-    value: "false"
+    value: "true"
     type: bool
     label: "DCS"
     description: "Enable/disable DCS SOR/EOR commands"
@@ -20,7 +20,7 @@ defaults:
     panel: General_Configuration
     index: 1
   epn_enabled: !public # TODO: this should be the single var that enables both ODC and DD Scheduler
-    value: "false"
+    value: "true"
     type: bool
     label: "EPN"
     description: "Enable/disable EPN"
@@ -28,7 +28,7 @@ defaults:
     panel: General_Configuration
     index: 2    
   trg_enabled: !public
-    value: "false"
+    value: "true"
     type: bool
     label: "TRG"
     description: "Enable/disable TRG"
@@ -36,7 +36,7 @@ defaults:
     panel: General_Configuration
     index: 3
   trg_global_run_enabled: !public
-    value: "false"
+    value: "true"
     type: bool
     label: "TRG Global Run"
     description: "If enabled, send commands to CTP. If disabled, send commands to LTU."
@@ -865,7 +865,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -799
-    visibleif: $$pdp_config_option === "Repository hash"
+    visibleif: $$pdp_config_option === "Repository hash" && $$pdp_panel_mode === "Expert"
   pdp_o2_data_processing_path: !public
     value: "/home/pdp/alice/O2DPG/DATA"
     type: string
