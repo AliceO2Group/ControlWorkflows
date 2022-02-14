@@ -110,6 +110,8 @@ command:
     - "'false'"
     - "--shm-mlock-segment-on-creation"
     - "'false'"
+    - "--shm-no-cleanup"
+    - "'false'"
     - "--shm-segment-id"
     - "'0'"
     - "--shm-zero-segment"
