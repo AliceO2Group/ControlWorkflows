@@ -129,3 +129,5 @@ command:
     - "'0'"
     - "--nthreads"
     - "'1'"
+    - "--raw-data-dumps"
+    - "'1'"
