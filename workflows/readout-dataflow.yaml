@@ -1346,7 +1346,7 @@ roles:
         panel: DCS
         index: 3
       run_type: !public # enum from AliECS common/runtype
-        value: "NONE"
+        value: "PHYSICS"
         type: string
         label: "Run Type"
         description: "Run type for DCS SOR/EOR"
