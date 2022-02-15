@@ -114,6 +114,6 @@ command:
     - "--max-delay"
     - "'3'"
     - "--tf-per-slot"
-    - "'5'"
+    - "'56000'"
     - "--updateInterval"
     - "'10'"

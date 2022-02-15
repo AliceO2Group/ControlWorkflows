@@ -43,7 +43,7 @@
       }
     },
     "postprocessing": {
-      "TrendPlusPlus": {
+      "TrendingTask": {
         "active": "true",
         "className": "o2::quality_control::postprocessing::TrendingTask",
         "moduleName": "QcFDD",

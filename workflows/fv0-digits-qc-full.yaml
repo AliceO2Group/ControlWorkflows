@@ -1,7 +1,7 @@
 name: fv0-digits-qc-full
 vars:
   dpl_command: >-
-    o2-dpl-raw-proxy -b --session default --dataspec 'A1:FV0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' --pipeline readout-proxy:1 | o2-fv0-flp-dpl-workflow -b --session default --output-dir=/tmp --nevents 10000 --pipeline fv0-datareader-dpl:1 | o2-datasampling-standalone -b --session default --config {{ ds_config_uri }} | o2-calibration-fv0-tf-processor -b --session default | o2-calibration-fv0-channel-offset-calibration -b --session default | o2-calibration-ccdb-populator-workflow -b --session default --ccdb-path=http://ccdb-test.cern.ch:8080 | o2-dpl-output-proxy -b --session default --dataspec 'digits:FV0/DIGITSBC/0;channels:FV0/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' | o2-qc --config {{ qc_config_uri }} -b
+    o2-dpl-raw-proxy -b --session default --dataspec 'A1:FV0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' --pipeline readout-proxy:1 | o2-fv0-flp-dpl-workflow -b --session default --output-dir=/tmp --nevents 10000 --pipeline fv0-datareader-dpl:1 | o2-datasampling-standalone -b --session default --config {{ ds_config_uri }} | o2-calibration-fv0-tf-processor -b --session default --dispatcher-mode | o2-calibration-fv0-channel-offset-calibration -b --session default --tf-per-slot 56000 | o2-calibration-ccdb-populator-workflow -b --session default --ccdb-path=http://ccdb-test.cern.ch:8080 | o2-dpl-output-proxy -b --session default --dataspec 'digits:FV0/DIGITSBC/0;channels:FV0/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' | o2-qc --config {{ qc_config_uri }} -b
 defaults:
   ds_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/fv0-digits-datasampling-{{ it }}"
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/fv0-digits-qc-full-{{ it }}"
@@ -33,17 +33,6 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: fv0-digits-qc-full-readout-proxy
-  - name: "PP-TASK-RUNNER-BasicPPTask"
-    connect:
-    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-BasicPPTask
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-BasicPPTask"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: fv0-digits-qc-full-PP-TASK-RUNNER-BasicPPTask
   - name: "PP-TASK-RUNNER-OutOfBunchCollTask"
     connect:
     - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-OutOfBunchCollTask
@@ -55,17 +44,28 @@ roles:
       rcvBufSize: 4
     task:
       load: fv0-digits-qc-full-PP-TASK-RUNNER-OutOfBunchCollTask
-  - name: "PP-TASK-RUNNER-TrendPlusPlus"
+  - name: "PP-TASK-RUNNER-PostProcTask"
     connect:
-    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-TrendPlusPlus
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-PostProcTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-TrendPlusPlus"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-PostProcTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: fv0-digits-qc-full-PP-TASK-RUNNER-TrendPlusPlus
+      load: fv0-digits-qc-full-PP-TASK-RUNNER-PostProcTask
+  - name: "PP-TASK-RUNNER-TrendingTask"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-TrendingTask
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-TrendingTask"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: fv0-digits-qc-full-PP-TASK-RUNNER-TrendingTask
   - name: "fv0-datareader-dpl"
     connect:
     - name: from_readout-proxy_to_fv0-datareader-dpl
@@ -128,17 +128,6 @@ roles:
       rcvBufSize: 4
     task:
       load: fv0-digits-qc-full-FV0TFProcessor
-  - name: "calib-fv0-channel-time"
-    connect:
-    - name: from_FV0TFProcessor_to_calib-fv0-channel-time
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.FV0TFProcessor:from_FV0TFProcessor_to_calib-fv0-channel-time"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: fv0-digits-qc-full-calib-fv0-channel-time
   - name: "qc-task-FV0-CalibrationTask"
     connect:
     - name: from_internal-dpl-clock_to_qc-task-FV0-CalibrationTask
@@ -148,10 +137,10 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Dispatcher_to_qc-task-FV0-CalibrationTask
+    - name: from_FV0TFProcessor_to_qc-task-FV0-CalibrationTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-FV0-CalibrationTask"
+      target: "{{ Parent().Path }}.FV0TFProcessor:from_FV0TFProcessor_to_qc-task-FV0-CalibrationTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -193,6 +182,17 @@ roles:
       rcvBufSize: 4
     task:
       load: fv0-digits-qc-full-qc-task-FV0-TriggerQcTask
+  - name: "calib-fv0-channel-time"
+    connect:
+    - name: from_FV0TFProcessor_to_calib-fv0-channel-time
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.FV0TFProcessor:from_FV0TFProcessor_to_calib-fv0-channel-time"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: fv0-digits-qc-full-calib-fv0-channel-time
   - name: "qc-check-FV0CFDEffCheck"
     connect:
     - name: from_qc-task-FV0-DigitQcTask_to_qc-check-FV0CFDEffCheck
@@ -204,39 +204,28 @@ roles:
       rcvBufSize: 4
     task:
       load: fv0-digits-qc-full-qc-check-FV0CFDEffCheck
-  - name: "qc-check-sink-QC_BasicPPTask-mo_0"
+  - name: "qc-check-sink-QC_PostProcTask-mo_0"
     connect:
-    - name: from_PP-TASK-RUNNER-BasicPPTask_to_qc-check-sink-QC_BasicPPTask-mo_0
+    - name: from_PP-TASK-RUNNER-PostProcTask_to_qc-check-sink-QC_PostProcTask-mo_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-BasicPPTask:from_PP-TASK-RUNNER-BasicPPTask_to_qc-check-sink-QC_BasicPPTask-mo_0"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-PostProcTask:from_PP-TASK-RUNNER-PostProcTask_to_qc-check-sink-QC_PostProcTask-mo_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: fv0-digits-qc-full-qc-check-sink-QC_BasicPPTask-mo_0
-  - name: "qc-check-sink-QC_TrendPlusPlus-mo_0"
+      load: fv0-digits-qc-full-qc-check-sink-QC_PostProcTask-mo_0
+  - name: "qc-check-sink-QC_TrendingTask-mo_0"
     connect:
-    - name: from_PP-TASK-RUNNER-TrendPlusPlus_to_qc-check-sink-QC_TrendPlusPlus-mo_0
+    - name: from_PP-TASK-RUNNER-TrendingTask_to_qc-check-sink-QC_TrendingTask-mo_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-TrendPlusPlus:from_PP-TASK-RUNNER-TrendPlusPlus_to_qc-check-sink-QC_TrendPlusPlus-mo_0"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-TrendingTask:from_PP-TASK-RUNNER-TrendingTask_to_qc-check-sink-QC_TrendingTask-mo_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: fv0-digits-qc-full-qc-check-sink-QC_TrendPlusPlus-mo_0
-  - name: "ccdb-populator"
-    connect:
-    - name: from_calib-fv0-channel-time_to_ccdb-populator
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.calib-fv0-channel-time:from_calib-fv0-channel-time_to_ccdb-populator"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: fv0-digits-qc-full-ccdb-populator
+      load: fv0-digits-qc-full-qc-check-sink-QC_TrendingTask-mo_0
   - name: "qc-check-sink-QC_CalibrationTask_0"
     connect:
     - name: from_qc-task-FV0-CalibrationTask_to_qc-check-sink-QC_CalibrationTask_0
@@ -259,31 +248,17 @@ roles:
       rcvBufSize: 4
     task:
       load: fv0-digits-qc-full-qc-check-sink-QC_TriggerQcTask_0
-  - name: "dpl-output-proxy"
+  - name: "ccdb-populator"
     connect:
-    - name: from_fv0-datareader-dpl_to_dpl-output-proxy
+    - name: from_calib-fv0-channel-time_to_ccdb-populator
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.fv0-datareader-dpl:from_fv0-datareader-dpl_to_dpl-output-proxy"
+      target: "{{ Parent().Path }}.calib-fv0-channel-time:from_calib-fv0-channel-time_to_ccdb-populator"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_FV0TFProcessor_to_dpl-output-proxy
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.FV0TFProcessor:from_FV0TFProcessor_to_dpl-output-proxy"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    bind:
-    - name: downstream
-      type: push
-      transport: shmem
-      addressing: ipc
-      rateLogging: "{{ fmq_rate_logging }}"
-      global: "downstream-{{ it }}"
     task:
-      load: fv0-digits-qc-full-dpl-output-proxy
+      load: fv0-digits-qc-full-ccdb-populator
   - name: "internal-dpl-injected-dummy-sink"
     connect:
     - name: from_qc-check-FV0OutOfBunchCollCheck_to_internal-dpl-injected-dummy-sink
@@ -302,3 +277,28 @@ roles:
       rcvBufSize: 4
     task:
       load: fv0-digits-qc-full-internal-dpl-injected-dummy-sink
+  - name: "dpl-output-proxy"
+    connect:
+    - name: from_fv0-datareader-dpl_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.fv0-datareader-dpl:from_fv0-datareader-dpl_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_Dispatcher_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: downstream
+      type: push
+      transport: shmem
+      addressing: ipc
+      rateLogging: "{{ fmq_rate_logging }}"
+      global: "downstream-{{ it }}"
+    task:
+      load: fv0-digits-qc-full-dpl-output-proxy

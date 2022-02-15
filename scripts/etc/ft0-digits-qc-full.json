@@ -122,7 +122,7 @@
         }
     },
     "postprocessing": {
-     "BasicPPTask": {
+     "PostProcTask": {
         "active": "true",
         "className": "o2::quality_control_modules::ft0::BasicPPTask",
         "moduleName": "QcFT0",
@@ -156,7 +156,7 @@
            "userorcontrol"
          ]
        },
-      "TrendPlusPlus": {
+      "TrendingTask": {
         "active": "true",
         "className": "o2::quality_control::postprocessing::TrendingTask",
         "moduleName": "QcFT0",

@@ -1,7 +1,7 @@
 name: ft0-digits-qc-full
 vars:
   dpl_command: >-
-    o2-dpl-raw-proxy -b --session default --dataspec 'A1:FT0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' --pipeline readout-proxy:1 | o2-ft0-flp-dpl-workflow -b --session default --output-dir=/tmp --nevents 10000 --pipeline ft0-datareader-dpl:1 | o2-datasampling-standalone -b --session default --config {{ ds_config_uri }} | o2-calibration-ft0-tf-processor -b --session default --dispatcher-mode | o2-calibration-ft0-calibration -b --session default | o2-calibration-ccdb-populator-workflow -b --session default --ccdb-path=http://ccdb-test.cern.ch:8080 | o2-dpl-output-proxy -b --session default --dataspec 'digits:FT0/DIGITSBC/0;channels:FT0/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' | o2-qc --config {{ qc_config_uri }} -b
+    o2-dpl-raw-proxy -b --session default --dataspec 'A1:FT0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' --pipeline readout-proxy:1 | o2-ft0-flp-dpl-workflow -b --session default --output-dir=/tmp --nevents 10000 --pipeline ft0-datareader-dpl:1 | o2-datasampling-standalone -b --session default --config {{ ds_config_uri }} | o2-calibration-ft0-tf-processor -b --session default --dispatcher-mode | o2-calibration-ft0-channel-offset-calibration -b --session default --tf-per-slot 56000 | o2-calibration-ccdb-populator-workflow -b --session default --ccdb-path=http://ccdb-test.cern.ch:8080 | o2-dpl-output-proxy -b --session default --dataspec 'digits:FT0/DIGITSBC/0;channels:FT0/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' | o2-qc --config {{ qc_config_uri }} -b
 defaults:
   ds_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/ft0-digits-datasampling-{{ it }}"
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/ft0-digits-qc-full-{{ it }}"
@@ -33,17 +33,6 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: ft0-digits-qc-full-readout-proxy
-  - name: "PP-TASK-RUNNER-BasicPPTask"
-    connect:
-    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-BasicPPTask
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-BasicPPTask"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: ft0-digits-qc-full-PP-TASK-RUNNER-BasicPPTask
   - name: "PP-TASK-RUNNER-OutOfBunchCollTask"
     connect:
     - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-OutOfBunchCollTask
@@ -55,17 +44,28 @@ roles:
       rcvBufSize: 4
     task:
       load: ft0-digits-qc-full-PP-TASK-RUNNER-OutOfBunchCollTask
-  - name: "PP-TASK-RUNNER-TrendPlusPlus"
+  - name: "PP-TASK-RUNNER-PostProcTask"
     connect:
-    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-TrendPlusPlus
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-PostProcTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-TrendPlusPlus"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-PostProcTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: ft0-digits-qc-full-PP-TASK-RUNNER-TrendPlusPlus
+      load: ft0-digits-qc-full-PP-TASK-RUNNER-PostProcTask
+  - name: "PP-TASK-RUNNER-TrendingTask"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-TrendingTask
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-TrendingTask"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: ft0-digits-qc-full-PP-TASK-RUNNER-TrendingTask
   - name: "ft0-datareader-dpl"
     connect:
     - name: from_readout-proxy_to_ft0-datareader-dpl
@@ -215,28 +215,28 @@ roles:
       rcvBufSize: 4
     task:
       load: ft0-digits-qc-full-qc-check-FT0CalibratedChannelTimeCheck
-  - name: "qc-check-sink-QC_BasicPPTask-mo_0"
+  - name: "qc-check-sink-QC_PostProcTask-mo_0"
     connect:
-    - name: from_PP-TASK-RUNNER-BasicPPTask_to_qc-check-sink-QC_BasicPPTask-mo_0
+    - name: from_PP-TASK-RUNNER-PostProcTask_to_qc-check-sink-QC_PostProcTask-mo_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-BasicPPTask:from_PP-TASK-RUNNER-BasicPPTask_to_qc-check-sink-QC_BasicPPTask-mo_0"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-PostProcTask:from_PP-TASK-RUNNER-PostProcTask_to_qc-check-sink-QC_PostProcTask-mo_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: ft0-digits-qc-full-qc-check-sink-QC_BasicPPTask-mo_0
-  - name: "qc-check-sink-QC_TrendPlusPlus-mo_0"
+      load: ft0-digits-qc-full-qc-check-sink-QC_PostProcTask-mo_0
+  - name: "qc-check-sink-QC_TrendingTask-mo_0"
     connect:
-    - name: from_PP-TASK-RUNNER-TrendPlusPlus_to_qc-check-sink-QC_TrendPlusPlus-mo_0
+    - name: from_PP-TASK-RUNNER-TrendingTask_to_qc-check-sink-QC_TrendingTask-mo_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-TrendPlusPlus:from_PP-TASK-RUNNER-TrendPlusPlus_to_qc-check-sink-QC_TrendPlusPlus-mo_0"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-TrendingTask:from_PP-TASK-RUNNER-TrendingTask_to_qc-check-sink-QC_TrendingTask-mo_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: ft0-digits-qc-full-qc-check-sink-QC_TrendPlusPlus-mo_0
+      load: ft0-digits-qc-full-qc-check-sink-QC_TrendingTask-mo_0
   - name: "qc-check-sink-QC_TriggerQcTask_0"
     connect:
     - name: from_qc-task-FT0-TriggerQcTask_to_qc-check-sink-QC_TriggerQcTask_0
