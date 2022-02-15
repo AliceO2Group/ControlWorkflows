@@ -858,18 +858,18 @@ defaults:
     index: -799
     visibleif: $$pdp_config_option === "Manual XML"
   pdp_o2_data_processing_hash: !public
-    value: "nightly-20220201"
+    value: "default"
     type: string
-    label: "O2 Data Processing Hash"
+    label: "O2DPG Hash"
     description: "Commit hash or tag of O2DPG to use"
     widget: editBox
     panel: "EPN_Workflows"
     index: -799
     visibleif: $$pdp_config_option === "Repository hash" && $$pdp_panel_mode === "Expert"
   pdp_o2_data_processing_path: !public
-    value: "/home/pdp/alice/O2DPG/DATA"
+    value: ""
     type: string
-    label: "O2 Data Processing Path"
+    label: "O2DPG DATA Path"
     description: "Path to the DATA folder of the O2DPG repository to use in the EPN shared home folder"
     widget: editBox
     panel: "EPN_Workflows"
@@ -928,18 +928,6 @@ defaults:
       - processing-disk
     index: -598
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
-  pdp_workflow_name: !public
-    value: "synchronous-workflow-1numa"
-    type: string
-    label: "Workflow name"
-    description: "Workflow name in the topology description library file"
-    widget: comboBox
-    panel: "EPN_Workflows"
-    values:
-      - "synchronous-workflow"
-      - "synchronous-workflow-1numa"
-    index: 100
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
   pdp_topology_description_library_file: !public
     value: "production/production.desc"
     type: string
@@ -950,12 +938,24 @@ defaults:
     values:
       - "production/production.desc"
       - "production/no-processing.desc"
+    index: 100
+    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
+  pdp_workflow_name: !public
+    value: "synchronous-workflow"
+    type: string
+    label: "Workflow name"
+    description: "Workflow name in the topology description library file"
+    widget: comboBox
+    panel: "EPN_Workflows"
+    values:
+      - "synchronous-workflow"
+      - "synchronous-workflow-1numa"
     index: 101
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
   epn_store_raw_data_fraction: !public
     value: "100"
     type: number
-    label: "% of raw data to store (not working)"
+    label: "% of raw data to store"
     description: "In case of a 'disk' TfBuilder mode, selects the fraction of raw data to be stored in percent"
     widget: editBox
     panel: "EPN_Workflows"
@@ -1004,7 +1004,7 @@ defaults:
     description: "Multiply the number of raw decoder processing instance on EPN by this factor"
     widget: editBox
     panel: "EPN_Workflows"
-    index: 15
+    index: 604
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_ctf_encoder_multi_factor: !public
     value: "1"
@@ -1013,7 +1013,7 @@ defaults:
     description: "Multiply the number of CTF encoder processing instance on EPN by this factor"
     widget: editBox
     panel: "EPN_Workflows"
-    index: 604
+    index: 605
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_reco_process_multi_factor: !public
     value: "1"
@@ -1022,7 +1022,7 @@ defaults:
     description: "Multiply the number of instances of other reconstruction processes by this factor"
     widget: editBox
     panel: "EPN_Workflows"
-    index: 605
+    index: 606
     visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_extra_env_vars: !public
     value: ""
