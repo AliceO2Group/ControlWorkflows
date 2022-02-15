@@ -12,14 +12,14 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_FV0TFProcessor_to_calib-fv0-channel-time
+  - name: from_FV0TFProcessor_to_qc-task-FV0-CalibrationTask
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_FV0TFProcessor_to_dpl-output-proxy
+  - name: from_FV0TFProcessor_to_calib-fv0-channel-time
     type: push
     transport: shmem
     addressing: ipc
@@ -72,6 +72,7 @@ command:
     - "''"
     - "--clone"
     - "''"
+    - "--dispatcher-mode"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"

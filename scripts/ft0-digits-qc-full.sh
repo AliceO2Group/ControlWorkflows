@@ -23,7 +23,7 @@ o2-dpl-raw-proxy -b --session default \
   | o2-ft0-flp-dpl-workflow -b --session default --output-dir=/tmp --nevents ${NTF_TO_STORE} --pipeline  ft0-datareader-dpl:$N_PIPELINES \
   | o2-datasampling-standalone -b --session default --config ${DS_GEN_CONFIG_PATH} \
   | o2-calibration-ft0-tf-processor -b --session default --dispatcher-mode \
-  | o2-calibration-ft0-calibration -b --session default \
+  | o2-calibration-ft0-channel-offset-calibration -b --session default --tf-per-slot 56000 \
   | o2-calibration-ccdb-populator-workflow -b --session default --ccdb-path=http://ccdb-test.cern.ch:8080 \
   | o2-dpl-output-proxy -b --session default --dataspec 'digits:FT0/DIGITSBC/0;channels:FT0/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
