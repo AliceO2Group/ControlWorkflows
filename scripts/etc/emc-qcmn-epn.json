@@ -27,9 +27,9 @@
             }
         },
         "tasks": {
-            "DigitsTask": {
+            "CellTask": {
                 "active": "true",
-                "className": "o2::quality_control_modules::emcal::DigitsQcTask",
+                "className": "o2::quality_control_modules::emcal::CellTask",
                 "moduleName": "QcEMCAL",
                 "detectorName": "EMC",
                 "cycleDurationSeconds": "60",
@@ -52,18 +52,18 @@
             }
         },
         "checks": {
-            "DigitsCheckAmplitude": {
+            "CellCheckAmplitude": {
 			    "active": "true",
-			    "className": "o2::quality_control_modules::emcal::DigitCheck",
+			    "className": "o2::quality_control_modules::emcal::CellCheck",
 			    "moduleName": "QcEMCAL",
 			    "policy": "OnEachSeparately",
 			    "detectorName": "EMC",
 			    "dataSource": [
 					{
 					    "type": "Task",
-					    "name": "DigitsTask",
-					    "MOs": ["digitAmplitudeEMCAL_CAL", "digitAmplitudeEMCAL_PHYS", "digitAmplitudeDCAL_CAL", "digitAmplitudeDCAL_PHYS",
-								"digitAmplitude_CAL", "digitAmplitude_PHYS"	
+					    "name": "CellTask",
+					    "MOs": ["cellAmplitudeEMCAL_CAL", "cellAmplitudeEMCAL_PHYS", "cellAmplitudeDCAL_CAL", "cellAmplitudeDCAL_PHYS",
+								"cellAmplitude_CAL", "cellAmplitude_PHYS"	
 					    ]
 					}
 			    ]
