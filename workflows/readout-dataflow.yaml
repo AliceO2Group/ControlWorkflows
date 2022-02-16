@@ -1511,7 +1511,6 @@ roles:
           critical: false
   - name: ccdb
     enabled: "{{ccdb_enabled == 'true'}}"
-    defaults:
     roles:
       - name: start
         call:
