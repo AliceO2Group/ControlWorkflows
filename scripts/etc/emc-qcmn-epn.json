@@ -75,7 +75,7 @@
             "id": "emccells",
             "active": "true",
             "machines": ["epn"],
-            "query": "emcal-digits:EMC/CELLS/0;emcal-triggerecords:EMC/CELLSTRGR/0",
+            "query": "emcal-cells:EMC/CELLS/0;emcal-triggerecords:EMC/CELLSTRGR/0",
             "samplingConditions": [
                 {
                     "condition": "random",
