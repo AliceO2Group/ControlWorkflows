@@ -1102,19 +1102,47 @@ defaults:
     index: 900
     visibleif: $$pdp_panel_mode === "Expert"
   ###############################
-  # Other variables
+  # Timeouts
+  ###############################
+  ccdb_start_timeout: "10s"
+  ccdb_stop_timeout: "10s"
+  dcs_sor_timeout: "140s"
+  dcs_eor_timeout: "30s"
+  dcs_cleanup_timeout: "30s"
+  ddsched_initialize_timeout: "300s"
+  ddsched_terminate_timeout: "300s"
+  ddsched_cleanup_timeout: "60s"
+  drop_caches_timeout: "30s"  
+  fmq_initial_shm_cleanup_timeout: "30s"
+  fmq_shmmonitor_timeout: "10s"
+  odc_partition_cleanup_timeout: "60s"
+  odc_configure_timeout: "60s"
+  odc_start_timeout: "60s"
+  odc_stop_timeout: "60s"
+  odc_reset_timeout: "60s"
+  odc_cleanup_timeout: "60s"
+  roc_cleanup_timeout: "10s"
+  trg_ctp_emulator_timeout: "10s"
+  trg_load_timeout: "5s"
+  trg_start_timeout: "5s"
+  trg_stop_timeout: "5s"
+  trg_unload_timeout: "5s"
+  trg_cleanup_timeout: "5s"
+  ###############################
+  # Detector selection Panel
   ###############################
   detectors: !public
     value: "{{ DetectorsForHosts(hosts) }}"
     type: string
     widget: detectorSelector
     panel: Detectors
+  ###############################
+  # Other variables
+  ###############################    
   dpl_workflow: none
   dpl_command: none
   drop_caches_enabled: "true"
-  drop_caches_timeout: "30s"
   fmq_initial_shm_cleanup_enabled: "true"
-  fmq_initial_shm_cleanup_timeout: "30s"
   fmq_cleanup_enabled: "true"
   minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow
   monitoring_dd_url: "no-op://"
@@ -1256,7 +1284,7 @@ roles:
                 task:
                   load: "o2-roc-ctp-emulator"
                   trigger: enter_RUNNING
-                  timeout: 10s
+                  timeout: "{{ trg_ctp_emulator_timeout }}"
                   critical: false
       - name: drop-caches
         enabled: "{{drop_caches_enabled == 'true'}}"
@@ -1283,14 +1311,14 @@ roles:
         task:
           load: "fairmq-shmmonitor"
           trigger: DESTROY
-          timeout: 10s
+          timeout: "{{ fmq_shmmonitor_timeout }}"
           critical: false
       - name: o2-roc-cleanup
         enabled: "{{roc_cleanup_enabled == 'true'}}"
         task:
           load: "o2-roc-cleanup"
           trigger: DESTROY
-          timeout: 10s
+          timeout: "{{ roc_cleanup_timeout }}"
           critical: false
       - name: ps-aux-on-destroy
         vars:
@@ -1380,19 +1408,19 @@ roles:
         call:
           func: dcs.StartOfRun()
           trigger: enter_RUNNING
-          timeout: 140s
+          timeout: "{{ dcs_sor_timeout }}"
           critical: true
       - name: eor
         call:
           func: dcs.EndOfRun()
           trigger: leave_RUNNING
-          timeout: 30s
+          timeout: "{{ dcs_eor_timeout }}"
           critical: true
       - name: cleanup
         call:
           func: dcs.Cleanup()
           trigger: DESTROY
-          timeout: 30s
+          timeout: "{{ dcs_cleanup_timeout }}"
           critical: true
   - name: dd-scheduler
     enabled: "{{ddsched_enabled == 'true'}}"
@@ -1402,19 +1430,19 @@ roles:
           func: ddsched.PartitionInitialize()
           trigger: before_CONFIGURE
           await: after_CONFIGURE
-          timeout: 5m
+          timeout: "{{ ddsched_initialize_timeout }}"
           critical: true
       - name: terminate
         call:
           func: ddsched.PartitionTerminate()
           trigger: after_RESET
-          timeout: 5m
+          timeout: "{{ ddsched_terminate_timeout }}"	  
           critical: true
       - name: cleanup
         call:
           func: ddsched.EnsureTermination()
           trigger: DESTROY
-          timeout: 1m
+          timeout: "{{ ddsched_cleanup_timeout }}"	  
           critical: false
   - name: odc
     enabled: "{{odc_enabled == 'true'}}"
@@ -1428,49 +1456,49 @@ roles:
           func: odc.PreDeploymentCleanup()
           trigger: before_DEPLOY
           await: after_DEPLOY
-          timeout: 1m
+          timeout: "{{ odc_partition_cleanup_timeout }}"
           critical: false
       - name: configure
         call:
           func: odc.Configure()
           trigger: before_CONFIGURE
           await: after_CONFIGURE
-          timeout: 1m
+          timeout: "{{ odc_configure_timeout }}"
           critical: true
       - name: start
         call:
           func: odc.Start()
           trigger: before_START_ACTIVITY
           await: after_START_ACTIVITY
-          timeout: 1m
+          timeout: "{{ odc_start_timeout }}"
           critical: true
       - name: stop
         call:
           func: odc.Stop()
           trigger: before_STOP_ACTIVITY
           await: after_STOP_ACTIVITY
-          timeout: 1m
+          timeout: "{{ odc_stop_timeout }}"
           critical: true
       - name: reset
         call:
           func: odc.Reset()
           trigger: before_RESET
           await: after_RESET
-          timeout: 1m
+          timeout: "{{ odc_reset_timeout }}"
           critical: true
       - name: cleanup
         enabled: "{{odc_partitions_cleanup == 'true'}}"
         call:
           func: odc.EnsureCleanup()
           trigger: DESTROY
-          timeout: 1m
+          timeout: "{{ odc_cleanup_timeout }}"
           critical: false
       - name: legacy-cleanup
         enabled: "{{odc_partitions_cleanup == 'false'}}"
         call:
           func: odc.EnsureCleanupLegacy()
           trigger: DESTROY
-          timeout: 1m
+          timeout: "1m"
           critical: false
   - name: trg
     enabled: "{{trg_enabled == 'true'}}"
@@ -1483,31 +1511,31 @@ roles:
         call:
           func: trg.RunLoad()
           trigger: enter_RUNNING
-          timeout: 5s
+          timeout: "{{ trg_load_timeout }}"
           critical: true
       - name: start
         call:
           func: trg.RunStart()
           trigger: after_START_ACTIVITY
-          timeout: 5s
+          timeout: "{{ trg_start_timeout }}"
           critical: true
       - name: stop
         call:
           func: trg.RunStop()
           trigger: before_STOP_ACTIVITY
-          timeout: 5s
+          timeout: "{{ trg_stop_timeout }}"
           critical: true
       - name: unload
         call:
           func: trg.RunUnload()
           trigger: after_STOP_ACTIVITY
-          timeout: 5s
+          timeout: "{{ trg_unload_timeout }}"
           critical: true
       - name: cleanup
         call:
           func: trg.Cleanup()
           trigger: DESTROY-100
-          timeout: 5s
+          timeout: "{{ trg_cleanup_timeout }}"
           critical: false
   - name: ccdb
     enabled: "{{ccdb_enabled == 'true'}}"
