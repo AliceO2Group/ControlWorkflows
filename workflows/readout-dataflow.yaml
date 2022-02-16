@@ -43,7 +43,15 @@ defaults:
     widget: checkBox
     panel: General_Configuration
     visibleif: $$trg_enabled === "true"
-    index: 4    
+    index: 4
+  ccdb_enabled: !public
+    value: "true"
+    type: bool
+    label: "CCDB/GRP"
+    description: "Enable/disable CCDB GRP object upload"
+    widget: checkBox
+    panel: Basic_Configuration
+    index: 5
   ###############################
   # DCS and FLP Workflows Panel
   ###############################
@@ -1500,4 +1508,19 @@ roles:
           func: trg.Cleanup()
           trigger: DESTROY-100
           timeout: 5s
+          critical: false
+  - name: ccdb
+    enabled: "{{ccdb_enabled == 'true'}}"
+    roles:
+      - name: start
+        call:
+          func: ccdb.RunStart()
+          trigger: after_START_ACTIVITY
+          timeout: 10s
+          critical: false
+      - name: stop
+        call:
+          func: ccdb.RunStop()
+          trigger: before_STOP_ACTIVITY
+          timeout: 10s
           critical: false
