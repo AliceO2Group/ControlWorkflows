@@ -174,7 +174,7 @@
 			"id": "emccells",
 			"active": "true",
 			"machines": ["epn"],
-			"query": "emcal-digits:EMC/CELLS;emcal-triggerecords:EMC/CELLSTRGR",
+			"query": "emcal-cells:EMC/CELLS;emcal-triggerecords:EMC/CELLSTRGR",
 			"samplingConditions": [
 			    {
 					"condition": "random",
