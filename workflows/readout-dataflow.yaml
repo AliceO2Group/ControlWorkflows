@@ -1148,6 +1148,25 @@ defaults:
   trg_unload_timeout: "5s"
   trg_cleanup_timeout: "5s"
   ###############################
+  # CTP readout Panel
+  ###############################
+  ctp_readout_host: !public
+    value: "cru-ctp3" # TODO: Update default value
+    type: string
+    label: "CTP Readout host"
+    description: "Defines the host that runs CTP readout"
+    widget: editBox
+    panel: "CTP_Readout"
+    index: 0
+  ctp_readout_cfg_uri: !public
+    value: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-ctp" #TODO: Update default value
+    type: string
+    label: "CTP Readout config URI"
+    description: "Defines the readout cfg uri to be used by CTP readout"
+    widget: editBox
+    panel: "CTP_Readout"
+    index: 1
+  ###############################
   # Detector selection Panel
   ###############################
   detectors: !public
@@ -1188,8 +1207,8 @@ roles:
   - name: "readout-ctp"
     enabled: "{{ ctp_enabled == 'true' }}"
     vars:
-      ctp_readout_host: "cru-ctp3"
-      readout_cfg_uri_ctp: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-ctp" #TODO: Update
+      #ctp_readout_host: "cru-ctp3" #TODO: Update
+      #ctp_readout_cfg_uri: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-ctp" #TODO: Update
       dd_discovery_ib_hostname: "{{ ctp_readout_host }}-ib" # MUST be defined for all stfb and stfs
     constraints:
       - attribute: machine_id
@@ -1197,7 +1216,7 @@ roles:
     roles:
       - name: "readout"
         vars:
-          readout_cfg_uri: "{{ readout_cfg_uri_ctp }}" 
+          readout_cfg_uri: "{{ ctp_readout_cfg_uri }}" 
         task:
           load: readout
       - name: "data-distribution"
