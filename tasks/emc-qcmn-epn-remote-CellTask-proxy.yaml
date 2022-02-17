@@ -1,4 +1,4 @@
-name: emc-qcmn-epnall-remote-internal-dpl-clock
+name: emc-qcmn-epn-remote-CellTask-proxy
 defaults:
   log_task_output: none
   _module_cmdline: >-
@@ -12,34 +12,19 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-clock_to_CellTask-proxy
+  - name: from_CellTask-proxy_to_MERGER-CellTask1l-0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_RawTask-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
+  - name: CellTask-proxy
+    type: sub
+    transport: zeromq
+    addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-CellTask1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-RawTask1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
+    target: "tcp://*:47702"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -65,7 +50,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-clock'"
+    - "'CellTask-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -141,3 +126,13 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
+    - "--end-value-enumeration"
+    - "-1"
+    - "--orbit-multiplier-enumeration"
+    - "'0'"
+    - "--orbit-offset-enumeration"
+    - "'0'"
+    - "--start-value-enumeration"
+    - "'0'"
+    - "--step-value-enumeration"
+    - "'1'"
