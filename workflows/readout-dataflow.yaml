@@ -6,7 +6,7 @@ defaults:
   ctp_enabled: !public
     value: "false"
     type: bool
-    label: "CTP"
+    label: "CTP Readout"
     description: "Enable/disable CTP readout"
     widget: checkBox
     panel: Basic_Configuration
