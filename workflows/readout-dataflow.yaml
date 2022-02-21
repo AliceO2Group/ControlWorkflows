@@ -1173,6 +1173,17 @@ defaults:
     panel: "CTP_Readout"
     index: 0
   ###############################
+  # CTP readout Panel
+  ###############################
+  ctp_readout_host: !public
+    value: "cru-ctp1" # TODO: Update default value
+    type: string
+    label: "CTP Readout host"
+    description: "Defines the host that runs CTP readout"
+    widget: editBox
+    panel: "CTP_Readout"
+    index: 0
+  ###############################
   # Timeouts
   ###############################
   ccdb_start_timeout: "10s"
@@ -1202,25 +1213,6 @@ defaults:
   trg_stop_timeout: "5s"
   trg_unload_timeout: "5s"
   trg_cleanup_timeout: "5s"
-  ###############################
-  # CTP readout Panel
-  ###############################
-  ctp_readout_host: !public
-    value: "cru-ctp1" # TODO: Update default value
-    type: string
-    label: "CTP Readout host"
-    description: "Defines the host that runs CTP readout"
-    widget: editBox
-    panel: "CTP_Readout"
-    index: 0
-  ctp_readout_cfg_uri: !public
-    value: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-ctp" #TODO: Update default value
-    type: string
-    label: "CTP Readout config URI"
-    description: "Defines the readout cfg uri to be used by CTP readout"
-    widget: editBox
-    panel: "CTP_Readout"
-    index: 1
   ###############################
   # Detector selection Panel
   ###############################
