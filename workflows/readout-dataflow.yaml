@@ -1151,7 +1151,7 @@ defaults:
   # CTP readout Panel
   ###############################
   ctp_readout_host: !public
-    value: "cru-ctp3" # TODO: Update default value
+    value: "cru-ctp1" # TODO: Update default value
     type: string
     label: "CTP Readout host"
     description: "Defines the host that runs CTP readout"
