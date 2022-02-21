@@ -12,6 +12,8 @@ o2-dpl-raw-proxy -b --session default --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTI
 
 sed -i /defaults:/\ a\\\ \\\ "phos_keep_hglg: off" workflows/${WF_NAME}.yaml
 sed -i /defaults:/\ a\\\ \\\ "phos_pedestal: off" workflows/${WF_NAME}.yaml
-
+sed -i /defaults:/\ a\\\ \\\ "phos_fit_method: default" workflows/${WF_NAME}.yaml
+ 
 sed -i '/--pedestal/{n;s/.*/    - "{{ phos_pedestal }}"/}' tasks/${WF_NAME}-*
 sed -i '/--keepHGLG/{n;s/.*/    - "{{ phos_keep_hglg }}"/}' tasks/${WF_NAME}-*
+sed -i '/--fitmethod/{n;s/.*/    - "{{ phos_fit_method }}"/}' tasks/${WF_NAME}-*

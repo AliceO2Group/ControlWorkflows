@@ -28,10 +28,11 @@ sed -i "s/""${ESCAPED_QC_GEN_CONFIG_PATH}""/{{ ""${QC_CONFIG_PARAM}"" }}/g" work
 
 sed -i /defaults:/\ a\\\ \\\ "phos_keep_hglg: off" workflows/${WF_NAME}.yaml
 sed -i /defaults:/\ a\\\ \\\ "phos_pedestal: off" workflows/${WF_NAME}.yaml
-
+sed -i /defaults:/\ a\\\ \\\ "phos_fit_method: default" workflows/${WF_NAME}.yaml
+ 
 sed -i '/--pedestal/{n;s/.*/    - "{{ phos_pedestal }}"/}' tasks/${WF_NAME}-*
 sed -i '/--keepHGLG/{n;s/.*/    - "{{ phos_keep_hglg }}"/}' tasks/${WF_NAME}-*
-
+sed -i '/--fitmethod/{n;s/.*/    - "{{ phos_fit_method }}"/}' tasks/${WF_NAME}-*
 
 # QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/its-qcmn-fhr-fee'
 WF_NAME=phos-raw-clusters-remote

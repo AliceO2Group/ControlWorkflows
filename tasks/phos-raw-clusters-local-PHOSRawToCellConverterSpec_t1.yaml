@@ -137,7 +137,7 @@ command:
     - "--fillchi2"
     - "'off'"
     - "--fitmethod"
-    - "'default'"
+    - "{{ phos_fit_method }}"
     - "--keepHGLG"
     - "{{ phos_keep_hglg }}"
     - "--mappingpath"
