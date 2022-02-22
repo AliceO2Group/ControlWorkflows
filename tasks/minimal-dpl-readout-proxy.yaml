@@ -115,3 +115,5 @@ command:
     - "'0'"
     - "--workflow-suffix"
     - "''"
+    - "--exit-transition-timeout"
+    - "'15'"

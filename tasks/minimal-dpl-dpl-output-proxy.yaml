@@ -122,3 +122,5 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
+    - "--exit-transition-timeout"
+    - "'15'"
