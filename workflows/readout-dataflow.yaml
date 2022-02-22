@@ -645,6 +645,7 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
+      - tpc-idc
   tpc_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -660,6 +661,7 @@ defaults:
       - tpc-full-nodummy-qcmn-pp-remote
       - tpc-full-calib-remote
       - tpc-krypton-qcmn-remote
+      - tpc-idc-merger
     visibleif: $$qc_remote_enabled === "true"  
   tpc_dcs_sor_parameters: !public
     value: "{}"
