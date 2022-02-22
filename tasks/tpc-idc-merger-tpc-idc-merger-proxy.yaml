@@ -1,31 +1,30 @@
-name: tpc-idc-tpc-flp-idc-00
+name: tpc-idc-merger-tpc-idc-merger-proxy
 defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-tpc-idc-flp
+    {{ dpl_command }} | o2-dpl-raw-proxy
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-idc-flp
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-raw-proxy
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink
+  - name: from_tpc-idc-merger-proxy_to_tpc-distribute-idc
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_tpc-flp-idc-00_to_tpc-idc-merger-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
+  - name: tpc-idc-merger-proxy
+    type: pull
+    transport: zeromq
+    addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
+    target: "tcp://*:{{ merger_port }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -51,7 +50,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'tpc-flp-idc-00'"
+    - "'tpc-idc-merger-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -72,12 +71,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--configFile"
-    - "''"
-    - "--configKeyValues"
-    - "'keyval.output_dir=/dev/null'"
-    - "--crus"
-    - "{{ cru_config_uri }}"
+    - "--dataspec"
+    - "'dd:TPC/IDCGROUP;dd:TPC/1DIDC'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -92,27 +87,12 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--groupLastPadsThreshold"
-    - "'3,3,3,3,2,2,2,2,1,1'"
-    - "--groupLastRowsThreshold"
-    - "'3,3,3,3,2,2,2,2,2,2'"
-    - "--groupPads"
-    - "'7,7,7,7,6,6,6,6,5,5'"
-    - "--groupRows"
-    - "'5,5,5,5,4,4,4,4,3,3'"
     - "--labels"
-    - "''"
-    - "--lanes"
-    - "'1'"
-    - "--minIDCsPerTF"
-    - "'10'"
-    - "--nthreads"
-    - "'1'"
+    - "'tpc-idc-merger-proxy:ecs-preserve-raw-channels'"
     - "--pipeline"
     - "''"
-    - "--propagateIDCs"
-    - "--rangeIDC"
-    - "'200'"
+    - "--proxy-name"
+    - "'tpc-idc-merger-proxy'"
     - "--readers"
     - "'1'"
     - "--severity"
@@ -133,11 +113,11 @@ command:
     - "'1'"
     - "--stacktrace-on-signal"
     - "'all'"
-    - "--time-lanes"
-    - "'1'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
+    - "--timeframes-shm-limit"
+    - "'0'"
     - "--workflow-suffix"
     - "''"

@@ -1,7 +1,6 @@
 name: tpc-idc-tpc-idc-to-vector
 defaults:
   log_task_output: none
-  exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
     {{ dpl_command }} | o2-tpc-idc-to-vector
@@ -13,14 +12,14 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-idc-to-vector_to_internal-dpl-injected-dummy-sink
+  - name: from_tpc-idc-to-vector_to_tpc-flp-idc-00
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_tpc-idc-to-vector_to_tpc-flp-idc-00
+  - name: from_tpc-idc-to-vector_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
@@ -37,15 +36,11 @@ bind:
 command:
   shell: true
   log: "{{ log_task_output }}"
-  env:
-    - O2_DETECTOR={{ detector }}
-    - O2_PARTITION={{ environment_id }}
+  env: ["O2_DETECTOR={{ detector }}"]
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
     - "-b"
-    - "--exit-transition-timeout"
-    - "'{{ exit_transition_timeout }}'"
     - "--monitoring-backend"
     - "'{{ monitoring_dpl_url }}'"
     - "--session"
@@ -113,7 +108,7 @@ command:
     - "--readers"
     - "'1'"
     - "--severity"
-    - "'error'"
+    - "'info'"
     - "--shm-allocation"
     - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
@@ -129,12 +124,12 @@ command:
     - "--spawners"
     - "'1'"
     - "--stacktrace-on-signal"
-    - "'simple'"
+    - "'all'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--pedestal-url"
-    - "'http://o2-ccdb.internal'"
+    - "--pedestal-file"
+    - "'/home/tpc/IDCs/FLP/Pedestals.root'"

@@ -1,7 +1,6 @@
 name: tpc-idc-tpc-idc-merger-proxy
 defaults:
   log_task_output: none
-  exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
     {{ dpl_command }} | o2-dpl-output-proxy
@@ -16,15 +15,11 @@ bind:
 command:
   shell: true
   log: "{{ log_task_output }}"
-  env:
-    - O2_DETECTOR={{ detector }}
-    - O2_PARTITION={{ environment_id }}
+  env: ["O2_DETECTOR={{ detector }}"]
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
     - "-b"
-    - "--exit-transition-timeout"
-    - "'{{ exit_transition_timeout }}'"
     - "--monitoring-backend"
     - "'{{ monitoring_dpl_url }}'"
     - "--session"
@@ -64,7 +59,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'idc2:TPC/IDCGROUP'"
+    - "'idc1:TPC/1DIDC;idc2:TPC/IDCGROUP'"
     - "--default-port"
     - "'4200'"
     - "--default-transport"
@@ -98,7 +93,7 @@ command:
     - "--readers"
     - "'1'"
     - "--severity"
-    - "'warning'"
+    - "'info'"
     - "--shm-allocation"
     - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
@@ -114,7 +109,7 @@ command:
     - "--spawners"
     - "'1'"
     - "--stacktrace-on-signal"
-    - "'simple'"
+    - "'all'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"

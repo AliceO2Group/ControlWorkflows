@@ -12,7 +12,7 @@ defaults:
     widget: checkBox
     panel: General_Configuration
     index: -300
-  dcs_enabled: !public
+  dcs_enabled: !public # TODO: if false, DCS panel should be disabled
     value: "false"
     type: bool
     label: "DCS"
@@ -53,30 +53,6 @@ defaults:
     panel: General_Configuration
     visibleif: $$trg_enabled === "true"
     index: 4
-  run_type: !public # enum from AliECS common/runtype
-    value: "PHYSICS"
-    type: string
-    label: "Run Type"
-    description: "Run type"
-    widget: comboBox
-    panel: General_Configuration
-    values:
-      - NONE
-      - CALIBRATION_ITHR_TUNING
-      - CALIBRATION_VCASN_TUNING
-      - CALIBRATION_THR_SCAN
-      - CALIBRATION_DIGITAL_SCAN
-      - CALIBRATION_ANALOG_SCAN
-      - CALIBRATION_FHR
-      - CALIBRATION_ALPIDE_SCAN
-      - COSMICS
-      - LASER
-      - PEDESTAL
-      - PHYSICS
-      - PULSER
-      - TECHNICAL
-      - SYNTHETIC
-    index: 5    
   ###############################
   # DCS and FLP Workflows Panel
   ###############################
@@ -87,7 +63,7 @@ defaults:
     description: "Enable/disable running workflows on the QC nodes"
     widget: checkBox
     panel: FLP_Workflows
-    index: -300
+    index: -200
   cpv_dpl_workflow: !public
     value: "none"
     type: string
@@ -100,7 +76,6 @@ defaults:
       - cpv-compressor
       - cpv-qc-compressor
       - cpv-pedestal-calib-qc
-      - cpv-pedestal-calib-qc-expert
       - cpv-noise-calib-qc
       - cpv-physics
       - cpv-physics-testing
@@ -188,10 +163,13 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
+      - fdd-digits-qc-full-nocalib
+      - fdd-digits-qc-full-nocalib-raw
       - fdd-digits-pipe
-      - fdd-digits-pipe-ds-qc
-      - fdd-digits-pipe-ds-qc-raw
+      - fdd-digits-qc-ds-pipe
+      - fdd-digits-qc-ds
       - fdd-digits-qc
+      - fdd-digits
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -204,7 +182,6 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
-      - fdd-qc-post-processing-remote
       - fdd-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
@@ -233,13 +210,18 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
+      - ft0-digits-qc-full
+      - ft0-digits-qc-full-raw
+      - ft0-digits-qc-full-nocalib
+      - ft0-digits-qc-full-nocalib-raw
       - ft0-digits-pipe
-      - ft0-digits-pipe-ds-qc
-      - ft0-digits-pipe-ds-qc-raw
-      - ft0-decoder-pipe
-      - ft0-decoder-pipe-ds-qc
-      - ft0-decoder-pipe-ds-qc-raw
+      - ft0-digits-qc-ds-pipe
+      - ft0-digits-qc-ds-pipe-raw
+      - ft0-digits-qc-ds
+      - ft0-digits-qc-postproc-ds-pipe
+      - ft0-digits-qc-postproc-ds
       - ft0-digits-qc
+      - ft0-digits
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -252,8 +234,6 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
-      - ft0-qc-post-processing-remote
-      - ft0-qcmn-epn-post-processing-remote
       - ft0-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
@@ -282,10 +262,18 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
+      - fv0-digits-qc-full
+      - fv0-digits-qc-full-raw
+      - fv0-digits-qc-full-nocalib
+      - fv0-digits-qc-full-nocalib-raw
       - fv0-digits-pipe
-      - fv0-digits-pipe-ds-qc
-      - fv0-digits-pipe-ds-qc-raw
+      - fv0-digits-qc-ds-pipe
+      - fv0-digits-qc-ds-pipe-raw
+      - fv0-digits-qc-ds
+      - fv0-digits-qc-postproc-ds-pipe
+      - fv0-digits-qc-postproc-ds
       - fv0-digits-qc
+      - fv0-digits
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -298,7 +286,6 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
-      - fv0-qc-post-processing-remote
       - fv0-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
@@ -355,8 +342,6 @@ defaults:
       - its-qcmn-flp-epn-no-ds-remote
       - its-qcmn-epn-remote
       - its-qcmn-flp-epn-no-ds-nocluster-remote
-      - its-qcmn-full-remote
-      - its-qcmn-epn-calibration-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
   its_dcs_sor_parameters: !public
@@ -442,9 +427,6 @@ defaults:
       - none
       - mch-qcmn-epn-digits-remote
       - mch-qcmn-flp-digits-remote
-      - mch-qcmn-epn-full-remote
-      - mch-qcmn-epn-full-track-matching-remote
-      - mch-qcmn-flp-full-remote
       - qcmn-daq-remote
       - mch-digits-epn
     visibleif: $$qc_remote_enabled === "true"  
@@ -479,8 +461,6 @@ defaults:
       - mft-raw-qc
       - mft-raw-qcmn-local
       - mft-full-qcmn-local
-      - mft-track-full-qcmn-local
-      - mft-noise-qcmn-local
       - mft-raw-cluster-qcmn-local
       - minimal-dpl
       - qc-daq
@@ -497,8 +477,6 @@ defaults:
       - mft-raw-direct-qcmn-remote
       - mft-raw-qcmn-remote
       - mft-full-qcmn-remote
-      - mft-track-full-qcmn-remote
-      - mft-noise-qcmn-remote
       - mft-raw-cluster-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
@@ -528,7 +506,7 @@ defaults:
     values:
       - none
       - mid-raw-decoder
-      - mid-digits-qcmn-local
+      - mid-full-qcmn-local
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -542,11 +520,8 @@ defaults:
     values:
       - none
       - mid-qcmn-epn-digits
-      - mid-digits-qcmn-remote
       - mid-full-qcmn-remote
-      - mid-full-noraw-qcmn-remote
       - qcmn-daq-remote
-      - mid-calib-qcmn-remote
     visibleif: $$qc_remote_enabled === "true"  
   mid_dcs_sor_parameters: !public
     value: "{}"
@@ -625,7 +600,6 @@ defaults:
       - none
       - tof-compressor
       - tof-full-qcmn-local
-      - tof-full-qcmn-paranoid-local
       - tof-qcmn-compressor-local
       - minimal-dpl
       - qc-daq
@@ -641,7 +615,6 @@ defaults:
       - none
       - qcmn-daq-remote
       - tof-full-qcmn-remote
-      - tof-full-epn-qcmn-remote
       - tof-qcmn-compressor-remote
     visibleif: $$qc_remote_enabled === "true"  
   tof_dcs_sor_parameters: !public
@@ -672,9 +645,7 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-      - tpc-idc-full-split
-      - tpc-idc-simple-full-split
-      - tpc-idc-sac-simple-full-split
+      - tpc-idc
   tpc_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -688,10 +659,7 @@ defaults:
       - tpc-full-qcmn-remote
       - tpc-full-nodummy-qcmn-remote
       - tpc-full-nodummy-qcmn-pp-remote
-      - tpc-full-nodummy-qcmn-pp-remote-v2
-      - tpc-full-nodummy-qcmn-pp-remote-v3
       - tpc-full-calib-remote
-      - tpc-full-calib-trend-remote
       - tpc-krypton-qcmn-remote
       - tpc-idc-merger
     visibleif: $$qc_remote_enabled === "true"  
@@ -788,7 +756,6 @@ defaults:
     values:
       - none
       - minimal-dpl
-      - zdc-raw-qc
       - qc-daq
       - qcmn-daq-local
   zdc_qc_remote_workflow: !public
@@ -1194,24 +1161,6 @@ defaults:
     panel: "EPN_Workflows"
     index: 801
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
-  pdp_override_run_start_time: !public
-    value: ""
-    type: string
-    label: "Override Run Start Time"
-    description: "If set, use this timestamp instead of 'now' when fetching CCDB objects"
-    widget: editBox
-    panel: "EPN_Workflows"
-    index: 802
-    visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"    
-  pdp_force_run_as_raw: !public
-    value: "false"
-    type: bool
-    label: "Force RAW"
-    description: "Force run to be classified as RAW"
-    widget: checkBox
-    panel: "EPN_Workflows"
-    index: 803
-    visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"    
   odc_partitions_cleanup: !public
     value: "true"
     type: bool
@@ -1235,7 +1184,6 @@ defaults:
   ###############################
   # Timeouts
   ###############################
-  auto_stop_timeout: "none"
   ccdb_start_timeout: "10s"
   ccdb_stop_timeout: "10s"
   dcs_sor_timeout: "140s"
@@ -1267,20 +1215,19 @@ defaults:
   # Detector selection Panel
   ###############################
   detectors: !public
-    value: "{{ inventory.DetectorsForHosts(hosts) }}"
+    value: "{{ DetectorsForHosts(hosts) }}"
     type: string
     widget: detectorSelector
     panel: Detectors
   ###############################
   # Other variables
-  ###############################
+  ###############################    
   bookkeeping_enabled: "true"
   ccdb_enabled: "false"
   dpl_workflow: none
   dpl_command: none
-  qc_dpl_command: none
-  drop_caches_enabled: "false"
-  fmq_initial_shm_cleanup_enabled: "true"
+  drop_caches_enabled: "true"
+  fmq_initial_shm_cleanup_enabled: "false"
   fmq_cleanup_enabled: "true"
   kafka_enabled: "false"
   minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow
@@ -1292,18 +1239,15 @@ defaults:
   o2_infologger_path: "/opt/o2-InfoLogger"
   odc_plugin: "epn"
   qcdd_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
-  roc_cleanup_enabled: "false"
+  roc_cleanup_enabled: "true"
   roc_ctp_emulator_enabled: "false"
   stfb_standalone: "false"
-  flp_workflows_jit_enabled: "false"
-  qc_remote_jit_enabled: "false"
   user: flp
   extra_env_vars: ""
 vars:
-  auto_stop_enabled: "{{ auto_stop_timeout != 'none' }}"
+  detectors: "{{ DetectorsForHosts(hosts) }}"
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
-  odc_topology_fullname: '{{ epn_enabled == "true" ? odc.GenerateEPNTopologyFullname() : "" }}'
 roles:
   ##################
   # CTP Readout role
@@ -1311,9 +1255,9 @@ roles:
   - name: "readout-ctp"
     enabled: "{{ ctp_readout_enabled == 'true' }}"
     vars:
-      detector: "{{ctp_readout_enabled == 'true' ? inventory.DetectorForHost( ctp_readout_host ) : \"\" }}"
-      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.ResolvePath('readout/' + run_type + '/any/readout-standalone-' + ctp_readout_host)}}"
-      readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.Resolve('readout', run_type, 'any', 'readout-stfb-' + ctp_readout_host)}}"
+      detector: "{{ctp_readout_enabled == 'true' ? DetectorForHost( ctp_readout_host ) : \"\" }}"
+      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ ctp_readout_host }}"
+      readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-stfb-{{ ctp_readout_host }}"
       dd_discovery_ib_hostname: "{{ ctp_readout_host }}-ib" # MUST be defined for all stfb and stfs
     constraints:
       - attribute: machine_id
@@ -1329,7 +1273,7 @@ roles:
         roles:
           - name: "stfb"
             vars:
-              dd_discovery_stfb_id: stfb-{{ ctp_readout_host }}-{{ uid.New() }} # must be defined for all stfb roles
+              dd_discovery_stfb_id: stfb-{{ ctp_readout_host }}-{{ NewID() }} # must be defined for all stfb roles
             connect:
               - name: readout
                 type: pull
@@ -1339,7 +1283,7 @@ roles:
               load: stfbuilder-senderoutput
           - name: "stfs"
             vars:
-              dd_discovery_stfs_id: stfs-{{ ctp_readout_host }}-{{ uid.New() }} # must be defined for all stfs roles
+              dd_discovery_stfs_id: stfs-{{ ctp_readout_host }}-{{ NewID() }} # must be defined for all stfs roles
               stfs_input_channel_name: buildertosender
             connect:
               - name: buildertosender
@@ -1383,13 +1327,13 @@ roles:
       range: "{{ hosts }}"
       var: it
     vars:
-      detector: "{{ inventory.DetectorForHost( it ) }}"
-      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.ResolvePath('readout/' + run_type + '/any/readout-standalone-' + it)}}"
-      readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.Resolve('readout', run_type, 'any', 'readout-stfb-' + it)}}"
+      detector: "{{DetectorForHost( it )}}"
+      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ it }}"
+      readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-stfb-{{ it }}"
       dd_discovery_ib_hostname: "{{ it }}-ib" # MUST be defined for all stfb and stfs
       # dpl_workflow is set to <detector>_dpl_workflow if such an override exists
-      dpl_workflow: "{{ util.PrefixedOverride( 'dpl_workflow', strings.ToLower( inventory.DetectorForHost( it ) ) ) }}"
-      dpl_command: "{{ util.PrefixedOverride( 'dpl_command', strings.ToLower( inventory.DetectorForHost( it ) ) ) }}"
+      dpl_workflow: "{{ PrefixedOverride( 'dpl_workflow', ToLower( DetectorForHost( it ) ) ) }}"
+      dpl_command: "{{ PrefixedOverride( 'dpl_command', ToLower( DetectorForHost( it ) ) ) }}"
     constraints:
       - attribute: machine_id
         value: "{{ it }}"
@@ -1414,7 +1358,7 @@ roles:
           - name: "stfb"
             enabled: "{{stfb_standalone == 'false'}}"
             vars:
-              dd_discovery_stfb_id: stfb-{{ it }}-{{ uid.New() }} # must be defined for all stfb roles
+              dd_discovery_stfb_id: stfb-{{ it }}-{{ NewID() }} # must be defined for all stfb roles
             connect:
               - name: readout
                 type: pull
@@ -1425,7 +1369,7 @@ roles:
           - name: "stfs"
             enabled: "{{stfb_standalone == 'false'}}"
             vars:
-              dd_discovery_stfs_id: stfs-{{ it }}-{{ uid.New() }} # must be defined for all stfs roles
+              dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }} # must be defined for all stfs roles
               stfs_input_channel_name: buildertosender
             connect:
               - name: buildertosender
@@ -1442,7 +1386,7 @@ roles:
           - name: "stfb"
             enabled: "{{stfb_standalone == 'false'}}"
             vars:
-              dd_discovery_stfb_id: stfb-{{ it }}-{{ uid.New() }}
+              dd_discovery_stfb_id: stfb-{{ it }}-{{ NewID() }}
             connect:
               - name: readout
                 type: pull
@@ -1462,7 +1406,7 @@ roles:
           - name: "stfs" # this stfs is for any DPL workflow. We assume that it has a device dpl-output-proxy and a downstream channel
             enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none' || dpl_command != 'none')}}"
             vars:
-              dd_discovery_stfs_id: stfs-{{ it }}-{{ uid.New() }}
+              dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }}
               stfs_input_channel_name: downstream
             connect:
               - name: downstream
@@ -1478,14 +1422,13 @@ roles:
             enabled: "{{ minimal_dpl_enabled == 'true' }}"
             include: minimal-dpl
           - name: dpl
-            enabled: "{{ flp_workflows_jit_enabled == 'false' && dpl_workflow != 'none' }}"
+            enabled: "{{ dpl_workflow != 'none' }}"
             include: "{{ dpl_workflow }}"
           - name: dpl
-            enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_workflow != 'none' && dpl_command == 'none' }}"
-            include: "{{ flp_workflows_jit_enabled == 'true' ? dpl.GenerateFromUri(dpl_workflow) : '' }}"
-          - name: dpl
-            enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_command != 'none' }}"
-            include: "{{ flp_workflows_jit_enabled == 'true' ? dpl.Generate(dpl_command) : '' }}"
+            vars:
+              sourced_dpl_command: "source /etc/profile.d/o2.sh && {{ dpl_command }}"
+            enabled: "{{ dpl_command != 'none' }}"
+            include: "{{ GenerateDplSubworkflow(sourced_dpl_command) }}"
       - name: o2-roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
         defaults:
@@ -1536,6 +1479,14 @@ roles:
           trigger: DESTROY
           timeout: "{{ roc_cleanup_timeout }}"
           critical: false
+      - name: ps-aux-on-destroy
+        vars:
+          shell_command: ps aux|grep OCCPlugin
+        task:
+          load: "shell-command"
+          trigger: DESTROY
+          timeout: 10s
+          critical: false
   - name: qc-servers
     enabled: "{{ qc_remote_enabled == 'true' }}"
     constraints:
@@ -1543,52 +1494,29 @@ roles:
         value: qcserver
     defaults:
       qc_remote_workflow: none
-      qc_remote_machine: none
-      qc_shm_segment_size: 10000000000
     vars:
       user: qc
       session_id: "{{ environment_id }}" # we can't use "default" because other workflows might already exist on the same QC server
     roles:
-      - name: qc-remote-workflow-{{ detector }}
+      - name: qc-remote-workflow-{{ det }}
         for:
           range: "{{ detectors }}"
-          var: detector
+          var: det
         vars:
-          qc_remote_workflow: "{{ util.PrefixedOverride( 'qc_remote_workflow', strings.ToLower( detector ) ) }}"
-          qc_dpl_command: "{{ util.PrefixedOverride( 'qc_dpl_command', strings.ToLower( detector ) ) }}"
-          qc_remote_machine: "{{ util.PrefixedOverride( 'qc_remote_machine', strings.ToLower( detector ) ) }}"
-          shm_segment_size: "{{ util.PrefixedOverride( 'qc_shm_segment_size', strings.ToLower( detector ) ) }}"
-        constraints:
-          - attribute: machine_id
-            value: "{{ qc_remote_machine }}"
+          qc_remote_workflow: "{{ PrefixedOverride( 'qc_remote_workflow', ToLower( det ) ) }}"
         roles:
           - name: dpl
-            enabled: "{{ qc_remote_jit_enabled == 'false' && qc_remote_workflow != 'none' }}"
+            enabled: "{{ qc_remote_workflow != 'none' }}"
             include: "{{ qc_remote_workflow }}"
-          - name: dpl
-            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_remote_workflow != 'none' && qc_dpl_command == 'none' }}"
-            include: "{{ qc_remote_jit_enabled == 'true' ? GenerateDplSubworkflowFromUri(qc_remote_workflow) : '' }}"
-          - name: dpl
-            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_dpl_command != 'none' }}"
-            include: "{{ qc_remote_jit_enabled == 'true' ? GenerateDplSubworkflow(qc_dpl_command) : '' }}"
-          - name: fairmq-shmmonitor
-            enabled: "{{ fmq_cleanup_enabled == 'true' && qc_remote_workflow != 'none' }}"
-            task:
-              load: "fairmq-shmmonitor"
-              trigger: DESTROY
-              timeout: 10s
-              critical: false
-          # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list.
-          # However if the {{detector}}_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
-          # control tree state management.
-          - name: dpl-noop-subwf
+          # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list
+          # however if the {{det}}_qc_remote_workflow is none there is a ghost role deployed which is never active
+          # for that cases we deploy a plain echo task which will transition the role and eventually the wf to active
+          - name: echo task
             enabled: "{{ qc_remote_workflow == 'none' }}"
-            call:
-              func: testplugin.Noop()
-              trigger: CONFIGURE
-              timeout: 1s
-              critical: false
-
+            vars:
+              shell_command: echo
+            task:
+              load: "shell-command"
   - name: dcs
     enabled: "{{dcs_enabled == 'true'}}"
     defaults:
@@ -1614,6 +1542,29 @@ roles:
         panel: DCS
         index: 3
         visibleif: $$dcs_enabled === "true"
+      run_type: !public # enum from AliECS common/runtype
+        value: "PHYSICS"
+        type: string
+        label: "Run Type"
+        description: "Run type for DCS SOR/EOR"
+        widget: comboBox
+        panel: DCS
+        values:
+          - NONE
+          - CALIBRATION_ITHR_TUNING
+          - CALIBRATION_VCASN_TUNING
+          - CALIBRATION_THR_SCAN
+          - CALIBRATION_DIGITAL_SCAN
+          - CALIBRATION_ANALOG_SCAN
+          - CALIBRATION_FHR
+          - CALIBRATION_ALPIDE_SCAN
+          - LASER
+          - PEDESTAL
+          - PHYSICS
+          - PULSER
+          - TECHNICAL
+        index: 4
+        visibleif: $$dcs_enabled === "true"
     roles:
       - name: sor
         call:
@@ -1627,18 +1578,12 @@ roles:
           trigger: after_STOP_ACTIVITY
           timeout: "{{ dcs_eor_timeout }}"
           critical: true
-      - name: error-cleanup
-        call:
-          func: dcs.Cleanup()
-          trigger: after_GO_ERROR
-          timeout: "{{ dcs_cleanup_timeout }}"
-          critical: false
-      - name: destroy-cleanup
+      - name: cleanup
         call:
           func: dcs.Cleanup()
           trigger: DESTROY
           timeout: "{{ dcs_cleanup_timeout }}"
-          critical: false
+          critical: true
   - name: dd-scheduler
     enabled: "{{ddsched_enabled == 'true'}}"
     roles:
@@ -1664,7 +1609,7 @@ roles:
   - name: odc
     enabled: "{{odc_enabled == 'true'}}"
     vars:
-      odc_resources: '{{strings.TrimSpace(odc_resources_spec) == "default" ? "[ {\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}, {\"zone\":\"calib\"} ]" : odc_resources_spec }}'
+      odc_resources: '{{TrimSpace(odc_resources_spec) == "default" ? "{\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}" : odc_resources_spec }}'
       odc_script: '{{ odc_enabled == "true" ? odc.GenerateEPNWorkflowScript() : "" }}'
     roles:
       - name: deploy
@@ -1678,14 +1623,14 @@ roles:
       - name: part-init
         call:
           func: odc.PartitionInitialize()
-          trigger: after_CONFIGURE-100
-          await: after_CONFIGURE-100
+          trigger: before_CONFIGURE-100
+          await: before_CONFIGURE-100
           timeout: "{{ odc_partitioninitialize_timeout }}"
           critical: true
       - name: configure
         call:
           func: odc.Configure()
-          trigger: after_CONFIGURE
+          trigger: before_CONFIGURE
           await: after_CONFIGURE
           timeout: "{{ odc_configure_timeout }}"
           critical: true
@@ -1714,7 +1659,7 @@ roles:
         call:
           func: odc.PartitionTerminate()
           trigger: after_RESET+100
-          await: after_RESET+100	  
+          await: after_RESET+100
           timeout: "{{ odc_partitionterminate_timeout }}"
           critical: true
       - name: cleanup
@@ -1735,13 +1680,13 @@ roles:
     enabled: "{{trg_enabled == 'true'}}"
     defaults:
       trg_detectors: "{{ detectors }}"
-      trg_runtime_config: "{{ runtime.Get('trg/ltu', trg_runtime_config_file) }}"
-      trg_global_config: "{{ runtime.Get('trg/ctp', trg_load_parameters) }}"
+      trg_runtime_config: "{{ GetRuntimeConfig('trg/ltu', trg_runtime_config_file) }}"
+      trg_global_config: "{{ GetRuntimeConfig('trg/ctp', trg_load_parameters) }}"
     roles:
       - name: load
         call:
           func: trg.RunLoad()
-          trigger: before_START_ACTIVITY-100
+          trigger: enter_RUNNING
           timeout: "{{ trg_load_timeout }}"
           critical: true
       - name: pre-start
@@ -1761,20 +1706,14 @@ roles:
           func: trg.RunStop()
           trigger: before_STOP_ACTIVITY
           timeout: "{{ trg_stop_timeout }}"
-          critical: false
+          critical: true
       - name: unload
         call:
           func: trg.RunUnload()
           trigger: after_STOP_ACTIVITY
           timeout: "{{ trg_unload_timeout }}"
-          critical: false
-      - name: errorcleanup
-        call:
-          func: trg.Cleanup()
-          trigger: after_GO_ERROR-100
-          timeout: "{{ trg_cleanup_timeout }}"
-          critical: false
-      - name: destroycleanup
+          critical: true
+      - name: cleanup
         call:
           func: trg.Cleanup()
           trigger: DESTROY-100
@@ -1786,106 +1725,34 @@ roles:
       - name: start
         call:
           func: ccdb.RunStart()
-          trigger: before_START_ACTIVITY
+          trigger: after_START_ACTIVITY
           timeout: 10s
           critical: false
       - name: stop
         call:
           func: ccdb.RunStop()
-          trigger: leave_RUNNING
+          trigger: before_STOP_ACTIVITY
           timeout: 10s
           critical: false
   - name: bookkeeping
     enabled: "{{bookkeeping_enabled == 'true'}}"
     roles:
-      - name: startrun
+      - name: start
         call:
           func: bookkeeping.StartOfRun()
-          trigger: before_START_ACTIVITY-100
+          trigger: after_START_ACTIVITY
           timeout: 10s
           critical: false
-      - name: updaterunstart
+      - name: updatestart
         call:
           func: bookkeeping.UpdateRunStart()
           trigger: after_START_ACTIVITY+100
           timeout: 10s
           critical: false
-      - name: updaterunstop
+      - name: updatestop
         call:
           func: bookkeeping.UpdateRunStop()
           trigger: after_STOP_ACTIVITY+100
-          timeout: 10s
-          critical: false
-      - name: updaterungoerror
-        call:
-          func: bookkeeping.UpdateRunStop()
-          trigger: after_GO_ERROR+100
-          timeout: 10s
-          critical: false
-      - name: updaterundestroy
-        call:
-          func: bookkeeping.UpdateRunStop()
-          trigger: DESTROY
-          timeout: 10s
-          critical: false
-      - name: startenv
-        call:
-          func: bookkeeping.CreateEnv()
-          trigger: before_DEPLOY
-          timeout: 10s
-          critical: false
-      - name: deploy
-        call:
-          func: bookkeeping.UpdateEnv()
-          trigger: after_DEPLOY+100
-          timeout: 10s
-          critical: false
-      - name: configure
-        call:
-          func: bookkeeping.UpdateEnv()
-          trigger: after_CONFIGURE+100
-          timeout: 10s
-          critical: false
-      - name: reset
-        call:
-          func: bookkeeping.UpdateEnv()
-          trigger: after_RESET+100
-          timeout: 10s
-          critical: false
-      - name: start
-        call:
-          func: bookkeeping.UpdateEnv()
-          trigger: after_START_ACTIVITY+100
-          timeout: 10s
-          critical: false
-      - name: stop
-        call:
-          func: bookkeeping.UpdateEnv()
-          trigger: after_STOP_ACTIVITY+100
-          timeout: 10s
-          critical: false
-      - name: exit
-        call:
-          func: bookkeeping.UpdateEnv()
-          trigger: after_EXIT
-          timeout: 10s
-          critical: false
-      - name: goerror
-        call:
-          func: bookkeeping.UpdateEnv()
-          trigger: after_GO_ERROR+100
-          timeout: 10s
-          critical: false
-      - name: recover
-        call:
-          func: bookkeeping.UpdateEnv()
-          trigger: after_RECOVER+100
-          timeout: 10s
-          critical: false
-      - name: destroy
-        call:
-          func: bookkeeping.UpdateEnv()
-          trigger: DESTROY
           timeout: 10s
           critical: false
   - name: kafka
@@ -1893,73 +1760,37 @@ roles:
     roles:
       - name: standby
         call:
-          func: kafka.PublishEnterStateUpdate()
+          func: kafka.PublishUpdate()
           trigger: enter_STANDBY
           timeout: 5s
           critical: false
       - name: deployed
         call:
-          func: kafka.PublishEnterStateUpdate()
+          func: kafka.PublishUpdate()
           trigger: enter_DEPLOYED
           timeout: 5s
           critical: false
       - name: configured
         call:
-          func: kafka.PublishEnterStateUpdate()
+          func: kafka.PublishUpdate()
           trigger: enter_CONFIGURED
           timeout: 5s
           critical: false
       - name: running
         call:
-          func: kafka.PublishEnterStateUpdate()
+          func: kafka.PublishUpdate()
           trigger: enter_RUNNING
           timeout: 5s
           critical: false
       - name: error
         call:
-          func: kafka.PublishEnterStateUpdate()
+          func: kafka.PublishUpdate()
           trigger: enter_ERROR
           timeout: 5s
           critical: false
       - name: destroy
         call:
-          func: kafka.PublishEnterStateUpdate()
+          func: kafka.PublishUpdate()
           trigger: DESTROY
-          timeout: 5s
-          critical: false
-      - name: leave_standby
-        call:
-          func: kafka.PublishLeaveStateUpdate()
-          trigger: leave_STANDBY
-          timeout: 5s
-          critical: false
-      - name: leave_deployed
-        call:
-          func: kafka.PublishLeaveStateUpdate()
-          trigger: leave_DEPLOYED
-          timeout: 5s
-          critical: false
-      - name: leave_configured
-        call:
-          func: kafka.PublishLeaveStateUpdate()
-          trigger: leave_CONFIGURED
-          timeout: 5s
-          critical: false
-      - name: leave_running
-        call:
-          func: kafka.PublishLeaveStateUpdate()
-          trigger: leave_RUNNING
-          timeout: 5s
-          critical: false
-      - name: leave_error
-        call:
-          func: kafka.PublishLeaveStateUpdate()
-          trigger: leave_ERROR
-          timeout: 5s
-          critical: false
-      - name: before_start_activity
-        call:
-          func: kafka.PublishStartActivityUpdate()
-          trigger: before_START_ACTIVITY-50
           timeout: 5s
           critical: false
