@@ -1421,7 +1421,7 @@ roles:
           func: dcs.Cleanup()
           trigger: DESTROY
           timeout: "{{ dcs_cleanup_timeout }}"
-          critical: true
+          critical: false
   - name: dd-scheduler
     enabled: "{{ddsched_enabled == 'true'}}"
     roles:
@@ -1554,53 +1554,4 @@ roles:
           critical: false
   - name: testplugin
     enabled: "{{testplugin_enabled == 'true'}}"
-    roles:
-      - name: deploy
-        vars:
-          testplugin_fail: false
-        call:
-          func: testplugin.Test()
-          trigger: before_DEPLOY
-          await: after_DEPLOY
-          timeout: 3s
-          critical: false
-      - name: configure
-        vars:
-          testplugin_fail: false
-        call:
-          func: testplugin.Test()
-          trigger: before_CONFIGURE
-          await: after_CONFIGURE
-          timeout: 3s
-          critical: true
-      - name: start
-        vars:
-          testplugin_fail: true
-        call:
-          func: testplugin.Test()
-          trigger: before_START_ACTIVITY
-          await: after_START_ACTIVITY
-          timeout: 3s
-          critical: false
-      - name: stop
-        vars:
-          testplugin_fail: true
-        call:
-          func: testplugin.Test()
-          trigger: before_STOP_ACTIVITY
-          await: after_STOP_ACTIVITY
-          timeout: 3s
-          critical: true
-      - name: reset
-        call:
-          func: testplugin.Noop()
-          trigger: before_RESET
-          await: after_RESET
-          timeout: 3s
-          critical: true
-      - name: cleanup
-        call:
-          func: testplugin.Noop()
-          trigger: DESTROY
-          timeout: 1m
-          critical: false
+    include: testplugin
