@@ -137,3 +137,5 @@ command:
     - "''"
     - "--pedestal"
     - "{{ phos_pedestal }}"
+    - "--presamples"
+    - "'2'"
