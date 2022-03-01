@@ -45,7 +45,7 @@ defaults:
     visibleif: $$trg_enabled === "true"
     index: 4
   ccdb_enabled: !public
-    value: "false"
+    value: "true"
     type: bool
     label: "CCDB/GRP"
     description: "Enable/disable CCDB GRP object upload"
