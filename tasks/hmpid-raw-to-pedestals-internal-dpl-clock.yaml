@@ -70,7 +70,7 @@ command:
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
-    - "'@'"
+    - "'/var/folders/lr/z8g5dz8j4w30hntd_d7xttmc0000gq/T/'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
