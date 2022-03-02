@@ -18,7 +18,10 @@ wants:
   cpu: 0.15
   memory: 128
 command:
-  env: ["O2_INFOLOGGER_MODE={{infologger_mode}}","INFOLOGGER_MODE={{infologger_mode}}","O2_DETECTOR={{ detector }}","DATADIST_FEE_MASK={{ stfb_fee_mask }}"]
+  env:
+   - O2_INFOLOGGER_MODE={{infologger_mode}}
+   - O2_DETECTOR={{ detector }}
+   - DATADIST_FEE_MASK={{ stfb_fee_mask }}
   log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
