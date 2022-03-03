@@ -80,6 +80,7 @@ check_pwd
 ./its-qcmn-cluster-track.sh
 ./its-qcmn-flp-epn.sh
 ./its-qcmn-flp-epn-no-ds.sh
+./its-qcmn-flp-epn-no-ds-nocluster.sh
 ./mch-qcmn-flp-digits.sh
 ./mch-qcmn-epn-digits.sh
 ./mft-decoder.sh
