@@ -320,6 +320,7 @@ defaults:
       - its-qcmn-cluster-track-remote
       - its-qcmn-flp-epn-remote
       - its-qcmn-flp-epn-no-ds-remote
+      - its-qcmn-flp-epn-no-ds-nocluster-remote
       - qcmn-daq-remote
   its_dcs_sor_parameters: !public
     value: "{}"
