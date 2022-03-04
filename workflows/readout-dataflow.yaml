@@ -1118,10 +1118,12 @@ defaults:
   fmq_initial_shm_cleanup_timeout: "30s"
   fmq_shmmonitor_timeout: "10s"
   odc_partition_cleanup_timeout: "60s"
+  odc_partitioninitialize_timeout: "60s"
   odc_configure_timeout: "60s"
   odc_start_timeout: "60s"
   odc_stop_timeout: "60s"
   odc_reset_timeout: "60s"
+  odc_partitionterminate_timeout: "60s"
   odc_cleanup_timeout: "60s"
   roc_cleanup_timeout: "10s"
   trg_ctp_emulator_timeout: "10s"
@@ -1460,6 +1462,13 @@ roles:
           await: after_DEPLOY
           timeout: "{{ odc_partition_cleanup_timeout }}"
           critical: false
+      - name: part-init
+        call:
+          func: odc.PartitionInitialize()
+          trigger: before_CONFIGURE-100
+          await: before_CONFIGURE-100
+          timeout: "{{ odc_partitioninitialize_timeout }}"
+          critical: true
       - name: configure
         call:
           func: odc.Configure()
@@ -1487,6 +1496,13 @@ roles:
           trigger: before_RESET
           await: after_RESET
           timeout: "{{ odc_reset_timeout }}"
+          critical: true
+      - name: part-term
+        call:
+          func: odc.PartitionTerminate()
+          trigger: after_RESET+100
+          await: after_RESET+100
+          timeout: "{{ odc_partitionterminate_timeout }}"
           critical: true
       - name: cleanup
         enabled: "{{odc_partitions_cleanup == 'true'}}"
