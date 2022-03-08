@@ -1,4 +1,5 @@
 name: !public qc-server-workflow
+description: !public "Qc-server-workflow worflow template"
 defaults:
   ###############################
   # Basic Configuration Panel
