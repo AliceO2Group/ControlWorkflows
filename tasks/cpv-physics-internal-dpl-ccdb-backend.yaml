@@ -20,7 +20,35 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec
+  - name: from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec_t0
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec_t1
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec_t2
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec_t3
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec_t4
     type: push
     transport: shmem
     addressing: ipc
@@ -103,7 +131,7 @@ command:
     - "--output-type"
     - "'digits'"
     - "--pipeline"
-    - "''"
+    - "'CPVRawToDigitConverterSpec:5'"
     - "--readers"
     - "'1'"
     - "--severity"
@@ -131,7 +159,7 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--condition-backend"
-    - "'http://alice-ccdb.cern.ch'"
+    - "'localhost:8084'"
     - "--condition-not-after"
     - "'3385078236000'"
     - "--condition-not-before"
