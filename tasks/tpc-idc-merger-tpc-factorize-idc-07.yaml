@@ -1,38 +1,25 @@
-name: tpc-idc-merger-tpc-idc-merger-proxy
+name: tpc-idc-merger-tpc-factorize-idc-07
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-dpl-raw-proxy
+    {{ dpl_command }} | o2-tpc-idc-factorize
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-raw-proxy
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-idc-factorize
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-idc-merger-proxy_to_tpc-distribute-idc
+  - name: from_tpc-factorize-idc-07_to_tpc-factorize-idc-08
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_tpc-idc-merger-proxy_to_internal-dpl-ccdb-backend
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: tpc-idc-merger-proxy
-    type: pull
-    transport: zeromq
-    addressing: tcp
-    rateLogging: "{{ fmq_rate_logging }}"
-    target: "tcp://*:{{ merger_port }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -60,7 +47,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'tpc-idc-merger-proxy'"
+    - "'tpc-factorize-idc-07'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -81,8 +68,14 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--dataspec"
-    - "'dd:TPC/IDCGROUP;dd:TPC/1DIDC'"
+    - "--compression"
+    - "'0'"
+    - "--configFile"
+    - "''"
+    - "--configKeyValues"
+    - "'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null'"
+    - "--crus"
+    - "'{{ cru_merger_ids }}'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -97,12 +90,25 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--groupIDCs"
+    - "--groupLastPadsThreshold"
+    - "'3,3,3,3,2,2,2,2,1,1'"
+    - "--groupLastRowsThreshold"
+    - "'3,3,3,3,2,2,2,2,2,2'"
+    - "--groupPads"
+    - "'5,6,7,8,4,5,6,8,10,13'"
+    - "--groupRows"
+    - "'2,2,2,3,3,3,2,2,2,2'"
+    - "--input-lanes"
+    - "'10'"
     - "--labels"
-    - "'tpc-idc-merger-proxy:ecs-preserve-raw-channels'"
+    - "''"
+    - "--nthreads-IDC-factorization"
+    - "'1'"
+    - "--nthreads-grouping"
+    - "'4'"
     - "--pipeline"
     - "''"
-    - "--proxy-name"
-    - "'tpc-idc-merger-proxy'"
     - "--readers"
     - "'1'"
     - "--severity"
@@ -123,11 +129,21 @@ command:
     - "'1'"
     - "--stacktrace-on-signal"
     - "'all'"
+    - "--timeframes"
+    - "'1000'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
-    - "--timeframes-shm-limit"
-    - "'0'"
+    - "--timeframesDeltaIDC"
+    - "'100'"
     - "--workflow-suffix"
+    - "''"
+    - "--ccdb-uri"
+    - "'http://ccdb-test.cern.ch:8080'"
+    - "--condition-backend"
+    - "'http://localhost:8080'"
+    - "--condition-timestamp"
+    - "'0'"
+    - "--gainMapFile"
     - "''"
