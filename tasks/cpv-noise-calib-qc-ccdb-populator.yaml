@@ -1,34 +1,18 @@
-name: cpv-pedestal-calib-qc-qc-task-CPV-PedestalsOnFLP
+name: cpv-noise-calib-qc-ccdb-populator
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-qc
+    {{ dpl_command }} | o2-calibration-ccdb-populator-workflow
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-qc
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-calibration-ccdb-populator-workflow
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-CPV-PedestalsOnFLP_to_qc-check-CPVPedestalsOnFLPCheck
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_qc-task-CPV-PedestalsOnFLP_to_dpl-output-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-properties:
-  qcConfiguration: 
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -56,7 +40,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-task-CPV-PedestalsOnFLP'"
+    - "'ccdb-populator'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -77,8 +61,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--config"
-    - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -93,20 +77,14 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--host"
-    - "''"
     - "--labels"
     - "''"
-    - "--local-batch"
-    - "''"
-    - "--override-values"
+    - "--name-extention"
     - "''"
     - "--pipeline"
     - "''"
     - "--readers"
     - "'1'"
-    - "--remote-batch"
-    - "''"
     - "--severity"
     - "'info'"
     - "--shm-allocation"
@@ -131,7 +109,9 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-cycle"
-    - "'10000000'"
-    - "--qcConfiguration"
-    - "'{}'"
+    - "--ccdb-path"
+    - "'http://o2-ccdb.internal'"
+    - "--sspec-max"
+    - "-1"
+    - "--sspec-min"
+    - "-1"
