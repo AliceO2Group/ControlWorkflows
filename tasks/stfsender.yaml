@@ -23,6 +23,7 @@ command:
     - no_proxy=-ib,.internal
     - O2_DETECTOR={{ detector }}
     - UCX_NET_DEVICES=mlx5_0:1 # This limits StfSender to IB interface (used as of DD v1.3.0)
+    - O2_PARTITION={{ environment_id }}
   log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
