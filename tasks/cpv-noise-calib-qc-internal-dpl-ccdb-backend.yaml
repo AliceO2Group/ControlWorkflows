@@ -140,7 +140,7 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--condition-backend"
-    - "'http://alice-ccdb.cern.ch'"
+    - "'localhost:8084'"
     - "--condition-not-after"
     - "'3385078236000'"
     - "--condition-not-before"

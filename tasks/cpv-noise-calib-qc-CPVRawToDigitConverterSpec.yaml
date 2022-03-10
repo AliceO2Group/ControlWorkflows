@@ -133,6 +133,6 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--condition-backend"
-    - "'http://localhost:8080'"
+    - "'localhost:8084'"
     - "--condition-timestamp"
     - "'0'"
