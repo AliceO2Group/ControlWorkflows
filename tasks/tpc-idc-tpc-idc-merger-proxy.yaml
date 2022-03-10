@@ -1,6 +1,7 @@
 name: tpc-idc-tpc-idc-merger-proxy
 defaults:
   log_task_output: none
+  exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
     {{ dpl_command }} | o2-dpl-output-proxy
@@ -20,6 +21,8 @@ command:
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
     - "-b"
+    - "--exit-transition-timeout"
+    - "'{{ exit_transition_timeout }}'"
     - "--monitoring-backend"
     - "'{{ monitoring_dpl_url }}'"
     - "--session"
@@ -61,7 +64,7 @@ command:
     - "--dataspec"
     - "'idc1:TPC/1DIDC;idc2:TPC/IDCGROUP'"
     - "--default-port"
-    - "'4200'"
+    - "'47734'"
     - "--default-transport"
     - "'shmem'"
     - "--early-forward-policy"
