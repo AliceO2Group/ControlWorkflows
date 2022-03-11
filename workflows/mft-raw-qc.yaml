@@ -32,35 +32,35 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: mft-raw-qc-readout-proxy
-  - name: "qc-task-MFT-QcMFTReadout"
+  - name: "qc-task-MFT-MFTReadoutTask"
     connect:
-    - name: from_internal-dpl-clock_to_qc-task-MFT-QcMFTReadout
+    - name: from_internal-dpl-clock_to_qc-task-MFT-MFTReadoutTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-MFT-QcMFTReadout"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-MFT-MFTReadoutTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_readout-proxy_to_qc-task-MFT-QcMFTReadout
+    - name: from_readout-proxy_to_qc-task-MFT-MFTReadoutTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_qc-task-MFT-QcMFTReadout"
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_qc-task-MFT-MFTReadoutTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-raw-qc-qc-task-MFT-QcMFTReadout
-  - name: "qc-check-MFTQcMFTReadout"
+      load: mft-raw-qc-qc-task-MFT-MFTReadoutTask
+  - name: "qc-check-MFTMFTReadoutCheck"
     connect:
-    - name: from_qc-task-MFT-QcMFTReadout_to_qc-check-MFTQcMFTReadout
+    - name: from_qc-task-MFT-MFTReadoutTask_to_qc-check-MFTMFTReadoutCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-MFT-QcMFTReadout:from_qc-task-MFT-QcMFTReadout_to_qc-check-MFTQcMFTReadout"
+      target: "{{ Parent().Path }}.qc-task-MFT-MFTReadoutTask:from_qc-task-MFT-MFTReadoutTask_to_qc-check-MFTMFTReadoutCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-raw-qc-qc-check-MFTQcMFTReadout
+      load: mft-raw-qc-qc-check-MFTMFTReadoutCheck
   - name: "dpl-output-proxy"
     connect:
     - name: from_readout-proxy_to_dpl-output-proxy
@@ -70,10 +70,10 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_qc-task-MFT-QcMFTReadout_to_dpl-output-proxy
+    - name: from_qc-task-MFT-MFTReadoutTask_to_dpl-output-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-MFT-QcMFTReadout:from_qc-task-MFT-QcMFTReadout_to_dpl-output-proxy"
+      target: "{{ Parent().Path }}.qc-task-MFT-MFTReadoutTask:from_qc-task-MFT-MFTReadoutTask_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -88,10 +88,10 @@ roles:
       load: mft-raw-qc-dpl-output-proxy
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_qc-check-MFTQcMFTReadout_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-MFTMFTReadoutCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-MFTQcMFTReadout:from_qc-check-MFTQcMFTReadout_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-MFTMFTReadoutCheck:from_qc-check-MFTMFTReadoutCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

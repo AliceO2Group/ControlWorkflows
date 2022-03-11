@@ -51,24 +51,24 @@ roles:
       rcvBufSize: 4
     task:
       load: mft-full-qcmn-local-Dispatcher
-  - name: "qc-task-MFT-QcMFTReadoutTask"
+  - name: "qc-task-MFT-MFTReadoutTask"
     connect:
-    - name: from_internal-dpl-clock_to_qc-task-MFT-QcMFTReadoutTask
+    - name: from_internal-dpl-clock_to_qc-task-MFT-MFTReadoutTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-MFT-QcMFTReadoutTask"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-MFT-MFTReadoutTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Dispatcher_to_qc-task-MFT-QcMFTReadoutTask
+    - name: from_Dispatcher_to_qc-task-MFT-MFTReadoutTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-MFT-QcMFTReadoutTask"
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-MFT-MFTReadoutTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-full-qcmn-local-qc-task-MFT-QcMFTReadoutTask
+      load: mft-full-qcmn-local-qc-task-MFT-MFTReadoutTask
   - name: "mft-stf-decoder"
     connect:
     - name: from_Dispatcher_to_mft-stf-decoder
@@ -80,40 +80,40 @@ roles:
       rcvBufSize: 4
     task:
       load: mft-full-qcmn-local-mft-stf-decoder
-  - name: "qc-task-MFT-QcMFTDigitTask"
+  - name: "qc-task-MFT-MFTDigitTask"
     connect:
-    - name: from_internal-dpl-clock_to_qc-task-MFT-QcMFTDigitTask
+    - name: from_internal-dpl-clock_to_qc-task-MFT-MFTDigitTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-MFT-QcMFTDigitTask"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-MFT-MFTDigitTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_mft-stf-decoder_to_qc-task-MFT-QcMFTDigitTask
+    - name: from_mft-stf-decoder_to_qc-task-MFT-MFTDigitTask
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.mft-stf-decoder:from_mft-stf-decoder_to_qc-task-MFT-QcMFTDigitTask"
+      target: "{{ Parent().Path }}.mft-stf-decoder:from_mft-stf-decoder_to_qc-task-MFT-MFTDigitTask"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-full-qcmn-local-qc-task-MFT-QcMFTDigitTask
-  - name: "QcMFTReadoutTask-proxy"
+      load: mft-full-qcmn-local-qc-task-MFT-MFTDigitTask
+  - name: "MFTReadoutTask-proxy"
     connect:
-    - name: from_qc-task-MFT-QcMFTReadoutTask_to_QcMFTReadoutTask-proxy
+    - name: from_qc-task-MFT-MFTReadoutTask_to_MFTReadoutTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-MFT-QcMFTReadoutTask:from_qc-task-MFT-QcMFTReadoutTask_to_QcMFTReadoutTask-proxy"
+      target: "{{ Parent().Path }}.qc-task-MFT-MFTReadoutTask:from_qc-task-MFT-MFTReadoutTask_to_MFTReadoutTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: QcMFTReadoutTask-proxy
+    - name: MFTReadoutTask-proxy
       type: pub
       transport: zeromq
-      target: "::QcMFTReadoutTask-proxy"
+      target: "::MFTReadoutTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mft-full-qcmn-local-QcMFTReadoutTask-proxy
+      load: mft-full-qcmn-local-MFTReadoutTask-proxy
   - name: "internal-dpl-injected-dummy-sink"
     connect:
     - name: from_mft-stf-decoder_to_internal-dpl-injected-dummy-sink
@@ -125,22 +125,22 @@ roles:
       rcvBufSize: 4
     task:
       load: mft-full-qcmn-local-internal-dpl-injected-dummy-sink
-  - name: "QcMFTDigitTask-proxy"
+  - name: "MFTDigitTask-proxy"
     connect:
-    - name: from_qc-task-MFT-QcMFTDigitTask_to_QcMFTDigitTask-proxy
+    - name: from_qc-task-MFT-MFTDigitTask_to_MFTDigitTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-MFT-QcMFTDigitTask:from_qc-task-MFT-QcMFTDigitTask_to_QcMFTDigitTask-proxy"
+      target: "{{ Parent().Path }}.qc-task-MFT-MFTDigitTask:from_qc-task-MFT-MFTDigitTask_to_MFTDigitTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: QcMFTDigitTask-proxy
+    - name: MFTDigitTask-proxy
       type: pub
       transport: zeromq
-      target: "::QcMFTDigitTask-proxy"
+      target: "::MFTDigitTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mft-full-qcmn-local-QcMFTDigitTask-proxy
+      load: mft-full-qcmn-local-MFTDigitTask-proxy
   - name: "dpl-output-proxy"
     connect:
     - name: from_readout-proxy_to_dpl-output-proxy
@@ -150,10 +150,10 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_qc-task-MFT-QcMFTReadoutTask_to_dpl-output-proxy
+    - name: from_qc-task-MFT-MFTReadoutTask_to_dpl-output-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-MFT-QcMFTReadoutTask:from_qc-task-MFT-QcMFTReadoutTask_to_dpl-output-proxy"
+      target: "{{ Parent().Path }}.qc-task-MFT-MFTReadoutTask:from_qc-task-MFT-MFTReadoutTask_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

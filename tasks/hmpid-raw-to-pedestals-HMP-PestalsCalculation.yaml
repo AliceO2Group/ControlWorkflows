@@ -127,5 +127,3 @@ command:
     - "'Latest'"
     - "--sigmacut"
     - "'4'"
-    - "--use-ccdb"
-    - "--use-dcsccdb"
