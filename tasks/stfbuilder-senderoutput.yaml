@@ -30,6 +30,7 @@ command:
     - O2_INFOLOGGER_MODE={{infologger_mode}}
     - O2_DETECTOR={{ detector }}
     - DATADIST_FEE_MASK={{ stfb_fee_mask }}
+    - O2_PARTITION={{ environment_id }}
   log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
