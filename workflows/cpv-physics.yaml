@@ -1,7 +1,7 @@
 name: cpv-physics
 vars:
   dpl_command: >-
-    o2-dpl-raw-proxy -b --session default --dataspec 'x0:CPV/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-cpv-reco-workflow -b --session default --input-type raw --output-type digits --disable-root-input --disable-root-output --disable-mc --severity warning --pipeline CPVRawToDigitConverterSpec:5 --condition-backend localhost:8084 | o2-dpl-output-proxy -b --session default --dataspec 'x0:CPV/RAWDATA;DIG:CPV/DIGITS/0;DTR:CPV/DIGITTRIGREC/0;ERR:CPV/RAWHWERRORS/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"'
+    o2-dpl-raw-proxy -b --session default --dataspec 'x0:CPV/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-cpv-reco-workflow -b --session default --input-type raw --output-type digits --disable-root-input --disable-root-output --disable-mc --severity warning --condition-backend localhost:8084 | o2-dpl-output-proxy -b --session default --dataspec 'x0:CPV/RAWDATA;DIG:CPV/DIGITS/0;DTR:CPV/DIGITTRIGREC/0;ERR:CPV/RAWHWERRORS/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"'
 defaults:
   monitoring_dpl_url: "no-op://"
   user: "flp"
@@ -42,96 +42,24 @@ roles:
       rcvBufSize: 4
     task:
       load: cpv-physics-internal-dpl-ccdb-backend
-  - name: "CPVRawToDigitConverterSpec_t0"
+  - name: "CPVRawToDigitConverterSpec"
     connect:
-    - name: from_readout-proxy_to_CPVRawToDigitConverterSpec_t0
+    - name: from_readout-proxy_to_CPVRawToDigitConverterSpec
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_CPVRawToDigitConverterSpec_t0"
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_CPVRawToDigitConverterSpec"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec_t0
+    - name: from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-ccdb-backend:from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec_t0"
+      target: "{{ Parent().Path }}.internal-dpl-ccdb-backend:from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: cpv-physics-CPVRawToDigitConverterSpec_t0
-  - name: "CPVRawToDigitConverterSpec_t1"
-    connect:
-    - name: from_readout-proxy_to_CPVRawToDigitConverterSpec_t1
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_CPVRawToDigitConverterSpec_t1"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    - name: from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec_t1
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-ccdb-backend:from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec_t1"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: cpv-physics-CPVRawToDigitConverterSpec_t1
-  - name: "CPVRawToDigitConverterSpec_t2"
-    connect:
-    - name: from_readout-proxy_to_CPVRawToDigitConverterSpec_t2
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_CPVRawToDigitConverterSpec_t2"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    - name: from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec_t2
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-ccdb-backend:from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec_t2"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: cpv-physics-CPVRawToDigitConverterSpec_t2
-  - name: "CPVRawToDigitConverterSpec_t3"
-    connect:
-    - name: from_readout-proxy_to_CPVRawToDigitConverterSpec_t3
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_CPVRawToDigitConverterSpec_t3"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    - name: from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec_t3
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-ccdb-backend:from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec_t3"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: cpv-physics-CPVRawToDigitConverterSpec_t3
-  - name: "CPVRawToDigitConverterSpec_t4"
-    connect:
-    - name: from_readout-proxy_to_CPVRawToDigitConverterSpec_t4
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_CPVRawToDigitConverterSpec_t4"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    - name: from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec_t4
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-ccdb-backend:from_internal-dpl-ccdb-backend_to_CPVRawToDigitConverterSpec_t4"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: cpv-physics-CPVRawToDigitConverterSpec_t4
+      load: cpv-physics-CPVRawToDigitConverterSpec
   - name: "internal-dpl-injected-dummy-sink"
     connect:
     - name: from_internal-dpl-ccdb-backend_to_internal-dpl-injected-dummy-sink
@@ -145,38 +73,10 @@ roles:
       load: cpv-physics-internal-dpl-injected-dummy-sink
   - name: "dpl-output-proxy"
     connect:
-    - name: from_CPVRawToDigitConverterSpec_t0_to_dpl-output-proxy
+    - name: from_CPVRawToDigitConverterSpec_to_dpl-output-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.CPVRawToDigitConverterSpec_t0:from_CPVRawToDigitConverterSpec_t0_to_dpl-output-proxy"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    - name: from_CPVRawToDigitConverterSpec_t1_to_dpl-output-proxy
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.CPVRawToDigitConverterSpec_t1:from_CPVRawToDigitConverterSpec_t1_to_dpl-output-proxy"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    - name: from_CPVRawToDigitConverterSpec_t2_to_dpl-output-proxy
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.CPVRawToDigitConverterSpec_t2:from_CPVRawToDigitConverterSpec_t2_to_dpl-output-proxy"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    - name: from_CPVRawToDigitConverterSpec_t3_to_dpl-output-proxy
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.CPVRawToDigitConverterSpec_t3:from_CPVRawToDigitConverterSpec_t3_to_dpl-output-proxy"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    - name: from_CPVRawToDigitConverterSpec_t4_to_dpl-output-proxy
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.CPVRawToDigitConverterSpec_t4:from_CPVRawToDigitConverterSpec_t4_to_dpl-output-proxy"
+      target: "{{ Parent().Path }}.CPVRawToDigitConverterSpec:from_CPVRawToDigitConverterSpec_to_dpl-output-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
