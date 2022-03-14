@@ -60,15 +60,15 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --proxy-channel-name tpc-idc-merger-proxy \
    --labels "tpc-idc-merger-proxy:ecs-preserve-raw-channels" \
    --output-proxy-method connect \
-   --default-port 47734 \
-   --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,type=push,transport=zeromq" ' \
+   --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,address=tcp://{{ merger_node }}:{{ merger_port }},type=push,transport=zeromq" ' \
    --dataspec "${OUTSPEC_IDC}" \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
    --dataspec "${OUTSPEC}" \
    --o2-control $WF_NAME
 
-#   --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,address=tcp://{{ merger_node }}:{{ merger_port }},type=push,transport=zeromq" ' \
+#   --default-port 47734 \
+#   --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,type=push,transport=zeromq" ' \
 
 
 # add the templated CRU config file path
