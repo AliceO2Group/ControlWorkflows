@@ -21,7 +21,7 @@ bind:
     sndBufSize: 4
     rcvBufSize: 4
 properties:
-  qcConfiguration: ""
+  qcConfiguration: 
 command:
   shell: true
   log: "{{ log_task_output }}"
