@@ -649,6 +649,11 @@ defaults:
     values:
       - none
       - qcmn-daq-remote
+      - trd-full-qcmn-epn
+      - trd-full-qcmn-norawdatastats-epn
+      - trd-full-qcmn-nodigits-epn
+      - trd-full-qcmn-notracklets-epn
+      - trd-full-qcmn-nopulseheight-epn
   trd_dcs_sor_parameters: !public
     value: "{}"
     type: string
