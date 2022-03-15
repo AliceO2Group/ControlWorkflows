@@ -30,6 +30,7 @@ check_pwd
 ./cpv-physics.sh
 ./cpv-physics-testing.sh
 ./cpv-physics-qcmn-epn.sh
+./cpv-noise-calib-qc.sh
 ./fdd-qcmn-remote.sh
 ./fdd-digits-qc-full-nocalib.sh
 ./fdd-digits-qc-full-nocalib-raw.sh
