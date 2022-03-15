@@ -13,13 +13,6 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-factorize-idc-04_to_tpc-factorize-idc-05
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -102,7 +95,7 @@ command:
     - "--groupRows"
     - "'2,2,2,3,3,3,2,2,2,2'"
     - "--input-lanes"
-    - "'10'"
+    - "'5'"
     - "--labels"
     - "''"
     - "--nthreads-IDC-factorization"
