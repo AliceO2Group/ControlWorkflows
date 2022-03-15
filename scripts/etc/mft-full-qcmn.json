@@ -48,7 +48,7 @@
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "direct",
-          "query": "randomdigit:MFT/DIGITS/0"
+          "query": "randomdigit:MFT/DIGITS/0;digitsrof:MFT/DIGITSROF/0"
         },
         "taskParameters": {
           "FLP": "0",
