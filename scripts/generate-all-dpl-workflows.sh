@@ -111,3 +111,8 @@ check_pwd
 ./tpc-qc-post-trending.sh
 ./tpc-qc-post-calib.sh
 ./tpc-qc-post-processing.sh
+./trd-qcmn.sh
+./trd-qcmn-nodigits.sh
+./trd-qcmn-nopulseheight.sh
+./trd-qcmn-norawdatastats.sh
+./trd-qcmn-notracklets.sh
