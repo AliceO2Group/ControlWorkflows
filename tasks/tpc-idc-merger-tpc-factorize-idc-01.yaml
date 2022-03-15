@@ -102,7 +102,7 @@ command:
     - "--groupRows"
     - "'2,2,2,3,3,3,2,2,2,2'"
     - "--input-lanes"
-    - "'10'"
+    - "'5'"
     - "--labels"
     - "''"
     - "--nthreads-IDC-factorization"

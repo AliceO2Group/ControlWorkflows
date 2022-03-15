@@ -97,7 +97,7 @@ export GLOBAL_SHMSIZE=$(( 128 << 30 )) #  GB for the gl
 
 WF_NAME=tpc-idc-merger
 
-lanes=10
+lanes=5
 nTFs=1000
 
 firstCRU=11
