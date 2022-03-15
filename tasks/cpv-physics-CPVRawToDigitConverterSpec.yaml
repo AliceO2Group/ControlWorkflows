@@ -126,6 +126,10 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--condition-backend"
+<<<<<<< HEAD
     - "'http://127.0.0.1:8084'"
+=======
+    - "'localhost:8084'"
+>>>>>>> 27dbe988... Cpv noise calibration (#265)
     - "--condition-timestamp"
     - "'0'"

@@ -75,6 +75,7 @@ defaults:
       - cpv-compressor
       - cpv-qc-compressor
       - cpv-pedestal-calib-qc
+      - cpv-noise-calib-qc
       - cpv-physics
       - cpv-physics-testing
       - minimal-dpl

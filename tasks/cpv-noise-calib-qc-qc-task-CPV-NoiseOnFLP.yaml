@@ -28,6 +28,7 @@ bind:
     sndBufSize: 4
     rcvBufSize: 4
 properties:
+<<<<<<< HEAD
   qcConfiguration: ""
 command:
   shell: true
@@ -35,6 +36,13 @@ command:
   env:
     - O2_DETECTOR={{ detector }}
     - O2_PARTITION={{ environment_id }}
+=======
+  qcConfiguration: 
+command:
+  shell: true
+  log: "{{ log_task_output }}"
+  env: ["O2_DETECTOR={{ detector }}"]
+>>>>>>> 27dbe988... Cpv noise calibration (#265)
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
@@ -126,7 +134,11 @@ command:
     - "--spawners"
     - "'1'"
     - "--stacktrace-on-signal"
+<<<<<<< HEAD
     - "'simple'"
+=======
+    - "'all'"
+>>>>>>> 27dbe988... Cpv noise calibration (#265)
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
