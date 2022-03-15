@@ -5,8 +5,6 @@ set -e;
 set -u;
 
 WF_NAME=cpv-noise-calib-qc
-export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
-DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
 # check
 QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/cpv-noise-calib-qc.json'
@@ -17,9 +15,9 @@ cd ..
 
 # DPL command to generate the AliECS dump
 o2-dpl-raw-proxy -b --session default --dataspec 'x0:CPV/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
-    | o2-cpv-reco-workflow -b --session default --input-type raw --output-type digits --disable-root-input --disable-root-output --disable-mc --no-gain-calibration --no-bad-channel-map --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES}" \
-    | o2-calibration-cpv-calib-workflow --noise --tf-per-slot 100 --max-delay 0 --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES}" \
-    | o2-calibration-ccdb-populator-workflow --ccdb-path http://o2-ccdb.internal --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES}" \
+    | o2-cpv-reco-workflow -b --session default --input-type raw --output-type digits --disable-root-input --disable-root-output --disable-mc --no-gain-calibration --no-bad-channel-map --condition-backend localhost:8084 \
+    | o2-calibration-cpv-calib-workflow --noise --tf-per-slot 100 --max-delay 0 \
+    | o2-calibration-ccdb-populator-workflow --ccdb-path http://o2-ccdb.internal \
     | o2-dpl-output-proxy -b --session default --dataspec 'x0:CPV/RAWDATA;DIG:CPV/DIGITS/0;DTR:CPV/DIGITTRIGREC/0;ERR:CPV/RAWHWERRORS/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"' \
     | o2-qc -b --config ${QC_GEN_CONFIG_PATH} --o2-control $WF_NAME
 

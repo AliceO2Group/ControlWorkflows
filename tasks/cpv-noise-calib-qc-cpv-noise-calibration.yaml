@@ -30,9 +30,7 @@ bind:
 command:
   shell: true
   log: "{{ log_task_output }}"
-  env:
-    - O2_DETECTOR={{ detector }}
-    - O2_PARTITION={{ environment_id }}
+  env: ["O2_DETECTOR={{ detector }}"]
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
@@ -78,7 +76,7 @@ command:
     - "--clone"
     - "''"
     - "--configKeyValues"
-    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -117,7 +115,7 @@ command:
     - "--spawners"
     - "'1'"
     - "--stacktrace-on-signal"
-    - "'simple'"
+    - "'all'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
@@ -125,7 +123,7 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--condition-backend"
-    - "'http://127.0.0.1:8084'"
+    - "'http://localhost:8080'"
     - "--condition-timestamp"
     - "'0'"
     - "--max-delay"
