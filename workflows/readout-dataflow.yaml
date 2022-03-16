@@ -1215,27 +1215,27 @@ roles:
       - name: "data-distribution"
         enabled: "{{ dd_enabled == 'true' }}"
         roles:
-        - name: "stfb"
-          vars:
-            dd_discovery_stfb_id: stfb-{{ ctp_readout_host }}-{{ NewID() }} # must be defined for all stfb roles
-          connect:
-            - name: readout
-              type: pull
-              target: "{{ Up(2).Path }}.readout:readout"
-              rateLogging: "{{ fmq_rate_logging }}"
-          task:
-            load: stfbuilder-senderoutput
-        - name: "stfs"
-          vars:
-            dd_discovery_stfs_id: stfs-{{ ctp_readout_host }}-{{ NewID() }} # must be defined for all stfs roles
-            stfs_input_channel_name: buildertosender
-          connect:
-            - name: buildertosender
-              type: pull
-              target: "{{ Parent().Path }}.stfb:buildertosender"
-              rateLogging: "{{ fmq_rate_logging }}"
-          task:
-            load: stfsender
+          - name: "stfb"
+            vars:
+              dd_discovery_stfb_id: stfb-{{ ctp_readout_host }}-{{ NewID() }} # must be defined for all stfb roles
+            connect:
+              - name: readout
+                type: pull
+                target: "{{ Up(2).Path }}.readout:readout"
+                rateLogging: "{{ fmq_rate_logging }}"
+            task:
+              load: stfbuilder-senderoutput
+          - name: "stfs"
+            vars:
+              dd_discovery_stfs_id: stfs-{{ ctp_readout_host }}-{{ NewID() }} # must be defined for all stfs roles
+              stfs_input_channel_name: buildertosender
+            connect:
+              - name: buildertosender
+                type: pull
+                target: "{{ Parent().Path }}.stfb:buildertosender"
+                rateLogging: "{{ fmq_rate_logging }}"
+            task:
+              load: stfsender
       - name: drop-caches
         enabled: "{{drop_caches_enabled == 'true'}}"
         vars:
