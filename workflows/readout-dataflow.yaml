@@ -1194,12 +1194,13 @@ vars:
   odc_enabled: "{{ epn_enabled }}"
 roles:
   ##################
-  # CTP READOUT ROLE
+  # CTP Readout role
   ##################
   - name: "readout-ctp"
     enabled: "{{ ctp_enabled == 'true' }}"
     vars:
       detector: "{{DetectorForHost( ctp_readout_host )}}"
+      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ ctp_readout_host }}"
       readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-stfb-{{ ctp_readout_host }}"
       dd_discovery_ib_hostname: "{{ ctp_readout_host }}-ib" # MUST be defined for all stfb and stfs
     constraints:
@@ -1208,10 +1209,11 @@ roles:
     roles:
       - name: "readout"
         vars:
-          readout_cfg_uri: '{{ readout_cfg_uri_stfb }}'
+          readout_cfg_uri: '{{dd_enabled == "true" ? readout_cfg_uri_stfb : readout_cfg_uri_standalone}}'
         task:
           load: readout
       - name: "data-distribution"
+        enabled: "{{ dd_enabled == 'true' }}"
         roles:
         - name: "stfb"
           vars:
@@ -1262,7 +1264,7 @@ roles:
           timeout: 10s
           critical: false
   ##################
-  # CTP READOUT ROLE
+  # CTP Readout role
   ##################
   - name: host-{{ it }}
     for:
