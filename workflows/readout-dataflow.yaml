@@ -1176,7 +1176,7 @@ defaults:
   # CTP readout Panel
   ###############################
   ctp_readout_host: !public
-    value: "cru-ctp1" # TODO: Update default value
+    value: "alio2-cr1-flp163"
     type: string
     label: "CTP Readout host"
     description: "Defines the host that runs CTP readout"
