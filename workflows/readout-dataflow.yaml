@@ -3,7 +3,7 @@ defaults:
   ###############################
   # General Configuration Panel
   ###############################
-  ctp_readout_enabled: !public
+  ctp_readout_enabled: #!public
     value: "false"
     type: bool
     label: "CTP Readout"
@@ -1120,7 +1120,7 @@ defaults:
   ###############################
   # CTP readout Panel
   ###############################
-  ctp_readout_host: !public
+  ctp_readout_host: #!public
     value: "alio2-cr1-flp163"
     type: string
     label: "CTP Readout host"
@@ -1282,7 +1282,6 @@ roles:
       - attribute: machine_id
         value: "{{ it }}"
     roles:
-
       - name: "readout"
         vars:
           readout_cfg_uri: '{{dd_enabled == "true" ? readout_cfg_uri_stfb : readout_cfg_uri_standalone}}'
