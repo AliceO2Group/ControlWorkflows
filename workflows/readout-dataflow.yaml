@@ -1199,7 +1199,7 @@ roles:
   - name: "readout-ctp"
     enabled: "{{ ctp_readout_enabled == 'true' }}"
     vars:
-      detector: "{{DetectorForHost( ctp_readout_host )}}"
+      detector: "{{ctp_readout_enabled == 'true' ? DetectorForHost( ctp_readout_host ) : \"\" }}"
       readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ ctp_readout_host }}"
       readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-stfb-{{ ctp_readout_host }}"
       dd_discovery_ib_hostname: "{{ ctp_readout_host }}-ib" # MUST be defined for all stfb and stfs
