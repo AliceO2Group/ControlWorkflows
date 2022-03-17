@@ -1414,19 +1414,19 @@ roles:
           func: dcs.StartOfRun()
           trigger: before_START_ACTIVITY
           timeout: "{{ dcs_sor_timeout }}"
-          critical: false
+          critical: true
       - name: eor
         call:
           func: dcs.EndOfRun()
           trigger: after_STOP_ACTIVITY
           timeout: "{{ dcs_eor_timeout }}"
-          critical: false
+          critical: true
       - name: cleanup
         call:
           func: dcs.Cleanup()
           trigger: DESTROY
           timeout: "{{ dcs_cleanup_timeout }}"
-          critical: false
+          critical: true
   - name: dd-scheduler
     enabled: "{{ddsched_enabled == 'true'}}"
     roles:
