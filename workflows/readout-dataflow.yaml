@@ -99,6 +99,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   cpv_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -106,6 +107,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   emc_dpl_workflow: !public
     value: "none"
     type: string
@@ -140,6 +142,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   emc_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -147,6 +150,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   fdd_dpl_workflow: !public
     value: "none"
     type: string
@@ -184,6 +188,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   fdd_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -191,6 +196,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   ft0_dpl_workflow: !public
     value: "none"
     type: string
@@ -233,6 +239,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   ft0_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -240,6 +247,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   fv0_dpl_workflow: !public
     value: "none"
     type: string
@@ -282,6 +290,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   fv0_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -289,6 +298,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   its_dpl_workflow: !public
     value: "none"
     type: string
@@ -330,6 +340,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   its_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -337,6 +348,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   hmp_dpl_workflow: !public
     value: "none"
     type: string
@@ -370,6 +382,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   hmp_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -377,6 +390,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   mch_dpl_workflow: !public
     value: "none"
     type: string
@@ -410,6 +424,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   mch_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -417,6 +432,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   mft_dpl_workflow: !public
     value: "none"
     type: string
@@ -457,6 +473,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   mft_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -464,6 +481,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   mid_dpl_workflow: !public
     value: "none"
     type: string
@@ -495,6 +513,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   mid_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -502,6 +521,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   phs_dpl_workflow: !public
     value: "none"
     type: string
@@ -541,6 +561,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   phs_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -548,6 +569,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   tof_dpl_workflow: !public
     value: "none"
     type: string
@@ -582,6 +604,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   tof_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -589,6 +612,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   tpc_dpl_workflow: !public
     value: "none"
     type: string
@@ -621,6 +645,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   tpc_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -628,6 +653,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   trd_dpl_workflow: !public
     value: "none"
     type: string
@@ -662,6 +688,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   trd_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -669,6 +696,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   tst_dpl_workflow: !public
     value: "none"
     type: string
@@ -720,6 +748,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   zdc_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -727,6 +756,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   ###############################
   # TRG Panel
   ###############################
@@ -1469,6 +1499,7 @@ roles:
         widget: editBox
         panel: DCS
         index: 2
+        visibleif: $$dcs_enabled === "true"
       dcs_eor_parameters: !public
         value: "{}"
         type: string
@@ -1477,6 +1508,7 @@ roles:
         widget: editBox
         panel: DCS
         index: 3
+        visibleif: $$dcs_enabled === "true"
       run_type: !public # enum from AliECS common/runtype
         value: "PHYSICS"
         type: string
@@ -1499,6 +1531,7 @@ roles:
           - PULSER
           - TECHNICAL
         index: 4
+        visibleif: $$dcs_enabled === "true"
     roles:
       - name: sor
         call:
