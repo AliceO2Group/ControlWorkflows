@@ -865,6 +865,7 @@ defaults:
       - "Shifter"
       - "Expert"
     index: -1000
+    visibleif: $$epn_enabled === "true"
   odc_n_epns: !public
     value: "10"
     type: number
@@ -873,6 +874,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -999
+    visibleif: $$epn_enabled === "true"
   odc_n_epns_max_fail: !public
     value: "0"
     type: number
@@ -881,6 +883,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -998
+    visibleif: $$epn_enabled === "true"
   pdp_config_option: !public
     value: "Repository hash"
     type: string
@@ -893,7 +896,7 @@ defaults:
       - "Repository path"
       - "Manual XML"
     index: -800
-    visibleif: $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"
   odc_topology: !public
     value: ""
     type: string
@@ -902,7 +905,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -799
-    visibleif: $$pdp_config_option === "Manual XML"
+    visibleif: $$epn_enabled === "true" && $$pdp_config_option === "Manual XML"
   pdp_o2_data_processing_hash: !public
     value: "default"
     type: string
@@ -911,7 +914,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -799
-    visibleif: $$pdp_config_option === "Repository hash" && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && $$pdp_config_option === "Repository hash" && $$pdp_panel_mode === "Expert"
   pdp_o2_data_processing_path: !public
     value: ""
     type: string
@@ -920,7 +923,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -799
-    visibleif: $$pdp_config_option === "Repository path"
+    visibleif: $$epn_enabled === "true" && $$pdp_config_option === "Repository path"
   pdp_o2pdpsuite_version: !public
     value: "default"
     type: string
@@ -929,7 +932,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -798
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_qcjson_version: !public
     value: "default"
     type: string
@@ -938,7 +941,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -797
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   odc_resources_spec: !public
     value: "default"
     type: string
@@ -947,7 +950,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -600
-    visibleif: $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"
   stfb_dd_mode: !public
     value: "physics"
     type: string
@@ -959,7 +962,7 @@ defaults:
       - physics
       - topology
     index: -599
-    visibleif: $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"
   tfb_dd_mode: !public
     value: "processing"
     type: string
@@ -973,7 +976,7 @@ defaults:
       - processing
       - processing-disk
     index: -598
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_topology_description_library_file: !public
     value: "production/production.desc"
     type: string
@@ -985,7 +988,7 @@ defaults:
       - "production/production.desc"
       - "production/no-processing.desc"
     index: 100
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
   pdp_workflow_name: !public
     value: "synchronous-workflow"
     type: string
@@ -997,7 +1000,7 @@ defaults:
       - "synchronous-workflow"
       - "synchronous-workflow-1numa"
     index: 101
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
   epn_store_raw_data_fraction: !public
     value: "100"
     type: number
@@ -1006,7 +1009,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 102
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "disk" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "disk" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
   pdp_detector_list_global: !public
     value: "default"
     type: string
@@ -1015,7 +1018,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 600
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_detector_list_qc: !public
     value: "default"
     type: string
@@ -1024,7 +1027,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 601
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_detector_list_calib: !public
     value: "default"
     type: string
@@ -1033,7 +1036,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 602
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_workflow_parameters: !public
     value: "QC,CALIB,GPU,CTF,EVENT_DISPLAY"
     type: string
@@ -1042,7 +1045,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 603
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_raw_decoder_multi_factor: !public
     value: "1"
     type: number
@@ -1051,7 +1054,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 604
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_ctf_encoder_multi_factor: !public
     value: "1"
     type: number
@@ -1060,7 +1063,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 605
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_reco_process_multi_factor: !public
     value: "1"
     type: number
@@ -1069,7 +1072,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 606
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_extra_env_vars: !public
     value: ""
     type: string
@@ -1078,7 +1081,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 700
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_epn_shmid: !public
     value: ""
     type: string
@@ -1087,7 +1090,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 701
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_epn_shm_recreate: !public
     value: "false"
     type: bool
@@ -1096,7 +1099,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 701
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_wipe_workflow_cache: !public
     value: "false"
     type: bool
@@ -1105,7 +1108,7 @@ defaults:
     widget: checkBox
     panel: "EPN_Workflows"
     index: 703
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_beam_type: !public
     value: "cosmic"
     type: string
@@ -1120,7 +1123,7 @@ defaults:
       - cosmic
       - technical
     index: 800
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_n_hbf_per_tf: !public
     value: "128"
     type: number
@@ -1129,7 +1132,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 801
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   odc_partitions_cleanup: !public
     value: "true"
     type: bool
@@ -1138,7 +1141,7 @@ defaults:
     widget: checkBox
     panel: "EPN_Workflows"
     index: 900
-    visibleif: $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"
   ###############################
   # CTP readout Panel
   ###############################
