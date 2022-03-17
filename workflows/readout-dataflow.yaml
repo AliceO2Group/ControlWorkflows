@@ -52,14 +52,6 @@ defaults:
     panel: General_Configuration
     visibleif: $$trg_enabled === "true"
     index: 4
-  ccdb_enabled: !public
-    value: "false"
-    type: bool
-    label: "CCDB/GRP"
-    description: "Enable/disable CCDB GRP object upload"
-    widget: checkBox
-    panel: General_Configuration
-    index: 5
   ###############################
   # DCS and FLP Workflows Panel
   ###############################
@@ -1169,6 +1161,7 @@ defaults:
   ###############################
   # Other variables
   ###############################    
+  ccdb_enabled: "false"
   dpl_workflow: none
   dpl_command: none
   drop_caches_enabled: "true"
