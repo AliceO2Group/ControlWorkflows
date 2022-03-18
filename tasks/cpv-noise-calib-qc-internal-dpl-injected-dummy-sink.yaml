@@ -1,22 +1,12 @@
-<<<<<<< HEAD:tasks/tpc-krypton-qcmn-remote-qc-check-sink-QC_RawDigits_0.yaml
-name: tpc-krypton-qcmn-remote-qc-check-sink-QC_RawDigits_0
-=======
 name: cpv-noise-calib-qc-internal-dpl-injected-dummy-sink
->>>>>>> 27dbe988... Cpv noise calibration (#265):tasks/cpv-noise-calib-qc-internal-dpl-injected-dummy-sink.yaml
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-<<<<<<< HEAD:tasks/tpc-krypton-qcmn-remote-qc-check-sink-QC_RawDigits_0.yaml
-    {{ dpl_command }} | o2-qc
-  _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-qc
-=======
     {{ dpl_command }} | o2-dpl-raw-proxy
   _plain_cmdline: >-
     source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-raw-proxy
->>>>>>> 27dbe988... Cpv noise calibration (#265):tasks/cpv-noise-calib-qc-internal-dpl-injected-dummy-sink.yaml
 control:
   mode: "fairmq"
 wants:
@@ -52,11 +42,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-<<<<<<< HEAD:tasks/tpc-krypton-qcmn-remote-qc-check-sink-QC_RawDigits_0.yaml
-    - "'qc-check-sink-QC_RawDigits_0'"
-=======
     - "'internal-dpl-injected-dummy-sink'"
->>>>>>> 27dbe988... Cpv noise calibration (#265):tasks/cpv-noise-calib-qc-internal-dpl-injected-dummy-sink.yaml
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -95,13 +81,6 @@ command:
     - "'dangling'"
     - "--labels"
     - "''"
-<<<<<<< HEAD:tasks/tpc-krypton-qcmn-remote-qc-check-sink-QC_RawDigits_0.yaml
-    - "--local-batch"
-    - "''"
-    - "--override-values"
-    - "''"
-=======
->>>>>>> 27dbe988... Cpv noise calibration (#265):tasks/cpv-noise-calib-qc-internal-dpl-injected-dummy-sink.yaml
     - "--pipeline"
     - "''"
     - "--proxy-name"
@@ -125,19 +104,12 @@ command:
     - "--spawners"
     - "'1'"
     - "--stacktrace-on-signal"
-<<<<<<< HEAD:tasks/tpc-krypton-qcmn-remote-qc-check-sink-QC_RawDigits_0.yaml
     - "'simple'"
-=======
-    - "'all'"
->>>>>>> 27dbe988... Cpv noise calibration (#265):tasks/cpv-noise-calib-qc-internal-dpl-injected-dummy-sink.yaml
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
-<<<<<<< HEAD:tasks/tpc-krypton-qcmn-remote-qc-check-sink-QC_RawDigits_0.yaml
-=======
     - "--timeframes-shm-limit"
     - "'0'"
->>>>>>> 27dbe988... Cpv noise calibration (#265):tasks/cpv-noise-calib-qc-internal-dpl-injected-dummy-sink.yaml
     - "--workflow-suffix"
     - "''"
