@@ -1,32 +1,12 @@
-<<<<<<< HEAD
 name: cpv-noise-calib-qc-internal-dpl-injected-dummy-sink
-=======
-<<<<<<< HEAD:tasks/mid-full-qcmn-local-QcTaskMIDRaw-proxy.yaml
-name: mid-full-qcmn-local-QcTaskMIDRaw-proxy
-=======
-name: cpv-noise-calib-qc-internal-dpl-injected-dummy-sink
->>>>>>> 27dbe988... Cpv noise calibration (#265):tasks/cpv-noise-calib-qc-internal-dpl-injected-dummy-sink.yaml
->>>>>>> 27dbe988... Cpv noise calibration (#265)
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-<<<<<<< HEAD
     {{ dpl_command }} | o2-dpl-raw-proxy
   _plain_cmdline: >-
     source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-raw-proxy
-=======
-<<<<<<< HEAD:tasks/mid-full-qcmn-local-QcTaskMIDRaw-proxy.yaml
-    {{ dpl_command }} | o2-qc
-  _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-qc
-=======
-    {{ dpl_command }} | o2-dpl-raw-proxy
-  _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-raw-proxy
->>>>>>> 27dbe988... Cpv noise calibration (#265):tasks/cpv-noise-calib-qc-internal-dpl-injected-dummy-sink.yaml
->>>>>>> 27dbe988... Cpv noise calibration (#265)
 control:
   mode: "fairmq"
 wants:
@@ -62,15 +42,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-<<<<<<< HEAD
     - "'internal-dpl-injected-dummy-sink'"
-=======
-<<<<<<< HEAD:tasks/mid-full-qcmn-local-QcTaskMIDRaw-proxy.yaml
-    - "'QcTaskMIDRaw-proxy'"
-=======
-    - "'internal-dpl-injected-dummy-sink'"
->>>>>>> 27dbe988... Cpv noise calibration (#265):tasks/cpv-noise-calib-qc-internal-dpl-injected-dummy-sink.yaml
->>>>>>> 27dbe988... Cpv noise calibration (#265)
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -107,39 +79,14 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-<<<<<<< HEAD
     - "--labels"
     - "''"
-=======
-<<<<<<< HEAD:tasks/mid-full-qcmn-local-QcTaskMIDRaw-proxy.yaml
-    - "--host"
-    - "'flp'"
-    - "--labels"
-    - "''"
-    - "--local"
-    - "--local-batch"
-    - "''"
-    - "--override-values"
-    - "''"
-=======
-    - "--labels"
-    - "''"
->>>>>>> 27dbe988... Cpv noise calibration (#265):tasks/cpv-noise-calib-qc-internal-dpl-injected-dummy-sink.yaml
->>>>>>> 27dbe988... Cpv noise calibration (#265)
     - "--pipeline"
     - "''"
     - "--proxy-name"
     - "'readout-proxy'"
     - "--readers"
     - "'1'"
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD:tasks/mid-full-qcmn-local-QcTaskMIDRaw-proxy.yaml
-    - "--remote-batch"
-    - "''"
-=======
->>>>>>> 27dbe988... Cpv noise calibration (#265):tasks/cpv-noise-calib-qc-internal-dpl-injected-dummy-sink.yaml
->>>>>>> 27dbe988... Cpv noise calibration (#265)
     - "--severity"
     - "'info'"
     - "--shm-allocation"
@@ -157,28 +104,12 @@ command:
     - "--spawners"
     - "'1'"
     - "--stacktrace-on-signal"
-<<<<<<< HEAD
     - "'simple'"
-=======
-<<<<<<< HEAD:tasks/mid-full-qcmn-local-QcTaskMIDRaw-proxy.yaml
-    - "'simple'"
-=======
-    - "'all'"
->>>>>>> 27dbe988... Cpv noise calibration (#265):tasks/cpv-noise-calib-qc-internal-dpl-injected-dummy-sink.yaml
->>>>>>> 27dbe988... Cpv noise calibration (#265)
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
-<<<<<<< HEAD
     - "--timeframes-shm-limit"
     - "'0'"
-=======
-<<<<<<< HEAD:tasks/mid-full-qcmn-local-QcTaskMIDRaw-proxy.yaml
-=======
-    - "--timeframes-shm-limit"
-    - "'0'"
->>>>>>> 27dbe988... Cpv noise calibration (#265):tasks/cpv-noise-calib-qc-internal-dpl-injected-dummy-sink.yaml
->>>>>>> 27dbe988... Cpv noise calibration (#265)
     - "--workflow-suffix"
     - "''"

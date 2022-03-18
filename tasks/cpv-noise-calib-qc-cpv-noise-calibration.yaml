@@ -30,13 +30,9 @@ bind:
 command:
   shell: true
   log: "{{ log_task_output }}"
-<<<<<<< HEAD
   env:
     - O2_DETECTOR={{ detector }}
     - O2_PARTITION={{ environment_id }}
-=======
-  env: ["O2_DETECTOR={{ detector }}"]
->>>>>>> 27dbe988... Cpv noise calibration (#265)
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
@@ -82,11 +78,7 @@ command:
     - "--clone"
     - "''"
     - "--configKeyValues"
-<<<<<<< HEAD
-    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
-=======
     - "''"
->>>>>>> 27dbe988... Cpv noise calibration (#265)
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -125,11 +117,7 @@ command:
     - "--spawners"
     - "'1'"
     - "--stacktrace-on-signal"
-<<<<<<< HEAD
     - "'simple'"
-=======
-    - "'all'"
->>>>>>> 27dbe988... Cpv noise calibration (#265)
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
@@ -137,11 +125,7 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--condition-backend"
-<<<<<<< HEAD
-    - "'http://127.0.0.1:8084'"
-=======
-    - "'http://localhost:8080'"
->>>>>>> 27dbe988... Cpv noise calibration (#265)
+    - "'http://alice-ccdb.cern.ch'"
     - "--condition-timestamp"
     - "'0'"
     - "--max-delay"
