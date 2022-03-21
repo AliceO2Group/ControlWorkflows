@@ -1,4 +1,4 @@
-name: readout # read by workflow
+name: notrighttitle # read by workflow
 defaults:
   readout_cfg_uri: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ task_hostname }}"
   user: flp

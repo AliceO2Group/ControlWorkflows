@@ -1,4 +1,4 @@
-name: !public readout-blabla
+name: !public readout-dataflow
 defaults:
   ###############################
   # General Configuration Panel
