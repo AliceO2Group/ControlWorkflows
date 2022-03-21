@@ -1,4 +1,4 @@
-name: tpc-krypton-qcmn-remote-qc-check-sink-QC_KrClusters_0
+name: tpc-krypton-qcmn-remote-qc-check-sink-QC_RawDigits_0
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -42,7 +42,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-check-sink-QC_KrClusters_0'"
+    - "'qc-check-sink-QC_RawDigits_0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
