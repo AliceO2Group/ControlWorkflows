@@ -36,6 +36,14 @@ defaults:
     widget: checkBox
     panel: General_Configuration
     index: 2    
+  kafka_enabled: !public
+    value: "false"
+    type: bool
+    label: "Enables/disables notifications sent to Kafka"
+    description: "Enable/disable Kafka notifications"
+    widget: checkBox
+    panel: General_Configuration
+    index: 3
   trg_enabled: !public
     value: "false"
     type: bool
@@ -43,7 +51,7 @@ defaults:
     description: "Enable/disable TRG"
     widget: checkBox
     panel: General_Configuration
-    index: 3
+    index: 4
   trg_global_run_enabled: !public
     value: "false"
     type: bool
@@ -52,7 +60,7 @@ defaults:
     widget: checkBox
     panel: General_Configuration
     visibleif: $$trg_enabled === "true"
-    index: 4
+    index: 5
   ###############################
   # DCS and FLP Workflows Panel
   ###############################
@@ -1720,4 +1728,43 @@ roles:
           func: ccdb.RunStop()
           trigger: before_STOP_ACTIVITY
           timeout: 10s
+          critical: false
+  - name: kafka
+    enabled: "{{ kafka_enabled == 'true' }}"
+    roles:
+      - name: standby
+        call:
+          func: kafka.Standby()
+          trigger: enter_STANDBY
+          timeout: 5s
+          critical: false
+      - name: deployed
+        call:
+          func: kafka.Deployed()
+          trigger: enter_DEPLOYED
+          timeout: 5s
+          critical: false
+      - name: configured
+        call:
+          func: kafka.Configured()
+          trigger: enter_CONFIGURED
+          timeout: 5s
+          critical: false
+      - name: running
+        call:
+          func: kafka.Running()
+          trigger: enter_RUNNING
+          timeout: 5s
+          critical: false
+      - name: done
+        call:
+          func: kafka.Done()
+          trigger: enter_DONE
+          timeout: 5s
+          critical: false
+      - name: error
+        call:
+          func: kafka.Error()
+          trigger: enter_ERROR
+          timeout: 5s
           critical: false
