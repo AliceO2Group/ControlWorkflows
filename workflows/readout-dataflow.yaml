@@ -39,7 +39,7 @@ defaults:
   kafka_enabled: !public
     value: "false"
     type: bool
-    label: "Enables/disables notifications sent to Kafka"
+    label: "Kafka FSM notifications"
     description: "Enable/disable Kafka notifications"
     widget: checkBox
     panel: General_Configuration
