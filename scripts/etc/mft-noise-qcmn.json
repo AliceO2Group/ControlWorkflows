@@ -52,7 +52,7 @@
         },
         "taskParameters": {
           "FLP": "0",
-          "NoiseScan": "0"
+          "NoiseScan": "1"
         },
         "location": "local",
         "localMachines" : [ "flp" ], 
