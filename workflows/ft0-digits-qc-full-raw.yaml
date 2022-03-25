@@ -286,6 +286,13 @@ roles:
       load: ft0-digits-qc-full-raw-internal-dpl-injected-dummy-sink
   - name: "dpl-output-proxy"
     connect:
+    - name: from_readout-proxy_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: from_ft0-datareader-dpl_to_dpl-output-proxy
       type: pull
       transport: shmem
