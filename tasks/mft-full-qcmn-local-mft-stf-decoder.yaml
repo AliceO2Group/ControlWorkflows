@@ -71,7 +71,7 @@ command:
     - "--clone"
     - "''"
     - "--configKeyValues"
-    - "'MFTClustererParam.noiseFilePath=/tmp/_DUMMY_;MFTClustererParam.dictFilePath=/tmp/_DUMMY_'"
+    - "'MFTClustererParam.noiseFilePath=/tmp/_DUMMY_;MFTClustererParam.dictFilePath=/tmp/_DUMMY_;NameConf.mCCDBServer=http://o2-ccdb.internal;'"
     - "--dataspec"
     - "'TF:MFT/RAWDATA_SMP'"
     - "--digits"
