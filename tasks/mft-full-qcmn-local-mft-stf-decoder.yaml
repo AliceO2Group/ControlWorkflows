@@ -125,7 +125,7 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--condition-backend"
-    - "'http://alice-ccdb.cern.ch'"
+    - "'http://o2-ccdb.internal'"'"
     - "--condition-timestamp"
     - "'0'"
     - "--decoder-verbosity"

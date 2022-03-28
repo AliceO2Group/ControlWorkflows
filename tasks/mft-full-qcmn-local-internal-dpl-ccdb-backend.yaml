@@ -132,7 +132,7 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--condition-backend"
-    - "'http://alice-ccdb.cern.ch'"
+    - "'http://o2-ccdb.internal'"
     - "--condition-not-after"
     - "'3385078236000'"
     - "--condition-not-before"
