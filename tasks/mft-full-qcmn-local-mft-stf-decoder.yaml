@@ -125,7 +125,7 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--condition-backend"
-    - "'http://o2-ccdb.internal'"'"
+    - "'http://o2-ccdb.internal'"
     - "--condition-timestamp"
     - "'0'"
     - "--decoder-verbosity"
