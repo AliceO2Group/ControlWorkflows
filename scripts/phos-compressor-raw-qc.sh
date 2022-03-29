@@ -6,6 +6,7 @@ set -u;
 
 WF_NAME=phos-compressor-raw-qc
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/phos-compressor-raw-qc.json'
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/phos-compressor-raw-qc'
 QC_CONFIG_PARAM='qc_config_uri'

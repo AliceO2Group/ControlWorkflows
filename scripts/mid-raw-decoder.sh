@@ -9,6 +9,7 @@ source helpers.sh
 
 WF_NAME=mid-raw-decoder
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
 ARGS_ALL="-b --session default"
 

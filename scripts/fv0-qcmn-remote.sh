@@ -13,6 +13,7 @@ QC_CONFIG_PARAM="qc_config_uri"
 
 WF_NAME=fv0-qcmn-remote
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
 cd ..
 

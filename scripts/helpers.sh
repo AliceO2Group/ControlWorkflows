@@ -55,6 +55,7 @@ function add_config_variable() {
   PARAM="$3"
   WF_NAME="$4"
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
   # add the templated variable
   ESCAPED_FINAL_VARIABLE=$(printf '%s\n' "${FINAL_VARIABLE}" | sed -e 's/[\/&]/\\&/g')
