@@ -6,6 +6,7 @@ set -u;
 
 WF_NAME=mft-full-qcmn-local
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/mft-full-qcmn.json'
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mft-full-qcmn-{{ it }}'
 QC_CONFIG_PARAM='qc_config_uri'
@@ -21,8 +22,8 @@ cd ../
 # DPL command to generate the AliECS dump
 o2-dpl-raw-proxy -b --session default --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
   | o2-datasampling-standalone -b --config ${DS_GEN_CONFIG_PATH} \
-  | o2-itsmft-stf-decoder-workflow -b --runmft --digits --no-clusters --dataspec "TF:MFT/RAWDATA_SMP" --ignore-dist-stf --configKeyValues "MFTClustererParam.noiseFilePath=/tmp/_DUMMY_;MFTClustererParam.dictFilePath=/tmp/_DUMMY_;NameConf.mCCDBServer=http://127.0.0.1:8084;" \
-  | o2-itsmft-stf-decoder-workflow -b --runmft --digits --no-clusters --dataspec "TF:MFT/RAWDATA_SMP" --ignore-dist-stf --configKeyValues "MFTClustererParam.noiseFilePath=/tmp/_DUMMY_;MFTClustererParam.dictFilePath=/tmp/_DUMMY_" \
+  | o2-itsmft-stf-decoder-workflow -b --runmft --digits --no-clusters --dataspec "TF:MFT/RAWDATA_SMP" --ignore-dist-stf --configKeyValues "MFTClustererParam.noiseFilePath=/tmp/_DUMMY_;MFTClustererParam.dictFilePath=/tmp/_DUMMY_;${DPL_PROCESSING_CONFIG_KEY_VALUES}" \
+  | o2-itsmft-stf-decoder-workflow -b --runmft --digits --no-clusters --dataspec "TF:MFT/RAWDATA_SMP" --ignore-dist-stf --configKeyValues "MFTClustererParam.noiseFilePath=/tmp/_DUMMY_;MFTClustererParam.dictFilePath=/tmp/_DUMMY_;${DPL_PROCESSING_CONFIG_KEY_VALUES}" \
   | o2-dpl-output-proxy -b --session default --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
   | o2-qc --config ${QC_GEN_CONFIG_PATH} -b --local --host flp --o2-control $WF_NAME
 
