@@ -12,6 +12,7 @@ QC_FINAL_CONFIG_PATH="consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/a
 QC_CONFIG_PARAM="qc_config_uri"
 
 WF_NAME=mid-qcmn-epn-digits
+export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 
 cd ..
 

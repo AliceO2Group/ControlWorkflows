@@ -5,6 +5,7 @@ set -u; # exit on undefined variable
 
 # Variables
 WF_NAME=ft0-digits-pipe
+export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 N_PIPELINES=5
 cd ..
 

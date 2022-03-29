@@ -5,6 +5,7 @@ set -e;
 set -u;
 
 WF_NAME=phos-compressort3
+export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 
 cd ..
 # DPL command to generate the AliECS dump

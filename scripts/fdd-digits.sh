@@ -5,6 +5,7 @@ set -u; # exit on undefined variable
 
 # Variables
 WF_NAME=fdd-digits
+export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 
 cd ..
 

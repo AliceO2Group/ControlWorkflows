@@ -5,6 +5,7 @@ set -e;
 set -u;
 
 WF_NAME=cpv-pedestal-calib-qc
+export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 
 # check
 QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/cpv-qc-compressor.json'

@@ -7,6 +7,7 @@ set -u;
 source helpers.sh
 
 WF_NAME=phos-compressor-raw-qcmnt3-local
+export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/phos-compressor-raw-qcmn.json'
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/phos-compressor-raw-qcmn'
 QC_CONFIG_PARAM='qc_config_uri'
@@ -38,6 +39,7 @@ sed -i '/--presamples/{n;s/.*/    - "{{ phos_presamples }}"/}' tasks/${WF_NAME}-
 
 # QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/its-qcmn-fhr-fee'
 WF_NAME=phos-compressor-raw-qcmnt3-remote
+export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 
 o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
 
