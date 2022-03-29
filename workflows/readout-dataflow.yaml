@@ -502,6 +502,7 @@ defaults:
     values:
       - none
       - mid-raw-decoder
+      - mid-full-qcmn-local
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -515,6 +516,7 @@ defaults:
     values:
       - none
       - mid-qcmn-epn-digits
+      - mid-full-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
   mid_dcs_sor_parameters: !public
