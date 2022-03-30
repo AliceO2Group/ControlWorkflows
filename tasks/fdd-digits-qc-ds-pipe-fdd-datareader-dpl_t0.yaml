@@ -20,6 +20,13 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+  - name: from_fdd-datareader-dpl_t0_to_dpl-output-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -71,7 +78,7 @@ command:
     - "--clone"
     - "''"
     - "--configKeyValues"
-    - "''"
+    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
