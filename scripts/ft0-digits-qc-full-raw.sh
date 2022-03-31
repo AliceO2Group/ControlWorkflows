@@ -5,6 +5,8 @@ set -u; # exit on undefined variable
 
 # Variables
 WF_NAME=ft0-digits-qc-full-raw
+export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/ft0-digits-qc-full.json'
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/ft0-digits-qc-full-{{ it }}'
 QC_CONFIG_PARAM='qc_config_uri'
@@ -20,7 +22,7 @@ cd ..
 o2-dpl-raw-proxy -b --session default \
   --dataspec 'rawdata:FT0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' --pipeline  readout-proxy:$N_PIPELINES \
-  | o2-ft0-flp-dpl-workflow -b --session default --output-dir=/tmp --nevents ${NTF_TO_STORE} --pipeline  ft0-datareader-dpl:$N_PIPELINES \
+  | o2-ft0-flp-dpl-workflow -b --session default --output-dir=/tmp --nevents ${NTF_TO_STORE} --pipeline  ft0-datareader-dpl:$N_PIPELINES --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES}" \
   | o2-datasampling-standalone -b --session default --config ${DS_GEN_CONFIG_PATH} \
   | o2-calibration-ft0-tf-processor -b --session default --dispatcher-mode \
   | o2-calibration-ft0-channel-offset-calibration -b --session default --tf-per-slot 56000 \

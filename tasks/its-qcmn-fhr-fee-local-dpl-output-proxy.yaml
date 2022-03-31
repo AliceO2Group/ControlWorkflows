@@ -70,7 +70,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'filter:ITS/RAWDATA;G:FLP/DISTSUBTIMEFRAME'"
+    - "'filter:ITS/RAWDATA;G:FLP/DISTSUBTIMEFRAME/0'"
     - "--default-port"
     - "'4200'"
     - "--default-transport"
