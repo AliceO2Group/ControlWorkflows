@@ -78,7 +78,7 @@ command:
     - "--clone"
     - "''"
     - "--configKeyValues"
-    - "''"
+    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
     - "--crate-masks-file"
     - "''"
     - "--early-forward-policy"
