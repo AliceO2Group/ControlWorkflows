@@ -19,6 +19,8 @@ cd ..
 # Thus the datasampling policy is not included in the config file of the task.
 
 WF_NAME=trd-full-qcmn-notracklets-epn
+export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
 o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
 
