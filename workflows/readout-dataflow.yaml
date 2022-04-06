@@ -1458,14 +1458,14 @@ roles:
         enabled: "{{fmq_cleanup_enabled == 'true'}}"
         task:
           load: "fairmq-shmmonitor"
-          trigger: DESTROY
+          trigger: before_CONFIGURE
           timeout: "{{ fmq_shmmonitor_timeout }}"
           critical: false
       - name: o2-roc-cleanup
         enabled: "{{roc_cleanup_enabled == 'true'}}"
         task:
           load: "o2-roc-cleanup"
-          trigger: DESTROY
+          trigger: before_CONFIGURE
           timeout: "{{ roc_cleanup_timeout }}"
           critical: false
       - name: ps-aux-on-destroy
