@@ -1217,7 +1217,7 @@ defaults:
   dpl_workflow: none
   dpl_command: none
   drop_caches_enabled: "true"
-  fmq_initial_shm_cleanup_enabled: "true"
+  fmq_initial_shm_cleanup_enabled: "false"
   fmq_cleanup_enabled: "true"
   minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow
   monitoring_dd_url: "no-op://"
@@ -1298,7 +1298,7 @@ roles:
           user: root
         task:
           load: "shell-command"
-          trigger: before_CONFIGURE
+          trigger: before_DEPLOY
           timeout: "{{ fmq_initial_shm_cleanup_timeout }}"
           critical: false
       - name: fairmq-shmmonitor
@@ -1451,7 +1451,7 @@ roles:
           user: root
         task:
           load: "shell-command"
-          trigger: before_CONFIGURE
+          trigger: before_DEPLOY
           timeout: "{{ fmq_initial_shm_cleanup_timeout }}"
           critical: false
       - name: fairmq-shmmonitor
