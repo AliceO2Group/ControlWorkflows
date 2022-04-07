@@ -1,0 +1,235 @@
+name: trd-full-qcmn-epn
+vars:
+  dpl_command: >-
+    o2-qc --config {{ qc_config_uri }} --remote -b
+defaults:
+  qc_remote_machine: "alio2-cr1-qc05"
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/trd-full-qcmn"
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 10000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+constraints:
+  - attribute: machine_id
+    value: "{{ qc_remote_machine }}"
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: trd-full-qcmn-epn-internal-dpl-clock
+  - name: "DigitTask-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_DigitTask-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_DigitTask-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: DigitTask-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47743"
+    task:
+      load: trd-full-qcmn-epn-DigitTask-proxy
+  - name: "PulseHeight-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_PulseHeight-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PulseHeight-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: PulseHeight-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47745"
+    task:
+      load: trd-full-qcmn-epn-PulseHeight-proxy
+  - name: "RawDataTask-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_RawDataTask-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_RawDataTask-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: RawDataTask-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47742"
+    task:
+      load: trd-full-qcmn-epn-RawDataTask-proxy
+  - name: "TrackletsTask-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_TrackletsTask-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TrackletsTask-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: TrackletsTask-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47744"
+    task:
+      load: trd-full-qcmn-epn-TrackletsTask-proxy
+  - name: "MERGER-DigitTask1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MERGER-DigitTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-DigitTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_DigitTask-proxy_to_MERGER-DigitTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.DigitTask-proxy:from_DigitTask-proxy_to_MERGER-DigitTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: trd-full-qcmn-epn-MERGER-DigitTask1l-0
+  - name: "MERGER-PulseHeight1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MERGER-PulseHeight1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-PulseHeight1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_PulseHeight-proxy_to_MERGER-PulseHeight1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PulseHeight-proxy:from_PulseHeight-proxy_to_MERGER-PulseHeight1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: trd-full-qcmn-epn-MERGER-PulseHeight1l-0
+  - name: "MERGER-RawDataTask1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MERGER-RawDataTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-RawDataTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_RawDataTask-proxy_to_MERGER-RawDataTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.RawDataTask-proxy:from_RawDataTask-proxy_to_MERGER-RawDataTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: trd-full-qcmn-epn-MERGER-RawDataTask1l-0
+  - name: "MERGER-TrackletsTask1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MERGER-TrackletsTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-TrackletsTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_TrackletsTask-proxy_to_MERGER-TrackletsTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TrackletsTask-proxy:from_TrackletsTask-proxy_to_MERGER-TrackletsTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: trd-full-qcmn-epn-MERGER-TrackletsTask1l-0
+  - name: "qc-check-TRDPulseHeightCheck"
+    connect:
+    - name: from_MERGER-PulseHeight1l-0_to_qc-check-TRDPulseHeightCheck
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MERGER-PulseHeight1l-0:from_MERGER-PulseHeight1l-0_to_qc-check-TRDPulseHeightCheck"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: trd-full-qcmn-epn-qc-check-TRDPulseHeightCheck
+  - name: "qc-check-TRDQcCheck"
+    connect:
+    - name: from_MERGER-RawDataTask1l-0_to_qc-check-TRDQcCheck
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MERGER-RawDataTask1l-0:from_MERGER-RawDataTask1l-0_to_qc-check-TRDQcCheck"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: trd-full-qcmn-epn-qc-check-TRDQcCheck
+  - name: "qc-check-sink-QC_DigitTask_0"
+    connect:
+    - name: from_MERGER-DigitTask1l-0_to_qc-check-sink-QC_DigitTask_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MERGER-DigitTask1l-0:from_MERGER-DigitTask1l-0_to_qc-check-sink-QC_DigitTask_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: trd-full-qcmn-epn-qc-check-sink-QC_DigitTask_0
+  - name: "qc-check-sink-QC_TrackletsTask_0"
+    connect:
+    - name: from_MERGER-TrackletsTask1l-0_to_qc-check-sink-QC_TrackletsTask_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MERGER-TrackletsTask1l-0:from_MERGER-TrackletsTask1l-0_to_qc-check-sink-QC_TrackletsTask_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: trd-full-qcmn-epn-qc-check-sink-QC_TrackletsTask_0
+  - name: "internal-dpl-injected-dummy-sink"
+    connect:
+    - name: from_qc-check-TRDPulseHeightCheck_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-TRDPulseHeightCheck:from_qc-check-TRDPulseHeightCheck_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_qc-check-TRDQcCheck_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-TRDQcCheck:from_qc-check-TRDQcCheck_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: trd-full-qcmn-epn-internal-dpl-injected-dummy-sink
+  - name: fairmq-shmmonitor
+    enabled: "{{fmq_cleanup_enabled == 'true'}}"
+    task:
+      load: "fairmq-shmmonitor"
+      trigger: DESTROY
+      timeout: 10s
+      critical: false

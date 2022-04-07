@@ -1,4 +1,5 @@
 name: !public qc-server-workflow
+description: !public "A workflow template for running any standalone DPL workflows on QC servers"
 defaults:
   ###############################
   # Basic Configuration Panel
