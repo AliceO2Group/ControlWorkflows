@@ -1,8 +1,17 @@
 name: !public readout-dataflow
+description: !public "Main workflow template for ALICE data taking"
 defaults:
   ###############################
   # General Configuration Panel
   ###############################
+  ctp_readout_enabled: #!public
+    value: "false"
+    type: bool
+    label: "CTP Readout"
+    description: "Enable/disable CTP readout"
+    widget: checkBox
+    panel: General_Configuration
+    index: -300
   dcs_enabled: !public # TODO: if false, DCS panel should be disabled
     value: "false"
     type: bool
@@ -44,14 +53,6 @@ defaults:
     panel: General_Configuration
     visibleif: $$trg_enabled === "true"
     index: 4
-  ccdb_enabled: !public
-    value: "false"
-    type: bool
-    label: "CCDB/GRP"
-    description: "Enable/disable CCDB GRP object upload"
-    widget: checkBox
-    panel: General_Configuration
-    index: 5
   ###############################
   # DCS and FLP Workflows Panel
   ###############################
@@ -75,6 +76,7 @@ defaults:
       - cpv-compressor
       - cpv-qc-compressor
       - cpv-pedestal-calib-qc
+      - cpv-noise-calib-qc
       - cpv-physics
       - cpv-physics-testing
       - minimal-dpl
@@ -91,6 +93,7 @@ defaults:
       - none
       - cpv-physics-qcmn-epn-remote
       - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"  
   cpv_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -98,6 +101,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   cpv_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -105,6 +109,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   emc_dpl_workflow: !public
     value: "none"
     type: string
@@ -132,6 +137,7 @@ defaults:
       - emc-qcmn-epnall-remote
       - emc-qcmn-flpepn-remote
       - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"    
   emc_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -139,6 +145,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   emc_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -146,6 +153,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   fdd_dpl_workflow: !public
     value: "none"
     type: string
@@ -176,6 +184,7 @@ defaults:
       - none
       - fdd-qcmn-remote
       - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"  
   fdd_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -183,6 +192,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   fdd_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -190,6 +200,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   ft0_dpl_workflow: !public
     value: "none"
     type: string
@@ -225,6 +236,7 @@ defaults:
       - none
       - ft0-qcmn-remote
       - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"  
   ft0_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -232,6 +244,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   ft0_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -239,6 +252,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   fv0_dpl_workflow: !public
     value: "none"
     type: string
@@ -274,6 +288,7 @@ defaults:
       - none
       - fv0-qcmn-remote
       - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"  
   fv0_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -281,6 +296,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   fv0_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -288,6 +304,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   its_dpl_workflow: !public
     value: "none"
     type: string
@@ -322,6 +339,7 @@ defaults:
       - its-qcmn-flp-epn-no-ds-remote
       - its-qcmn-flp-epn-no-ds-nocluster-remote
       - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"  
   its_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -329,6 +347,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   its_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -336,6 +355,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   hmp_dpl_workflow: !public
     value: "none"
     type: string
@@ -362,6 +382,7 @@ defaults:
       - none
       - hmpid-raw-qcmn-remote
       - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"  
   hmp_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -369,6 +390,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   hmp_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -376,6 +398,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   mch_dpl_workflow: !public
     value: "none"
     type: string
@@ -402,6 +425,7 @@ defaults:
       - mch-qcmn-flp-digits-remote
       - qcmn-daq-remote
       - mch-digits-epn
+    visibleif: $$qc_remote_enabled === "true"  
   mch_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -409,6 +433,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   mch_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -416,6 +441,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   mft_dpl_workflow: !public
     value: "none"
     type: string
@@ -449,6 +475,7 @@ defaults:
       - mft-full-qcmn-remote
       - mft-raw-cluster-qcmn-remote
       - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"  
   mft_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -456,6 +483,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   mft_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -463,6 +491,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   mid_dpl_workflow: !public
     value: "none"
     type: string
@@ -473,6 +502,7 @@ defaults:
     values:
       - none
       - mid-raw-decoder
+      - mid-full-qcmn-local
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -486,7 +516,9 @@ defaults:
     values:
       - none
       - mid-qcmn-epn-digits
+      - mid-full-qcmn-remote
       - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"  
   mid_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -494,6 +526,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   mid_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -501,6 +534,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   phs_dpl_workflow: !public
     value: "none"
     type: string
@@ -533,6 +567,7 @@ defaults:
       - phos-compressor-raw-qcmnt3-remote
       - phos-raw-clusters-remote
       - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"  
   phs_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -540,6 +575,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   phs_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -547,6 +583,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   tof_dpl_workflow: !public
     value: "none"
     type: string
@@ -574,6 +611,7 @@ defaults:
       - qcmn-daq-remote
       - tof-full-qcmn-remote
       - tof-qcmn-compressor-remote
+    visibleif: $$qc_remote_enabled === "true"  
   tof_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -581,6 +619,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   tof_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -588,6 +627,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   tpc_dpl_workflow: !public
     value: "none"
     type: string
@@ -615,6 +655,7 @@ defaults:
       - tpc-full-nodummy-qcmn-pp-remote
       - tpc-full-calib-remote
       - tpc-krypton-qcmn-remote
+    visibleif: $$qc_remote_enabled === "true"  
   tpc_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -622,6 +663,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   tpc_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -629,6 +671,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   trd_dpl_workflow: !public
     value: "none"
     type: string
@@ -651,6 +694,12 @@ defaults:
     values:
       - none
       - qcmn-daq-remote
+      - trd-full-qcmn-epn
+      - trd-full-qcmn-norawdatastats-epn
+      - trd-full-qcmn-nodigits-epn
+      - trd-full-qcmn-notracklets-epn
+      - trd-full-qcmn-nopulseheight-epn
+    visibleif: $$qc_remote_enabled === "true"  
   trd_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -658,6 +707,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   trd_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -665,6 +715,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   tst_dpl_workflow: !public
     value: "none"
     type: string
@@ -687,6 +738,7 @@ defaults:
     values:
       - none
       - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"  
   zdc_dpl_workflow: !public
     value: "none"
     type: string
@@ -709,6 +761,7 @@ defaults:
     values:
       - none
       - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"  
   zdc_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -716,6 +769,7 @@ defaults:
     description: "additional parameters for the DCS SOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   zdc_dcs_eor_parameters: !public
     value: "{}"
     type: string
@@ -723,6 +777,7 @@ defaults:
     description: "additional parameters for the DCS EOR"
     widget: editBox
     panel: DCS
+    visibleif: $$dcs_enabled === "true"
   ###############################
   # TRG Panel
   ###############################
@@ -831,6 +886,7 @@ defaults:
       - "Shifter"
       - "Expert"
     index: -1000
+    visibleif: $$epn_enabled === "true"
   odc_n_epns: !public
     value: "10"
     type: number
@@ -839,6 +895,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -999
+    visibleif: $$epn_enabled === "true"
   odc_n_epns_max_fail: !public
     value: "0"
     type: number
@@ -847,6 +904,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -998
+    visibleif: $$epn_enabled === "true"
   pdp_config_option: !public
     value: "Repository hash"
     type: string
@@ -859,7 +917,7 @@ defaults:
       - "Repository path"
       - "Manual XML"
     index: -800
-    visibleif: $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"
   odc_topology: !public
     value: ""
     type: string
@@ -868,7 +926,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -799
-    visibleif: $$pdp_config_option === "Manual XML"
+    visibleif: $$epn_enabled === "true" && $$pdp_config_option === "Manual XML"
   pdp_o2_data_processing_hash: !public
     value: "default"
     type: string
@@ -877,7 +935,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -799
-    visibleif: $$pdp_config_option === "Repository hash" && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && $$pdp_config_option === "Repository hash" && $$pdp_panel_mode === "Expert"
   pdp_o2_data_processing_path: !public
     value: ""
     type: string
@@ -886,7 +944,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -799
-    visibleif: $$pdp_config_option === "Repository path"
+    visibleif: $$epn_enabled === "true" && $$pdp_config_option === "Repository path"
   pdp_o2pdpsuite_version: !public
     value: "default"
     type: string
@@ -895,7 +953,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -798
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_qcjson_version: !public
     value: "default"
     type: string
@@ -904,7 +962,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -797
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   odc_resources_spec: !public
     value: "default"
     type: string
@@ -913,7 +971,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: -600
-    visibleif: $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"
   stfb_dd_mode: !public
     value: "physics"
     type: string
@@ -925,7 +983,7 @@ defaults:
       - physics
       - topology
     index: -599
-    visibleif: $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"
   tfb_dd_mode: !public
     value: "processing"
     type: string
@@ -939,7 +997,7 @@ defaults:
       - processing
       - processing-disk
     index: -598
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_topology_description_library_file: !public
     value: "production/production.desc"
     type: string
@@ -951,7 +1009,7 @@ defaults:
       - "production/production.desc"
       - "production/no-processing.desc"
     index: 100
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
   pdp_workflow_name: !public
     value: "synchronous-workflow"
     type: string
@@ -963,7 +1021,7 @@ defaults:
       - "synchronous-workflow"
       - "synchronous-workflow-1numa"
     index: 101
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "processing" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
   epn_store_raw_data_fraction: !public
     value: "100"
     type: number
@@ -972,7 +1030,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 102
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "disk" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "disk" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
   pdp_detector_list_global: !public
     value: "default"
     type: string
@@ -981,7 +1039,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 600
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_detector_list_qc: !public
     value: "default"
     type: string
@@ -990,7 +1048,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 601
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_detector_list_calib: !public
     value: "default"
     type: string
@@ -999,7 +1057,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 602
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_workflow_parameters: !public
     value: "QC,CALIB,GPU,CTF,EVENT_DISPLAY"
     type: string
@@ -1008,7 +1066,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 603
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_raw_decoder_multi_factor: !public
     value: "1"
     type: number
@@ -1017,7 +1075,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 604
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_ctf_encoder_multi_factor: !public
     value: "1"
     type: number
@@ -1026,7 +1084,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 605
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_reco_process_multi_factor: !public
     value: "1"
     type: number
@@ -1035,7 +1093,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 606
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_extra_env_vars: !public
     value: ""
     type: string
@@ -1044,7 +1102,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 700
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_epn_shmid: !public
     value: ""
     type: string
@@ -1053,7 +1111,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 701
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_epn_shm_recreate: !public
     value: "false"
     type: bool
@@ -1062,7 +1120,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 701
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_wipe_workflow_cache: !public
     value: "false"
     type: bool
@@ -1071,7 +1129,7 @@ defaults:
     widget: checkBox
     panel: "EPN_Workflows"
     index: 703
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_beam_type: !public
     value: "cosmic"
     type: string
@@ -1086,7 +1144,7 @@ defaults:
       - cosmic
       - technical
     index: 800
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_n_hbf_per_tf: !public
     value: "128"
     type: number
@@ -1095,7 +1153,7 @@ defaults:
     widget: editBox
     panel: "EPN_Workflows"
     index: 801
-    visibleif: ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   odc_partitions_cleanup: !public
     value: "true"
     type: bool
@@ -1104,7 +1162,18 @@ defaults:
     widget: checkBox
     panel: "EPN_Workflows"
     index: 900
-    visibleif: $$pdp_panel_mode === "Expert"
+    visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"
+  ###############################
+  # CTP readout Panel
+  ###############################
+  ctp_readout_host: #!public
+    value: "alio2-cr1-flp163"
+    type: string
+    label: "CTP Readout host"
+    description: "Defines the host that runs CTP readout"
+    widget: editBox
+    panel: "CTP_Readout"
+    index: 0
   ###############################
   # Timeouts
   ###############################
@@ -1146,6 +1215,7 @@ defaults:
   ###############################
   # Other variables
   ###############################    
+  ccdb_enabled: "false"
   dpl_workflow: none
   dpl_command: none
   drop_caches_enabled: "true"
@@ -1170,6 +1240,79 @@ vars:
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
 roles:
+  ##################
+  # CTP Readout role
+  ##################
+  - name: "readout-ctp"
+    enabled: "{{ ctp_readout_enabled == 'true' }}"
+    vars:
+      detector: "{{ctp_readout_enabled == 'true' ? DetectorForHost( ctp_readout_host ) : \"\" }}"
+      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ ctp_readout_host }}"
+      readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-stfb-{{ ctp_readout_host }}"
+      dd_discovery_ib_hostname: "{{ ctp_readout_host }}-ib" # MUST be defined for all stfb and stfs
+    constraints:
+      - attribute: machine_id
+        value:  "{{ ctp_readout_host }}"
+    roles:
+      - name: "readout"
+        vars:
+          readout_cfg_uri: '{{dd_enabled == "true" ? readout_cfg_uri_stfb : readout_cfg_uri_standalone}}'
+        task:
+          load: readout
+      - name: "data-distribution"
+        enabled: "{{ dd_enabled == 'true' }}"
+        roles:
+          - name: "stfb"
+            vars:
+              dd_discovery_stfb_id: stfb-{{ ctp_readout_host }}-{{ NewID() }} # must be defined for all stfb roles
+            connect:
+              - name: readout
+                type: pull
+                target: "{{ Up(2).Path }}.readout:readout"
+                rateLogging: "{{ fmq_rate_logging }}"
+            task:
+              load: stfbuilder-senderoutput
+          - name: "stfs"
+            vars:
+              dd_discovery_stfs_id: stfs-{{ ctp_readout_host }}-{{ NewID() }} # must be defined for all stfs roles
+              stfs_input_channel_name: buildertosender
+            connect:
+              - name: buildertosender
+                type: pull
+                target: "{{ Parent().Path }}.stfb:buildertosender"
+                rateLogging: "{{ fmq_rate_logging }}"
+            task:
+              load: stfsender
+      - name: drop-caches
+        enabled: "{{drop_caches_enabled == 'true'}}"
+        vars:
+          shell_command: echo 3 > /proc/sys/vm/drop_caches && echo "system caches dropped" | O2_SYSTEM=ECS O2_PARTITION={{environment_id}} O2_ROLE={{it}} {{o2_infologger_path}}/bin/o2-infologger-log -x -s Info -o Facility=core/dropcaches
+          user: root
+        task:
+          load: "shell-command"
+          trigger: before_CONFIGURE
+          timeout: "{{ drop_caches_timeout }}"
+          critical: false # TODO: if this is set true, some basic task finished events aren't parsed correctly
+      - name: fairmq-shmcleanup
+        enabled: "{{fmq_initial_shm_cleanup_enabled == 'true'}}"
+        vars:
+          shell_command: "source /etc/profile.d/o2.sh && O2_PARTITION={{environment_id}} O2_ROLE={{it}} o2-aliecs-shmcleaner"
+          user: root
+        task:
+          load: "shell-command"
+          trigger: before_CONFIGURE
+          timeout: "{{ fmq_initial_shm_cleanup_timeout }}"
+          critical: false
+      - name: fairmq-shmmonitor
+        enabled: "{{fmq_cleanup_enabled == 'true'}}"
+        task:
+          load: "fairmq-shmmonitor"
+          trigger: DESTROY
+          timeout: 10s
+          critical: false
+  ##################
+  # CTP Readout role
+  ##################
   - name: host-{{ it }}
     for:
       range: "{{ hosts }}"
@@ -1380,6 +1523,7 @@ roles:
         widget: editBox
         panel: DCS
         index: 2
+        visibleif: $$dcs_enabled === "true"
       dcs_eor_parameters: !public
         value: "{}"
         type: string
@@ -1388,6 +1532,7 @@ roles:
         widget: editBox
         panel: DCS
         index: 3
+        visibleif: $$dcs_enabled === "true"
       run_type: !public # enum from AliECS common/runtype
         value: "PHYSICS"
         type: string
@@ -1410,6 +1555,7 @@ roles:
           - PULSER
           - TECHNICAL
         index: 4
+        visibleif: $$dcs_enabled === "true"
     roles:
       - name: sor
         call:

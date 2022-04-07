@@ -30,6 +30,7 @@ check_pwd
 ./cpv-physics.sh
 ./cpv-physics-testing.sh
 ./cpv-physics-qcmn-epn.sh
+./cpv-noise-calib-qc.sh
 ./fdd-qcmn-remote.sh
 ./fdd-digits-qc-full-nocalib.sh
 ./fdd-digits-qc-full-nocalib-raw.sh
@@ -114,4 +115,8 @@ check_pwd
 ./tpc-qc-post-trending.sh
 ./tpc-qc-post-calib.sh
 ./tpc-qc-post-processing.sh
-
+./trd-qcmn.sh
+./trd-qcmn-nodigits.sh
+./trd-qcmn-nopulseheight.sh
+./trd-qcmn-norawdatastats.sh
+./trd-qcmn-notracklets.sh
