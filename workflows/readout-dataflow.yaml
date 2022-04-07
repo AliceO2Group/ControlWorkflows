@@ -36,14 +36,6 @@ defaults:
     widget: checkBox
     panel: General_Configuration
     index: 2    
-  kafka_enabled: !public
-    value: "false"
-    type: bool
-    label: "Kafka FSM notifications"
-    description: "Enable/disable Kafka notifications"
-    widget: checkBox
-    panel: General_Configuration
-    index: 3
   trg_enabled: !public
     value: "false"
     type: bool
@@ -51,7 +43,7 @@ defaults:
     description: "Enable/disable TRG"
     widget: checkBox
     panel: General_Configuration
-    index: 4
+    index: 3
   trg_global_run_enabled: !public
     value: "false"
     type: bool
@@ -60,7 +52,7 @@ defaults:
     widget: checkBox
     panel: General_Configuration
     visibleif: $$trg_enabled === "true"
-    index: 5
+    index: 4
   ###############################
   # DCS and FLP Workflows Panel
   ###############################
@@ -1225,6 +1217,7 @@ defaults:
   drop_caches_enabled: "true"
   fmq_initial_shm_cleanup_enabled: "true"
   fmq_cleanup_enabled: "true"
+  kafka_enabled: "false"
   minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow
   monitoring_dd_url: "no-op://"
   monitoring_dpl_url: "no-op://"
