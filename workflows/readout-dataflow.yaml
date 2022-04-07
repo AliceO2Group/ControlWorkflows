@@ -612,6 +612,8 @@ defaults:
       - qcmn-daq-remote
       - tpc-full-qcmn-remote
       - tpc-full-nodummy-qcmn-remote
+      - tpc-full-nodummy-qcmn-pp-remote
+      - tpc-full-calib-remote
       - tpc-krypton-qcmn-remote
   tpc_dcs_sor_parameters: !public
     value: "{}"
