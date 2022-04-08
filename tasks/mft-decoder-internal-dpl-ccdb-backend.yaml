@@ -138,6 +138,8 @@ command:
     - "'0'"
     - "--condition-remap"
     - "''"
+    - "--condition-tf-per-query"
+    - "'1'"
     - "--end-value-enumeration"
     - "-1"
     - "--orbit-multiplier-enumeration"

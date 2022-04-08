@@ -134,4 +134,4 @@ command:
     - "--fec-map"
     - "''"
     - "--time-reco-mode"
-    - "'hbpackets'"
+    - "'bcreset'"
