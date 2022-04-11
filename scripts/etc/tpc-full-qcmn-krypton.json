@@ -23,6 +23,42 @@
       }
     },
     "tasks": {
+
+      "RawDigits": {
+        "active": "true",
+        "className": "o2::quality_control_modules::tpc::RawDigits",
+        "moduleName": "QcTPC",
+        "detectorName": "TPC",
+        "cycleDurationSeconds": "60",
+        "resetAfterCycles": "1",
+        "maxNumberCycles": "-1",
+        "dataSource": {
+          "type": "dataSamplingPolicy",
+          "name": "random-rawdata",
+          "query_blubb": "input:TPC/RAWDATA"
+        },
+        "taskParameters": {
+          "NRawDigitsNBins": "100",
+          "NRawDigitsXMin": "0",
+          "NRawDigitsXMax": "100",
+          "QmaxNBins": "200",
+          "QmaxXMin": "0",
+          "QmaxXMax": "200",
+          "TimeBinNBins": "600",
+          "TimeBinXMin": "0",
+          "TimeBinXMax": "600",
+          "mergeableOutput": "true"
+        },
+        "location": "local",
+        "localMachines": [
+          "localhost",
+          "epn"
+        ],
+        "remotePort": "47731",
+        "mergingMode": "delta",
+        "remoteMachine": "alio2-cr1-qts01.cern.ch",
+        "localControl": "odc"
+      },
       "KrClusters": {
         "active": "true",
         "className": "o2::quality_control_modules::tpc::Clusters",
@@ -72,7 +108,8 @@
       "id": "random-kr-cluster",
       "active": "true",
       "machines": [
-        "localhost"
+        "localhost",
+	"epn"
       ],
       "port": "47730",
       "query": "inputClus:TPC/KRCLUSTERS",
@@ -81,6 +118,25 @@
         {
           "condition": "random",
           "fraction": "0.01",
+          "seed": "0",
+          "timesliceId": "tfCounter"
+        }
+      ],
+      "blocking": "false"
+    },
+    {
+      "id": "random-rawdata",
+      "active": "true",
+      "machines": [
+        "localhost",
+        "epn"
+      ],
+      "query": "inputRaw:TPC/RAWDATA",
+      "outputs": "sampled-rawdata:DS/RAWDATA",
+      "samplingConditions": [
+        {
+          "condition": "random",
+          "fraction": "0.001",
           "seed": "0",
           "timesliceId": "tfCounter"
         }
