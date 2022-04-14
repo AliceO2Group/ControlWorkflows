@@ -1,4 +1,4 @@
-name: mft-full-qcmn-remote-internal-dpl-clock
+name: mft-full-qcmn-remote-qc-check-sink-QC_MFTReadoutTre-mo_0
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,55 +13,6 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-clock_to_MFTClusterTask-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MFTDigitTask-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MFTReadoutTask-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-MFTReadoutTrend
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-MFTClusterTask1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-MFTDigitTask1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-MFTReadoutTask1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -91,7 +42,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-clock'"
+    - "'qc-check-sink-QC_MFTReadoutTre-mo_0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
