@@ -1,4 +1,4 @@
-name: mft-full-qcmn-remote-internal-dpl-clock
+name: mft-full-qcmn-remote-PP-TASK-RUNNER-MFTReadoutTrend
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,49 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-clock_to_MFTClusterTask-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MFTDigitTask-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MFTReadoutTask-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-MFTReadoutTrend
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-MFTClusterTask1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-MFTDigitTask1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-MFTReadoutTask1l-0
+  - name: from_PP-TASK-RUNNER-MFTReadoutTrend_to_qc-check-sink-QC_MFTReadoutTre-mo_0
     type: push
     transport: shmem
     addressing: ipc
@@ -91,7 +49,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-clock'"
+    - "'PP-TASK-RUNNER-MFTReadoutTrend'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -167,3 +125,5 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
+    - "--period-timer-pp-MFTReadoutTrend"
+    - "'10000000'"
