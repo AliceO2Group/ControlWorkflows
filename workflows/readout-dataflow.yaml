@@ -1105,9 +1105,9 @@ defaults:
     index: 700
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_epn_shmid: !public
-    value: ""
+    value: "1"
     type: string
-    label: "EPN SHM Id (not working)"
+    label: "EPN SHM Id"
     description: "If the EPN SHM Manager tool is used, the SHMId configured here must match the SHM Id used by the tool"
     widget: editBox
     panel: "EPN_Workflows"
