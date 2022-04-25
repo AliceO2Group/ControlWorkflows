@@ -1754,15 +1754,15 @@ roles:
           trigger: enter_RUNNING
           timeout: 5s
           critical: false
-      - name: done
-        call:
-          func: kafka.Done()
-          trigger: enter_DONE
-          timeout: 5s
-          critical: false
       - name: error
         call:
           func: kafka.Error()
           trigger: enter_ERROR
+          timeout: 5s
+          critical: false
+      - name: destroy
+        call:
+          func: kafka.Destroy()
+          trigger: DESTROY
           timeout: 5s
           critical: false
