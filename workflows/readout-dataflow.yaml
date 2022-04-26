@@ -1739,13 +1739,13 @@ roles:
       - name: updatestart
         call:
           func: bookkeeping.UpdateRunStart()
-          trigger: after_START_ACTIVITY
+          trigger: after_START_ACTIVITY+100
           timeout: 10s
           critical: false
       - name: updatestop
         call:
           func: bookkeeping.UpdateRunStop()
-          trigger: after_STOP_ACTIVITY
+          trigger: after_STOP_ACTIVITY+100
           timeout: 10s
           critical: false
   - name: kafka
