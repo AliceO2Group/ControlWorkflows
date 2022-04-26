@@ -1727,6 +1727,27 @@ roles:
           trigger: before_STOP_ACTIVITY
           timeout: 10s
           critical: false
+  - name: bookkeeping
+    enabled: "{{bookkeeping_enabled == 'true'}}"
+    roles:
+      - name: start
+        call:
+          func: bookkeeping.StartOfRun()
+          trigger: after_START_ACTIVITY
+          timeout: 10s
+          critical: false
+      - name: updatestart
+        call:
+          func: bookkeeping.UpdateRunStart()
+          trigger: after_START_ACTIVITY
+          timeout: 10s
+          critical: false
+      - name: updatestop
+        call:
+          func: bookkeeping.UpdateRunStop()
+          trigger: after_STOP_ACTIVITY
+          timeout: 10s
+          critical: false
   - name: kafka
     enabled: "{{ kafka_enabled == 'true' }}"
     roles:
