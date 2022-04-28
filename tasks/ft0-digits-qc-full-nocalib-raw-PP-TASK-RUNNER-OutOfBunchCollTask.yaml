@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_PP-TASK-RUNNER-OutOfBunchCollTask_to_qc-check-FT0OutOfBunchCollCheck
+  - name: from_PP-TASK-RUNNER-OutOfBunchCollTask_to_qc-check-FT0-OutOfBunchCollCheck
     type: push
     transport: shmem
     addressing: ipc

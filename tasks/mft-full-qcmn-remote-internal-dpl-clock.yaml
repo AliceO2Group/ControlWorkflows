@@ -13,21 +13,21 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-clock_to_MFTClusterTask-proxy
+  - name: from_internal-dpl-clock_to_MFT-MFTClusterTask-proxy
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MFTDigitTask-proxy
+  - name: from_internal-dpl-clock_to_MFT-MFTDigitTask-proxy
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MFTReadoutTask-proxy
+  - name: from_internal-dpl-clock_to_MFT-MFTReadoutTask-proxy
     type: push
     transport: shmem
     addressing: ipc

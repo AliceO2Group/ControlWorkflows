@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-CPV-PedestalsOnFLP_to_qc-check-CPVPedestalsOnFLPCheck
+  - name: from_qc-task-CPV-PedestalsOnFLP_to_qc-check-CPV-PedestalsOnFLPCheck
     type: push
     transport: shmem
     addressing: ipc

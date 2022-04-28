@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-clock_to_QcMFTReadoutTask-proxy
+  - name: from_internal-dpl-clock_to_MFT-QcMFTReadoutTask-proxy
     type: push
     transport: shmem
     addressing: ipc

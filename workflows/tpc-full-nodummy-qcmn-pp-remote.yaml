@@ -20,78 +20,78 @@ roles:
     connect:
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-internal-dpl-clock
-  - name: "Clusters-proxy"
+  - name: "TPC-Clusters-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_Clusters-proxy
+    - name: from_internal-dpl-clock_to_TPC-Clusters-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Clusters-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-Clusters-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: Clusters-proxy
+    - name: TPC-Clusters-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47730"
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-Clusters-proxy
-  - name: "PID-proxy"
+      load: tpc-full-nodummy-qcmn-pp-remote-TPC-Clusters-proxy
+  - name: "TPC-PID-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_PID-proxy
+    - name: from_internal-dpl-clock_to_TPC-PID-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PID-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-PID-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: PID-proxy
+    - name: TPC-PID-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47732"
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-PID-proxy
-  - name: "RawDigits-proxy"
+      load: tpc-full-nodummy-qcmn-pp-remote-TPC-PID-proxy
+  - name: "TPC-RawDigits-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_RawDigits-proxy
+    - name: from_internal-dpl-clock_to_TPC-RawDigits-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_RawDigits-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-RawDigits-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: RawDigits-proxy
+    - name: TPC-RawDigits-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47731"
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-RawDigits-proxy
-  - name: "Tracks-proxy"
+      load: tpc-full-nodummy-qcmn-pp-remote-TPC-RawDigits-proxy
+  - name: "TPC-Tracks-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_Tracks-proxy
+    - name: from_internal-dpl-clock_to_TPC-Tracks-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Tracks-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-Tracks-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: Tracks-proxy
+    - name: TPC-Tracks-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47733"
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-Tracks-proxy
+      load: tpc-full-nodummy-qcmn-pp-remote-TPC-Tracks-proxy
   - name: "PP-TASK-RUNNER-Clusters"
     connect:
     - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-Clusters
@@ -156,10 +156,10 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Clusters-proxy_to_MERGER-Clusters1l-0
+    - name: from_TPC-Clusters-proxy_to_MERGER-Clusters1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Clusters-proxy:from_Clusters-proxy_to_MERGER-Clusters1l-0"
+      target: "{{ Parent().Path }}.TPC-Clusters-proxy:from_TPC-Clusters-proxy_to_MERGER-Clusters1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -174,10 +174,10 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_PID-proxy_to_MERGER-PID1l-0
+    - name: from_TPC-PID-proxy_to_MERGER-PID1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PID-proxy:from_PID-proxy_to_MERGER-PID1l-0"
+      target: "{{ Parent().Path }}.TPC-PID-proxy:from_TPC-PID-proxy_to_MERGER-PID1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -192,10 +192,10 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_RawDigits-proxy_to_MERGER-RawDigits1l-0
+    - name: from_TPC-RawDigits-proxy_to_MERGER-RawDigits1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.RawDigits-proxy:from_RawDigits-proxy_to_MERGER-RawDigits1l-0"
+      target: "{{ Parent().Path }}.TPC-RawDigits-proxy:from_TPC-RawDigits-proxy_to_MERGER-RawDigits1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -210,37 +210,37 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_Tracks-proxy_to_MERGER-Tracks1l-0
+    - name: from_TPC-Tracks-proxy_to_MERGER-Tracks1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.Tracks-proxy:from_Tracks-proxy_to_MERGER-Tracks1l-0"
+      target: "{{ Parent().Path }}.TPC-Tracks-proxy:from_TPC-Tracks-proxy_to_MERGER-Tracks1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-MERGER-Tracks1l-0
-  - name: "qc-check-TPCCheckOfPID_Trending"
+  - name: "qc-check-TPC-CheckOfPID_Trending"
     connect:
-    - name: from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPCCheckOfPID_Trending
+    - name: from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPC-CheckOfPID_Trending
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-PID_Trending:from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPCCheckOfPID_Trending"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-PID_Trending:from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPC-CheckOfPID_Trending"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-qc-check-TPCCheckOfPID_Trending
-  - name: "qc-check-TPCCheckOfTrack_Trending"
+      load: tpc-full-nodummy-qcmn-pp-remote-qc-check-TPC-CheckOfPID_Trending
+  - name: "qc-check-TPC-CheckOfTrack_Trending"
     connect:
-    - name: from_PP-TASK-RUNNER-Tracks_Trending_to_qc-check-TPCCheckOfTrack_Trending
+    - name: from_PP-TASK-RUNNER-Tracks_Trending_to_qc-check-TPC-CheckOfTrack_Trending
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Tracks_Trending:from_PP-TASK-RUNNER-Tracks_Trending_to_qc-check-TPCCheckOfTrack_Trending"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Tracks_Trending:from_PP-TASK-RUNNER-Tracks_Trending_to_qc-check-TPC-CheckOfTrack_Trending"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-qc-check-TPCCheckOfTrack_Trending
+      load: tpc-full-nodummy-qcmn-pp-remote-qc-check-TPC-CheckOfTrack_Trending
   - name: "qc-check-sink-QC_Clusters-mo_0"
     connect:
     - name: from_PP-TASK-RUNNER-Clusters_to_qc-check-sink-QC_Clusters-mo_0
@@ -276,17 +276,17 @@ roles:
       load: tpc-full-nodummy-qcmn-pp-remote-qc-check-sink-QC_RawDigits-mo_0
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_qc-check-TPCCheckOfPID_Trending_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-TPC-CheckOfPID_Trending_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-TPCCheckOfPID_Trending:from_qc-check-TPCCheckOfPID_Trending_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-TPC-CheckOfPID_Trending:from_qc-check-TPC-CheckOfPID_Trending_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_qc-check-TPCCheckOfTrack_Trending_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-TPC-CheckOfTrack_Trending_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-TPCCheckOfTrack_Trending:from_qc-check-TPCCheckOfTrack_Trending_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-TPC-CheckOfTrack_Trending:from_qc-check-TPC-CheckOfTrack_Trending_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
