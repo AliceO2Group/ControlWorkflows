@@ -7,7 +7,7 @@ set -u; # exit on undefined variable
 WF_NAME=ft0-digits-pipe
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
-N_PIPELINES=5
+N_PIPELINES=7
 cd ..
 
 # Generate the AliECS workflow and task templates
