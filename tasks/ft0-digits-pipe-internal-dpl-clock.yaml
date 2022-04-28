@@ -48,6 +48,20 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+  - name: from_internal-dpl-clock_to_readout-proxy_t5
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_internal-dpl-clock_to_readout-proxy_t6
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -117,7 +131,7 @@ command:
     - "--labels"
     - "''"
     - "--pipeline"
-    - "'readout-proxy:5'"
+    - "'readout-proxy:7'"
     - "--proxy-name"
     - "'readout-proxy'"
     - "--readers"
