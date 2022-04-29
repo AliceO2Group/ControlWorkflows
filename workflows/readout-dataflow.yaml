@@ -1216,6 +1216,7 @@ defaults:
   ###############################
   # Other variables
   ###############################    
+  bookkeeping_enabled: "true"
   ccdb_enabled: "false"
   dpl_workflow: none
   dpl_command: none
