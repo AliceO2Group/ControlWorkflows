@@ -66,6 +66,17 @@ roles:
       rcvBufSize: 4
     task:
       load: fv0-digits-qc-full-PP-TASK-RUNNER-TrendingTask
+  - name: "internal-dpl-ccdb-backend"
+    connect:
+    - name: from_readout-proxy_to_internal-dpl-ccdb-backend
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_internal-dpl-ccdb-backend"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: fv0-digits-qc-full-internal-dpl-ccdb-backend
   - name: "fv0-datareader-dpl"
     connect:
     - name: from_readout-proxy_to_fv0-datareader-dpl
@@ -77,17 +88,17 @@ roles:
       rcvBufSize: 4
     task:
       load: fv0-digits-qc-full-fv0-datareader-dpl
-  - name: "qc-check-FV0OutOfBunchCollCheck"
+  - name: "qc-check-FV0-OutOfBunchCollCheck"
     connect:
-    - name: from_PP-TASK-RUNNER-OutOfBunchCollTask_to_qc-check-FV0OutOfBunchCollCheck
+    - name: from_PP-TASK-RUNNER-OutOfBunchCollTask_to_qc-check-FV0-OutOfBunchCollCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-OutOfBunchCollTask:from_PP-TASK-RUNNER-OutOfBunchCollTask_to_qc-check-FV0OutOfBunchCollCheck"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-OutOfBunchCollTask:from_PP-TASK-RUNNER-OutOfBunchCollTask_to_qc-check-FV0-OutOfBunchCollCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: fv0-digits-qc-full-qc-check-FV0OutOfBunchCollCheck
+      load: fv0-digits-qc-full-qc-check-FV0-OutOfBunchCollCheck
   - name: "FV0DigitWriterRaw"
     connect:
     - name: from_fv0-datareader-dpl_to_FV0DigitWriterRaw
@@ -184,6 +195,13 @@ roles:
       load: fv0-digits-qc-full-qc-task-FV0-TriggerQcTask
   - name: "calib-fv0-channel-time"
     connect:
+    - name: from_internal-dpl-ccdb-backend_to_calib-fv0-channel-time
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-ccdb-backend:from_internal-dpl-ccdb-backend_to_calib-fv0-channel-time"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: from_FV0TFProcessor_to_calib-fv0-channel-time
       type: pull
       transport: shmem
@@ -193,17 +211,17 @@ roles:
       rcvBufSize: 4
     task:
       load: fv0-digits-qc-full-calib-fv0-channel-time
-  - name: "qc-check-FV0CFDEffCheck"
+  - name: "qc-check-FV0-CFDEffCheck"
     connect:
-    - name: from_qc-task-FV0-DigitQcTask_to_qc-check-FV0CFDEffCheck
+    - name: from_qc-task-FV0-DigitQcTask_to_qc-check-FV0-CFDEffCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-FV0-DigitQcTask:from_qc-task-FV0-DigitQcTask_to_qc-check-FV0CFDEffCheck"
+      target: "{{ Parent().Path }}.qc-task-FV0-DigitQcTask:from_qc-task-FV0-DigitQcTask_to_qc-check-FV0-CFDEffCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: fv0-digits-qc-full-qc-check-FV0CFDEffCheck
+      load: fv0-digits-qc-full-qc-check-FV0-CFDEffCheck
   - name: "qc-check-sink-QC_PostProcTask-mo_0"
     connect:
     - name: from_PP-TASK-RUNNER-PostProcTask_to_qc-check-sink-QC_PostProcTask-mo_0
@@ -261,17 +279,24 @@ roles:
       load: fv0-digits-qc-full-ccdb-populator
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_qc-check-FV0OutOfBunchCollCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_internal-dpl-ccdb-backend_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-FV0OutOfBunchCollCheck:from_qc-check-FV0OutOfBunchCollCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.internal-dpl-ccdb-backend:from_internal-dpl-ccdb-backend_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_qc-check-FV0CFDEffCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-FV0-OutOfBunchCollCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-FV0CFDEffCheck:from_qc-check-FV0CFDEffCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-FV0-OutOfBunchCollCheck:from_qc-check-FV0-OutOfBunchCollCheck_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_qc-check-FV0-CFDEffCheck_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-FV0-CFDEffCheck:from_qc-check-FV0-CFDEffCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

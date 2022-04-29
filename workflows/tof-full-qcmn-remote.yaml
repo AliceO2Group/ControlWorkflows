@@ -20,24 +20,24 @@ roles:
     connect:
     task:
       load: tof-full-qcmn-remote-internal-dpl-clock
-  - name: "TaskRaw-proxy"
+  - name: "TOF-TaskRaw-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_TaskRaw-proxy
+    - name: from_internal-dpl-clock_to_TOF-TaskRaw-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TaskRaw-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TOF-TaskRaw-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: TaskRaw-proxy
+    - name: TOF-TaskRaw-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
-      global: "TaskRaw-proxy"
+      global: "TOF-TaskRaw-proxy"
     task:
-      load: tof-full-qcmn-remote-TaskRaw-proxy
+      load: tof-full-qcmn-remote-TOF-TaskRaw-proxy
   - name: "PP-TASK-RUNNER-TOFTrendingHits"
     connect:
     - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-TOFTrendingHits
@@ -49,24 +49,24 @@ roles:
       rcvBufSize: 4
     task:
       load: tof-full-qcmn-remote-PP-TASK-RUNNER-TOFTrendingHits
-  - name: "TaskDigits-proxy"
+  - name: "TOF-TaskDigits-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_TaskDigits-proxy
+    - name: from_internal-dpl-clock_to_TOF-TaskDigits-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TaskDigits-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TOF-TaskDigits-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: TaskDigits-proxy
+    - name: TOF-TaskDigits-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47708"
     task:
-      load: tof-full-qcmn-remote-TaskDigits-proxy
+      load: tof-full-qcmn-remote-TOF-TaskDigits-proxy
   - name: "MERGER-TaskDigits1l-0"
     connect:
     - name: from_internal-dpl-clock_to_MERGER-TaskDigits1l-0
@@ -76,10 +76,10 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_TaskDigits-proxy_to_MERGER-TaskDigits1l-0
+    - name: from_TOF-TaskDigits-proxy_to_MERGER-TaskDigits1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TaskDigits-proxy:from_TaskDigits-proxy_to_MERGER-TaskDigits1l-0"
+      target: "{{ Parent().Path }}.TOF-TaskDigits-proxy:from_TOF-TaskDigits-proxy_to_MERGER-TaskDigits1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -94,37 +94,37 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_TaskRaw-proxy_to_MERGER-TaskRaw1l-0
+    - name: from_TOF-TaskRaw-proxy_to_MERGER-TaskRaw1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TaskRaw-proxy:from_TaskRaw-proxy_to_MERGER-TaskRaw1l-0"
+      target: "{{ Parent().Path }}.TOF-TaskRaw-proxy:from_TOF-TaskRaw-proxy_to_MERGER-TaskRaw1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
       load: tof-full-qcmn-remote-MERGER-TaskRaw1l-0
-  - name: "qc-check-TOF3920"
+  - name: "qc-check-TOF-3920"
     connect:
-    - name: from_MERGER-TaskDigits1l-0_to_qc-check-TOF3920
+    - name: from_MERGER-TaskDigits1l-0_to_qc-check-TOF-3920
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-TaskDigits1l-0:from_MERGER-TaskDigits1l-0_to_qc-check-TOF3920"
+      target: "{{ Parent().Path }}.MERGER-TaskDigits1l-0:from_MERGER-TaskDigits1l-0_to_qc-check-TOF-3920"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-full-qcmn-remote-qc-check-TOF3920
-  - name: "qc-check-TOFJRA0"
+      load: tof-full-qcmn-remote-qc-check-TOF-3920
+  - name: "qc-check-TOF-JRA0"
     connect:
-    - name: from_MERGER-TaskRaw1l-0_to_qc-check-TOFJRA0
+    - name: from_MERGER-TaskRaw1l-0_to_qc-check-TOF-JRA0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-TaskRaw1l-0:from_MERGER-TaskRaw1l-0_to_qc-check-TOFJRA0"
+      target: "{{ Parent().Path }}.MERGER-TaskRaw1l-0:from_MERGER-TaskRaw1l-0_to_qc-check-TOF-JRA0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-full-qcmn-remote-qc-check-TOFJRA0
+      load: tof-full-qcmn-remote-qc-check-TOF-JRA0
   - name: "qc-check-sink-QC_TOFTrendingHi-mo_0"
     connect:
     - name: from_PP-TASK-RUNNER-TOFTrendingHits_to_qc-check-sink-QC_TOFTrendingHi-mo_0
@@ -138,17 +138,17 @@ roles:
       load: tof-full-qcmn-remote-qc-check-sink-QC_TOFTrendingHi-mo_0
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_qc-check-TOF3920_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-TOF-3920_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-TOF3920:from_qc-check-TOF3920_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-TOF-3920:from_qc-check-TOF-3920_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_qc-check-TOFJRA0_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-TOF-JRA0_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-TOFJRA0:from_qc-check-TOFJRA0_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-TOF-JRA0:from_qc-check-TOF-JRA0_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

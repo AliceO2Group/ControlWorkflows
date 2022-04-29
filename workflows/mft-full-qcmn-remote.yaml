@@ -20,60 +20,60 @@ roles:
     connect:
     task:
       load: mft-full-qcmn-remote-internal-dpl-clock
-  - name: "MFTClusterTask-proxy"
+  - name: "MFT-MFTClusterTask-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_MFTClusterTask-proxy
+    - name: from_internal-dpl-clock_to_MFT-MFTClusterTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MFTClusterTask-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MFT-MFTClusterTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: MFTClusterTask-proxy
+    - name: MFT-MFTClusterTask-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47797"
     task:
-      load: mft-full-qcmn-remote-MFTClusterTask-proxy
-  - name: "MFTDigitTask-proxy"
+      load: mft-full-qcmn-remote-MFT-MFTClusterTask-proxy
+  - name: "MFT-MFTDigitTask-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_MFTDigitTask-proxy
+    - name: from_internal-dpl-clock_to_MFT-MFTDigitTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MFTDigitTask-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MFT-MFTDigitTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: MFTDigitTask-proxy
+    - name: MFT-MFTDigitTask-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
-      global: "MFTDigitTask-proxy"
+      global: "MFT-MFTDigitTask-proxy"
     task:
-      load: mft-full-qcmn-remote-MFTDigitTask-proxy
-  - name: "MFTReadoutTask-proxy"
+      load: mft-full-qcmn-remote-MFT-MFTDigitTask-proxy
+  - name: "MFT-MFTReadoutTask-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_MFTReadoutTask-proxy
+    - name: from_internal-dpl-clock_to_MFT-MFTReadoutTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MFTReadoutTask-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MFT-MFTReadoutTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: MFTReadoutTask-proxy
+    - name: MFT-MFTReadoutTask-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
-      global: "MFTReadoutTask-proxy"
+      global: "MFT-MFTReadoutTask-proxy"
     task:
-      load: mft-full-qcmn-remote-MFTReadoutTask-proxy
+      load: mft-full-qcmn-remote-MFT-MFTReadoutTask-proxy
   - name: "PP-TASK-RUNNER-MFTReadoutTrend"
     connect:
     - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-MFTReadoutTrend
@@ -94,10 +94,10 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_MFTClusterTask-proxy_to_MERGER-MFTClusterTask1l-0
+    - name: from_MFT-MFTClusterTask-proxy_to_MERGER-MFTClusterTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MFTClusterTask-proxy:from_MFTClusterTask-proxy_to_MERGER-MFTClusterTask1l-0"
+      target: "{{ Parent().Path }}.MFT-MFTClusterTask-proxy:from_MFT-MFTClusterTask-proxy_to_MERGER-MFTClusterTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -112,10 +112,10 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_MFTDigitTask-proxy_to_MERGER-MFTDigitTask1l-0
+    - name: from_MFT-MFTDigitTask-proxy_to_MERGER-MFTDigitTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MFTDigitTask-proxy:from_MFTDigitTask-proxy_to_MERGER-MFTDigitTask1l-0"
+      target: "{{ Parent().Path }}.MFT-MFTDigitTask-proxy:from_MFT-MFTDigitTask-proxy_to_MERGER-MFTDigitTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -130,48 +130,48 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_MFTReadoutTask-proxy_to_MERGER-MFTReadoutTask1l-0
+    - name: from_MFT-MFTReadoutTask-proxy_to_MERGER-MFTReadoutTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MFTReadoutTask-proxy:from_MFTReadoutTask-proxy_to_MERGER-MFTReadoutTask1l-0"
+      target: "{{ Parent().Path }}.MFT-MFTReadoutTask-proxy:from_MFT-MFTReadoutTask-proxy_to_MERGER-MFTReadoutTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
       load: mft-full-qcmn-remote-MERGER-MFTReadoutTask1l-0
-  - name: "qc-check-MFTMFTClusterCheck"
+  - name: "qc-check-MFT-MFTClusterCheck"
     connect:
-    - name: from_MERGER-MFTClusterTask1l-0_to_qc-check-MFTMFTClusterCheck
+    - name: from_MERGER-MFTClusterTask1l-0_to_qc-check-MFT-MFTClusterCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-MFTClusterTask1l-0:from_MERGER-MFTClusterTask1l-0_to_qc-check-MFTMFTClusterCheck"
+      target: "{{ Parent().Path }}.MERGER-MFTClusterTask1l-0:from_MERGER-MFTClusterTask1l-0_to_qc-check-MFT-MFTClusterCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-full-qcmn-remote-qc-check-MFTMFTClusterCheck
-  - name: "qc-check-MFTMFTDigitCheck"
+      load: mft-full-qcmn-remote-qc-check-MFT-MFTClusterCheck
+  - name: "qc-check-MFT-MFTDigitCheck"
     connect:
-    - name: from_MERGER-MFTDigitTask1l-0_to_qc-check-MFTMFTDigitCheck
+    - name: from_MERGER-MFTDigitTask1l-0_to_qc-check-MFT-MFTDigitCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-MFTDigitTask1l-0:from_MERGER-MFTDigitTask1l-0_to_qc-check-MFTMFTDigitCheck"
+      target: "{{ Parent().Path }}.MERGER-MFTDigitTask1l-0:from_MERGER-MFTDigitTask1l-0_to_qc-check-MFT-MFTDigitCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-full-qcmn-remote-qc-check-MFTMFTDigitCheck
-  - name: "qc-check-MFTMFTReadoutCheck"
+      load: mft-full-qcmn-remote-qc-check-MFT-MFTDigitCheck
+  - name: "qc-check-MFT-MFTReadoutCheck"
     connect:
-    - name: from_MERGER-MFTReadoutTask1l-0_to_qc-check-MFTMFTReadoutCheck
+    - name: from_MERGER-MFTReadoutTask1l-0_to_qc-check-MFT-MFTReadoutCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-MFTReadoutTask1l-0:from_MERGER-MFTReadoutTask1l-0_to_qc-check-MFTMFTReadoutCheck"
+      target: "{{ Parent().Path }}.MERGER-MFTReadoutTask1l-0:from_MERGER-MFTReadoutTask1l-0_to_qc-check-MFT-MFTReadoutCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-full-qcmn-remote-qc-check-MFTMFTReadoutCheck
+      load: mft-full-qcmn-remote-qc-check-MFT-MFTReadoutCheck
   - name: "qc-check-sink-QC_MFTReadoutTre-mo_0"
     connect:
     - name: from_PP-TASK-RUNNER-MFTReadoutTrend_to_qc-check-sink-QC_MFTReadoutTre-mo_0
@@ -185,24 +185,24 @@ roles:
       load: mft-full-qcmn-remote-qc-check-sink-QC_MFTReadoutTre-mo_0
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_qc-check-MFTMFTClusterCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-MFT-MFTClusterCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-MFTMFTClusterCheck:from_qc-check-MFTMFTClusterCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-MFT-MFTClusterCheck:from_qc-check-MFT-MFTClusterCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_qc-check-MFTMFTDigitCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-MFT-MFTDigitCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-MFTMFTDigitCheck:from_qc-check-MFTMFTDigitCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-MFT-MFTDigitCheck:from_qc-check-MFT-MFTDigitCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_qc-check-MFTMFTReadoutCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-MFT-MFTReadoutCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-MFTMFTReadoutCheck:from_qc-check-MFTMFTReadoutCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-MFT-MFTReadoutCheck:from_qc-check-MFT-MFTReadoutCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

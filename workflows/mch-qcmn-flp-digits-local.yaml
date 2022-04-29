@@ -98,22 +98,22 @@ roles:
       rcvBufSize: 4
     task:
       load: mch-qcmn-flp-digits-local-internal-dpl-injected-dummy-sink
-  - name: "QcTaskMCHDigits-proxy"
+  - name: "MCH-QcTaskMCHDigits-proxy"
     connect:
-    - name: from_qc-task-MCH-QcTaskMCHDigits_to_QcTaskMCHDigits-proxy
+    - name: from_qc-task-MCH-QcTaskMCHDigits_to_MCH-QcTaskMCHDigits-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-MCH-QcTaskMCHDigits:from_qc-task-MCH-QcTaskMCHDigits_to_QcTaskMCHDigits-proxy"
+      target: "{{ Parent().Path }}.qc-task-MCH-QcTaskMCHDigits:from_qc-task-MCH-QcTaskMCHDigits_to_MCH-QcTaskMCHDigits-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: QcTaskMCHDigits-proxy
+    - name: MCH-QcTaskMCHDigits-proxy
       type: pub
       transport: zeromq
-      target: "::QcTaskMCHDigits-proxy"
+      target: "::MCH-QcTaskMCHDigits-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mch-qcmn-flp-digits-local-QcTaskMCHDigits-proxy
+      load: mch-qcmn-flp-digits-local-MCH-QcTaskMCHDigits-proxy
   - name: "dpl-output-proxy"
     connect:
     - name: from_Dispatcher_to_dpl-output-proxy

@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-MFT-MFTReadoutTask_to_MFTReadoutTask-proxy
+  - name: from_qc-task-MFT-MFTReadoutTask_to_MFT-MFTReadoutTask-proxy
     type: push
     transport: shmem
     addressing: ipc

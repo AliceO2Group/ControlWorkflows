@@ -71,28 +71,28 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-qc-post-processing-remote-PP-TASK-RUNNER-Tracks_Trending
-  - name: "qc-check-TPCCheckOfPID_Trending"
+  - name: "qc-check-TPC-CheckOfPID_Trending"
     connect:
-    - name: from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPCCheckOfPID_Trending
+    - name: from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPC-CheckOfPID_Trending
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-PID_Trending:from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPCCheckOfPID_Trending"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-PID_Trending:from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPC-CheckOfPID_Trending"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-qc-post-processing-remote-qc-check-TPCCheckOfPID_Trending
-  - name: "qc-check-TPCCheckOfTrack_Trending"
+      load: tpc-qc-post-processing-remote-qc-check-TPC-CheckOfPID_Trending
+  - name: "qc-check-TPC-CheckOfTrack_Trending"
     connect:
-    - name: from_PP-TASK-RUNNER-Tracks_Trending_to_qc-check-TPCCheckOfTrack_Trending
+    - name: from_PP-TASK-RUNNER-Tracks_Trending_to_qc-check-TPC-CheckOfTrack_Trending
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Tracks_Trending:from_PP-TASK-RUNNER-Tracks_Trending_to_qc-check-TPCCheckOfTrack_Trending"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Tracks_Trending:from_PP-TASK-RUNNER-Tracks_Trending_to_qc-check-TPC-CheckOfTrack_Trending"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-qc-post-processing-remote-qc-check-TPCCheckOfTrack_Trending
+      load: tpc-qc-post-processing-remote-qc-check-TPC-CheckOfTrack_Trending
   - name: "qc-check-sink-QC_Clusters-mo_0"
     connect:
     - name: from_PP-TASK-RUNNER-Clusters_to_qc-check-sink-QC_Clusters-mo_0
@@ -128,17 +128,17 @@ roles:
       load: tpc-qc-post-processing-remote-qc-check-sink-QC_RawDigits-mo_0
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_qc-check-TPCCheckOfPID_Trending_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-TPC-CheckOfPID_Trending_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-TPCCheckOfPID_Trending:from_qc-check-TPCCheckOfPID_Trending_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-TPC-CheckOfPID_Trending:from_qc-check-TPC-CheckOfPID_Trending_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_qc-check-TPCCheckOfTrack_Trending_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-TPC-CheckOfTrack_Trending_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-TPCCheckOfTrack_Trending:from_qc-check-TPCCheckOfTrack_Trending_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-TPC-CheckOfTrack_Trending:from_qc-check-TPC-CheckOfTrack_Trending_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
