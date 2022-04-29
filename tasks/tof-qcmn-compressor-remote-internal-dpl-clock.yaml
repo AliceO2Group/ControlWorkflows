@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-clock_to_TaskRaw-proxy
+  - name: from_internal-dpl-clock_to_TOF-TaskRaw-proxy
     type: push
     transport: shmem
     addressing: ipc

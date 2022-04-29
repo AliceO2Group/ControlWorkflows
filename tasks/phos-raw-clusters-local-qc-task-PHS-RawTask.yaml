@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-PHS-RawTask_to_RawTask-proxy
+  - name: from_qc-task-PHS-RawTask_to_PHS-RawTask-proxy
     type: push
     transport: shmem
     addressing: ipc

@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-ITS-FHRTask_to_FHRTask-proxy
+  - name: from_qc-task-ITS-FHRTask_to_ITS-FHRTask-proxy
     type: push
     transport: shmem
     addressing: ipc

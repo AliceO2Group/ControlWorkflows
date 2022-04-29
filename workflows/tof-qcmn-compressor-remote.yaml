@@ -20,24 +20,24 @@ roles:
     connect:
     task:
       load: tof-qcmn-compressor-remote-internal-dpl-clock
-  - name: "TaskRaw-proxy"
+  - name: "TOF-TaskRaw-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_TaskRaw-proxy
+    - name: from_internal-dpl-clock_to_TOF-TaskRaw-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TaskRaw-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TOF-TaskRaw-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: TaskRaw-proxy
+    - name: TOF-TaskRaw-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
-      global: "TaskRaw-proxy"
+      global: "TOF-TaskRaw-proxy"
     task:
-      load: tof-qcmn-compressor-remote-TaskRaw-proxy
+      load: tof-qcmn-compressor-remote-TOF-TaskRaw-proxy
   - name: "MERGER-TaskRaw1l-0"
     connect:
     - name: from_internal-dpl-clock_to_MERGER-TaskRaw1l-0
@@ -47,32 +47,32 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_TaskRaw-proxy_to_MERGER-TaskRaw1l-0
+    - name: from_TOF-TaskRaw-proxy_to_MERGER-TaskRaw1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TaskRaw-proxy:from_TaskRaw-proxy_to_MERGER-TaskRaw1l-0"
+      target: "{{ Parent().Path }}.TOF-TaskRaw-proxy:from_TOF-TaskRaw-proxy_to_MERGER-TaskRaw1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
       load: tof-qcmn-compressor-remote-MERGER-TaskRaw1l-0
-  - name: "qc-check-TOFJRA0"
+  - name: "qc-check-TOF-JRA0"
     connect:
-    - name: from_MERGER-TaskRaw1l-0_to_qc-check-TOFJRA0
+    - name: from_MERGER-TaskRaw1l-0_to_qc-check-TOF-JRA0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-TaskRaw1l-0:from_MERGER-TaskRaw1l-0_to_qc-check-TOFJRA0"
+      target: "{{ Parent().Path }}.MERGER-TaskRaw1l-0:from_MERGER-TaskRaw1l-0_to_qc-check-TOF-JRA0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-qcmn-compressor-remote-qc-check-TOFJRA0
+      load: tof-qcmn-compressor-remote-qc-check-TOF-JRA0
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_qc-check-TOFJRA0_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-TOF-JRA0_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-TOFJRA0:from_qc-check-TOFJRA0_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-TOF-JRA0:from_qc-check-TOF-JRA0_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

@@ -77,17 +77,17 @@ roles:
       rcvBufSize: 4
     task:
       load: ft0-digits-qc-full-nocalib-ft0-datareader-dpl
-  - name: "qc-check-FT0OutOfBunchCollCheck"
+  - name: "qc-check-FT0-OutOfBunchCollCheck"
     connect:
-    - name: from_PP-TASK-RUNNER-OutOfBunchCollTask_to_qc-check-FT0OutOfBunchCollCheck
+    - name: from_PP-TASK-RUNNER-OutOfBunchCollTask_to_qc-check-FT0-OutOfBunchCollCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-OutOfBunchCollTask:from_PP-TASK-RUNNER-OutOfBunchCollTask_to_qc-check-FT0OutOfBunchCollCheck"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-OutOfBunchCollTask:from_PP-TASK-RUNNER-OutOfBunchCollTask_to_qc-check-FT0-OutOfBunchCollCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: ft0-digits-qc-full-nocalib-qc-check-FT0OutOfBunchCollCheck
+      load: ft0-digits-qc-full-nocalib-qc-check-FT0-OutOfBunchCollCheck
   - name: "FT0DigitWriterRaw"
     connect:
     - name: from_ft0-datareader-dpl_to_FT0DigitWriterRaw
@@ -153,17 +153,17 @@ roles:
       rcvBufSize: 4
     task:
       load: ft0-digits-qc-full-nocalib-qc-task-FT0-TriggerQcTask
-  - name: "qc-check-FT0CFDEffCheck"
+  - name: "qc-check-FT0-CFDEffCheck"
     connect:
-    - name: from_qc-task-FT0-DigitQcTask_to_qc-check-FT0CFDEffCheck
+    - name: from_qc-task-FT0-DigitQcTask_to_qc-check-FT0-CFDEffCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-FT0-DigitQcTask:from_qc-task-FT0-DigitQcTask_to_qc-check-FT0CFDEffCheck"
+      target: "{{ Parent().Path }}.qc-task-FT0-DigitQcTask:from_qc-task-FT0-DigitQcTask_to_qc-check-FT0-CFDEffCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: ft0-digits-qc-full-nocalib-qc-check-FT0CFDEffCheck
+      load: ft0-digits-qc-full-nocalib-qc-check-FT0-CFDEffCheck
   - name: "qc-check-sink-QC_PostProcTask-mo_0"
     connect:
     - name: from_PP-TASK-RUNNER-PostProcTask_to_qc-check-sink-QC_PostProcTask-mo_0
@@ -224,17 +224,17 @@ roles:
       load: ft0-digits-qc-full-nocalib-dpl-output-proxy
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_qc-check-FT0OutOfBunchCollCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-FT0-OutOfBunchCollCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-FT0OutOfBunchCollCheck:from_qc-check-FT0OutOfBunchCollCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-FT0-OutOfBunchCollCheck:from_qc-check-FT0-OutOfBunchCollCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_qc-check-FT0CFDEffCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-FT0-CFDEffCheck_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-FT0CFDEffCheck:from_qc-check-FT0CFDEffCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-FT0-CFDEffCheck:from_qc-check-FT0-CFDEffCheck_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
