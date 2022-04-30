@@ -567,6 +567,7 @@ defaults:
       - phos-compressor-raw-qcmn-remote
       - phos-compressor-raw-qcmnt3-remote
       - phos-raw-clusters-remote
+      - phos-raw-clusters-epn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
   phs_dcs_sor_parameters: !public
