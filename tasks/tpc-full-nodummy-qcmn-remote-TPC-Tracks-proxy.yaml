@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_TPC-Tracks-proxy_to_MERGER-Tracks1l-0
+  - name: from_TPC-Tracks-proxy_to_TPC-MERGER-Tracks1l-0
     type: push
     transport: shmem
     addressing: ipc

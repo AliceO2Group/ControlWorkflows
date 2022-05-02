@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_MID-QcTaskMIDDigits-proxy_to_MERGER-QcTaskMIDDigits1l-0
+  - name: from_MID-QcTaskMIDDigits-proxy_to_MID-MERGER-QcTaskMIDDigits1l-0
     type: push
     transport: shmem
     addressing: ipc
