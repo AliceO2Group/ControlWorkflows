@@ -8,10 +8,6 @@
           "password": "not_applicable",
           "name": "not_applicable"
         },
-        "Activity": {
-          "number": "42",
-          "type": "2"
-        },
         "monitoring": {
           "url": "influxdb-unix:///tmp/telegraf.sock"
         },
