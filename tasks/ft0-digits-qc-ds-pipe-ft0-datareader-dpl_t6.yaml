@@ -1,47 +1,26 @@
-name: fv0-digits-qc-ds-pipe-readout-proxy_t4
+name: ft0-digits-qc-ds-pipe-ft0-datareader-dpl_t6
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-dpl-raw-proxy
+    {{ dpl_command }} | o2-ft0-flp-dpl-workflow
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-raw-proxy
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-ft0-flp-dpl-workflow
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_readout-proxy_t4_to_fv0-datareader-dpl_t0
+  - name: from_ft0-datareader-dpl_t6_to_Dispatcher
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_readout-proxy_t4_to_fv0-datareader-dpl_t1
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_readout-proxy_t4_to_fv0-datareader-dpl_t2
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_readout-proxy_t4_to_fv0-datareader-dpl_t3
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_readout-proxy_t4_to_fv0-datareader-dpl_t4
+  - name: from_ft0-datareader-dpl_t6_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -77,7 +56,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'readout-proxy_t4'"
+    - "'ft0-datareader-dpl_t6'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -98,8 +77,9 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--dataspec"
-    - "'A1:FV0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "--configKeyValues"
+    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
+    - "--disable-root-output"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -117,9 +97,7 @@ command:
     - "--labels"
     - "''"
     - "--pipeline"
-    - "'readout-proxy:5'"
-    - "--proxy-name"
-    - "'readout-proxy'"
+    - "'ft0-datareader-dpl:7'"
     - "--readers"
     - "'1'"
     - "--severity"
@@ -144,7 +122,17 @@ command:
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
-    - "--timeframes-shm-limit"
-    - "'0'"
     - "--workflow-suffix"
     - "''"
+    - "--ccdb-path"
+    - "''"
+    - "--lut-path"
+    - "''"
+    - "--reserve-map-dig"
+    - "'0'"
+    - "--reserve-vec-buffer"
+    - "'0'"
+    - "--reserve-vec-chdata"
+    - "'0'"
+    - "--reserve-vec-dig"
+    - "'0'"

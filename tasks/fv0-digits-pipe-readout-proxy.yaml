@@ -1,4 +1,4 @@
-name: fdd-digits-qc-ds-pipe-readout-proxy_t2
+name: fv0-digits-pipe-readout-proxy
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,35 +13,35 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_readout-proxy_t2_to_fdd-datareader-dpl_t0
+  - name: from_readout-proxy_to_fv0-datareader-dpl_t0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_readout-proxy_t2_to_fdd-datareader-dpl_t1
+  - name: from_readout-proxy_to_fv0-datareader-dpl_t1
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_readout-proxy_t2_to_fdd-datareader-dpl_t2
+  - name: from_readout-proxy_to_fv0-datareader-dpl_t2
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_readout-proxy_t2_to_fdd-datareader-dpl_t3
+  - name: from_readout-proxy_to_fv0-datareader-dpl_t3
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_readout-proxy_t2_to_fdd-datareader-dpl_t4
+  - name: from_readout-proxy_to_fv0-datareader-dpl_t4
     type: push
     transport: shmem
     addressing: ipc
@@ -77,7 +77,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'readout-proxy_t2'"
+    - "'readout-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -99,7 +99,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'A1:FDD/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "'A1:FV0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -117,7 +117,7 @@ command:
     - "--labels"
     - "''"
     - "--pipeline"
-    - "'readout-proxy:5'"
+    - "''"
     - "--proxy-name"
     - "'readout-proxy'"
     - "--readers"
