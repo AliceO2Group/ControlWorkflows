@@ -56,48 +56,48 @@ roles:
       global: "MFT-QcMFTReadoutTask-proxy"
     task:
       load: mft-raw-cluster-qcmn-remote-MFT-QcMFTReadoutTask-proxy
-  - name: "MERGER-QcMFTClusterTask1l-0"
+  - name: "MFT-MERGER-QcMFTClusterTask1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-QcMFTClusterTask1l-0
+    - name: from_internal-dpl-clock_to_MFT-MERGER-QcMFTClusterTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-QcMFTClusterTask1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MFT-MERGER-QcMFTClusterTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_MFT-QcMFTClusterTask-proxy_to_MERGER-QcMFTClusterTask1l-0
+    - name: from_MFT-QcMFTClusterTask-proxy_to_MFT-MERGER-QcMFTClusterTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MFT-QcMFTClusterTask-proxy:from_MFT-QcMFTClusterTask-proxy_to_MERGER-QcMFTClusterTask1l-0"
+      target: "{{ Parent().Path }}.MFT-QcMFTClusterTask-proxy:from_MFT-QcMFTClusterTask-proxy_to_MFT-MERGER-QcMFTClusterTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-raw-cluster-qcmn-remote-MERGER-QcMFTClusterTask1l-0
-  - name: "MERGER-QcMFTReadoutTask1l-0"
+      load: mft-raw-cluster-qcmn-remote-MFT-MERGER-QcMFTClusterTask1l-0
+  - name: "MFT-MERGER-QcMFTReadoutTask1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-QcMFTReadoutTask1l-0
+    - name: from_internal-dpl-clock_to_MFT-MERGER-QcMFTReadoutTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-QcMFTReadoutTask1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MFT-MERGER-QcMFTReadoutTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_MFT-QcMFTReadoutTask-proxy_to_MERGER-QcMFTReadoutTask1l-0
+    - name: from_MFT-QcMFTReadoutTask-proxy_to_MFT-MERGER-QcMFTReadoutTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MFT-QcMFTReadoutTask-proxy:from_MFT-QcMFTReadoutTask-proxy_to_MERGER-QcMFTReadoutTask1l-0"
+      target: "{{ Parent().Path }}.MFT-QcMFTReadoutTask-proxy:from_MFT-QcMFTReadoutTask-proxy_to_MFT-MERGER-QcMFTReadoutTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-raw-cluster-qcmn-remote-MERGER-QcMFTReadoutTask1l-0
+      load: mft-raw-cluster-qcmn-remote-MFT-MERGER-QcMFTReadoutTask1l-0
   - name: "qc-check-MFT-QcMFTClusterCheck"
     connect:
-    - name: from_MERGER-QcMFTClusterTask1l-0_to_qc-check-MFT-QcMFTClusterCheck
+    - name: from_MFT-MERGER-QcMFTClusterTask1l-0_to_qc-check-MFT-QcMFTClusterCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-QcMFTClusterTask1l-0:from_MERGER-QcMFTClusterTask1l-0_to_qc-check-MFT-QcMFTClusterCheck"
+      target: "{{ Parent().Path }}.MFT-MERGER-QcMFTClusterTask1l-0:from_MFT-MERGER-QcMFTClusterTask1l-0_to_qc-check-MFT-QcMFTClusterCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -105,10 +105,10 @@ roles:
       load: mft-raw-cluster-qcmn-remote-qc-check-MFT-QcMFTClusterCheck
   - name: "qc-check-MFT-QcMFTReadoutCheck"
     connect:
-    - name: from_MERGER-QcMFTReadoutTask1l-0_to_qc-check-MFT-QcMFTReadoutCheck
+    - name: from_MFT-MERGER-QcMFTReadoutTask1l-0_to_qc-check-MFT-QcMFTReadoutCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-QcMFTReadoutTask1l-0:from_MERGER-QcMFTReadoutTask1l-0_to_qc-check-MFT-QcMFTReadoutCheck"
+      target: "{{ Parent().Path }}.MFT-MERGER-QcMFTReadoutTask1l-0:from_MFT-MERGER-QcMFTReadoutTask1l-0_to_qc-check-MFT-QcMFTReadoutCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
