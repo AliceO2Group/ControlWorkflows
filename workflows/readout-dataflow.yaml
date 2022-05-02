@@ -900,7 +900,7 @@ defaults:
   odc_n_epns_max_fail: !public
     value: "0"
     type: number
-    label: "Max # of EPNs allowed to fail (not yet working)"
+    label: "Max # of EPNs allowed to fail"
     description: "Maximum number of EPNs that are allowed to fail during startup without triggering an error during start of run"
     widget: editBox
     panel: "EPN_Workflows"
