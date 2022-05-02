@@ -38,30 +38,30 @@ roles:
       global: "MFT-QcMFTReadoutTask-proxy"
     task:
       load: mft-raw-direct-qcmn-remote-MFT-QcMFTReadoutTask-proxy
-  - name: "MFT-MERGER-QcMFTReadoutTask1l-0"
+  - name: "MERGER-QcMFTReadoutTask1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MFT-MERGER-QcMFTReadoutTask1l-0
+    - name: from_internal-dpl-clock_to_MERGER-QcMFTReadoutTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MFT-MERGER-QcMFTReadoutTask1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-QcMFTReadoutTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_MFT-QcMFTReadoutTask-proxy_to_MFT-MERGER-QcMFTReadoutTask1l-0
+    - name: from_MFT-QcMFTReadoutTask-proxy_to_MERGER-QcMFTReadoutTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MFT-QcMFTReadoutTask-proxy:from_MFT-QcMFTReadoutTask-proxy_to_MFT-MERGER-QcMFTReadoutTask1l-0"
+      target: "{{ Parent().Path }}.MFT-QcMFTReadoutTask-proxy:from_MFT-QcMFTReadoutTask-proxy_to_MERGER-QcMFTReadoutTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-raw-direct-qcmn-remote-MFT-MERGER-QcMFTReadoutTask1l-0
+      load: mft-raw-direct-qcmn-remote-MERGER-QcMFTReadoutTask1l-0
   - name: "qc-check-MFT-QcMFTReadoutCheck"
     connect:
-    - name: from_MFT-MERGER-QcMFTReadoutTask1l-0_to_qc-check-MFT-QcMFTReadoutCheck
+    - name: from_MERGER-QcMFTReadoutTask1l-0_to_qc-check-MFT-QcMFTReadoutCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MFT-MERGER-QcMFTReadoutTask1l-0:from_MFT-MERGER-QcMFTReadoutTask1l-0_to_qc-check-MFT-QcMFTReadoutCheck"
+      target: "{{ Parent().Path }}.MERGER-QcMFTReadoutTask1l-0:from_MERGER-QcMFTReadoutTask1l-0_to_qc-check-MFT-QcMFTReadoutCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
