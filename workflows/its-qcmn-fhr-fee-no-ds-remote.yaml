@@ -56,48 +56,48 @@ roles:
       global: "ITS-ITSFEE-proxy"
     task:
       load: its-qcmn-fhr-fee-no-ds-remote-ITS-ITSFEE-proxy
-  - name: "ITS-MERGER-FHRTask1l-0"
+  - name: "MERGER-FHRTask1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_ITS-MERGER-FHRTask1l-0
+    - name: from_internal-dpl-clock_to_MERGER-FHRTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_ITS-MERGER-FHRTask1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-FHRTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_ITS-FHRTask-proxy_to_ITS-MERGER-FHRTask1l-0
+    - name: from_ITS-FHRTask-proxy_to_MERGER-FHRTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.ITS-FHRTask-proxy:from_ITS-FHRTask-proxy_to_ITS-MERGER-FHRTask1l-0"
+      target: "{{ Parent().Path }}.ITS-FHRTask-proxy:from_ITS-FHRTask-proxy_to_MERGER-FHRTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: its-qcmn-fhr-fee-no-ds-remote-ITS-MERGER-FHRTask1l-0
-  - name: "ITS-MERGER-ITSFEE1l-0"
+      load: its-qcmn-fhr-fee-no-ds-remote-MERGER-FHRTask1l-0
+  - name: "MERGER-ITSFEE1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_ITS-MERGER-ITSFEE1l-0
+    - name: from_internal-dpl-clock_to_MERGER-ITSFEE1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_ITS-MERGER-ITSFEE1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-ITSFEE1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_ITS-ITSFEE-proxy_to_ITS-MERGER-ITSFEE1l-0
+    - name: from_ITS-ITSFEE-proxy_to_MERGER-ITSFEE1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.ITS-ITSFEE-proxy:from_ITS-ITSFEE-proxy_to_ITS-MERGER-ITSFEE1l-0"
+      target: "{{ Parent().Path }}.ITS-ITSFEE-proxy:from_ITS-ITSFEE-proxy_to_MERGER-ITSFEE1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: its-qcmn-fhr-fee-no-ds-remote-ITS-MERGER-ITSFEE1l-0
+      load: its-qcmn-fhr-fee-no-ds-remote-MERGER-ITSFEE1l-0
   - name: "qc-check-ITS-FHRCheck"
     connect:
-    - name: from_ITS-MERGER-FHRTask1l-0_to_qc-check-ITS-FHRCheck
+    - name: from_MERGER-FHRTask1l-0_to_qc-check-ITS-FHRCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.ITS-MERGER-FHRTask1l-0:from_ITS-MERGER-FHRTask1l-0_to_qc-check-ITS-FHRCheck"
+      target: "{{ Parent().Path }}.MERGER-FHRTask1l-0:from_MERGER-FHRTask1l-0_to_qc-check-ITS-FHRCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -105,10 +105,10 @@ roles:
       load: its-qcmn-fhr-fee-no-ds-remote-qc-check-ITS-FHRCheck
   - name: "qc-check-ITS-ITSFeeCheck"
     connect:
-    - name: from_ITS-MERGER-ITSFEE1l-0_to_qc-check-ITS-ITSFeeCheck
+    - name: from_MERGER-ITSFEE1l-0_to_qc-check-ITS-ITSFeeCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.ITS-MERGER-ITSFEE1l-0:from_ITS-MERGER-ITSFEE1l-0_to_qc-check-ITS-ITSFeeCheck"
+      target: "{{ Parent().Path }}.MERGER-ITSFEE1l-0:from_MERGER-ITSFEE1l-0_to_qc-check-ITS-ITSFeeCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

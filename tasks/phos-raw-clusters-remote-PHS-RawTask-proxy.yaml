@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_PHS-RawTask-proxy_to_PHS-MERGER-RawTask1l-0
+  - name: from_PHS-RawTask-proxy_to_MERGER-RawTask1l-0
     type: push
     transport: shmem
     addressing: ipc
