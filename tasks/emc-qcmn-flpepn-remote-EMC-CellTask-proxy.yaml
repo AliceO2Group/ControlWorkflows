@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_EMC-CellTask-proxy_to_MERGER-CellTask1l-0
+  - name: from_EMC-CellTask-proxy_to_EMC-MERGER-CellTask1l-0
     type: push
     transport: shmem
     addressing: ipc
