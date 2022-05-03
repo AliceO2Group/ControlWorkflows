@@ -43,6 +43,69 @@
         "remoteMachine": "alio2-cr1-qme08",
         "remotePort": "30132",
         "mergingMode": "delta"
+      },
+      "TaskB": {
+        "active": "true",
+        "className": "o2::quality_control_modules::daq::DaqTask",
+        "moduleName": "QcDaq",
+        "detectorName": "DAQ",
+        "cycleDurationSeconds": "10",
+        "maxNumberCycles": "-1",
+        "dataSource": {
+          "type": "dataSamplingPolicy",
+          "name": "rnd-many"
+        },
+        "taskParameters": {},
+        "location": "local",
+        "localMachines": [
+          "epn"
+	],
+	"localControl": "odc",
+        "remoteMachine": "alio2-cr1-qme08",
+        "remotePort": "47749",
+        "mergingMode": "delta"
+      },
+      "TaskC": {
+        "active": "true",
+        "className": "o2::quality_control_modules::daq::DaqTask",
+        "moduleName": "QcDaq",
+        "detectorName": "DAQ",
+        "cycleDurationSeconds": "10",
+        "maxNumberCycles": "-1",
+        "dataSource": {
+          "type": "dataSamplingPolicy",
+          "name": "rnd-many"
+        },
+        "taskParameters": {},
+        "location": "local",
+        "localMachines": [
+          "epn"
+	],
+	"localControl": "odc",
+        "remoteMachine": "alio2-cr1-qme08",
+        "remotePort": "47748",
+        "mergingMode": "delta"
+      },
+      "TaskD": {
+        "active": "true",
+        "className": "o2::quality_control_modules::daq::DaqTask",
+        "moduleName": "QcDaq",
+        "detectorName": "DAQ",
+        "cycleDurationSeconds": "10",
+        "maxNumberCycles": "-1",
+        "dataSource": {
+          "type": "dataSamplingPolicy",
+          "name": "rnd-many"
+        },
+        "taskParameters": {},
+        "location": "local",
+        "localMachines": [
+          "epn"
+	],
+	"localControl": "odc",
+        "remoteMachine": "alio2-cr1-qme08",
+        "remotePort": "47747",
+        "mergingMode": "delta"
       }
     },
     "checks": {
