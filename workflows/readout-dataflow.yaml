@@ -461,7 +461,6 @@ defaults:
       - mft-raw-qc
       - mft-raw-qcmn-local
       - mft-full-qcmn-local
-      - mft-noise-qcmn-local
       - mft-raw-cluster-qcmn-local
       - minimal-dpl
       - qc-daq
@@ -478,7 +477,6 @@ defaults:
       - mft-raw-direct-qcmn-remote
       - mft-raw-qcmn-remote
       - mft-full-qcmn-remote
-      - mft-noise-qcmn-remote
       - mft-raw-cluster-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
@@ -647,7 +645,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-      - tpc-idc
   tpc_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -660,12 +657,9 @@ defaults:
       - qcmn-daq-remote
       - tpc-full-qcmn-remote
       - tpc-full-nodummy-qcmn-remote
-      - tpc-full-nodummy-nopid-qcmn-remote
-      - tpc-full-nodummy-noraw-qcmn-remote
       - tpc-full-nodummy-qcmn-pp-remote
       - tpc-full-calib-remote
       - tpc-krypton-qcmn-remote
-      - tpc-idc-merger
     visibleif: $$qc_remote_enabled === "true"  
   tpc_dcs_sor_parameters: !public
     value: "{}"
@@ -1615,7 +1609,6 @@ roles:
     vars:
       odc_resources: '{{TrimSpace(odc_resources_spec) == "default" ? "{\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}" : odc_resources_spec }}'
       odc_script: '{{ odc_enabled == "true" ? odc.GenerateEPNWorkflowScript() : "" }}'
-      odc_topology_fullname: '{{ odc_enabled == "true" ? odc.GenerateEPNTopologyFullname() : "" }}'
     roles:
       - name: deploy
         enabled: "{{odc_partitions_cleanup == 'true'}}"
@@ -1760,64 +1753,52 @@ roles:
           trigger: after_STOP_ACTIVITY+100
           timeout: 10s
           critical: false
-      - name: startenv
+      - name: updatedeployenv
         call:
-          func: bookkeeping.CreateEnv()
-          trigger: before_DEPLOY
-          timeout: 10s
-          critical: false
-      - name: deploy
-        call:
-          func: bookkeeping.UpdateEnv()
+          func: bookkeeping.UpdateDeployEnv()
           trigger: after_DEPLOY+100
           timeout: 10s
           critical: false
-      - name: configure
+      - name: updateenvconfigure
         call:
-          func: bookkeeping.UpdateEnv()
+          func: bookkeeping.UpdateEnvConfigure()
           trigger: after_CONFIGURE+100
           timeout: 10s
           critical: false
-      - name: reset
+      - name: updateenvreset
         call:
-          func: bookkeeping.UpdateEnv()
+          func: bookkeeping.UpdateEnvReset()
           trigger: after_RESET+100
           timeout: 10s
           critical: false
-      - name: start
+      - name: updateenvstart
         call:
-          func: bookkeeping.UpdateEnv()
+          func: bookkeeping.UpdateEnvStart()
           trigger: after_START_ACTIVITY+100
           timeout: 10s
           critical: false
-      - name: stop
+      - name: updateenvstop
         call:
-          func: bookkeeping.UpdateEnv()
+          func: bookkeeping.UpdateEnvStop()
           trigger: after_STOP_ACTIVITY+100
           timeout: 10s
           critical: false
-      - name: exit
+      - name: updateenvexit
         call:
-          func: bookkeeping.UpdateEnv()
-          trigger: after_EXIT
+          func: bookkeeping.UpdateEnvExit()
+          trigger: after_EXIT+100
           timeout: 10s
           critical: false
-      - name: goerror
+      - name: updateenvgoerror
         call:
-          func: bookkeeping.UpdateEnv()
+          func: bookkeeping.UpdateEnvGoError()
           trigger: after_GO_ERROR+100
           timeout: 10s
           critical: false
-      - name: recover
+      - name: updateenvrecover
         call:
-          func: bookkeeping.UpdateEnv()
+          func: bookkeeping.UpdateEnvRecover()
           trigger: after_RECOVER+100
-          timeout: 10s
-          critical: false
-      - name: destroy
-        call:
-          func: bookkeeping.UpdateEnv()
-          trigger: DESTROY
           timeout: 10s
           critical: false
   - name: kafka
