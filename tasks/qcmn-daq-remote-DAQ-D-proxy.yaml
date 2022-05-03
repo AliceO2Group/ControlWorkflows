@@ -1,4 +1,4 @@
-name: qcmn-daq-local-Dispatcher
+name: qcmn-daq-remote-DAQ-D-proxy
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,20 +13,19 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_Dispatcher_to_qc-task-DAQ-A
+  - name: from_DAQ-D-proxy_to_MERGER-D1l-0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_Dispatcher_to_dpl-output-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
+  - name: DAQ-D-proxy
+    type: sub
+    transport: zeromq
+    addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
+    target: "tcp://*:47747"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -56,7 +55,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'Dispatcher'"
+    - "'DAQ-D-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -94,10 +93,9 @@ command:
     - "--forwarding-policy"
     - "'dangling'"
     - "--host"
-    - "'alio2-cr1-mvs01'"
+    - "''"
     - "--labels"
     - "''"
-    - "--local"
     - "--local-batch"
     - "''"
     - "--override-values"
@@ -106,6 +104,7 @@ command:
     - "''"
     - "--readers"
     - "'1'"
+    - "--remote"
     - "--remote-batch"
     - "''"
     - "--severity"
@@ -132,5 +131,13 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-stats"
-    - "'10000000'"
+    - "--end-value-enumeration"
+    - "-1"
+    - "--orbit-multiplier-enumeration"
+    - "'0'"
+    - "--orbit-offset-enumeration"
+    - "'0'"
+    - "--start-value-enumeration"
+    - "'0'"
+    - "--step-value-enumeration"
+    - "'1'"

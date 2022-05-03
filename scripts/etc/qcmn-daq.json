@@ -23,7 +23,7 @@
       }
     },
     "tasks": {
-      "MultiNodeLocal": {
+      "A": {
         "active": "true",
         "className": "o2::quality_control_modules::daq::DaqTask",
         "moduleName": "QcDaq",
@@ -44,7 +44,7 @@
         "remotePort": "30132",
         "mergingMode": "delta"
       },
-      "TaskB": {
+      "B": {
         "active": "true",
         "className": "o2::quality_control_modules::daq::DaqTask",
         "moduleName": "QcDaq",
@@ -65,7 +65,7 @@
         "remotePort": "47749",
         "mergingMode": "delta"
       },
-      "TaskC": {
+      "C": {
         "active": "true",
         "className": "o2::quality_control_modules::daq::DaqTask",
         "moduleName": "QcDaq",
@@ -86,7 +86,7 @@
         "remotePort": "47748",
         "mergingMode": "delta"
       },
-      "TaskD": {
+      "D": {
         "active": "true",
         "className": "o2::quality_control_modules::daq::DaqTask",
         "moduleName": "QcDaq",
@@ -107,7 +107,7 @@
         "remotePort": "47747",
         "mergingMode": "delta"
       },
-      "TaskE": {
+      "E": {
         "active": "true",
         "className": "o2::quality_control_modules::daq::DaqTask",
         "moduleName": "QcDaq",
@@ -138,7 +138,7 @@
         "detectorName": "DAQ",
         "dataSource": [{
           "type": "Task",
-          "name": "MultiNodeLocal",
+          "name": "A",
           "MOs": ["payloadSizeInputs"]
         }]
       }

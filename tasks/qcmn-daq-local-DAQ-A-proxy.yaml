@@ -1,4 +1,4 @@
-name: qcmn-daq-local-Dispatcher
+name: qcmn-daq-local-DAQ-A-proxy
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,20 +13,6 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_Dispatcher_to_qc-task-DAQ-A
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_Dispatcher_to_dpl-output-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -56,7 +42,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'Dispatcher'"
+    - "'DAQ-A-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -132,5 +118,3 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-stats"
-    - "'10000000'"

@@ -20,241 +20,241 @@ roles:
     connect:
     task:
       load: qcmn-daq-remote-internal-dpl-clock
-  - name: "DAQ-MultiNodeLocal-proxy"
+  - name: "DAQ-A-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_DAQ-MultiNodeLocal-proxy
+    - name: from_internal-dpl-clock_to_DAQ-A-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_DAQ-MultiNodeLocal-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_DAQ-A-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: DAQ-MultiNodeLocal-proxy
+    - name: DAQ-A-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
-      global: "DAQ-MultiNodeLocal-proxy"
+      global: "DAQ-A-proxy"
     task:
-      load: qcmn-daq-remote-DAQ-MultiNodeLocal-proxy
-  - name: "DAQ-TaskB-proxy"
+      load: qcmn-daq-remote-DAQ-A-proxy
+  - name: "DAQ-B-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_DAQ-TaskB-proxy
+    - name: from_internal-dpl-clock_to_DAQ-B-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_DAQ-TaskB-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_DAQ-B-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: DAQ-TaskB-proxy
+    - name: DAQ-B-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47749"
     task:
-      load: qcmn-daq-remote-DAQ-TaskB-proxy
-  - name: "DAQ-TaskC-proxy"
+      load: qcmn-daq-remote-DAQ-B-proxy
+  - name: "DAQ-C-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_DAQ-TaskC-proxy
+    - name: from_internal-dpl-clock_to_DAQ-C-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_DAQ-TaskC-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_DAQ-C-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: DAQ-TaskC-proxy
+    - name: DAQ-C-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47748"
     task:
-      load: qcmn-daq-remote-DAQ-TaskC-proxy
-  - name: "DAQ-TaskD-proxy"
+      load: qcmn-daq-remote-DAQ-C-proxy
+  - name: "DAQ-D-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_DAQ-TaskD-proxy
+    - name: from_internal-dpl-clock_to_DAQ-D-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_DAQ-TaskD-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_DAQ-D-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: DAQ-TaskD-proxy
+    - name: DAQ-D-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47747"
     task:
-      load: qcmn-daq-remote-DAQ-TaskD-proxy
-  - name: "DAQ-TaskE-proxy"
+      load: qcmn-daq-remote-DAQ-D-proxy
+  - name: "DAQ-E-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_DAQ-TaskE-proxy
+    - name: from_internal-dpl-clock_to_DAQ-E-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_DAQ-TaskE-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_DAQ-E-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: DAQ-TaskE-proxy
+    - name: DAQ-E-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47746"
     task:
-      load: qcmn-daq-remote-DAQ-TaskE-proxy
-  - name: "MERGER-MultiNodeLocal1l-0"
+      load: qcmn-daq-remote-DAQ-E-proxy
+  - name: "MERGER-A1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-MultiNodeLocal1l-0
+    - name: from_internal-dpl-clock_to_MERGER-A1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-MultiNodeLocal1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-A1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_DAQ-MultiNodeLocal-proxy_to_MERGER-MultiNodeLocal1l-0
+    - name: from_DAQ-A-proxy_to_MERGER-A1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.DAQ-MultiNodeLocal-proxy:from_DAQ-MultiNodeLocal-proxy_to_MERGER-MultiNodeLocal1l-0"
+      target: "{{ Parent().Path }}.DAQ-A-proxy:from_DAQ-A-proxy_to_MERGER-A1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: qcmn-daq-remote-MERGER-MultiNodeLocal1l-0
-  - name: "MERGER-TaskB1l-0"
+      load: qcmn-daq-remote-MERGER-A1l-0
+  - name: "MERGER-B1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-TaskB1l-0
+    - name: from_internal-dpl-clock_to_MERGER-B1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-TaskB1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-B1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_DAQ-TaskB-proxy_to_MERGER-TaskB1l-0
+    - name: from_DAQ-B-proxy_to_MERGER-B1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.DAQ-TaskB-proxy:from_DAQ-TaskB-proxy_to_MERGER-TaskB1l-0"
+      target: "{{ Parent().Path }}.DAQ-B-proxy:from_DAQ-B-proxy_to_MERGER-B1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: qcmn-daq-remote-MERGER-TaskB1l-0
-  - name: "MERGER-TaskC1l-0"
+      load: qcmn-daq-remote-MERGER-B1l-0
+  - name: "MERGER-C1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-TaskC1l-0
+    - name: from_internal-dpl-clock_to_MERGER-C1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-TaskC1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-C1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_DAQ-TaskC-proxy_to_MERGER-TaskC1l-0
+    - name: from_DAQ-C-proxy_to_MERGER-C1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.DAQ-TaskC-proxy:from_DAQ-TaskC-proxy_to_MERGER-TaskC1l-0"
+      target: "{{ Parent().Path }}.DAQ-C-proxy:from_DAQ-C-proxy_to_MERGER-C1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: qcmn-daq-remote-MERGER-TaskC1l-0
-  - name: "MERGER-TaskD1l-0"
+      load: qcmn-daq-remote-MERGER-C1l-0
+  - name: "MERGER-D1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-TaskD1l-0
+    - name: from_internal-dpl-clock_to_MERGER-D1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-TaskD1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-D1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_DAQ-TaskD-proxy_to_MERGER-TaskD1l-0
+    - name: from_DAQ-D-proxy_to_MERGER-D1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.DAQ-TaskD-proxy:from_DAQ-TaskD-proxy_to_MERGER-TaskD1l-0"
+      target: "{{ Parent().Path }}.DAQ-D-proxy:from_DAQ-D-proxy_to_MERGER-D1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: qcmn-daq-remote-MERGER-TaskD1l-0
-  - name: "MERGER-TaskE1l-0"
+      load: qcmn-daq-remote-MERGER-D1l-0
+  - name: "MERGER-E1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-TaskE1l-0
+    - name: from_internal-dpl-clock_to_MERGER-E1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-TaskE1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-E1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_DAQ-TaskE-proxy_to_MERGER-TaskE1l-0
+    - name: from_DAQ-E-proxy_to_MERGER-E1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.DAQ-TaskE-proxy:from_DAQ-TaskE-proxy_to_MERGER-TaskE1l-0"
+      target: "{{ Parent().Path }}.DAQ-E-proxy:from_DAQ-E-proxy_to_MERGER-E1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: qcmn-daq-remote-MERGER-TaskE1l-0
+      load: qcmn-daq-remote-MERGER-E1l-0
   - name: "qc-check-DAQ-MultiNodeLocalCheck"
     connect:
-    - name: from_MERGER-MultiNodeLocal1l-0_to_qc-check-DAQ-MultiNodeLocalCheck
+    - name: from_MERGER-A1l-0_to_qc-check-DAQ-MultiNodeLocalCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-MultiNodeLocal1l-0:from_MERGER-MultiNodeLocal1l-0_to_qc-check-DAQ-MultiNodeLocalCheck"
+      target: "{{ Parent().Path }}.MERGER-A1l-0:from_MERGER-A1l-0_to_qc-check-DAQ-MultiNodeLocalCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
       load: qcmn-daq-remote-qc-check-DAQ-MultiNodeLocalCheck
-  - name: "qc-check-sink-QC_TaskB_0"
+  - name: "qc-check-sink-QC_B_0"
     connect:
-    - name: from_MERGER-TaskB1l-0_to_qc-check-sink-QC_TaskB_0
+    - name: from_MERGER-B1l-0_to_qc-check-sink-QC_B_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-TaskB1l-0:from_MERGER-TaskB1l-0_to_qc-check-sink-QC_TaskB_0"
+      target: "{{ Parent().Path }}.MERGER-B1l-0:from_MERGER-B1l-0_to_qc-check-sink-QC_B_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: qcmn-daq-remote-qc-check-sink-QC_TaskB_0
-  - name: "qc-check-sink-QC_TaskC_0"
+      load: qcmn-daq-remote-qc-check-sink-QC_B_0
+  - name: "qc-check-sink-QC_C_0"
     connect:
-    - name: from_MERGER-TaskC1l-0_to_qc-check-sink-QC_TaskC_0
+    - name: from_MERGER-C1l-0_to_qc-check-sink-QC_C_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-TaskC1l-0:from_MERGER-TaskC1l-0_to_qc-check-sink-QC_TaskC_0"
+      target: "{{ Parent().Path }}.MERGER-C1l-0:from_MERGER-C1l-0_to_qc-check-sink-QC_C_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: qcmn-daq-remote-qc-check-sink-QC_TaskC_0
-  - name: "qc-check-sink-QC_TaskD_0"
+      load: qcmn-daq-remote-qc-check-sink-QC_C_0
+  - name: "qc-check-sink-QC_D_0"
     connect:
-    - name: from_MERGER-TaskD1l-0_to_qc-check-sink-QC_TaskD_0
+    - name: from_MERGER-D1l-0_to_qc-check-sink-QC_D_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-TaskD1l-0:from_MERGER-TaskD1l-0_to_qc-check-sink-QC_TaskD_0"
+      target: "{{ Parent().Path }}.MERGER-D1l-0:from_MERGER-D1l-0_to_qc-check-sink-QC_D_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: qcmn-daq-remote-qc-check-sink-QC_TaskD_0
-  - name: "qc-check-sink-QC_TaskE_0"
+      load: qcmn-daq-remote-qc-check-sink-QC_D_0
+  - name: "qc-check-sink-QC_E_0"
     connect:
-    - name: from_MERGER-TaskE1l-0_to_qc-check-sink-QC_TaskE_0
+    - name: from_MERGER-E1l-0_to_qc-check-sink-QC_E_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-TaskE1l-0:from_MERGER-TaskE1l-0_to_qc-check-sink-QC_TaskE_0"
+      target: "{{ Parent().Path }}.MERGER-E1l-0:from_MERGER-E1l-0_to_qc-check-sink-QC_E_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: qcmn-daq-remote-qc-check-sink-QC_TaskE_0
+      load: qcmn-daq-remote-qc-check-sink-QC_E_0
   - name: "internal-dpl-injected-dummy-sink"
     connect:
     - name: from_qc-check-DAQ-MultiNodeLocalCheck_to_internal-dpl-injected-dummy-sink
