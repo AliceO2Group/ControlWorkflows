@@ -1,4 +1,4 @@
-name: tpc-full-nodummy-qcmn-remote-internal-dpl-clock
+name: tpc-full-nodummy-qcmn-remote-qc-check-sink-QC_D_0
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,62 +13,6 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-clock_to_TPC-A-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_TPC-B-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_TPC-C-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_TPC-D-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-A1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-B1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-C1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-D1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -98,7 +42,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-clock'"
+    - "'qc-check-sink-QC_D_0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
