@@ -1737,22 +1737,70 @@ roles:
   - name: bookkeeping
     enabled: "{{bookkeeping_enabled == 'true'}}"
     roles:
-      - name: start
+      - name: startrun
         call:
           func: bookkeeping.StartOfRun()
           trigger: after_START_ACTIVITY
           timeout: 10s
           critical: false
-      - name: updatestart
+      - name: updaterunstart
         call:
           func: bookkeeping.UpdateRunStart()
           trigger: after_START_ACTIVITY+100
           timeout: 10s
           critical: false
-      - name: updatestop
+      - name: updaterunstop
         call:
           func: bookkeeping.UpdateRunStop()
           trigger: after_STOP_ACTIVITY+100
+          timeout: 10s
+          critical: false
+      - name: updatedeployenv
+        call:
+          func: bookkeeping.UpdateDeployEnv()
+          trigger: after_DEPLOY+100
+          timeout: 10s
+          critical: false
+      - name: updateenvconfigure
+        call:
+          func: bookkeeping.UpdateEnvConfigure()
+          trigger: after_CONFIGURE+100
+          timeout: 10s
+          critical: false
+      - name: updateenvreset
+        call:
+          func: bookkeeping.UpdateEnvReset()
+          trigger: after_RESET+100
+          timeout: 10s
+          critical: false
+      - name: updateenvstart
+        call:
+          func: bookkeeping.UpdateEnvStart()
+          trigger: after_START_ACTIVITY+100
+          timeout: 10s
+          critical: false
+      - name: updateenvstop
+        call:
+          func: bookkeeping.UpdateEnvStop()
+          trigger: after_STOP_ACTIVITY+100
+          timeout: 10s
+          critical: false
+      - name: updateenvexit
+        call:
+          func: bookkeeping.UpdateEnvExit()
+          trigger: after_EXIT+100
+          timeout: 10s
+          critical: false
+      - name: updateenvgoerror
+        call:
+          func: bookkeeping.UpdateEnvGoError()
+          trigger: after_GO_ERROR+100
+          timeout: 10s
+          critical: false
+      - name: updateenvrecover
+        call:
+          func: bookkeeping.UpdateEnvRecover()
+          trigger: after_RECOVER+100
           timeout: 10s
           critical: false
   - name: kafka
