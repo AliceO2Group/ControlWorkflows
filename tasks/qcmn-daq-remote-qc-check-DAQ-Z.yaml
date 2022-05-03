@@ -1,4 +1,4 @@
-name: qcmn-daq-remote-MERGER-A1l-0
+name: qcmn-daq-remote-qc-check-DAQ-Z
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,13 +13,15 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_MERGER-A1l-0_to_qc-check-DAQ-Z
+  - name: from_qc-check-DAQ-Z_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+properties:
+  qcConfiguration: ""
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -49,7 +51,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'MERGER-A1l-0'"
+    - "'qc-check-DAQ-Z'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -125,5 +127,3 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-publish"
-    - "'10000000'"

@@ -130,7 +130,7 @@
       }
     },
     "checks": {
-      "MultiNodeLocalCheck": {
+      "Z": {
         "active": "true",
         "className": "o2::quality_control_modules::skeleton::SkeletonCheck",
         "moduleName": "QcSkeleton",

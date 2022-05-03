@@ -200,17 +200,17 @@ roles:
       rcvBufSize: 4
     task:
       load: qcmn-daq-remote-MERGER-E1l-0
-  - name: "qc-check-DAQ-MultiNodeLocalCheck"
+  - name: "qc-check-DAQ-Z"
     connect:
-    - name: from_MERGER-A1l-0_to_qc-check-DAQ-MultiNodeLocalCheck
+    - name: from_MERGER-A1l-0_to_qc-check-DAQ-Z
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-A1l-0:from_MERGER-A1l-0_to_qc-check-DAQ-MultiNodeLocalCheck"
+      target: "{{ Parent().Path }}.MERGER-A1l-0:from_MERGER-A1l-0_to_qc-check-DAQ-Z"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: qcmn-daq-remote-qc-check-DAQ-MultiNodeLocalCheck
+      load: qcmn-daq-remote-qc-check-DAQ-Z
   - name: "qc-check-sink-QC_B_0"
     connect:
     - name: from_MERGER-B1l-0_to_qc-check-sink-QC_B_0
@@ -257,10 +257,10 @@ roles:
       load: qcmn-daq-remote-qc-check-sink-QC_E_0
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_qc-check-DAQ-MultiNodeLocalCheck_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-DAQ-Z_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-DAQ-MultiNodeLocalCheck:from_qc-check-DAQ-MultiNodeLocalCheck_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-DAQ-Z:from_qc-check-DAQ-Z_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
