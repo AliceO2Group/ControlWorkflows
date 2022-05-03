@@ -39,6 +39,7 @@ command:
   arguments:
     - "--session=default"
     - "--shm-segment-id=2"
+    - "--shm-segment-size=134217728"
     - "--transport=shmem"
     - "--monitoring-backend='{{ monitoring_dd_url }}'"
     - "--discovery-partition={{ environment_id }}"
