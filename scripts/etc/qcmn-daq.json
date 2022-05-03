@@ -44,7 +44,7 @@
         "remotePort": "30132",
         "mergingMode": "delta"
       },
-      "TaskB": {
+      "TaskB123413241234": {
         "active": "true",
         "className": "o2::quality_control_modules::daq::DaqTask",
         "moduleName": "QcDaq",
@@ -65,7 +65,7 @@
         "remotePort": "47749",
         "mergingMode": "delta"
       },
-      "TaskC": {
+      "TaskC123412341234": {
         "active": "true",
         "className": "o2::quality_control_modules::daq::DaqTask",
         "moduleName": "QcDaq",
@@ -86,7 +86,7 @@
         "remotePort": "47748",
         "mergingMode": "delta"
       },
-      "TaskD": {
+      "TaskD123412341234": {
         "active": "true",
         "className": "o2::quality_control_modules::daq::DaqTask",
         "moduleName": "QcDaq",
