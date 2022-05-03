@@ -1,4 +1,4 @@
-name: qcmn-daq-remote-internal-dpl-clock
+name: qcmn-daq-remote-qc-check-sink-QC_TaskE_0
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,76 +13,6 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-clock_to_DAQ-MultiNodeLocal-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_DAQ-TaskB-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_DAQ-TaskC-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_DAQ-TaskD-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_DAQ-TaskE-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-MultiNodeLocal1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-TaskB1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-TaskC1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-TaskD1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-TaskE1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -112,7 +42,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-clock'"
+    - "'qc-check-sink-QC_TaskE_0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
