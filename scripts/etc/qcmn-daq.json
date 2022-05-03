@@ -23,7 +23,7 @@
       }
     },
     "tasks": {
-      "A": {
+      "A123412341234": {
         "active": "true",
         "className": "o2::quality_control_modules::daq::DaqTask",
         "moduleName": "QcDaq",
@@ -44,7 +44,7 @@
         "remotePort": "30132",
         "mergingMode": "delta"
       },
-      "B": {
+      "B123412341324": {
         "active": "true",
         "className": "o2::quality_control_modules::daq::DaqTask",
         "moduleName": "QcDaq",
@@ -65,7 +65,7 @@
         "remotePort": "47749",
         "mergingMode": "delta"
       },
-      "C": {
+      "C123413241234": {
         "active": "true",
         "className": "o2::quality_control_modules::daq::DaqTask",
         "moduleName": "QcDaq",
@@ -86,7 +86,7 @@
         "remotePort": "47748",
         "mergingMode": "delta"
       },
-      "D": {
+      "D123413241234": {
         "active": "true",
         "className": "o2::quality_control_modules::daq::DaqTask",
         "moduleName": "QcDaq",
@@ -117,7 +117,7 @@
         "detectorName": "DAQ",
         "dataSource": [{
           "type": "Task",
-          "name": "A",
+          "name": "A123412341234",
           "MOs": ["payloadSizeInputs"]
         }]
       }
