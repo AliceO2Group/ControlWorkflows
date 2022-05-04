@@ -29,7 +29,7 @@ sed -i "s/""${ESCAPED_QC_GEN_CONFIG_PATH}""/{{ ""${QC_CONFIG_PARAM}"" }}/g" work
 # find and replace hostname
 sed -i "s/alio2-cr1-flp187/{{ it }}/g" workflows/${WF_NAME}.yaml tasks/${WF_NAME}-*
 
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/its-qcmn-fee-entire'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/its-qcmn-fee-no-ds'
 WF_NAME=its-qcmn-fee-no-ds-remote
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
