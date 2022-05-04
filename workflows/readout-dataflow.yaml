@@ -1744,64 +1744,70 @@ roles:
           trigger: after_START_ACTIVITY+100
           timeout: 10s
           critical: false
-      - name: startenv
-        call:
-          func: bookkeeping.CreateEnv()
-          trigger: before_DEPLOY
-          timeout: 10s
-          critical: false
       - name: updaterunstop
         call:
           func: bookkeeping.UpdateRunStop()
           trigger: after_STOP_ACTIVITY+100
           timeout: 10s
           critical: false
-      - name: updatedeployenv
+      - name: startenv
         call:
-          func: bookkeeping.UpdateDeployEnv()
+          func: bookkeeping.CreateEnv()
+          trigger: before_DEPLOY
+          timeout: 10s
+          critical: false
+      - name: deploy
+        call:
+          func: bookkeeping.UpdateEnv()
           trigger: after_DEPLOY+100
           timeout: 10s
           critical: false
-      - name: updateenvconfigure
+      - name: configure
         call:
-          func: bookkeeping.UpdateEnvConfigure()
+          func: bookkeeping.UpdateEnv()
           trigger: after_CONFIGURE+100
           timeout: 10s
           critical: false
-      - name: updateenvreset
+      - name: reset
         call:
-          func: bookkeeping.UpdateEnvReset()
+          func: bookkeeping.UpdateEnv()
           trigger: after_RESET+100
           timeout: 10s
           critical: false
-      - name: updateenvstart
+      - name: start
         call:
-          func: bookkeeping.UpdateEnvStart()
+          func: bookkeeping.UpdateEnv()
           trigger: after_START_ACTIVITY+100
           timeout: 10s
           critical: false
-      - name: updateenvstop
+      - name: stop
         call:
-          func: bookkeeping.UpdateEnvStop()
+          func: bookkeeping.UpdateEnv()
           trigger: after_STOP_ACTIVITY+100
           timeout: 10s
           critical: false
-      - name: updateenvexit
+      - name: exit
         call:
-          func: bookkeeping.UpdateEnvExit()
-          trigger: after_EXIT+100
+          func: bookkeeping.UpdateEnv()
+          trigger: after_EXIT
           timeout: 10s
           critical: false
-      - name: updateenvgoerror
+      - name: goerror
         call:
-          func: bookkeeping.UpdateEnvGoError()
+          func: bookkeeping.UpdateEnv()
           trigger: after_GO_ERROR+100
           timeout: 10s
           critical: false
-      - name: updateenvrecover
+      - name: recover
         call:
-          func: bookkeeping.UpdateEnvRecover()
+          func: bookkeeping.UpdateEnv()
           trigger: after_RECOVER+100
+          timeout: 10s
+          critical: false
+      - name: destroy
+        call:
+          func: bookkeeping.UpdateEnv()
+          trigger: DESTROY
           timeout: 10s
           critical: false
   - name: kafka
