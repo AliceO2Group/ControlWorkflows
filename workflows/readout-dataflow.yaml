@@ -1754,12 +1754,6 @@ roles:
           trigger: after_START_ACTIVITY+100
           timeout: 10s
           critical: false
-      - name: startenv
-        call:
-          func: bookkeeping.CreateEnv()
-          trigger: before_DEPLOY
-          timeout: 10s
-          critical: false
       - name: updaterunstop
         call:
           func: bookkeeping.UpdateRunStop()
