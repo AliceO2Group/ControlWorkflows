@@ -1794,3 +1794,33 @@ roles:
           trigger: DESTROY
           timeout: 5s
           critical: false
+      - name: leave_standby
+        call:
+          func: kafka.PublishLeaveStateUpdate()
+          trigger: leave_STANDBY
+          timeout: 5s
+          critical: false
+      - name: leave_deployed
+        call:
+          func: kafka.PublishLeaveStateUpdate()
+          trigger: leave_DEPLOYED
+          timeout: 5s
+          critical: false
+      - name: leave_configured
+        call:
+          func: kafka.PublishLeaveStateUpdate()
+          trigger: leave_CONFIGURED
+          timeout: 5s
+          critical: false
+      - name: leave_running
+        call:
+          func: kafka.PublishLeaveStateUpdate()
+          trigger: leave_RUNNING
+          timeout: 5s
+          critical: false
+      - name: leave_error
+        call:
+          func: kafka.PublishLeaveStateUpdate()
+          trigger: leave_ERROR
+          timeout: 5s
+          critical: false
