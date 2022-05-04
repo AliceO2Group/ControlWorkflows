@@ -1634,15 +1634,15 @@ roles:
         enabled: "{{odc_partitions_cleanup == 'true'}}"
         call:
           func: odc.PreDeploymentCleanup()
-          trigger: before_DEPLOY
-          await: after_DEPLOY
+          trigger: before_DEPLOY-100
+          await: before_DEPLOY-100
           timeout: "{{ odc_partition_cleanup_timeout }}"
           critical: false
       - name: part-init
         call:
           func: odc.PartitionInitialize()
-          trigger: before_CONFIGURE-100
-          await: before_CONFIGURE-100
+          trigger: before_DEPLOY
+          await: after_DEPLOY
           timeout: "{{ odc_partitioninitialize_timeout }}"
           critical: true
       - name: configure
@@ -1676,8 +1676,8 @@ roles:
       - name: part-term
         call:
           func: odc.PartitionTerminate()
-          trigger: after_RESET+100
-          await: after_RESET+100
+          trigger: DESTROY-100
+          await: DESTROY-100
           timeout: "{{ odc_partitionterminate_timeout }}"
           critical: true
       - name: cleanup
