@@ -78,6 +78,7 @@ check_pwd
 ./its-qc-fhr-fee-no-ds.sh
 ./its-qcmn-fhr-fee-no-ds.sh
 ./its-qcmn-fhr-fee-no-ds-entire.sh
+./its-qcmn-fee-no-ds.sh
 ./its-qcmn-cluster-track.sh
 ./its-qcmn-flp-epn.sh
 ./its-qcmn-flp-epn-no-ds.sh
