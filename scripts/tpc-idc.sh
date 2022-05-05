@@ -112,7 +112,7 @@ for ((i = ${firstCRU} ; i <= ${lastCRU} ; i=i+2)); do
 done
 
 
-sCRUs="dd:TPC/IDCGROUP;dd:TPC/1DIDC"
+sCRUs="dd:TPC/IDCGROUP"
 
 echo "CRUs: ${sCRUs}"
 
@@ -141,7 +141,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --output-lanes ${lanes} \
   --configKeyValues 'keyval.output_dir=/dev/null'  \
   | o2-tpc-idc-factorize $ARGS_ALL \
-  --crus {CRU_GEN_MERGER_ID} \
+  --crus ${CRU_GEN_MERGER_ID} \
   --timeframes ${nTFs} \
   --input-lanes ${lanes} \
   --configFile "" \

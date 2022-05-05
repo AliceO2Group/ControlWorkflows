@@ -71,7 +71,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'dd:TPC/IDCGROUP;dd:TPC/1DIDC'"
+    - "'dd:TPC/IDCGROUP'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
