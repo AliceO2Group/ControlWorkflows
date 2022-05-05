@@ -65,8 +65,6 @@ command:
     - "''"
     - "--configKeyValues"
     - "'keyval.output_dir=/dev/null'"
-    - "--crus"
-    - "'{{ cru_merger_ids }}'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"

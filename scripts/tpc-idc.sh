@@ -16,7 +16,7 @@ cd ..
 export GLOBAL_SHMSIZE=$(( 16 << 30 )) #  GB for the global SHMEM
 PROXY_INSPEC="x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0"
 
-OUTSPEC_IDC="idc1:TPC/1DIDC;idc2:TPC/IDCGROUP"
+OUTSPEC_IDC="idc2:TPC/IDCGROUP"
 OUTSPEC="xout:TPC/RAWDATA;ddout:FLP/DISTSUBTIMEFRAME/0"
 # TODO: Adjust path to pedestal file
 pedestalFile="/home/tpc/IDCs/FLP/Pedestals.root"
@@ -128,7 +128,6 @@ CRU_FINAL_MERGER_ID='0-355'
 CRU_MERGER_ID='cru_merger_ids'
 
 ARGS_ALL="-b --session default --shm-segment-size $GLOBAL_SHMSIZE"
-
 o2-dpl-raw-proxy $ARGS_ALL \
   --dataspec ${sCRUs} \
   --severity info \
@@ -141,16 +140,8 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --timeframes ${nTFs} \
   --output-lanes ${lanes} \
   --configKeyValues 'keyval.output_dir=/dev/null'  \
-  | o2-tpc-idc-ft-aggregator $ARGS_ALL \
-  --crus ${CRU_GEN_MERGER_ID} \
-  --rangeIDC 200 \
-  --nFourierCoeff 40 \
-  --timeframes ${nTFs} \
-  --ccdb-uri "${CCDB}" \
-  --configKeyValues 'keyval.output_dir=/dev/null'  \
-  --severity info \
   | o2-tpc-idc-factorize $ARGS_ALL \
-  --crus ${CRU_GEN_MERGER_ID} \
+  --crus {CRU_GEN_MERGER_ID} \
   --timeframes ${nTFs} \
   --input-lanes ${lanes} \
   --configFile "" \
@@ -161,6 +152,13 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --nthreads-grouping 4 \
   --groupPads "5,6,7,8,4,5,6,8,10,13" \
   --groupRows "2,2,2,3,3,3,2,2,2,2" \
+  --severity info \
+  | o2-tpc-idc-ft-aggregator $ARGS_ALL \
+  --rangeIDC 200 \
+  --nFourierCoeff 40 \
+  --timeframes ${nTFs} \
+  --ccdb-uri "${CCDB}" \
+  --configKeyValues 'keyval.output_dir=/dev/null'  \
   --severity info \
   --o2-control $WF_NAME
 

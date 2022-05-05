@@ -27,6 +27,13 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+  - name: from_tpc-idc-merger-proxy_to_internal-dpl-injected-dummy-sink
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
   - name: tpc-idc-merger-proxy
     type: pull
     transport: zeromq
