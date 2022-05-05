@@ -338,6 +338,7 @@ defaults:
       - its-qcmn-fee-no-ds-remote
       - its-qcmn-cluster-track-remote
       - its-qcmn-flp-epn-remote
+      - its-qcmn-fee-epn-remote
       - its-qcmn-flp-epn-no-ds-remote
       - its-qcmn-epn-remote
       - its-qcmn-flp-epn-no-ds-nocluster-remote

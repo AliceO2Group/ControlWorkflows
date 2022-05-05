@@ -81,6 +81,7 @@ check_pwd
 ./its-qcmn-fee-no-ds.sh
 ./its-qcmn-cluster-track.sh
 ./its-qcmn-flp-epn.sh
+./its-qcmn-fee-epn.sh
 ./its-qcmn-flp-epn-no-ds.sh
 ./its-qcmn-epn.sh
 ./its-qcmn-flp-epn-no-ds-nocluster.sh
