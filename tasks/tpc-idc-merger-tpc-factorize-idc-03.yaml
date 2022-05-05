@@ -20,6 +20,13 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+  - name: from_tpc-factorize-idc-03_to_tpc-aggregator-ft
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -77,7 +84,7 @@ command:
     - "--configKeyValues"
     - "'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null'"
     - "--crus"
-    - "'{{ cru_merger_ids }}'"
+    - "'{CRU_GEN_MERGER_ID}'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
