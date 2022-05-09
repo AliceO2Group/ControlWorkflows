@@ -106,6 +106,7 @@ check_pwd
 ./phos-compressor-raw-qcmnt3.sh
 ./phos-compressort3.sh
 ./phos-raw-clusters.sh
+./phos-raw-clusters-epn.sh
 ./qc-daq.sh
 ./qcmn-daq.sh
 ./tof-compressor.sh
