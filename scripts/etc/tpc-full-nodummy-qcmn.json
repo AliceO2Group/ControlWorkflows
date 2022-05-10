@@ -23,7 +23,7 @@
       }
     },
     "tasks": {
-      "A": {
+      "RawDigits": {
         "active": "true",
         "className": "o2::quality_control_modules::tpc::RawDigits",
         "moduleName": "QcTPC",
@@ -58,7 +58,7 @@
         "remoteMachine": "alio2-cr1-qts01.cern.ch",
         "localControl": "odc"
       },
-      "B": {
+      "Clusters": {
         "active": "true",
         "className": "o2::quality_control_modules::tpc::Clusters",
         "moduleName": "QcTPC",
@@ -101,7 +101,7 @@
         "remoteMachine": "alio2-cr1-qts01.cern.ch",
         "localControl": "odc"
       },
-      "C": {
+      "PID": {
         "active": "true",
         "className": "o2::quality_control_modules::tpc::PID",
         "moduleName": "QcTPC",
@@ -124,7 +124,7 @@
         "mergingMode": "delta",
         "localControl": "odc"
       },
-      "D": {
+      "Tracks": {
         "active": "true",
         "className": "o2::quality_control_modules::tpc::Tracks",
         "moduleName": "QcTPC",
