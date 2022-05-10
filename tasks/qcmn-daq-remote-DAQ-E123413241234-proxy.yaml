@@ -1,4 +1,4 @@
-name: qcmn-daq-remote-DAQ-A123412341234-proxy
+name: qcmn-daq-remote-DAQ-E123413241234-proxy
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,19 +13,19 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_DAQ-A123412341234-proxy_to_DAQ-MERGER-A1234123412341l-0
+  - name: from_DAQ-E123413241234-proxy_to_DAQ-MERGER-E1234132412341l-0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: DAQ-A123412341234-proxy
+  - name: DAQ-E123413241234-proxy
     type: sub
     transport: zeromq
     addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
-    global: "DAQ-A123412341234-proxy"
+    target: "tcp://*:47746"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -55,7 +55,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'DAQ-A123412341234-proxy'"
+    - "'DAQ-E123413241234-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"

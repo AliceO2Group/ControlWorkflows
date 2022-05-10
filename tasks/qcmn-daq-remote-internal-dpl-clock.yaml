@@ -41,28 +41,42 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-A1234123412341l-0
+  - name: from_internal-dpl-clock_to_DAQ-E123413241234-proxy
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-B1234123413241l-0
+  - name: from_internal-dpl-clock_to_DAQ-MERGER-A1234123412341l-0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-C1234132412341l-0
+  - name: from_internal-dpl-clock_to_DAQ-MERGER-B1234123413241l-0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-D1234132412341l-0
+  - name: from_internal-dpl-clock_to_DAQ-MERGER-C1234132412341l-0
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_internal-dpl-clock_to_DAQ-MERGER-D1234132412341l-0
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_internal-dpl-clock_to_DAQ-MERGER-E1234132412341l-0
     type: push
     transport: shmem
     addressing: ipc

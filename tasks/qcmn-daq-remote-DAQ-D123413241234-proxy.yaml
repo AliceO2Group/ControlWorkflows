@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_DAQ-D123413241234-proxy_to_MERGER-D1234132412341l-0
+  - name: from_DAQ-D123413241234-proxy_to_DAQ-MERGER-D1234132412341l-0
     type: push
     transport: shmem
     addressing: ipc
