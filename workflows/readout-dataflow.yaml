@@ -1496,6 +1496,7 @@ roles:
         value: qcserver
     defaults:
       qc_remote_workflow: none
+      qc_remote_machine: none
     vars:
       user: qc
       session_id: "{{ environment_id }}" # we can't use "default" because other workflows might already exist on the same QC server
@@ -1506,10 +1507,21 @@ roles:
           var: det
         vars:
           qc_remote_workflow: "{{ PrefixedOverride( 'qc_remote_workflow', ToLower( det ) ) }}"
+          qc_remote_machine: "{{ PrefixedOverride( 'qc_remote_machine', ToLower( det ) ) }}"
+        constraints:
+          - attribute: machine_id
+            value: "{{ qc_remote_machine }}"
         roles:
           - name: dpl
             enabled: "{{ qc_remote_workflow != 'none' }}"
             include: "{{ qc_remote_workflow }}"
+          - name: fairmq-shmmonitor
+            enabled: "{{ fmq_cleanup_enabled == 'true' && qc_remote_workflow != 'none' }}"
+            task:
+              load: "fairmq-shmmonitor"
+              trigger: DESTROY
+              timeout: 10s
+              critical: false
           # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list
           # however if the {{det}}_qc_remote_workflow is none there is a ghost role deployed which is never active
           # for that cases we deploy a plain echo task which will transition the role and eventually the wf to active
