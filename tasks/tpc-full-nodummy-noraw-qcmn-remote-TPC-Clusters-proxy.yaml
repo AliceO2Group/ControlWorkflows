@@ -1,4 +1,4 @@
-name: tpc-full-nodummy-qcmn-remote-internal-dpl-clock
+name: tpc-full-nodummy-noraw-qcmn-remote-TPC-Clusters-proxy
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,62 +13,19 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-clock_to_TPC-Clusters-proxy
+  - name: from_TPC-Clusters-proxy_to_TPC-MERGER-Clusters1l-0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_TPC-PID-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
+  - name: TPC-Clusters-proxy
+    type: sub
+    transport: zeromq
+    addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_TPC-RawDigits-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_TPC-Tracks-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_TPC-MERGER-Clusters1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_TPC-MERGER-PID1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_TPC-MERGER-RawDigits1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_TPC-MERGER-Tracks1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
+    target: "tcp://*:47730"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -98,7 +55,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-clock'"
+    - "'TPC-Clusters-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -174,3 +131,13 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
+    - "--end-value-enumeration"
+    - "-1"
+    - "--orbit-multiplier-enumeration"
+    - "'0'"
+    - "--orbit-offset-enumeration"
+    - "'0'"
+    - "--start-value-enumeration"
+    - "'0'"
+    - "--step-value-enumeration"
+    - "'1'"

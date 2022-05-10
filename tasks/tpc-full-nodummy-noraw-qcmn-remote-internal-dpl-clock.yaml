@@ -1,4 +1,4 @@
-name: tpc-full-nodummy-qcmn-remote-internal-dpl-clock
+name: tpc-full-nodummy-noraw-qcmn-remote-internal-dpl-clock
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -27,13 +27,6 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_TPC-RawDigits-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
   - name: from_internal-dpl-clock_to_TPC-Tracks-proxy
     type: push
     transport: shmem
@@ -49,13 +42,6 @@ bind:
     sndBufSize: 4
     rcvBufSize: 4
   - name: from_internal-dpl-clock_to_TPC-MERGER-PID1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_TPC-MERGER-RawDigits1l-0
     type: push
     transport: shmem
     addressing: ipc

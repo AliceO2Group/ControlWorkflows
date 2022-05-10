@@ -12,7 +12,7 @@ source helpers.sh
 
 cd ../
 
-WF_NAME=tpc-full-nodummy-qcmn-remote
+WF_NAME=tpc-full-nodummy-noraw-qcmn-remote
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
