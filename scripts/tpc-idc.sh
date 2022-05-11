@@ -47,12 +47,14 @@ o2-dpl-raw-proxy $ARGS_ALL \
   | o2-tpc-idc-to-vector $ARGS_ALL \
   --crus ${CRU_GEN_CONFIG_PATH} \
   --pedestal-file $pedestalFile \
+  --infologger-severity warning \
   --severity warning \
   --configKeyValues "keyval.output_dir=/dev/null" \
   | o2-tpc-idc-flp $ARGS_ALL \
   --propagateIDCs true \
   --crus ${CRU_GEN_CONFIG_PATH} \
   --severity warning \
+  --infologger-severity warning \
   --configKeyValues "keyval.output_dir=/dev/null" \
   --lanes 1 \
   --disableIDC0CCDB true \
@@ -64,6 +66,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,address=tcp://{{ merger_node }}:{{ merger_port }},type=push,transport=zeromq" ' \
    --dataspec "${OUTSPEC_IDC}" \
    --severity warning \
+   --infologger-severity warning \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
    --dataspec "${OUTSPEC}" \
@@ -126,13 +129,14 @@ crus="11,13"
 
 
 CRU_GEN_MERGER_ID='{CRUS}'
-CRU_FINAL_MERGER_ID='0-355'
+CRU_FINAL_MERGER_ID='0-359'
 CRU_MERGER_ID='cru_merger_ids'
 
 ARGS_ALL="-b --session default --shm-segment-size $GLOBAL_SHMSIZE"
 o2-dpl-raw-proxy $ARGS_ALL \
   --dataspec ${sCRUs} \
   --severity warning \
+  --infologger-severity warning \
   --labels "tpc-idc-merger-proxy:ecs-preserve-raw-channels" \
   --proxy-name tpc-idc-merger-proxy \
   --channel-config "name=tpc-idc-merger-proxy,type=pull,method=bind,address=tcp://*:{{ merger_port }},rateLogging=1,transport=zeromq" \
@@ -143,6 +147,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --output-lanes ${lanes} \
   --configKeyValues 'keyval.output_dir=/dev/null'  \
   --severity warning \
+  --infologger-severity warning \
   | o2-tpc-idc-factorize $ARGS_ALL \
   --crus ${CRU_GEN_MERGER_ID} \
   --timeframes ${nTFs} \
@@ -156,6 +161,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --groupPads "5,6,7,8,4,5,6,8,10,13" \
   --groupRows "2,2,2,3,3,3,2,2,2,2" \
   --severity warning \
+  --infologger-severity warning \
   --use-approximate-timestamp true \
   | o2-tpc-idc-ft-aggregator $ARGS_ALL \
   --rangeIDC 200 \
@@ -164,6 +170,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --ccdb-uri "${CCDB}" \
   --configKeyValues 'keyval.output_dir=/dev/null'  \
   --severity warning \
+  --infologger-severity warning \
   --o2-control $WF_NAME
 
 
