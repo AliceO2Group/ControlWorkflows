@@ -461,6 +461,7 @@ defaults:
       - mft-raw-qc
       - mft-raw-qcmn-local
       - mft-full-qcmn-local
+      - mft-noise-qcmn-local
       - mft-raw-cluster-qcmn-local
       - minimal-dpl
       - qc-daq
@@ -477,6 +478,7 @@ defaults:
       - mft-raw-direct-qcmn-remote
       - mft-raw-qcmn-remote
       - mft-full-qcmn-remote
+      - mft-noise-qcmn-remote
       - mft-raw-cluster-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
