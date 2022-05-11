@@ -47,12 +47,12 @@ o2-dpl-raw-proxy $ARGS_ALL \
   | o2-tpc-idc-to-vector $ARGS_ALL \
   --crus ${CRU_GEN_CONFIG_PATH} \
   --pedestal-file $pedestalFile \
-  --severity info \
+  --severity warning \
   --configKeyValues "keyval.output_dir=/dev/null" \
   | o2-tpc-idc-flp $ARGS_ALL \
   --propagateIDCs true \
   --crus ${CRU_GEN_CONFIG_PATH} \
-  --severity info \
+  --severity warning \
   --configKeyValues "keyval.output_dir=/dev/null" \
   --lanes 1 \
   --disableIDC0CCDB true \
@@ -63,6 +63,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --output-proxy-method connect \
    --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,address=tcp://{{ merger_node }}:{{ merger_port }},type=push,transport=zeromq" ' \
    --dataspec "${OUTSPEC_IDC}" \
+   --severity warning \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
    --dataspec "${OUTSPEC}" \
@@ -141,6 +142,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --timeframes ${nTFs} \
   --output-lanes ${lanes} \
   --configKeyValues 'keyval.output_dir=/dev/null'  \
+  --severity warning \
   | o2-tpc-idc-factorize $ARGS_ALL \
   --crus ${CRU_GEN_MERGER_ID} \
   --timeframes ${nTFs} \
@@ -153,7 +155,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --nthreads-grouping 4 \
   --groupPads "5,6,7,8,4,5,6,8,10,13" \
   --groupRows "2,2,2,3,3,3,2,2,2,2" \
-  --severity info \
+  --severity warning \
   --use-approximate-timestamp true \
   | o2-tpc-idc-ft-aggregator $ARGS_ALL \
   --rangeIDC 200 \
@@ -161,7 +163,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --timeframes ${nTFs} \
   --ccdb-uri "${CCDB}" \
   --configKeyValues 'keyval.output_dir=/dev/null'  \
-  --severity info \
+  --severity warning \
   --o2-control $WF_NAME
 
 
