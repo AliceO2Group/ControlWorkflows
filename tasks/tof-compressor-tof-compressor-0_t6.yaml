@@ -1,4 +1,4 @@
-name: tof-compressor-tof-compressor-0_t4
+name: tof-compressor-tof-compressor-0_t6
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tof-compressor-0_t4_to_dpl-output-proxy
+  - name: from_tof-compressor-0_t6_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -49,7 +49,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'tof-compressor-0_t4'"
+    - "'tof-compressor-0_t6'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
