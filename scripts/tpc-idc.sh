@@ -55,6 +55,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --severity info \
   --configKeyValues "keyval.output_dir=/dev/null" \
   --lanes 1 \
+  --disableIDC0CCDB true \
   | o2-dpl-output-proxy $ARGS_ALL \
    --proxy-name tpc-idc-merger-proxy \
    --proxy-channel-name tpc-idc-merger-proxy \
