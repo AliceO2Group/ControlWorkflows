@@ -20,13 +20,6 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_tpc-idc-merger-proxy_to_internal-dpl-ccdb-backend
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
   - name: tpc-idc-merger-proxy
     type: pull
     transport: zeromq
@@ -108,7 +101,7 @@ command:
     - "--readers"
     - "'1'"
     - "--severity"
-    - "'info'"
+    - "'warning'"
     - "--shm-allocation"
     - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
