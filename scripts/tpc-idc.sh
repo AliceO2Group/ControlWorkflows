@@ -131,7 +131,7 @@ CRU_MERGER_ID='cru_merger_ids'
 ARGS_ALL="-b --session default --shm-segment-size $GLOBAL_SHMSIZE"
 o2-dpl-raw-proxy $ARGS_ALL \
   --dataspec ${sCRUs} \
-  --severity info \
+  --severity warning \
   --labels "tpc-idc-merger-proxy:ecs-preserve-raw-channels" \
   --proxy-name tpc-idc-merger-proxy \
   --channel-config "name=tpc-idc-merger-proxy,type=pull,method=bind,address=tcp://*:{{ merger_port }},rateLogging=1,transport=zeromq" \
@@ -149,11 +149,12 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --compression 0 \
   --ccdb-uri "${CCDB}" \
   --configKeyValues 'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null'  \
-  --groupIDCs true \
+  --groupIDCs warning \
   --nthreads-grouping 4 \
   --groupPads "5,6,7,8,4,5,6,8,10,13" \
   --groupRows "2,2,2,3,3,3,2,2,2,2" \
   --severity info \
+  --use-approximate-timestamp true \
   | o2-tpc-idc-ft-aggregator $ARGS_ALL \
   --rangeIDC 200 \
   --nFourierCoeff 40 \
