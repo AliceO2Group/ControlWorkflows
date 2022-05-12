@@ -28,3 +28,6 @@ sed -i "s/""${ESCAPED_QC_GEN_CONFIG_PATH}""/{{ ""${QC_CONFIG_PARAM}"" }}/g" work
 
 sed -i "s/shm_segment_size: \([0-9]\+\)/shm_segment_size: 90000000000/g" workflows/tpc-full-nodummy-qcmn-remote.yaml
 
+add_fmq_shmmonitor_role workflows/${WF_NAME}.yaml
+add_qc_remote_machine_attribute workflows/${WF_NAME}.yaml alio2-cr1-qts01
+
