@@ -657,6 +657,8 @@ defaults:
       - qcmn-daq-remote
       - tpc-full-qcmn-remote
       - tpc-full-nodummy-qcmn-remote
+      - tpc-full-nodummy-nopid-qcmn-remote
+      - tpc-full-nodummy-noraw-qcmn-remote
       - tpc-full-nodummy-qcmn-pp-remote
       - tpc-full-calib-remote
       - tpc-krypton-qcmn-remote
