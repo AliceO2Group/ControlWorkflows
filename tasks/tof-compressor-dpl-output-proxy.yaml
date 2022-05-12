@@ -127,3 +127,5 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
+    - "--severity"
+    - "{{dpl_severity}}"

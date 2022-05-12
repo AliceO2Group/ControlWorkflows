@@ -43,3 +43,5 @@ command:
     - "{{infologger_severity}}"
     - "--infologger-mode"
     - "{{infologger_mode}}"
+    - "--severity"
+    - "{{dpl_severity}}"
