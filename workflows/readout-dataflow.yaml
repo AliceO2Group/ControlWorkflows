@@ -63,7 +63,7 @@ defaults:
     description: "Enable/disable running workflows on the QC nodes"
     widget: checkBox
     panel: FLP_Workflows
-    index: -300
+    index: -200
   cpv_dpl_workflow: !public
     value: "none"
     type: string
@@ -76,7 +76,6 @@ defaults:
       - cpv-compressor
       - cpv-qc-compressor
       - cpv-pedestal-calib-qc
-      - cpv-pedestal-calib-qc-expert
       - cpv-noise-calib-qc
       - cpv-physics
       - cpv-physics-testing
@@ -136,7 +135,6 @@ defaults:
       - emc-qcmn-flp-remote
       - emc-qcmn-epn-remote
       - emc-qcmn-epnall-remote
-      - emc-qcmn-epnall-rawerrors-remote
       - emc-qcmn-flpepn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"    
@@ -165,11 +163,13 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
+      - fdd-digits-qc-full-nocalib
       - fdd-digits-qc-full-nocalib-raw
       - fdd-digits-pipe
-      - fdd-digits-pipe-ds-qc
-      - fdd-digits-pipe-ds-qc-raw
+      - fdd-digits-qc-ds-pipe
+      - fdd-digits-qc-ds
       - fdd-digits-qc
+      - fdd-digits
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -182,7 +182,6 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
-      - fdd-qc-post-processing-remote
       - fdd-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
@@ -211,11 +210,18 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
+      - ft0-digits-qc-full
+      - ft0-digits-qc-full-raw
+      - ft0-digits-qc-full-nocalib
       - ft0-digits-qc-full-nocalib-raw
       - ft0-digits-pipe
-      - ft0-digits-pipe-ds-qc
-      - ft0-digits-pipe-ds-qc-raw
+      - ft0-digits-qc-ds-pipe
+      - ft0-digits-qc-ds-pipe-raw
+      - ft0-digits-qc-ds
+      - ft0-digits-qc-postproc-ds-pipe
+      - ft0-digits-qc-postproc-ds
       - ft0-digits-qc
+      - ft0-digits
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -228,7 +234,6 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
-      - ft0-qc-post-processing-remote
       - ft0-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
@@ -257,11 +262,18 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
+      - fv0-digits-qc-full
+      - fv0-digits-qc-full-raw
+      - fv0-digits-qc-full-nocalib
       - fv0-digits-qc-full-nocalib-raw
       - fv0-digits-pipe
-      - fv0-digits-pipe-ds-qc
-      - fv0-digits-pipe-ds-qc-raw
+      - fv0-digits-qc-ds-pipe
+      - fv0-digits-qc-ds-pipe-raw
+      - fv0-digits-qc-ds
+      - fv0-digits-qc-postproc-ds-pipe
+      - fv0-digits-qc-postproc-ds
       - fv0-digits-qc
+      - fv0-digits
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -274,7 +286,6 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
-      - fv0-qc-post-processing-remote
       - fv0-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
@@ -331,7 +342,6 @@ defaults:
       - its-qcmn-flp-epn-no-ds-remote
       - its-qcmn-epn-remote
       - its-qcmn-flp-epn-no-ds-nocluster-remote
-      - its-qcmn-epn-calibration-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
   its_dcs_sor_parameters: !public
@@ -417,8 +427,6 @@ defaults:
       - none
       - mch-qcmn-epn-digits-remote
       - mch-qcmn-flp-digits-remote
-      - mch-qcmn-epn-full-remote
-      - mch-qcmn-flp-full-remote
       - qcmn-daq-remote
       - mch-digits-epn
     visibleif: $$qc_remote_enabled === "true"  
@@ -453,7 +461,6 @@ defaults:
       - mft-raw-qc
       - mft-raw-qcmn-local
       - mft-full-qcmn-local
-      - mft-track-full-qcmn-local
       - mft-noise-qcmn-local
       - mft-raw-cluster-qcmn-local
       - minimal-dpl
@@ -471,7 +478,6 @@ defaults:
       - mft-raw-direct-qcmn-remote
       - mft-raw-qcmn-remote
       - mft-full-qcmn-remote
-      - mft-track-full-qcmn-remote
       - mft-noise-qcmn-remote
       - mft-raw-cluster-qcmn-remote
       - qcmn-daq-remote
@@ -502,7 +508,6 @@ defaults:
     values:
       - none
       - mid-raw-decoder
-      - mid-digits-qcmn-local
       - mid-full-qcmn-local
       - minimal-dpl
       - qc-daq
@@ -517,7 +522,6 @@ defaults:
     values:
       - none
       - mid-qcmn-epn-digits
-      - mid-digits-qcmn-remote
       - mid-full-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
@@ -613,7 +617,6 @@ defaults:
       - none
       - qcmn-daq-remote
       - tof-full-qcmn-remote
-      - tof-full-epn-qcmn-remote
       - tof-qcmn-compressor-remote
     visibleif: $$qc_remote_enabled === "true"  
   tof_dcs_sor_parameters: !public
@@ -644,8 +647,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-      - tpc-idc
-      - tpc-idc-full
   tpc_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -663,7 +664,6 @@ defaults:
       - tpc-full-nodummy-qcmn-pp-remote
       - tpc-full-calib-remote
       - tpc-krypton-qcmn-remote
-      - tpc-idc-merger
     visibleif: $$qc_remote_enabled === "true"  
   tpc_dcs_sor_parameters: !public
     value: "{}"
@@ -1186,7 +1186,6 @@ defaults:
   ###############################
   # Timeouts
   ###############################
-  auto_stop_timeout: "none"
   ccdb_start_timeout: "10s"
   ccdb_stop_timeout: "10s"
   dcs_sor_timeout: "140s"
@@ -1224,15 +1223,14 @@ defaults:
     panel: Detectors
   ###############################
   # Other variables
-  ###############################
+  ###############################    
   bookkeeping_enabled: "true"
   ccdb_enabled: "false"
   dpl_workflow: none
   dpl_command: none
-  qc_dpl_command: none
-  drop_caches_enabled: "false"
+  drop_caches_enabled: "true"
   fmq_initial_shm_cleanup_enabled: "false"
-  fmq_cleanup_enabled: "false"
+  fmq_cleanup_enabled: "true"
   kafka_enabled: "false"
   minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow
   monitoring_dd_url: "no-op://"
@@ -1243,19 +1241,15 @@ defaults:
   o2_infologger_path: "/opt/o2-InfoLogger"
   odc_plugin: "epn"
   qcdd_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
-  roc_cleanup_enabled: "false"
+  roc_cleanup_enabled: "true"
   roc_ctp_emulator_enabled: "false"
   stfb_standalone: "false"
-  flp_workflows_jit_enabled: "false"
-  qc_remote_jit_enabled: "false"
   user: flp
   extra_env_vars: ""
 vars:
-  auto_stop_enabled: "{{ auto_stop_timeout != 'none' }}"
   detectors: "{{ DetectorsForHosts(hosts) }}"
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
-  odc_topology_fullname: '{{ odc_enabled == "true" ? odc.GenerateEPNTopologyFullname() : "" }}'
 roles:
   ##################
   # CTP Readout role
@@ -1430,14 +1424,13 @@ roles:
             enabled: "{{ minimal_dpl_enabled == 'true' }}"
             include: minimal-dpl
           - name: dpl
-            enabled: "{{ flp_workflows_jit_enabled == 'false' && dpl_workflow != 'none' }}"
+            enabled: "{{ dpl_workflow != 'none' }}"
             include: "{{ dpl_workflow }}"
           - name: dpl
-            enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_workflow != 'none' && dpl_command == 'none' }}"
-            include: "{{ flp_workflows_jit_enabled == 'true' ? GenerateDplSubworkflowFromUri(dpl_workflow) : '' }}"
-          - name: dpl
-            enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_command != 'none' }}"
-            include: "{{ flp_workflows_jit_enabled == 'true' ? GenerateDplSubworkflow(dpl_command) : '' }}"
+            vars:
+              sourced_dpl_command: "source /etc/profile.d/o2.sh && {{ dpl_command }}"
+            enabled: "{{ dpl_command != 'none' }}"
+            include: "{{ GenerateDplSubworkflow(sourced_dpl_command) }}"
       - name: o2-roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
         defaults:
@@ -1488,6 +1481,14 @@ roles:
           trigger: DESTROY
           timeout: "{{ roc_cleanup_timeout }}"
           critical: false
+      - name: ps-aux-on-destroy
+        vars:
+          shell_command: ps aux|grep OCCPlugin
+        task:
+          load: "shell-command"
+          trigger: DESTROY
+          timeout: 10s
+          critical: false
   - name: qc-servers
     enabled: "{{ qc_remote_enabled == 'true' }}"
     constraints:
@@ -1495,7 +1496,6 @@ roles:
         value: qcserver
     defaults:
       qc_remote_workflow: none
-      qc_remote_machine: none
     vars:
       user: qc
       session_id: "{{ environment_id }}" # we can't use "default" because other workflows might already exist on the same QC server
@@ -1506,39 +1506,19 @@ roles:
           var: det
         vars:
           qc_remote_workflow: "{{ PrefixedOverride( 'qc_remote_workflow', ToLower( det ) ) }}"
-          qc_dpl_command: "{{ PrefixedOverride( 'qc_dpl_command', ToLower( det ) ) }}"
-          qc_remote_machine: "{{ PrefixedOverride( 'qc_remote_machine', ToLower( det ) ) }}"
-        constraints:
-          - attribute: machine_id
-            value: "{{ qc_remote_machine }}"
         roles:
           - name: dpl
-            enabled: "{{ qc_remote_jit_enabled == 'false' && qc_remote_workflow != 'none' }}"
+            enabled: "{{ qc_remote_workflow != 'none' }}"
             include: "{{ qc_remote_workflow }}"
-          - name: dpl
-            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_remote_workflow != 'none' && qc_dpl_command == 'none' }}"
-            include: "{{ qc_remote_jit_enabled == 'true' ? GenerateDplSubworkflowFromUri(qc_remote_workflow) : '' }}"
-          - name: dpl
-            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_dpl_command != 'none' }}"
-            include: "{{ qc_remote_jit_enabled == 'true' ? GenerateDplSubworkflow(qc_dpl_command) : '' }}"
-          - name: fairmq-shmmonitor
-            enabled: "{{ fmq_cleanup_enabled == 'true' && qc_remote_workflow != 'none' }}"
-            task:
-              load: "fairmq-shmmonitor"
-              trigger: DESTROY
-              timeout: 10s
-              critical: false
-          # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list.
-          # However if the {{det}}_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
-          # control tree state management.
-          - name: dpl-noop-subwf
+          # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list
+          # however if the {{det}}_qc_remote_workflow is none there is a ghost role deployed which is never active
+          # for that cases we deploy a plain echo task which will transition the role and eventually the wf to active
+          - name: echo task
             enabled: "{{ qc_remote_workflow == 'none' }}"
-            call:
-              func: testplugin.Noop()
-              trigger: CONFIGURE
-              timeout: 1s
-              critical: false
-
+            vars:
+              shell_command: echo
+            task:
+              load: "shell-command"
   - name: dcs
     enabled: "{{dcs_enabled == 'true'}}"
     defaults:
@@ -1600,18 +1580,12 @@ roles:
           trigger: after_STOP_ACTIVITY
           timeout: "{{ dcs_eor_timeout }}"
           critical: true
-      - name: error-cleanup
-        call:
-          func: dcs.Cleanup()
-          trigger: after_GO_ERROR
-          timeout: "{{ dcs_cleanup_timeout }}"
-          critical: false
-      - name: destroy-cleanup
+      - name: cleanup
         call:
           func: dcs.Cleanup()
           trigger: DESTROY
           timeout: "{{ dcs_cleanup_timeout }}"
-          critical: false
+          critical: true
   - name: dd-scheduler
     enabled: "{{ddsched_enabled == 'true'}}"
     roles:
@@ -1645,15 +1619,15 @@ roles:
         enabled: "{{odc_partitions_cleanup == 'true'}}"
         call:
           func: odc.PreDeploymentCleanup()
-          trigger: before_DEPLOY-100
-          await: before_DEPLOY-100
+          trigger: before_DEPLOY
+          await: after_DEPLOY
           timeout: "{{ odc_partition_cleanup_timeout }}"
           critical: false
       - name: part-init
         call:
           func: odc.PartitionInitialize()
-          trigger: before_DEPLOY
-          await: after_DEPLOY
+          trigger: before_CONFIGURE-100
+          await: before_CONFIGURE-100
           timeout: "{{ odc_partitioninitialize_timeout }}"
           critical: true
       - name: configure
@@ -1687,8 +1661,8 @@ roles:
       - name: part-term
         call:
           func: odc.PartitionTerminate()
-          trigger: DESTROY-100
-          await: DESTROY-100
+          trigger: after_RESET+100
+          await: after_RESET+100
           timeout: "{{ odc_partitionterminate_timeout }}"
           critical: true
       - name: cleanup
@@ -1715,7 +1689,7 @@ roles:
       - name: load
         call:
           func: trg.RunLoad()
-          trigger: before_START_ACTIVITY-100
+          trigger: enter_RUNNING
           timeout: "{{ trg_load_timeout }}"
           critical: true
       - name: pre-start
@@ -1735,13 +1709,13 @@ roles:
           func: trg.RunStop()
           trigger: before_STOP_ACTIVITY
           timeout: "{{ trg_stop_timeout }}"
-          critical: false
+          critical: true
       - name: unload
         call:
           func: trg.RunUnload()
           trigger: after_STOP_ACTIVITY
           timeout: "{{ trg_unload_timeout }}"
-          critical: false
+          critical: true
       - name: cleanup
         call:
           func: trg.Cleanup()
@@ -1754,13 +1728,13 @@ roles:
       - name: start
         call:
           func: ccdb.RunStart()
-          trigger: before_START_ACTIVITY
+          trigger: after_START_ACTIVITY
           timeout: 10s
           critical: false
       - name: stop
         call:
           func: ccdb.RunStop()
-          trigger: leave_RUNNING
+          trigger: before_STOP_ACTIVITY
           timeout: 10s
           critical: false
   - name: bookkeeping
@@ -1782,18 +1756,6 @@ roles:
         call:
           func: bookkeeping.UpdateRunStop()
           trigger: after_STOP_ACTIVITY+100
-          timeout: 10s
-          critical: false
-      - name: updaterungoerror
-        call:
-          func: bookkeeping.UpdateRunStop()
-          trigger: after_GO_ERROR+100
-          timeout: 10s
-          critical: false
-      - name: updaterundestroy
-        call:
-          func: bookkeeping.UpdateRunStop()
-          trigger: DESTROY
           timeout: 10s
           critical: false
       - name: startenv
@@ -1861,37 +1823,37 @@ roles:
     roles:
       - name: standby
         call:
-          func: kafka.PublishEnterStateUpdate()
+          func: kafka.PublishUpdate()
           trigger: enter_STANDBY
           timeout: 5s
           critical: false
       - name: deployed
         call:
-          func: kafka.PublishEnterStateUpdate()
+          func: kafka.PublishUpdate()
           trigger: enter_DEPLOYED
           timeout: 5s
           critical: false
       - name: configured
         call:
-          func: kafka.PublishEnterStateUpdate()
+          func: kafka.PublishUpdate()
           trigger: enter_CONFIGURED
           timeout: 5s
           critical: false
       - name: running
         call:
-          func: kafka.PublishEnterStateUpdate()
+          func: kafka.PublishUpdate()
           trigger: enter_RUNNING
           timeout: 5s
           critical: false
       - name: error
         call:
-          func: kafka.PublishEnterStateUpdate()
+          func: kafka.PublishUpdate()
           trigger: enter_ERROR
           timeout: 5s
           critical: false
       - name: destroy
         call:
-          func: kafka.PublishEnterStateUpdate()
+          func: kafka.PublishUpdate()
           trigger: DESTROY
           timeout: 5s
           critical: false
