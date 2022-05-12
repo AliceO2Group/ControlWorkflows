@@ -48,7 +48,10 @@
             "varexp": "c_ROCs_T0_1D.meanX:time",
             "selection": "",
             "option": "*",
-            "graphErrors": "stddevX:0"
+            "graphErrors": "stddevX:0",
+	    "graphYRange": "980:1020",
+	    "graphXRange": "",
+	    "graphAxisLabel": "Mean T0:time"
           }
        ]
       },
