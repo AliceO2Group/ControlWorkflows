@@ -28,7 +28,7 @@
     "postprocessing": {
       "CE_Trending": {
 	"active": "true",
-        "className": "o2::quality_control::postprocessing::TrendingTask",
+        "className": "o2::quality_control::tpc::TrendingTask",
         "moduleName": "QualityControl",
         "detectorName": "TPC",
         "dataSources": [
@@ -37,8 +37,7 @@
             "path": "qc/TPC/MO/CE",
             "name": "c_ROCs_T0_1D",
             "reductorName": "o2::quality_control_modules::tpc::TH1ReductorTPC",
-            "moduleName": "QcTPC",
-            "axisDivision": []
+            "moduleName": "QcTPC"
           }
 	],
         "plots": [
