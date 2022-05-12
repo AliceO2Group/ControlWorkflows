@@ -28,7 +28,7 @@
     "postprocessing": {
       "CE_Trending": {
 	"active": "true",
-        "className": "o2::quality_control::tpc::TrendingTask",
+        "className": "o2::quality_control_modules::tpc::TrendingTaskTPC",
         "moduleName": "QualityControl",
         "detectorName": "TPC",
         "dataSources": [
