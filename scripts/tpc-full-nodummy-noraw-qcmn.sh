@@ -4,15 +4,15 @@
 set -e;
 set -u;
 
-QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-full-nodummy-nopid-qcmn.json'
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-nodummy-nopid-qcmn'
+QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-full-nodummy-noraw-qcmn.json'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-nodummy-noraw-qcmn'
 QC_CONFIG_PARAM='qc_config_uri'
 
 source helpers.sh
 
 cd ../
 
-WF_NAME=tpc-full-nodummy-nopid-qcmn-remote
+WF_NAME=tpc-full-nodummy-noraw-qcmn-remote
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 

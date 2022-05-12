@@ -114,6 +114,8 @@ check_pwd
 ./tpc-full-calib-qcmn.sh
 ./tpc-full-qcmn.sh
 ./tpc-full-nodummy-qcmn.sh
+./tpc-full-nodummy-noraw-qcmn.sh
+./tpc-full-nodummy-nopid-qcmn.sh
 ./tpc-full-nodummy-qcmn-pp.sh
 ./tpc-krypton-qcmn.sh
 ./tpc-qc-post-trending.sh
