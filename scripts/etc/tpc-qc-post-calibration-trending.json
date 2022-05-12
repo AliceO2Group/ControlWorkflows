@@ -53,7 +53,16 @@
 	    "graphXRange": "",
 	    "graphAxisLabel": "Mean T0:time"
           }
-       ]
+       ],
+        "initTrigger": [
+          "once"
+        ],
+        "updateTrigger": [
+          "newobject:qcdb:qc/TPC/MO/CE/c_ROCs_T0_1D"
+        ],
+        "stopTrigger": [
+          "userorcontrol"
+        ]
       },
       "LaserCalibration_Trending": {
         "active": "true",
