@@ -1,4 +1,4 @@
-name: phos-raw-clusters-epn-remote-internal-dpl-clock
+name: phos-raw-clusters-epn-remote-PHS-MERGER-ClusterTask1l-0
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,28 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-clock_to_PHS-ClusterTask-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_PHS-RawTask-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_PHS-MERGER-ClusterTask1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_PHS-MERGER-RawTask1l-0
+  - name: from_PHS-MERGER-ClusterTask1l-0_to_qc-check-sink-QC_ClusterTask_0
     type: push
     transport: shmem
     addressing: ipc
@@ -70,7 +49,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-clock'"
+    - "'PHS-MERGER-ClusterTask1l-0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -146,3 +125,5 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
+    - "--period-timer-publish"
+    - "'30000000'"
