@@ -53,6 +53,23 @@ defaults:
     panel: General_Configuration
     visibleif: $$trg_enabled === "true"
     index: 4
+  auto_stop_enabled: !public
+    value: "false"
+    type: bool
+    label: "Auto stop"
+    description: "Enable/disable timed stop"
+    widget: checkBox
+    panel: General_Configuration
+    index: 5
+  auto_stop_timeout: !public
+    value: "3m"
+    type: string
+    label: "Auto stop timeout:"
+    description: "Timeout for auto stop (e.g. 2h, 5m20s, 2s) - relative to START transition"
+    widget: editBox
+    panel: General_Configuration
+    visibleif: $$auto_stop_enabled == "true"
+    index: 6
   ###############################
   # DCS and FLP Workflows Panel
   ###############################
