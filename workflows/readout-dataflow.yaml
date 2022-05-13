@@ -1758,6 +1758,18 @@ roles:
           trigger: after_STOP_ACTIVITY+100
           timeout: 10s
           critical: false
+      - name: updaterungoerror
+        call:
+          func: bookkeeping.UpdateRunStop()
+          trigger: after_GO_ERROR+100
+          timeout: 10s
+          critical: false
+      - name: updaterundestroy
+        call:
+          func: bookkeeping.UpdateRunStop()
+          trigger: DESTROY
+          timeout: 10s
+          critical: false
       - name: startenv
         call:
           func: bookkeeping.CreateEnv()
