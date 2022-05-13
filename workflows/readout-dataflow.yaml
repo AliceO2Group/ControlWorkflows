@@ -1254,6 +1254,7 @@ vars:
   detectors: "{{ DetectorsForHosts(hosts) }}"
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
+  odc_topology_fullname: '{{ odc_enabled == "true" ? odc.GenerateEPNTopologyFullname() : "" }}'
 roles:
   ##################
   # CTP Readout role
@@ -1629,7 +1630,6 @@ roles:
     vars:
       odc_resources: '{{TrimSpace(odc_resources_spec) == "default" ? "{\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}" : odc_resources_spec }}'
       odc_script: '{{ odc_enabled == "true" ? odc.GenerateEPNWorkflowScript() : "" }}'
-      odc_topology_fullname: '{{ odc_enabled == "true" ? odc.GenerateEPNTopologyFullname() : "" }}'
     roles:
       - name: deploy
         enabled: "{{odc_partitions_cleanup == 'true'}}"
