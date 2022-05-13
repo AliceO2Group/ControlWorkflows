@@ -1,4 +1,4 @@
-name: ft0-qcmn-epn-post-processing-remote-qc-check-FT0-OutOfBunchCollCheck
+name: ft0-digits-qc-full-nocalib-raw-qc-check-FT0-OutOfBunchCollCheck
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -75,7 +75,7 @@ command:
     - "--config"
     - "'{{ qc_config_uri }}'"
     - "--configKeyValues"
-    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -102,7 +102,6 @@ command:
     - "''"
     - "--readers"
     - "'1'"
-    - "--remote"
     - "--remote-batch"
     - "''"
     - "--severity"

@@ -73,7 +73,7 @@ command:
     - "--clone"
     - "''"
     - "--config"
-    - "'consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/{{ qc_json_file }}'"
+    - "'{{ qc_config_uri }}'"
     - "--configKeyValues"
     - "''"
     - "--early-forward-policy"

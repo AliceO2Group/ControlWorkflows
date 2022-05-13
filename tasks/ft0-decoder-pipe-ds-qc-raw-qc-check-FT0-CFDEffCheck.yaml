@@ -1,4 +1,4 @@
-name: ft0-decoder-pipe-ds-qc-raw-qc-check-FT0-CFDEffCheck
+name: ft0-digits-qc-full-raw-qc-check-FT0-CFDEffCheck
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -75,7 +75,7 @@ command:
     - "--config"
     - "'{{ qc_config_uri }}'"
     - "--configKeyValues"
-    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"

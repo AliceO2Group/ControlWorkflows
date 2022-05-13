@@ -1,4 +1,4 @@
-name: ft0-qc-post-processing-remote-PP-TASK-RUNNER-OutOfBunchCollTask
+name: ft0-digits-qc-full-PP-TASK-RUNNER-OutOfBunchCollTask
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -73,7 +73,7 @@ command:
     - "--config"
     - "'{{ qc_config_uri }}'"
     - "--configKeyValues"
-    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -100,7 +100,6 @@ command:
     - "''"
     - "--readers"
     - "'1'"
-    - "--remote"
     - "--remote-batch"
     - "''"
     - "--severity"

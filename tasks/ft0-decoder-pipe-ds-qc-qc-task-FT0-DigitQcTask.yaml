@@ -1,4 +1,4 @@
-name: ft0-decoder-pipe-ds-qc-qc-task-FT0-DigitQcTask
+name: ft0-digits-qc-full-raw-qc-task-FT0-DigitQcTask
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -82,7 +82,7 @@ command:
     - "--config"
     - "'{{ qc_config_uri }}'"
     - "--configKeyValues"
-    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -136,6 +136,6 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--period-timer-cycle"
-    - "'300000000'"
+    - "'60000000'"
     - "--qcConfiguration"
     - "'{}'"

@@ -1,4 +1,4 @@
-name: fv0-digits-pipe-ds-qc-qc-task-FV0-TriggerQcTask
+name: fv0-digits-qc-full-nocalib-qc-task-FV0-TriggerQcTask
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-FV0-TriggerQcTask_to_qc-check-sink-QFV0_TriggerQcTask_0
+  - name: from_qc-task-FV0-TriggerQcTask_to_qc-check-sink-QC_TriggerQcTask_0
     type: push
     transport: shmem
     addressing: ipc
@@ -75,7 +75,7 @@ command:
     - "--config"
     - "'{{ qc_config_uri }}'"
     - "--configKeyValues"
-    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -129,6 +129,6 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--period-timer-cycle"
-    - "'300000000'"
+    - "'60000000'"
     - "--qcConfiguration"
     - "'{}'"
