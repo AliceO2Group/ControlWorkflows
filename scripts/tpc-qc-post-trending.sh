@@ -6,6 +6,7 @@ set -u;
 
 QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-qc-post-calibration-trending.json'
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-qc-post-calibration-trending'
+#QC_FINAL_CONFIG_PATH='consul-json:///ali-consul-ui.cern.ch:8500/o2/components/qc/ANY/any/tpc-qc-post-calibration-trending'
 QC_CONFIG_PARAM='qc_config_uri'
 
 source helpers.sh
