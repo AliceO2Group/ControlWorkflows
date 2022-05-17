@@ -4,8 +4,8 @@
 set -e;
 set -u;
 
-QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-full-qcmn-krypton.json'
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-qcmn-krypton'
+QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-krypton-qcmn.json'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-krypton-qcmn'
 QC_CONFIG_PARAM='qc_config_uri'
 
 source helpers.sh
