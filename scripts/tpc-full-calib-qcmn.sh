@@ -4,8 +4,8 @@
 set -e;
 set -u;
 
-QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-qc-post-calibration.json'
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-qc-post-calibration'
+QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-full-calib-qcmn.json'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-calib-qcmn'
 QC_CONFIG_PARAM='qc_config_uri'
 
 source helpers.sh
