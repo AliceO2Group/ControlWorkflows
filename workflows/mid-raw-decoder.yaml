@@ -89,10 +89,3 @@ roles:
       rcvBufSize: 4
     task:
       load: mid-raw-decoder-internal-dpl-injected-dummy-sink
-  - name: fairmq-shmmonitor
-    enabled: "{{fmq_cleanup_enabled == 'true'}}"
-    task:
-      load: "fairmq-shmmonitor"
-      trigger: DESTROY
-      timeout: 10s
-      critical: false
