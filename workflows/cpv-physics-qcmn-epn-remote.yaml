@@ -52,25 +52,14 @@ roles:
       rcvBufSize: 4
     task:
       load: cpv-physics-qcmn-epn-remote-CPV-MERGER-PhysicsOnEPNs1l-0
-  - name: "qc-check-CPV-QcCheck"
+  - name: "qc-check-sink-QC_PhysicsOnEPNs_0"
     connect:
-    - name: from_CPV-MERGER-PhysicsOnEPNs1l-0_to_qc-check-CPV-QcCheck
+    - name: from_CPV-MERGER-PhysicsOnEPNs1l-0_to_qc-check-sink-QC_PhysicsOnEPNs_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.CPV-MERGER-PhysicsOnEPNs1l-0:from_CPV-MERGER-PhysicsOnEPNs1l-0_to_qc-check-CPV-QcCheck"
+      target: "{{ Parent().Path }}.CPV-MERGER-PhysicsOnEPNs1l-0:from_CPV-MERGER-PhysicsOnEPNs1l-0_to_qc-check-sink-QC_PhysicsOnEPNs_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: cpv-physics-qcmn-epn-remote-qc-check-CPV-QcCheck
-  - name: "internal-dpl-injected-dummy-sink"
-    connect:
-    - name: from_qc-check-CPV-QcCheck_to_internal-dpl-injected-dummy-sink
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.qc-check-CPV-QcCheck:from_qc-check-CPV-QcCheck_to_internal-dpl-injected-dummy-sink"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: cpv-physics-qcmn-epn-remote-internal-dpl-injected-dummy-sink
+      load: cpv-physics-qcmn-epn-remote-qc-check-sink-QC_PhysicsOnEPNs_0
