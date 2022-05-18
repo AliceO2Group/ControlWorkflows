@@ -22,4 +22,3 @@ o2-dpl-raw-proxy ${ARGS_ALL} --dataspec "A:MID/RAWDATA;x:FLP/DISTSUBTIMEFRAME/0"
     o2-mid-raw-to-digits-workflow ${ARGS_ALL} --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES}"|
     o2-dpl-output-proxy -b --session default --dataspec "AD:MID/DATA/0;AR:MID/DATAROF/0;x:FLP/DISTSUBTIMEFRAME/0" --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' --o2-control "$WF_NAME"
 
-add_fmq_shmmonitor_role workflows/${WF_NAME}.yaml
