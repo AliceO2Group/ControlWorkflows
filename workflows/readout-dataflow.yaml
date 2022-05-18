@@ -1186,6 +1186,7 @@ defaults:
   ###############################
   # Timeouts
   ###############################
+  auto_stop_timeout: "none"
   ccdb_start_timeout: "10s"
   ccdb_stop_timeout: "10s"
   dcs_sor_timeout: "140s"
@@ -1247,6 +1248,7 @@ defaults:
   user: flp
   extra_env_vars: ""
 vars:
+  auto_stop_enabled: "{{ auto_stop_timeout != 'none' }}"
   detectors: "{{ DetectorsForHosts(hosts) }}"
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
