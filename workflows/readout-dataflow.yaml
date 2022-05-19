@@ -1484,14 +1484,6 @@ roles:
           trigger: DESTROY
           timeout: "{{ roc_cleanup_timeout }}"
           critical: false
-      - name: ps-aux-on-destroy
-        vars:
-          shell_command: ps aux|grep OCCPlugin
-        task:
-          load: "shell-command"
-          trigger: DESTROY
-          timeout: 10s
-          critical: false
   - name: qc-servers
     enabled: "{{ qc_remote_enabled == 'true' }}"
     constraints:
