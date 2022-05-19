@@ -13,6 +13,7 @@ defaults:
   shm_throw_bad_alloc: false
   session_id: default
   resources_monitoring: 15
+  enabled: {{ it != alio2-cr1-flp145 }}
 roles:
   - name: "internal-dpl-clock"
     connect:
