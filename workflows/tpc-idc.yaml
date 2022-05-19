@@ -13,7 +13,6 @@ defaults:
   shm_throw_bad_alloc: false
   session_id: default
   resources_monitoring: 15
-  enabled: if {{ it != alio2-cr1-flp145 }}
 roles:
   - name: "internal-dpl-clock"
     connect:
@@ -36,6 +35,7 @@ roles:
     task:
       load: tpc-idc-readout-proxy
   - name: "tpc-idc-to-vector"
+    enabled: "if {{ it != 'alio2-cr1-flp145' }}"
     connect:
     - name: from_readout-proxy_to_tpc-idc-to-vector
       type: pull
