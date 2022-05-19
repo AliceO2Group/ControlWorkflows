@@ -95,6 +95,7 @@ roles:
     task:
       load: tpc-idc-tpc-idc-merger-proxy
   - name: "dpl-output-proxy"
+    enabled: "if {{ it != 'alio2-cr1-flp145' }}"    
     connect:
     - name: from_readout-proxy_to_dpl-output-proxy
       type: pull
