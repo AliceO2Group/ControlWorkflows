@@ -13,6 +13,7 @@ defaults:
   shm_throw_bad_alloc: false
   session_id: default
   resources_monitoring: 15
+  enabled: if {{ it != alio2-cr1-flp145 }}
 roles:
   - name: "internal-dpl-clock"
     connect:
@@ -54,7 +55,6 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-      enabled: if {{ it != alio2-cr1-flp145 }}
     task:
       load: tpc-idc-tpc-flp-idc-00
   - name: "internal-dpl-injected-dummy-sink"
