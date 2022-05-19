@@ -1222,6 +1222,7 @@ defaults:
   ccdb_enabled: "false"
   dpl_workflow: none
   dpl_command: none
+  dpl_command_uri: none
   drop_caches_enabled: "false"
   fmq_initial_shm_cleanup_enabled: "false"
   fmq_cleanup_enabled: "false"
@@ -1332,6 +1333,7 @@ roles:
       # dpl_workflow is set to <detector>_dpl_workflow if such an override exists
       dpl_workflow: "{{ PrefixedOverride( 'dpl_workflow', ToLower( DetectorForHost( it ) ) ) }}"
       dpl_command: "{{ PrefixedOverride( 'dpl_command', ToLower( DetectorForHost( it ) ) ) }}"
+      dpl_command_uri: "{{ PrefixedOverride( 'dpl_command_uri', ToLower( DetectorForHost( it ) ) ) }}"
     constraints:
       - attribute: machine_id
         value: "{{ it }}"
@@ -1342,7 +1344,7 @@ roles:
         task:
           load: readout
       - name: "data-distribution"
-        enabled: "{{dd_enabled == 'true' && (qcdd_enabled == 'false' && minimal_dpl_enabled == 'false' && dpl_workflow == 'none' && dpl_command == 'none')}}"
+        enabled: "{{dd_enabled == 'true' && (qcdd_enabled == 'false' && minimal_dpl_enabled == 'false' && dpl_workflow == 'none' && dpl_command == 'none' && dpl_command_uri == 'none')}}"
         roles:
           - name: "stfb-standalone"
             enabled: "{{stfb_standalone}}"
@@ -1377,7 +1379,7 @@ roles:
             task:
               load: stfsender
       - name: "data-distribution-dpl"
-        enabled: "{{(qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none' || dpl_command != 'none') && dd_enabled == 'true'}}"
+        enabled: "{{(qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none' || dpl_command != 'none' || dpl_command_uri != 'none') && dd_enabled == 'true'}}"
         defaults:
           path_to_readout_proxy: "{{ Parent().Path }}.data-distribution-dpl.stfb:dpl-chan"
         roles:
@@ -1402,7 +1404,7 @@ roles:
               #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
               load: stfbuilder
           - name: "stfs" # this stfs is for any DPL workflow. We assume that it has a device dpl-output-proxy and a downstream channel
-            enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none' || dpl_command != 'none')}}"
+            enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none' || dpl_command != 'none' || dpl_command_uri != 'none')}}"
             vars:
               dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }}
               stfs_input_channel_name: downstream
@@ -1424,9 +1426,11 @@ roles:
             include: "{{ dpl_workflow }}"
           - name: dpl
             vars:
-              sourced_dpl_command: "source /etc/profile.d/o2.sh && {{ dpl_command }}"
             enabled: "{{ dpl_command != 'none' }}"
-            include: "{{ GenerateDplSubworkflow(sourced_dpl_command) }}"
+            include: "{{ GenerateDplSubworkflow(dpl_command) }}"
+          - name: dpl
+            enabled: "{{ dpl_command_uri != 'none' }}"
+            include: "{{ GenerateDplSubworkflowFromUri(dpl_command_uri) }}"
       - name: o2-roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
         defaults:
