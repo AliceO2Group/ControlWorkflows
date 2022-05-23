@@ -129,6 +129,14 @@ CRU_GEN_MERGER_ID='{CRUS}'
 CRU_FINAL_MERGER_ID='0-355'
 CRU_MERGER_ID='cru_merger_ids'
 
+QC_GEN_CONFIG_PATH='json://'`pwd`'/scripts/etc/tpc-full-nodummy-qcmn.json'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-nodummy-qcmn'
+QC_CONFIG_PARAM='qc_config_uri'
+
+export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
+
+
 ARGS_ALL="-b --session default --shm-segment-size $GLOBAL_SHMSIZE"
 o2-dpl-raw-proxy $ARGS_ALL \
   --dataspec ${sCRUs} \
@@ -157,6 +165,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --groupRows "2,2,2,3,3,3,2,2,2,2" \
   --severity warning \
   --use-approximate-timestamp true \
+  --sendOutputFFT true \
   | o2-tpc-idc-ft-aggregator $ARGS_ALL \
   --rangeIDC 200 \
   --nFourierCoeff 40 \
@@ -164,7 +173,8 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --ccdb-uri "${CCDB}" \
   --configKeyValues 'keyval.output_dir=/dev/null'  \
   --severity warning \
-  --o2-control $WF_NAME
+  --infologger-severity warning \
+  |  o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
 
 
 
@@ -191,4 +201,18 @@ sed -i "s/""${ORIGINAL_STRING}""/""${REPLACE_STRING}""/g" workflows/${WF_NAME}.y
 
 
 add_qc_remote_machine_attribute workflows/${WF_NAME}.yaml alio2-cr1-qts01
+
+
+WF_NAME=tpc-full-nodummy-qcmn-remote
+
+# add the templated QC config file path
+ESCAPED_QC_FINAL_CONFIG_PATH=$(printf '%s\n' "$QC_FINAL_CONFIG_PATH" | sed -e 's/[\/&]/\\&/g')
+sed -i /defaults:/\ a\\\ \\\ "${QC_CONFIG_PARAM}":\ \""${ESCAPED_QC_FINAL_CONFIG_PATH}"\" workflows/${WF_NAME}.yaml
+
+# find and replace all usages of the QC config path which was used to generate the workflow
+ESCAPED_QC_GEN_CONFIG_PATH=$(printf '%s\n' "$QC_GEN_CONFIG_PATH" | sed -e 's/[]\/$*.^[]/\\&/g');
+sed -i "s/""${ESCAPED_QC_GEN_CONFIG_PATH}""/{{ ""${QC_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME}.yaml tasks/${WF_NAME}-*
+
+sed -i "s/shm_segment_size: \([0-9]\+\)/shm_segment_size: 90000000000/g" workflows/${WF_NAME}.yaml
+
 
