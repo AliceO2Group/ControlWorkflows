@@ -617,6 +617,7 @@ defaults:
       - none
       - qcmn-daq-remote
       - tof-full-qcmn-remote
+      - tof-full-epn-qcmn-remote
       - tof-qcmn-compressor-remote
     visibleif: $$qc_remote_enabled === "true"  
   tof_dcs_sor_parameters: !public
