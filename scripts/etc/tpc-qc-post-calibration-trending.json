@@ -37,7 +37,8 @@
             "path": "qc/TPC/MO/CE",
             "name": "c_ROCs_T0_1D",
             "reductorName": "o2::quality_control_modules::tpc::TH1ReductorTPC",
-            "moduleName": "QcTPC"
+            "moduleName": "QcTPC",
+	    "axisDivision": []
           }
 	],
         "plots": [
@@ -71,7 +72,7 @@
         "dataSources": [
           {
             "type": "repository",
-            "path": "qc/TPC/MO/LaserCalibration",
+            "path": "TPC/MO/LaserCalibration",
             "name": "Calib_Values",
             "reductorName": "o2::quality_control_modules::tpc::LtrCalibReductor",
             "moduleName": "QcTPC"
@@ -147,7 +148,7 @@
           "once"
         ],
         "updateTrigger": [
-          "newobject:qcdb:qc/TPC/MO/LaserCalibration/Calib_Values"
+          "newobject:qcdb:TPC/MO/LaserCalibration/Calib_Values"
         ],
         "stopTrigger": [
           "userorcontrol"
