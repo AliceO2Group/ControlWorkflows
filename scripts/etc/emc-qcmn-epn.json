@@ -27,8 +27,9 @@
             }
         },
         "tasks": {
-            "CellTask": {
+            "CellTaskEMCAL": {
                 "active": "true",
+                "task": "CellTask",
                 "className": "o2::quality_control_modules::emcal::CellTask",
                 "moduleName": "QcEMCAL",
                 "detectorName": "EMC",
@@ -52,8 +53,9 @@
             }
         },
         "checks": {
-            "CellCheckAmplitude": {
+            "CellCheckAmplitudeEMCAL": {
 			    "active": "true",
+                "check": "CheckAmplitude",
 			    "className": "o2::quality_control_modules::emcal::CellCheck",
 			    "moduleName": "QcEMCAL",
 			    "policy": "OnEachSeparately",
