@@ -1847,37 +1847,37 @@ roles:
     roles:
       - name: standby
         call:
-          func: kafka.PublishUpdate()
+          func: kafka.PublishEnterStateUpdate()
           trigger: enter_STANDBY
           timeout: 5s
           critical: false
       - name: deployed
         call:
-          func: kafka.PublishUpdate()
+          func: kafka.PublishEnterStateUpdate()
           trigger: enter_DEPLOYED
           timeout: 5s
           critical: false
       - name: configured
         call:
-          func: kafka.PublishUpdate()
+          func: kafka.PublishEnterStateUpdate()
           trigger: enter_CONFIGURED
           timeout: 5s
           critical: false
       - name: running
         call:
-          func: kafka.PublishUpdate()
+          func: kafka.PublishEnterStateUpdate()
           trigger: enter_RUNNING
           timeout: 5s
           critical: false
       - name: error
         call:
-          func: kafka.PublishUpdate()
+          func: kafka.PublishEnterStateUpdate()
           trigger: enter_ERROR
           timeout: 5s
           critical: false
       - name: destroy
         call:
-          func: kafka.PublishUpdate()
+          func: kafka.PublishEnterStateUpdate()
           trigger: DESTROY
           timeout: 5s
           critical: false
