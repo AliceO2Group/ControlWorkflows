@@ -6,11 +6,10 @@
         "host": "ali-qcdb.cern.ch:8083",
         "username": "not_applicable",
         "password": "not_applicable",
-        "name": "not_applicable"
+        "name": "not_applicable",
+	"maxObjectSize" : "10000000"
       },
       "Activity": {
-        "number": "42",
-        "type": "2"
       },
       "infologger": {
         "filterDiscardDebug": "true",
@@ -71,7 +70,7 @@
         "histogramRanges": [
           { "Pedestals" :   [ "240", "0",   "120" ] },
           { "Noise" :       [ "200", "0",   "2"   ] },
-          { "Qtot" :  [ "600", "0",   "300" ] },
+          { "Qtot" :  [ "600", "11",   "300" ] },
           { "T0" :    [ "100", "123", "125" ] },
           { "Width" : [ "100", "0",   "1"   ] },
           { "CEQtot" :      [ "600", "0",   "300" ] },
@@ -143,7 +142,7 @@
         "histogramRanges": [
           { "Pedestals" :   [ "240", "0",   "120" ] },
           { "Noise" :       [ "200", "0",   "2"   ] },
-          { "Qtot" :  [ "300", "0",   "300" ] },
+          { "Qtot" :  [ "300", "11",   "300" ] },
           { "T0" :    [ "200", "480", "520" ] },
           { "Width" : [ "100", "0",   "1"   ] },
           { "CEQtot" :      [ "600", "0",   "300" ] },
@@ -278,7 +277,7 @@
         "dataSources": [
           {
             "type": "repository",
-            "path": "qc/TPC/MO/LaserCalibration",
+            "path": "TPC/MO/LaserCalibration",
             "name": "Calib_Values",
             "reductorName": "o2::quality_control_modules::tpc::LtrCalibReductor",
             "moduleName": "QcTPC"
@@ -354,7 +353,7 @@
           "userorcontrol"
         ],
         "updateTrigger": [
-          "newobject:ccdb:qc/TPC/MO/LaserCalibration/Calib_Values"
+          "newobject:qcdb:TPC/MO/LaserCalibration/Calib_Values"
         ],
         "stopTrigger": [
           "userorcontrol"

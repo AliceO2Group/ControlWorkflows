@@ -4,7 +4,7 @@
 set -e;
 set -u;
 
-QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-full-nodummy-post-processing-qcmn.json'
+QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-full-nodummy-postprocessing-qcmn.json'
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-nodummy-postprocessing-qcmn'
 QC_CONFIG_PARAM='qc_config_uri'
 
