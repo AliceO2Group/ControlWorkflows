@@ -1,15 +1,16 @@
 name: tpc-idc-merger
 vars:
   dpl_command: >-
-    o2-dpl-raw-proxy -b --session default --shm-segment-size 137438953472 --dataspec dd:TPC/IDCGROUP --severity warning --labels tpc-idc-merger-proxy:ecs-preserve-raw-channels --proxy-name tpc-idc-merger-proxy --channel-config 'name=tpc-idc-merger-proxy,type=pull,method=bind,address=tcp://*:{{ merger_port }},rateLogging=1,transport=zeromq' | o2-tpc-idc-distribute -b --session default --shm-segment-size 137438953472 --crus {{ cru_merger_ids }} --firstTF 1 --timeframes 1000 --output-lanes 5 --configKeyValues keyval.output_dir=/dev/null --severity warning | o2-tpc-idc-factorize -b --session default --shm-segment-size 137438953472 --crus {{ cru_merger_ids }} --timeframes 1000 --input-lanes 5 --configFile '' --compression 0 --ccdb-uri http://ccdb-test.cern.ch:8080 --configKeyValues 'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null' --groupIDCs warning --nthreads-grouping 4 --groupPads 5,6,7,8,4,5,6,8,10,13 --groupRows 2,2,2,3,3,3,2,2,2,2 --severity warning --use-approximate-timestamp true --sendOutputFFT true | o2-tpc-idc-ft-aggregator -b --session default --shm-segment-size 137438953472 --rangeIDC 200 --nFourierCoeff 40 --timeframes 1000 --ccdb-uri http://ccdb-test.cern.ch:8080 --configKeyValues keyval.output_dir=/dev/null --severity warning --infologger-severity warning | o2-qc --config json:///home/rmunzer/ControlWorkflows/scripts/etc/tpc-full-nodummy-qcmn.json --remote -b
+    o2-dpl-raw-proxy -b --session default --shm-segment-size 137438953472 --dataspec dd:TPC/IDCGROUP --severity warning --labels tpc-idc-merger-proxy:ecs-preserve-raw-channels --proxy-name tpc-idc-merger-proxy --channel-config 'name=tpc-idc-merger-proxy,type=pull,method=bind,address=tcp://*:{{ merger_port }},rateLogging=1,transport=zeromq' | o2-tpc-idc-distribute -b --session default --shm-segment-size 137438953472 --crus {{ cru_merger_ids }} --firstTF 1 --timeframes 1000 --output-lanes 5 --configKeyValues keyval.output_dir=/dev/null --severity warning | o2-tpc-idc-factorize -b --session default --shm-segment-size 137438953472 --crus {{ cru_merger_ids }} --timeframes 1000 --input-lanes 5 --configFile '' --compression 0 --ccdb-uri http://ccdb-test.cern.ch:8080 --configKeyValues 'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null' --groupIDCs warning --nthreads-grouping 4 --groupPads 5,6,7,8,4,5,6,8,10,13 --groupRows 2,2,2,3,3,3,2,2,2,2 --severity warning --use-approximate-timestamp true --sendOutputFFT true | o2-tpc-idc-ft-aggregator -b --session default --shm-segment-size 137438953472 --rangeIDC 200 --nFourierCoeff 40 --timeframes 1000 --ccdb-uri http://ccdb-test.cern.ch:8080 --configKeyValues keyval.output_dir=/dev/null --severity warning --infologger-severity warning | o2-qc --config {{ qc_config_uri }} --remote -b
 defaults:
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-nodummy-qcmn"
   qc_remote_machine: "alio2-cr1-qts01"
   merger_port: 47734
   cru_merger_ids: 0-355
   monitoring_dpl_url: "no-op://"
   user: "flp"
   fmq_rate_logging: 0
-  shm_segment_size: 10000000000
+  shm_segment_size: 90000000000
   shm_throw_bad_alloc: false
   session_id: default
   resources_monitoring: 15

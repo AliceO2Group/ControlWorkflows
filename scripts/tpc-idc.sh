@@ -44,6 +44,9 @@ ARGS_ALL="-b --session default "
 o2-dpl-raw-proxy $ARGS_ALL \
   --dataspec "$PROXY_INSPEC" \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
+  | o2-dpl-output-proxy $ARGS_ALL \
+   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
+   --dataspec "${OUTSPEC}" \
   | o2-tpc-idc-to-vector $ARGS_ALL \
   --crus ${CRU_GEN_CONFIG_PATH} \
   --pedestal-file $pedestalFile \
@@ -64,9 +67,6 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,address=tcp://{{ merger_node }}:{{ merger_port }},type=push,transport=zeromq" ' \
    --dataspec "${OUTSPEC_IDC}" \
    --severity warning \
-  | o2-dpl-output-proxy $ARGS_ALL \
-   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
-   --dataspec "${OUTSPEC}" \
    --o2-control $WF_NAME
 
 #   --default-port 47734 \
@@ -87,6 +87,13 @@ sed -i "s/ZYX/{{ detector }}/g" workflows/${WF_NAME}.yaml tasks/${WF_NAME}-*
 sed -i /defaults:/\ a\\\ \\\ "merger_node":\ "${MERGER}" workflows/${WF_NAME}.yaml
 
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME}.yaml
+
+
+sed -i 's/name: "tpc-flp-idc-00"/name: \"tpc-flp-idc-00\"\n    enabled: \"if {{ it != 'alio2-cr1-flp145' }}\"/g' workflows/${WF_NAME}.yaml
+sed -i 's/name: "tpc-idc-to-vector"/name: \"tpc-idc-to-vector\"\n    enabled: \"if {{ it != 'alio2-cr1-flp145' }}\"/g' workflows/${WF_NAME}.yaml
+sed -i 's/name: "tpc-idc-merger-proxy"/name: \"tpc-idc-merger-proxy\"\n    enabled: \"if {{ it != 'alio2-cr1-flp145' }}\"/g' workflows/${WF_NAME}.yaml
+sed -i 's/name: from_tpc-idc-to-vector_to_dpl-output-proxy/name: from_tpc-idc-to-vector_to_dpl-output-proxy\n      enabled: \"if {{ it != 'alio2-cr1-flp145' }}\"/g' workflows/${WF_NAME}.yaml
+sed -i 's/name: from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink/name: from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink\n      enabled: \"if {{ it != 'alio2-cr1-flp145' }}\"/g' workflows/${WF_NAME}.yaml
 
 
 ORIGINAL_STRING="tpc-idc-merger-proxy-{{ it }}"
@@ -201,9 +208,6 @@ sed -i "s/""${ORIGINAL_STRING}""/""${REPLACE_STRING}""/g" workflows/${WF_NAME}.y
 
 
 add_qc_remote_machine_attribute workflows/${WF_NAME}.yaml alio2-cr1-qts01
-
-
-WF_NAME=tpc-full-nodummy-qcmn-remote
 
 # add the templated QC config file path
 ESCAPED_QC_FINAL_CONFIG_PATH=$(printf '%s\n' "$QC_FINAL_CONFIG_PATH" | sed -e 's/[\/&]/\\&/g')

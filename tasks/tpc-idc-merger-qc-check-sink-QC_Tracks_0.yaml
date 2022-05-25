@@ -64,7 +64,7 @@ command:
     - "--clone"
     - "''"
     - "--config"
-    - "'json:///home/rmunzer/ControlWorkflows/scripts/etc/tpc-full-nodummy-qcmn.json'"
+    - "'{{ qc_config_uri }}'"
     - "--configKeyValues"
     - "''"
     - "--early-forward-policy"
