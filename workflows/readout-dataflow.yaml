@@ -1230,9 +1230,9 @@ defaults:
   ccdb_enabled: "false"
   dpl_workflow: none
   dpl_command: none
-  drop_caches_enabled: "true"
+  drop_caches_enabled: "false"
   fmq_initial_shm_cleanup_enabled: "false"
-  fmq_cleanup_enabled: "true"
+  fmq_cleanup_enabled: "false"
   kafka_enabled: "false"
   minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow
   monitoring_dd_url: "no-op://"
@@ -1243,7 +1243,7 @@ defaults:
   o2_infologger_path: "/opt/o2-InfoLogger"
   odc_plugin: "epn"
   qcdd_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the DAQ QC on FLP via dpl_workflow
-  roc_cleanup_enabled: "true"
+  roc_cleanup_enabled: "false"
   roc_ctp_emulator_enabled: "false"
   stfb_standalone: "false"
   user: flp
