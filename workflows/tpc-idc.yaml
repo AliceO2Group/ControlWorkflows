@@ -103,6 +103,14 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
+    - name: from_tpc-idc-to-vector_to_dpl-output-proxy
+      enabled:  " {{ it !='alio2-cr1-flp145' }} " 
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-idc-to-vector:from_tpc-idc-to-vector_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     bind:
     - name: downstream
       type: push
