@@ -59,7 +59,7 @@ roles:
     task:
       load: tpc-idc-tpc-flp-idc-00
   - name: "internal-dpl-injected-dummy-sink"
-      enabled:  "if {{ it !='alio2-cr1-flp145' }}" 
+    enabled:  "if {{ it !='alio2-cr1-flp145' }}" 
     connect:
     - name: from_tpc-idc-to-vector_to_internal-dpl-injected-dummy-sink
       type: pull
