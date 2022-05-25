@@ -1516,15 +1516,17 @@ roles:
               trigger: DESTROY
               timeout: 10s
               critical: false
-          # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list
-          # however if the {{det}}_qc_remote_workflow is none there is a ghost role deployed which is never active
-          # for that cases we deploy a plain echo task which will transition the role and eventually the wf to active
-          - name: echo task
+          # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list.
+          # However if the {{det}}_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
+          # control tree state management.
+          - name: dpl-noop-subwf
             enabled: "{{ qc_remote_workflow == 'none' }}"
-            vars:
-              shell_command: echo
-            task:
-              load: "shell-command"
+            call:
+              func: testplugin.Noop()
+              trigger: CONFIGURE
+              timeout: 1s
+              critical: false
+
   - name: dcs
     enabled: "{{dcs_enabled == 'true'}}"
     defaults:
