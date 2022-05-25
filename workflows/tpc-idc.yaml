@@ -35,7 +35,7 @@ roles:
     task:
       load: tpc-idc-readout-proxy
   - name: "tpc-idc-to-vector"
-    enabled:  "if {{ it !='alio2-cr1-flp145' }}" 
+    enabled:  if {{ it !='alio2-cr1-flp145' }}
     connect:
     - name: from_readout-proxy_to_tpc-idc-to-vector
       type: pull
