@@ -44,9 +44,6 @@ ARGS_ALL="-b --session default "
 o2-dpl-raw-proxy $ARGS_ALL \
   --dataspec "$PROXY_INSPEC" \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
-  | o2-dpl-output-proxy $ARGS_ALL \
-   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
-   --dataspec "${OUTSPEC}" \
   | o2-tpc-idc-to-vector $ARGS_ALL \
   --crus ${CRU_GEN_CONFIG_PATH} \
   --pedestal-file $pedestalFile \
@@ -67,6 +64,9 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,address=tcp://{{ merger_node }}:{{ merger_port }},type=push,transport=zeromq" ' \
    --dataspec "${OUTSPEC_IDC}" \
    --severity warning \
+  | o2-dpl-output-proxy $ARGS_ALL \
+   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
+   --dataspec "${OUTSPEC}" \
    --o2-control $WF_NAME
 
 #   --default-port 47734 \
