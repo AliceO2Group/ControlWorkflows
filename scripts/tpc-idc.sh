@@ -101,7 +101,10 @@ sed -i 's,name: \"tpc-idc-to-vector\",name: \"tpc-idc-to-vector\"\n    enabled: 
 name=" \"tpc-idc-merger-proxy\" "
 echo $name
 sed -i 's,name: \"tpc-idc-merger-proxy\",name: \"tpc-idc-merger-proxy\"\n    enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
-#sed -i 's,name: \"from_tpc-idc-to-vector_to_dpl-output-proxy\",name: \"from_tpc-idc-to-vector_to_dpl-output-proxy\"\n      enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
+delete=`grep -ni "name: from_tpc-idc-to-vector_to_dpl-output" workflows/${WF_NAME}.yaml | cut -f1 -d:`
+deleteend=`expr $delete  + 6`
+echo $delete,$deleteend
+sed -i ''"${delete}"','"${deleteend}"'d' workflows/${WF_NAME}.yaml
 #sed -i 's,name: \"from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink\",name: \"from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink\"\n      enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
 
 
