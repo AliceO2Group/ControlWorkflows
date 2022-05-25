@@ -89,7 +89,7 @@ sed -i /defaults:/\ a\\\ \\\ "merger_node":\ "${MERGER}" workflows/${WF_NAME}.ya
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME}.yaml
 
 
-exclude=" \"if {{ it !=\'alio2-cr1-flp145\' }}\" "
+exclude=" \"if {{ it }} !=\'alio2-cr1-flp145\' \" "
 
 echo Exlucde: $exclude
 name=" \"tpc-flp-idc-00\" "

@@ -35,7 +35,7 @@ roles:
     task:
       load: tpc-idc-readout-proxy
   - name: "tpc-idc-to-vector"
-    enabled:  "if {{ it !='alio2-cr1-flp145' }}" 
+    enabled:  "if {{ it }} !='alio2-cr1-flp145' " 
     connect:
     - name: from_readout-proxy_to_tpc-idc-to-vector
       type: pull
@@ -47,7 +47,7 @@ roles:
     task:
       load: tpc-idc-tpc-idc-to-vector
   - name: "tpc-flp-idc-00"
-    enabled:  "if {{ it !='alio2-cr1-flp145' }}" 
+    enabled:  "if {{ it }} !='alio2-cr1-flp145' " 
     connect:
     - name: from_tpc-idc-to-vector_to_tpc-flp-idc-00
       type: pull
@@ -59,7 +59,7 @@ roles:
     task:
       load: tpc-idc-tpc-flp-idc-00
   - name: "internal-dpl-injected-dummy-sink"
-    enabled:  "if {{ it !='alio2-cr1-flp145' }}" 
+    enabled:  "if {{ it }} !='alio2-cr1-flp145' " 
     connect:
     - name: from_tpc-idc-to-vector_to_internal-dpl-injected-dummy-sink
       type: pull
@@ -78,7 +78,7 @@ roles:
     task:
       load: tpc-idc-internal-dpl-injected-dummy-sink
   - name: "tpc-idc-merger-proxy"
-    enabled:  "if {{ it !='alio2-cr1-flp145' }}" 
+    enabled:  "if {{ it }} !='alio2-cr1-flp145' " 
     connect:
     - name: from_tpc-flp-idc-00_to_tpc-idc-merger-proxy
       type: pull
