@@ -89,11 +89,20 @@ sed -i /defaults:/\ a\\\ \\\ "merger_node":\ "${MERGER}" workflows/${WF_NAME}.ya
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME}.yaml
 
 
-sed -i 's/name: "tpc-flp-idc-00"/name: \"tpc-flp-idc-00\"\n    enabled: \"if {{ it != \"alio2-cr1-flp145\" }}\"/g' workflows/${WF_NAME}.yaml
-sed -i 's/name: "tpc-idc-to-vector"/name: \"tpc-idc-to-vector\"\n    enabled: \"if {{ it != \"alio2-cr1-flp145\" }}\"/g' workflows/${WF_NAME}.yaml
-sed -i 's/name: "tpc-idc-merger-proxy"/name: \"tpc-idc-merger-proxy\"\n    enabled: \"if {{ it != \"alio2-cr1-flp145\" }}\"/g' workflows/${WF_NAME}.yaml
-sed -i 's/name: from_tpc-idc-to-vector_to_dpl-output-proxy/name: from_tpc-idc-to-vector_to_dpl-output-proxy\n      enabled: \"if {{ it != \"alio2-cr1-flp145\" }}\"/g' workflows/${WF_NAME}.yaml
-sed -i 's/name: from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink/name: from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink\n      enabled: \"if {{ it != \"alio2-cr1-flp145\" }}\"/g' workflows/${WF_NAME}.yaml
+exclude=" \"if {{ it !=\'alio2-cr1-flp145\' }}\" "
+
+echo Exlucde: $exclude
+name=" \"tpc-flp-idc-00\" "
+echo $name
+sed -i 's,name: \"tpc-flp-idc-00\",name: \"tpc-flp-idc-00\"\n    enabled: '"$exclude"',g' workflows/${WF_NAME}.yaml
+name=" \"tpc-idc-to-vector\" "
+echo $name
+sed -i 's,name: \"tpc-idc-to-vector\",name: \"tpc-idc-to-vector\"\n    enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
+name=" \"tpc-idc-merger-proxy\" "
+echo $name
+sed -i 's,name: \"tpc-idc-merger-proxy\",name: \"tpc-idc-merger-proxy\"\n    enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
+sed -i 's,name: \"from_tpc-idc-to-vector_to_dpl-output-proxy\",name: \"from_tpc-idc-to-vector_to_dpl-output-proxy\"\n      enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
+sed -i 's,name: \"from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink\",name: \"from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink\"\n      enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
 
 
 ORIGINAL_STRING="tpc-idc-merger-proxy-{{ it }}"
