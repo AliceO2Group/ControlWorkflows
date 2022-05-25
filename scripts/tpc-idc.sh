@@ -89,11 +89,11 @@ sed -i /defaults:/\ a\\\ \\\ "merger_node":\ "${MERGER}" workflows/${WF_NAME}.ya
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME}.yaml
 
 
-sed -i 's/name: "tpc-flp-idc-00"/name: \"tpc-flp-idc-00\"\n    enabled: \"if {{ it != 'alio2-cr1-flp145' }}\"/g' workflows/${WF_NAME}.yaml
-sed -i 's/name: "tpc-idc-to-vector"/name: \"tpc-idc-to-vector\"\n    enabled: \"if {{ it != 'alio2-cr1-flp145' }}\"/g' workflows/${WF_NAME}.yaml
-sed -i 's/name: "tpc-idc-merger-proxy"/name: \"tpc-idc-merger-proxy\"\n    enabled: \"if {{ it != 'alio2-cr1-flp145' }}\"/g' workflows/${WF_NAME}.yaml
-sed -i 's/name: from_tpc-idc-to-vector_to_dpl-output-proxy/name: from_tpc-idc-to-vector_to_dpl-output-proxy\n      enabled: \"if {{ it != 'alio2-cr1-flp145' }}\"/g' workflows/${WF_NAME}.yaml
-sed -i 's/name: from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink/name: from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink\n      enabled: \"if {{ it != 'alio2-cr1-flp145' }}\"/g' workflows/${WF_NAME}.yaml
+sed -i 's/name: "tpc-flp-idc-00"/name: \"tpc-flp-idc-00\"\n    enabled: \"if {{ it != \"alio2-cr1-flp145\" }}\"/g' workflows/${WF_NAME}.yaml
+sed -i 's/name: "tpc-idc-to-vector"/name: \"tpc-idc-to-vector\"\n    enabled: \"if {{ it != \"alio2-cr1-flp145\" }}\"/g' workflows/${WF_NAME}.yaml
+sed -i 's/name: "tpc-idc-merger-proxy"/name: \"tpc-idc-merger-proxy\"\n    enabled: \"if {{ it != \"alio2-cr1-flp145\" }}\"/g' workflows/${WF_NAME}.yaml
+sed -i 's/name: from_tpc-idc-to-vector_to_dpl-output-proxy/name: from_tpc-idc-to-vector_to_dpl-output-proxy\n      enabled: \"if {{ it != \"alio2-cr1-flp145\" }}\"/g' workflows/${WF_NAME}.yaml
+sed -i 's/name: from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink/name: from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink\n      enabled: \"if {{ it != \"alio2-cr1-flp145\" }}\"/g' workflows/${WF_NAME}.yaml
 
 
 ORIGINAL_STRING="tpc-idc-merger-proxy-{{ it }}"
@@ -164,7 +164,6 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --input-lanes ${lanes} \
   --configFile "" \
   --compression 0 \
-  --ccdb-uri "${CCDB}" \
   --configKeyValues 'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null'  \
   --groupIDCs warning \
   --nthreads-grouping 4 \
@@ -177,13 +176,13 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --rangeIDC 200 \
   --nFourierCoeff 40 \
   --timeframes ${nTFs} \
-  --ccdb-uri "${CCDB}" \
   --configKeyValues 'keyval.output_dir=/dev/null'  \
   --severity warning \
   --infologger-severity warning \
   |  o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
 
 
+#  --ccdb-uri "${CCDB}" \
 
 
 # replace {{ it  }} in in proxy name in taks and workflow
