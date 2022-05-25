@@ -105,7 +105,7 @@ delete=`grep -ni "name: from_tpc-idc-to-vector_to_dpl-output" workflows/${WF_NAM
 deleteend=`expr $delete  + 6`
 echo $delete,$deleteend
 sed -i ''"${delete}"','"${deleteend}"'d' workflows/${WF_NAME}.yaml
-#sed -i 's,name: \"from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink\",name: \"from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink\"\n      enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
+sed -i 's,name: \"internal-dpl-injected-dummy-sink\",name: \"internal-dpl-injected-dummy-sink\"\n      enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
 
 
 ORIGINAL_STRING="tpc-idc-merger-proxy-{{ it }}"
