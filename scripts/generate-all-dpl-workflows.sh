@@ -97,6 +97,7 @@ check_pwd
 ./mft-raw-cluster-qcmn.sh
 ./mid-raw-decoder.sh
 ./mid-qcmn-epn-digits.sh
+./mid-full-qcmn.sh
 ./minimal-dpl.sh
 ./phos-compressor-raw-qc.sh
 ./phos-compressor-raw-qcmn.sh
@@ -105,14 +106,18 @@ check_pwd
 ./phos-compressor-raw-qcmnt3.sh
 ./phos-compressort3.sh
 ./phos-raw-clusters.sh
+./phos-raw-clusters-epn.sh
 ./qc-daq.sh
 ./qcmn-daq.sh
 ./tof-compressor.sh
 ./tof-qcmn-compressor.sh
 ./tof-full-qcmn.sh
+./tof-full-epn-qcmn.sh
 ./tpc-full-calib-qcmn.sh
 ./tpc-full-qcmn.sh
 ./tpc-full-nodummy-qcmn.sh
+./tpc-full-nodummy-noraw-qcmn.sh
+./tpc-full-nodummy-nopid-qcmn.sh
 ./tpc-full-nodummy-qcmn-pp.sh
 ./tpc-krypton-qcmn.sh
 ./tpc-qc-post-trending.sh

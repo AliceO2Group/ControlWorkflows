@@ -13,6 +13,8 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+properties:
+  qcConfiguration: ""
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -65,6 +67,8 @@ command:
     - "''"
     - "--config"
     - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -118,3 +122,5 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
+    - "--qcConfiguration"
+    - "'{}'"

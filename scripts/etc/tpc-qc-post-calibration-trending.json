@@ -26,6 +26,44 @@
       }
     },
     "postprocessing": {
+      "CE_Trending": {
+	"active": "true",
+        "className": "o2::quality_control_modules::tpc::TrendingTaskTPC",
+        "moduleName": "QualityControl",
+        "detectorName": "TPC",
+        "dataSources": [
+          {
+            "type": "repository",
+            "path": "qc/TPC/MO/CE",
+            "name": "c_ROCs_T0_1D",
+            "reductorName": "o2::quality_control_modules::tpc::TH1ReductorTPC",
+            "moduleName": "QcTPC",
+	    "axisDivision": []
+          }
+	],
+        "plots": [
+          {
+            "name": "CE_T0_Mean_Trend",
+            "title": "Trend of the mean of T0 form CE",
+            "varexp": "c_ROCs_T0_1D.meanX:time",
+            "selection": "",
+            "option": "*",
+            "graphErrors": "stddevX:0",
+	    "graphYRange": "980:1020",
+	    "graphXRange": "",
+	    "graphAxisLabel": "Mean T0:time"
+          }
+       ],
+        "initTrigger": [
+          "once"
+        ],
+        "updateTrigger": [
+          "newobject:qcdb:qc/TPC/MO/CE/c_ROCs_T0_1D"
+        ],
+        "stopTrigger": [
+          "userorcontrol"
+        ]
+      },
       "LaserCalibration_Trending": {
         "active": "true",
         "className": "o2::quality_control::postprocessing::TrendingTask",
@@ -34,7 +72,7 @@
         "dataSources": [
           {
             "type": "repository",
-            "path": "qc/TPC/MO/LaserCalibration",
+            "path": "TPC/MO/LaserCalibration",
             "name": "Calib_Values",
             "reductorName": "o2::quality_control_modules::tpc::LtrCalibReductor",
             "moduleName": "QcTPC"
@@ -110,7 +148,7 @@
           "once"
         ],
         "updateTrigger": [
-          "newobject:qcdb:qc/TPC/MO/LaserCalibration/Calib_Values"
+          "newobject:qcdb:TPC/MO/LaserCalibration/Calib_Values"
         ],
         "stopTrigger": [
           "userorcontrol"

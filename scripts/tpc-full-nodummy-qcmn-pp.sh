@@ -4,7 +4,7 @@
 set -e;
 set -u;
 
-QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-full-nodummy-post-processing-qcmn.json'
+QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-full-nodummy-postprocessing-qcmn.json'
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-nodummy-postprocessing-qcmn'
 QC_CONFIG_PARAM='qc_config_uri'
 
@@ -26,6 +26,4 @@ sed -i "s/""${ESCAPED_QC_GEN_CONFIG_PATH}""/{{ ""${QC_CONFIG_PARAM}"" }}/g" work
 
 sed -i "s/shm_segment_size: \([0-9]\+\)/shm_segment_size: 90000000000/g" workflows/tpc-full-nodummy-qcmn-pp-remote.yaml
 
-add_fmq_shmmonitor_role workflows/${WF_NAME}.yaml
-add_qc_remote_machine_attribute workflows/${WF_NAME}.yaml alio2-cr1-qts01
 

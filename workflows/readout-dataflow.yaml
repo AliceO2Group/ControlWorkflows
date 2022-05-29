@@ -461,6 +461,7 @@ defaults:
       - mft-raw-qc
       - mft-raw-qcmn-local
       - mft-full-qcmn-local
+      - mft-noise-qcmn-local
       - mft-raw-cluster-qcmn-local
       - minimal-dpl
       - qc-daq
@@ -477,6 +478,7 @@ defaults:
       - mft-raw-direct-qcmn-remote
       - mft-raw-qcmn-remote
       - mft-full-qcmn-remote
+      - mft-noise-qcmn-remote
       - mft-raw-cluster-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
@@ -615,6 +617,7 @@ defaults:
       - none
       - qcmn-daq-remote
       - tof-full-qcmn-remote
+      - tof-full-epn-qcmn-remote
       - tof-qcmn-compressor-remote
     visibleif: $$qc_remote_enabled === "true"  
   tof_dcs_sor_parameters: !public
@@ -658,6 +661,8 @@ defaults:
       - qcmn-daq-remote
       - tpc-full-qcmn-remote
       - tpc-full-nodummy-qcmn-remote
+      - tpc-full-nodummy-nopid-qcmn-remote
+      - tpc-full-nodummy-noraw-qcmn-remote
       - tpc-full-nodummy-qcmn-pp-remote
       - tpc-full-calib-remote
       - tpc-krypton-qcmn-remote
@@ -1184,6 +1189,7 @@ defaults:
   ###############################
   # Timeouts
   ###############################
+  auto_stop_timeout: "none"
   ccdb_start_timeout: "10s"
   ccdb_stop_timeout: "10s"
   dcs_sor_timeout: "140s"
@@ -1245,9 +1251,11 @@ defaults:
   user: flp
   extra_env_vars: ""
 vars:
+  auto_stop_enabled: "{{ auto_stop_timeout != 'none' }}"
   detectors: "{{ DetectorsForHosts(hosts) }}"
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
+  odc_topology_fullname: '{{ odc_enabled == "true" ? odc.GenerateEPNTopologyFullname() : "" }}'
 roles:
   ##################
   # CTP Readout role
@@ -1479,14 +1487,6 @@ roles:
           trigger: DESTROY
           timeout: "{{ roc_cleanup_timeout }}"
           critical: false
-      - name: ps-aux-on-destroy
-        vars:
-          shell_command: ps aux|grep OCCPlugin
-        task:
-          load: "shell-command"
-          trigger: DESTROY
-          timeout: 10s
-          critical: false
   - name: qc-servers
     enabled: "{{ qc_remote_enabled == 'true' }}"
     constraints:
@@ -1494,6 +1494,7 @@ roles:
         value: qcserver
     defaults:
       qc_remote_workflow: none
+      qc_remote_machine: none
     vars:
       user: qc
       session_id: "{{ environment_id }}" # we can't use "default" because other workflows might already exist on the same QC server
@@ -1504,10 +1505,21 @@ roles:
           var: det
         vars:
           qc_remote_workflow: "{{ PrefixedOverride( 'qc_remote_workflow', ToLower( det ) ) }}"
+          qc_remote_machine: "{{ PrefixedOverride( 'qc_remote_machine', ToLower( det ) ) }}"
+        constraints:
+          - attribute: machine_id
+            value: "{{ qc_remote_machine }}"
         roles:
           - name: dpl
             enabled: "{{ qc_remote_workflow != 'none' }}"
             include: "{{ qc_remote_workflow }}"
+          - name: fairmq-shmmonitor
+            enabled: "{{ fmq_cleanup_enabled == 'true' && qc_remote_workflow != 'none' }}"
+            task:
+              load: "fairmq-shmmonitor"
+              trigger: DESTROY
+              timeout: 10s
+              critical: false
           # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list
           # however if the {{det}}_qc_remote_workflow is none there is a ghost role deployed which is never active
           # for that cases we deploy a plain echo task which will transition the role and eventually the wf to active
@@ -1578,12 +1590,18 @@ roles:
           trigger: after_STOP_ACTIVITY
           timeout: "{{ dcs_eor_timeout }}"
           critical: true
-      - name: cleanup
+      - name: error-cleanup
+        call:
+          func: dcs.Cleanup()
+          trigger: after_GO_ERROR
+          timeout: "{{ dcs_cleanup_timeout }}"
+          critical: false
+      - name: destroy-cleanup
         call:
           func: dcs.Cleanup()
           trigger: DESTROY
           timeout: "{{ dcs_cleanup_timeout }}"
-          critical: true
+          critical: false
   - name: dd-scheduler
     enabled: "{{ddsched_enabled == 'true'}}"
     roles:
@@ -1737,22 +1755,94 @@ roles:
   - name: bookkeeping
     enabled: "{{bookkeeping_enabled == 'true'}}"
     roles:
-      - name: start
+      - name: startrun
         call:
           func: bookkeeping.StartOfRun()
           trigger: after_START_ACTIVITY
           timeout: 10s
           critical: false
-      - name: updatestart
+      - name: updaterunstart
         call:
           func: bookkeeping.UpdateRunStart()
           trigger: after_START_ACTIVITY+100
           timeout: 10s
           critical: false
-      - name: updatestop
+      - name: updaterunstop
         call:
           func: bookkeeping.UpdateRunStop()
           trigger: after_STOP_ACTIVITY+100
+          timeout: 10s
+          critical: false
+      - name: updaterungoerror
+        call:
+          func: bookkeeping.UpdateRunStop()
+          trigger: after_GO_ERROR+100
+          timeout: 10s
+          critical: false
+      - name: updaterundestroy
+        call:
+          func: bookkeeping.UpdateRunStop()
+          trigger: DESTROY
+          timeout: 10s
+          critical: false
+      - name: startenv
+        call:
+          func: bookkeeping.CreateEnv()
+          trigger: before_DEPLOY
+          timeout: 10s
+          critical: false
+      - name: deploy
+        call:
+          func: bookkeeping.UpdateEnv()
+          trigger: after_DEPLOY+100
+          timeout: 10s
+          critical: false
+      - name: configure
+        call:
+          func: bookkeeping.UpdateEnv()
+          trigger: after_CONFIGURE+100
+          timeout: 10s
+          critical: false
+      - name: reset
+        call:
+          func: bookkeeping.UpdateEnv()
+          trigger: after_RESET+100
+          timeout: 10s
+          critical: false
+      - name: start
+        call:
+          func: bookkeeping.UpdateEnv()
+          trigger: after_START_ACTIVITY+100
+          timeout: 10s
+          critical: false
+      - name: stop
+        call:
+          func: bookkeeping.UpdateEnv()
+          trigger: after_STOP_ACTIVITY+100
+          timeout: 10s
+          critical: false
+      - name: exit
+        call:
+          func: bookkeeping.UpdateEnv()
+          trigger: after_EXIT
+          timeout: 10s
+          critical: false
+      - name: goerror
+        call:
+          func: bookkeeping.UpdateEnv()
+          trigger: after_GO_ERROR+100
+          timeout: 10s
+          critical: false
+      - name: recover
+        call:
+          func: bookkeeping.UpdateEnv()
+          trigger: after_RECOVER+100
+          timeout: 10s
+          critical: false
+      - name: destroy
+        call:
+          func: bookkeeping.UpdateEnv()
+          trigger: DESTROY
           timeout: 10s
           critical: false
   - name: kafka
@@ -1792,5 +1882,35 @@ roles:
         call:
           func: kafka.PublishUpdate()
           trigger: DESTROY
+          timeout: 5s
+          critical: false
+      - name: leave_standby
+        call:
+          func: kafka.PublishLeaveStateUpdate()
+          trigger: leave_STANDBY
+          timeout: 5s
+          critical: false
+      - name: leave_deployed
+        call:
+          func: kafka.PublishLeaveStateUpdate()
+          trigger: leave_DEPLOYED
+          timeout: 5s
+          critical: false
+      - name: leave_configured
+        call:
+          func: kafka.PublishLeaveStateUpdate()
+          trigger: leave_CONFIGURED
+          timeout: 5s
+          critical: false
+      - name: leave_running
+        call:
+          func: kafka.PublishLeaveStateUpdate()
+          trigger: leave_RUNNING
+          timeout: 5s
+          critical: false
+      - name: leave_error
+        call:
+          func: kafka.PublishLeaveStateUpdate()
+          trigger: leave_ERROR
           timeout: 5s
           critical: false
