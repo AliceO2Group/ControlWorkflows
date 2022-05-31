@@ -1724,13 +1724,13 @@ roles:
           func: trg.RunStop()
           trigger: before_STOP_ACTIVITY
           timeout: "{{ trg_stop_timeout }}"
-          critical: true
+          critical: false
       - name: unload
         call:
           func: trg.RunUnload()
           trigger: after_STOP_ACTIVITY
           timeout: "{{ trg_unload_timeout }}"
-          critical: true
+          critical: false
       - name: cleanup
         call:
           func: trg.Cleanup()
