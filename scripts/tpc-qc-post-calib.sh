@@ -23,8 +23,8 @@ o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
 
 # add the templated QC config file path
 ESCAPED_QC_FINAL_CONFIG_PATH=$(printf '%s\n' "$QC_FINAL_CONFIG_PATH" | sed -e 's/[\/&]/\\&/g')
-sed -i /defaults:/\ a\\\ \\\ "${QC_CONFIG_PARAM}":\ \""${ESCAPED_QC_FINAL_CONFIG_PATH}"\" workflows/${WF_NAME}.yaml
 sed -i /defaults:/\ a\\\ \\\ "${QC_JSON_FILE}":\ \""${QC_JSON_FILE_DEFAULT}"\" workflows/${WF_NAME}.yaml
+sed -i /defaults:/\ a\\\ \\\ "${QC_CONFIG_PARAM}":\ \""${ESCAPED_QC_FINAL_CONFIG_PATH}"\" workflows/${WF_NAME}.yaml
 
 
 
