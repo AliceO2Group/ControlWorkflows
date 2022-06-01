@@ -28,7 +28,7 @@
         "className": "o2::quality_control_modules::muonchambers::PhysicsTaskDigits",
         "moduleName": "QcMuonChambers",
         "detectorName": "MCH",
-        "cycleDurationSeconds": "60",
+        "cycleDurationSeconds": "300",
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "direct",
@@ -46,7 +46,7 @@
         "className": "o2::quality_control_modules::muonchambers::DecodingErrorsTask",
         "moduleName": "QcMuonChambers",
         "detectorName": "MCH",
-        "cycleDurationSeconds": "60",
+        "cycleDurationSeconds": "300",
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "direct",
