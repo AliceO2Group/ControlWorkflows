@@ -28,7 +28,7 @@
         "className": "o2::quality_control_modules::its::ITSFhrTask",
         "moduleName": "QcITS",
         "detectorName": "ITS",
-        "cycleDurationSeconds": "31",
+        "cycleDurationSeconds": "60",
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "dataSamplingPolicy",
@@ -38,8 +38,13 @@
         "taskParameters": {
           "Layer": "2",
           "decoderThreads": "8",
-          "runNumberPath": "/data/shifts/runs/ibb2a/.run_counter",
-          "geomPath": "/tmp/qc_tmp/o2sim"
+          "geomPath": "/tmp/qc_tmp/o2sim",
+          "HitNumberCutForNoisyPixel": "10",
+          "OccupancyNumberCutForNoisyPixel": "0.000001",
+          "MaxGeneralAxisRange": "-2",
+          "MinGeneralAxisRange": "-8",
+          "MaxGeneralNoisyAxisRange": "3000",
+          "MinGeneralNoisyAxisRange": "0"
         },
         "localMachines": [
           "alio2-cr1-flp187",
@@ -52,8 +57,7 @@
           "alio2-cr1-flp194",
           "alio2-cr1-flp195",
           "alio2-cr1-flp196",
-          "alio2-cr1-flp197",
-          "alio2-cr1-flp198"
+          "alio2-cr1-flp197"
         ],
         "remotePort": "33012",
         "remoteMachine": "alio2-cr1-qme04"
@@ -63,11 +67,11 @@
         "className": "o2::quality_control_modules::its::ITSFeeTask",
         "moduleName": "QcITS",
         "detectorName": "ITS",
-        "cycleDurationSeconds": "30",
+        "cycleDurationSeconds": "60",
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "direct",
-          "query": "filter:ITS/RAWDATA;G:FLP/DISTSUBTIMEFRAME"
+          "query": "filter:ITS/RAWDATA;G:FLP/DISTSUBTIMEFRAME/0"
         },
         "location": "local",
         "localMachines": [
@@ -81,8 +85,7 @@
           "alio2-cr1-flp194",
           "alio2-cr1-flp195",
           "alio2-cr1-flp196",
-          "alio2-cr1-flp197",
-          "alio2-cr1-flp198"
+          "alio2-cr1-flp197"
        ],
        "remotePort": "44154",
        "remoteMachine": "alio2-cr1-qme04"
@@ -105,9 +108,11 @@
           "clusterDictionaryPath": "/home/epn/odc/files/ITSdictionary.bin",
           "runNumberPath": "/home/its/QC/workdir/infiles/RunNumber.dat",
           "geomPath": "/home/epn/odc/files/o2sim_geometry.root",
-          "nThreads": "4"
+          "nThreads": "1",
+          "nBCbins" : "103"
         },
           "localMachines": [
+          "localhost",
           "epn"
         ],
         "localControl": "odc",
@@ -119,7 +124,7 @@
         "className": "o2::quality_control_modules::its::ITSTrackTask",
         "moduleName": "QcITS",
         "detectorName": "ITS",
-        "cycleDurationSeconds": "30",
+        "cycleDurationSeconds": "180",
         "maxNumberCycles": "-1",
         "dataSource_comment": "The other type of dataSource is \"direct\", see basic-no-sampling.json.",
         "dataSource": {
@@ -127,7 +132,16 @@
           "name": "tracks"
         },
         "location": "local",
+        "taskParameters" : {
+	  "vertexXYsize" : "0.5",
+	  "vertexZsize": "15",
+	  "vertexRsize": "0.8",
+          "NtracksMAX"  : "100",
+          "doTTree": "0",
+          "nBCbins": "103"
+        },
         "localMachines": [
+          "localhost",
           "epn"
         ],
         "localControl": "odc",
@@ -147,7 +161,9 @@
             "type": "Task",
             "name": "FHRTask",
             "MOs": [
-              "General/ErrorPlots"
+              "General/ErrorPlots",
+              "General/General_Occupancy",
+              "General/Noisy_Pixel"
             ]
           }
         ]
@@ -163,7 +179,12 @@
             "type": "Task",
             "name": "ITSFEE",
             "MOs": [
-              "LaneStatus/laneStatusFlagFAULT"
+              "LaneStatus/laneStatusFlagFAULT",
+              "LaneStatus/laneStatusFlagERROR",
+              "LaneStatus/laneStatusFlagWARNING",
+              "LaneStatus/laneStatusOverviewFlagFAULT",
+              "LaneStatus/laneStatusOverviewFlagERROR",
+              "LaneStatus/laneStatusOverviewFlagWARNING"
             ]
           }
         ]
@@ -179,7 +200,20 @@
             "type": "Task",
             "name": "ITSClusterTask",
             "MOs": [
-              "Layer0/AverageClusterSize"
+              "Layer0/AverageClusterSize",
+              "Layer1/AverageClusterSize",
+              "Layer2/AverageClusterSize",
+              "Layer3/AverageClusterSize",
+              "Layer4/AverageClusterSize",
+              "Layer5/AverageClusterSize",
+              "Layer6/AverageClusterSize",
+              "Layer0/ClusterOccupation",
+              "Layer1/ClusterOccupation",
+              "Layer2/ClusterOccupation",
+              "Layer3/ClusterOccupation",
+              "Layer4/ClusterOccupation",
+              "Layer5/ClusterOccupation",
+              "Layer6/ClusterOccupation"
             ]
           }
         ]
@@ -195,7 +229,14 @@
             "type": "Task",
             "name": "ITSTrackTask",
             "MOs": [
-              "NClusters"
+	      "NClusters",
+	      "PhiDistribution",
+ 	      "AngularDistribution",
+	      "EtaDistribution",
+	      "VertexCoordinates",
+	      "VertexRvsZ",
+	      "VertexZ",
+	      "BunchCrossingIDvsClusterRatio"
             ]
           }
         ]
@@ -207,11 +248,11 @@
       "id": "RAWDATA",
       "active": "true",
       "machines": [],
-      "query": "filter:ITS/RAWDATA;G:FLP/DISTSUBTIMEFRAME",
+      "query": "filter:ITS/RAWDATA;G:FLP/DISTSUBTIMEFRAME/0",
       "samplingConditions": [
         {
           "condition": "random",
-          "fraction": "0.1",
+          "fraction": "0.01",
           "seed": "1441"
         }
       ],
@@ -221,11 +262,11 @@
       "id": "compclus",
       "active": "true",
       "machines": [],
-      "query": "compclus:ITS/COMPCLUSTERS/0;clustersrof:ITS/CLUSTERSROF/0",
+      "query": "compclus:ITS/COMPCLUSTERS/0;clustersrof:ITS/CLUSTERSROF/0;patterns:ITS/PATTERNS/0",
       "samplingConditions": [
         {
           "condition": "random",
-          "fraction": "1",
+          "fraction": "0.3",
           "seed": "1441"
         }
       ],
@@ -235,11 +276,11 @@
       "id": "tracks",
       "active": "true",
       "machines": [],
-      "query": "tracks:ITS/TRACKS/0;rofs:ITS/ITSTrackROF/0;compclus:ITS/COMPCLUSTERS/0",
+      "query" : "Vertices:ITS/VERTICES/0;tracks:ITS/TRACKS/0;rofs:ITS/ITSTrackROF/0;compclus:ITS/COMPCLUSTERS/0",
       "samplingConditions": [
         {
           "condition": "random",
-          "fraction": "1",
+          "fraction": "0.3",
           "seed": "1441"
         }
       ],
