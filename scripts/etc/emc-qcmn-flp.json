@@ -27,8 +27,9 @@
             }
         },
         "tasks": {
-            "RawTask": {
+            "RawTaskEMCAL": {
                 "active": "true",
+                "taskName": "RawTask",
                 "className": "o2::quality_control_modules::emcal::RawTask",
                 "moduleName": "QcEMCAL",
                 "detectorName": "EMC",
@@ -48,8 +49,9 @@
             }
         },
         "checks": {
-			"RawBunchMinAmplitude": {
+			"RawBunchMinAmplitudeEMCAL": {
 				"active": "true",
+                "checkName": "RawBunchMinAmplitude",
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",
@@ -69,8 +71,9 @@
 					}
 				]
 			},
-            "RawErrorCheck": {
+            "RawErrorCheckEMCAL": {
 				"active": "true",
+                "checkName": "RawErrorCheck",
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",
@@ -82,8 +85,9 @@
 					}
 				]
 			},
-            "RawPayloadCheck": {
+            "RawPayloadCheckEMCAL": {
 				"active": "true",
+                "checkName": "RawPayloadCheck",
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",
@@ -98,8 +102,9 @@
 					}
 				]
 			},
-			"FECPayloadCheck": {
+			"FECPayloadCheckEMCAL": {
 				"active": "true",
+                "checkName": "FECPayloadCheck",
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",

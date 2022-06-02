@@ -27,8 +27,9 @@
 			}
 	    },
 	    "tasks": {
-			"RawTask": {
+			"RawTaskEMCAL": {
 			    "active": "true",
+				"taskName": "RawTask",
 			    "className": "o2::quality_control_modules::emcal::RawTask",
 			    "moduleName": "QcEMCAL",
 			    "detectorName": "EMC",
@@ -47,8 +48,9 @@
 			    "mergingMode": "delta",
 			    "localControl": "odc"
 			},
-			"CellTask": {
+			"CellTaskEMCAL": {
 			    "active": "true",
+				"taskName": "CellTask",
 			    "className": "o2::quality_control_modules::emcal::CellTask",
 			    "moduleName": "QcEMCAL",
 			    "detectorName": "EMC",
@@ -72,8 +74,9 @@
 			}
 	    },
 	    "checks": {
-			"RawBunchMinAmplitude": {
+			"RawBunchMinAmplitudeEMCAL": {
 				"active": "true",
+				"checkName": "RawBunchMinAmplitude",
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",
@@ -93,8 +96,9 @@
 					}
 				]
 			},
-			"RawErrorCheck": {
+			"RawErrorCheckEMCAL": {
 				"active": "true",
+				"checkName": "RawErrorCheck",
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",
@@ -106,8 +110,9 @@
 					}
 				]
 			},
-			"RawPayloadCheck": {
+			"RawPayloadCheckEMCAL": {
 				"active": "true",
+				"checkName": "RawPayloadCheck",
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",
@@ -122,8 +127,9 @@
 					}
 				]
 			},
-			"FECPayloadCheck": {
+			"FECPayloadCheckEMCAL": {
 				"active": "true",
+				"checkName": "FECPayloadCheck",
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",
@@ -137,8 +143,9 @@
 					}
 				]
 			},
-			"CellCheckAmplitude": {
+			"CellCheckAmplitudeEMCAL": {
 			    "active": "true",
+				"checkName": "CellCheckAmplitude",
 			    "className": "o2::quality_control_modules::emcal::CellCheck",
 			    "moduleName": "QcEMCAL",
 			    "policy": "OnEachSeparately",
