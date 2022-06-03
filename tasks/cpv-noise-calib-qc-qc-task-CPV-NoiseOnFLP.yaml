@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-CPV-NoiseOnFLP_to_qc-check-sink-QC_NoiseOnFLP_0
+  - name: from_qc-task-CPV-NoiseOnFLP_to_qc-check-sink-QCPV_NoiseOnFLP_0
     type: push
     transport: shmem
     addressing: ipc
