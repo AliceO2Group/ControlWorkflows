@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_TRD-MERGER-PulseHeight1l-0_to_qc-check-sink-QC_PulseHeight_0
+  - name: from_TRD-MERGER-PulseHeight1l-0_to_qc-check-sink-QTRD_PulseHeight_0
     type: push
     transport: shmem
     addressing: ipc

@@ -145,6 +145,8 @@ command:
     - "{{ phos_fit_method }}"
     - "--keepHGLG"
     - "{{ phos_keep_hglg }}"
+    - "--keeptrig"
+    - "'off'"
     - "--mappingpath"
     - "''"
     - "--pedestal"
