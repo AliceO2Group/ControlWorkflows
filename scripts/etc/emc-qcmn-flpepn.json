@@ -82,7 +82,7 @@
 				"dataSource": [
 					{
 						"type": "Task",
-						"name": "RawTask",
+						"name": "RawTaskEMCAL",
 						"MOs": ["BunchMinRawAmplitudeFull_PHYS", "BunchMinRawAmplitudeEMCAL_PHYS", "BunchMinRawAmplitudeDCAL_PHYS",
 								"BunchMinRawAmplitude_SM0_PHYS", "BunchMinRawAmplitude_SM1_PHYS", "BunchMinRawAmplitude_SM2_PHYS",
 								"BunchMinRawAmplitude_SM3_PHYS", "BunchMinRawAmplitude_SM4_PHYS", "BunchMinRawAmplitude_SM5_PHYS",
@@ -104,7 +104,7 @@
 				"dataSource": [
 					{
 						"type": "Task",
-						"name": "RawTask",
+						"name": "RawTaskEMCAL",
 						"MOs": ["ErrorTypePerSM"]
 					}
 				]
@@ -118,7 +118,7 @@
 				"dataSource": [
 					{
 						"type": "Task",
-						"name": "RawTask",
+						"name": "RawTaskEMCAL",
 						"MOs": [
                             "PayloadSizePerDDL",
 							"PayloadSizeTFPerDDL"
@@ -135,7 +135,7 @@
 				"dataSource": [
 					{
 						"type": "Task",
-						"name": "RawTask",
+						"name": "RawTaskEMCAL",
 						"MOs": [
 							"FECidMaxChWithInput_perSM"
 						]
