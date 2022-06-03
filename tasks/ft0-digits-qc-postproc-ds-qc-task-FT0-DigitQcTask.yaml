@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-FT0-DigitQcTask_to_qc-check-sink-QC_DigitQcTask_0
+  - name: from_qc-task-FT0-DigitQcTask_to_qc-check-sink-QFT0_DigitQcTask_0
     type: push
     transport: shmem
     addressing: ipc
