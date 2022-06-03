@@ -20,7 +20,7 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_TOF-MERGER-MatchingTOF1l-0_to_qc-check-sink-QC_MatchingTOF_0
+  - name: from_TOF-MERGER-MatchingTOF1l-0_to_qc-check-sink-QTOF_MatchingTOF_0
     type: push
     transport: shmem
     addressing: ipc
