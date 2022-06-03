@@ -63,7 +63,7 @@
 			    "dataSource": [
 					{
 					    "type": "Task",
-					    "name": "CellTask",
+					    "name": "CellTaskEMCAL",
 					    "MOs": ["cellAmplitudeEMCAL_CAL", "cellAmplitudeEMCAL_PHYS", "cellAmplitudeDCAL_CAL", "cellAmplitudeDCAL_PHYS",
 								"cellAmplitude_CAL", "cellAmplitude_PHYS"	
 					    ]
