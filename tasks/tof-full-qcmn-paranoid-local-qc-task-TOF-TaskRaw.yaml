@@ -1,4 +1,4 @@
-name: tof-full-qcmn-paranoid-local-qc-task-TOF-TaskRaw
+name: fdd-digits-qc-full-nocalib-raw-qc-task-FDD-DigitQcTask
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-TOF-TaskRaw_to_TOF-TaskRaw-proxy
+  - name: from_qc-task-FDD-DigitQcTask_to_qc-check-sink-QFDD_DigitQcTask_0
     type: push
     transport: shmem
     addressing: ipc
@@ -51,7 +51,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-task-TOF-TaskRaw'"
+    - "'qc-task-FDD-DigitQcTask'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -91,10 +91,9 @@ command:
     - "--forwarding-policy"
     - "'dangling'"
     - "--host"
-    - "'alio2-cr1-flp178'"
+    - "''"
     - "--labels"
     - "''"
-    - "--local"
     - "--local-batch"
     - "''"
     - "--override-values"

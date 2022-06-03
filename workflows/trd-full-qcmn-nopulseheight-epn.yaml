@@ -124,36 +124,36 @@ roles:
       rcvBufSize: 4
     task:
       load: trd-full-qcmn-nopulseheight-epn-TRD-MERGER-TrackletsTask1l-0
-  - name: "qc-check-sink-QC_DigitTask_0"
+  - name: "qc-check-sink-QTRD_DigitTask_0"
     connect:
-    - name: from_TRD-MERGER-DigitTask1l-0_to_qc-check-sink-QC_DigitTask_0
+    - name: from_TRD-MERGER-DigitTask1l-0_to_qc-check-sink-QTRD_DigitTask_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TRD-MERGER-DigitTask1l-0:from_TRD-MERGER-DigitTask1l-0_to_qc-check-sink-QC_DigitTask_0"
+      target: "{{ Parent().Path }}.TRD-MERGER-DigitTask1l-0:from_TRD-MERGER-DigitTask1l-0_to_qc-check-sink-QTRD_DigitTask_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: trd-full-qcmn-nopulseheight-epn-qc-check-sink-QC_DigitTask_0
-  - name: "qc-check-sink-QC_RawDataTask_0"
+      load: trd-full-qcmn-nopulseheight-epn-qc-check-sink-QTRD_DigitTask_0
+  - name: "qc-check-sink-QTRD_RawDataTask_0"
     connect:
-    - name: from_TRD-MERGER-RawDataTask1l-0_to_qc-check-sink-QC_RawDataTask_0
+    - name: from_TRD-MERGER-RawDataTask1l-0_to_qc-check-sink-QTRD_RawDataTask_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TRD-MERGER-RawDataTask1l-0:from_TRD-MERGER-RawDataTask1l-0_to_qc-check-sink-QC_RawDataTask_0"
+      target: "{{ Parent().Path }}.TRD-MERGER-RawDataTask1l-0:from_TRD-MERGER-RawDataTask1l-0_to_qc-check-sink-QTRD_RawDataTask_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: trd-full-qcmn-nopulseheight-epn-qc-check-sink-QC_RawDataTask_0
-  - name: "qc-check-sink-QC_TrackletsTask_0"
+      load: trd-full-qcmn-nopulseheight-epn-qc-check-sink-QTRD_RawDataTask_0
+  - name: "qc-check-sink-QTRD_TrackletsTask_0"
     connect:
-    - name: from_TRD-MERGER-TrackletsTask1l-0_to_qc-check-sink-QC_TrackletsTask_0
+    - name: from_TRD-MERGER-TrackletsTask1l-0_to_qc-check-sink-QTRD_TrackletsTask_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TRD-MERGER-TrackletsTask1l-0:from_TRD-MERGER-TrackletsTask1l-0_to_qc-check-sink-QC_TrackletsTask_0"
+      target: "{{ Parent().Path }}.TRD-MERGER-TrackletsTask1l-0:from_TRD-MERGER-TrackletsTask1l-0_to_qc-check-sink-QTRD_TrackletsTask_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: trd-full-qcmn-nopulseheight-epn-qc-check-sink-QC_TrackletsTask_0
+      load: trd-full-qcmn-nopulseheight-epn-qc-check-sink-QTRD_TrackletsTask_0
