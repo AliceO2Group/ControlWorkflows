@@ -244,7 +244,7 @@ Additionally, a remote QC workflow can be added (e.g. with Mergers).
 All available DPL workflows can be (re)generated with scripts stored in the `scripts` directory.
 Use [`generate-all-dpl-workflows.sh`](scripts/generate-all-dpl-workflows.sh) to regenerate all the DPL workflows, or any particular script to regenerate only the selected one.
 All scripts should be executed from within the `scripts` directory. 
-When adding a new workflow template, please consider providing also a script, so it can be regenerated in case of need. 
+When adding a new workflow template, please include the script to generate it with the PR and add it to [`generate-all-dpl-workflows.sh`](scripts/generate-all-dpl-workflows.sh), so it is ran each time we update the software stack. 
 
 ### Preparing the DPL command
 
