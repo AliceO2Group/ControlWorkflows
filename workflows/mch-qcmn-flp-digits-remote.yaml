@@ -3,7 +3,6 @@ vars:
   dpl_command: >-
     o2-qc --config {{ qc_config_uri }} --remote -b
 defaults:
-  qc_remote_machine: "alio2-cr1-qc01"
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mch-qcmn-flp-digits"
   monitoring_dpl_url: "no-op://"
   user: "flp"
@@ -12,9 +11,6 @@ defaults:
   shm_throw_bad_alloc: false
   session_id: default
   resources_monitoring: 15
-constraints:
-  - attribute: machine_id
-    value: "{{ qc_remote_machine }}"
 roles:
   - name: "internal-dpl-clock"
     connect:
@@ -38,30 +34,30 @@ roles:
       global: "MCH-QcTaskMCHDigits-proxy"
     task:
       load: mch-qcmn-flp-digits-remote-MCH-QcTaskMCHDigits-proxy
-  - name: "MERGER-QcTaskMCHDigits1l-0"
+  - name: "MCH-MERGER-QcTaskMCHDigits1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-QcTaskMCHDigits1l-0
+    - name: from_internal-dpl-clock_to_MCH-MERGER-QcTaskMCHDigits1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-QcTaskMCHDigits1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MCH-MERGER-QcTaskMCHDigits1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_MCH-QcTaskMCHDigits-proxy_to_MERGER-QcTaskMCHDigits1l-0
+    - name: from_MCH-QcTaskMCHDigits-proxy_to_MCH-MERGER-QcTaskMCHDigits1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MCH-QcTaskMCHDigits-proxy:from_MCH-QcTaskMCHDigits-proxy_to_MERGER-QcTaskMCHDigits1l-0"
+      target: "{{ Parent().Path }}.MCH-QcTaskMCHDigits-proxy:from_MCH-QcTaskMCHDigits-proxy_to_MCH-MERGER-QcTaskMCHDigits1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mch-qcmn-flp-digits-remote-MERGER-QcTaskMCHDigits1l-0
+      load: mch-qcmn-flp-digits-remote-MCH-MERGER-QcTaskMCHDigits1l-0
   - name: "qc-check-DET-QcCheckMCHPhysics"
     connect:
-    - name: from_MERGER-QcTaskMCHDigits1l-0_to_qc-check-DET-QcCheckMCHPhysics
+    - name: from_MCH-MERGER-QcTaskMCHDigits1l-0_to_qc-check-DET-QcCheckMCHPhysics
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-QcTaskMCHDigits1l-0:from_MERGER-QcTaskMCHDigits1l-0_to_qc-check-DET-QcCheckMCHPhysics"
+      target: "{{ Parent().Path }}.MCH-MERGER-QcTaskMCHDigits1l-0:from_MCH-MERGER-QcTaskMCHDigits1l-0_to_qc-check-DET-QcCheckMCHPhysics"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -78,10 +74,3 @@ roles:
       rcvBufSize: 4
     task:
       load: mch-qcmn-flp-digits-remote-internal-dpl-injected-dummy-sink
-  - name: fairmq-shmmonitor
-    enabled: "{{fmq_cleanup_enabled == 'true'}}"
-    task:
-      load: "fairmq-shmmonitor"
-      trigger: DESTROY
-      timeout: 10s
-      critical: false

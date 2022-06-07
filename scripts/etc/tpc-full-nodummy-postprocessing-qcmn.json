@@ -20,7 +20,8 @@
         "url": "http://ali-consul.cern.ch:8500"
       },
       "conditionDB": {
-        "url": "http://localhost:8084"
+        "url": "ali-qcdb.cern.ch:8083",
+        "host": "ali-qcdb.cern.ch:8083"
       }
     },
     "tasks": {
@@ -209,7 +210,6 @@
         ]
       }
     },
-    "externalTasks": null,
     "postprocessing": {
       "RawDigits": {
         "active": "true",
@@ -244,28 +244,11 @@
           "min",
           "max"
         ],
+        "histogramRanges_comment" : [ "nBins", "min", "max" ],
         "histogramRanges": [
-          {
-            "N_RawDigits": [
-              "100",
-              "0",
-              "10000"
-            ]
-          },
-          {
-            "Q_Max": [
-              "200",
-              "0",
-              "200"
-            ]
-          },
-          {
-            "Time_Bin": [
-              "1000",
-              "0",
-              "100000"
-            ]
-          }
+          { "N_RawDigits" : [ "100",  "0", "10000"    ] },
+          { "Q_Max" :       [ "200",  "0", "200"    ] },
+          { "Time_Bin" :    [ "1000", "0", "100000" ] }
         ],
         "path_comment": "This is the path of the RawDigitData object that shall be visualized.",
         "path": "qc/TPC/MO/RawDigits/RawDigitData",
@@ -276,7 +259,7 @@
         ],
         "updateTrigger_comment": "To trigger on a specific file being updated, use e.g. 'newobject:ccdb:TPC/Calib/Noise'",
         "updateTrigger": [
-          "newobject:qcdb:qc/TPC/MO/RawDigits/RawDigitData"
+          "newobject:qcdb:TPC/MO/RawDigits/RawDigitData"
         ],
         "stopTrigger_comment": [
           "To keep the task running until it is stopped manually set the trigger on the update of a non-existing object, e.g. 'newobject:ccdb:TPC/ThisDoesNotExist'",
@@ -314,54 +297,14 @@
         "storeMetaData": [
           {}
         ],
-        "histogramRanges_comment": [
-          "nBins",
-          "min",
-          "max"
-        ],
+        "histogramRanges_comment" : [ "nBins", "min", "max" ],
         "histogramRanges": [
-          {
-            "N_Clusters": [
-              "100",
-              "0",
-              "100"
-            ]
-          },
-          {
-            "Q_Max": [
-              "200",
-              "0",
-              "200"
-            ]
-          },
-          {
-            "Q_Tot": [
-              "600",
-              "0",
-              "600"
-            ]
-          },
-          {
-            "Sigma_Time": [
-              "200",
-              "0",
-              "2"
-            ]
-          },
-          {
-            "Sigma_Pad": [
-              "200",
-              "0",
-              "2"
-            ]
-          },
-          {
-            "Time_Bin": [
-              "1000",
-              "0",
-              "100000"
-            ]
-          }
+          { "N_Clusters" : [ "100",  "0", "100"    ] },
+          { "Q_Max" :      [ "200",  "0", "200"    ] },
+          { "Q_Tot" :      [ "600",  "0", "600"    ] },
+          { "Sigma_Time" : [ "200",  "0", "2"      ] },
+          { "Sigma_Pad" :  [ "200",  "0", "2"      ] },
+          { "Time_Bin" :   [ "1000", "0", "100000" ] }
         ],
         "path_comment": "This is the path of the ClustersData object that shall be visualized.",
         "path": "qc/TPC/MO/Clusters/ClusterData",
@@ -372,7 +315,7 @@
         ],
         "updateTrigger_comment": "To trigger on a specific file being updated, use e.g. 'newobject:ccdb:TPC/Calib/Noise'",
         "updateTrigger": [
-          "newobject:qcdb:qc/TPC/MO/Clusters/ClusterData"
+          "newobject:qcdb:TPC/MO/Clusters/ClusterData"
         ],
         "stopTrigger_comment": [
           "To keep the task running until it is stopped manually set the trigger on the update of a non-existing object, e.g. 'newobject:ccdb:TPC/ThisDoesNotExist'",
@@ -410,54 +353,14 @@
         "storeMetaData": [
           {}
         ],
-        "histogramRanges_comment": [
-          "nBins",
-          "min",
-          "max"
-        ],
+        "histogramRanges_comment" : [ "nBins", "min", "max" ],
         "histogramRanges": [
-          {
-            "N_Clusters": [
-              "100",
-              "1",
-              "101"
-            ]
-          },
-          {
-            "Q_Max": [
-              "200",
-              "1",
-              "1025"
-            ]
-          },
-          {
-            "Q_Tot": [
-              "600",
-              "1",
-              "6001"
-            ]
-          },
-          {
-            "Sigma_Time": [
-              "200",
-              "0",
-              "2.5"
-            ]
-          },
-          {
-            "Sigma_Pad": [
-              "200",
-              "0",
-              "3.8"
-            ]
-          },
-          {
-            "Time_Bin": [
-              "1001",
-              "0",
-              "100001"
-            ]
-          }
+          { "N_Clusters" : [ "100",  "1", "101"    ] },
+          { "Q_Max" :      [ "200",  "1", "1025"    ] },
+          { "Q_Tot" :      [ "600",  "1", "6001"    ] },
+          { "Sigma_Time" : [ "200",  "0", "2.5"      ] },
+          { "Sigma_Pad" :  [ "200",  "0", "3.8"      ] },
+          { "Time_Bin" :   [ "1001", "0", "100001" ] }
         ],
         "path_comment": "This is the path of the ClustersData object that shall be visualized.",
         "path": "qc/TPC/MO/KrClusters/ClusterData",
@@ -468,7 +371,7 @@
         ],
         "updateTrigger_comment": "To trigger on a specific file being updated, use e.g. 'newobject:ccdb:TPC/Calib/Noise'",
         "updateTrigger": [
-          "newobject:qcdb:qc/TPC/MO/KrClusters/ClusterData"
+          "newobject:qcdb:TPC/MO/KrClusters/ClusterData"
         ],
         "stopTrigger_comment": [
           "To keep the task running until it is stopped manually set the trigger on the update of a non-existing object, e.g. 'newobject:ccdb:TPC/ThisDoesNotExist'",
@@ -486,7 +389,7 @@
         "dataSources": [
           {
             "type": "repository",
-            "path": "qc/TPC/MO/PID",
+            "path": "TPC/MO/PID",
             "names": [
               "hNClusters",
               "hdEdxTot",
@@ -501,7 +404,7 @@
           },
           {
             "type": "repository",
-            "path": "qc/TPC/MO/PID",
+            "path": "TPC/MO/PID",
             "names": [
               "hdEdxVsncls",
               "hdEdxVsp",
@@ -656,7 +559,7 @@
           "userorcontrol"
         ],
         "updateTrigger": [
-          "60 seconds"
+          "120 seconds"
         ],
         "stopTrigger": [
           "userorcontrol"
@@ -670,7 +573,7 @@
         "dataSources": [
           {
             "type": "repository",
-            "path": "qc/TPC/MO/Tracks",
+            "path": "TPC/MO/Tracks",
             "names": [
               "hNClustersBeforeCuts",
               "hNClustersAfterCuts",
@@ -685,7 +588,7 @@
           },
           {
             "type": "repository",
-            "path": "qc/TPC/MO/Tracks",
+            "path": "TPC/MO/Tracks",
             "names": [
               "h2DNClustersPhiAside",
               "h2DNClustersPhiCside"
@@ -788,7 +691,7 @@
           "userorcontrol"
         ],
         "updateTrigger": [
-          "60 seconds"
+          "120 seconds"
         ],
         "stopTrigger": [
           "userorcontrol"
@@ -837,3 +740,15 @@
     }
   ]
 }
+
+
+
+
+
+
+
+
+
+
+
+

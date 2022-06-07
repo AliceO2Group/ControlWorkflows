@@ -3,7 +3,6 @@ vars:
   dpl_command: >-
     o2-qc --config {{ qc_config_uri }} --remote -b
 defaults:
-  qc_remote_machine: "alio2-cr1-qc05"
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/trd-full-qcmn-norawdatastats"
   monitoring_dpl_url: "no-op://"
   user: "flp"
@@ -12,9 +11,6 @@ defaults:
   shm_throw_bad_alloc: false
   session_id: default
   resources_monitoring: 15
-constraints:
-  - attribute: machine_id
-    value: "{{ qc_remote_machine }}"
 roles:
   - name: "internal-dpl-clock"
     connect:
@@ -74,97 +70,90 @@ roles:
       target: "tcp://*:47744"
     task:
       load: trd-full-qcmn-norawdatastats-epn-TRD-TrackletsTask-proxy
-  - name: "MERGER-DigitTask1l-0"
+  - name: "TRD-MERGER-DigitTask1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-DigitTask1l-0
+    - name: from_internal-dpl-clock_to_TRD-MERGER-DigitTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-DigitTask1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TRD-MERGER-DigitTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_TRD-DigitTask-proxy_to_MERGER-DigitTask1l-0
+    - name: from_TRD-DigitTask-proxy_to_TRD-MERGER-DigitTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TRD-DigitTask-proxy:from_TRD-DigitTask-proxy_to_MERGER-DigitTask1l-0"
+      target: "{{ Parent().Path }}.TRD-DigitTask-proxy:from_TRD-DigitTask-proxy_to_TRD-MERGER-DigitTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: trd-full-qcmn-norawdatastats-epn-MERGER-DigitTask1l-0
-  - name: "MERGER-PulseHeight1l-0"
+      load: trd-full-qcmn-norawdatastats-epn-TRD-MERGER-DigitTask1l-0
+  - name: "TRD-MERGER-PulseHeight1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-PulseHeight1l-0
+    - name: from_internal-dpl-clock_to_TRD-MERGER-PulseHeight1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-PulseHeight1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TRD-MERGER-PulseHeight1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_TRD-PulseHeight-proxy_to_MERGER-PulseHeight1l-0
+    - name: from_TRD-PulseHeight-proxy_to_TRD-MERGER-PulseHeight1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TRD-PulseHeight-proxy:from_TRD-PulseHeight-proxy_to_MERGER-PulseHeight1l-0"
+      target: "{{ Parent().Path }}.TRD-PulseHeight-proxy:from_TRD-PulseHeight-proxy_to_TRD-MERGER-PulseHeight1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: trd-full-qcmn-norawdatastats-epn-MERGER-PulseHeight1l-0
-  - name: "MERGER-TrackletsTask1l-0"
+      load: trd-full-qcmn-norawdatastats-epn-TRD-MERGER-PulseHeight1l-0
+  - name: "TRD-MERGER-TrackletsTask1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-TrackletsTask1l-0
+    - name: from_internal-dpl-clock_to_TRD-MERGER-TrackletsTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-TrackletsTask1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TRD-MERGER-TrackletsTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_TRD-TrackletsTask-proxy_to_MERGER-TrackletsTask1l-0
+    - name: from_TRD-TrackletsTask-proxy_to_TRD-MERGER-TrackletsTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TRD-TrackletsTask-proxy:from_TRD-TrackletsTask-proxy_to_MERGER-TrackletsTask1l-0"
+      target: "{{ Parent().Path }}.TRD-TrackletsTask-proxy:from_TRD-TrackletsTask-proxy_to_TRD-MERGER-TrackletsTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: trd-full-qcmn-norawdatastats-epn-MERGER-TrackletsTask1l-0
-  - name: "qc-check-sink-QC_DigitTask_0"
+      load: trd-full-qcmn-norawdatastats-epn-TRD-MERGER-TrackletsTask1l-0
+  - name: "qc-check-sink-QTRD_DigitTask_0"
     connect:
-    - name: from_MERGER-DigitTask1l-0_to_qc-check-sink-QC_DigitTask_0
+    - name: from_TRD-MERGER-DigitTask1l-0_to_qc-check-sink-QTRD_DigitTask_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-DigitTask1l-0:from_MERGER-DigitTask1l-0_to_qc-check-sink-QC_DigitTask_0"
+      target: "{{ Parent().Path }}.TRD-MERGER-DigitTask1l-0:from_TRD-MERGER-DigitTask1l-0_to_qc-check-sink-QTRD_DigitTask_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: trd-full-qcmn-norawdatastats-epn-qc-check-sink-QC_DigitTask_0
-  - name: "qc-check-sink-QC_PulseHeight_0"
+      load: trd-full-qcmn-norawdatastats-epn-qc-check-sink-QTRD_DigitTask_0
+  - name: "qc-check-sink-QTRD_PulseHeight_0"
     connect:
-    - name: from_MERGER-PulseHeight1l-0_to_qc-check-sink-QC_PulseHeight_0
+    - name: from_TRD-MERGER-PulseHeight1l-0_to_qc-check-sink-QTRD_PulseHeight_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-PulseHeight1l-0:from_MERGER-PulseHeight1l-0_to_qc-check-sink-QC_PulseHeight_0"
+      target: "{{ Parent().Path }}.TRD-MERGER-PulseHeight1l-0:from_TRD-MERGER-PulseHeight1l-0_to_qc-check-sink-QTRD_PulseHeight_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: trd-full-qcmn-norawdatastats-epn-qc-check-sink-QC_PulseHeight_0
-  - name: "qc-check-sink-QC_TrackletsTask_0"
+      load: trd-full-qcmn-norawdatastats-epn-qc-check-sink-QTRD_PulseHeight_0
+  - name: "qc-check-sink-QTRD_TrackletsTask_0"
     connect:
-    - name: from_MERGER-TrackletsTask1l-0_to_qc-check-sink-QC_TrackletsTask_0
+    - name: from_TRD-MERGER-TrackletsTask1l-0_to_qc-check-sink-QTRD_TrackletsTask_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-TrackletsTask1l-0:from_MERGER-TrackletsTask1l-0_to_qc-check-sink-QC_TrackletsTask_0"
+      target: "{{ Parent().Path }}.TRD-MERGER-TrackletsTask1l-0:from_TRD-MERGER-TrackletsTask1l-0_to_qc-check-sink-QTRD_TrackletsTask_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: trd-full-qcmn-norawdatastats-epn-qc-check-sink-QC_TrackletsTask_0
-  - name: fairmq-shmmonitor
-    enabled: "{{fmq_cleanup_enabled == 'true'}}"
-    task:
-      load: "fairmq-shmmonitor"
-      trigger: DESTROY
-      timeout: 10s
-      critical: false
+      load: trd-full-qcmn-norawdatastats-epn-qc-check-sink-QTRD_TrackletsTask_0

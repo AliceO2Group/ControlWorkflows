@@ -1,7 +1,7 @@
 name: cpv-noise-calib-qc
 vars:
   dpl_command: >-
-    o2-dpl-raw-proxy -b --session default --dataspec 'x0:CPV/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-cpv-reco-workflow -b --session default --input-type raw --output-type digits --disable-root-input --disable-root-output --disable-mc --no-gain-calibration --no-bad-channel-map --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;' | o2-calibration-cpv-calib-workflow --noise --tf-per-slot 100 --max-delay 0 --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;' | o2-calibration-ccdb-populator-workflow --ccdb-path http://o2-ccdb.internal --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;' | o2-dpl-output-proxy -b --session default --dataspec 'x0:CPV/RAWDATA;DIG:CPV/DIGITS/0;DTR:CPV/DIGITTRIGREC/0;ERR:CPV/RAWHWERRORS/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"' | o2-qc -b --config {{ qc_config_uri }}
+    o2-dpl-raw-proxy -b --session default --dataspec 'x0:CPV/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-cpv-reco-workflow -b --session default --input-type raw --output-type digits --disable-root-input --disable-root-output --disable-mc --no-gain-calibration --no-bad-channel-map --condition-tf-per-query 0 --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;' | o2-calibration-cpv-calib-workflow --noise --tf-per-slot 100 --max-delay 0 --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;' | o2-calibration-ccdb-populator-workflow --ccdb-path http://o2-ccdb.internal --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;' | o2-dpl-output-proxy -b --session default --dataspec 'x0:CPV/RAWDATA;DIG:CPV/DIGITS/0;DTR:CPV/DIGITTRIGREC/0;ERR:CPV/RAWHWERRORS/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"' | o2-qc -b --config {{ qc_config_uri }}
 defaults:
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/cpv-noise-calib-qc"
   monitoring_dpl_url: "no-op://"
@@ -119,17 +119,17 @@ roles:
       rcvBufSize: 4
     task:
       load: cpv-noise-calib-qc-ccdb-populator
-  - name: "qc-check-sink-QC_NoiseOnFLP_0"
+  - name: "qc-check-sink-QCPV_NoiseOnFLP_0"
     connect:
-    - name: from_qc-task-CPV-NoiseOnFLP_to_qc-check-sink-QC_NoiseOnFLP_0
+    - name: from_qc-task-CPV-NoiseOnFLP_to_qc-check-sink-QCPV_NoiseOnFLP_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-CPV-NoiseOnFLP:from_qc-task-CPV-NoiseOnFLP_to_qc-check-sink-QC_NoiseOnFLP_0"
+      target: "{{ Parent().Path }}.qc-task-CPV-NoiseOnFLP:from_qc-task-CPV-NoiseOnFLP_to_qc-check-sink-QCPV_NoiseOnFLP_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: cpv-noise-calib-qc-qc-check-sink-QC_NoiseOnFLP_0
+      load: cpv-noise-calib-qc-qc-check-sink-QCPV_NoiseOnFLP_0
   - name: "dpl-output-proxy"
     connect:
     - name: from_CPVRawToDigitConverterSpec_to_dpl-output-proxy

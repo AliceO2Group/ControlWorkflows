@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-PHS-QcTask_to_qc-check-sink-QC_QcTask_0
+  - name: from_qc-task-PHS-QcTask_to_qc-check-sink-QPHS_QcTask_0
     type: push
     transport: shmem
     addressing: ipc
@@ -74,6 +74,8 @@ command:
     - "''"
     - "--config"
     - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
