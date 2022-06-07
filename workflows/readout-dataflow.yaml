@@ -1742,7 +1742,7 @@ roles:
       - name: start
         call:
           func: ccdb.RunStart()
-          trigger: after_START_ACTIVITY
+          trigger: before_START_ACTIVITY
           timeout: 10s
           critical: false
       - name: stop
