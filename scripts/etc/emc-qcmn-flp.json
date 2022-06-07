@@ -27,8 +27,9 @@
             }
         },
         "tasks": {
-            "RawTask": {
+            "RawTaskEMCAL": {
                 "active": "true",
+                "taskName": "RawTask",
                 "className": "o2::quality_control_modules::emcal::RawTask",
                 "moduleName": "QcEMCAL",
                 "detectorName": "EMC",
@@ -48,15 +49,16 @@
             }
         },
         "checks": {
-			"RawBunchMinAmplitude": {
+			"RawBunchMinAmplitudeEMCAL": {
 				"active": "true",
+                "checkName": "RawBunchMinAmplitude",
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",
 				"dataSource": [
 					{
 						"type": "Task",
-						"name": "RawTask",
+						"name": "RawTaskEMCAL",
 						"MOs": ["BunchMinRawAmplitudeFull_PHYS", "BunchMinRawAmplitudeEMCAL_PHYS", "BunchMinRawAmplitudeDCAL_PHYS",
 								"BunchMinRawAmplitude_SM0_PHYS", "BunchMinRawAmplitude_SM1_PHYS", "BunchMinRawAmplitude_SM2_PHYS",
 								"BunchMinRawAmplitude_SM3_PHYS", "BunchMinRawAmplitude_SM4_PHYS", "BunchMinRawAmplitude_SM5_PHYS",
@@ -69,28 +71,30 @@
 					}
 				]
 			},
-            "RawErrorCheck": {
+            "RawErrorCheckEMCAL": {
 				"active": "true",
+                "checkName": "RawErrorCheck",
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",
 				"dataSource": [
 					{
 						"type": "Task",
-						"name": "RawTask",
+						"name": "RawTaskEMCAL",
 						"MOs": ["ErrorTypePerSM"]
 					}
 				]
 			},
-            "RawPayloadCheck": {
+            "RawPayloadCheckEMCAL": {
 				"active": "true",
+                "checkName": "RawPayloadCheck",
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",
 				"dataSource": [
 					{
 						"type": "Task",
-						"name": "RawTask",
+						"name": "RawTaskEMCAL",
 						"MOs": [
                             "PayloadSizePerDDL",
 							"PayloadSizeTFPerDDL"
@@ -98,15 +102,16 @@
 					}
 				]
 			},
-			"FECPayloadCheck": {
+			"FECPayloadCheckEMCAL": {
 				"active": "true",
+                "checkName": "FECPayloadCheck",
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",
 				"dataSource": [
 					{
 						"type": "Task",
-						"name": "RawTask",
+						"name": "RawTaskEMCAL",
 						"MOs": [
 							"FECidMaxChWithInput_perSM"
 						]

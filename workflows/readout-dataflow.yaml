@@ -342,6 +342,7 @@ defaults:
       - its-qcmn-flp-epn-no-ds-remote
       - its-qcmn-epn-remote
       - its-qcmn-flp-epn-no-ds-nocluster-remote
+      - its-qcmn-epn-calibration-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
   its_dcs_sor_parameters: !public
@@ -1704,7 +1705,7 @@ roles:
       - name: load
         call:
           func: trg.RunLoad()
-          trigger: enter_RUNNING
+          trigger: before_START_ACTIVITY-100
           timeout: "{{ trg_load_timeout }}"
           critical: true
       - name: pre-start
@@ -1743,7 +1744,7 @@ roles:
       - name: start
         call:
           func: ccdb.RunStart()
-          trigger: after_START_ACTIVITY
+          trigger: before_START_ACTIVITY
           timeout: 10s
           critical: false
       - name: stop

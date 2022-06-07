@@ -244,28 +244,28 @@ roles:
       rcvBufSize: 4
     task:
       load: fv0-digits-qc-full-raw-qc-check-sink-QC_TrendingTask-mo_0
-  - name: "qc-check-sink-QC_CalibrationTask_0"
+  - name: "qc-check-sink-QFV0_CalibrationTask_0"
     connect:
-    - name: from_qc-task-FV0-CalibrationTask_to_qc-check-sink-QC_CalibrationTask_0
+    - name: from_qc-task-FV0-CalibrationTask_to_qc-check-sink-QFV0_CalibrationTask_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-FV0-CalibrationTask:from_qc-task-FV0-CalibrationTask_to_qc-check-sink-QC_CalibrationTask_0"
+      target: "{{ Parent().Path }}.qc-task-FV0-CalibrationTask:from_qc-task-FV0-CalibrationTask_to_qc-check-sink-QFV0_CalibrationTask_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: fv0-digits-qc-full-raw-qc-check-sink-QC_CalibrationTask_0
-  - name: "qc-check-sink-QC_TriggerQcTask_0"
+      load: fv0-digits-qc-full-raw-qc-check-sink-QFV0_CalibrationTask_0
+  - name: "qc-check-sink-QFV0_TriggerQcTask_0"
     connect:
-    - name: from_qc-task-FV0-TriggerQcTask_to_qc-check-sink-QC_TriggerQcTask_0
+    - name: from_qc-task-FV0-TriggerQcTask_to_qc-check-sink-QFV0_TriggerQcTask_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-FV0-TriggerQcTask:from_qc-task-FV0-TriggerQcTask_to_qc-check-sink-QC_TriggerQcTask_0"
+      target: "{{ Parent().Path }}.qc-task-FV0-TriggerQcTask:from_qc-task-FV0-TriggerQcTask_to_qc-check-sink-QFV0_TriggerQcTask_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: fv0-digits-qc-full-raw-qc-check-sink-QC_TriggerQcTask_0
+      load: fv0-digits-qc-full-raw-qc-check-sink-QFV0_TriggerQcTask_0
   - name: "ccdb-populator"
     connect:
     - name: from_calib-fv0-channel-time_to_ccdb-populator
