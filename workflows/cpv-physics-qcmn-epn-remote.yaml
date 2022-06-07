@@ -3,7 +3,6 @@ vars:
   dpl_command: >-
     o2-qc --config {{ qc_config_uri }} --remote -b
 defaults:
-  qc_remote_machine: "alio2-cr1-qme07"
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/cpv-physics-qcmn-epn"
   monitoring_dpl_url: "no-op://"
   user: "flp"
@@ -12,9 +11,6 @@ defaults:
   shm_throw_bad_alloc: false
   session_id: default
   resources_monitoring: 15
-constraints:
-  - attribute: machine_id
-    value: "{{ qc_remote_machine }}"
 roles:
   - name: "internal-dpl-clock"
     connect:
@@ -38,39 +34,32 @@ roles:
       target: "tcp://*:47768"
     task:
       load: cpv-physics-qcmn-epn-remote-CPV-PhysicsOnEPNs-proxy
-  - name: "MERGER-PhysicsOnEPNs1l-0"
+  - name: "CPV-MERGER-PhysicsOnEPNs1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-PhysicsOnEPNs1l-0
+    - name: from_internal-dpl-clock_to_CPV-MERGER-PhysicsOnEPNs1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-PhysicsOnEPNs1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_CPV-MERGER-PhysicsOnEPNs1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_CPV-PhysicsOnEPNs-proxy_to_MERGER-PhysicsOnEPNs1l-0
+    - name: from_CPV-PhysicsOnEPNs-proxy_to_CPV-MERGER-PhysicsOnEPNs1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.CPV-PhysicsOnEPNs-proxy:from_CPV-PhysicsOnEPNs-proxy_to_MERGER-PhysicsOnEPNs1l-0"
+      target: "{{ Parent().Path }}.CPV-PhysicsOnEPNs-proxy:from_CPV-PhysicsOnEPNs-proxy_to_CPV-MERGER-PhysicsOnEPNs1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: cpv-physics-qcmn-epn-remote-MERGER-PhysicsOnEPNs1l-0
-  - name: "qc-check-sink-QC_PhysicsOnEPNs_0"
+      load: cpv-physics-qcmn-epn-remote-CPV-MERGER-PhysicsOnEPNs1l-0
+  - name: "qc-check-sink-QCPV_PhysicsOnEPNs_0"
     connect:
-    - name: from_MERGER-PhysicsOnEPNs1l-0_to_qc-check-sink-QC_PhysicsOnEPNs_0
+    - name: from_CPV-MERGER-PhysicsOnEPNs1l-0_to_qc-check-sink-QCPV_PhysicsOnEPNs_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-PhysicsOnEPNs1l-0:from_MERGER-PhysicsOnEPNs1l-0_to_qc-check-sink-QC_PhysicsOnEPNs_0"
+      target: "{{ Parent().Path }}.CPV-MERGER-PhysicsOnEPNs1l-0:from_CPV-MERGER-PhysicsOnEPNs1l-0_to_qc-check-sink-QCPV_PhysicsOnEPNs_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: cpv-physics-qcmn-epn-remote-qc-check-sink-QC_PhysicsOnEPNs_0
-  - name: fairmq-shmmonitor
-    enabled: "{{fmq_cleanup_enabled == 'true'}}"
-    task:
-      load: "fairmq-shmmonitor"
-      trigger: DESTROY
-      timeout: 10s
-      critical: false
+      load: cpv-physics-qcmn-epn-remote-qc-check-sink-QCPV_PhysicsOnEPNs_0

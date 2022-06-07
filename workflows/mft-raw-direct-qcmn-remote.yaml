@@ -3,7 +3,6 @@ vars:
   dpl_command: >-
     o2-qc --config {{ qc_config_uri }} --remote -b
 defaults:
-  qc_remote_machine: "alio2-cr1-qme05"
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mft-raw-direct-qcmn"
   monitoring_dpl_url: "no-op://"
   user: "flp"
@@ -12,9 +11,6 @@ defaults:
   shm_throw_bad_alloc: false
   session_id: default
   resources_monitoring: 15
-constraints:
-  - attribute: machine_id
-    value: "{{ qc_remote_machine }}"
 roles:
   - name: "internal-dpl-clock"
     connect:
@@ -38,30 +34,30 @@ roles:
       global: "MFT-QcMFTReadoutTask-proxy"
     task:
       load: mft-raw-direct-qcmn-remote-MFT-QcMFTReadoutTask-proxy
-  - name: "MERGER-QcMFTReadoutTask1l-0"
+  - name: "MFT-MERGER-QcMFTReadoutTask1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-QcMFTReadoutTask1l-0
+    - name: from_internal-dpl-clock_to_MFT-MERGER-QcMFTReadoutTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-QcMFTReadoutTask1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MFT-MERGER-QcMFTReadoutTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_MFT-QcMFTReadoutTask-proxy_to_MERGER-QcMFTReadoutTask1l-0
+    - name: from_MFT-QcMFTReadoutTask-proxy_to_MFT-MERGER-QcMFTReadoutTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MFT-QcMFTReadoutTask-proxy:from_MFT-QcMFTReadoutTask-proxy_to_MERGER-QcMFTReadoutTask1l-0"
+      target: "{{ Parent().Path }}.MFT-QcMFTReadoutTask-proxy:from_MFT-QcMFTReadoutTask-proxy_to_MFT-MERGER-QcMFTReadoutTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-raw-direct-qcmn-remote-MERGER-QcMFTReadoutTask1l-0
+      load: mft-raw-direct-qcmn-remote-MFT-MERGER-QcMFTReadoutTask1l-0
   - name: "qc-check-MFT-QcMFTReadoutCheck"
     connect:
-    - name: from_MERGER-QcMFTReadoutTask1l-0_to_qc-check-MFT-QcMFTReadoutCheck
+    - name: from_MFT-MERGER-QcMFTReadoutTask1l-0_to_qc-check-MFT-QcMFTReadoutCheck
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-QcMFTReadoutTask1l-0:from_MERGER-QcMFTReadoutTask1l-0_to_qc-check-MFT-QcMFTReadoutCheck"
+      target: "{{ Parent().Path }}.MFT-MERGER-QcMFTReadoutTask1l-0:from_MFT-MERGER-QcMFTReadoutTask1l-0_to_qc-check-MFT-QcMFTReadoutCheck"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -78,10 +74,3 @@ roles:
       rcvBufSize: 4
     task:
       load: mft-raw-direct-qcmn-remote-internal-dpl-injected-dummy-sink
-  - name: fairmq-shmmonitor
-    enabled: "{{fmq_cleanup_enabled == 'true'}}"
-    task:
-      load: "fairmq-shmmonitor"
-      trigger: DESTROY
-      timeout: 10s
-      critical: false

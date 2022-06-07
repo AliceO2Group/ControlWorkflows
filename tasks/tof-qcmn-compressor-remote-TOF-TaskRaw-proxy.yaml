@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_TOF-TaskRaw-proxy_to_MERGER-TaskRaw1l-0
+  - name: from_TOF-TaskRaw-proxy_to_TOF-MERGER-TaskRaw1l-0
     type: push
     transport: shmem
     addressing: ipc
@@ -78,6 +78,8 @@ command:
     - "''"
     - "--config"
     - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"

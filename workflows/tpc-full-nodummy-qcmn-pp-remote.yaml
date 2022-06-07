@@ -3,7 +3,6 @@ vars:
   dpl_command: >-
     o2-qc --config {{ qc_config_uri }} --remote -b
 defaults:
-  qc_remote_machine: "alio2-cr1-qts01"
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-nodummy-postprocessing-qcmn"
   monitoring_dpl_url: "no-op://"
   user: "flp"
@@ -12,9 +11,6 @@ defaults:
   shm_throw_bad_alloc: false
   session_id: default
   resources_monitoring: 15
-constraints:
-  - attribute: machine_id
-    value: "{{ qc_remote_machine }}"
 roles:
   - name: "internal-dpl-clock"
     connect:
@@ -147,78 +143,78 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-PP-TASK-RUNNER-Tracks_Trending
-  - name: "MERGER-Clusters1l-0"
+  - name: "TPC-MERGER-Clusters1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-Clusters1l-0
+    - name: from_internal-dpl-clock_to_TPC-MERGER-Clusters1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-Clusters1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-MERGER-Clusters1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_TPC-Clusters-proxy_to_MERGER-Clusters1l-0
+    - name: from_TPC-Clusters-proxy_to_TPC-MERGER-Clusters1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TPC-Clusters-proxy:from_TPC-Clusters-proxy_to_MERGER-Clusters1l-0"
+      target: "{{ Parent().Path }}.TPC-Clusters-proxy:from_TPC-Clusters-proxy_to_TPC-MERGER-Clusters1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-MERGER-Clusters1l-0
-  - name: "MERGER-PID1l-0"
+      load: tpc-full-nodummy-qcmn-pp-remote-TPC-MERGER-Clusters1l-0
+  - name: "TPC-MERGER-PID1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-PID1l-0
+    - name: from_internal-dpl-clock_to_TPC-MERGER-PID1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-PID1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-MERGER-PID1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_TPC-PID-proxy_to_MERGER-PID1l-0
+    - name: from_TPC-PID-proxy_to_TPC-MERGER-PID1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TPC-PID-proxy:from_TPC-PID-proxy_to_MERGER-PID1l-0"
+      target: "{{ Parent().Path }}.TPC-PID-proxy:from_TPC-PID-proxy_to_TPC-MERGER-PID1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-MERGER-PID1l-0
-  - name: "MERGER-RawDigits1l-0"
+      load: tpc-full-nodummy-qcmn-pp-remote-TPC-MERGER-PID1l-0
+  - name: "TPC-MERGER-RawDigits1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-RawDigits1l-0
+    - name: from_internal-dpl-clock_to_TPC-MERGER-RawDigits1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-RawDigits1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-MERGER-RawDigits1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_TPC-RawDigits-proxy_to_MERGER-RawDigits1l-0
+    - name: from_TPC-RawDigits-proxy_to_TPC-MERGER-RawDigits1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TPC-RawDigits-proxy:from_TPC-RawDigits-proxy_to_MERGER-RawDigits1l-0"
+      target: "{{ Parent().Path }}.TPC-RawDigits-proxy:from_TPC-RawDigits-proxy_to_TPC-MERGER-RawDigits1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-MERGER-RawDigits1l-0
-  - name: "MERGER-Tracks1l-0"
+      load: tpc-full-nodummy-qcmn-pp-remote-TPC-MERGER-RawDigits1l-0
+  - name: "TPC-MERGER-Tracks1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-Tracks1l-0
+    - name: from_internal-dpl-clock_to_TPC-MERGER-Tracks1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-Tracks1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-MERGER-Tracks1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_TPC-Tracks-proxy_to_MERGER-Tracks1l-0
+    - name: from_TPC-Tracks-proxy_to_TPC-MERGER-Tracks1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TPC-Tracks-proxy:from_TPC-Tracks-proxy_to_MERGER-Tracks1l-0"
+      target: "{{ Parent().Path }}.TPC-Tracks-proxy:from_TPC-Tracks-proxy_to_TPC-MERGER-Tracks1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-MERGER-Tracks1l-0
+      load: tpc-full-nodummy-qcmn-pp-remote-TPC-MERGER-Tracks1l-0
   - name: "qc-check-TPC-CheckOfPID_Trending"
     connect:
     - name: from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPC-CheckOfPID_Trending
@@ -292,54 +288,47 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-internal-dpl-injected-dummy-sink
-  - name: "qc-check-sink-QC_Clusters_0"
+  - name: "qc-check-sink-QTPC_Clusters_0"
     connect:
-    - name: from_MERGER-Clusters1l-0_to_qc-check-sink-QC_Clusters_0
+    - name: from_TPC-MERGER-Clusters1l-0_to_qc-check-sink-QTPC_Clusters_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-Clusters1l-0:from_MERGER-Clusters1l-0_to_qc-check-sink-QC_Clusters_0"
+      target: "{{ Parent().Path }}.TPC-MERGER-Clusters1l-0:from_TPC-MERGER-Clusters1l-0_to_qc-check-sink-QTPC_Clusters_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-qc-check-sink-QC_Clusters_0
-  - name: "qc-check-sink-QC_PID_0"
+      load: tpc-full-nodummy-qcmn-pp-remote-qc-check-sink-QTPC_Clusters_0
+  - name: "qc-check-sink-QTPC_PID_0"
     connect:
-    - name: from_MERGER-PID1l-0_to_qc-check-sink-QC_PID_0
+    - name: from_TPC-MERGER-PID1l-0_to_qc-check-sink-QTPC_PID_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-PID1l-0:from_MERGER-PID1l-0_to_qc-check-sink-QC_PID_0"
+      target: "{{ Parent().Path }}.TPC-MERGER-PID1l-0:from_TPC-MERGER-PID1l-0_to_qc-check-sink-QTPC_PID_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-qc-check-sink-QC_PID_0
-  - name: "qc-check-sink-QC_RawDigits_0"
+      load: tpc-full-nodummy-qcmn-pp-remote-qc-check-sink-QTPC_PID_0
+  - name: "qc-check-sink-QTPC_RawDigits_0"
     connect:
-    - name: from_MERGER-RawDigits1l-0_to_qc-check-sink-QC_RawDigits_0
+    - name: from_TPC-MERGER-RawDigits1l-0_to_qc-check-sink-QTPC_RawDigits_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-RawDigits1l-0:from_MERGER-RawDigits1l-0_to_qc-check-sink-QC_RawDigits_0"
+      target: "{{ Parent().Path }}.TPC-MERGER-RawDigits1l-0:from_TPC-MERGER-RawDigits1l-0_to_qc-check-sink-QTPC_RawDigits_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-qc-check-sink-QC_RawDigits_0
-  - name: "qc-check-sink-QC_Tracks_0"
+      load: tpc-full-nodummy-qcmn-pp-remote-qc-check-sink-QTPC_RawDigits_0
+  - name: "qc-check-sink-QTPC_Tracks_0"
     connect:
-    - name: from_MERGER-Tracks1l-0_to_qc-check-sink-QC_Tracks_0
+    - name: from_TPC-MERGER-Tracks1l-0_to_qc-check-sink-QTPC_Tracks_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-Tracks1l-0:from_MERGER-Tracks1l-0_to_qc-check-sink-QC_Tracks_0"
+      target: "{{ Parent().Path }}.TPC-MERGER-Tracks1l-0:from_TPC-MERGER-Tracks1l-0_to_qc-check-sink-QTPC_Tracks_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-qc-check-sink-QC_Tracks_0
-  - name: fairmq-shmmonitor
-    enabled: "{{fmq_cleanup_enabled == 'true'}}"
-    task:
-      load: "fairmq-shmmonitor"
-      trigger: DESTROY
-      timeout: 10s
-      critical: false
+      load: tpc-full-nodummy-qcmn-pp-remote-qc-check-sink-QTPC_Tracks_0

@@ -27,14 +27,14 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-ClusterTask1l-0
+  - name: from_internal-dpl-clock_to_PHS-MERGER-ClusterTask1l-0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MERGER-RawTask1l-0
+  - name: from_internal-dpl-clock_to_PHS-MERGER-RawTask1l-0
     type: push
     transport: shmem
     addressing: ipc
@@ -93,6 +93,8 @@ command:
     - "''"
     - "--config"
     - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"

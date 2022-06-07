@@ -26,5 +26,3 @@ o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
 
 add_config_variable "$QC_FINAL_CONFIG_PATH" "$QC_GEN_CONFIG_PATH" "$QC_CONFIG_PARAM" "$WF_NAME"
 
-add_fmq_shmmonitor_role workflows/${WF_NAME}.yaml
-add_qc_remote_machine_attribute workflows/${WF_NAME}.yaml alio2-cr1-qc01

@@ -144,17 +144,17 @@ roles:
       rcvBufSize: 4
     task:
       load: phos-compressor-raw-qct3-internal-dpl-injected-dummy-sink
-  - name: "qc-check-sink-QC_QcTask_0"
+  - name: "qc-check-sink-QPHS_QcTask_0"
     connect:
-    - name: from_qc-task-PHS-QcTask_to_qc-check-sink-QC_QcTask_0
+    - name: from_qc-task-PHS-QcTask_to_qc-check-sink-QPHS_QcTask_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-PHS-QcTask:from_qc-task-PHS-QcTask_to_qc-check-sink-QC_QcTask_0"
+      target: "{{ Parent().Path }}.qc-task-PHS-QcTask:from_qc-task-PHS-QcTask_to_qc-check-sink-QPHS_QcTask_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: phos-compressor-raw-qct3-qc-check-sink-QC_QcTask_0
+      load: phos-compressor-raw-qct3-qc-check-sink-QPHS_QcTask_0
   - name: "dpl-output-proxy"
     connect:
     - name: from_PHOSRawToCellConverterSpec_t0_to_dpl-output-proxy
