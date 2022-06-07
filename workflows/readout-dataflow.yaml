@@ -1703,7 +1703,7 @@ roles:
       - name: load
         call:
           func: trg.RunLoad()
-          trigger: before_START_ACTIVITY-100
+          trigger: enter_RUNNING
           timeout: "{{ trg_load_timeout }}"
           critical: true
       - name: pre-start
