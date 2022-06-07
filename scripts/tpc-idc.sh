@@ -46,7 +46,6 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
   | o2-tpc-idc-to-vector $ARGS_ALL \
   --crus ${CRU_GEN_CONFIG_PATH} \
-  --pedestal-file $pedestalFile \
   --severity warning \
   --configKeyValues "keyval.output_dir=/dev/null" \
   | o2-tpc-idc-flp $ARGS_ALL \
@@ -68,6 +67,8 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
    --dataspec "${OUTSPEC}" \
    --o2-control $WF_NAME
+
+#  --pedestal-file $pedestalFile \
 
 #   --default-port 47734 \
 #   --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,type=push,transport=zeromq" ' \

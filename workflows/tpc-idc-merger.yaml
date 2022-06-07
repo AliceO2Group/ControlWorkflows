@@ -289,50 +289,50 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-idc-merger-tpc-aggregator-ft
-  - name: "qc-check-sink-QC_Clusters_0"
+  - name: "qc-check-sink-QTPC_Clusters_0"
     connect:
-    - name: from_TPC-MERGER-Clusters1l-0_to_qc-check-sink-QC_Clusters_0
+    - name: from_TPC-MERGER-Clusters1l-0_to_qc-check-sink-QTPC_Clusters_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TPC-MERGER-Clusters1l-0:from_TPC-MERGER-Clusters1l-0_to_qc-check-sink-QC_Clusters_0"
+      target: "{{ Parent().Path }}.TPC-MERGER-Clusters1l-0:from_TPC-MERGER-Clusters1l-0_to_qc-check-sink-QTPC_Clusters_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-idc-merger-qc-check-sink-QC_Clusters_0
-  - name: "qc-check-sink-QC_PID_0"
+      load: tpc-idc-merger-qc-check-sink-QTPC_Clusters_0
+  - name: "qc-check-sink-QTPC_PID_0"
     connect:
-    - name: from_TPC-MERGER-PID1l-0_to_qc-check-sink-QC_PID_0
+    - name: from_TPC-MERGER-PID1l-0_to_qc-check-sink-QTPC_PID_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TPC-MERGER-PID1l-0:from_TPC-MERGER-PID1l-0_to_qc-check-sink-QC_PID_0"
+      target: "{{ Parent().Path }}.TPC-MERGER-PID1l-0:from_TPC-MERGER-PID1l-0_to_qc-check-sink-QTPC_PID_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-idc-merger-qc-check-sink-QC_PID_0
-  - name: "qc-check-sink-QC_RawDigits_0"
+      load: tpc-idc-merger-qc-check-sink-QTPC_PID_0
+  - name: "qc-check-sink-QTPC_RawDigits_0"
     connect:
-    - name: from_TPC-MERGER-RawDigits1l-0_to_qc-check-sink-QC_RawDigits_0
+    - name: from_TPC-MERGER-RawDigits1l-0_to_qc-check-sink-QTPC_RawDigits_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TPC-MERGER-RawDigits1l-0:from_TPC-MERGER-RawDigits1l-0_to_qc-check-sink-QC_RawDigits_0"
+      target: "{{ Parent().Path }}.TPC-MERGER-RawDigits1l-0:from_TPC-MERGER-RawDigits1l-0_to_qc-check-sink-QTPC_RawDigits_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-idc-merger-qc-check-sink-QC_RawDigits_0
-  - name: "qc-check-sink-QC_Tracks_0"
+      load: tpc-idc-merger-qc-check-sink-QTPC_RawDigits_0
+  - name: "qc-check-sink-QTPC_Tracks_0"
     connect:
-    - name: from_TPC-MERGER-Tracks1l-0_to_qc-check-sink-QC_Tracks_0
+    - name: from_TPC-MERGER-Tracks1l-0_to_qc-check-sink-QTPC_Tracks_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TPC-MERGER-Tracks1l-0:from_TPC-MERGER-Tracks1l-0_to_qc-check-sink-QC_Tracks_0"
+      target: "{{ Parent().Path }}.TPC-MERGER-Tracks1l-0:from_TPC-MERGER-Tracks1l-0_to_qc-check-sink-QTPC_Tracks_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-idc-merger-qc-check-sink-QC_Tracks_0
+      load: tpc-idc-merger-qc-check-sink-QTPC_Tracks_0
   - name: "internal-dpl-injected-dummy-sink"
     connect:
     - name: from_tpc-factorize-idc-00_to_internal-dpl-injected-dummy-sink

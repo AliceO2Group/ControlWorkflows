@@ -136,5 +136,5 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--pedestal-file"
-    - "'/home/tpc/IDCs/FLP/Pedestals.root'"
+    - "--pedestal-url"
+    - "'ccdb-default'"
