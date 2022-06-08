@@ -49,12 +49,14 @@ o2-dpl-raw-proxy $ARGS_ALL \
   | o2-tpc-idc-to-vector $ARGS_ALL \
   --crus ${CRU_GEN_CONFIG_PATH} \
   --severity warning \
+  --infologger-severity warning \
   --configKeyValues "keyval.output_dir=/dev/null" \
   --pedestal-url http://ccdb-test.cern.ch:8080 \
   | o2-tpc-idc-flp $ARGS_ALL \
   --propagateIDCs true \
   --crus ${CRU_GEN_CONFIG_PATH} \
   --severity warning \
+  --infologger-severity warning \
   --configKeyValues "keyval.output_dir=/dev/null" \
   --lanes 1 \
   --disableIDC0CCDB true \
