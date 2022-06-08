@@ -174,31 +174,32 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --configKeyValues 'keyval.output_dir=/dev/null'  \
   --severity info \
   --infologger-severity info \
-  | o2-tpc-idc-factorize $ARGS_ALL \
-  --crus ${CRU_GEN_MERGER_ID} \
-  --timeframes ${nTFs} \
-  --input-lanes ${lanes} \
-  --configFile "" \
-  --compression 0 \
-  --configKeyValues 'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null'  \
-  --groupIDCs warning \
-  --nthreads-grouping 4 \
-  --groupPads "5,6,7,8,4,5,6,8,10,13" \
-  --groupRows "2,2,2,3,3,3,2,2,2,2" \
-  --severity warning \
-  --infologger-severity warning \
-  --use-approximate-timestamp true \
-  --sendOutputFFT true \
-  | o2-tpc-idc-ft-aggregator $ARGS_ALL \
-  --rangeIDC 200 \
-  --nFourierCoeff 40 \
-  --timeframes ${nTFs} \
-  --configKeyValues 'keyval.output_dir=/dev/null'  \
-  --severity warning \
-  --infologger-severity warning \
-  |  o2-calibration-ccdb-populator-workflow $ARGS_ALL \
-  --ccdb-path http://ccdb-test.cern.ch:8080 \
   |  o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
+
+#  | o2-tpc-idc-factorize $ARGS_ALL \
+#  --crus ${CRU_GEN_MERGER_ID} \
+#  --timeframes ${nTFs} \
+#  --input-lanes ${lanes} \
+#  --configFile "" \
+#  --compression 0 \
+#  --configKeyValues 'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null'  \
+#  --groupIDCs warning \
+#  --nthreads-grouping 4 \
+#  --groupPads "5,6,7,8,4,5,6,8,10,13" \
+#  --groupRows "2,2,2,3,3,3,2,2,2,2" \
+#  --severity warning \
+#  --infologger-severity warning \
+#  --use-approximate-timestamp true \
+#  --sendOutputFFT true \
+#  | o2-tpc-idc-ft-aggregator $ARGS_ALL \
+#  --rangeIDC 200 \
+#  --nFourierCoeff 40 \
+#  --timeframes ${nTFs} \
+#  --configKeyValues 'keyval.output_dir=/dev/null'  \
+#  --severity warning \
+#  --infologger-severity warning \
+#  |  o2-calibration-ccdb-populator-workflow $ARGS_ALL \
+#  --ccdb-path http://ccdb-test.cern.ch:8080 \
 
 
 #  --ccdb-uri "${CCDB}" \
