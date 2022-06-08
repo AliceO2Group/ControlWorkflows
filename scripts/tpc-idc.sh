@@ -48,8 +48,8 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
   | o2-tpc-idc-to-vector $ARGS_ALL \
   --crus ${CRU_GEN_CONFIG_PATH} \
-  --severity warning \
-  --infologger-severity warning \
+  --severity error \
+  --infologger-severity error \
   --configKeyValues "keyval.output_dir=/dev/null" \
   --pedestal-url http://ccdb-test.cern.ch:8080 \
   | o2-tpc-idc-flp $ARGS_ALL \
@@ -173,6 +173,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --output-lanes ${lanes} \
   --configKeyValues 'keyval.output_dir=/dev/null'  \
   --severity warning \
+  --infologger-severity warning \
   | o2-tpc-idc-factorize $ARGS_ALL \
   --crus ${CRU_GEN_MERGER_ID} \
   --timeframes ${nTFs} \
@@ -185,6 +186,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --groupPads "5,6,7,8,4,5,6,8,10,13" \
   --groupRows "2,2,2,3,3,3,2,2,2,2" \
   --severity warning \
+  --infologger-severity warning \
   --use-approximate-timestamp true \
   --sendOutputFFT true \
   | o2-tpc-idc-ft-aggregator $ARGS_ALL \
