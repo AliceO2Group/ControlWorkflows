@@ -20,13 +20,6 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_readout-proxy_to_dpl-output-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -78,7 +71,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "'x:TPC/RAWDATA'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"

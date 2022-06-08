@@ -70,7 +70,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'xout:TPC/RAWDATA;ddout:FLP/DISTSUBTIMEFRAME/0'"
+    - "'xout:TPC/RAWDATA'"
     - "--default-port"
     - "'4200'"
     - "--default-transport"
