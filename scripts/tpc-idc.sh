@@ -4,7 +4,7 @@
 set -e;
 set -u;
 
-module load O2PDPSuite
+#module load O2PDPSuite
 
 source helpers.sh
 
@@ -48,6 +48,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --crus ${CRU_GEN_CONFIG_PATH} \
   --severity warning \
   --configKeyValues "keyval.output_dir=/dev/null" \
+  --pedestal-url http://ccdb-test.cern.ch:8080 \
   | o2-tpc-idc-flp $ARGS_ALL \
   --propagateIDCs true \
   --crus ${CRU_GEN_CONFIG_PATH} \
@@ -68,7 +69,6 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --dataspec "${OUTSPEC}" \
    --o2-control $WF_NAME
 
-#  --pedestal-file $pedestalFile \
 
 #   --default-port 47734 \
 #   --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,type=push,transport=zeromq" ' \
