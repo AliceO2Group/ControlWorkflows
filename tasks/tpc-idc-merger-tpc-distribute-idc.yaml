@@ -127,7 +127,7 @@ command:
     - "--readers"
     - "'1'"
     - "--severity"
-    - "'warning'"
+    - "'info'"
     - "--shm-allocation"
     - "'rbtree_best_fit'"
     - "--shm-mlock-segment"

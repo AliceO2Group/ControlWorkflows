@@ -20,7 +20,7 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_tpc-factorize-idc-00_to_internal-dpl-injected-dummy-sink
+  - name: from_tpc-factorize-idc-00_to_ccdb-populator
     type: push
     transport: shmem
     addressing: ipc

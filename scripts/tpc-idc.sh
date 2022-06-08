@@ -14,12 +14,12 @@ cd ..
 
 
 export GLOBAL_SHMSIZE=$(( 16 << 30 )) #  GB for the global SHMEM
-#PROXY_INSPEC="x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0"
-PROXY_INSPEC="x:TPC/RAWDATA"
+PROXY_INSPEC="x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0"
+#PROXY_INSPEC="x:TPC/RAWDATA"
 
 OUTSPEC_IDC="idc2:TPC/IDCGROUP"
-#OUTSPEC="xout:TPC/RAWDATA;ddout:FLP/DISTSUBTIMEFRAME/0"
-OUTSPEC="xout:TPC/RAWDATA"
+OUTSPEC="xout:TPC/RAWDATA;ddout:FLP/DISTSUBTIMEFRAME/0"
+#OUTSPEC="xout:TPC/RAWDATA"
 # TODO: Adjust path to pedestal file
 pedestalFile="/home/tpc/IDCs/FLP/Pedestals.root"
 
@@ -172,8 +172,8 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --timeframes ${nTFs} \
   --output-lanes ${lanes} \
   --configKeyValues 'keyval.output_dir=/dev/null'  \
-  --severity warning \
-  --infologger-severity warning \
+  --severity info \
+  --infologger-severity info \
   | o2-tpc-idc-factorize $ARGS_ALL \
   --crus ${CRU_GEN_MERGER_ID} \
   --timeframes ${nTFs} \
@@ -196,6 +196,8 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --configKeyValues 'keyval.output_dir=/dev/null'  \
   --severity warning \
   --infologger-severity warning \
+  |  o2-calibration-ccdb-populator-workflow $ARGS_ALL \
+  --ccdb-path http://ccdb-test.cern.ch:8080 \
   |  o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
 
 
