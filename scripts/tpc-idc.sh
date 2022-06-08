@@ -172,8 +172,8 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --timeframes ${nTFs} \
   --output-lanes ${lanes} \
   --configKeyValues 'keyval.output_dir=/dev/null'  \
-  --severity info \
-  --infologger-severity info \
+  --severity warning \
+  --infologger-severity warning \
   |  o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
 
 #  | o2-tpc-idc-factorize $ARGS_ALL \

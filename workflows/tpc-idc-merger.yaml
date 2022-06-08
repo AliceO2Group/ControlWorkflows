@@ -1,7 +1,7 @@
 name: tpc-idc-merger
 vars:
   dpl_command: >-
-    o2-dpl-raw-proxy -b --session default --shm-segment-size 137438953472 --dataspec dd:TPC/IDCGROUP --severity warning --labels tpc-idc-merger-proxy:ecs-preserve-raw-channels --proxy-name tpc-idc-merger-proxy --channel-config 'name=tpc-idc-merger-proxy,type=pull,method=bind,address=tcp://*:{{ merger_port }},rateLogging=1,transport=zeromq' | o2-tpc-idc-distribute -b --session default --shm-segment-size 137438953472 --crus {{ cru_merger_ids }} --firstTF 1 --timeframes 1000 --output-lanes 5 --configKeyValues keyval.output_dir=/dev/null --severity info --infologger-severity info | o2-qc --config {{ qc_config_uri }} --remote -b
+    o2-dpl-raw-proxy -b --session default --shm-segment-size 137438953472 --dataspec dd:TPC/IDCGROUP --severity warning --labels tpc-idc-merger-proxy:ecs-preserve-raw-channels --proxy-name tpc-idc-merger-proxy --channel-config 'name=tpc-idc-merger-proxy,type=pull,method=bind,address=tcp://*:{{ merger_port }},rateLogging=1,transport=zeromq' | o2-tpc-idc-distribute -b --session default --shm-segment-size 137438953472 --crus {{ cru_merger_ids }} --firstTF 1 --timeframes 1000 --output-lanes 5 --configKeyValues keyval.output_dir=/dev/null --severity warning --infologger-severity warning | o2-qc --config {{ qc_config_uri }} --remote -b
 defaults:
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-nodummy-qcmn"
   qc_remote_machine: "alio2-cr1-qts01"
