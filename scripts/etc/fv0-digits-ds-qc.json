@@ -33,7 +33,28 @@
           "taskParameters": {
             "ChannelIDs": "0,1,2,3,4,5,6"
           }
-        }
+        },
+      "TriggerQcTask": {
+        "active": "true",
+        "className": "o2::quality_control_modules::fv0::TriggerQcTask",
+        "moduleName": "QcFV0",
+        "detectorName": "FV0",
+        "cycleDurationSeconds": "60",
+        "maxNumberCycles": "-1",
+        "dataSource": {
+              "type": "dataSamplingPolicy",
+              "name": "fv0-digits"
+        },
+        "taskParameters": {
+          "modeInnerOuterThresholdVar":"Ampl",
+          "thresholdNChannels":"10",
+          "thresholdCharge":"1000",
+          "thresholdChargeInner":"100",
+          "thresholdChargeOuter":"100"
+        },
+        "resetAfterCycles": "1"
+      }
+
       }
   },
   "dataSamplingPolicies": [

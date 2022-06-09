@@ -33,7 +33,26 @@
           "taskParameters": {
             "ChannelIDs": "0,1,2,3,4,5,6"
           }
+        },
+      "TriggerQcTask": {
+        "active": "true",
+        "className": "o2::quality_control_modules::ft0::TriggerQcTask",
+        "moduleName": "QcFT0",
+        "detectorName": "FT0",
+        "cycleDurationSeconds": "60",
+        "maxNumberCycles": "-1",
+        "dataSource": {
+              "type": "dataSamplingPolicy",
+              "name": "ft0-digits"
+        },
+        "taskParameters": {
+          "thresholdTimeLow":"-192",
+          "thresholdTimeHigh":"192",
+          "modeSide":"A+C",
+          "modeThresholdVar":"Ampl"
         }
+      }
+
       }
   },
   "dataSamplingPolicies": [

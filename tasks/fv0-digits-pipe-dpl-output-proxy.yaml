@@ -77,6 +77,8 @@ command:
     - "'shmem'"
     - "--early-forward-policy"
     - "'never'"
+    - "--environment"
+    - "'DPL_OUTPUT_PROXY_ORDERED=1'"
     - "--fairmq-ipc-prefix"
     - "'@'"
     - "--fairmq-rate-logging"
