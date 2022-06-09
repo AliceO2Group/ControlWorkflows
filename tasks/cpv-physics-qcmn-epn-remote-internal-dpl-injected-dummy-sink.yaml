@@ -1,4 +1,4 @@
-name: cpv-physics-qcmn-epn-remote-CPV-MERGER-PhysicsOnEPNs1l-0
+name: cpv-physics-qcmn-epn-remote-internal-dpl-injected-dummy-sink
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,13 +13,6 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_CPV-MERGER-PhysicsOnEPNs1l-0_to_qc-check-CPV-QcCheck
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -49,7 +42,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'CPV-MERGER-PhysicsOnEPNs1l-0'"
+    - "'internal-dpl-injected-dummy-sink'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -127,5 +120,3 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-publish"
-    - "'30000000'"
