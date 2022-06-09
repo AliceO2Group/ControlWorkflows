@@ -34,8 +34,7 @@
         "taskParameters": {
           "ChannelIDs": "0,1,2,3,4,5,6,7,8,9,10"
         }
-      }
-    },
+      },
       "TriggerQcTask": {
         "active": "true",
         "className": "o2::quality_control_modules::ft0::TriggerQcTask",
@@ -55,6 +54,7 @@
           "modeThresholdVar": "Ampl"
         }
       }
+    }
   },
   "dataSamplingPolicies": [
     {
