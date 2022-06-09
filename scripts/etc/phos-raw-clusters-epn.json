@@ -76,7 +76,7 @@
         "dataSource": [{
           "type": "Task",
           "name": "RawTask",
-          "MOs": ["CellOccupancyM1", "CellOccupancyM2", "CellOccupancyM3", "CellOccupancyM4"]
+          "MOs": []
         }]
       }
     }
