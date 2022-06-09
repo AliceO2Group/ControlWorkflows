@@ -1,4 +1,4 @@
-name: fdd-digits-qc-full-nocalib-qc-task-FDD-DigitQcTask
+name: cpv-pedestal-calib-qc-expert-qc-task-CPV-PedestalsOnFLP
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-FDD-DigitQcTask_to_qc-check-sink-QFDD_DigitQcTask_0
+  - name: from_qc-task-CPV-PedestalsOnFLP_to_qc-check-CPV-PedestalsOnFLPCheck
     type: push
     transport: shmem
     addressing: ipc
@@ -51,7 +51,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-task-FDD-DigitQcTask'"
+    - "'qc-task-CPV-PedestalsOnFLP'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -129,6 +129,6 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--period-timer-cycle"
-    - "'60000000'"
+    - "'10000000'"
     - "--qcConfiguration"
     - "'{}'"
