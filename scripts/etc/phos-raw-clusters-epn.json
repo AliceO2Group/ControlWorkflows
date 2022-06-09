@@ -65,6 +65,20 @@
         "mergingMode": "delta",
         "localControl": "odc"
       }
+    },
+    "checks": {
+      "QcCheck": {
+        "active": "true",
+        "className": "o2::quality_control_modules::common::IncreasingEntries",
+        "moduleName": "QcCommon",
+        "policy": "OnAny",
+        "detectorName": "PHS",
+        "dataSource": [{
+          "type": "Task",
+          "name": "RawTask",
+          "MOs": []
+        }]
+      }
     }
   },
   "dataSamplingPolicies": [

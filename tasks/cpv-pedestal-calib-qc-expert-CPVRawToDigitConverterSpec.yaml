@@ -1,19 +1,33 @@
-name: phos-raw-clusters-epn-remote-PHS-MERGER-RawTask1l-0
+name: cpv-pedestal-calib-qc-expert-CPVRawToDigitConverterSpec
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-qc
+    {{ dpl_command }} | o2-cpv-reco-workflow
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-qc
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-cpv-reco-workflow
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_PHS-MERGER-RawTask1l-0_to_qc-check-PHS-QcCheck
+  - name: from_CPVRawToDigitConverterSpec_to_cpv-pedestal-calibration
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_CPVRawToDigitConverterSpec_to_qc-task-CPV-ExpertPedestalsOnFLP
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_CPVRawToDigitConverterSpec_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -49,7 +63,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'PHS-MERGER-RawTask1l-0'"
+    - "'CPVRawToDigitConverterSpec'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -70,10 +84,11 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--config"
-    - "'{{ qc_config_uri }}'"
     - "--configKeyValues"
-    - "''"
+    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
+    - "--disable-mc"
+    - "--disable-root-input"
+    - "--disable-root-output"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -88,21 +103,19 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--host"
-    - "''"
+    - "--hbfutils-config"
+    - "'o2simdigitizerworkflow_configuration.ini'"
+    - "--input-type"
+    - "'raw'"
     - "--labels"
     - "''"
-    - "--local-batch"
-    - "''"
-    - "--override-values"
-    - "''"
+    - "--output-type"
+    - "'digits'"
+    - "--pedestal"
     - "--pipeline"
     - "''"
     - "--readers"
     - "'1'"
-    - "--remote"
-    - "--remote-batch"
-    - "''"
     - "--severity"
     - "'info'"
     - "--shm-allocation"
@@ -127,5 +140,3 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-publish"
-    - "'30000000'"

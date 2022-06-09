@@ -36,10 +36,31 @@
           "query": "peds:CLP/CPV_Pedestals;feethrs:CLP/CPV_FEEThrs;deadchs:CLP/CPV_DeadChnls;highthrs:CLP/CPV_HighThrs;pedeffs:CLP/CPV_PedEffs"
         },
         "taskParameters": {
-          "cutOnMinAmplitude": "0"
+          "minNEventsToUpdatePedestals": "2000",
+          "monitorDigits" : "0",
+          "monitorPedestalCalibrator" : "1"
+
         },
-        "location": "remote",
-        "saveObjectsToFile": "MOs.root",      "": "For debugging, path to the file where to save. If empty or missing it won't save."
+        "location": "remote"
+      },
+      "ExpertPedestalsOnFLP": {
+        "active": "true",
+        "className": "o2::quality_control_modules::cpv::PedestalTask",
+        "moduleName": "QcCPV",
+        "detectorName": "CPV",
+        "cycleDurationSeconds": "20",
+        "maxNumberCycles": "-1",
+        "": "The other type of dataSource is \"direct\", see basic-no-sampling.json.",
+        "dataSource": {
+          "type": "direct",
+          "query": "digits:CPV/DIGITS/0;dtrigrec:CPV/DIGITTRIGREC/0;rawerrors:CPV/RAWHWERRORS"
+        },
+        "taskParameters": {
+          "minNEventsToUpdatePedestals": "2000",
+          "monitorDigits" : "1",
+          "monitorPedestalCalibrator" : "0"
+        },
+        "location": "remote"
       }
     },
     "checks": {

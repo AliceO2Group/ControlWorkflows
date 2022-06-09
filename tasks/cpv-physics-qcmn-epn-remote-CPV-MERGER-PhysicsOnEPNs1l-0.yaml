@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_CPV-MERGER-PhysicsOnEPNs1l-0_to_qc-check-sink-QCPV_PhysicsOnEPNs_0
+  - name: from_CPV-MERGER-PhysicsOnEPNs1l-0_to_qc-check-CPV-QcCheck
     type: push
     transport: shmem
     addressing: ipc
