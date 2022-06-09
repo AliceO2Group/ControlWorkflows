@@ -47,8 +47,6 @@ check_pwd
 ./ft0-digits-pipe.sh
 ./ft0-digits-pipe-ds-qc.sh
 ./ft0-digits-qc-ds-pipe-raw.sh
-./ft0-digits-qc-postproc-ds-pipe.sh
-./ft0-digits-qc-postproc-ds.sh
 ./ft0-digits-qc.sh
 ./ft0-digits.sh
 ./fv0-qcmn-remote.sh
@@ -59,8 +57,6 @@ check_pwd
 ./fv0-digits-pipe.sh
 ./fv0-digits-pipe-ds-qc.sh
 ./fv0-digits-qc-ds-pipe-raw.sh
-./fv0-digits-qc-postproc-ds-pipe.sh
-./fv0-digits-qc-postproc-ds.sh
 ./fv0-digits-qc.sh
 ./fv0-digits.sh
 ./emc-qcmn-local-flp.sh
