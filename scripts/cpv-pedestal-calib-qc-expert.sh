@@ -4,13 +4,13 @@
 set -e;
 set -u;
 
-WF_NAME=cpv-pedestal-calib-qc
+WF_NAME=cpv-pedestal-calib-qc-expert
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
 # check
-QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/cpv-pedestal-qc.json'
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/cpv-pedestal-qc'
+QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/cpv-pedestal-qc-expert.json'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/cpv-pedestal-qc-expert'
 QC_CONFIG_PARAM='qc_config_uri'
 
 cd ..
