@@ -33,7 +33,7 @@
         "": "The other type of dataSource is \"direct\", see basic-no-sampling.json.",
         "dataSource": {
           "type": "direct",
-          "query": "digits:CPV/DIGITS/0;dtrigrec:CPV/DIGITTRIGREC/0"
+          "query": "peds:CLP/CPV_Pedestals;feethrs:CLP/CPV_FEEThrs;deadchs:CLP/CPV_DeadChnls;highthrs:CLP/CPV_HighThrs;pedeffs:CLP/CPV_PedEffs"
         },
         "taskParameters": {
           "cutOnMinAmplitude": "0"
