@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 name: fdd-digits-qc-ds-pipe-Dispatcher
+=======
+<<<<<<< HEAD:tasks/zdc-raw-qc-Dispatcher.yaml
+name: zdc-raw-qc-Dispatcher
+=======
+name: fdd-digits-pipe-ds-qc-Dispatcher
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-ds-qc-Dispatcher.yaml
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,7 +21,11 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+<<<<<<< HEAD
   - name: from_Dispatcher_to_qc-task-FDD-DigitQcTask
+=======
+  - name: from_Dispatcher_to_qc-task-ZDC-QcZDCTask
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     type: push
     transport: shmem
     addressing: ipc

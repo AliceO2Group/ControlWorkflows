@@ -183,5 +183,8 @@ command:
     - "'0'"
     - "--workflow-suffix"
     - "''"
+<<<<<<< HEAD
     - "--ready-state-policy"
     - "'keep'"
+=======
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)

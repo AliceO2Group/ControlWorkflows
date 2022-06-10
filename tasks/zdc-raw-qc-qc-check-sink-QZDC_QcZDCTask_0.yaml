@@ -1,4 +1,8 @@
+<<<<<<< HEAD:tasks/zdc-raw-qc-qc-check-sink-QZDC_QcZDCTask_0.yaml
 name: zdc-raw-qc-qc-check-sink-QZDC_QcZDCTask_0
+=======
+name: ft0-digits-pipe-ds-qc-qc-check-sink-QFT0_TriggerQcTask_0
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-qc-check-sink-QFT0_TriggerQcTask_0.yaml
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -44,7 +48,11 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
+<<<<<<< HEAD:tasks/zdc-raw-qc-qc-check-sink-QZDC_QcZDCTask_0.yaml
     - "'qc-check-sink-QZDC_QcZDCTask_0'"
+=======
+    - "'qc-check-sink-QFT0_TriggerQcTask_0'"
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-qc-check-sink-QFT0_TriggerQcTask_0.yaml
     - "--shm-monitor"
     - "'false'"
     - "--log-color"

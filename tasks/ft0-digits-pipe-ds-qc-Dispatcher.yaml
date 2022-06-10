@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 name: ft0-digits-qc-ds-pipe-raw-Dispatcher
+=======
+name: ft0-digits-pipe-ds-qc-Dispatcher
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
 defaults:
   log_task_output: none
   exit_transition_timeout: 15

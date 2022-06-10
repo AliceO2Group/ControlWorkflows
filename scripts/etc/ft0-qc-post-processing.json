@@ -8,9 +8,12 @@
         "password": "not_applicable",
         "name": "not_applicable"
       },
+<<<<<<< HEAD:scripts/etc/ft0-qc-post-processing.json
       "Activity": {
         "provenance": "qc"
       },
+=======
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):scripts/etc/ft0-digits-qc-full.json
       "monitoring": {
         "url": "infologger:///debug?qc"
       },

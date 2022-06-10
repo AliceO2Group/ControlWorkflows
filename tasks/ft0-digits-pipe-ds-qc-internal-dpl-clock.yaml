@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 name: ft0-digits-pipe-ds-qc-internal-dpl-clock
+=======
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-internal-dpl-clock.yaml
+name: ft0-decoder-pipe-ds-qc-internal-dpl-clock
+=======
+name: ft0-digits-pipe-ds-qc-internal-dpl-clock
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-internal-dpl-clock.yaml
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
 defaults:
   log_task_output: none
   exit_transition_timeout: 15

@@ -24,7 +24,11 @@
         "className": "o2::quality_control_modules::fv0::DigitQcTask",
         "moduleName": "QcFV0",
         "detectorName": "FV0",
+<<<<<<< HEAD
         "cycleDurationSeconds": "300",
+=======
+        "cycleDurationSeconds": "60",
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
         "maxNumberCycles": "-1",
         "resetAfterCycles": "1",
         "dataSource": {
@@ -40,7 +44,11 @@
         "className": "o2::quality_control_modules::fv0::TriggerQcTask",
         "moduleName": "QcFV0",
         "detectorName": "FV0",
+<<<<<<< HEAD
         "cycleDurationSeconds": "300",
+=======
+        "cycleDurationSeconds": "60",
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
         "resetAfterCycles": "1",
         "dataSource": {
           "type": "dataSamplingPolicy",
@@ -54,6 +62,7 @@
           "thresholdChargeOuter": "16"
         }
       }
+<<<<<<< HEAD
     },
     "checks": {
       "CFDEffCheck": {
@@ -76,6 +85,8 @@
           "thresholdError": "0.8"
         }
       }
+=======
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     }
   },
   "dataSamplingPolicies": [

@@ -1,53 +1,113 @@
+<<<<<<< HEAD
 name: fdd-digits-pipe-readout-proxy
+=======
+<<<<<<< HEAD:tasks/mid-full-noraw-qcmn-remote-internal-dpl-clock.yaml
+name: mid-full-noraw-qcmn-remote-internal-dpl-clock
+=======
+name: fdd-digits-pipe-readout-proxy
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-readout-proxy.yaml
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
+<<<<<<< HEAD
     {{ dpl_command }} | o2-dpl-raw-proxy
   _plain_cmdline: >-
     source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-raw-proxy
+=======
+    {{ dpl_command }} | o2-qc
+  _plain_cmdline: >-
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-qc
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
+<<<<<<< HEAD
   - name: from_readout-proxy_to_fdd-datareader-dpl_t0
+=======
+<<<<<<< HEAD:tasks/mid-full-noraw-qcmn-remote-internal-dpl-clock.yaml
+  - name: from_internal-dpl-clock_to_MID-QcTaskMIDClust-proxy
+=======
+  - name: from_readout-proxy_to_fdd-datareader-dpl_t0
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-readout-proxy.yaml
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD
   - name: from_readout-proxy_to_fdd-datareader-dpl_t1
+=======
+<<<<<<< HEAD:tasks/mid-full-noraw-qcmn-remote-internal-dpl-clock.yaml
+  - name: from_internal-dpl-clock_to_MID-QcTaskMIDDigits-proxy
+=======
+  - name: from_readout-proxy_to_fdd-datareader-dpl_t1
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-readout-proxy.yaml
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD
   - name: from_readout-proxy_to_fdd-datareader-dpl_t2
+=======
+<<<<<<< HEAD:tasks/mid-full-noraw-qcmn-remote-internal-dpl-clock.yaml
+  - name: from_internal-dpl-clock_to_MID-QcTaskMIDTracks-proxy
+=======
+  - name: from_readout-proxy_to_fdd-datareader-dpl_t2
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-readout-proxy.yaml
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD
   - name: from_readout-proxy_to_fdd-datareader-dpl_t3
+=======
+<<<<<<< HEAD:tasks/mid-full-noraw-qcmn-remote-internal-dpl-clock.yaml
+  - name: from_internal-dpl-clock_to_MID-MERGER-QcTaskMIDClust1l-0
+=======
+  - name: from_readout-proxy_to_fdd-datareader-dpl_t3
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-readout-proxy.yaml
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD
   - name: from_readout-proxy_to_fdd-datareader-dpl_t4
+=======
+<<<<<<< HEAD:tasks/mid-full-noraw-qcmn-remote-internal-dpl-clock.yaml
+  - name: from_internal-dpl-clock_to_MID-MERGER-QcTaskMIDDigits1l-0
+=======
+  - name: from_readout-proxy_to_fdd-datareader-dpl_t4
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-readout-proxy.yaml
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD:tasks/mid-full-noraw-qcmn-remote-internal-dpl-clock.yaml
+  - name: from_internal-dpl-clock_to_MID-MERGER-QcTaskMIDTracks1l-0
+=======
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
   - name: from_readout-proxy_to_fdd-datareader-dpl_t5
     type: push
     transport: shmem
@@ -77,6 +137,10 @@ bind:
     sndBufSize: 4
     rcvBufSize: 4
   - name: from_readout-proxy_to_fdd-datareader-dpl_t9
+<<<<<<< HEAD
+=======
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-readout-proxy.yaml
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     type: push
     transport: shmem
     addressing: ipc
@@ -133,8 +197,15 @@ command:
     - "''"
     - "--clone"
     - "''"
+<<<<<<< HEAD
     - "--dataspec"
     - "'A1:FDD/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
+=======
+    - "--config"
+    - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -149,6 +220,7 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+<<<<<<< HEAD
     - "--labels"
     - "''"
     - "--pipeline"
@@ -157,6 +229,28 @@ command:
     - "'readout-proxy'"
     - "--readers"
     - "'1'"
+=======
+    - "--host"
+    - "''"
+    - "--labels"
+    - "''"
+    - "--local-batch"
+    - "''"
+    - "--override-values"
+    - "''"
+    - "--pipeline"
+    - "''"
+<<<<<<< HEAD:tasks/mid-full-noraw-qcmn-remote-internal-dpl-clock.yaml
+=======
+    - "--proxy-name"
+    - "'readout-proxy'"
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-readout-proxy.yaml
+    - "--readers"
+    - "'1'"
+    - "--remote"
+    - "--remote-batch"
+    - "''"
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     - "--severity"
     - "'info'"
     - "--shm-allocation"
@@ -179,9 +273,14 @@ command:
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
+<<<<<<< HEAD
     - "--timeframes-shm-limit"
     - "'0'"
     - "--workflow-suffix"
     - "''"
     - "--ready-state-policy"
     - "'keep'"
+=======
+    - "--workflow-suffix"
+    - "''"
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)

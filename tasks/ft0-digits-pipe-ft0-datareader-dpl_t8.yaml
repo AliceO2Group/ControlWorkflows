@@ -1,4 +1,12 @@
+<<<<<<< HEAD
+<<<<<<< HEAD:tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
 name: ft0-digits-pipe-ft0-datareader-dpl_t8
+=======
+name: ft0-digits-pipe-ft0-datareader-dpl_t7
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t7.yaml
+=======
+name: ft0-digits-pipe-ft0-datareader-dpl_t8
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,7 +21,15 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+<<<<<<< HEAD
+<<<<<<< HEAD:tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
   - name: from_ft0-datareader-dpl_t8_to_dpl-output-proxy
+=======
+  - name: from_ft0-datareader-dpl_t7_to_dpl-output-proxy
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t7.yaml
+=======
+  - name: from_ft0-datareader-dpl_t8_to_dpl-output-proxy
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     type: push
     transport: shmem
     addressing: ipc
@@ -49,7 +65,15 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
+<<<<<<< HEAD
+<<<<<<< HEAD:tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
     - "'ft0-datareader-dpl_t8'"
+=======
+    - "'ft0-datareader-dpl_t7'"
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t7.yaml
+=======
+    - "'ft0-datareader-dpl_t8'"
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     - "--shm-monitor"
     - "'false'"
     - "--log-color"

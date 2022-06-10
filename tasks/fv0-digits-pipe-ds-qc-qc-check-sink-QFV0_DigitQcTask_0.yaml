@@ -1,4 +1,4 @@
-name: fv0-digits-qc-ds-pipe-raw-qc-check-sink-QC_DigitQcTask_0
+name: fv0-digits-pipe-ds-qc-qc-check-sink-QFV0_DigitQcTask_0
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -44,7 +44,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-check-sink-QC_DigitQcTask_0'"
+    - "'qc-check-sink-QFV0_DigitQcTask_0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"

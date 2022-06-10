@@ -1,4 +1,8 @@
-name: ft0-digits-qc-ds-pipe-qc-check-sink-QC_DigitQcTask_0
+<<<<<<< HEAD
+name: ft0-digits-qc-ds-pipe-raw-Dispatcher
+=======
+name: ft0-digits-pipe-ds-qc-Dispatcher
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,8 +17,20 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-properties:
-  qcConfiguration: ""
+  - name: from_Dispatcher_to_qc-task-FT0-DigitQcTask
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_Dispatcher_to_dpl-output-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -44,7 +60,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-check-sink-QC_DigitQcTask_0'"
+    - "'Dispatcher'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -121,5 +137,5 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--qcConfiguration"
-    - "'{}'"
+    - "--period-timer-stats"
+    - "'10000000'"

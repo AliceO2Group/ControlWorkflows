@@ -75,7 +75,11 @@ command:
     - "--config"
     - "'{{ qc_config_uri }}'"
     - "--configKeyValues"
+<<<<<<< HEAD
     - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
+=======
+    - "''"
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -129,6 +133,10 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--period-timer-cycle"
+<<<<<<< HEAD
     - "'300000000'"
+=======
+    - "'60000000'"
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     - "--qcConfiguration"
     - "'{}'"

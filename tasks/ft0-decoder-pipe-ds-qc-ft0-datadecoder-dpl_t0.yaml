@@ -1,4 +1,8 @@
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t0.yaml
 name: ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t0
+=======
+name: ft0-digits-pipe-ft0-datareader-dpl_t8
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,6 +17,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t0.yaml
   - name: from_ft0-datadecoder-dpl_t0_to_Dispatcher
     type: push
     transport: shmem
@@ -21,6 +26,9 @@ bind:
     sndBufSize: 4
     rcvBufSize: 4
   - name: from_ft0-datadecoder-dpl_t0_to_dpl-output-proxy
+=======
+  - name: from_ft0-datareader-dpl_t8_to_dpl-output-proxy
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
     type: push
     transport: shmem
     addressing: ipc
@@ -56,7 +64,11 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t0.yaml
     - "'ft0-datadecoder-dpl_t0'"
+=======
+    - "'ft0-datareader-dpl_t8'"
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -98,7 +110,11 @@ command:
     - "''"
     - "--new-decoder"
     - "--pipeline"
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t0.yaml
     - "'ft0-datadecoder-dpl:7'"
+=======
+    - "'ft0-datareader-dpl:10'"
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
     - "--readers"
     - "'1'"
     - "--severity"

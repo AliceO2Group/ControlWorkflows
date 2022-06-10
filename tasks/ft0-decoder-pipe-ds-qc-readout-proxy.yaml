@@ -1,4 +1,8 @@
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-readout-proxy.yaml
 name: ft0-decoder-pipe-ds-qc-readout-proxy
+=======
+name: fdd-digits-pipe-ds-qc-readout-proxy
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-ds-qc-readout-proxy.yaml
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,49 +17,98 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-readout-proxy.yaml
   - name: from_readout-proxy_to_ft0-datadecoder-dpl_t0
+=======
+  - name: from_readout-proxy_to_fdd-datareader-dpl_t0
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-readout-proxy.yaml
   - name: from_readout-proxy_to_ft0-datadecoder-dpl_t1
+=======
+  - name: from_readout-proxy_to_fdd-datareader-dpl_t1
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-readout-proxy.yaml
   - name: from_readout-proxy_to_ft0-datadecoder-dpl_t2
+=======
+  - name: from_readout-proxy_to_fdd-datareader-dpl_t2
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-readout-proxy.yaml
   - name: from_readout-proxy_to_ft0-datadecoder-dpl_t3
+=======
+  - name: from_readout-proxy_to_fdd-datareader-dpl_t3
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-readout-proxy.yaml
   - name: from_readout-proxy_to_ft0-datadecoder-dpl_t4
+=======
+  - name: from_readout-proxy_to_fdd-datareader-dpl_t4
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-readout-proxy.yaml
   - name: from_readout-proxy_to_ft0-datadecoder-dpl_t5
+=======
+  - name: from_readout-proxy_to_fdd-datareader-dpl_t5
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-readout-proxy.yaml
   - name: from_readout-proxy_to_ft0-datadecoder-dpl_t6
+=======
+  - name: from_readout-proxy_to_fdd-datareader-dpl_t6
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_fdd-datareader-dpl_t7
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_fdd-datareader-dpl_t8
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_fdd-datareader-dpl_t9
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
@@ -113,7 +166,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'A1:FT0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "'A1:FDD/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"

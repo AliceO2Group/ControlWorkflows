@@ -1,4 +1,8 @@
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-readout-proxy.yaml
 name: ft0-decoder-pipe-readout-proxy
+=======
+name: ft0-digits-pipe-ds-qc-readout-proxy
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,49 +17,98 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-readout-proxy.yaml
   - name: from_readout-proxy_to_ft0-datadecoder-dpl_t0
+=======
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t0
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-readout-proxy.yaml
   - name: from_readout-proxy_to_ft0-datadecoder-dpl_t1
+=======
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t1
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-readout-proxy.yaml
   - name: from_readout-proxy_to_ft0-datadecoder-dpl_t2
+=======
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t2
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-readout-proxy.yaml
   - name: from_readout-proxy_to_ft0-datadecoder-dpl_t3
+=======
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t3
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-readout-proxy.yaml
   - name: from_readout-proxy_to_ft0-datadecoder-dpl_t4
+=======
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t4
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-readout-proxy.yaml
   - name: from_readout-proxy_to_ft0-datadecoder-dpl_t5
+=======
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t5
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/ft0-decoder-pipe-readout-proxy.yaml
   - name: from_readout-proxy_to_ft0-datadecoder-dpl_t6
+=======
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t6
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t7
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t8
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t9
+>>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
