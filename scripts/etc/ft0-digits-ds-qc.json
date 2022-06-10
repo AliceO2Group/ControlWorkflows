@@ -54,24 +54,6 @@
           "modeThresholdVar": "Ampl"
         }
       }
-    },
-    "checks": {
-      "CFDEffCheck": {
-        "active": "true",
-        "className": "o2::quality_control_modules::ft0::CFDEffCheck",
-        "moduleName": "QcFT0",
-        "policy": "OnAny",
-        "detectorName": "FT0",
-        "dataSource": [{
-          "type": "Task",
-          "name": "DigitQcTask",
-          "MOs": ["CFD_efficiency"]
-        }],
-        "checkParameters": {
-          "thresholdWarning": "0.99",
-          "thresholdError": "0.8"
-        }
-      }
     }
   },
   "dataSamplingPolicies": [
