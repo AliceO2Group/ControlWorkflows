@@ -1,4 +1,4 @@
-name: fdd-digits-pipe-dpl-output-proxy
+name: fv0-digits-qc-full-raw-dpl-output-proxy
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -71,7 +71,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'digits:FDD/DIGITSBC/0;channels:FDD/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "'rawdata:FV0/RAWDATA;digits:FV0/DIGITSBC/0;channels:FV0/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--default-port"
     - "'4200'"
     - "--default-transport"
