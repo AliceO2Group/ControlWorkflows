@@ -54,6 +54,7 @@
           "thresholdChargeOuter": "16"
         }
       }
+<<<<<<< HEAD
     },
     "checks": {
       "CFDEffCheck": {
@@ -76,6 +77,8 @@
           "thresholdError": "0.8"
         }
       }
+=======
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     }
   },
   "dataSamplingPolicies": [

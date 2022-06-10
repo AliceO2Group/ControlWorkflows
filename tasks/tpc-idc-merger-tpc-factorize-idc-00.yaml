@@ -1,4 +1,8 @@
+<<<<<<< HEAD:tasks/tpc-idc-merger-tpc-factorize-idc-00.yaml
 name: tpc-idc-merger-tpc-factorize-idc-00
+=======
+name: ft0-digits-pipe-ft0-datareader-dpl_t8
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,6 +17,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+<<<<<<< HEAD:tasks/tpc-idc-merger-tpc-factorize-idc-00.yaml
   - name: from_tpc-factorize-idc-00_to_tpc-aggregator-ft
     type: push
     transport: shmem
@@ -21,6 +26,9 @@ bind:
     sndBufSize: 4
     rcvBufSize: 4
   - name: from_tpc-factorize-idc-00_to_ccdb-populator
+=======
+  - name: from_ft0-datareader-dpl_t8_to_dpl-output-proxy
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
     type: push
     transport: shmem
     addressing: ipc
@@ -56,7 +64,11 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
+<<<<<<< HEAD:tasks/tpc-idc-merger-tpc-factorize-idc-00.yaml
     - "'tpc-factorize-idc-00'"
+=======
+    - "'ft0-datareader-dpl_t8'"
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -77,6 +89,7 @@ command:
     - "''"
     - "--clone"
     - "''"
+<<<<<<< HEAD:tasks/tpc-idc-merger-tpc-factorize-idc-00.yaml
     - "--compression"
     - "'0'"
     - "--configFile"
@@ -85,6 +98,11 @@ command:
     - "'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null'"
     - "--crus"
     - "'{{ cru_merger_ids }}'"
+=======
+    - "--configKeyValues"
+    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
+    - "--disable-root-output"
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -117,7 +135,7 @@ command:
     - "--nthreads-grouping"
     - "'4'"
     - "--pipeline"
-    - "''"
+    - "'ft0-datareader-dpl:10'"
     - "--readers"
     - "'1'"
     - "--sendOutputFFT"

@@ -1,12 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD:tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
 name: ft0-digits-pipe-ft0-datareader-dpl_t8
 =======
-<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t0.yaml
-name: ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t0
+name: ft0-digits-pipe-ft0-datareader-dpl_t7
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t7.yaml
 =======
 name: ft0-digits-pipe-ft0-datareader-dpl_t8
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -22,21 +22,14 @@ wants:
   memory: 1
 bind:
 <<<<<<< HEAD
+<<<<<<< HEAD:tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
   - name: from_ft0-datareader-dpl_t8_to_dpl-output-proxy
 =======
-<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t0.yaml
-  - name: from_ft0-datadecoder-dpl_t0_to_Dispatcher
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_ft0-datadecoder-dpl_t0_to_dpl-output-proxy
+  - name: from_ft0-datareader-dpl_t7_to_dpl-output-proxy
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t7.yaml
 =======
   - name: from_ft0-datareader-dpl_t8_to_dpl-output-proxy
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     type: push
     transport: shmem
     addressing: ipc
@@ -73,14 +66,14 @@ command:
     - "'{{ resources_monitoring }}'"
     - "--id"
 <<<<<<< HEAD
+<<<<<<< HEAD:tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
     - "'ft0-datareader-dpl_t8'"
 =======
-<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t0.yaml
-    - "'ft0-datadecoder-dpl_t0'"
+    - "'ft0-datareader-dpl_t7'"
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t7.yaml
 =======
     - "'ft0-datareader-dpl_t8'"
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -120,18 +113,8 @@ command:
     - "'dangling'"
     - "--labels"
     - "''"
-<<<<<<< HEAD
     - "--pipeline"
     - "'ft0-datareader-dpl:10'"
-=======
-    - "--new-decoder"
-    - "--pipeline"
-<<<<<<< HEAD:tasks/ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t0.yaml
-    - "'ft0-datadecoder-dpl:7'"
-=======
-    - "'ft0-datareader-dpl:10'"
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     - "--readers"
     - "'1'"
     - "--severity"
@@ -162,7 +145,6 @@ command:
     - "''"
     - "--lut-path"
     - "''"
-<<<<<<< HEAD
     - "--reserve-map-dig"
     - "'0'"
     - "--reserve-vec-buffer"
@@ -171,5 +153,3 @@ command:
     - "'0'"
     - "--reserve-vec-dig"
     - "'0'"
-=======
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)

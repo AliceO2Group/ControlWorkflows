@@ -1,4 +1,4 @@
-name: fv0-digits-qc-postproc-ds-PP-TASK-RUNNER-TrendingTask
+name: ft0-digits-pipe-ds-qc-qc-task-FT0-DigitQcTask
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,13 +13,26 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_PP-TASK-RUNNER-TrendingTask_to_qc-check-sink-QC_TrendingTask-mo_0
+  - name: from_qc-task-FT0-DigitQcTask_to_qc-task-FT0-TriggerQcTask
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD
+  - name: from_qc-task-FT0-DigitQcTask_to_qc-check-FT0-CFDEffCheck
+=======
+  - name: from_qc-task-FT0-DigitQcTask_to_qc-check-sink-QFT0_DigitQcTask_0
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+properties:
+  qcConfiguration: ""
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -49,7 +62,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'PP-TASK-RUNNER-TrendingTask'"
+    - "'qc-task-FT0-DigitQcTask'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -126,5 +139,7 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-pp-TrendingTask"
-    - "'10000000'"
+    - "--period-timer-cycle"
+    - "'60000000'"
+    - "--qcConfiguration"
+    - "'{}'"

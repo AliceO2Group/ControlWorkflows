@@ -20,7 +20,11 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD
   - name: from_qc-task-FT0-DigitQcTask_to_qc-check-FT0-CFDEffCheck
+=======
+  - name: from_qc-task-FT0-DigitQcTask_to_qc-check-sink-QFT0_DigitQcTask_0
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     type: push
     transport: shmem
     addressing: ipc

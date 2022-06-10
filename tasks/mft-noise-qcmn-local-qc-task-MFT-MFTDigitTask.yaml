@@ -1,4 +1,4 @@
-name: ft0-digits-qc-ds-pipe-qc-task-FT0-DigitQcTask
+name: ft0-digits-pipe-ds-qc-qc-task-FT0-TriggerQcTask
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-FT0-DigitQcTask_to_qc-check-sink-QFT0_DigitQcTask_0
+  - name: from_qc-task-FT0-TriggerQcTask_to_qc-check-sink-QFT0_TriggerQcTask_0
     type: push
     transport: shmem
     addressing: ipc
@@ -51,7 +51,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-task-FT0-DigitQcTask'"
+    - "'qc-task-FT0-TriggerQcTask'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"

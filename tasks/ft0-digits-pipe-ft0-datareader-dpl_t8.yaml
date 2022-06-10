@@ -1,20 +1,26 @@
 <<<<<<< HEAD
-<<<<<<< HEAD:tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
 name: ft0-digits-pipe-ft0-datareader-dpl_t8
 =======
-name: ft0-digits-pipe-ft0-datareader-dpl_t7
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t7.yaml
+<<<<<<< HEAD:tasks/tpc-idc-merger-tpc-factorize-idc-00.yaml
+name: tpc-idc-merger-tpc-factorize-idc-00
 =======
 name: ft0-digits-pipe-ft0-datareader-dpl_t8
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
+<<<<<<< HEAD
     {{ dpl_command }} | o2-ft0-flp-dpl-workflow
   _plain_cmdline: >-
     source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-ft0-flp-dpl-workflow
+=======
+    {{ dpl_command }} | o2-tpc-idc-factorize
+  _plain_cmdline: >-
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-idc-factorize
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
 control:
   mode: "fairmq"
 wants:
@@ -22,14 +28,21 @@ wants:
   memory: 1
 bind:
 <<<<<<< HEAD
-<<<<<<< HEAD:tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
   - name: from_ft0-datareader-dpl_t8_to_dpl-output-proxy
 =======
-  - name: from_ft0-datareader-dpl_t7_to_dpl-output-proxy
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t7.yaml
+<<<<<<< HEAD:tasks/tpc-idc-merger-tpc-factorize-idc-00.yaml
+  - name: from_tpc-factorize-idc-00_to_tpc-aggregator-ft
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_tpc-factorize-idc-00_to_ccdb-populator
 =======
   - name: from_ft0-datareader-dpl_t8_to_dpl-output-proxy
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     type: push
     transport: shmem
     addressing: ipc
@@ -66,14 +79,14 @@ command:
     - "'{{ resources_monitoring }}'"
     - "--id"
 <<<<<<< HEAD
-<<<<<<< HEAD:tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
     - "'ft0-datareader-dpl_t8'"
 =======
-    - "'ft0-datareader-dpl_t7'"
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t7.yaml
+<<<<<<< HEAD:tasks/tpc-idc-merger-tpc-factorize-idc-00.yaml
+    - "'tpc-factorize-idc-00'"
 =======
     - "'ft0-datareader-dpl_t8'"
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -94,9 +107,26 @@ command:
     - "''"
     - "--clone"
     - "''"
+<<<<<<< HEAD
     - "--configKeyValues"
     - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
     - "--disable-root-output"
+=======
+<<<<<<< HEAD:tasks/tpc-idc-merger-tpc-factorize-idc-00.yaml
+    - "--compression"
+    - "'0'"
+    - "--configFile"
+    - "''"
+    - "--configKeyValues"
+    - "'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null'"
+    - "--crus"
+    - "'{{ cru_merger_ids }}'"
+=======
+    - "--configKeyValues"
+    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
+    - "--disable-root-output"
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ft0-datareader-dpl_t8.yaml
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -111,14 +141,40 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+<<<<<<< HEAD
     - "--labels"
     - "''"
+=======
+    - "--groupIDCs"
+    - "--groupLastPadsThreshold"
+    - "'3,3,3,3,2,2,2,2,1,1'"
+    - "--groupLastRowsThreshold"
+    - "'3,3,3,3,2,2,2,2,2,2'"
+    - "--groupPads"
+    - "'5,6,7,8,4,5,6,8,10,13'"
+    - "--groupRows"
+    - "'2,2,2,3,3,3,2,2,2,2'"
+    - "--input-lanes"
+    - "'5'"
+    - "--labels"
+    - "''"
+    - "--nthreads-IDC-factorization"
+    - "'1'"
+    - "--nthreads-grouping"
+    - "'4'"
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     - "--pipeline"
     - "'ft0-datareader-dpl:10'"
     - "--readers"
     - "'1'"
+<<<<<<< HEAD
     - "--severity"
     - "'info'"
+=======
+    - "--sendOutputFFT"
+    - "--severity"
+    - "'warning'"
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     - "--shm-allocation"
     - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
@@ -135,10 +191,16 @@ command:
     - "'1'"
     - "--stacktrace-on-signal"
     - "'simple'"
+<<<<<<< HEAD
+=======
+    - "--timeframes"
+    - "'1000'"
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
+<<<<<<< HEAD
     - "--workflow-suffix"
     - "''"
     - "--ccdb-path"
@@ -153,3 +215,12 @@ command:
     - "'0'"
     - "--reserve-vec-dig"
     - "'0'"
+=======
+    - "--timeframesDeltaIDC"
+    - "'100'"
+    - "--use-approximate-timestamp"
+    - "--workflow-suffix"
+    - "''"
+    - "--gainMapFile"
+    - "''"
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)

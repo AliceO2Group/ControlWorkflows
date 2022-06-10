@@ -1,12 +1,12 @@
 <<<<<<< HEAD
 name: ft0-digits-pipe-ds-qc-qc-check-sink-QFT0_TriggerQcTask_0
 =======
-<<<<<<< HEAD:tasks/zdc-raw-qc-qc-check-sink-QZDC_QcZDCTask_0.yaml
-name: zdc-raw-qc-qc-check-sink-QZDC_QcZDCTask_0
+<<<<<<< HEAD:tasks/tpc-idc-merger-qc-check-sink-QTPC_PID_0.yaml
+name: tpc-idc-merger-qc-check-sink-QTPC_PID_0
 =======
 name: ft0-digits-pipe-ds-qc-qc-check-sink-QFT0_TriggerQcTask_0
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-qc-check-sink-QFT0_TriggerQcTask_0.yaml
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-qc-check-sink-QFT0_TriggerQcTask_0.yaml
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -55,12 +55,12 @@ command:
 <<<<<<< HEAD
     - "'qc-check-sink-QFT0_TriggerQcTask_0'"
 =======
-<<<<<<< HEAD:tasks/zdc-raw-qc-qc-check-sink-QZDC_QcZDCTask_0.yaml
-    - "'qc-check-sink-QZDC_QcZDCTask_0'"
+<<<<<<< HEAD:tasks/tpc-idc-merger-qc-check-sink-QTPC_PID_0.yaml
+    - "'qc-check-sink-QTPC_PID_0'"
 =======
     - "'qc-check-sink-QFT0_TriggerQcTask_0'"
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-qc-check-sink-QFT0_TriggerQcTask_0.yaml
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-qc-check-sink-QFT0_TriggerQcTask_0.yaml
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -84,11 +84,7 @@ command:
     - "--config"
     - "'{{ qc_config_uri }}'"
     - "--configKeyValues"
-<<<<<<< HEAD
-    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
-=======
     - "''"
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -115,6 +111,10 @@ command:
     - "''"
     - "--readers"
     - "'1'"
+<<<<<<< HEAD
+=======
+    - "--remote"
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     - "--remote-batch"
     - "''"
     - "--severity"

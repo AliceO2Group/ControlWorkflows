@@ -1,4 +1,8 @@
+<<<<<<< HEAD:tasks/mft-noise-qcmn-remote-internal-dpl-clock.yaml
 name: mft-noise-qcmn-remote-internal-dpl-clock
+=======
+name: ft0-digits-pipe-ds-qc-readout-proxy
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,49 +17,98 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+<<<<<<< HEAD:tasks/mft-noise-qcmn-remote-internal-dpl-clock.yaml
   - name: from_internal-dpl-clock_to_MFT-MFTClusterTask-proxy
+=======
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t0
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/mft-noise-qcmn-remote-internal-dpl-clock.yaml
   - name: from_internal-dpl-clock_to_MFT-MFTDigitTask-proxy
+=======
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t1
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/mft-noise-qcmn-remote-internal-dpl-clock.yaml
   - name: from_internal-dpl-clock_to_MFT-MFTReadoutTask-proxy
+=======
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t2
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/mft-noise-qcmn-remote-internal-dpl-clock.yaml
   - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-MFTReadoutTrend
+=======
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t3
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/mft-noise-qcmn-remote-internal-dpl-clock.yaml
   - name: from_internal-dpl-clock_to_MFT-MERGER-MFTClusterTask1l-0
+=======
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t4
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/mft-noise-qcmn-remote-internal-dpl-clock.yaml
   - name: from_internal-dpl-clock_to_MFT-MERGER-MFTDigitTask1l-0
+=======
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t5
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+<<<<<<< HEAD:tasks/mft-noise-qcmn-remote-internal-dpl-clock.yaml
   - name: from_internal-dpl-clock_to_MFT-MERGER-MFTReadoutTask1l-0
+=======
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t6
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t7
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t8
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_ft0-datareader-dpl_t9
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
     type: push
     transport: shmem
     addressing: ipc
@@ -91,7 +144,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-clock'"
+    - "'readout-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -140,6 +193,11 @@ command:
     - "''"
     - "--pipeline"
     - "''"
+<<<<<<< HEAD:tasks/mft-noise-qcmn-remote-internal-dpl-clock.yaml
+=======
+    - "--proxy-name"
+    - "'readout-proxy'"
+>>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/ft0-digits-pipe-ds-qc-readout-proxy.yaml
     - "--readers"
     - "'1'"
     - "--remote"
