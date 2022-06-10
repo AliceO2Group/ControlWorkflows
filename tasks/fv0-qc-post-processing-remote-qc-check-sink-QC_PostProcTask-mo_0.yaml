@@ -1,4 +1,4 @@
-name: ft0-digits-qc-full-qc-check-sink-QC_PostProcTask-mo_0
+name: fv0-qc-post-processing-remote-qc-check-sink-QC_PostProcTask-mo_0
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -95,6 +95,7 @@ command:
     - "''"
     - "--readers"
     - "'1'"
+    - "--remote"
     - "--remote-batch"
     - "''"
     - "--severity"

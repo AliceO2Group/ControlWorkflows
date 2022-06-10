@@ -33,6 +33,7 @@ check_pwd
 ./cpv-physics-qcmn-epn.sh
 ./cpv-noise-calib-qc.sh
 ./fdd-qcmn-remote.sh
+./fdd-qc-post-processing.sh
 ./fdd-digits-qc-full-nocalib.sh
 ./fdd-digits-qc-full-nocalib-raw.sh
 ./fdd-digits-pipe.sh
@@ -40,6 +41,7 @@ check_pwd
 ./fdd-digits-qc.sh
 ./fdd-digits.sh
 ./ft0-qcmn-remote.sh
+./ft0-qc-post-processing.sh
 ./ft0-digits-qc-full.sh
 ./ft0-digits-qc-full-raw.sh
 ./ft0-digits-qc-full-nocalib.sh
@@ -50,6 +52,7 @@ check_pwd
 ./ft0-digits-qc.sh
 ./ft0-digits.sh
 ./fv0-qcmn-remote.sh
+./fv0-qc-post-processing.sh
 ./fv0-digits-qc-full.sh
 ./fv0-digits-qc-full-raw.sh
 ./fv0-digits-qc-full-nocalib.sh

@@ -1,4 +1,4 @@
-name: fv0-digits-qc-full-nocalib-qc-check-FV0-OutOfBunchCollCheck
+name: fv0-qc-post-processing-remote-qc-check-FV0-OutOfBunchCollCheck
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -102,6 +102,7 @@ command:
     - "''"
     - "--readers"
     - "'1'"
+    - "--remote"
     - "--remote-batch"
     - "''"
     - "--severity"

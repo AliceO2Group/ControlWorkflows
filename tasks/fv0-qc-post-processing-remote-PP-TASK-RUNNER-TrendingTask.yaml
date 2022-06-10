@@ -1,4 +1,4 @@
-name: fdd-digits-qc-full-nocalib-raw-PP-TASK-RUNNER-TrendingTask
+name: fv0-qc-post-processing-remote-PP-TASK-RUNNER-TrendingTask
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -100,6 +100,7 @@ command:
     - "''"
     - "--readers"
     - "'1'"
+    - "--remote"
     - "--remote-batch"
     - "''"
     - "--severity"

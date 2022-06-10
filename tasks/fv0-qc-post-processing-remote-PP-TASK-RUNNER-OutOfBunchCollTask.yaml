@@ -1,4 +1,4 @@
-name: fv0-digits-qc-full-PP-TASK-RUNNER-OutOfBunchCollTask
+name: fv0-qc-post-processing-remote-PP-TASK-RUNNER-OutOfBunchCollTask
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -100,6 +100,7 @@ command:
     - "''"
     - "--readers"
     - "'1'"
+    - "--remote"
     - "--remote-batch"
     - "''"
     - "--severity"
