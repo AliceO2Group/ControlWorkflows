@@ -25,7 +25,7 @@ check_pwd
 
 # ./datasampling-02.sh # this is a test workflow, no need for it in production
 ./cpv-compressor.sh
-./cpv-qc-compressor.sh
+#./cpv-qc-compressor.sh        # buggy, commented out
 ./cpv-pedestal-calib-qc.sh
 ./cpv-pedestal-calib-qc-expert.sh
 ./cpv-physics.sh
@@ -45,8 +45,8 @@ check_pwd
 ./ft0-digits-qc-full-nocalib.sh
 ./ft0-digits-qc-full-nocalib-raw.sh
 ./ft0-digits-pipe.sh
-./ft0-digits-pipe-ds-qc.sh
-./ft0-digits-qc-ds-pipe-raw.sh
+./ft0-digits-pipe-ds-qc.sh     
+#./ft0-digits-qc-ds-pipe-raw.sh  # buggy, commented out
 ./ft0-digits-qc.sh
 ./ft0-digits.sh
 ./fv0-qcmn-remote.sh
@@ -56,7 +56,7 @@ check_pwd
 ./fv0-digits-qc-full-nocalib-raw.sh
 ./fv0-digits-pipe.sh
 ./fv0-digits-pipe-ds-qc.sh
-./fv0-digits-qc-ds-pipe-raw.sh
+#./fv0-digits-qc-ds-pipe-raw.sh # buggy, commented out
 ./fv0-digits-qc.sh
 ./fv0-digits.sh
 ./emc-qcmn-local-flp.sh

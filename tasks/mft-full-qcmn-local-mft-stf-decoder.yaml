@@ -13,6 +13,13 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+  - name: from_mft-stf-decoder_to_internal-dpl-injected-dummy-sink
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
   - name: from_mft-stf-decoder_to_qc-task-MFT-MFTDigitTask
     type: push
     transport: shmem
