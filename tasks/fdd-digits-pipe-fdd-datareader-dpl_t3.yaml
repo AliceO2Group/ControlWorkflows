@@ -90,7 +90,7 @@ command:
     - "--labels"
     - "''"
     - "--pipeline"
-    - "'fdd-datareader-dpl:5'"
+    - "'fdd-datareader-dpl:10'"
     - "--readers"
     - "'1'"
     - "--severity"

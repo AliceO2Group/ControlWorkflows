@@ -167,8 +167,7 @@ defaults:
       - fdd-digits-qc-full-nocalib
       - fdd-digits-qc-full-nocalib-raw
       - fdd-digits-pipe
-      - fdd-digits-qc-ds-pipe
-      - fdd-digits-qc-ds
+      - fdd-digits-pipe-ds-qc
       - fdd-digits-qc
       - fdd-digits
       - minimal-dpl
@@ -216,11 +215,8 @@ defaults:
       - ft0-digits-qc-full-nocalib
       - ft0-digits-qc-full-nocalib-raw
       - ft0-digits-pipe
-      - ft0-digits-qc-ds-pipe
+      - ft0-digits-pipe-ds-qc
       - ft0-digits-qc-ds-pipe-raw
-      - ft0-digits-qc-ds
-      - ft0-digits-qc-postproc-ds-pipe
-      - ft0-digits-qc-postproc-ds
       - ft0-digits-qc
       - ft0-digits
       - minimal-dpl
@@ -268,11 +264,8 @@ defaults:
       - fv0-digits-qc-full-nocalib
       - fv0-digits-qc-full-nocalib-raw
       - fv0-digits-pipe
-      - fv0-digits-qc-ds-pipe
+      - fv0-digits-pipe-ds-qc
       - fv0-digits-qc-ds-pipe-raw
-      - fv0-digits-qc-ds
-      - fv0-digits-qc-postproc-ds-pipe
-      - fv0-digits-qc-postproc-ds
       - fv0-digits-qc
       - fv0-digits
       - minimal-dpl
