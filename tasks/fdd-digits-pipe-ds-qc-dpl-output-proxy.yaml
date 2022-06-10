@@ -1,19 +1,7 @@
-<<<<<<< HEAD
 name: fdd-digits-pipe-ds-qc-dpl-output-proxy
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
-=======
-<<<<<<< HEAD:tasks/mft-track-full-qcmn-local-dpl-output-proxy.yaml
-name: mft-track-full-qcmn-local-dpl-output-proxy
-=======
-name: fdd-digits-pipe-ds-qc-dpl-output-proxy
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-ds-qc-dpl-output-proxy.yaml
-defaults:
-  log_task_output: none
-  exit_transition_timeout: 15
-  proxy_ordered: 1
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
     {{ dpl_command }} | o2-dpl-output-proxy
@@ -37,15 +25,7 @@ command:
   env:
     - O2_DETECTOR={{ detector }}
     - O2_PARTITION={{ environment_id }}
-<<<<<<< HEAD
     - DPL_OUTPUT_PROXY_ORDERED=1
-=======
-<<<<<<< HEAD:tasks/mft-track-full-qcmn-local-dpl-output-proxy.yaml
-    - DPL_OUTPUT_PROXY_ORDERED=1
-=======
-    - DPL_OUTPUT_PROXY_ORDERED={{ proxy_ordered }}
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-ds-qc-dpl-output-proxy.yaml
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
@@ -91,11 +71,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-<<<<<<< HEAD
     - "'digits:FDD/DIGITSBC/0;channels:FDD/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0'"
-=======
-    - "'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     - "--default-port"
     - "'4200'"
     - "--default-transport"
