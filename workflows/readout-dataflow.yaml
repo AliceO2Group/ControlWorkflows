@@ -231,6 +231,7 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
+      - ft0-qc-post-processing-remote
       - ft0-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
