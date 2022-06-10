@@ -54,7 +54,6 @@
           "thresholdChargeOuter": "16"
         }
       }
-<<<<<<< HEAD
     },
     "checks": {
       "CFDEffCheck": {
@@ -63,22 +62,16 @@
         "moduleName": "QcFV0",
         "policy": "OnAny",
         "detectorName": "FV0",
-        "dataSource": [
-          {
-            "type": "Task",
-            "name": "DigitQcTask",
-            "MOs": [
-              "CFD_efficiency"
-            ]
-          }
-        ],
+        "dataSource": [{
+          "type": "Task",
+          "name": "DigitQcTask",
+          "MOs": ["CFD_efficiency"]
+        }],
         "checkParameters": {
-          "thresholdWarning": "0.9",
+          "thresholdWarning": "0.99",
           "thresholdError": "0.8"
         }
       }
-=======
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     }
   },
   "dataSamplingPolicies": [
