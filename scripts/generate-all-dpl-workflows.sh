@@ -25,7 +25,7 @@ check_pwd
 
 # ./datasampling-02.sh # this is a test workflow, no need for it in production
 ./cpv-compressor.sh
-#./cpv-qc-compressor.sh        # buggy, commented out
+./cpv-qc-compressor.sh     
 ./cpv-pedestal-calib-qc.sh
 ./cpv-pedestal-calib-qc-expert.sh
 ./cpv-physics.sh
