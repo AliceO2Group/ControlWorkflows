@@ -2,7 +2,6 @@ name: ft0-digits-pipe-ds-qc-dpl-output-proxy
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
-  proxy_ordered: 1
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
     {{ dpl_command }} | o2-dpl-output-proxy
@@ -26,7 +25,7 @@ command:
   env:
     - O2_DETECTOR={{ detector }}
     - O2_PARTITION={{ environment_id }}
-    - DPL_OUTPUT_PROXY_ORDERED={{ proxy_ordered }}
+    - DPL_OUTPUT_PROXY_ORDERED=1
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
