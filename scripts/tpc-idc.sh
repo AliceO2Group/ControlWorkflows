@@ -36,8 +36,6 @@ CRUS_LOCAL='$('`pwd`"/etc/getCRU.sh"
 # TODO: Adjust merger and port, if the port is change this also must be done
 #       in the merger script
 MERGER=alio2-cr1-qts01.cern.ch
-#MERGER=epn028-ib
-#MERGER=alio2-cr1-flp145
 PORT=47734
 
 ARGS_ALL="-b --session default "
@@ -94,21 +92,21 @@ sed -i /defaults:/\ a\\\ \\\ "merger_node":\ "${MERGER}" workflows/${WF_NAME}.ya
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME}.yaml
 
 
-exclude=" \" {{ it !=\'alio2-cr1-flp145\' }} \" "
+#exclude=" \" {{ it !=\'alio2-cr1-flp145\' }} \" "
 
-echo Exlucde: $exclude
-name=" \"tpc-flp-idc-00\" "
-sed -i 's,name: \"tpc-flp-idc-00\",name: \"tpc-flp-idc-00\"\n    enabled: '"$exclude"',g' workflows/${WF_NAME}.yaml
-name=" \"tpc-idc-to-vector\" "
-sed -i 's,name: \"tpc-idc-to-vector\",name: \"tpc-idc-to-vector\"\n    enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
-name=" \"tpc-idc-merger-proxy\" "
-sed -i 's,name: \"tpc-idc-merger-proxy\",name: \"tpc-idc-merger-proxy\"\n    enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
-delete=`grep -ni "name: from_tpc-idc-to-vector_to_dpl-output" workflows/${WF_NAME}.yaml | cut -f1 -d:`
-deleteend=`expr $delete  + 6`
-echo $delete,$deleteend
+#echo Exlucde: $exclude
+#name=" \"tpc-flp-idc-00\" "
+#sed -i 's,name: \"tpc-flp-idc-00\",name: \"tpc-flp-idc-00\"\n    enabled: '"$exclude"',g' workflows/${WF_NAME}.yaml
+#name=" \"tpc-idc-to-vector\" "
+#sed -i 's,name: \"tpc-idc-to-vector\",name: \"tpc-idc-to-vector\"\n    enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
+#name=" \"tpc-idc-merger-proxy\" "
+#sed -i 's,name: \"tpc-idc-merger-proxy\",name: \"tpc-idc-merger-proxy\"\n    enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
+#delete=`grep -ni "name: from_tpc-idc-to-vector_to_dpl-output" workflows/${WF_NAME}.yaml | cut -f1 -d:`
+#deleteend=`expr $delete  + 6`
+#echo $delete,$deleteend
 #sed -i ''"${delete}"','"${deleteend}"'d' workflows/${WF_NAME}.yaml
-sed -i 's,name: \"internal-dpl-injected-dummy-sink\",name: \"internal-dpl-injected-dummy-sink\"\n    enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
-sed -i 's,name: from_tpc-idc-to-vector_to_dpl-output-proxy,name: from_tpc-idc-to-vector_to_dpl-output-proxy\n      enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
+#sed -i 's,name: \"internal-dpl-injected-dummy-sink\",name: \"internal-dpl-injected-dummy-sink\"\n    enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
+#sed -i 's,name: from_tpc-idc-to-vector_to_dpl-output-proxy,name: from_tpc-idc-to-vector_to_dpl-output-proxy\n      enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
 
 
 ORIGINAL_STRING="tpc-idc-merger-proxy-{{ it }}"
