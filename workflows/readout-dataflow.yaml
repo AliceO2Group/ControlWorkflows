@@ -1747,7 +1747,7 @@ roles:
       - name: stop
         call:
           func: ccdb.RunStop()
-          trigger: before_STOP_ACTIVITY
+          trigger: leave_RUNNING
           timeout: 10s
           critical: false
   - name: bookkeeping
