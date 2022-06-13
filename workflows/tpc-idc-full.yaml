@@ -1,4 +1,4 @@
-name: tpc-calib-full:
+name: tpc-calib-full
 roles:
   - name: tpc-idc
     enabled: "{{ it != 'alio2-cr1-flp145' }}"
