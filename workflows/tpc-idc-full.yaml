@@ -5,5 +5,5 @@ roles:
     include: tpc-idc
   - name: tpc-current
     enabled: "{{ it == 'alio2-cr1-flp145' }}"
-    include: dpl-minimal-workflow
+    include: minimal-dpl
 
