@@ -255,11 +255,12 @@ The simplest possible DPL workflow command for an FLP receives data from STFBuil
 o2-dpl-raw-proxy -b --session default \
   --dataspec 'x:TST/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
-  | o2-dpl-output-proxy -b --session default \
+  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
   --dataspec 'x:TST/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"'
 ```
 The `--dataspec` arguments define what kind of data is expected both in the input and output proxies.
+The presence of the `DPL_OUTPUT_PROXY_ORDERDED` env var is required by the DPL to correctly order output proxies.
 The `readout-dataflow` workflow requires that the input proxy contains a channel named `readout-proxy`, while the output proxy should provide the channel `downstream`.
 This way the AliECS can find the other ends of the channels used by the STFBuilder and STFSender to send and receive data.
 There can be only one set of proxies interacting with Data Distribution at the same time.
@@ -272,7 +273,7 @@ o2-dpl-raw-proxy -b --session default \
   --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
   | o2-phos-reco-workflow -b --input-type raw --output-type cells --session default --disable-root-output \
-  | o2-dpl-output-proxy -b --session default \
+  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
   --dataspec 'A:PHS/CELLS/0;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"'
 ```
@@ -303,7 +304,7 @@ o2-dpl-raw-proxy -b --session default \
   --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
   | o2-phos-reco-workflow -b --input-type raw --output-type cells --session default --disable-root-output \
-  | o2-dpl-output-proxy -b --session default \
+  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
   --dataspec 'A:PHS/CELLS/0;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"' \
   --o2-control phos-compressor
@@ -348,7 +349,7 @@ o2-dpl-raw-proxy -b --session default \
   --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
   | o2-itsmft-stf-decoder-workflow -b --runmft --digits --no-clusters --no-cluster-patterns \
-  | o2-dpl-output-proxy -b --session default \
+  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
   --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
   | o2-qc -b --config json://'${QUALITYCONTROL_ROOT}'/etc/mft-digit-qc-task-FLP-0-TaskLevel-0.json
@@ -373,7 +374,7 @@ o2-dpl-raw-proxy -b --session default \
   --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
   | o2-itsmft-stf-decoder-workflow -b --runmft --digits --no-clusters --no-cluster-patterns \
-  | o2-dpl-output-proxy -b --session default \
+  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
   --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
   | o2-qc --config ${QC_GEN_CONFIG_PATH} -b \

@@ -27,7 +27,7 @@ o2-dpl-raw-proxy -b --session default \
   | o2-calibration-fv0-tf-processor -b --session default --dispatcher-mode  \
   | o2-calibration-fv0-channel-offset-calibration -b --session default --tf-per-slot 56000 \
   | o2-calibration-ccdb-populator-workflow -b --session default --ccdb-path=http://ccdb-test.cern.ch:8080 \
-  | o2-dpl-output-proxy -b --session default --dataspec 'digits:FV0/DIGITSBC/0;channels:FV0/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' \
+  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default --dataspec 'digits:FV0/DIGITSBC/0;channels:FV0/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
   | o2-qc --config ${QC_GEN_CONFIG_PATH} -b \
   --o2-control $WF_NAME

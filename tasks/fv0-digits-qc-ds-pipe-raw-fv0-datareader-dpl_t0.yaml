@@ -97,7 +97,7 @@ command:
     - "--labels"
     - "''"
     - "--pipeline"
-    - "'fv0-datareader-dpl:5'"
+    - "'fv0-datareader-dpl:10'"
     - "--readers"
     - "'1'"
     - "--severity"
