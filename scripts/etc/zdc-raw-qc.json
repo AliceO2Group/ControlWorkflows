@@ -47,7 +47,7 @@
       "id": "zdc-raw",
       "active": "true",
       "machines": [],
-      "query": "random:ROUT/RAWDATA",
+      "query": "random:ZDC/RAWDATA",
       "samplingConditions": [
         {
           "condition": "random",
