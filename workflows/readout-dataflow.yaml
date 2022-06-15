@@ -1723,7 +1723,7 @@ roles:
             enabled: "{{ dpl_command != 'none' }}"
             include: "{{ GenerateDplSubworkflow(dpl_command) }}"
           - name: dpl
-            enabled: "{{ dpl_command_uri != 'none' }}"
+            enabled: "{{ dpl_command_uri != 'none' && dpl_command == 'none' }}"
             include: "{{ GenerateDplSubworkflowFromUri(dpl_command_uri) }}"
       - name: o2-roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
