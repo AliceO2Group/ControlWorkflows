@@ -3,7 +3,7 @@ roles:
   - name: tpc-idc
     enabled: "{{ it != 'alio2-cr1-flp145' }}"
     include: tpc-idc
-  - name: tpc-current
+  - name: tpc-sac
     enabled: "{{ it == 'alio2-cr1-flp145' }}"
     include: minimal-dpl
 
