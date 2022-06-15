@@ -1,4 +1,4 @@
-name: fv0-digits-qc-full-nocalib-qc-check-FV0-CFDEffCheck
+name: fv0-digits-pipe-ds-qc-qc-check-FV0-CFDEffCheck
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
