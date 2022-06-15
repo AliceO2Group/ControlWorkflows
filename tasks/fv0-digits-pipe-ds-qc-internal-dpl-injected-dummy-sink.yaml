@@ -1,20 +1,18 @@
-name: fv0-digits-pipe-ds-qc-qc-check-sink-QFV0_DigitQcTask_0
+name: fv0-digits-pipe-ds-qc-internal-dpl-injected-dummy-sink
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-qc
+    {{ dpl_command }} | o2-dpl-raw-proxy
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-qc
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-raw-proxy
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-properties:
-  qcConfiguration: ""
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -44,7 +42,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-check-sink-QFV0_DigitQcTask_0'"
+    - "'internal-dpl-injected-dummy-sink'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -65,10 +63,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--config"
-    - "'{{ qc_config_uri }}'"
-    - "--configKeyValues"
-    - "''"
+    - "--dataspec"
+    - "'A1:FV0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -83,20 +79,14 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--host"
-    - "''"
     - "--labels"
-    - "''"
-    - "--local-batch"
-    - "''"
-    - "--override-values"
     - "''"
     - "--pipeline"
     - "''"
+    - "--proxy-name"
+    - "'readout-proxy'"
     - "--readers"
     - "'1'"
-    - "--remote-batch"
-    - "''"
     - "--severity"
     - "'info'"
     - "--shm-allocation"
@@ -119,7 +109,7 @@ command:
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
+    - "--timeframes-shm-limit"
+    - "'0'"
     - "--workflow-suffix"
     - "''"
-    - "--qcConfiguration"
-    - "'{}'"
