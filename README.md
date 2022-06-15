@@ -466,10 +466,11 @@ If you have read everything above, you can now follow these simplified instructi
     7. Commit and push the changes
 3. Test it
     1. Add the fork to the control: `coconut repo add github.com/<yourGHusername>/ControlWorkflows.git`
-    2. In the ECS, create a new environment.
-    3. Set the fork and the branch to match yours.
-    4. Add the variable `dpl_workflow` and set it to the name of the workflow
-    1. Add the variable `log_task_output` and set it to `all` to make sure you can see the output of the tasks in the Infologger.
-    4. Do not enable QC but enable DD.
-    5. Run and check that it starts and stops without failures.
+    2. Refresh the repository (refresh button in the AliECS GUI)
+    3. In the ECS, create a new environment.
+    4. Set the fork and the branch to match yours.
+    5. Add the variable `dpl_workflow` and set it to the name of the workflow
+    6. Add the variable `log_task_output` and set it to `all` to make sure you can see the output of the tasks in the Infologger.
+    7. Do not enable QC but enable DD.
+    8. Run and check that it starts and stops without failures.
 4. Add the new scripts, if any, to `scripts/generate-all-dpl-workflows.sh`
