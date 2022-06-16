@@ -52,24 +52,6 @@ roles:
       target: "tcp://*:47792"
     task:
       load: mch-qcmn-epn-full-remote-MCH-MCHRofs-proxy
-  - name: "MCH-MCHTracks-proxy"
-    connect:
-    - name: from_internal-dpl-clock_to_MCH-MCHTracks-proxy
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MCH-MCHTracks-proxy"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    bind:
-    - name: MCH-MCHTracks-proxy
-      type: sub
-      transport: zeromq
-      addressing: tcp
-      rateLogging: "{{ fmq_rate_logging }}"
-      target: "tcp://*:47795"
-    task:
-      load: mch-qcmn-epn-full-remote-MCH-MCHTracks-proxy
   - name: "MCH-QcTaskMCHDigits-proxy"
     connect:
     - name: from_internal-dpl-clock_to_MCH-QcTaskMCHDigits-proxy
@@ -142,24 +124,6 @@ roles:
       rcvBufSize: 4
     task:
       load: mch-qcmn-epn-full-remote-MCH-MERGER-MCHRofs1l-0
-  - name: "MCH-MERGER-MCHTracks1l-0"
-    connect:
-    - name: from_internal-dpl-clock_to_MCH-MERGER-MCHTracks1l-0
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MCH-MERGER-MCHTracks1l-0"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    - name: from_MCH-MCHTracks-proxy_to_MCH-MERGER-MCHTracks1l-0
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.MCH-MCHTracks-proxy:from_MCH-MCHTracks-proxy_to_MCH-MERGER-MCHTracks1l-0"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: mch-qcmn-epn-full-remote-MCH-MERGER-MCHTracks1l-0
   - name: "MCH-MERGER-QcTaskMCHDigits1l-0"
     connect:
     - name: from_internal-dpl-clock_to_MCH-MERGER-QcTaskMCHDigits1l-0
@@ -240,17 +204,6 @@ roles:
       rcvBufSize: 4
     task:
       load: mch-qcmn-epn-full-remote-qc-check-sink-QMCH_MCHRofs_0
-  - name: "qc-check-sink-QMCH_MCHTracks_0"
-    connect:
-    - name: from_MCH-MERGER-MCHTracks1l-0_to_qc-check-sink-QMCH_MCHTracks_0
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.MCH-MERGER-MCHTracks1l-0:from_MCH-MERGER-MCHTracks1l-0_to_qc-check-sink-QMCH_MCHTracks_0"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: mch-qcmn-epn-full-remote-qc-check-sink-QMCH_MCHTracks_0
   - name: "internal-dpl-injected-dummy-sink"
     connect:
     - name: from_qc-check-MCH-QcCheckMCHErrors_to_internal-dpl-injected-dummy-sink
