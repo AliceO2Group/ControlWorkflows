@@ -137,4 +137,4 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--pedestal-url"
-    - "'http://ccdb-test.cern.ch:8080'"
+    - "'http://o2-ccdb.internal'"

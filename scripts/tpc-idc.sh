@@ -49,7 +49,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --severity error \
   --infologger-severity error \
   --configKeyValues "keyval.output_dir=/dev/null" \
-  --pedestal-url http://ccdb-test.cern.ch:8080 \
+  --pedestal-url http://o2-ccdb.internal \
   | o2-tpc-idc-flp $ARGS_ALL \
   --propagateIDCs true \
   --crus ${CRU_GEN_CONFIG_PATH} \
