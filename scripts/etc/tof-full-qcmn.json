@@ -138,6 +138,78 @@
       }
     },
     "postprocessing": {
+      "TOFTrendingRate": {
+          "active": "true",
+          "className": "o2::quality_control_modules::tof::TrendingRate",
+          "moduleName": "QcTOF",
+          "detectorName": "TOF",
+          "customization": [
+            {
+              "name": "ThresholdSgn",
+              "value": "1.4"
+            },
+            {
+               "name": "ThresholdBkg",
+               "value": "0.01"
+            }
+          ],
+          "dataSources": [{
+              "type": "repository",
+              "path": "TOF/MO/TaskDigits",
+              "names": [
+                  "HitMap",
+                  "Multiplicity/VsBC"
+              ],
+              "reductorName": "o2::quality_control_modules::common::TH1Reductor",
+              "moduleName": "QcCommon"
+          }],
+          "plots": [
+            {
+              "name": "interaction_rate",
+              "title": "IR from TOF hits",
+              "varexp": "collisionRate:time",
+              "selection": "",
+              "option": "*L"
+            },
+            {
+              "name": "noise_rate",
+              "title": "Noise Rate per channel",
+              "varexp": "noiseRate:time",
+              "selection": "",
+              "option": "*L"
+            },
+            {
+              "name": "active_channels",
+              "title": "Active channels",
+              "varexp": "activeChannels:time",
+              "selection": "",
+              "option": "*L"
+            },
+            {
+              "name": "pile_up",
+              "title": "Pilup",
+              "varexp": "pileup:time",
+              "selection": "",
+              "option": "*L"
+            },
+            {
+              "name": "n_int_bc",
+              "title": "N Inetraction BCs",
+              "varexp": "nIBC:time",
+              "selection": "",
+              "option": "*L"
+            }
+          ],
+          "initTrigger": [
+              "userorcontrol"
+          ],
+          "updateTrigger": [
+              "newobject:qcdb:TOF/MO/TaskDigits/Multiplicity/VsBC"
+          ],
+          "stopTrigger": [
+              "userorcontrol"
+          ]
+      },
       "TOFTrendingHits": {
         "active": "true",
         "className": "o2::quality_control_modules::tof::TrendingHits",

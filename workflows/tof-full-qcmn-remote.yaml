@@ -63,6 +63,17 @@ roles:
       rcvBufSize: 4
     task:
       load: tof-full-qcmn-remote-PP-TASK-RUNNER-TOFTrendingHits
+  - name: "PP-TASK-RUNNER-TOFTrendingRate"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-TOFTrendingRate
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-TOFTrendingRate"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tof-full-qcmn-remote-PP-TASK-RUNNER-TOFTrendingRate
   - name: "TOF-MergeMETOF-proxy"
     connect:
     - name: from_internal-dpl-clock_to_TOF-MergeMETOF-proxy
@@ -204,6 +215,17 @@ roles:
       rcvBufSize: 4
     task:
       load: tof-full-qcmn-remote-qc-check-sink-QC_TOFTrendingHi-mo_0
+  - name: "qc-check-sink-QC_TOFTrendingRa-mo_0"
+    connect:
+    - name: from_PP-TASK-RUNNER-TOFTrendingRate_to_qc-check-sink-QC_TOFTrendingRa-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-TOFTrendingRate:from_PP-TASK-RUNNER-TOFTrendingRate_to_qc-check-sink-QC_TOFTrendingRa-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tof-full-qcmn-remote-qc-check-sink-QC_TOFTrendingRa-mo_0
   - name: "qc-check-sink-QTOF_MergeMETOF_0"
     connect:
     - name: from_TOF-MERGER-MergeMETOF1l-0_to_qc-check-sink-QTOF_MergeMETOF_0
