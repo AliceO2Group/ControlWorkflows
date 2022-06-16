@@ -425,6 +425,8 @@ defaults:
       - none
       - mch-qcmn-epn-digits-remote
       - mch-qcmn-flp-digits-remote
+      - mch-qcmn-epn-full-remote
+      - mch-qcmn-flp-full-remote
       - qcmn-daq-remote
       - mch-digits-epn
     visibleif: $$qc_remote_enabled === "true"  
