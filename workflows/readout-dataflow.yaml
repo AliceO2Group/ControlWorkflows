@@ -1725,14 +1725,14 @@ roles:
             enabled: "{{ minimal_dpl_enabled == 'true' }}"
             include: minimal-dpl
           - name: dpl
-            enabled: "{{ dpl_workflow != 'none' }}"
+            enabled: "{{ flp_workflows_jit_enabled == 'false' && dpl_workflow != 'none' }}"
             include: "{{ dpl_workflow }}"
           - name: dpl
             vars:
-            enabled: "{{ dpl_command != 'none' }}"
+            enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_command != 'none' }}"
             include: "{{ GenerateDplSubworkflow(dpl_command) }}"
           - name: dpl
-            enabled: "{{ dpl_command_uri != 'none' && dpl_command == 'none' }}"
+            enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_command_uri != 'none' && dpl_command == 'none' }}"
             include: "{{ GenerateDplSubworkflowFromUri(dpl_command_uri) }}"
       - name: o2-roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
