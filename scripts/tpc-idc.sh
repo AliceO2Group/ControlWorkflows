@@ -150,7 +150,7 @@ CRU_FINAL_MERGER_ID='0-355'
 CRU_MERGER_ID='cru_merger_ids'
 
 QC_GEN_CONFIG_PATH='json://'`pwd`'/scripts/etc/tpc-full-nodummy-qcmn.json'
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-nodummy-qcmn'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-nodummy-postprocessing-qcmn'
 QC_CONFIG_PARAM='qc_config_uri'
 
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
