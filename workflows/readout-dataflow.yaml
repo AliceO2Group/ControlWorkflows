@@ -63,16 +63,7 @@ defaults:
     description: "Enable/disable running workflows on the QC nodes"
     widget: checkBox
     panel: FLP_Workflows
-    index: -300
-  qc_remote_jit_enabled: !public
-    value: "false"
-    type: bool
-    label: "JIT QC node workflow generation"
-    description: "Enable/disable JIT generation of QC node workflows"
-    widget: checkBox
-    panel: FLP_Workflows
     index: -200
-    visibleif: $$qc_remote_enabled === "true"
   flp_workflows_jit_enabled: !public
     value: "false"
     type: bool
@@ -1247,7 +1238,6 @@ defaults:
   ccdb_enabled: "false"
   dpl_workflow: none
   dpl_command: none
-  qc_dpl_command: none
   drop_caches_enabled: "false"
   fmq_initial_shm_cleanup_enabled: "false"
   fmq_cleanup_enabled: "false"
@@ -1528,14 +1518,8 @@ roles:
             value: "{{ qc_remote_machine }}"
         roles:
           - name: dpl
-            enabled: "{{ qc_remote_jit_enabled == 'false' && qc_remote_workflow != 'none' }}"
+            enabled: "{{ qc_remote_workflow != 'none' }}"
             include: "{{ qc_remote_workflow }}"
-          - name: dpl
-            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_remote_workflow != 'none' && qc_dpl_command == 'none' }}"
-            include: "{{ GenerateDplSubworkflowFromUri(qc_remote_workflow) }}"
-          - name: dpl
-            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_dpl_command != 'none' }}"
-            include: "{{ GenerateDplSubworkflow(qc_dpl_command) }}"
           - name: fairmq-shmmonitor
             enabled: "{{ fmq_cleanup_enabled == 'true' && qc_remote_workflow != 'none' }}"
             task:
