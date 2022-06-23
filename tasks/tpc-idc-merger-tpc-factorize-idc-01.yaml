@@ -20,6 +20,13 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+  - name: from_tpc-factorize-idc-01_to_ccdb-populator
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -113,6 +120,7 @@ command:
     - "''"
     - "--readers"
     - "'1'"
+    - "--sendOutputFFT"
     - "--severity"
     - "'warning'"
     - "--shm-allocation"
@@ -142,7 +150,5 @@ command:
     - "--use-approximate-timestamp"
     - "--workflow-suffix"
     - "''"
-    - "--ccdb-uri"
-    - "'http://ccdb-test.cern.ch:8080'"
     - "--gainMapFile"
     - "''"
