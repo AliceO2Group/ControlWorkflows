@@ -64,7 +64,7 @@ defaults:
     widget: checkBox
     panel: FLP_Workflows
     index: -300
-  qc_remote_jit_enabled: !public
+  qc_remote_jit_enabled: #!public
     value: "false"
     type: bool
     label: "JIT QC node workflow generation"
@@ -73,7 +73,7 @@ defaults:
     panel: FLP_Workflows
     index: -200
     visibleif: $$qc_remote_enabled === "true"
-  flp_workflows_jit_enabled: !public
+  flp_workflows_jit_enabled: #!public
     value: "false"
     type: bool
     label: "JIT FLP workflow generation"
