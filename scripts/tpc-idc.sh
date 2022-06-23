@@ -15,15 +15,9 @@ cd ..
 
 export GLOBAL_SHMSIZE=$(( 16 << 30 )) #  GB for the global SHMEM
 PROXY_INSPEC="x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0"
-#PROXY_INSPEC="x:TPC/RAWDATA"
 
 OUTSPEC_IDC="idc2:TPC/IDCGROUP"
 OUTSPEC="xout:TPC/RAWDATA;ddout:FLP/DISTSUBTIMEFRAME/0"
-#OUTSPEC="xout:TPC/RAWDATA"
-# TODO: Adjust path to pedestal file
-pedestalFile="/home/tpc/IDCs/FLP/Pedestals.root"
-
-CRUIDS="11,13"
 
 # TODO: Adjust path and check this ends up properly in the script
 CRU_GEN_CONFIG_PATH='//'`pwd`'/scripts/etc/getCRUs.sh'
@@ -32,14 +26,14 @@ CRU_CONFIG_PARAM='cru_config_uri'
 
 CRUS='\"$(/home/tpc/IDCs/FLP/getCRUs.sh)\"'
 CRUS_LOCAL='$('`pwd`"/etc/getCRU.sh"
-#CRUS='$(/tmp/getCRUs.sh)'
+
 # TODO: Adjust merger and port, if the port is change this also must be done
 #       in the merger script
+
 MERGER=alio2-cr1-qts01.cern.ch
 PORT=47734
 
 ARGS_ALL="-b --session default "
-#--shm-segment-size $GLOBAL_SHMSIZE"
 
 o2-dpl-raw-proxy $ARGS_ALL \
   --dataspec "$PROXY_INSPEC" \
@@ -92,23 +86,6 @@ sed -i /defaults:/\ a\\\ \\\ "merger_node":\ "${MERGER}" workflows/${WF_NAME}.ya
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME}.yaml
 
 
-#exclude=" \" {{ it !=\'alio2-cr1-flp145\' }} \" "
-
-#echo Exlucde: $exclude
-#name=" \"tpc-flp-idc-00\" "
-#sed -i 's,name: \"tpc-flp-idc-00\",name: \"tpc-flp-idc-00\"\n    enabled: '"$exclude"',g' workflows/${WF_NAME}.yaml
-#name=" \"tpc-idc-to-vector\" "
-#sed -i 's,name: \"tpc-idc-to-vector\",name: \"tpc-idc-to-vector\"\n    enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
-#name=" \"tpc-idc-merger-proxy\" "
-#sed -i 's,name: \"tpc-idc-merger-proxy\",name: \"tpc-idc-merger-proxy\"\n    enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
-#delete=`grep -ni "name: from_tpc-idc-to-vector_to_dpl-output" workflows/${WF_NAME}.yaml | cut -f1 -d:`
-#deleteend=`expr $delete  + 6`
-#echo $delete,$deleteend
-#sed -i ''"${delete}"','"${deleteend}"'d' workflows/${WF_NAME}.yaml
-#sed -i 's,name: \"internal-dpl-injected-dummy-sink\",name: \"internal-dpl-injected-dummy-sink\"\n    enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
-#sed -i 's,name: from_tpc-idc-to-vector_to_dpl-output-proxy,name: from_tpc-idc-to-vector_to_dpl-output-proxy\n      enabled: '"${exclude}"',g' workflows/${WF_NAME}.yaml
-
-
 ORIGINAL_STRING="tpc-idc-merger-proxy-{{ it }}"
 REPLACE_STRING="tpc-idc-merger-proxy"
 
@@ -139,10 +116,6 @@ sCRUs="dd:TPC/IDCGROUP"
 echo "CRUs: ${sCRUs}"
 
 CCDB="http://ccdb-test.cern.ch:8080"
-
-crus="$firstCRU-$lastCRU"
-crus="11,13"
-
 
 
 CRU_GEN_MERGER_ID='{CRUS}'
