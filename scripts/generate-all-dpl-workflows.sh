@@ -85,9 +85,11 @@ check_pwd
 ./its-qcmn-epn-calibration.sh
 ./mch-qcmn-flp-digits.sh
 ./mch-qcmn-epn-digits.sh
+./mch-qcmn-epn-full.sh
 ./mft-decoder.sh
 ./mft-digits-qc.sh
 ./mft-full-qcmn.sh
+./mft-noise-qcmn.sh
 # ./mft-raw-digits-qc.sh # disabled until the MFT decoder is fixed and we optimize the workflow
 ./mft-raw-qcmn.sh
 ./mft-raw-direct-qcmn.sh
