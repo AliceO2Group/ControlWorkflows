@@ -223,7 +223,7 @@ The JIT generation system relies on the existence & health of the following part
 2) Consul payloads contained in the DPL command
     - These are parsed from the provided DPL command string and Consul is queried
       regarding their version to ensure freshness.
-3) JIT-specific env vars
+3) JIT-specific env vars, which are common to all JIT-generated workflows
     - These are expected on the deployment's Consul instance under
       `o2/components/aliecs/[defaults|vars]/jit_env_vars`
 4) The O2 version
