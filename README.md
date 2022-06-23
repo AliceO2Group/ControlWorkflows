@@ -226,8 +226,8 @@ The JIT generation system relies on the existence & health of the following part
 3) JIT-specific env vars, which are common to all JIT-generated workflows
     - These are expected on the deployment's Consul instance under
       `o2/components/aliecs/[defaults|vars]/jit_env_vars`
-4) The O2 & QualityControl versions
-    - The O2 & QualityControl RPM versions are queried by AliECS to ensure workflow freshness.
+4) The O2 version
+    - The O2 RPM version is queried by AliECS to ensure workflow freshness.
 
 ### Debugging with custom-set DPL commands
 
