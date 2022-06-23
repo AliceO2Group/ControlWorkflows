@@ -195,39 +195,8 @@ odcEndpoint: yet-another-host-ib:22334
 
 ## JIT DPL workflow generation
 
-It is possible to use FLP & QC DPL workflows that are generated just-in-time
-during environment creation.
-
-### Using JIT
-
-To use JIT the following variables need to be set for FLP & QC node workflows
-accordingly:
-`flp_workflows_jit_enabled: true`
-`qc_remote_jit_enabled: true`
-
-These might be set as default values or exist as radio buttons in the GUI.
-Otherwise they need to be overriden manually from the "Advanced Configuration"
-panel.
-
-### Useful details
-
-The JIT generation system relies on the existence & health of the following parts:
-
-1) DPL command provided
-  - The full DPL command can be found in `ControlWorfklows/jit/[FLP workflow name]`
-  - Alternatively, a custom DPL command can be provided through the "Advanced
-    Configuration" panel, which will **take precedence** over the FLP workflow
-    normally selected through the interface. See the next subsection for details.
-2) Consul payloads contained in the DPL command
-  - These are parsed from the provided string and Consul is queried regarding
-    their version to ensure freshness.
-3) JIT-specific env vars
-  - These are expected on the deployment's Consul instance under
-    `o2/components/aliecs/[defaults|vars]/jit_env_vars`
-4) The O2 version
-  - The O2 RPM version is queried by AliECS to ensure workflow freshness.
-
-### Debugging with custom-set DPL commands
+Starting from AliECS v0.29.3 it's possible to use DPL workflows that are generated just-in-time during environment
+creation.
 
 A templated DPL command may be passed through the `dpl_command` variable, prefixed with the detector code (
 e.g. `its_dpl_command` for the ITS). The variable may be set through the AliECS GUI environment creation page under
@@ -253,9 +222,6 @@ o2-dpl-raw-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FL
   "its_dpl_command": "o2-dpl-raw-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config \"name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10\"' | o2-dpl-output-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config \"name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem\"'"
 }
 ```
-
-_Everything described in this subsection for the `dpl_command` for FLP workflows is also applicable
-to the `qc_dpl_command` for QC node workflows._
 
 ## Notes on the CI Pipeline
 
