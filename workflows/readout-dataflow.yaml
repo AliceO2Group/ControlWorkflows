@@ -64,14 +64,6 @@ defaults:
     widget: checkBox
     panel: FLP_Workflows
     index: -200
-  flp_workflows_jit_enabled: !public
-    value: "false"
-    type: bool
-    label: "JIT FLP workflow generation"
-    description: "Enable/disable JIT generation of FLP workflows"
-    widget: checkBox
-    panel: FLP_Workflows
-    index: -100
   cpv_dpl_workflow: !public
     value: "none"
     type: string
@@ -91,27 +83,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  cpv_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "CPV FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - cpv-compressor
-      - cpv-qc-compressor
-      - cpv-pedestal-calib-qc
-      - cpv-pedestal-calib-qc-expert
-      - cpv-noise-calib-qc
-      - cpv-physics
-      - cpv-physics-testing
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "true"
   cpv_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -153,21 +124,6 @@ defaults:
       - qc-daq
       - qcmn-daq-local
       - emc-qcmn-flp-local
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  emc_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "EMCAL FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-      - emc-qcmn-flp-local
-    visibleif: $$flp_workflows_jit_enabled === "true"
   emc_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -217,26 +173,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  fdd_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "FDD FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - fdd-digits-qc-full-nocalib
-      - fdd-digits-qc-full-nocalib-raw
-      - fdd-digits-pipe
-      - fdd-digits-pipe-ds-qc
-      - fdd-digits-qc
-      - fdd-digits
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "true"
   fdd_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -287,29 +223,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  ft0_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "FT0 FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - ft0-digits-qc-full
-      - ft0-digits-qc-full-raw
-      - ft0-digits-qc-full-nocalib
-      - ft0-digits-qc-full-nocalib-raw
-      - ft0-digits-pipe
-      - ft0-digits-pipe-ds-qc
-      - ft0-digits-qc-ds-pipe-raw
-      - ft0-digits-qc
-      - ft0-digits
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "true"
   ft0_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -360,29 +273,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  fv0_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "FV0 FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - fv0-digits-qc-full
-      - fv0-digits-qc-full-raw
-      - fv0-digits-qc-full-nocalib
-      - fv0-digits-qc-full-nocalib-raw
-      - fv0-digits-pipe
-      - fv0-digits-pipe-ds-qc
-      - fv0-digits-qc-ds-pipe-raw
-      - fv0-digits-qc
-      - fv0-digits
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "true"
   fv0_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -430,26 +320,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  its_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "ITS FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - its-qc-fhr-fee
-      - its-qc-fhr-fee-no-ds
-      - its-qcmn-fhr-fee-local
-      - its-qcmn-fhr-fee-no-ds-local
-      - its-qcmn-fhr-fee-no-ds-entire-local
-      - its-qcmn-fee-no-ds-local
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "true"
   its_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -503,23 +373,6 @@ defaults:
       - qc-daq
       - qcmn-daq-local
       - hmpid-raw-to-pedestals
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  hmp_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "HMPID FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - hmpid-raw-qc
-      - hmpid-raw-qcmn-local
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-      - hmpid-raw-to-pedestals
-    visibleif: $$flp_workflows_jit_enabled === "true"
   hmp_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -561,21 +414,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  mch_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "MCH FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - mch-qcmn-flp-digits-local
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "true"
   mch_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -628,28 +466,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  mft_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "MFT FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - mft-decoder
-      - mft-digits-qc
-      - mft-raw-direct-qcmn-local
-      - mft-raw-qc
-      - mft-raw-qcmn-local
-      - mft-full-qcmn-local
-      - mft-noise-qcmn-local
-      - mft-raw-cluster-qcmn-local
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "true"
   mft_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -696,22 +512,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  mid_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "MID FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - mid-raw-decoder
-      - mid-full-qcmn-local
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "true"
   mid_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -760,27 +560,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  phs_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "PHOS FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - phos-compressor-raw-qc
-      - phos-compressor-raw-qcmn-local
-      - phos-compressor-raw-qcmnt3-local
-      - phos-compressor-raw-qct3
-      - phos-compressor
-      - phos-compressort3
-      - phos-raw-clusters-local
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "true"
   phs_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -827,23 +606,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  tof_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "TOF FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - tof-compressor
-      - tof-full-qcmn-local
-      - tof-qcmn-compressor-local
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "true"
   tof_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -886,20 +648,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  tpc_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "TPC FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "true"
   tpc_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -946,20 +694,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  trd_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "TRD FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "true"
   trd_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -1004,20 +738,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  tst_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "TST FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "true"
   tst_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -1041,20 +761,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "false"
-  zdc_dpl_command_uri: !public
-    value: "none"
-    type: string
-    label: "ZDC FLP workflow"
-    description: "Workflow to execute on the FLPs of this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - minimal-dpl
-      - qc-daq
-      - qcmn-daq-local
-    visibleif: $$flp_workflows_jit_enabled === "true"
   zdc_qc_remote_workflow: !public
     value: "none"
     type: string
