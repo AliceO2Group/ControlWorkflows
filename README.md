@@ -220,7 +220,7 @@ The JIT generation system relies on the existence & health of the following part
     - Alternatively, a custom DPL command can be provided through the "Advanced
       Configuration" panel, which will **take precedence** over the workflow
       normally selected through the interface. See the next subsection for details.
-2) Consul payloads (e.g. QC config files) contained in the DPL command
+2) Consul payloads contained in the DPL command
     - These are parsed from the provided DPL command string and Consul is queried
       regarding their version to ensure freshness.
 3) JIT-specific env vars, which are common to all JIT-generated workflows
