@@ -216,9 +216,9 @@ panel.
 The JIT generation system relies on the existence & health of the following parts:
 
 1) DPL command provided
-    - The full DPL command can be found in `ControlWorfklows/jit/[workflow name]`
+    - The full DPL command can be found in `ControlWorfklows/jit/[FLP workflow name]`
     - Alternatively, a custom DPL command can be provided through the "Advanced
-      Configuration" panel, which will **take precedence** over the workflow
+      Configuration" panel, which will **take precedence** over the FLP workflow
       normally selected through the interface. See the next subsection for details.
 2) Consul payloads contained in the DPL command
     - These are parsed from the provided DPL command string and Consul is queried
