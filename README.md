@@ -202,8 +202,10 @@ during environment creation.
 
 To use JIT the following variables need to be set for FLP & QC node workflows
 accordingly:
-`flp_workflows_jit_enabled: true`
-`qc_remote_jit_enabled: true`
+```
+flp_workflows_jit_enabled: true
+qc_remote_jit_enabled: true
+```
 
 These might be set as default values or exist as radio buttons in the GUI.
 Otherwise they need to be overriden manually from the "Advanced Configuration"
@@ -214,18 +216,18 @@ panel.
 The JIT generation system relies on the existence & health of the following parts:
 
 1) DPL command provided
-  - The full DPL command can be found in `ControlWorfklows/jit/[FLP workflow name]`
-  - Alternatively, a custom DPL command can be provided through the "Advanced
-    Configuration" panel, which will **take precedence** over the FLP workflow
-    normally selected through the interface. See the next subsection for details.
+    - The full DPL command can be found in `ControlWorfklows/jit/[FLP workflow name]`
+    - Alternatively, a custom DPL command can be provided through the "Advanced
+      Configuration" panel, which will **take precedence** over the FLP workflow
+      normally selected through the interface. See the next subsection for details.
 2) Consul payloads contained in the DPL command
-  - These are parsed from the provided string and Consul is queried regarding
-    their version to ensure freshness.
+    - These are parsed from the provided DPL command string and Consul is queried
+      regarding their version to ensure freshness.
 3) JIT-specific env vars
-  - These are expected on the deployment's Consul instance under
-    `o2/components/aliecs/[defaults|vars]/jit_env_vars`
+    - These are expected on the deployment's Consul instance under
+      `o2/components/aliecs/[defaults|vars]/jit_env_vars`
 4) The O2 version
-  - The O2 RPM version is queried by AliECS to ensure workflow freshness.
+    - The O2 RPM version is queried by AliECS to ensure workflow freshness.
 
 ### Debugging with custom-set DPL commands
 
