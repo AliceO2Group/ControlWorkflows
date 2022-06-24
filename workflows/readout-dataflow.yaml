@@ -1438,15 +1438,14 @@ roles:
             enabled: "{{ minimal_dpl_enabled == 'true' }}"
             include: minimal-dpl
           - name: dpl
-            #enabled: "{{ flp_workflows_jit_enabled == 'false' && dpl_workflow != 'none' }}"
-            enabled: "{{ dpl_workflow != 'none' }}"
+            enabled: "{{ flp_workflows_jit_enabled == 'false' && dpl_workflow != 'none' }}"
             include: "{{ dpl_workflow }}"
-#          - name: dpl
-#            enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_workflow != 'none' && dpl_command == 'none' }}"
-#            include: "{{ GenerateDplSubworkflowFromUri(dpl_workflow) }}"
-#          - name: dpl
-#            enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_command != 'none' }}"
-#            include: "{{ GenerateDplSubworkflow(dpl_command) }}"
+          - name: dpl
+            enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_workflow != 'none' && dpl_command == 'none' }}"
+            include: "{{ GenerateDplSubworkflowFromUri(dpl_workflow) }}"
+          - name: dpl
+            enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_command != 'none' }}"
+            include: "{{ GenerateDplSubworkflow(dpl_command) }}"
       - name: o2-roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
         defaults:
@@ -1522,15 +1521,14 @@ roles:
             value: "{{ qc_remote_machine }}"
         roles:
           - name: dpl
-            #enabled: "{{ qc_remote_jit_enabled == 'false' && qc_remote_workflow != 'none' }}"
-            enabled: "{{ qc_remote_workflow != 'none' }}"
+            enabled: "{{ qc_remote_jit_enabled == 'false' && qc_remote_workflow != 'none' }}"
             include: "{{ qc_remote_workflow }}"
-#          - name: dpl
-#            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_remote_workflow != 'none' && qc_dpl_command == 'none' }}"
-#            include: "{{ GenerateDplSubworkflowFromUri(qc_remote_workflow) }}"
-#          - name: dpl
-#            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_dpl_command != 'none' }}"
-#            include: "{{ GenerateDplSubworkflow(qc_dpl_command) }}"
+          - name: dpl
+            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_remote_workflow != 'none' && qc_dpl_command == 'none' }}"
+            include: "{{ GenerateDplSubworkflowFromUri(qc_remote_workflow) }}"
+          - name: dpl
+            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_dpl_command != 'none' }}"
+            include: "{{ GenerateDplSubworkflow(qc_dpl_command) }}"
           - name: fairmq-shmmonitor
             enabled: "{{ fmq_cleanup_enabled == 'true' && qc_remote_workflow != 'none' }}"
             task:
