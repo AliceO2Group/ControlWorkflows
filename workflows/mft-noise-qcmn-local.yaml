@@ -1,10 +1,10 @@
-name: mft-full-qcmn-local
+name: mft-noise-qcmn-local
 vars:
   dpl_command: >-
     o2-dpl-raw-proxy -b --session default --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' | o2-datasampling-standalone -b --config {{ ds_config_uri }} | o2-itsmft-stf-decoder-workflow -b --runmft --digits --no-clusters --dataspec TF:MFT/RAWDATA_SMP --ignore-dist-stf --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;' | o2-dpl-output-proxy --environment DPL_OUTPUT_PROXY_ORDERED=1 -b --session default --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' | o2-qc --config {{ qc_config_uri }} -b --local --host flp
 defaults:
   ds_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mft-full-digits-sampling"
-  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mft-full-qcmn-{{ it }}"
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mft-noise-qcmn-{{ it }}"
   monitoring_dpl_url: "no-op://"
   user: "flp"
   fmq_rate_logging: 0
@@ -16,7 +16,7 @@ roles:
   - name: "internal-dpl-clock"
     connect:
     task:
-      load: mft-full-qcmn-local-internal-dpl-clock
+      load: mft-noise-qcmn-local-internal-dpl-clock
   - name: "readout-proxy"
     connect:
     - name: from_internal-dpl-clock_to_readout-proxy
@@ -32,7 +32,7 @@ roles:
       target: "::readout-proxy-{{ it }}"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mft-full-qcmn-local-readout-proxy
+      load: mft-noise-qcmn-local-readout-proxy
   - name: "internal-dpl-ccdb-backend"
     connect:
     - name: from_readout-proxy_to_internal-dpl-ccdb-backend
@@ -43,7 +43,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-full-qcmn-local-internal-dpl-ccdb-backend
+      load: mft-noise-qcmn-local-internal-dpl-ccdb-backend
   - name: "Dispatcher"
     connect:
     - name: from_internal-dpl-clock_to_Dispatcher
@@ -61,7 +61,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-full-qcmn-local-Dispatcher
+      load: mft-noise-qcmn-local-Dispatcher
   - name: "qc-task-MFT-MFTReadoutTask"
     connect:
     - name: from_internal-dpl-clock_to_qc-task-MFT-MFTReadoutTask
@@ -79,7 +79,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-full-qcmn-local-qc-task-MFT-MFTReadoutTask
+      load: mft-noise-qcmn-local-qc-task-MFT-MFTReadoutTask
   - name: "mft-stf-decoder"
     connect:
     - name: from_internal-dpl-ccdb-backend_to_mft-stf-decoder
@@ -97,7 +97,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-full-qcmn-local-mft-stf-decoder
+      load: mft-noise-qcmn-local-mft-stf-decoder
   - name: "qc-task-MFT-MFTDigitTask"
     connect:
     - name: from_internal-dpl-clock_to_qc-task-MFT-MFTDigitTask
@@ -115,7 +115,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-full-qcmn-local-qc-task-MFT-MFTDigitTask
+      load: mft-noise-qcmn-local-qc-task-MFT-MFTDigitTask
   - name: "MFT-MFTReadoutTask-proxy"
     connect:
     - name: from_qc-task-MFT-MFTReadoutTask_to_MFT-MFTReadoutTask-proxy
@@ -131,7 +131,7 @@ roles:
       target: "::MFT-MFTReadoutTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mft-full-qcmn-local-MFT-MFTReadoutTask-proxy
+      load: mft-noise-qcmn-local-MFT-MFTReadoutTask-proxy
   - name: "internal-dpl-injected-dummy-sink"
     connect:
     - name: from_internal-dpl-ccdb-backend_to_internal-dpl-injected-dummy-sink
@@ -149,7 +149,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mft-full-qcmn-local-internal-dpl-injected-dummy-sink
+      load: mft-noise-qcmn-local-internal-dpl-injected-dummy-sink
   - name: "MFT-MFTDigitTask-proxy"
     connect:
     - name: from_qc-task-MFT-MFTDigitTask_to_MFT-MFTDigitTask-proxy
@@ -165,7 +165,7 @@ roles:
       target: "::MFT-MFTDigitTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mft-full-qcmn-local-MFT-MFTDigitTask-proxy
+      load: mft-noise-qcmn-local-MFT-MFTDigitTask-proxy
   - name: "dpl-output-proxy"
     connect:
     - name: from_readout-proxy_to_dpl-output-proxy
@@ -190,4 +190,4 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       global: "downstream-{{ it }}"
     task:
-      load: mft-full-qcmn-local-dpl-output-proxy
+      load: mft-noise-qcmn-local-dpl-output-proxy
