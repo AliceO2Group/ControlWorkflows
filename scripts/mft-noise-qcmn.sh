@@ -8,6 +8,7 @@ WF_NAME=mft-noise-qcmn-local
 QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/mft-noise-qcmn.json'
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mft-noise-qcmn-{{ it }}'
 QC_CONFIG_PARAM='qc_config_uri'
+DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
 DS_GEN_CONFIG_PATH='json://'`pwd`'/etc/mft-full-digits-sampling.json'
 DS_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mft-full-digits-sampling'
