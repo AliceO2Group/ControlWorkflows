@@ -13,8 +13,6 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-properties:
-  qcConfiguration: ""
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -122,5 +120,3 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--qcConfiguration"
-    - "'{}'"
