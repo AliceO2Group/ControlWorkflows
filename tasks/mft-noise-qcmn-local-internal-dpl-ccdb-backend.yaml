@@ -1,4 +1,4 @@
-name: mft-decoder-internal-dpl-ccdb-backend
+name: mft-noise-qcmn-local-internal-dpl-ccdb-backend
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -80,7 +80,7 @@ command:
     - "--configKeyValues"
     - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
     - "--dataspec"
-    - "''"
+    - "'TF:MFT/RAWDATA_SMP'"
     - "--digits"
     - "--early-forward-policy"
     - "'never'"
@@ -96,6 +96,7 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--ignore-dist-stf"
     - "--labels"
     - "''"
     - "--no-clusters"
@@ -131,7 +132,7 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--condition-backend"
-    - "'http://127.0.0.1:8084'"
+    - "'http://alice-ccdb.cern.ch'"
     - "--condition-not-after"
     - "'3385078236000'"
     - "--condition-not-before"
