@@ -64,23 +64,6 @@ defaults:
     widget: checkBox
     panel: FLP_Workflows
     index: -300
-  qc_remote_jit_enabled: #!public
-    value: "false"
-    type: bool
-    label: "JIT QC node workflow generation"
-    description: "Enable/disable JIT generation of QC node workflows"
-    widget: checkBox
-    panel: FLP_Workflows
-    index: -200
-    visibleif: $$qc_remote_enabled === "true"
-  flp_workflows_jit_enabled: #!public
-    value: "false"
-    type: bool
-    label: "JIT FLP workflow generation"
-    description: "Enable/disable JIT generation of FLP workflows"
-    widget: checkBox
-    panel: FLP_Workflows
-    index: -100
   cpv_dpl_workflow: !public
     value: "none"
     type: string
@@ -1234,7 +1217,7 @@ defaults:
     panel: Detectors
   ###############################
   # Other variables
-  ###############################    
+  ###############################
   bookkeeping_enabled: "true"
   ccdb_enabled: "false"
   dpl_workflow: none
@@ -1256,6 +1239,8 @@ defaults:
   roc_cleanup_enabled: "false"
   roc_ctp_emulator_enabled: "false"
   stfb_standalone: "false"
+  flp_workflows_jit_enabled: "false"
+  qc_remote_jit_enabled: "false"
   user: flp
   extra_env_vars: ""
 vars:
@@ -1442,10 +1427,10 @@ roles:
             include: "{{ dpl_workflow }}"
           - name: dpl
             enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_workflow != 'none' && dpl_command == 'none' }}"
-            include: "{{ GenerateDplSubworkflowFromUri(dpl_workflow) }}"
+            include: "{{ flp_workflows_jit_enabled == 'true' ? GenerateDplSubworkflowFromUri(dpl_workflow) : '' }}"
           - name: dpl
             enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_command != 'none' }}"
-            include: "{{ GenerateDplSubworkflow(dpl_command) }}"
+            include: "{{ flp_workflows_jit_enabled == 'true' ? GenerateDplSubworkflow(dpl_command) : '' }}"
       - name: o2-roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
         defaults:
@@ -1525,10 +1510,10 @@ roles:
             include: "{{ qc_remote_workflow }}"
           - name: dpl
             enabled: "{{ qc_remote_jit_enabled == 'true' && qc_remote_workflow != 'none' && qc_dpl_command == 'none' }}"
-            include: "{{ GenerateDplSubworkflowFromUri(qc_remote_workflow) }}"
+            include: "{{ qc_remote_jit_enabled == 'true' ? GenerateDplSubworkflowFromUri(qc_remote_workflow) : '' }}"
           - name: dpl
             enabled: "{{ qc_remote_jit_enabled == 'true' && qc_dpl_command != 'none' }}"
-            include: "{{ GenerateDplSubworkflow(qc_dpl_command) }}"
+            include: "{{ qc_remote_jit_enabled == 'true' ? GenerateDplSubworkflow(qc_dpl_command) : '' }}"
           - name: fairmq-shmmonitor
             enabled: "{{ fmq_cleanup_enabled == 'true' && qc_remote_workflow != 'none' }}"
             task:
