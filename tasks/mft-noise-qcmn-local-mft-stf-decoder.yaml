@@ -132,7 +132,7 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--condition-backend"
-    - "'http://127.0.0.1:8084'"
+    - "'http://alice-ccdb.cern.ch'"
     - "--condition-timestamp"
     - "'0'"
     - "--decoder-verbosity"

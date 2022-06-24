@@ -1,4 +1,4 @@
-name: fdd-digits-pipe-ds-qc-qc-task-FDD-DigitQcTask
+name: mft-noise-qcmn-local-qc-task-MFT-MFTDigitTask
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-FDD-DigitQcTask_to_qc-check-sink-QFDD_DigitQcTask_0
+  - name: from_qc-task-MFT-MFTDigitTask_to_MFT-MFTDigitTask-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -51,7 +51,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-task-FDD-DigitQcTask'"
+    - "'qc-task-MFT-MFTDigitTask'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -91,9 +91,10 @@ command:
     - "--forwarding-policy"
     - "'dangling'"
     - "--host"
-    - "''"
+    - "'flp'"
     - "--labels"
     - "''"
+    - "--local"
     - "--local-batch"
     - "''"
     - "--override-values"
