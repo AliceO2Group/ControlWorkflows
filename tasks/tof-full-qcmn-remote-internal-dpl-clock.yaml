@@ -13,6 +13,13 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+  - name: from_internal-dpl-clock_to_TOF-TaskDigits-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
   - name: from_internal-dpl-clock_to_TOF-TaskRaw-proxy
     type: push
     transport: shmem
@@ -27,7 +34,28 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_TOF-TaskDigits-proxy
+  - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-TOFTrendingRate
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_internal-dpl-clock_to_TOF-MergeMETOF-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_internal-dpl-clock_to_TOF-MergeMETOFwTRD-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_internal-dpl-clock_to_TOF-MERGER-MergeMETOF1l-0
     type: push
     transport: shmem
     addressing: ipc

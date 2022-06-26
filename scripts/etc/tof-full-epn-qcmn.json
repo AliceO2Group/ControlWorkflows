@@ -22,7 +22,7 @@
       }
     },
     "tasks": {
-      "MatchingTOF": {
+      "MergeMETOF": {
         "active": "true",
         "className": "o2::quality_control_modules::tof::TOFMatchedTracks",
         "moduleName": "QcTOF",
@@ -46,15 +46,13 @@
         },
         "location": "local",
         "localMachines": [
-          "epn",
-          "localhost"
+          "mustbenomachine"
         ],
         "remoteMachine": "alio2-cr1-qc03.cern.ch",
         "remotePort": "47710",
-        "mergingMode": "delta",
-        "localControl": "odc"
+        "mergingMode": "delta"
       },
-      "MatchingTOFwTRD": {
+      "MergeMETOFwTRD": {
         "active": "true",
         "className": "o2::quality_control_modules::tof::TOFMatchedTracks",
         "moduleName": "QcTOF",
@@ -78,13 +76,11 @@
         },
         "location": "local",
         "localMachines": [
-          "epn",
-          "localhost"
+          "mustbenomachine"
         ],
         "remoteMachine": "alio2-cr1-qc03.cern.ch",
         "remotePort": "47711",
-        "mergingMode": "delta",
-        "localControl": "odc"
+        "mergingMode": "delta"
       },
       "TaskRaw": {
         "active": "true",
@@ -128,7 +124,8 @@
         },
         "taskParameters": {
           "PerChannel": "True",
-          "RangeMaxMultiplicity": "2000"
+          "RangeMaxMultiplicity": "2000",
+          "NoiseClassSelection": "0"
         },
         "location": "local",
         "localMachines": [
@@ -142,6 +139,78 @@
       }
     },
     "postprocessing": {
+      "TOFTrendingRate": {
+          "active": "true",
+          "className": "o2::quality_control_modules::tof::TrendingRate",
+          "moduleName": "QcTOF",
+          "detectorName": "TOF",
+          "customization": [
+            {
+              "name": "ThresholdSgn",
+              "value": "1.4"
+            },
+            {
+               "name": "ThresholdBkg",
+               "value": "0.01"
+            }
+          ],
+          "dataSources": [{
+              "type": "repository",
+              "path": "TOF/MO/TaskDigits",
+              "names": [
+                  "HitMap",
+                  "Multiplicity/VsBC"
+              ],
+              "reductorName": "o2::quality_control_modules::common::TH1Reductor",
+              "moduleName": "QcCommon"
+          }],
+          "plots": [
+            {
+              "name": "interaction_rate",
+              "title": "IR from TOF hits",
+              "varexp": "collisionRate:time",
+              "selection": "",
+              "option": "*L"
+            },
+            {
+              "name": "noise_rate",
+              "title": "Noise Rate per channel",
+              "varexp": "noiseRate:time",
+              "selection": "",
+              "option": "*L"
+            },
+            {
+              "name": "active_channels",
+              "title": "Active channels",
+              "varexp": "activeChannels:time",
+              "selection": "",
+              "option": "*L"
+            },
+            {
+              "name": "pile_up",
+              "title": "Pilup",
+              "varexp": "pileup:time",
+              "selection": "",
+              "option": "*L"
+            },
+            {
+              "name": "n_int_bc",
+              "title": "N Inetraction BCs",
+              "varexp": "nIBC:time",
+              "selection": "",
+              "option": "*L"
+            }
+          ],
+          "initTrigger": [
+              "userorcontrol"
+          ],
+          "updateTrigger": [
+              "newobject:qcdb:TOF/MO/TaskDigits/Multiplicity/VsBC"
+          ],
+          "stopTrigger": [
+              "userorcontrol"
+          ]
+      },
       "TOFTrendingHits": {
         "active": "true",
         "className": "o2::quality_control_modules::tof::TrendingHits",
@@ -215,7 +284,7 @@
         ]
       },
       "CheckRawMultiplicity": {
-        "active": "true",
+        "active": "false",
         "className": "o2::quality_control_modules::tof::CheckRawMultiplicity",
         "moduleName": "QcTOF",
         "policy": "OnAny",
@@ -335,8 +404,7 @@
       "id": "trkWTRD-local",
       "active": "true",
       "machines": [
-        "epn",
-        "localhost"
+        "mustbenomachine"
       ],
       "query": "matchITSTPCTOF:TOF/MTC_ITSTPC/0;trackITSTPC:GLO/TPCITS/0;trackITSTPCABREFS:GLO/TPCITSAB_REFS/0;trackITSTPCABCLID:GLO/TPCITSAB_CLID/0;trackTPC:TPC/TRACKS/0;trackTPCClRefs:TPC/CLUSREFS/0;tofcluster:TOF/CLUSTERS/0;trackITSTPCTRD:TRD/MATCH_ITSTPC/0;matchITSTPCTRDTOF:TOF/MTC_ITSTPCTRD/0;trigITSTPCTRD:TRD/TRGREC_ITSTPC/0",
       "samplingConditions": [
@@ -352,8 +420,7 @@
       "id": "trk-clu-local",
       "active": "true",
       "machines": [
-        "epn",
-        "localhost"
+        "mustbenomachine"
       ],
       "query": "matchITSTPCTOF:TOF/MTC_ITSTPC/0;trackITSTPC:GLO/TPCITS/0;trackITSTPCABREFS:GLO/TPCITSAB_REFS/0;trackITSTPCABCLID:GLO/TPCITSAB_CLID/0;trackTPC:TPC/TRACKS/0;trackTPCClRefs:TPC/CLUSREFS/0;tofcluster:TOF/CLUSTERS/0",
       "samplingConditions": [
