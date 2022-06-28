@@ -38,6 +38,7 @@ check_pwd
 ./fdd-digits-qc-full-nocalib-raw.sh
 ./fdd-digits-pipe.sh
 ./fdd-digits-pipe-ds-qc.sh
+./fdd-digits-pipe-ds-qc-raw.sh
 ./fdd-digits-qc.sh
 ./fdd-digits.sh
 ./ft0-qcmn-remote.sh
@@ -47,7 +48,8 @@ check_pwd
 ./ft0-digits-qc-full-nocalib.sh
 ./ft0-digits-qc-full-nocalib-raw.sh
 ./ft0-digits-pipe.sh
-./ft0-digits-pipe-ds-qc.sh     
+./ft0-digits-pipe-ds-qc.sh
+./ft0-digits-pipe-ds-qc-raw.sh
 ./ft0-digits-qc-ds-pipe-raw.sh
 ./ft0-digits-qc.sh
 ./ft0-digits.sh
@@ -59,6 +61,7 @@ check_pwd
 ./fv0-digits-qc-full-nocalib-raw.sh
 ./fv0-digits-pipe.sh
 ./fv0-digits-pipe-ds-qc.sh
+./fv0-digits-pipe-ds-qc-raw.sh
 ./fv0-digits-qc-ds-pipe-raw.sh
 ./fv0-digits-qc.sh
 ./fv0-digits.sh
