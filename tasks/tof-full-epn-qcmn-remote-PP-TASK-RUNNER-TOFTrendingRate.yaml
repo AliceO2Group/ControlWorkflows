@@ -1,4 +1,4 @@
-name: tof-full-qcmn-remote-qc-check-TOFJRA0
+name: tof-full-epn-qcmn-remote-PP-TASK-RUNNER-TOFTrendingRate
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,15 +13,13 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-check-TOFJRA0_to_internal-dpl-injected-dummy-sink
+  - name: from_PP-TASK-RUNNER-TOFTrendingRate_to_qc-check-sink-QC_TOFTrendingRa-mo_0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-properties:
-  qcConfiguration: ""
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -51,7 +49,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-check-TOFJRA0'"
+    - "'PP-TASK-RUNNER-TOFTrendingRate'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -74,6 +72,8 @@ command:
     - "''"
     - "--config"
     - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -127,3 +127,5 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
+    - "--period-timer-pp-TOFTrendingRate"
+    - "'10000000'"
