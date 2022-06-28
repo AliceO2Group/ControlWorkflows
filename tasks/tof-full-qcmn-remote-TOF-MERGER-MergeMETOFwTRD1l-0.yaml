@@ -1,4 +1,12 @@
+<<<<<<< HEAD
 name: tof-full-qcmn-remote-TOF-MERGER-MergeMETOFwTRD1l-0
+=======
+<<<<<<< HEAD:tasks/tpc-full-nodummy-qcmn-pp-remote-v2-TPC-MERGER-Tracks1l-0.yaml
+name: tpc-full-nodummy-qcmn-pp-remote-v2-TPC-MERGER-Tracks1l-0
+=======
+name: tof-full-qcmn-remote-TOF-MERGER-MergeMETOFwTRD1l-0
+>>>>>>> 1ce018b8... TOF cleanup (#394):tasks/tof-full-qcmn-remote-TOF-MERGER-MergeMETOFwTRD1l-0.yaml
+>>>>>>> 1ce018b8... TOF cleanup (#394)
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,7 +21,15 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+<<<<<<< HEAD
   - name: from_TOF-MERGER-MergeMETOFwTRD1l-0_to_qc-check-sink-QTOF_MergeMETOFwTRD_0
+=======
+<<<<<<< HEAD:tasks/tpc-full-nodummy-qcmn-pp-remote-v2-TPC-MERGER-Tracks1l-0.yaml
+  - name: from_TPC-MERGER-Tracks1l-0_to_qc-check-sink-QTPC_Tracks_0
+=======
+  - name: from_TOF-MERGER-MergeMETOFwTRD1l-0_to_qc-check-sink-QTOF_MergeMETOFwTRD_0
+>>>>>>> 1ce018b8... TOF cleanup (#394):tasks/tof-full-qcmn-remote-TOF-MERGER-MergeMETOFwTRD1l-0.yaml
+>>>>>>> 1ce018b8... TOF cleanup (#394)
     type: push
     transport: shmem
     addressing: ipc
@@ -49,7 +65,15 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
+<<<<<<< HEAD
     - "'TOF-MERGER-MergeMETOFwTRD1l-0'"
+=======
+<<<<<<< HEAD:tasks/tpc-full-nodummy-qcmn-pp-remote-v2-TPC-MERGER-Tracks1l-0.yaml
+    - "'TPC-MERGER-Tracks1l-0'"
+=======
+    - "'TOF-MERGER-MergeMETOFwTRD1l-0'"
+>>>>>>> 1ce018b8... TOF cleanup (#394):tasks/tof-full-qcmn-remote-TOF-MERGER-MergeMETOFwTRD1l-0.yaml
+>>>>>>> 1ce018b8... TOF cleanup (#394)
     - "--shm-monitor"
     - "'false'"
     - "--log-color"

@@ -1,4 +1,8 @@
+<<<<<<< HEAD:tasks/emc-qcmn-epn-remote-qc-check-EMC-hPD0.yaml
 name: emc-qcmn-epn-remote-qc-check-EMC-hPD0
+=======
+name: tof-full-epn-qcmn-remote-qc-check-TOF-Qd60
+>>>>>>> 1ce018b8... TOF cleanup (#394):tasks/tof-full-epn-qcmn-remote-qc-check-TOF-Qd60.yaml
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,7 +17,11 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+<<<<<<< HEAD:tasks/emc-qcmn-epn-remote-qc-check-EMC-hPD0.yaml
   - name: from_qc-check-EMC-hPD0_to_internal-dpl-injected-dummy-sink
+=======
+  - name: from_qc-check-TOF-Qd60_to_internal-dpl-injected-dummy-sink
+>>>>>>> 1ce018b8... TOF cleanup (#394):tasks/tof-full-epn-qcmn-remote-qc-check-TOF-Qd60.yaml
     type: push
     transport: shmem
     addressing: ipc
@@ -51,7 +59,11 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
+<<<<<<< HEAD:tasks/emc-qcmn-epn-remote-qc-check-EMC-hPD0.yaml
     - "'qc-check-EMC-hPD0'"
+=======
+    - "'qc-check-TOF-Qd60'"
+>>>>>>> 1ce018b8... TOF cleanup (#394):tasks/tof-full-epn-qcmn-remote-qc-check-TOF-Qd60.yaml
     - "--shm-monitor"
     - "'false'"
     - "--log-color"

@@ -50,8 +50,12 @@
         ],
         "remoteMachine": "alio2-cr1-qc03.cern.ch",
         "remotePort": "47710",
+<<<<<<< HEAD
         "mergingMode": "delta",
         "localControl": "odc"
+=======
+        "mergingMode": "delta"
+>>>>>>> 1ce018b8... TOF cleanup (#394)
       },
       "MergeMETOFwTRD": {
         "active": "true",
@@ -81,8 +85,12 @@
         ],
         "remoteMachine": "alio2-cr1-qc03.cern.ch",
         "remotePort": "47711",
+<<<<<<< HEAD
         "mergingMode": "delta",
         "localControl": "odc"
+=======
+        "mergingMode": "delta"
+>>>>>>> 1ce018b8... TOF cleanup (#394)
       },
       "TaskRaw": {
         "active": "true",
@@ -333,6 +341,7 @@
           "MinRawTime": "0",
           "MaxRawTime": "20"
         },
+<<<<<<< HEAD
         "detectorName": "TOF",
         "dataSource": [
           {
@@ -353,12 +362,37 @@
         "className": "o2::quality_control_modules::tof::CheckHitMap",
         "moduleName": "QcTOF",
         "policy": "OnAny",
+=======
+>>>>>>> 1ce018b8... TOF cleanup (#394)
         "detectorName": "TOF",
         "dataSource": [
           {
             "type": "Task",
             "name": "TaskDigits",
             "MOs": [
+<<<<<<< HEAD
+=======
+              "ToT/Integrated",
+              "ToT/SectorIA",
+              "ToT/SectorOA",
+              "ToT/SectorIC",
+              "ToT/SectorOC"
+            ]
+          }
+        ]
+      },
+      "CheckTOFRawHitMap": {
+        "active": "false",
+        "className": "o2::quality_control_modules::tof::CheckHitMap",
+        "moduleName": "QcTOF",
+        "policy": "OnAny",
+        "detectorName": "TOF",
+        "dataSource": [
+          {
+            "type": "Task",
+            "name": "TaskDigits",
+            "MOs": [
+>>>>>>> 1ce018b8... TOF cleanup (#394)
               "TOFRawHitMap"
             ]
           }

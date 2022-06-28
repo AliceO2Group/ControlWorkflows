@@ -25,8 +25,12 @@ bind:
     transport: zeromq
     addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
+<<<<<<< HEAD
     target: "tcp://*:47710"
     rcvBufSize: 1
+=======
+    global: "TOF-MergeMETOF-proxy"
+>>>>>>> 1ce018b8... TOF cleanup (#394)
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -140,8 +144,11 @@ command:
     - "'0'"
     - "--orbit-offset-enumeration"
     - "'0'"
+<<<<<<< HEAD
     - "--ready-state-policy"
     - "'drain'"
+=======
+>>>>>>> 1ce018b8... TOF cleanup (#394)
     - "--start-value-enumeration"
     - "'0'"
     - "--step-value-enumeration"
