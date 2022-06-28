@@ -1,4 +1,4 @@
-name: ft0-digits-pipe-ds-qc-Dispatcher
+name: ft0-digits-pipe-ds-qc-raw-Dispatcher
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
