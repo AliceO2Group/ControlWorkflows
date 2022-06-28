@@ -1,4 +1,8 @@
+<<<<<<< HEAD:tasks/mft-track-full-qcmn-remote-MFT-MERGER-MFTAsyncTask1l-0.yaml
 name: mft-track-full-qcmn-remote-MFT-MERGER-MFTAsyncTask1l-0
+=======
+name: tof-full-qcmn-remote-TOF-MERGER-MergeMETOFwTRD1l-0
+>>>>>>> 04f1d010... TOF cleanup (#394):tasks/tof-full-qcmn-remote-TOF-MERGER-MergeMETOFwTRD1l-0.yaml
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,7 +17,11 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+<<<<<<< HEAD:tasks/mft-track-full-qcmn-remote-MFT-MERGER-MFTAsyncTask1l-0.yaml
   - name: from_MFT-MERGER-MFTAsyncTask1l-0_to_qc-check-sink-QMFT_MFTAsyncTask_0
+=======
+  - name: from_TOF-MERGER-MergeMETOFwTRD1l-0_to_qc-check-sink-QTOF_MergeMETOFwTRD_0
+>>>>>>> 04f1d010... TOF cleanup (#394):tasks/tof-full-qcmn-remote-TOF-MERGER-MergeMETOFwTRD1l-0.yaml
     type: push
     transport: shmem
     addressing: ipc
@@ -49,7 +57,11 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
+<<<<<<< HEAD:tasks/mft-track-full-qcmn-remote-MFT-MERGER-MFTAsyncTask1l-0.yaml
     - "'MFT-MERGER-MFTAsyncTask1l-0'"
+=======
+    - "'TOF-MERGER-MergeMETOFwTRD1l-0'"
+>>>>>>> 04f1d010... TOF cleanup (#394):tasks/tof-full-qcmn-remote-TOF-MERGER-MergeMETOFwTRD1l-0.yaml
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
