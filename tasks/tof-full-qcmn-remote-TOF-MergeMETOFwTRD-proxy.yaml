@@ -1,4 +1,4 @@
-name: tof-full-epn-qcmn-remote-TOF-MatchingTOF-proxy
+name: tof-full-qcmn-remote-TOF-MergeMETOFwTRD-proxy
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,19 +13,19 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_TOF-MatchingTOF-proxy_to_TOF-MERGER-MatchingTOF1l-0
+  - name: from_TOF-MergeMETOFwTRD-proxy_to_TOF-MERGER-MergeMETOFwTRD1l-0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: TOF-MatchingTOF-proxy
+  - name: TOF-MergeMETOFwTRD-proxy
     type: sub
     transport: zeromq
     addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
-    target: "tcp://*:47710"
+    global: "TOF-MergeMETOFwTRD-proxy"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -55,7 +55,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'TOF-MatchingTOF-proxy'"
+    - "'TOF-MergeMETOFwTRD-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"

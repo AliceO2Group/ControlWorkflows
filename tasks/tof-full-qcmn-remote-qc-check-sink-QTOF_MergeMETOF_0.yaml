@@ -1,4 +1,4 @@
-name: tof-full-epn-qcmn-remote-qc-check-sink-QTOF_MatchingTOFwTRD_0
+name: tof-full-qcmn-remote-qc-check-sink-QTOF_MergeMETOF_0
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -44,7 +44,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-check-sink-QTOF_MatchingTOFwTRD_0'"
+    - "'qc-check-sink-QTOF_MergeMETOF_0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"

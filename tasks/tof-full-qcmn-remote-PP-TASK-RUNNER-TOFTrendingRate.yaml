@@ -1,6 +1,7 @@
-name: tof-full-qcmn-remote-QC-CHECK-RUNNER-sink-QC_TOFTrendingHi-mo_0
+name: tof-full-qcmn-remote-PP-TASK-RUNNER-TOFTrendingRate
 defaults:
   log_task_output: none
+  exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
     {{ dpl_command }} | o2-qc
@@ -12,14 +13,25 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+  - name: from_PP-TASK-RUNNER-TOFTrendingRate_to_qc-check-sink-QC_TOFTrendingRa-mo_0
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
-  env: ["O2_DETECTOR={{ detector }}"]
+  env:
+    - O2_DETECTOR={{ detector }}
+    - O2_PARTITION={{ environment_id }}
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
     - "-b"
+    - "--exit-transition-timeout"
+    - "'{{ exit_transition_timeout }}'"
     - "--monitoring-backend"
     - "'{{ monitoring_dpl_url }}'"
     - "--session"
@@ -37,7 +49,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'QC-CHECK-RUNNER-sink-QC_TOFTrendingHi-mo_0'"
+    - "'PP-TASK-RUNNER-TOFTrendingRate'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -60,6 +72,8 @@ command:
     - "''"
     - "--config"
     - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -97,6 +111,8 @@ command:
     - "'false'"
     - "--shm-mlock-segment-on-creation"
     - "'false'"
+    - "--shm-no-cleanup"
+    - "'false'"
     - "--shm-segment-id"
     - "'0'"
     - "--shm-zero-segment"
@@ -104,10 +120,12 @@ command:
     - "--spawners"
     - "'1'"
     - "--stacktrace-on-signal"
-    - "'all'"
+    - "'simple'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
     - "--workflow-suffix"
     - "''"
+    - "--period-timer-pp-TOFTrendingRate"
+    - "'10000000'"

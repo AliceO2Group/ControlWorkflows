@@ -1,6 +1,7 @@
-name: tof-full-qcmn-local-QC-TASK-RUNNER-TaskRaw
+name: tof-full-epn-qcmn-remote-qc-check-sink-QTOF_MergeMETOF_0
 defaults:
   log_task_output: none
+  exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
     {{ dpl_command }} | o2-qc
@@ -12,21 +13,20 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_QC-TASK-RUNNER-TaskRaw_to_TaskRaw-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
+properties:
+  qcConfiguration: ""
 command:
   shell: true
   log: "{{ log_task_output }}"
-  env: ["O2_DETECTOR={{ detector }}"]
+  env:
+    - O2_DETECTOR={{ detector }}
+    - O2_PARTITION={{ environment_id }}
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
     - "-b"
+    - "--exit-transition-timeout"
+    - "'{{ exit_transition_timeout }}'"
     - "--monitoring-backend"
     - "'{{ monitoring_dpl_url }}'"
     - "--session"
@@ -44,7 +44,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'QC-TASK-RUNNER-TaskRaw'"
+    - "'qc-check-sink-QTOF_MergeMETOF_0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -67,6 +67,8 @@ command:
     - "''"
     - "--config"
     - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -82,10 +84,9 @@ command:
     - "--forwarding-policy"
     - "'dangling'"
     - "--host"
-    - "'alio2-cr1-flp178'"
+    - "''"
     - "--labels"
     - "''"
-    - "--local"
     - "--local-batch"
     - "''"
     - "--override-values"
@@ -94,6 +95,7 @@ command:
     - "''"
     - "--readers"
     - "'1'"
+    - "--remote"
     - "--remote-batch"
     - "''"
     - "--severity"
@@ -104,6 +106,8 @@ command:
     - "'false'"
     - "--shm-mlock-segment-on-creation"
     - "'false'"
+    - "--shm-no-cleanup"
+    - "'false'"
     - "--shm-segment-id"
     - "'0'"
     - "--shm-zero-segment"
@@ -111,12 +115,12 @@ command:
     - "--spawners"
     - "'1'"
     - "--stacktrace-on-signal"
-    - "'all'"
+    - "'simple'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-cycle"
-    - "'60000000'"
+    - "--qcConfiguration"
+    - "'{}'"
