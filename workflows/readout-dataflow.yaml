@@ -453,6 +453,7 @@ defaults:
       - mft-raw-qc
       - mft-raw-qcmn-local
       - mft-full-qcmn-local
+      - mft-track-full-qcmn-local
       - mft-noise-qcmn-local
       - mft-raw-cluster-qcmn-local
       - minimal-dpl
