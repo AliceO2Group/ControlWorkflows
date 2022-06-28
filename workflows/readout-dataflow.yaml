@@ -471,6 +471,7 @@ defaults:
       - mft-raw-direct-qcmn-remote
       - mft-raw-qcmn-remote
       - mft-full-qcmn-remote
+      - mft-track-full-qcmn-remote
       - mft-noise-qcmn-remote
       - mft-raw-cluster-qcmn-remote
       - qcmn-daq-remote
