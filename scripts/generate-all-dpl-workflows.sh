@@ -106,6 +106,9 @@ check_pwd
 ./tof-qcmn-compressor.sh
 ./tof-full-qcmn.sh
 ./tpc-full-qcmn.sh
+./tpc-full-nodummy-qcmn.sh
+./tpc-full-nodummy-qcmn-pp.sh
+./tpc-full-nodummy-qcmn-pp-v2.sh
 ./tpc-krypton-qcmn.sh
 ./tpc-qc-post-trending.sh
 ./tpc-qc-post-calib.sh
