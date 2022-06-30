@@ -1,4 +1,4 @@
-name: tpc-full-nodummy-qcmn-pp-remote-TPC-MERGER-RawDigits1l-0
+name: tpc-full-nodummy-qcmn-pp-remote-qc-check-sink-QTPC_Tracks_0
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,13 +13,8 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_TPC-MERGER-RawDigits1l-0_to_qc-check-sink-QTPC_RawDigits_0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
+properties:
+  qcConfiguration: ""
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -49,7 +44,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'TPC-MERGER-RawDigits1l-0'"
+    - "'qc-check-sink-QTPC_Tracks_0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -72,6 +67,8 @@ command:
     - "''"
     - "--config"
     - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -125,5 +122,5 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-publish"
-    - "'60000000'"
+    - "--qcConfiguration"
+    - "'{}'"
