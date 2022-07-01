@@ -92,7 +92,8 @@ check_pwd
 ./mft-decoder.sh
 ./mft-digits-qc.sh
 ./mft-full-qcmn.sh
-# ./mft-raw-digits-qc.sh # disabled until the MFT decoder is fixed and we optimize the workflow
+./mft-track-full-qcmn.sh
+./mft-noise-qcmn.sh
 ./mft-raw-qcmn.sh
 ./mft-raw-direct-qcmn.sh
 ./mft-raw-qc.sh
