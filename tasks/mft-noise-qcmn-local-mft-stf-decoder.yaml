@@ -1,4 +1,4 @@
-name: mft-decoder-internal-dpl-ccdb-backend
+name: mft-noise-qcmn-local-mft-stf-decoder
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,14 +13,14 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-ccdb-backend_to_mft-stf-decoder
+  - name: from_mft-stf-decoder_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-ccdb-backend_to_internal-dpl-injected-dummy-sink
+  - name: from_mft-stf-decoder_to_qc-task-MFT-MFTDigitTask
     type: push
     transport: shmem
     addressing: ipc
@@ -56,7 +56,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-ccdb-backend'"
+    - "'mft-stf-decoder'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -80,7 +80,7 @@ command:
     - "--configKeyValues"
     - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
     - "--dataspec"
-    - "''"
+    - "'TF:MFT/RAWDATA_SMP'"
     - "--digits"
     - "--early-forward-policy"
     - "'never'"
@@ -96,6 +96,7 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--ignore-dist-stf"
     - "--labels"
     - "''"
     - "--no-clusters"
@@ -131,22 +132,14 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--condition-backend"
-    - "'http://127.0.0.1:8084'"
-    - "--condition-not-after"
-    - "'3385078236000'"
-    - "--condition-not-before"
+    - "'http://alice-ccdb.cern.ch'"
+    - "--condition-timestamp"
     - "'0'"
-    - "--condition-remap"
+    - "--decoder-verbosity"
+    - "'0'"
+    - "--nthreads"
+    - "'1'"
+    - "--raw-data-dumps"
+    - "'0'"
+    - "--raw-data-dumps-directory"
     - "''"
-    - "--condition-tf-per-query"
-    - "'1'"
-    - "--end-value-enumeration"
-    - "-1"
-    - "--orbit-multiplier-enumeration"
-    - "'0'"
-    - "--orbit-offset-enumeration"
-    - "'0'"
-    - "--start-value-enumeration"
-    - "'0'"
-    - "--step-value-enumeration"
-    - "'1'"
