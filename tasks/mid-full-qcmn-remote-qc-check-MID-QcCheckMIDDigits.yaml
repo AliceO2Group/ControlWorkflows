@@ -1,4 +1,4 @@
-name: ft0-digits-pipe-ds-qc-qc-task-FT0-DigitQcTask
+name: mid-full-qcmn-remote-qc-check-MID-QcCheckMIDDigits
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,14 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-FT0-DigitQcTask_to_qc-task-FT0-TriggerQcTask
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_qc-task-FT0-DigitQcTask_to_qc-check-sink-QFT0_DigitQcTask_0
+  - name: from_qc-check-MID-QcCheckMIDDigits_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
@@ -58,7 +51,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-task-FT0-DigitQcTask'"
+    - "'qc-check-MID-QcCheckMIDDigits'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -86,7 +79,7 @@ command:
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
-    - "'@'"
+    - "'/var/folders/m0/wgm2kwjd2vx292zzz25ctz3m0000gp/T/'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
@@ -109,6 +102,7 @@ command:
     - "''"
     - "--readers"
     - "'1'"
+    - "--remote"
     - "--remote-batch"
     - "''"
     - "--severity"
@@ -135,7 +129,3 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--period-timer-cycle"
-    - "'60000000'"
-    - "--qcConfiguration"
-    - "'{}'"

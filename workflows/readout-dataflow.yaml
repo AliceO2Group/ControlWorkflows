@@ -502,6 +502,7 @@ defaults:
     values:
       - none
       - mid-raw-decoder
+      - mid-digits-qcmn-local
       - mid-full-qcmn-local
       - minimal-dpl
       - qc-daq
@@ -516,6 +517,7 @@ defaults:
     values:
       - none
       - mid-qcmn-epn-digits
+      - mid-digits-qcmn-remote
       - mid-full-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  

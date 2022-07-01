@@ -13,6 +13,13 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+  - name: from_internal-dpl-clock_to_MID-QcTaskMIDClust-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
   - name: from_internal-dpl-clock_to_MID-QcTaskMIDDigits-proxy
     type: push
     transport: shmem
@@ -20,7 +27,21 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+  - name: from_internal-dpl-clock_to_MID-QcTaskMIDTracks-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
   - name: from_internal-dpl-clock_to_MID-QcTaskMIDRaw-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_internal-dpl-clock_to_MID-MERGER-QcTaskMIDClust1l-0
     type: push
     transport: shmem
     addressing: ipc
@@ -35,6 +56,13 @@ bind:
     sndBufSize: 4
     rcvBufSize: 4
   - name: from_internal-dpl-clock_to_MID-MERGER-QcTaskMIDRaw1l-0
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_internal-dpl-clock_to_MID-MERGER-QcTaskMIDTracks1l-0
     type: push
     transport: shmem
     addressing: ipc
@@ -98,7 +126,7 @@ command:
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
-    - "'@'"
+    - "'/var/folders/m0/wgm2kwjd2vx292zzz25ctz3m0000gp/T/'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
