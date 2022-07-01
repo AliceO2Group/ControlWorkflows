@@ -1,8 +1,4 @@
-<<<<<<< HEAD:tasks/mft-track-full-qcmn-local-qc-task-MFT-MFTDigitTask.yaml
 name: mft-track-full-qcmn-local-qc-task-MFT-MFTDigitTask
-=======
-name: fv0-digits-pipe-ds-qc-qc-task-FV0-TriggerQcTask
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/fv0-digits-pipe-ds-qc-qc-task-FV0-TriggerQcTask.yaml
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -17,11 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-<<<<<<< HEAD:tasks/mft-track-full-qcmn-local-qc-task-MFT-MFTDigitTask.yaml
   - name: from_qc-task-MFT-MFTDigitTask_to_MFT-MFTDigitTask-proxy
-=======
-  - name: from_qc-task-FV0-TriggerQcTask_to_qc-check-sink-QFV0_TriggerQcTask_0
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/fv0-digits-pipe-ds-qc-qc-task-FV0-TriggerQcTask.yaml
     type: push
     transport: shmem
     addressing: ipc
@@ -59,11 +51,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-<<<<<<< HEAD:tasks/mft-track-full-qcmn-local-qc-task-MFT-MFTDigitTask.yaml
     - "'qc-task-MFT-MFTDigitTask'"
-=======
-    - "'qc-task-FV0-TriggerQcTask'"
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/fv0-digits-pipe-ds-qc-qc-task-FV0-TriggerQcTask.yaml
     - "--shm-monitor"
     - "'false'"
     - "--log-color"

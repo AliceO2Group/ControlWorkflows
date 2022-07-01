@@ -453,6 +453,7 @@ defaults:
       - mft-raw-qc
       - mft-raw-qcmn-local
       - mft-full-qcmn-local
+      - mft-track-full-qcmn-local
       - mft-noise-qcmn-local
       - mft-raw-cluster-qcmn-local
       - minimal-dpl
@@ -470,6 +471,7 @@ defaults:
       - mft-raw-direct-qcmn-remote
       - mft-raw-qcmn-remote
       - mft-full-qcmn-remote
+      - mft-track-full-qcmn-remote
       - mft-noise-qcmn-remote
       - mft-raw-cluster-qcmn-remote
       - qcmn-daq-remote
