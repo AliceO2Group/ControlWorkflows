@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-TST-DummyTask_to_qc-check-sink-QC_DummyTask_0
+  - name: from_qc-task-TST-DummyTask_to_qc-check-sink-QTST_DummyTask_0
     type: push
     transport: shmem
     addressing: ipc
@@ -74,6 +74,8 @@ command:
     - "''"
     - "--config"
     - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"

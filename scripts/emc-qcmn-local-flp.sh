@@ -16,7 +16,7 @@ cd ..
 o2-dpl-raw-proxy $COMMONARGS \
   --dataspec 'x:EMC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
-  | o2-dpl-output-proxy $COMMONARGS \
+  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" $COMMONARGS \
   --dataspec 'x:EMC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
   | o2-qc $COMMONARGS --config ${QC_GEN_CONFIG_PATH} --local --host flp \

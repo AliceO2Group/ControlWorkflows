@@ -78,7 +78,7 @@ command:
     - "--clone"
     - "''"
     - "--configKeyValues"
-    - "'MFTClustererParam.noiseFilePath=/tmp/_DUMMY_;MFTClustererParam.dictFilePath=/tmp/_DUMMY_;NameConf.mCCDBServer=http://127.0.0.1:8084;'"
+    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
     - "--dataspec"
     - "''"
     - "--digits"

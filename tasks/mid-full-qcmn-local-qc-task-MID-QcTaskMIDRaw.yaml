@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-MID-QcTaskMIDRaw_to_QcTaskMIDRaw-proxy
+  - name: from_qc-task-MID-QcTaskMIDRaw_to_MID-QcTaskMIDRaw-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -21,7 +21,7 @@ bind:
     sndBufSize: 4
     rcvBufSize: 4
 properties:
-  qcConfiguration: 
+  qcConfiguration: ""
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -74,10 +74,12 @@ command:
     - "''"
     - "--config"
     - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
-    - "'@'"
+    - "'/var/folders/m0/wgm2kwjd2vx292zzz25ctz3m0000gp/T/'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
