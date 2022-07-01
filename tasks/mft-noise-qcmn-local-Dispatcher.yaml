@@ -1,26 +1,26 @@
-name: mft-decoder-internal-dpl-ccdb-backend
+name: mft-noise-qcmn-local-Dispatcher
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-itsmft-stf-decoder-workflow
+    {{ dpl_command }} | o2-datasampling-standalone
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-itsmft-stf-decoder-workflow
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-datasampling-standalone
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-ccdb-backend_to_mft-stf-decoder
+  - name: from_Dispatcher_to_qc-task-MFT-MFTReadoutTask
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-ccdb-backend_to_internal-dpl-injected-dummy-sink
+  - name: from_Dispatcher_to_mft-stf-decoder
     type: push
     transport: shmem
     addressing: ipc
@@ -56,7 +56,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-ccdb-backend'"
+    - "'Dispatcher'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -77,11 +77,10 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--configKeyValues"
-    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
-    - "--dataspec"
-    - "''"
-    - "--digits"
+    - "--config"
+    - "'{{ ds_config_uri }}'"
+    - "--dispatchers"
+    - "'1'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -98,14 +97,10 @@ command:
     - "'dangling'"
     - "--labels"
     - "''"
-    - "--no-clusters"
     - "--pipeline"
     - "''"
     - "--readers"
     - "'1'"
-    - "--report-dds-collection-index"
-    - "-1"
-    - "--runmft"
     - "--severity"
     - "'info'"
     - "--shm-allocation"
@@ -130,23 +125,5 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--condition-backend"
-    - "'http://127.0.0.1:8084'"
-    - "--condition-not-after"
-    - "'3385078236000'"
-    - "--condition-not-before"
-    - "'0'"
-    - "--condition-remap"
-    - "''"
-    - "--condition-tf-per-query"
-    - "'1'"
-    - "--end-value-enumeration"
-    - "-1"
-    - "--orbit-multiplier-enumeration"
-    - "'0'"
-    - "--orbit-offset-enumeration"
-    - "'0'"
-    - "--start-value-enumeration"
-    - "'0'"
-    - "--step-value-enumeration"
-    - "'1'"
+    - "--period-timer-stats"
+    - "'10000000'"
