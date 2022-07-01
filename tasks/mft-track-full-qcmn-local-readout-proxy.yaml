@@ -134,5 +134,3 @@ command:
     - "'0'"
     - "--workflow-suffix"
     - "''"
-    - "--ready-state-policy"
-    - "'keep'"
