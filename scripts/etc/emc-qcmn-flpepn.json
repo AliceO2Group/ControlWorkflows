@@ -70,6 +70,30 @@
                 "remotePort": "47702",
                 "mergingMode": "delta",
                 "localControl": "odc"
+            },
+            "RawErrorTaskEMCAL": {
+			    "active": "true",
+				"taskName": "RawErrorTask",
+			    "className": "o2::quality_control_modules::emcal::RawErrorTask",
+			    "moduleName": "QcEMCAL",
+			    "detectorName": "EMC",
+			    "cycleDurationSeconds": "60",
+			    "maxNumberCycles": "-1",
+			    "dataSource": {
+					"type": "direct",
+					"query": "rawerrors:EMC/DECODERERR"
+			    },
+			    "taskParameters": {
+					"nothing": "rien"
+			    },
+			    "location": "local",
+			    "localMachines": [
+					"epn"
+			    ],
+			    "remoteMachine": "alio2-cr1-qc02.cern.ch",
+			    "remotePort": "47703",
+			    "mergingMode": "delta",
+			    "localControl": "odc"
             }
         },
         "checks": {
