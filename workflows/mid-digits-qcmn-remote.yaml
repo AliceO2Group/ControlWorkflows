@@ -32,7 +32,6 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47780"
-      rcvBufSize: 1
     task:
       load: mid-digits-qcmn-remote-MID-QcTaskMIDDigits-proxy
   - name: "MID-QcTaskMIDRaw-proxy"
@@ -51,7 +50,6 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       global: "MID-QcTaskMIDRaw-proxy"
-      rcvBufSize: 1
     task:
       load: mid-digits-qcmn-remote-MID-QcTaskMIDRaw-proxy
   - name: "MID-MERGER-QcTaskMIDDigits1l-0"
