@@ -1,9 +1,9 @@
-name: mid-full-qcmn-local
+name: mid-digits-qcmn-local
 vars:
   dpl_command: >-
     o2-dpl-raw-proxy -b --session default --dataspec 'A:MID/RAWDATA;x:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-dpl-output-proxy --environment DPL_OUTPUT_PROXY_ORDERED=1 -b --session default --dataspec 'A:MID/RAWDATA;x:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"' | o2-qc -b --config {{ qc_config_uri }} --local --host flp
 defaults:
-  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mid-flp_raw-epn_full-qcmn"
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mid-flp_raw-epn_digits-qcmn"
   monitoring_dpl_url: "no-op://"
   user: "flp"
   fmq_rate_logging: 0
@@ -15,7 +15,7 @@ roles:
   - name: "internal-dpl-clock"
     connect:
     task:
-      load: mid-full-qcmn-local-internal-dpl-clock
+      load: mid-digits-qcmn-local-internal-dpl-clock
   - name: "readout-proxy"
     connect:
     - name: from_internal-dpl-clock_to_readout-proxy
@@ -31,7 +31,7 @@ roles:
       target: "::readout-proxy-{{ it }}"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mid-full-qcmn-local-readout-proxy
+      load: mid-digits-qcmn-local-readout-proxy
   - name: "Dispatcher"
     connect:
     - name: from_internal-dpl-clock_to_Dispatcher
@@ -49,7 +49,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mid-full-qcmn-local-Dispatcher
+      load: mid-digits-qcmn-local-Dispatcher
   - name: "qc-task-MID-QcTaskMIDRaw"
     connect:
     - name: from_internal-dpl-clock_to_qc-task-MID-QcTaskMIDRaw
@@ -67,7 +67,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: mid-full-qcmn-local-qc-task-MID-QcTaskMIDRaw
+      load: mid-digits-qcmn-local-qc-task-MID-QcTaskMIDRaw
   - name: "MID-QcTaskMIDRaw-proxy"
     connect:
     - name: from_qc-task-MID-QcTaskMIDRaw_to_MID-QcTaskMIDRaw-proxy
@@ -83,7 +83,7 @@ roles:
       target: "::MID-QcTaskMIDRaw-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: mid-full-qcmn-local-MID-QcTaskMIDRaw-proxy
+      load: mid-digits-qcmn-local-MID-QcTaskMIDRaw-proxy
   - name: "dpl-output-proxy"
     connect:
     - name: from_readout-proxy_to_dpl-output-proxy
@@ -108,4 +108,4 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       global: "downstream-{{ it }}"
     task:
-      load: mid-full-qcmn-local-dpl-output-proxy
+      load: mid-digits-qcmn-local-dpl-output-proxy
