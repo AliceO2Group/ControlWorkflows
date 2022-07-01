@@ -13,7 +13,14 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-factorize-idc-05_to_tpc-factorize-idc-06
+  - name: from_tpc-factorize-idc-05_to_tpc-aggregator-ft
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_tpc-factorize-idc-05_to_ccdb-populator
     type: push
     transport: shmem
     addressing: ipc
@@ -102,19 +109,20 @@ command:
     - "--groupRows"
     - "'2,2,2,3,3,3,2,2,2,2'"
     - "--input-lanes"
-    - "'10'"
+    - "'8'"
     - "--labels"
     - "''"
     - "--nthreads-IDC-factorization"
-    - "'1'"
+    - "'8'"
     - "--nthreads-grouping"
     - "'4'"
     - "--pipeline"
     - "''"
     - "--readers"
     - "'1'"
+    - "--sendOutputFFT"
     - "--severity"
-    - "'info'"
+    - "'warning'"
     - "--shm-allocation"
     - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
@@ -139,13 +147,8 @@ command:
     - "-1"
     - "--timeframesDeltaIDC"
     - "'100'"
+    - "--use-approximate-timestamp"
     - "--workflow-suffix"
     - "''"
-    - "--ccdb-uri"
-    - "'http://ccdb-test.cern.ch:8080'"
-    - "--condition-backend"
-    - "'http://alice-ccdb.cern.ch'"
-    - "--condition-timestamp"
-    - "'0'"
     - "--gainMapFile"
     - "''"

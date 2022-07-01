@@ -99,7 +99,7 @@ export GLOBAL_SHMSIZE=$(( 128 << 30 )) #  GB for the gl
 
 WF_NAME=tpc-idc-merger
 
-lanes=5
+lanes=8
 nTFs=1000
 
 firstCRU=11
@@ -141,6 +141,29 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --firstTF  1 \
   --timeframes ${nTFs} \
   --output-lanes ${lanes} \
+  --configKeyValues 'keyval.output_dir=/dev/null'  \
+  --severity error \
+  --infologger-severity error \
+  | o2-tpc-idc-factorize $ARGS_ALL \
+  --crus ${CRU_GEN_MERGER_ID} \
+  --timeframes ${nTFs} \
+  --input-lanes ${lanes} \
+  --configFile "" \
+  --compression 0 \
+  --configKeyValues 'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null'  \
+  --groupIDCs warning \
+  --nthreads-grouping 4 \
+  --nthreads-IDC-factorization 8 \
+  --groupPads "5,6,7,8,4,5,6,8,10,13" \
+  --groupRows "2,2,2,3,3,3,2,2,2,2" \
+  --severity warning \
+  --infologger-severity warning \
+  --use-approximate-timestamp true \
+  --sendOutputFFT true \
+  | o2-tpc-idc-ft-aggregator $ARGS_ALL \
+  --rangeIDC 200 \
+  --nFourierCoeff 40 \
+  --timeframes ${nTFs} \
   --configKeyValues 'keyval.output_dir=/dev/null'  \
   --severity warning \
   | o2-tpc-idc-factorize $ARGS_ALL \

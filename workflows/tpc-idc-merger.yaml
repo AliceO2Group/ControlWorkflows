@@ -1,15 +1,16 @@
 name: tpc-idc-merger
 vars:
   dpl_command: >-
-    o2-dpl-raw-proxy -b --session default --shm-segment-size 137438953472 --dataspec dd:TPC/IDCGROUP --severity warning --labels tpc-idc-merger-proxy:ecs-preserve-raw-channels --proxy-name tpc-idc-merger-proxy --channel-config 'name=tpc-idc-merger-proxy,type=pull,method=bind,address=tcp://*:{{ merger_port }},rateLogging=1,transport=zeromq' | o2-tpc-idc-distribute -b --session default --shm-segment-size 137438953472 --crus {{ cru_merger_ids }} --firstTF 1 --timeframes 1000 --output-lanes 5 --configKeyValues keyval.output_dir=/dev/null --severity warning | o2-tpc-idc-factorize -b --session default --shm-segment-size 137438953472 --crus {{ cru_merger_ids }} --timeframes 1000 --input-lanes 5 --configFile '' --compression 0 --ccdb-uri http://ccdb-test.cern.ch:8080 --configKeyValues 'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null' --groupIDCs warning --nthreads-grouping 4 --groupPads 5,6,7,8,4,5,6,8,10,13 --groupRows 2,2,2,3,3,3,2,2,2,2 --severity warning --use-approximate-timestamp true | o2-tpc-idc-ft-aggregator -b --session default --shm-segment-size 137438953472 --rangeIDC 200 --nFourierCoeff 40 --timeframes 1000 --ccdb-uri http://ccdb-test.cern.ch:8080 --configKeyValues keyval.output_dir=/dev/null --severity warning
+    o2-dpl-raw-proxy -b --session default --shm-segment-size 137438953472 --dataspec dd:TPC/IDCGROUP --severity warning --labels tpc-idc-merger-proxy:ecs-preserve-raw-channels --proxy-name tpc-idc-merger-proxy --channel-config 'name=tpc-idc-merger-proxy,type=sub,method=bind,address=tcp://*:{{ merger_port }},rateLogging=1,transport=zeromq' | o2-tpc-idc-distribute -b --session default --shm-segment-size 137438953472 --crus {{ cru_merger_ids }} --firstTF 1 --timeframes 1000 --output-lanes 8 --configKeyValues keyval.output_dir=/dev/null --severity error --infologger-severity error | o2-tpc-idc-factorize -b --session default --shm-segment-size 137438953472 --crus {{ cru_merger_ids }} --timeframes 1000 --input-lanes 8 --configFile '' --compression 0 --configKeyValues 'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null' --groupIDCs warning --nthreads-grouping 4 --nthreads-IDC-factorization 8 --groupPads 5,6,7,8,4,5,6,8,10,13 --groupRows 2,2,2,3,3,3,2,2,2,2 --severity warning --infologger-severity warning --use-approximate-timestamp true --sendOutputFFT true | o2-tpc-idc-ft-aggregator -b --session default --shm-segment-size 137438953472 --rangeIDC 200 --nFourierCoeff 40 --timeframes 1000 --configKeyValues keyval.output_dir=/dev/null --severity warning --infologger-severity warning | o2-calibration-ccdb-populator-workflow -b --session default --shm-segment-size 137438953472 --ccdb-path http://ccdb-test.cern.ch:8080 | o2-qc --config {{ qc_config_uri }} --remote -b
 defaults:
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-nodummy-postprocessing-qcmn"
   qc_remote_machine: "alio2-cr1-qts01"
   merger_port: 47734
   cru_merger_ids: 0-355
   monitoring_dpl_url: "no-op://"
   user: "flp"
   fmq_rate_logging: 0
-  shm_segment_size: 10000000000
+  shm_segment_size: 90000000000
   shm_throw_bad_alloc: false
   session_id: default
   resources_monitoring: 15
@@ -21,6 +22,78 @@ roles:
     connect:
     task:
       load: tpc-idc-merger-internal-dpl-clock
+  - name: "TPC-Clusters-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-Clusters-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-Clusters-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: TPC-Clusters-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47730"
+    task:
+      load: tpc-idc-merger-TPC-Clusters-proxy
+  - name: "TPC-PID-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-PID-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-PID-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: TPC-PID-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47732"
+    task:
+      load: tpc-idc-merger-TPC-PID-proxy
+  - name: "TPC-RawDigits-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-RawDigits-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-RawDigits-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: TPC-RawDigits-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47731"
+    task:
+      load: tpc-idc-merger-TPC-RawDigits-proxy
+  - name: "TPC-Tracks-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-Tracks-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-Tracks-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: TPC-Tracks-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47733"
+    task:
+      load: tpc-idc-merger-TPC-Tracks-proxy
   - name: "tpc-idc-merger-proxy"
     connect:
     - name: from_internal-dpl-clock_to_tpc-idc-merger-proxy
@@ -50,6 +123,78 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-idc-merger-tpc-distribute-idc
+  - name: "TPC-MERGER-Clusters1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-MERGER-Clusters1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-MERGER-Clusters1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_TPC-Clusters-proxy_to_TPC-MERGER-Clusters1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-Clusters-proxy:from_TPC-Clusters-proxy_to_TPC-MERGER-Clusters1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-idc-merger-TPC-MERGER-Clusters1l-0
+  - name: "TPC-MERGER-PID1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-MERGER-PID1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-MERGER-PID1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_TPC-PID-proxy_to_TPC-MERGER-PID1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-PID-proxy:from_TPC-PID-proxy_to_TPC-MERGER-PID1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-idc-merger-TPC-MERGER-PID1l-0
+  - name: "TPC-MERGER-RawDigits1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-MERGER-RawDigits1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-MERGER-RawDigits1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_TPC-RawDigits-proxy_to_TPC-MERGER-RawDigits1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-RawDigits-proxy:from_TPC-RawDigits-proxy_to_TPC-MERGER-RawDigits1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-idc-merger-TPC-MERGER-RawDigits1l-0
+  - name: "TPC-MERGER-Tracks1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-MERGER-Tracks1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-MERGER-Tracks1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_TPC-Tracks-proxy_to_TPC-MERGER-Tracks1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-Tracks-proxy:from_TPC-Tracks-proxy_to_TPC-MERGER-Tracks1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-idc-merger-TPC-MERGER-Tracks1l-0
   - name: "tpc-factorize-idc-00"
     connect:
     - name: from_tpc-distribute-idc_to_tpc-factorize-idc-00
@@ -105,6 +250,39 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-idc-merger-tpc-factorize-idc-04
+  - name: "tpc-factorize-idc-05"
+    connect:
+    - name: from_tpc-distribute-idc_to_tpc-factorize-idc-05
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-distribute-idc:from_tpc-distribute-idc_to_tpc-factorize-idc-05"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-idc-merger-tpc-factorize-idc-05
+  - name: "tpc-factorize-idc-06"
+    connect:
+    - name: from_tpc-distribute-idc_to_tpc-factorize-idc-06
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-distribute-idc:from_tpc-distribute-idc_to_tpc-factorize-idc-06"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-idc-merger-tpc-factorize-idc-06
+  - name: "tpc-factorize-idc-07"
+    connect:
+    - name: from_tpc-distribute-idc_to_tpc-factorize-idc-07
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-distribute-idc:from_tpc-distribute-idc_to_tpc-factorize-idc-07"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-idc-merger-tpc-factorize-idc-07
   - name: "tpc-aggregator-ft"
     connect:
     - name: from_tpc-factorize-idc-00_to_tpc-aggregator-ft
@@ -142,5 +320,137 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
+    - name: from_tpc-factorize-idc-05_to_tpc-aggregator-ft
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-factorize-idc-05:from_tpc-factorize-idc-05_to_tpc-aggregator-ft"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tpc-factorize-idc-06_to_tpc-aggregator-ft
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-factorize-idc-06:from_tpc-factorize-idc-06_to_tpc-aggregator-ft"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tpc-factorize-idc-07_to_tpc-aggregator-ft
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-factorize-idc-07:from_tpc-factorize-idc-07_to_tpc-aggregator-ft"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: tpc-idc-merger-tpc-aggregator-ft
+  - name: "qc-check-sink-QTPC_Clusters_0"
+    connect:
+    - name: from_TPC-MERGER-Clusters1l-0_to_qc-check-sink-QTPC_Clusters_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-MERGER-Clusters1l-0:from_TPC-MERGER-Clusters1l-0_to_qc-check-sink-QTPC_Clusters_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-idc-merger-qc-check-sink-QTPC_Clusters_0
+  - name: "qc-check-sink-QTPC_PID_0"
+    connect:
+    - name: from_TPC-MERGER-PID1l-0_to_qc-check-sink-QTPC_PID_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-MERGER-PID1l-0:from_TPC-MERGER-PID1l-0_to_qc-check-sink-QTPC_PID_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-idc-merger-qc-check-sink-QTPC_PID_0
+  - name: "qc-check-sink-QTPC_RawDigits_0"
+    connect:
+    - name: from_TPC-MERGER-RawDigits1l-0_to_qc-check-sink-QTPC_RawDigits_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-MERGER-RawDigits1l-0:from_TPC-MERGER-RawDigits1l-0_to_qc-check-sink-QTPC_RawDigits_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-idc-merger-qc-check-sink-QTPC_RawDigits_0
+  - name: "qc-check-sink-QTPC_Tracks_0"
+    connect:
+    - name: from_TPC-MERGER-Tracks1l-0_to_qc-check-sink-QTPC_Tracks_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-MERGER-Tracks1l-0:from_TPC-MERGER-Tracks1l-0_to_qc-check-sink-QTPC_Tracks_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-idc-merger-qc-check-sink-QTPC_Tracks_0
+  - name: "ccdb-populator"
+    connect:
+    - name: from_tpc-factorize-idc-00_to_ccdb-populator
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-factorize-idc-00:from_tpc-factorize-idc-00_to_ccdb-populator"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tpc-factorize-idc-01_to_ccdb-populator
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-factorize-idc-01:from_tpc-factorize-idc-01_to_ccdb-populator"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tpc-factorize-idc-02_to_ccdb-populator
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-factorize-idc-02:from_tpc-factorize-idc-02_to_ccdb-populator"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tpc-factorize-idc-03_to_ccdb-populator
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-factorize-idc-03:from_tpc-factorize-idc-03_to_ccdb-populator"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tpc-factorize-idc-04_to_ccdb-populator
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-factorize-idc-04:from_tpc-factorize-idc-04_to_ccdb-populator"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tpc-factorize-idc-05_to_ccdb-populator
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-factorize-idc-05:from_tpc-factorize-idc-05_to_ccdb-populator"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tpc-factorize-idc-06_to_ccdb-populator
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-factorize-idc-06:from_tpc-factorize-idc-06_to_ccdb-populator"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tpc-factorize-idc-07_to_ccdb-populator
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-factorize-idc-07:from_tpc-factorize-idc-07_to_ccdb-populator"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tpc-aggregator-ft_to_ccdb-populator
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-aggregator-ft:from_tpc-aggregator-ft_to_ccdb-populator"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-idc-merger-ccdb-populator

@@ -48,6 +48,27 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+  - name: from_tpc-distribute-idc_to_tpc-factorize-idc-05
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_tpc-distribute-idc_to_tpc-factorize-idc-06
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_tpc-distribute-idc_to_tpc-factorize-idc-07
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -121,7 +142,7 @@ command:
     - "--labels"
     - "''"
     - "--output-lanes"
-    - "'5'"
+    - "'8'"
     - "--pipeline"
     - "''"
     - "--readers"
