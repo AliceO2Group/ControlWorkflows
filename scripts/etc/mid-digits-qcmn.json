@@ -65,48 +65,6 @@
         ],
         "remotePort": "47780",
         "remoteMachine": "alio2-cr1-qme02.cern.ch"
-      },
-      "QcTaskMIDClust": {
-        "active": "true",
-        "className": "o2::quality_control_modules::mid::ClustQcTask",
-        "moduleName": "QcMID",
-        "detectorName": "MID",
-        "cycleDurationSeconds": "60",
-        "maxNumberCycles": "-1",
-        "dataSource": {
-          "type": "dataSamplingPolicy",
-          "name": "mid-clusters"
-        },
-        "location": "local",
-        "mergingMode": "delta",
-        "localControl": "odc",
-        "localMachines": [
-          "epn",
-          "localhost"
-        ],
-        "remotePort": "47781",
-        "remoteMachine": "alio2-cr1-qme02.cern.ch"
-      },
-      "QcTaskMIDTracks": {
-        "active": "true",
-        "className": "o2::quality_control_modules::mid::TracksQcTask",
-        "moduleName": "QcMID",
-        "detectorName": "MID",
-        "cycleDurationSeconds": "60",
-        "maxNumberCycles": "-1",
-        "dataSource": {
-          "type": "dataSamplingPolicy",
-          "name": "mid-tracks"
-        },
-        "location": "local",
-        "mergingMode": "delta",
-        "localControl": "odc",
-        "localMachines": [
-          "epn",
-          "localhost"
-        ],
-        "remotePort": "47782",
-        "remoteMachine": "alio2-cr1-qme02.cern.ch"
       }
     },
     "checks": {
@@ -147,72 +105,10 @@
             ]
           }
         ]
-      },
-      "QcCheckMIDClust": {
-        "active": "true",
-        "className": "o2::quality_control_modules::mid::ClustQcCheck",
-        "moduleName": "QcMID",
-        "detectorName": "MID",
-        "policy": "OnAny",
-        "dataSource": [
-          {
-            "type": "Task",
-            "name": "QcTaskMIDClust",
-            "MOs": []
-          }
-        ]
-      },
-      "QcCheckMIDTracks": {
-        "active": "true",
-        "className": "o2::quality_control_modules::mid::TracksQcCheck",
-        "moduleName": "QcMID",
-        "detectorName": "MID",
-        "policy": "OnAny",
-        "dataSource": [
-          {
-            "type": "Task",
-            "name": "QcTaskMIDTracks",
-            "MOs": []
-          }
-        ]
       }
     }
   },
   "dataSamplingPolicies": [
-    {
-      "id": "mid-tracks",
-      "active": "true",
-      "machines": [
-        "epn",
-        "localhost"
-      ],
-      "query": "tracks:MID/TRACKS;trackrofs:MID/TRACKROFS",
-      "samplingConditions": [
-        {
-          "condition": "random",
-          "fraction": "0.1",
-          "seed": "1441"
-        }
-      ],
-      "blocking": "false"
-    },
-    {
-      "id": "mid-clusters",
-      "active": "true",
-      "machines": [
-        "epn",
-        "localhost"
-      ],
-      "query": "clusters:MID/TRACKCLUSTERS;clusterrofs:MID/TRCLUSROFS",
-      "samplingConditions": [
-        {
-          "condition": "random",
-          "fraction": "0.1",
-          "seed": "1441"
-        }
-      ],
-      "blocking": "false"
-    },
     {
       "id": "mid-digits",
       "active": "true",

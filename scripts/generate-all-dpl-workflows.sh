@@ -99,7 +99,7 @@ check_pwd
 ./mft-raw-qc.sh
 ./mft-raw-cluster-qcmn.sh
 ./mid-raw-decoder.sh
-./mid-qcmn-epn-digits.sh
+./mid-digits-qcmn.sh
 ./mid-full-qcmn.sh
 ./minimal-dpl.sh
 ./phos-compressor-raw-qc.sh

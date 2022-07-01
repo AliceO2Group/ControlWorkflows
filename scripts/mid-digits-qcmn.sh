@@ -6,9 +6,9 @@ set -u
 
 source helpers.sh
 
-WF_NAME=mid-full-qcmn-local
-QC_GEN_CONFIG_PATH='json://'$(pwd)'/etc/mid-full-qcmn.json'
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mid-flp_raw-epn_full-qcmn'
+WF_NAME=mid-digits-qcmn-local
+QC_GEN_CONFIG_PATH='json://'$(pwd)'/etc/mid-digits-qcmn.json'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mid-flp_raw-epn_digits-qcmn'
 QC_CONFIG_PARAM='qc_config_uri'
 
 cd ../
@@ -19,7 +19,7 @@ o2-dpl-raw-proxy -b --session default --dataspec 'A:MID/RAWDATA;x:FLP/DISTSUBTIM
 
 add_config_variable "$QC_FINAL_CONFIG_PATH" "$QC_GEN_CONFIG_PATH" "$QC_CONFIG_PARAM" "$WF_NAME"
 
-WF_NAME=mid-full-qcmn-remote
+WF_NAME=mid-digits-qcmn-remote
 
 o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
 
