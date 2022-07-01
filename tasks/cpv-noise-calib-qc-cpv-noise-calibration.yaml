@@ -131,6 +131,6 @@ command:
     - "--max-delay"
     - "'0'"
     - "--tf-per-slot"
-    - "'100'"
+    - "{{ tf_per_slot }}"
     - "--updateInterval"
     - "'10'"

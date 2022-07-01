@@ -14,7 +14,7 @@ defaults:
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
     StfBuilder
-  _plain_cmdline: "{{ o2_install_path }}/bin/StfBuilder"
+  _plain_cmdline: "sleep 8 && {{ o2_install_path }}/bin/StfBuilder"
 wants:
   cpu: 0.15
   memory: 128
@@ -38,6 +38,8 @@ command:
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
     - "--session=default"
+    - "--shm-segment-id=2"
+    - "--shm-segment-size=134217728"
     - "--transport=shmem"
     - "--monitoring-backend='{{ monitoring_dd_url }}'"
     - "--discovery-partition={{ environment_id }}"

@@ -44,7 +44,7 @@
         "className": "o2::quality_control_modules::mft::QcMFTDigitTask",
         "moduleName": "QcMFT",
         "detectorName": "MFT",
-        "cycleDurationSeconds": "60",
+        "cycleDurationSeconds": "300",
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "direct",
@@ -64,7 +64,7 @@
         "className": "o2::quality_control_modules::mft::QcMFTClusterTask",
         "moduleName": "QcMFT",
         "detectorName": "MFT",
-        "cycleDurationSeconds": "60",
+        "cycleDurationSeconds": "300",
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "dataSamplingPolicy",
@@ -87,10 +87,12 @@
         "detectorName": "MFT",
         "policy": "OnEachSeparately",
         "checkParameters" : {
-          "WarningThreshold" : "0",
-          "ErrorThresholdMedium" : "9",
-          "ErrorThresholdBad" : "20",
-          "FaultThreshold" : "4"
+          "WarningThresholdMedium" : "0",
+          "WarningThresholdBad" : "0",
+          "ErrorThresholdMedium" : "20",
+          "ErrorThresholdBad" : "150",
+          "FaultThresholdMedium" : "10",
+          "FaultThresholdBad" : "20"
         },
         "dataSource": [{
           "type": "Task",
@@ -115,7 +117,7 @@
         "dataSource": [{
             "type": "Task",
             "name": "MFTClusterTask",
-            "MOs" : ["mClusterOccupancy"]
+            "MOs" : ["mClusterOccupancy","mClusterPatternIndex","mClusterOccupancySummary"]
         }],
         "className": "o2::quality_control_modules::mft::QcMFTClusterCheck",
         "moduleName": "QcMFT",
@@ -165,7 +167,7 @@
           "userorcontrol"
         ],
         "updateTrigger": [
-          "newobject:qcdb:MFT/MO/MFTReadoutTask/mSummaryChipError"
+          "newobject:qcdb:MFT/MO/MFTReadoutTask/mSummaryChipWarning"
         ],
         "stopTrigger": [
           "userorcontrol"

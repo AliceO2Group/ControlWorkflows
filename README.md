@@ -195,8 +195,41 @@ odcEndpoint: yet-another-host-ib:22334
 
 ## JIT DPL workflow generation
 
-Starting from AliECS v0.29.3 it's possible to use DPL workflows that are generated just-in-time during environment
-creation.
+It is possible to use FLP & QC DPL workflows that are generated just-in-time
+during environment creation.
+
+### Using JIT
+
+To use JIT the following variables need to be set for FLP & QC node workflows
+accordingly:
+```
+flp_workflows_jit_enabled: true
+qc_remote_jit_enabled: true
+```
+
+These might be set as default values or exist as radio buttons in the GUI.
+Otherwise they need to be overriden manually from the "Advanced Configuration"
+panel.
+
+### Useful details
+
+The JIT generation system relies on the existence & health of the following parts:
+
+1) DPL command provided
+    - The full DPL command can be found in `ControlWorfklows/jit/[workflow name]`
+    - Alternatively, a custom DPL command can be provided through the "Advanced
+      Configuration" panel, which will **take precedence** over the workflow
+      normally selected through the interface. See the next subsection for details.
+2) Consul payloads (e.g. QC config files) contained in the DPL command
+    - These are parsed from the provided DPL command string and Consul is queried
+      regarding their version to ensure freshness.
+3) JIT-specific env vars, which are common to all JIT-generated workflows
+    - These are expected on the deployment's Consul instance under
+      `o2/components/aliecs/[defaults|vars]/jit_env_vars`
+4) The O2 & QualityControl versions
+    - The O2 & QualityControl RPM versions are queried by AliECS to ensure workflow freshness.
+
+### Debugging with custom-set DPL commands
 
 A templated DPL command may be passed through the `dpl_command` variable, prefixed with the detector code (
 e.g. `its_dpl_command` for the ITS). The variable may be set through the AliECS GUI environment creation page under
@@ -223,6 +256,9 @@ o2-dpl-raw-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FL
 }
 ```
 
+_Everything described in this subsection for the `dpl_command` for FLP workflows is also applicable
+to the `qc_dpl_command` for QC node workflows._
+
 ## Notes on the CI Pipeline
 
 In order to ensure a successful collaboration with [AliECS GUI](https://github.com/AliceO2Group/WebUi/tree/dev/Control#control-gui), every pull request will run a `git diff` command to ensure no changes are done to the naming of certain variables (full list [here](https://github.com/AliceO2Group/WebUi/tree/dev/Control#list-of-fixed-variables-used-by-aliecs-gui-for-user-logic)) that are used on the AliECS GUI side. 
@@ -244,7 +280,7 @@ Additionally, a remote QC workflow can be added (e.g. with Mergers).
 All available DPL workflows can be (re)generated with scripts stored in the `scripts` directory.
 Use [`generate-all-dpl-workflows.sh`](scripts/generate-all-dpl-workflows.sh) to regenerate all the DPL workflows, or any particular script to regenerate only the selected one.
 All scripts should be executed from within the `scripts` directory. 
-When adding a new workflow template, please consider providing also a script, so it can be regenerated in case of need. 
+When adding a new workflow template, please include the script to generate it with the PR and add it to [`generate-all-dpl-workflows.sh`](scripts/generate-all-dpl-workflows.sh), so it is ran each time we update the software stack. 
 
 ### Preparing the DPL command
 
@@ -255,11 +291,12 @@ The simplest possible DPL workflow command for an FLP receives data from STFBuil
 o2-dpl-raw-proxy -b --session default \
   --dataspec 'x:TST/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
-  | o2-dpl-output-proxy -b --session default \
+  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
   --dataspec 'x:TST/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"'
 ```
 The `--dataspec` arguments define what kind of data is expected both in the input and output proxies.
+The presence of the `DPL_OUTPUT_PROXY_ORDERDED` env var is required by the DPL to correctly order output proxies.
 The `readout-dataflow` workflow requires that the input proxy contains a channel named `readout-proxy`, while the output proxy should provide the channel `downstream`.
 This way the AliECS can find the other ends of the channels used by the STFBuilder and STFSender to send and receive data.
 There can be only one set of proxies interacting with Data Distribution at the same time.
@@ -272,7 +309,7 @@ o2-dpl-raw-proxy -b --session default \
   --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
   | o2-phos-reco-workflow -b --input-type raw --output-type cells --session default --disable-root-output \
-  | o2-dpl-output-proxy -b --session default \
+  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
   --dataspec 'A:PHS/CELLS/0;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"'
 ```
@@ -303,7 +340,7 @@ o2-dpl-raw-proxy -b --session default \
   --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
   | o2-phos-reco-workflow -b --input-type raw --output-type cells --session default --disable-root-output \
-  | o2-dpl-output-proxy -b --session default \
+  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
   --dataspec 'A:PHS/CELLS/0;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"' \
   --o2-control phos-compressor
@@ -348,7 +385,7 @@ o2-dpl-raw-proxy -b --session default \
   --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
   | o2-itsmft-stf-decoder-workflow -b --runmft --digits --no-clusters --no-cluster-patterns \
-  | o2-dpl-output-proxy -b --session default \
+  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
   --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
   | o2-qc -b --config json://'${QUALITYCONTROL_ROOT}'/etc/mft-digit-qc-task-FLP-0-TaskLevel-0.json
@@ -373,7 +410,7 @@ o2-dpl-raw-proxy -b --session default \
   --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
   | o2-itsmft-stf-decoder-workflow -b --runmft --digits --no-clusters --no-cluster-patterns \
-  | o2-dpl-output-proxy -b --session default \
+  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
   --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
   | o2-qc --config ${QC_GEN_CONFIG_PATH} -b \
@@ -465,10 +502,11 @@ If you have read everything above, you can now follow these simplified instructi
     7. Commit and push the changes
 3. Test it
     1. Add the fork to the control: `coconut repo add github.com/<yourGHusername>/ControlWorkflows.git`
-    2. In the ECS, create a new environment.
-    3. Set the fork and the branch to match yours.
-    4. Add the variable `dpl_workflow` and set it to the name of the workflow
-    1. Add the variable `log_task_output` and set it to `all` to make sure you can see the output of the tasks in the Infologger.
-    4. Do not enable QC but enable DD.
-    5. Run and check that it starts and stops without failures.
+    2. Refresh the repository (refresh button in the AliECS GUI)
+    3. In the ECS, create a new environment.
+    4. Set the fork and the branch to match yours.
+    5. Add the variable `dpl_workflow` and set it to the name of the workflow
+    6. Add the variable `log_task_output` and set it to `all` to make sure you can see the output of the tasks in the Infologger.
+    7. Do not enable QC but enable DD.
+    8. Run and check that it starts and stops without failures.
 4. Add the new scripts, if any, to `scripts/generate-all-dpl-workflows.sh`

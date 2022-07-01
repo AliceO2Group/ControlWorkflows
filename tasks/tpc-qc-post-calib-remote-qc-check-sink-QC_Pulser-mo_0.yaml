@@ -13,6 +13,8 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+properties:
+  qcConfiguration: ""
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -64,7 +66,9 @@ command:
     - "--clone"
     - "''"
     - "--config"
-    - "'{{ qc_config_uri }}'"
+    - "'consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/{{ qc_json_file }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -118,3 +122,5 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
+    - "--qcConfiguration"
+    - "'{}'"

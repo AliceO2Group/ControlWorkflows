@@ -3,7 +3,6 @@ vars:
   dpl_command: >-
     o2-qc --config {{ qc_config_uri }} --remote -b
 defaults:
-  qc_remote_machine: "alio2-cr1-qc05"
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/trd-full-qcmn"
   monitoring_dpl_url: "no-op://"
   user: "flp"
@@ -12,9 +11,6 @@ defaults:
   shm_throw_bad_alloc: false
   session_id: default
   resources_monitoring: 15
-constraints:
-  - attribute: machine_id
-    value: "{{ qc_remote_machine }}"
 roles:
   - name: "internal-dpl-clock"
     connect:
@@ -186,28 +182,28 @@ roles:
       rcvBufSize: 4
     task:
       load: trd-full-qcmn-epn-qc-check-TRD-QcCheck
-  - name: "qc-check-sink-QC_DigitTask_0"
+  - name: "qc-check-sink-QTRD_DigitTask_0"
     connect:
-    - name: from_TRD-MERGER-DigitTask1l-0_to_qc-check-sink-QC_DigitTask_0
+    - name: from_TRD-MERGER-DigitTask1l-0_to_qc-check-sink-QTRD_DigitTask_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TRD-MERGER-DigitTask1l-0:from_TRD-MERGER-DigitTask1l-0_to_qc-check-sink-QC_DigitTask_0"
+      target: "{{ Parent().Path }}.TRD-MERGER-DigitTask1l-0:from_TRD-MERGER-DigitTask1l-0_to_qc-check-sink-QTRD_DigitTask_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: trd-full-qcmn-epn-qc-check-sink-QC_DigitTask_0
-  - name: "qc-check-sink-QC_TrackletsTask_0"
+      load: trd-full-qcmn-epn-qc-check-sink-QTRD_DigitTask_0
+  - name: "qc-check-sink-QTRD_TrackletsTask_0"
     connect:
-    - name: from_TRD-MERGER-TrackletsTask1l-0_to_qc-check-sink-QC_TrackletsTask_0
+    - name: from_TRD-MERGER-TrackletsTask1l-0_to_qc-check-sink-QTRD_TrackletsTask_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.TRD-MERGER-TrackletsTask1l-0:from_TRD-MERGER-TrackletsTask1l-0_to_qc-check-sink-QC_TrackletsTask_0"
+      target: "{{ Parent().Path }}.TRD-MERGER-TrackletsTask1l-0:from_TRD-MERGER-TrackletsTask1l-0_to_qc-check-sink-QTRD_TrackletsTask_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: trd-full-qcmn-epn-qc-check-sink-QC_TrackletsTask_0
+      load: trd-full-qcmn-epn-qc-check-sink-QTRD_TrackletsTask_0
   - name: "internal-dpl-injected-dummy-sink"
     connect:
     - name: from_qc-check-TRD-PulseHeightCheck_to_internal-dpl-injected-dummy-sink
@@ -226,10 +222,3 @@ roles:
       rcvBufSize: 4
     task:
       load: trd-full-qcmn-epn-internal-dpl-injected-dummy-sink
-  - name: fairmq-shmmonitor
-    enabled: "{{fmq_cleanup_enabled == 'true'}}"
-    task:
-      load: "fairmq-shmmonitor"
-      trigger: DESTROY
-      timeout: 10s
-      critical: false
