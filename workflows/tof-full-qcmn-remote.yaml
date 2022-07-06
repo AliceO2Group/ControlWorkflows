@@ -32,10 +32,6 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47708"
-<<<<<<< HEAD
-      rcvBufSize: 1
-=======
->>>>>>> 1ce018b8... TOF cleanup (#394)
     task:
       load: tof-full-qcmn-remote-TOF-TaskDigits-proxy
   - name: "TOF-TaskRaw-proxy"
@@ -54,7 +50,6 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       global: "TOF-TaskRaw-proxy"
-      rcvBufSize: 1
     task:
       load: tof-full-qcmn-remote-TOF-TaskRaw-proxy
   - name: "PP-TASK-RUNNER-TOFTrendingHits"
@@ -94,12 +89,7 @@ roles:
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
-<<<<<<< HEAD
       target: "tcp://*:47710"
-      rcvBufSize: 1
-=======
-      global: "TOF-MergeMETOF-proxy"
->>>>>>> 1ce018b8... TOF cleanup (#394)
     task:
       load: tof-full-qcmn-remote-TOF-MergeMETOF-proxy
   - name: "TOF-MergeMETOFwTRD-proxy"
@@ -117,12 +107,7 @@ roles:
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
-<<<<<<< HEAD
       target: "tcp://*:47711"
-      rcvBufSize: 1
-=======
-      global: "TOF-MergeMETOFwTRD-proxy"
->>>>>>> 1ce018b8... TOF cleanup (#394)
     task:
       load: tof-full-qcmn-remote-TOF-MergeMETOFwTRD-proxy
   - name: "TOF-MERGER-MergeMETOF1l-0"

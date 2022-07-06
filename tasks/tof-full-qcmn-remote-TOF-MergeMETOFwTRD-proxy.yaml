@@ -1,12 +1,4 @@
-<<<<<<< HEAD
 name: tof-full-qcmn-remote-TOF-MergeMETOFwTRD-proxy
-=======
-<<<<<<< HEAD:tasks/its-qcmn-full-remote-ITS-FHRTask-proxy.yaml
-name: its-qcmn-full-remote-ITS-FHRTask-proxy
-=======
-name: tof-full-qcmn-remote-TOF-MergeMETOFwTRD-proxy
->>>>>>> 1ce018b8... TOF cleanup (#394):tasks/tof-full-qcmn-remote-TOF-MergeMETOFwTRD-proxy.yaml
->>>>>>> 1ce018b8... TOF cleanup (#394)
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -21,45 +13,19 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-<<<<<<< HEAD
   - name: from_TOF-MergeMETOFwTRD-proxy_to_TOF-MERGER-MergeMETOFwTRD1l-0
-=======
-<<<<<<< HEAD:tasks/its-qcmn-full-remote-ITS-FHRTask-proxy.yaml
-  - name: from_ITS-FHRTask-proxy_to_ITS-MERGER-FHRTask1l-0
-=======
-  - name: from_TOF-MergeMETOFwTRD-proxy_to_TOF-MERGER-MergeMETOFwTRD1l-0
->>>>>>> 1ce018b8... TOF cleanup (#394):tasks/tof-full-qcmn-remote-TOF-MergeMETOFwTRD-proxy.yaml
->>>>>>> 1ce018b8... TOF cleanup (#394)
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-<<<<<<< HEAD
   - name: TOF-MergeMETOFwTRD-proxy
-=======
-<<<<<<< HEAD:tasks/its-qcmn-full-remote-ITS-FHRTask-proxy.yaml
-  - name: ITS-FHRTask-proxy
-=======
-  - name: TOF-MergeMETOFwTRD-proxy
->>>>>>> 1ce018b8... TOF cleanup (#394):tasks/tof-full-qcmn-remote-TOF-MergeMETOFwTRD-proxy.yaml
->>>>>>> 1ce018b8... TOF cleanup (#394)
     type: sub
     transport: zeromq
     addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
-<<<<<<< HEAD
     target: "tcp://*:47711"
-    rcvBufSize: 1
-=======
-<<<<<<< HEAD:tasks/its-qcmn-full-remote-ITS-FHRTask-proxy.yaml
-    global: "ITS-FHRTask-proxy"
-    rcvBufSize: 1
-=======
-    global: "TOF-MergeMETOFwTRD-proxy"
->>>>>>> 1ce018b8... TOF cleanup (#394):tasks/tof-full-qcmn-remote-TOF-MergeMETOFwTRD-proxy.yaml
->>>>>>> 1ce018b8... TOF cleanup (#394)
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -89,15 +55,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-<<<<<<< HEAD
     - "'TOF-MergeMETOFwTRD-proxy'"
-=======
-<<<<<<< HEAD:tasks/its-qcmn-full-remote-ITS-FHRTask-proxy.yaml
-    - "'ITS-FHRTask-proxy'"
-=======
-    - "'TOF-MergeMETOFwTRD-proxy'"
->>>>>>> 1ce018b8... TOF cleanup (#394):tasks/tof-full-qcmn-remote-TOF-MergeMETOFwTRD-proxy.yaml
->>>>>>> 1ce018b8... TOF cleanup (#394)
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -181,8 +139,6 @@ command:
     - "'0'"
     - "--orbit-offset-enumeration"
     - "'0'"
-    - "--ready-state-policy"
-    - "'drain'"
     - "--start-value-enumeration"
     - "'0'"
     - "--step-value-enumeration"

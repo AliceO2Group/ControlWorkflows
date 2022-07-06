@@ -50,7 +50,8 @@
         ],
         "remoteMachine": "alio2-cr1-qc03.cern.ch",
         "remotePort": "47710",
-        "mergingMode": "delta"
+        "mergingMode": "delta",
+        "localControl": "odc"
       },
       "MergeMETOFwTRD": {
         "active": "true",
@@ -80,7 +81,8 @@
         ],
         "remoteMachine": "alio2-cr1-qc03.cern.ch",
         "remotePort": "47711",
-        "mergingMode": "delta"
+        "mergingMode": "delta",
+        "localControl": "odc"
       },
       "TaskRaw": {
         "active": "true",
