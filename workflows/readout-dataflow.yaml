@@ -1161,7 +1161,7 @@ defaults:
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_override_run_start_time: !public
     value: ""
-    type: number
+    type: string
     label: "Override Run Start Time"
     description: "If set, use this timestamp instead of 'now' when fetching CCDB objects"
     widget: editBox
