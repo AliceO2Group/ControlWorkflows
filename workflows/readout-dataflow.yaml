@@ -1162,6 +1162,15 @@ defaults:
     panel: "EPN_Workflows"
     index: 801
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_override_run_start_time: !public
+    value: ""
+    type: number
+    label: "Override Run Start Time"
+    description: "If set, use this timestamp instead of 'now' when fetching CCDB objects"
+    widget: editBox
+    panel: "EPN_Workflows"
+    index: 802
+    visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"    
   odc_partitions_cleanup: !public
     value: "true"
     type: bool
