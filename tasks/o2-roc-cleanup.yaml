@@ -13,7 +13,9 @@ wants:
 command:
   log: "{{ log_task_output }}"
   shell: true
-  env: ["O2_DETECTOR={{ detector }}"]
+  env:
+    - O2_DETECTOR={{ detector }}
+    - O2_PARTITION={{ environment_id }}
   user: root # o2-roc-cleanup must always run as root!
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:

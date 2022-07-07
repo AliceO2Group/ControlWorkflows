@@ -1,0 +1,159 @@
+name: trd-full-qcmn-norawdatastats-epn
+vars:
+  dpl_command: >-
+    o2-qc --config {{ qc_config_uri }} --remote -b
+defaults:
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/trd-full-qcmn-norawdatastats"
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 10000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: trd-full-qcmn-norawdatastats-epn-internal-dpl-clock
+  - name: "TRD-DigitTask-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_TRD-DigitTask-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TRD-DigitTask-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: TRD-DigitTask-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47743"
+    task:
+      load: trd-full-qcmn-norawdatastats-epn-TRD-DigitTask-proxy
+  - name: "TRD-PulseHeight-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_TRD-PulseHeight-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TRD-PulseHeight-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: TRD-PulseHeight-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47745"
+    task:
+      load: trd-full-qcmn-norawdatastats-epn-TRD-PulseHeight-proxy
+  - name: "TRD-TrackletsTask-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_TRD-TrackletsTask-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TRD-TrackletsTask-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: TRD-TrackletsTask-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47744"
+    task:
+      load: trd-full-qcmn-norawdatastats-epn-TRD-TrackletsTask-proxy
+  - name: "TRD-MERGER-DigitTask1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_TRD-MERGER-DigitTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TRD-MERGER-DigitTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_TRD-DigitTask-proxy_to_TRD-MERGER-DigitTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TRD-DigitTask-proxy:from_TRD-DigitTask-proxy_to_TRD-MERGER-DigitTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: trd-full-qcmn-norawdatastats-epn-TRD-MERGER-DigitTask1l-0
+  - name: "TRD-MERGER-PulseHeight1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_TRD-MERGER-PulseHeight1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TRD-MERGER-PulseHeight1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_TRD-PulseHeight-proxy_to_TRD-MERGER-PulseHeight1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TRD-PulseHeight-proxy:from_TRD-PulseHeight-proxy_to_TRD-MERGER-PulseHeight1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: trd-full-qcmn-norawdatastats-epn-TRD-MERGER-PulseHeight1l-0
+  - name: "TRD-MERGER-TrackletsTask1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_TRD-MERGER-TrackletsTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TRD-MERGER-TrackletsTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_TRD-TrackletsTask-proxy_to_TRD-MERGER-TrackletsTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TRD-TrackletsTask-proxy:from_TRD-TrackletsTask-proxy_to_TRD-MERGER-TrackletsTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: trd-full-qcmn-norawdatastats-epn-TRD-MERGER-TrackletsTask1l-0
+  - name: "qc-check-sink-QTRD_DigitTask_0"
+    connect:
+    - name: from_TRD-MERGER-DigitTask1l-0_to_qc-check-sink-QTRD_DigitTask_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TRD-MERGER-DigitTask1l-0:from_TRD-MERGER-DigitTask1l-0_to_qc-check-sink-QTRD_DigitTask_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: trd-full-qcmn-norawdatastats-epn-qc-check-sink-QTRD_DigitTask_0
+  - name: "qc-check-sink-QTRD_PulseHeight_0"
+    connect:
+    - name: from_TRD-MERGER-PulseHeight1l-0_to_qc-check-sink-QTRD_PulseHeight_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TRD-MERGER-PulseHeight1l-0:from_TRD-MERGER-PulseHeight1l-0_to_qc-check-sink-QTRD_PulseHeight_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: trd-full-qcmn-norawdatastats-epn-qc-check-sink-QTRD_PulseHeight_0
+  - name: "qc-check-sink-QTRD_TrackletsTask_0"
+    connect:
+    - name: from_TRD-MERGER-TrackletsTask1l-0_to_qc-check-sink-QTRD_TrackletsTask_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TRD-MERGER-TrackletsTask1l-0:from_TRD-MERGER-TrackletsTask1l-0_to_qc-check-sink-QTRD_TrackletsTask_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: trd-full-qcmn-norawdatastats-epn-qc-check-sink-QTRD_TrackletsTask_0

@@ -13,6 +13,8 @@ QC_CONFIG_PARAM='qc_config_uri'
 cd ..
 
 WF_NAME=cpv-physics-qcmn-epn-remote
+export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
 o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
 
@@ -24,5 +26,3 @@ sed -i /defaults:/\ a\\\ \\\ "${QC_CONFIG_PARAM}":\ \""${ESCAPED_QC_FINAL_CONFIG
 ESCAPED_QC_GEN_CONFIG_PATH=$(printf '%s\n' "$QC_GEN_CONFIG_PATH" | sed -e 's/[]\/$*.^[]/\\&/g');
 sed -i "s/""${ESCAPED_QC_GEN_CONFIG_PATH}""/{{ ""${QC_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME}.yaml tasks/${WF_NAME}-*
 
-add_fmq_shmmonitor_role workflows/${WF_NAME}.yaml
-add_qc_remote_machine_attribute workflows/${WF_NAME}.yaml alio2-cr1-qme07

@@ -6,7 +6,7 @@ defaults:
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load Readout Control-OCCPlugin &&
     o2-readout-exe
-  _plain_cmdline: "{{ o2_install_path }}/bin/o2-readout-exe"
+  _plain_cmdline: "sleep 5 && {{ o2_install_path }}/bin/o2-readout-exe"
 control:
   mode: direct
 wants:
@@ -22,7 +22,9 @@ properties: {}
 command: 
   log: "{{ log_task_output }}"
   shell: true
-  env: ["O2_DETECTOR={{ detector }}"]
+  env:
+    - O2_DETECTOR={{ detector }}
+    - O2_PARTITION={{ environment_id }}
   user: "{{ user }}"
   arguments:
     - "{{ readout_cfg_uri }}"

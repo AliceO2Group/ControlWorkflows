@@ -16,7 +16,9 @@ wants:
 command:
   log: "{{ log_task_output }}"
   shell: true
-  env: ["O2_DETECTOR={{ detector }}"]
+  env:
+    - O2_DETECTOR={{ detector }}
+    - O2_PARTITION={{ environment_id }}
   user: "{{ user }}"
   arguments:
     - "--id={{roc_id}}"

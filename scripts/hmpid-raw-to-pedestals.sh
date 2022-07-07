@@ -5,6 +5,8 @@ set -e;
 set -u;
 
 WF_NAME=hmpid-raw-to-pedestals
+export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
 cd ..
 
@@ -12,8 +14,8 @@ cd ..
 o2-dpl-raw-proxy -b --session default \
   --dataspec 'x:HMP/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
-  | o2-hmpid-raw-to-pedestals-workflow \
-  | o2-dpl-output-proxy -b --session default \
+  | o2-hmpid-raw-to-pedestals-workflow --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES}"\
+  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
   --dataspec 'A:HMP/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"' \
   --o2-control $WF_NAME

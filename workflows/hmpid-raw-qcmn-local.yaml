@@ -1,7 +1,7 @@
 name: hmpid-raw-qcmn-local
 vars:
   dpl_command: >-
-    o2-dpl-raw-proxy -b --session default --dataspec 'x:HMP/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' | o2-dpl-output-proxy -b --session default --dataspec 'x:HMP/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' | o2-qc --config {{ qc_config_uri }} --local --host alio2-cr1-flp160 -b
+    o2-dpl-raw-proxy -b --session default --dataspec 'x:HMP/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' | o2-dpl-output-proxy --environment DPL_OUTPUT_PROXY_ORDERED=1 -b --session default --dataspec 'x:HMP/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' | o2-qc --config {{ qc_config_uri }} --local --host alio2-cr1-flp160 -b
 defaults:
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/hmpid-raw-qcmn"
   monitoring_dpl_url: "no-op://"
@@ -68,22 +68,22 @@ roles:
       rcvBufSize: 4
     task:
       load: hmpid-raw-qcmn-local-qc-task-HMP-HMPIDRawTask
-  - name: "HMPIDRawTask-proxy"
+  - name: "HMP-HMPIDRawTask-proxy"
     connect:
-    - name: from_qc-task-HMP-HMPIDRawTask_to_HMPIDRawTask-proxy
+    - name: from_qc-task-HMP-HMPIDRawTask_to_HMP-HMPIDRawTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-HMP-HMPIDRawTask:from_qc-task-HMP-HMPIDRawTask_to_HMPIDRawTask-proxy"
+      target: "{{ Parent().Path }}.qc-task-HMP-HMPIDRawTask:from_qc-task-HMP-HMPIDRawTask_to_HMP-HMPIDRawTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: HMPIDRawTask-proxy
+    - name: HMP-HMPIDRawTask-proxy
       type: pub
       transport: zeromq
-      target: "::HMPIDRawTask-proxy"
+      target: "::HMP-HMPIDRawTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: hmpid-raw-qcmn-local-HMPIDRawTask-proxy
+      load: hmpid-raw-qcmn-local-HMP-HMPIDRawTask-proxy
   - name: "dpl-output-proxy"
     connect:
     - name: from_readout-proxy_to_dpl-output-proxy

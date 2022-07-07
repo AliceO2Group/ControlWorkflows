@@ -1,7 +1,7 @@
 name: its-qcmn-fhr-fee-no-ds-local
 vars:
   dpl_command: >-
-    o2-dpl-raw-proxy -b --session default --dataspec 'filter:ITS/RAWDATA;G:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' | o2-dpl-output-proxy -b --session default --dataspec 'filter:ITS/RAWDATA;G:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' | o2-qc --config {{ qc_config_uri }} --local --host alio2-cr1-flp187 -b
+    o2-dpl-raw-proxy -b --session default --dataspec 'filter:ITS/RAWDATA;G:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' | o2-dpl-output-proxy --environment DPL_OUTPUT_PROXY_ORDERED=1 -b --session default --dataspec 'filter:ITS/RAWDATA;G:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' | o2-qc --config {{ qc_config_uri }} --local --host alio2-cr1-flp187 -b
 defaults:
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/its-qcmn-fhr-fee-no-ds-{{ it }}"
   monitoring_dpl_url: "no-op://"
@@ -86,38 +86,38 @@ roles:
       rcvBufSize: 4
     task:
       load: its-qcmn-fhr-fee-no-ds-local-qc-task-ITS-FHRTask
-  - name: "ITSFEE-proxy"
+  - name: "ITS-ITSFEE-proxy"
     connect:
-    - name: from_qc-task-ITS-ITSFEE_to_ITSFEE-proxy
+    - name: from_qc-task-ITS-ITSFEE_to_ITS-ITSFEE-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-ITS-ITSFEE:from_qc-task-ITS-ITSFEE_to_ITSFEE-proxy"
+      target: "{{ Parent().Path }}.qc-task-ITS-ITSFEE:from_qc-task-ITS-ITSFEE_to_ITS-ITSFEE-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: ITSFEE-proxy
+    - name: ITS-ITSFEE-proxy
       type: pub
       transport: zeromq
-      target: "::ITSFEE-proxy"
+      target: "::ITS-ITSFEE-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: its-qcmn-fhr-fee-no-ds-local-ITSFEE-proxy
-  - name: "FHRTask-proxy"
+      load: its-qcmn-fhr-fee-no-ds-local-ITS-ITSFEE-proxy
+  - name: "ITS-FHRTask-proxy"
     connect:
-    - name: from_qc-task-ITS-FHRTask_to_FHRTask-proxy
+    - name: from_qc-task-ITS-FHRTask_to_ITS-FHRTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-ITS-FHRTask:from_qc-task-ITS-FHRTask_to_FHRTask-proxy"
+      target: "{{ Parent().Path }}.qc-task-ITS-FHRTask:from_qc-task-ITS-FHRTask_to_ITS-FHRTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: FHRTask-proxy
+    - name: ITS-FHRTask-proxy
       type: pub
       transport: zeromq
-      target: "::FHRTask-proxy"
+      target: "::ITS-FHRTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: its-qcmn-fhr-fee-no-ds-local-FHRTask-proxy
+      load: its-qcmn-fhr-fee-no-ds-local-ITS-FHRTask-proxy
   - name: "dpl-output-proxy"
     connect:
     - name: from_qc-task-ITS-ITSFEE_to_dpl-output-proxy

@@ -57,7 +57,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'x:TST/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--fairmq-ipc-prefix"
     - "'/tmp'"
     - "--fairmq-rate-logging"

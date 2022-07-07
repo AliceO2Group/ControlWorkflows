@@ -48,10 +48,26 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+  - name: from_readout-proxy_t0_to_ft0-datareader-dpl_t5
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_t0_to_ft0-datareader-dpl_t6
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
-  env: ["O2_DETECTOR={{ detector }}"]
+  env:
+    - O2_DETECTOR={{ detector }}
+    - O2_PARTITION={{ environment_id }}
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
@@ -115,7 +131,7 @@ command:
     - "--labels"
     - "''"
     - "--pipeline"
-    - "'readout-proxy:5'"
+    - "'readout-proxy:7'"
     - "--proxy-name"
     - "'readout-proxy'"
     - "--readers"
@@ -137,7 +153,7 @@ command:
     - "--spawners"
     - "'1'"
     - "--stacktrace-on-signal"
-    - "'all'"
+    - "'simple'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"

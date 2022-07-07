@@ -28,7 +28,7 @@
         "className": "o2::quality_control_modules::muonchambers::PhysicsTaskDigits",
         "moduleName": "QcMuonChambers",
         "detectorName": "MCH",
-        "cycleDurationSeconds": "60",
+        "cycleDurationSeconds": "300",
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "direct",
@@ -39,6 +39,24 @@
         "localControl": "odc",
         "localMachines": [ "epn" ],
         "remotePort": "47790",
+        "remoteMachine": "alio2-cr1-qc01.cern.ch"
+      },
+      "QcTaskMCHErrors": {
+        "active": "true",
+        "className": "o2::quality_control_modules::muonchambers::DecodingErrorsTask",
+        "moduleName": "QcMuonChambers",
+        "detectorName": "MCH",
+        "cycleDurationSeconds": "300",
+        "maxNumberCycles": "-1",
+        "dataSource": {
+          "type": "direct",
+          "query" : "rawerrors:MCH/ERRORS"
+        },
+        "location": "local",
+        "mergingMode": "delta",
+        "localControl": "odc",
+        "localMachines": [ "epn" ],
+        "remotePort": "47791",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       }
     },
@@ -52,6 +70,21 @@
         "dataSource": [{
           "type": "Task",
           "name": "QcTaskMCHDigits",
+          "MOs": "all"
+        }]
+      },
+      "QcCheckMCHErrors": {
+        "active": "true",
+        "className": "o2::quality_control_modules::muonchambers::DecodingErrorsCheck",
+        "moduleName": "QcMuonChambers",
+        "policy": "OnAll",
+        "checkParameters": {
+          "MaxErrorRate": "100"
+        },
+        "detectorName": "MCH",
+        "dataSource": [{
+          "type": "Task",
+          "name": "QcTaskMCHErrors",
           "MOs": "all"
         }]
       }

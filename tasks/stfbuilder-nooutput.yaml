@@ -13,15 +13,16 @@ defaults:
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
     StfBuilder
-  _plain_cmdline: "{{ o2_install_path }}/bin/StfBuilder"
+  _plain_cmdline: "sleep 8 && {{ o2_install_path }}/bin/StfBuilder"
 wants:
   cpu: 0.15
   memory: 128
 command:
   env:
-   - O2_INFOLOGGER_MODE={{infologger_mode}}
-   - O2_DETECTOR={{ detector }}
-   - DATADIST_FEE_MASK={{ stfb_fee_mask }}
+    - O2_INFOLOGGER_MODE={{infologger_mode}}
+    - O2_DETECTOR={{ detector }}
+    - DATADIST_FEE_MASK={{ stfb_fee_mask }}
+    - O2_PARTITION={{ environment_id }}
   log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"

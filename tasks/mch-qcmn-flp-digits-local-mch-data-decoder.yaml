@@ -37,7 +37,9 @@ bind:
 command:
   shell: true
   log: "{{ log_task_output }}"
-  env: ["O2_DETECTOR={{ detector }}"]
+  env:
+    - O2_DETECTOR={{ detector }}
+    - O2_PARTITION={{ environment_id }}
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
@@ -83,7 +85,7 @@ command:
     - "--clone"
     - "''"
     - "--configKeyValues"
-    - "'HBFUtils.nHBFPerTF=128'"
+    - "'HBFUtils.nHBFPerTF=128;NameConf.mCCDBServer=http://127.0.0.1:8084;'"
     - "--dataspec"
     - "'TF:MCH/RAWDATA_SAMPLED'"
     - "--early-forward-policy"
@@ -125,7 +127,7 @@ command:
     - "--spawners"
     - "'1'"
     - "--stacktrace-on-signal"
-    - "'all'"
+    - "'simple'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
@@ -139,4 +141,4 @@ command:
     - "--fec-map"
     - "''"
     - "--time-reco-mode"
-    - "'hbpackets'"
+    - "'bcreset'"
