@@ -30,6 +30,7 @@ CRUS_LOCAL='$('`pwd`"/etc/getCRU.sh"
 # TODO: Adjust merger and port, if the port is change this also must be done
 #       in the merger script
 
+
 MERGER=epn024-ib
 PORT=47734
 

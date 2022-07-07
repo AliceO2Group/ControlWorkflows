@@ -27,8 +27,9 @@
             }
         },
         "tasks": {
-            "CellTask": {
+            "CellTaskEMCAL": {
                 "active": "true",
+                "task": "CellTask",
                 "className": "o2::quality_control_modules::emcal::CellTask",
                 "moduleName": "QcEMCAL",
                 "detectorName": "EMC",
@@ -49,11 +50,36 @@
                 "remotePort": "47702",
                 "mergingMode": "delta",
                 "localControl": "odc"
+            },
+            "RawErrorTaskEMCAL": {
+			    "active": "true",
+				"taskName": "RawErrorTask",
+			    "className": "o2::quality_control_modules::emcal::RawErrorTask",
+			    "moduleName": "QcEMCAL",
+			    "detectorName": "EMC",
+			    "cycleDurationSeconds": "60",
+			    "maxNumberCycles": "-1",
+			    "dataSource": {
+					"type": "direct",
+					"query": "rawerrors:EMC/DECODERERR"
+			    },
+			    "taskParameters": {
+					"nothing": "rien"
+			    },
+			    "location": "local",
+			    "localMachines": [
+					"epn"
+			    ],
+			    "remoteMachine": "alio2-cr1-qc02.cern.ch",
+			    "remotePort": "47703",
+			    "mergingMode": "delta",
+			    "localControl": "odc"
             }
         },
         "checks": {
-            "CellCheckAmplitude": {
+            "CellCheckAmplitudeEMCAL": {
 			    "active": "true",
+                "check": "CheckAmplitude",
 			    "className": "o2::quality_control_modules::emcal::CellCheck",
 			    "moduleName": "QcEMCAL",
 			    "policy": "OnEachSeparately",
@@ -61,7 +87,7 @@
 			    "dataSource": [
 					{
 					    "type": "Task",
-					    "name": "CellTask",
+					    "name": "CellTaskEMCAL",
 					    "MOs": ["cellAmplitudeEMCAL_CAL", "cellAmplitudeEMCAL_PHYS", "cellAmplitudeDCAL_CAL", "cellAmplitudeDCAL_PHYS",
 								"cellAmplitude_CAL", "cellAmplitude_PHYS"	
 					    ]

@@ -20,6 +20,5 @@ cd ..
 o2-dpl-raw-proxy ${ARGS_ALL} --dataspec "A:MID/RAWDATA;x:FLP/DISTSUBTIMEFRAME/0" \
     --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-pipe-0,transport=shmem,rateLogging=1"' |
     o2-mid-raw-to-digits-workflow ${ARGS_ALL} --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES}"|
-    o2-dpl-output-proxy -b --session default --dataspec "AD:MID/DATA/0;AR:MID/DATAROF/0;x:FLP/DISTSUBTIMEFRAME/0" --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' --o2-control "$WF_NAME"
+    o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default --dataspec "AD:MID/DATA/0;AR:MID/DATAROF/0;x:FLP/DISTSUBTIMEFRAME/0" --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' --o2-control "$WF_NAME"
 
-add_fmq_shmmonitor_role workflows/${WF_NAME}.yaml

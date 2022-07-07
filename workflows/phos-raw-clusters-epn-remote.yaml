@@ -1,0 +1,123 @@
+name: phos-raw-clusters-epn-remote
+vars:
+  dpl_command: >-
+    o2-qc --config {{ qc_config_uri }} --remote -b
+defaults:
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/phos-raw-clusters-epn"
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 10000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: phos-raw-clusters-epn-remote-internal-dpl-clock
+  - name: "PHS-ClusterTask-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_PHS-ClusterTask-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PHS-ClusterTask-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: PHS-ClusterTask-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47758"
+    task:
+      load: phos-raw-clusters-epn-remote-PHS-ClusterTask-proxy
+  - name: "PHS-RawTask-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_PHS-RawTask-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PHS-RawTask-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: PHS-RawTask-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47757"
+    task:
+      load: phos-raw-clusters-epn-remote-PHS-RawTask-proxy
+  - name: "PHS-MERGER-ClusterTask1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_PHS-MERGER-ClusterTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PHS-MERGER-ClusterTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_PHS-ClusterTask-proxy_to_PHS-MERGER-ClusterTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PHS-ClusterTask-proxy:from_PHS-ClusterTask-proxy_to_PHS-MERGER-ClusterTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: phos-raw-clusters-epn-remote-PHS-MERGER-ClusterTask1l-0
+  - name: "PHS-MERGER-RawTask1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_PHS-MERGER-RawTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PHS-MERGER-RawTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_PHS-RawTask-proxy_to_PHS-MERGER-RawTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PHS-RawTask-proxy:from_PHS-RawTask-proxy_to_PHS-MERGER-RawTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: phos-raw-clusters-epn-remote-PHS-MERGER-RawTask1l-0
+  - name: "qc-check-PHS-QcCheck"
+    connect:
+    - name: from_PHS-MERGER-RawTask1l-0_to_qc-check-PHS-QcCheck
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PHS-MERGER-RawTask1l-0:from_PHS-MERGER-RawTask1l-0_to_qc-check-PHS-QcCheck"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: phos-raw-clusters-epn-remote-qc-check-PHS-QcCheck
+  - name: "qc-check-sink-QPHS_ClusterTask_0"
+    connect:
+    - name: from_PHS-MERGER-ClusterTask1l-0_to_qc-check-sink-QPHS_ClusterTask_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PHS-MERGER-ClusterTask1l-0:from_PHS-MERGER-ClusterTask1l-0_to_qc-check-sink-QPHS_ClusterTask_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: phos-raw-clusters-epn-remote-qc-check-sink-QPHS_ClusterTask_0
+  - name: "internal-dpl-injected-dummy-sink"
+    connect:
+    - name: from_qc-check-PHS-QcCheck_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-PHS-QcCheck:from_qc-check-PHS-QcCheck_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: phos-raw-clusters-epn-remote-internal-dpl-injected-dummy-sink

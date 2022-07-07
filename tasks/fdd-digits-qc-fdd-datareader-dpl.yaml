@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_fdd-datareader-dpl_to_qc-task-FDD-DigitQcTask
+  - name: from_fdd-datareader-dpl_to_FDDDigitWriterRaw
     type: push
     transport: shmem
     addressing: ipc
@@ -79,7 +79,6 @@ command:
     - "''"
     - "--configKeyValues"
     - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
-    - "--disable-root-output"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"

@@ -19,7 +19,7 @@ cd ../
 
 o2-dpl-raw-proxy -b --session default --dataspec 'x0:TOF/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
   | o2-tof-compressor -b --session default --configKeyValues "HBFUtils.nHBFPerTF=128;${DPL_PROCESSING_CONFIG_KEY_VALUES}" --pipeline tof-compressor-0:3 --tof-compressor-rdh-version 6 --tof-compressor-config x:TOF/RAWDATA \
-  | o2-dpl-output-proxy -b --session default --dataspec 'A:TOF/CRAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"' | o2-qc -b --config $QC_GEN_CONFIG_PATH --local --host alio2-cr1-flp178 --o2-control $WF_NAME
+  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default --dataspec 'A:TOF/CRAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"' | o2-qc -b --config $QC_GEN_CONFIG_PATH --local --host alio2-cr1-flp178 --o2-control $WF_NAME
 
 # add the templated QC config file path
 ESCAPED_QC_FINAL_CONFIG_PATH=$(printf '%s\n' "$QC_FINAL_CONFIG_PATH" | sed -e 's/[\/&]/\\&/g')
@@ -47,6 +47,4 @@ sed -i /defaults:/\ a\\\ \\\ "${QC_CONFIG_PARAM}":\ \""${ESCAPED_QC_FINAL_CONFIG
 ESCAPED_QC_GEN_CONFIG_PATH=$(printf '%s\n' "$QC_GEN_CONFIG_PATH" | sed -e 's/[]\/$*.^[]/\\&/g');
 sed -i "s/""${ESCAPED_QC_GEN_CONFIG_PATH}""/{{ ""${QC_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME}.yaml tasks/${WF_NAME}-*
 
-add_fmq_shmmonitor_role workflows/${WF_NAME}.yaml
-add_qc_remote_machine_attribute workflows/${WF_NAME}.yaml alio2-cr1-qc03
 
