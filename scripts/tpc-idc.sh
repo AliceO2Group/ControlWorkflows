@@ -30,7 +30,7 @@ CRUS_LOCAL='$('`pwd`"/etc/getCRU.sh"
 # TODO: Adjust merger and port, if the port is change this also must be done
 #       in the merger script
 
-MERGER=alio2-cr1-qts01.cern.ch
+MERGER=epn024-ib
 PORT=47734
 
 ARGS_ALL="-b --session default "
