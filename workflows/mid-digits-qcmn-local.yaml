@@ -82,6 +82,7 @@ roles:
       transport: zeromq
       target: "::MID-QcTaskMIDRaw-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
     task:
       load: mid-digits-qcmn-local-MID-QcTaskMIDRaw-proxy
   - name: "dpl-output-proxy"

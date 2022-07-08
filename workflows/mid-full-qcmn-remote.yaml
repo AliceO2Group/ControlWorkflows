@@ -32,6 +32,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47781"
+      rcvBufSize: 32
     task:
       load: mid-full-qcmn-remote-MID-QcTaskMIDClust-proxy
   - name: "MID-QcTaskMIDDigits-proxy"
@@ -50,6 +51,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47780"
+      rcvBufSize: 32
     task:
       load: mid-full-qcmn-remote-MID-QcTaskMIDDigits-proxy
   - name: "MID-QcTaskMIDTracks-proxy"
@@ -68,6 +70,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47782"
+      rcvBufSize: 32
     task:
       load: mid-full-qcmn-remote-MID-QcTaskMIDTracks-proxy
   - name: "MID-QcTaskMIDRaw-proxy"
@@ -86,6 +89,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       global: "MID-QcTaskMIDRaw-proxy"
+      rcvBufSize: 32
     task:
       load: mid-full-qcmn-remote-MID-QcTaskMIDRaw-proxy
   - name: "MID-MERGER-QcTaskMIDClust1l-0"

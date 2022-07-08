@@ -130,6 +130,7 @@ roles:
       transport: zeromq
       target: "::MFT-MFTReadoutTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
     task:
       load: mft-track-full-qcmn-local-MFT-MFTReadoutTask-proxy
   - name: "internal-dpl-injected-dummy-sink"
@@ -164,6 +165,7 @@ roles:
       transport: zeromq
       target: "::MFT-MFTDigitTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
     task:
       load: mft-track-full-qcmn-local-MFT-MFTDigitTask-proxy
   - name: "dpl-output-proxy"
