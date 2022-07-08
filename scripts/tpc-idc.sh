@@ -30,7 +30,8 @@ CRUS_LOCAL='$('`pwd`"/etc/getCRU.sh"
 # TODO: Adjust merger and port, if the port is change this also must be done
 #       in the merger script
 
-MERGER=alio2-cr1-qts01.cern.ch
+
+MERGER=epn024-ib
 PORT=47734
 
 ARGS_ALL="-b --session default "
@@ -57,7 +58,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --proxy-channel-name tpc-idc-merger-proxy \
    --labels "tpc-idc-merger-proxy:ecs-preserve-raw-channels" \
    --output-proxy-method connect \
-   --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,address=tcp://{{ merger_node }}:{{ merger_port }},type=pub,transport=zeromq" ' \
+   --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,address=tcp://{{ merger_node }}:{{ merger_port }},type=push,transport=zeromq" ' \
    --dataspec "${OUTSPEC_IDC}" \
    --severity warning \
   | o2-dpl-output-proxy $ARGS_ALL \
@@ -136,7 +137,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --severity warning \
   --labels "tpc-idc-merger-proxy:ecs-preserve-raw-channels" \
   --proxy-name tpc-idc-merger-proxy \
-  --channel-config "name=tpc-idc-merger-proxy,type=sub,method=bind,address=tcp://*:{{ merger_port }},rateLogging=1,transport=zeromq" \
+  --channel-config "name=tpc-idc-merger-proxy,type=pull,method=bind,address=tcp://*:{{ merger_port }},rateLogging=1,transport=zeromq" \
   | o2-tpc-idc-distribute $ARGS_ALL \
   --crus ${CRU_GEN_MERGER_ID} \
   --firstTF  1 \
