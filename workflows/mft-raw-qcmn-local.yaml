@@ -82,6 +82,7 @@ roles:
       transport: zeromq
       target: "::MFT-QcMFTReadoutTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
     task:
       load: mft-raw-qcmn-local-MFT-QcMFTReadoutTask-proxy
   - name: "dpl-output-proxy"

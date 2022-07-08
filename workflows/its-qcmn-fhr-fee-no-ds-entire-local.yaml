@@ -100,6 +100,7 @@ roles:
       transport: zeromq
       target: "::ITS-ITSFEE-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
     task:
       load: its-qcmn-fhr-fee-no-ds-entire-local-ITS-ITSFEE-proxy
   - name: "ITS-FHRTask-proxy"
@@ -116,6 +117,7 @@ roles:
       transport: zeromq
       target: "::ITS-FHRTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
     task:
       load: its-qcmn-fhr-fee-no-ds-entire-local-ITS-FHRTask-proxy
   - name: "dpl-output-proxy"

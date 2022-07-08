@@ -112,6 +112,7 @@ roles:
       transport: zeromq
       target: "::MCH-QcTaskMCHDigits-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
     task:
       load: mch-qcmn-flp-digits-local-MCH-QcTaskMCHDigits-proxy
   - name: "dpl-output-proxy"

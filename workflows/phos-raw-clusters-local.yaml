@@ -158,6 +158,7 @@ roles:
       transport: zeromq
       target: "::PHS-RawTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
     task:
       load: phos-raw-clusters-local-PHS-RawTask-proxy
   - name: "dpl-output-proxy"
