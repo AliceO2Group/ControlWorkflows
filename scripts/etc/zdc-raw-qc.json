@@ -3,7 +3,7 @@
     "config": {
       "database": {
         "implementation": "CCDB",
-        "host": "ali22xl.to.infn.it:8083",
+        "host": "localhost:8083",
         "username": "not_applicable",
         "password": "not_applicable",
         "name": "not_applicable"
@@ -16,10 +16,10 @@
         "url": "infologger:///debug?qc"
       },
       "consul": {
-        "url": "http://ali22xl.to.infn.it:8500"
+        "url": "http://localhost:8500"
       },
       "conditionDB": {
-        "url": "ali22xl.to.infn.it:8080"
+        "url": "localhost:8080"
       }
     },
     "tasks": {
