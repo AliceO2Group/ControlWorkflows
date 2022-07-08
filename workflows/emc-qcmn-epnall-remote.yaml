@@ -32,8 +32,28 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47702"
+      rcvBufSize: 32
     task:
       load: emc-qcmn-epnall-remote-EMC-CellTask-proxy
+  - name: "EMC-RawErrorTask-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_EMC-RawErrorTask-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_EMC-RawErrorTask-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: EMC-RawErrorTask-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47703"
+      rcvBufSize: 32
+    task:
+      load: emc-qcmn-epnall-remote-EMC-RawErrorTask-proxy
   - name: "EMC-RawTask-proxy"
     connect:
     - name: from_internal-dpl-clock_to_EMC-RawTask-proxy
@@ -50,6 +70,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47701"
+      rcvBufSize: 32
     task:
       load: emc-qcmn-epnall-remote-EMC-RawTask-proxy
   - name: "EMC-MERGER-CellTask1l-0"
@@ -70,6 +91,24 @@ roles:
       rcvBufSize: 4
     task:
       load: emc-qcmn-epnall-remote-EMC-MERGER-CellTask1l-0
+  - name: "EMC-MERGER-RawErrorTask1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_EMC-MERGER-RawErrorTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_EMC-MERGER-RawErrorTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_EMC-RawErrorTask-proxy_to_EMC-MERGER-RawErrorTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.EMC-RawErrorTask-proxy:from_EMC-RawErrorTask-proxy_to_EMC-MERGER-RawErrorTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: emc-qcmn-epnall-remote-EMC-MERGER-RawErrorTask1l-0
   - name: "EMC-MERGER-RawTask1l-0"
     connect:
     - name: from_internal-dpl-clock_to_EMC-MERGER-RawTask1l-0
@@ -110,6 +149,17 @@ roles:
       rcvBufSize: 4
     task:
       load: emc-qcmn-epnall-remote-qc-check-EMC-CellCheckAmplitude
+  - name: "qc-check-sink-QEMC_RawErrorTask_0"
+    connect:
+    - name: from_EMC-MERGER-RawErrorTask1l-0_to_qc-check-sink-QEMC_RawErrorTask_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.EMC-MERGER-RawErrorTask1l-0:from_EMC-MERGER-RawErrorTask1l-0_to_qc-check-sink-QEMC_RawErrorTask_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: emc-qcmn-epnall-remote-qc-check-sink-QEMC_RawErrorTask_0
   - name: "internal-dpl-injected-dummy-sink"
     connect:
     - name: from_qc-check-DET-bY90_to_internal-dpl-injected-dummy-sink

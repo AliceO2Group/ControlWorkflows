@@ -158,6 +158,7 @@ roles:
       transport: zeromq
       target: "::PHS-QcTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
     task:
       load: phos-compressor-raw-qcmnt3-local-PHS-QcTask-proxy
   - name: "dpl-output-proxy"

@@ -38,6 +38,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47730"
+      rcvBufSize: 32
     task:
       load: tpc-idc-merger-TPC-Clusters-proxy
   - name: "TPC-PID-proxy"
@@ -56,6 +57,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47732"
+      rcvBufSize: 32
     task:
       load: tpc-idc-merger-TPC-PID-proxy
   - name: "TPC-RawDigits-proxy"
@@ -74,6 +76,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47731"
+      rcvBufSize: 32
     task:
       load: tpc-idc-merger-TPC-RawDigits-proxy
   - name: "TPC-Tracks-proxy"
@@ -92,6 +95,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47733"
+      rcvBufSize: 32
     task:
       load: tpc-idc-merger-TPC-Tracks-proxy
   - name: "tpc-idc-merger-proxy"
