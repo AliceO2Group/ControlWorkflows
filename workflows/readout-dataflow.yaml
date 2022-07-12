@@ -12,14 +12,13 @@ defaults:
     widget: checkBox
     panel: General_Configuration
     index: -300
-  dcs_enabled: !public # TODO: if false, DCS panel should be disabled
+  dcs_enabled: !public
     value: "false"
     type: bool
     label: "DCS"
     description: "Enable/disable DCS SOR/EOR commands"
     widget: checkBox
     panel: General_Configuration
-    enabledif: $$run_type !== "SYNTHETIC"
     index: 0
   dd_enabled: !public
     value: "true"
