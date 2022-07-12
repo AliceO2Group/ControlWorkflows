@@ -19,6 +19,7 @@ defaults:
     description: "Enable/disable DCS SOR/EOR commands"
     widget: checkBox
     panel: General_Configuration
+    visibleif: $$run_type !== "SYNTHETIC"
     index: 0
   dd_enabled: !public
     value: "true"
