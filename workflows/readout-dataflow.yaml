@@ -12,7 +12,7 @@ defaults:
     widget: checkBox
     panel: General_Configuration
     index: -300
-  dcs_enabled: !public # TODO: if false, DCS panel should be disabled
+  dcs_enabled: !public
     value: "false"
     type: bool
     label: "DCS"
@@ -53,6 +53,30 @@ defaults:
     panel: General_Configuration
     visibleif: $$trg_enabled === "true"
     index: 4
+  run_type: !public # enum from AliECS common/runtype
+    value: "PHYSICS"
+    type: string
+    label: "Run Type"
+    description: "Run type"
+    widget: comboBox
+    panel: General_Configuration
+    values:
+      - NONE
+      - CALIBRATION_ITHR_TUNING
+      - CALIBRATION_VCASN_TUNING
+      - CALIBRATION_THR_SCAN
+      - CALIBRATION_DIGITAL_SCAN
+      - CALIBRATION_ANALOG_SCAN
+      - CALIBRATION_FHR
+      - CALIBRATION_ALPIDE_SCAN
+      - COSMICS
+      - LASER
+      - PEDESTAL
+      - PHYSICS
+      - PULSER
+      - TECHNICAL
+      - SYNTHETIC
+    index: 5    
   ###############################
   # DCS and FLP Workflows Panel
   ###############################
@@ -1160,6 +1184,15 @@ defaults:
     panel: "EPN_Workflows"
     index: 801
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_override_run_start_time: !public
+    value: ""
+    type: string
+    label: "Override Run Start Time"
+    description: "If set, use this timestamp instead of 'now' when fetching CCDB objects"
+    widget: editBox
+    panel: "EPN_Workflows"
+    index: 802
+    visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"    
   odc_partitions_cleanup: !public
     value: "true"
     type: bool
@@ -1560,29 +1593,6 @@ roles:
         widget: editBox
         panel: DCS
         index: 3
-        visibleif: $$dcs_enabled === "true"
-      run_type: !public # enum from AliECS common/runtype
-        value: "PHYSICS"
-        type: string
-        label: "Run Type"
-        description: "Run type for DCS SOR/EOR"
-        widget: comboBox
-        panel: DCS
-        values:
-          - NONE
-          - CALIBRATION_ITHR_TUNING
-          - CALIBRATION_VCASN_TUNING
-          - CALIBRATION_THR_SCAN
-          - CALIBRATION_DIGITAL_SCAN
-          - CALIBRATION_ANALOG_SCAN
-          - CALIBRATION_FHR
-          - CALIBRATION_ALPIDE_SCAN
-          - LASER
-          - PEDESTAL
-          - PHYSICS
-          - PULSER
-          - TECHNICAL
-        index: 4
         visibleif: $$dcs_enabled === "true"
     roles:
       - name: sor
