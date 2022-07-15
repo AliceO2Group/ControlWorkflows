@@ -1748,7 +1748,13 @@ roles:
           trigger: after_STOP_ACTIVITY
           timeout: "{{ trg_unload_timeout }}"
           critical: false
-      - name: cleanup
+      - name: errorcleanup
+        call:
+          func: trg.Cleanup()
+          trigger: after_GO_ERROR-100
+          timeout: "{{ trg_cleanup_timeout }}"
+          critical: false
+      - name: destroycleanup
         call:
           func: trg.Cleanup()
           trigger: DESTROY-100
