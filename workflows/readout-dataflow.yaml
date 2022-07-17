@@ -438,6 +438,7 @@ defaults:
       - mch-qcmn-epn-digits-remote
       - mch-qcmn-flp-digits-remote
       - mch-qcmn-epn-full-remote
+      - mch-qcmn-epn-full-track-matching-remote
       - mch-qcmn-flp-full-remote
       - qcmn-daq-remote
       - mch-digits-epn
