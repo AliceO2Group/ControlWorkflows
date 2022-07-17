@@ -74,6 +74,7 @@ check_pwd
 ./mch-qcmn-flp-digits.sh
 ./mch-qcmn-epn-digits.sh
 ./mch-qcmn-epn-full.sh
+./mch-qcmn-epn-full-track-matching.sh
 ./mft-decoder.sh
 ./mft-digits-qc.sh
 ./mft-full-qcmn.sh
