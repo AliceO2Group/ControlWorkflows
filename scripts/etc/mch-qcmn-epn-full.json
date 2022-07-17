@@ -35,7 +35,7 @@
           "query" : "digits:MCH/DIGITS;orbits:MCH/ORBITS"
         },
         "location": "local",
-        "mergingMode": "delta",
+        "mergingMode": "entire",
         "localControl": "odc",
         "localMachines": [ "epn" ],
         "remotePort": "47790",
@@ -53,7 +53,7 @@
           "query" : "rawerrors:MCH/ERRORS"
         },
         "location": "local",
-        "mergingMode": "delta",
+        "mergingMode": "entire",
         "localControl": "odc",
         "localMachines": [ "epn" ],
         "remotePort": "47791",
@@ -71,7 +71,7 @@
           "query" : "digits:MCH/DIGITS;rofs:MCH/DIGITROFS"
         },
         "location": "local",
-        "mergingMode": "delta",
+        "mergingMode": "entire",
         "localControl": "odc",
         "localMachines": [ "epn" ],
         "remotePort": "47792",
@@ -89,7 +89,7 @@
           "query": "preclusters:MCH/PRECLUSTERS/0;preclusterdigits:MCH/PRECLUSTERDIGITS/0"
         },
         "location": "local",
-        "mergingMode": "delta",
+        "mergingMode": "entire",
         "localControl": "odc",
         "localMachines": [ "epn" ],
         "remotePort": "47794",
@@ -110,7 +110,7 @@
           "maxTracksPerTF": "10"
         },
         "location": "local",
-        "mergingMode": "delta",
+        "mergingMode": "entire",
         "localControl": "odc",
         "localMachines": [ "epn" ],
         "remotePort": "47795",
