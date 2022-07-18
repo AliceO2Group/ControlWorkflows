@@ -20,7 +20,7 @@ o2-dpl-raw-proxy -b --session default \
   | o2-ft0-flp-dpl-workflow -b --session default --output-dir=/tmp --nevents ${NTF_TO_STORE} --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES}" \
   | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default --dataspec 'digits:FT0/DIGITSBC/0;channels:FT0/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' \
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
-  | o2-qc --config ${QC_GEN_CONFIG_PATH} -b \
+  | o2-qc --config ${QC_GEN_CONFIG_PATH} -b --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES}" \
   --o2-control $WF_NAME
 # Add the final QC config file path as a variable in the workflow template
 ESCAPED_QC_FINAL_CONFIG_PATH=$(printf '%s\n' "$QC_FINAL_CONFIG_PATH" | sed -e 's/[\/&]/\\&/g')
