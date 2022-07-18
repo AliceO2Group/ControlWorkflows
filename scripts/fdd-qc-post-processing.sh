@@ -16,7 +16,7 @@ WF_NAME=fdd-qc-post-processing-remote
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
-o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
+o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES}" --o2-control $WF_NAME
 
 # add the templated QC config file path
 ESCAPED_QC_FINAL_CONFIG_PATH=$(printf '%s\n' "$QC_FINAL_CONFIG_PATH" | sed -e 's/[\/&]/\\&/g')
