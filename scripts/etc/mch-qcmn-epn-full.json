@@ -82,7 +82,7 @@
         "className": "o2::quality_control_modules::muonchambers::PhysicsTaskPreclusters",
         "moduleName": "QcMuonChambers",
         "detectorName": "MCH",
-        "cycleDurationSeconds": "300",
+        "cycleDurationSeconds": "360",
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "direct",
