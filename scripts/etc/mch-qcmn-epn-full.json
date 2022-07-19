@@ -35,9 +35,9 @@
           "query" : "digits:MCH/DIGITS;orbits:MCH/ORBITS"
         },
         "location": "local",
-        "mergingMode": "entire",
+        "mergingMode": "delta",
         "localControl": "odc",
-        "localMachines": [ "epn" ],
+        "localMachines": [ "localhost", "epn" ],
         "remotePort": "47790",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       },
@@ -53,9 +53,9 @@
           "query" : "rawerrors:MCH/ERRORS"
         },
         "location": "local",
-        "mergingMode": "entire",
+        "mergingMode": "delta",
         "localControl": "odc",
-        "localMachines": [ "epn" ],
+        "localMachines": [ "localhost", "epn" ],
         "remotePort": "47791",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       },
@@ -71,9 +71,9 @@
           "query" : "digits:MCH/DIGITS;rofs:MCH/DIGITROFS"
         },
         "location": "local",
-        "mergingMode": "entire",
+        "mergingMode": "delta",
         "localControl": "odc",
-        "localMachines": [ "epn" ],
+        "localMachines": [ "localhost", "epn" ],
         "remotePort": "47792",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       },
@@ -89,9 +89,9 @@
           "query": "preclusters:MCH/PRECLUSTERS/0;preclusterdigits:MCH/PRECLUSTERDIGITS/0"
         },
         "location": "local",
-        "mergingMode": "entire",
+        "mergingMode": "delta",
         "localControl": "odc",
-        "localMachines": [ "epn" ],
+        "localMachines": [ "localhost", "epn" ],
         "remotePort": "47794",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       },
@@ -110,9 +110,9 @@
           "maxTracksPerTF": "10"
         },
         "location": "local",
-        "mergingMode": "entire",
+        "mergingMode": "delta",
         "localControl": "odc",
-        "localMachines": [ "epn" ],
+        "localMachines": [ "localhost", "epn" ],
         "remotePort": "47795",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       }

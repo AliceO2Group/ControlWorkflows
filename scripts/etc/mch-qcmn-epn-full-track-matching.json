@@ -35,9 +35,10 @@
           "query": "digits:MCH/DIGITS;orbits:MCH/ORBITS"
         },
         "location": "local",
-        "mergingMode": "entire",
+        "mergingMode": "delta",
         "localControl": "odc",
         "localMachines": [
+          "localhost",
           "epn"
         ],
         "remotePort": "47790",
@@ -55,9 +56,10 @@
           "query": "rawerrors:MCH/ERRORS"
         },
         "location": "local",
-        "mergingMode": "entire",
+        "mergingMode": "delta",
         "localControl": "odc",
         "localMachines": [
+          "localhost",
           "epn"
         ],
         "remotePort": "47791",
@@ -75,9 +77,10 @@
           "query": "digits:MCH/DIGITS;rofs:MCH/DIGITROFS"
         },
         "location": "local",
-        "mergingMode": "entire",
+        "mergingMode": "delta",
         "localControl": "odc",
         "localMachines": [
+          "localhost",
           "epn"
         ],
         "remotePort": "47792",
@@ -95,9 +98,10 @@
           "query": "preclusters:MCH/PRECLUSTERS/0;preclusterdigits:MCH/PRECLUSTERDIGITS/0"
         },
         "location": "local",
-        "mergingMode": "entire",
+        "mergingMode": "delta",
         "localControl": "odc",
         "localMachines": [
+          "localhost",
           "epn"
         ],
         "remotePort": "47794",
@@ -118,9 +122,10 @@
           "maxTracksPerTF": "100"
         },
         "location": "local",
-        "mergingMode": "entire",
+        "mergingMode": "delta",
         "localControl": "odc",
         "localMachines": [
+          "localhost",
           "epn"
         ],
         "remotePort": "47795",
@@ -143,9 +148,10 @@
           "matchedMCHMIDTracks": false
         },
         "location": "local",
-        "mergingMode": "entire",
+        "mergingMode": "delta",
         "localControl": "odc",
         "localMachines": [
+          "localhost",
           "epn"
         ],
         "remotePort": "47789",
@@ -168,9 +174,10 @@
           "matchedMCHMIDTracks": false
         },
         "location": "local",
-        "mergingMode": "entire",
+        "mergingMode": "delta",
         "localControl": "odc",
         "localMachines": [
+          "localhost",
           "epn"
         ],
         "remotePort": "47788",
