@@ -1192,6 +1192,14 @@ defaults:
     panel: "EPN_Workflows"
     index: 802
     visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"    
+  pdp_force_run_as_raw: !public
+    value: "false"
+    type: bool
+    label: "Force RAW"
+    description: "Force run to be classified as RAW"
+    widget: checkBox
+    panel: "EPN_Workflows"
+    index: 803
   odc_partitions_cleanup: !public
     value: "true"
     type: bool
