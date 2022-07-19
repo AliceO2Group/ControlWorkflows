@@ -1201,6 +1201,7 @@ defaults:
     widget: checkBox
     panel: "EPN_Workflows"
     index: 803
+    visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"    
   odc_partitions_cleanup: !public
     value: "true"
     type: bool
