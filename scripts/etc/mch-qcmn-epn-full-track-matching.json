@@ -32,12 +32,15 @@
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "direct",
-          "query" : "digits:MCH/DIGITS;orbits:MCH/ORBITS"
+          "query": "digits:MCH/DIGITS;orbits:MCH/ORBITS"
         },
         "location": "local",
         "mergingMode": "delta",
         "localControl": "odc",
-        "localMachines": [ "localhost", "epn" ],
+        "localMachines": [
+          "localhost",
+          "epn"
+        ],
         "remotePort": "47790",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       },
@@ -50,12 +53,15 @@
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "direct",
-          "query" : "rawerrors:MCH/ERRORS"
+          "query": "rawerrors:MCH/ERRORS"
         },
         "location": "local",
         "mergingMode": "delta",
         "localControl": "odc",
-        "localMachines": [ "localhost", "epn" ],
+        "localMachines": [
+          "localhost",
+          "epn"
+        ],
         "remotePort": "47791",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       },
@@ -68,12 +74,15 @@
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "direct",
-          "query" : "digits:MCH/DIGITS;rofs:MCH/DIGITROFS"
+          "query": "digits:MCH/DIGITS;rofs:MCH/DIGITROFS"
         },
         "location": "local",
         "mergingMode": "delta",
         "localControl": "odc",
-        "localMachines": [ "localhost", "epn" ],
+        "localMachines": [
+          "localhost",
+          "epn"
+        ],
         "remotePort": "47792",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       },
@@ -91,7 +100,10 @@
         "location": "local",
         "mergingMode": "delta",
         "localControl": "odc",
-        "localMachines": [ "localhost", "epn" ],
+        "localMachines": [
+          "localhost",
+          "epn"
+        ],
         "remotePort": "47794",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       },
@@ -104,16 +116,71 @@
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "direct",
-          "query" : "tracks:MCH/TRACKS;trackrofs:MCH/TRACKROFS;trackclusters:MCH/TRACKCLUSTERS;trackdigits:MCH/CLUSTERDIGITS"
+          "query": "tracks:MCH/TRACKS;trackrofs:MCH/TRACKROFS;trackclusters:MCH/TRACKCLUSTERS;trackdigits:MCH/CLUSTERDIGITS"
         },
-        "taskParameters" : {
-          "maxTracksPerTF": "10"
+        "taskParameters": {
+          "maxTracksPerTF": "100"
         },
         "location": "local",
         "mergingMode": "delta",
         "localControl": "odc",
-        "localMachines": [ "localhost", "epn" ],
+        "localMachines": [
+          "localhost",
+          "epn"
+        ],
         "remotePort": "47795",
+        "remoteMachine": "alio2-cr1-qc01.cern.ch"
+      },
+      "MUONTracks": {
+        "active": "true",
+        "className": "o2::quality_control_modules::muon::TracksTask",
+        "moduleName": "QcMUONCommon",
+        "detectorName": "GLO",
+        "cycleDurationSeconds": "300",
+        "maxNumberCycles": "-1",
+        "dataSource": {
+          "type": "direct",
+          "query": "mchtracks:MCH/TRACKS;mchtrackrofs:MCH/TRACKROFS;mchtrackclusters:MCH/TRACKCLUSTERS;mchtrackdigits:MCH/TRACKDIGITS"
+        },
+        "taskParameters": {
+          "maxTracksPerTF": "600",
+          "standaloneMCHTracks": true,
+          "matchedMCHMIDTracks": false
+        },
+        "location": "local",
+        "mergingMode": "delta",
+        "localControl": "odc",
+        "localMachines": [
+          "localhost",
+          "epn"
+        ],
+        "remotePort": "47789",
+        "remoteMachine": "alio2-cr1-qc01.cern.ch"
+      },
+      "MCHStdTracks": {
+        "active": "true",
+        "className": "o2::quality_control_modules::muon::TracksTask",
+        "moduleName": "QcMUONCommon",
+        "detectorName": "GLO",
+        "cycleDurationSeconds": "300",
+        "maxNumberCycles": "-1",
+        "dataSource": {
+          "type": "direct",
+          "query": "mchtracks:MCH/TRACKS;mchtrackrofs:MCH/TRACKROFS;mchtrackclusters:MCH/TRACKCLUSTERS;mchtrackdigits:MCH/TRACKDIGITS"
+        },
+        "taskParameters": {
+          "maxTracksPerTF": "600",
+          "standaloneMCHTracks": true,
+          "matchedMCHMIDTracks": false
+        },
+        "location": "local",
+        "mergingMode": "delta",
+        "localControl": "odc",
+        "localMachines": [
+          "localhost",
+          "epn"
+        ],
+        "remotePort": "47788",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       }
     },
@@ -124,11 +191,13 @@
         "moduleName": "QcMuonChambers",
         "policy": "OnAll",
         "detectorName": "MCH",
-        "dataSource": [{
-          "type": "Task",
-          "name": "QcTaskMCHDigits",
-          "MOs": "all"
-        }]
+        "dataSource": [
+          {
+            "type": "Task",
+            "name": "QcTaskMCHDigits",
+            "MOs": "all"
+          }
+        ]
       },
       "QcCheckMCHErrors": {
         "active": "true",
@@ -139,11 +208,13 @@
           "MaxErrorRate": "100"
         },
         "detectorName": "MCH",
-        "dataSource": [{
-          "type": "Task",
-          "name": "QcTaskMCHErrors",
-          "MOs": "all"
-        }]
+        "dataSource": [
+          {
+            "type": "Task",
+            "name": "QcTaskMCHErrors",
+            "MOs": "all"
+          }
+        ]
       },
       "QcCheckMCHPreclusters": {
         "active": "true",
@@ -151,15 +222,15 @@
         "moduleName": "QcMuonChambers",
         "detectorName": "MCH",
         "policy": "OnAny",
-        "dataSource": [{
-          "type": "Task",
-          "name": "MCHPreclusters",
-          "MOs" : "all"
-        }]
+        "dataSource": [
+          {
+            "type": "Task",
+            "name": "MCHPreclusters",
+            "MOs": "all"
+          }
+        ]
       }
     }
   },
-  "dataSamplingPolicies": [
-  ]
+  "dataSamplingPolicies": []
 }
-
