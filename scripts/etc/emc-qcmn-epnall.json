@@ -104,6 +104,7 @@
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",
+				"detectorName": "EMC",
 				"dataSource": [
 					{
 						"type": "Task",
@@ -126,6 +127,7 @@
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",
+				"detectorName": "EMC",
 				"dataSource": [
 					{
 						"type": "Task",
@@ -140,6 +142,7 @@
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",
+				"detectorName": "EMC",
 				"dataSource": [
 					{
 						"type": "Task",
@@ -157,6 +160,7 @@
 				"className": "o2::quality_control_modules::emcal::RawCheck",
 				"moduleName": "QcEMCAL",
 				"policy": "OnEachSeparately",
+			    "detectorName": "EMC",
 				"dataSource": [
 					{
 						"type": "Task",
@@ -183,6 +187,22 @@
 					    ]
 					}
 			    ]
+			},
+			"RawDecodingErrorCheckEMCAL": {
+				"active": "true",
+				"className": "o2::quality_control_modules::emcal::RawErrorCheck",
+				"moduleName": "QcEMCAL",
+				"policy": "OnEachSeparately",
+				"detectorName": "EMC",
+				"dataSource": [
+				  	{
+						"type": "Task",
+						"name": "RawErrorTaskEMCAL",
+						"MOs": ["RawDataErrors", "PageErrors", "MajorAltroErrors", "MinorAltroError", "RawFitError", "GeometryError", "GainTypeError",
+					  			"NoHGPerDDL", "NoLGPerDDL"
+						]
+				  	}
+				]
 			}
 	    }
 	},
