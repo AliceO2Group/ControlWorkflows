@@ -8,6 +8,7 @@ source helpers.sh
 
 WF_NAME=its-qcmn-fee-no-ds-local
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+export DPL_CONDITION_QUERY_RATE="${GEN_TOPO_EPN_CCDB_QUERY_RATE:--1}"
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/its-qcmn-fee-no-ds.json'
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/its-qcmn-fee-no-ds-{{ it }}'
@@ -32,6 +33,7 @@ sed -i "s/alio2-cr1-flp187/{{ it }}/g" workflows/${WF_NAME}.yaml tasks/${WF_NAME
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/its-qcmn-fee-no-ds'
 WF_NAME=its-qcmn-fee-no-ds-remote
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+export DPL_CONDITION_QUERY_RATE="${GEN_TOPO_EPN_CCDB_QUERY_RATE:--1}"
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
 o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
