@@ -6,7 +6,7 @@ defaults:
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load Readout Control-OCCPlugin &&
     o2-readout-exe
-  _plain_cmdline: "sleep 5 && {{ o2_install_path }}/bin/o2-readout-exe"
+  _plain_cmdline: "{{ o2_install_path }}/bin/o2-readout-exe"
 control:
   mode: direct
 wants:
