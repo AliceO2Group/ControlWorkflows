@@ -1775,7 +1775,7 @@ roles:
       - name: startrun
         call:
           func: bookkeeping.StartOfRun()
-          trigger: after_START_ACTIVITY
+          trigger: before_START_ACTIVITY-100
           timeout: 10s
           critical: false
       - name: updaterunstart
