@@ -351,6 +351,7 @@ defaults:
       - its-qcmn-flp-epn-no-ds-remote
       - its-qcmn-epn-remote
       - its-qcmn-flp-epn-no-ds-nocluster-remote
+      - its-qcmn-full-remote
       - its-qcmn-epn-calibration-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  

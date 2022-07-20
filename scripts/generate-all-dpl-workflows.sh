@@ -69,6 +69,7 @@ check_pwd
 ./its-qcmn-fee-epn.sh
 ./its-qcmn-flp-epn-no-ds.sh
 ./its-qcmn-epn.sh
+./its-qcmn-full.sh
 ./its-qcmn-flp-epn-no-ds-nocluster.sh
 ./its-qcmn-epn-calibration.sh
 ./mch-qcmn-flp-digits.sh
