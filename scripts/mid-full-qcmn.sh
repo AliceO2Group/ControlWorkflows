@@ -8,7 +8,7 @@ source helpers.sh
 
 WF_NAME=mid-full-qcmn-local
 QC_GEN_CONFIG_PATH='json://'$(pwd)'/etc/mid-full-qcmn.json'
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mid-flp_raw-epn_full-qcmn'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mid-flp_raw-epn-qcmn'
 QC_CONFIG_PARAM='qc_config_uri'
 
 cd ../
