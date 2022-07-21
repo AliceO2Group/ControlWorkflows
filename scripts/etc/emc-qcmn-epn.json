@@ -105,7 +105,7 @@
 						"type": "Task",
 						"name": "RawErrorTaskEMCAL",
 						"MOs": ["RawDataErrors", "PageErrors", "MajorAltroErrors", "MinorAltroError", "RawFitError", "GeometryError", "GainTypeError",
-					  			"NoHGPerDDL", "NoLGPerDDL"
+					  			"NoHGPerDDL", "NoLGPerDDL", "ChannelLGnoHG", "ChannelHGnoLG"
 						]
 				  	}
 				]
