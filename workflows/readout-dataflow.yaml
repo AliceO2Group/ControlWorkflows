@@ -1654,7 +1654,7 @@ roles:
   - name: odc
     enabled: "{{odc_enabled == 'true'}}"
     vars:
-      odc_resources: '{{TrimSpace(odc_resources_spec) == "default" ? "{\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}" : odc_resources_spec }}'
+      odc_resources: '{{TrimSpace(odc_resources_spec) == "default" ? "[ {\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}, {\"zone\":\"calib\"} ]" : odc_resources_spec }}'
       odc_script: '{{ odc_enabled == "true" ? odc.GenerateEPNWorkflowScript() : "" }}'
     roles:
       - name: deploy
