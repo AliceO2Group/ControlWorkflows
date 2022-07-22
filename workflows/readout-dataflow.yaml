@@ -1271,8 +1271,8 @@ defaults:
   dpl_command: none
   qc_dpl_command: none
   drop_caches_enabled: "false"
-  fmq_initial_shm_cleanup_enabled: "false"
-  fmq_cleanup_enabled: "false"
+  fmq_initial_shm_cleanup_enabled: "true"
+  fmq_cleanup_enabled: "true"
   kafka_enabled: "false"
   minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow
   monitoring_dd_url: "no-op://"
