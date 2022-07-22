@@ -32,7 +32,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       global: "ITS-FHRTask-proxy"
-      rcvBufSize: 32
+      rcvBufSize: 1
     task:
       load: its-qcmn-fhr-fee-no-ds-entire-remote-ITS-FHRTask-proxy
   - name: "ITS-ITSFEE-proxy"
@@ -51,7 +51,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       global: "ITS-ITSFEE-proxy"
-      rcvBufSize: 32
+      rcvBufSize: 1
     task:
       load: its-qcmn-fhr-fee-no-ds-entire-remote-ITS-ITSFEE-proxy
   - name: "ITS-MERGER-FHRTask1l-0"

@@ -32,7 +32,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       global: "MCH-QcTaskMCHDigits-proxy"
-      rcvBufSize: 32
+      rcvBufSize: 1
     task:
       load: mch-qcmn-flp-digits-remote-MCH-QcTaskMCHDigits-proxy
   - name: "MCH-MERGER-QcTaskMCHDigits1l-0"

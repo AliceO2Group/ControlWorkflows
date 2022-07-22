@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_EMC-MERGER-RawTask1l-0_to_qc-check-DET-bY90
+  - name: from_EMC-MERGER-RawTask1l-0_to_qc-check-EMC-bY90
     type: push
     transport: shmem
     addressing: ipc

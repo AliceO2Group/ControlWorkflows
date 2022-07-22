@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_MID-MERGER-QcTaskMIDTracks1l-0_to_qc-check-MID-QcCheckMIDTracks
+  - name: from_MID-MERGER-QcTaskMIDTracks1l-0_to_qc-check-sink-QMID_QcTaskMIDTracks_0
     type: push
     transport: shmem
     addressing: ipc

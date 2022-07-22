@@ -26,7 +26,7 @@ bind:
     addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
     global: "MFT-QcMFTReadoutTask-proxy"
-    rcvBufSize: 32
+    rcvBufSize: 1
 command:
   shell: true
   log: "{{ log_task_output }}"

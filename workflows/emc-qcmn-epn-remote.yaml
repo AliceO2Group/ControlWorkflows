@@ -32,7 +32,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47702"
-      rcvBufSize: 32
+      rcvBufSize: 1
     task:
       load: emc-qcmn-epn-remote-EMC-CellTaskEMCAL-proxy
   - name: "EMC-RawErrorTask-proxy"
@@ -51,7 +51,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47703"
-      rcvBufSize: 32
+      rcvBufSize: 1
     task:
       load: emc-qcmn-epn-remote-EMC-RawErrorTask-proxy
   - name: "EMC-MERGER-CellTaskEMCAL1l-0"
@@ -101,23 +101,30 @@ roles:
       rcvBufSize: 4
     task:
       load: emc-qcmn-epn-remote-qc-check-EMC-CellCheckAmplitudeEMCAL
-  - name: "qc-check-sink-QEMC_RawErrorTask_0"
+  - name: "qc-check-EMC-RawDecodingErrorCheckEMCAL"
     connect:
-    - name: from_EMC-MERGER-RawErrorTask1l-0_to_qc-check-sink-QEMC_RawErrorTask_0
+    - name: from_EMC-MERGER-RawErrorTask1l-0_to_qc-check-EMC-RawDecodingErrorCheckEMCAL
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.EMC-MERGER-RawErrorTask1l-0:from_EMC-MERGER-RawErrorTask1l-0_to_qc-check-sink-QEMC_RawErrorTask_0"
+      target: "{{ Parent().Path }}.EMC-MERGER-RawErrorTask1l-0:from_EMC-MERGER-RawErrorTask1l-0_to_qc-check-EMC-RawDecodingErrorCheckEMCAL"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: emc-qcmn-epn-remote-qc-check-sink-QEMC_RawErrorTask_0
+      load: emc-qcmn-epn-remote-qc-check-EMC-RawDecodingErrorCheckEMCAL
   - name: "internal-dpl-injected-dummy-sink"
     connect:
     - name: from_qc-check-EMC-CellCheckAmplitudeEMCAL_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.qc-check-EMC-CellCheckAmplitudeEMCAL:from_qc-check-EMC-CellCheckAmplitudeEMCAL_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_qc-check-EMC-RawDecodingErrorCheckEMCAL_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-EMC-RawDecodingErrorCheckEMCAL:from_qc-check-EMC-RawDecodingErrorCheckEMCAL_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
