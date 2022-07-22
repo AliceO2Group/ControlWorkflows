@@ -32,7 +32,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47708"
-      rcvBufSize: 32
+      rcvBufSize: 1
     task:
       load: tof-full-epn-qcmn-remote-TOF-TaskDigits-proxy
   - name: "TOF-TaskRaw-proxy"
@@ -51,7 +51,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47709"
-      rcvBufSize: 32
+      rcvBufSize: 1
     task:
       load: tof-full-epn-qcmn-remote-TOF-TaskRaw-proxy
   - name: "PP-TASK-RUNNER-TOFTrendingHits"
@@ -92,7 +92,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47710"
-      rcvBufSize: 32
+      rcvBufSize: 1
     task:
       load: tof-full-epn-qcmn-remote-TOF-MergeMETOF-proxy
   - name: "TOF-MergeMETOFwTRD-proxy"
@@ -111,7 +111,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47711"
-      rcvBufSize: 32
+      rcvBufSize: 1
     task:
       load: tof-full-epn-qcmn-remote-TOF-MergeMETOFwTRD-proxy
   - name: "TOF-MERGER-MergeMETOF1l-0"

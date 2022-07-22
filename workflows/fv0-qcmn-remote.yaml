@@ -32,7 +32,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47722"
-      rcvBufSize: 32
+      rcvBufSize: 1
     task:
       load: fv0-qcmn-remote-FV0-DigitQcTaskFV0-proxy
   - name: "FV0-MERGER-DigitQcTaskFV01l-0"
