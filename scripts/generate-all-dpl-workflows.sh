@@ -103,6 +103,7 @@ check_pwd
 ./tof-compressor.sh
 ./tof-qcmn-compressor.sh
 ./tof-full-qcmn.sh
+./tof-full-qcmn-paranoid.sh
 ./tof-full-epn-qcmn.sh
 ./tpc-full-calib-qcmn.sh
 ./tpc-full-qcmn.sh
