@@ -26,7 +26,6 @@ bind:
     addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
     target: "tcp://*:47708"
-    rcvBufSize: 1
 command:
   shell: true
   log: "{{ log_task_output }}"
