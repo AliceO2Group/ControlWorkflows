@@ -1,7 +1,7 @@
-name: tof-full-qcmn-local
+name: tof-full-qcmn-paranoid-local
 vars:
   dpl_command: >-
-    o2-dpl-raw-proxy -b --session default --dataspec 'x0:TOF/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-tof-compressor -b --session default --configKeyValues 'HBFUtils.nHBFPerTF=128;NameConf.mCCDBServer=http://127.0.0.1:8084;' --pipeline tof-compressor-0:11 --tof-compressor-rdh-version 6 --tof-compressor-config x:TOF/RAWDATA | o2-dpl-output-proxy --environment DPL_OUTPUT_PROXY_ORDERED=1 -b --session default --dataspec 'A:TOF/CRAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"' | o2-qc -b --config {{ qc_config_uri }} --local --host alio2-cr1-flp178
+    o2-dpl-raw-proxy -b --session default --dataspec 'x0:TOF/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-tof-compressor -b --tof-compressor-paranoid --session default --configKeyValues 'HBFUtils.nHBFPerTF=128;NameConf.mCCDBServer=http://127.0.0.1:8084;' --pipeline tof-compressor-0:11 --tof-compressor-rdh-version 6 --tof-compressor-config x:TOF/RAWDATA | o2-dpl-output-proxy --environment DPL_OUTPUT_PROXY_ORDERED=1 -b --session default --dataspec 'A:TOF/CRAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"' | o2-qc -b --config {{ qc_config_uri }} --local --host alio2-cr1-flp178
 defaults:
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tof-full-qcmn"
   monitoring_dpl_url: "no-op://"
@@ -15,7 +15,7 @@ roles:
   - name: "internal-dpl-clock"
     connect:
     task:
-      load: tof-full-qcmn-local-internal-dpl-clock
+      load: tof-full-qcmn-paranoid-local-internal-dpl-clock
   - name: "readout-proxy"
     connect:
     - name: from_internal-dpl-clock_to_readout-proxy
@@ -31,7 +31,7 @@ roles:
       target: "::readout-proxy-{{ it }}"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: tof-full-qcmn-local-readout-proxy
+      load: tof-full-qcmn-paranoid-local-readout-proxy
   - name: "tof-compressor-0_t0"
     connect:
     - name: from_readout-proxy_to_tof-compressor-0_t0
@@ -42,7 +42,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-full-qcmn-local-tof-compressor-0_t0
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t0
   - name: "tof-compressor-0_t1"
     connect:
     - name: from_readout-proxy_to_tof-compressor-0_t1
@@ -53,7 +53,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-full-qcmn-local-tof-compressor-0_t1
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t1
   - name: "tof-compressor-0_t2"
     connect:
     - name: from_readout-proxy_to_tof-compressor-0_t2
@@ -64,7 +64,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-full-qcmn-local-tof-compressor-0_t2
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t2
   - name: "tof-compressor-0_t3"
     connect:
     - name: from_readout-proxy_to_tof-compressor-0_t3
@@ -75,7 +75,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-full-qcmn-local-tof-compressor-0_t3
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t3
   - name: "tof-compressor-0_t4"
     connect:
     - name: from_readout-proxy_to_tof-compressor-0_t4
@@ -86,7 +86,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-full-qcmn-local-tof-compressor-0_t4
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t4
   - name: "tof-compressor-0_t5"
     connect:
     - name: from_readout-proxy_to_tof-compressor-0_t5
@@ -97,7 +97,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-full-qcmn-local-tof-compressor-0_t5
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t5
   - name: "tof-compressor-0_t6"
     connect:
     - name: from_readout-proxy_to_tof-compressor-0_t6
@@ -108,7 +108,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-full-qcmn-local-tof-compressor-0_t6
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t6
   - name: "tof-compressor-0_t7"
     connect:
     - name: from_readout-proxy_to_tof-compressor-0_t7
@@ -119,7 +119,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-full-qcmn-local-tof-compressor-0_t7
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t7
   - name: "tof-compressor-0_t8"
     connect:
     - name: from_readout-proxy_to_tof-compressor-0_t8
@@ -130,7 +130,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-full-qcmn-local-tof-compressor-0_t8
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t8
   - name: "tof-compressor-0_t9"
     connect:
     - name: from_readout-proxy_to_tof-compressor-0_t9
@@ -141,7 +141,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-full-qcmn-local-tof-compressor-0_t9
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t9
   - name: "tof-compressor-0_t10"
     connect:
     - name: from_readout-proxy_to_tof-compressor-0_t10
@@ -152,7 +152,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-full-qcmn-local-tof-compressor-0_t10
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t10
   - name: "Dispatcher"
     connect:
     - name: from_internal-dpl-clock_to_Dispatcher
@@ -240,7 +240,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-full-qcmn-local-Dispatcher
+      load: tof-full-qcmn-paranoid-local-Dispatcher
   - name: "qc-task-TOF-TaskRaw"
     connect:
     - name: from_internal-dpl-clock_to_qc-task-TOF-TaskRaw
@@ -258,7 +258,7 @@ roles:
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tof-full-qcmn-local-qc-task-TOF-TaskRaw
+      load: tof-full-qcmn-paranoid-local-qc-task-TOF-TaskRaw
   - name: "TOF-TaskRaw-proxy"
     connect:
     - name: from_qc-task-TOF-TaskRaw_to_TOF-TaskRaw-proxy
@@ -274,7 +274,7 @@ roles:
       target: "::TOF-TaskRaw-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
     task:
-      load: tof-full-qcmn-local-TOF-TaskRaw-proxy
+      load: tof-full-qcmn-paranoid-local-TOF-TaskRaw-proxy
   - name: "dpl-output-proxy"
     connect:
     - name: from_tof-compressor-0_t0_to_dpl-output-proxy
@@ -369,4 +369,4 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       global: "downstream-{{ it }}"
     task:
-      load: tof-full-qcmn-local-dpl-output-proxy
+      load: tof-full-qcmn-paranoid-local-dpl-output-proxy
