@@ -273,6 +273,7 @@ roles:
       transport: zeromq
       target: "::TOF-TaskRaw-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
     task:
       load: tof-full-qcmn-paranoid-local-TOF-TaskRaw-proxy
   - name: "dpl-output-proxy"
