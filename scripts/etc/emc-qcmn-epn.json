@@ -52,71 +52,88 @@
                 "localControl": "odc"
             },
             "RawErrorTaskEMCAL": {
-			    "active": "true",
-				"taskName": "RawErrorTask",
-			    "className": "o2::quality_control_modules::emcal::RawErrorTask",
-			    "moduleName": "QcEMCAL",
-			    "detectorName": "EMC",
-			    "cycleDurationSeconds": "60",
-			    "maxNumberCycles": "-1",
-			    "dataSource": {
-					"type": "direct",
-					"query": "rawerrors:EMC/DECODERERR"
-			    },
-			    "taskParameters": {
-					"nothing": "rien"
-			    },
-			    "location": "local",
-			    "localMachines": [
-					"epn"
-			    ],
-			    "remoteMachine": "alio2-cr1-qc02.cern.ch",
-			    "remotePort": "47703",
-			    "mergingMode": "delta",
-			    "localControl": "odc"
+                "active": "true",
+                "taskName": "RawErrorTask",
+                "className": "o2::quality_control_modules::emcal::RawErrorTask",
+                "moduleName": "QcEMCAL",
+                "detectorName": "EMC",
+                "cycleDurationSeconds": "60",
+                "maxNumberCycles": "-1",
+                "dataSource": {
+                    "type": "direct",
+                    "query": "rawerrors:EMC/DECODERERR"
+                },
+                "taskParameters": {
+                    "nothing": "rien"
+                },
+                "location": "local",
+                "localMachines": [
+                    "epn"
+                ],
+                "remoteMachine": "alio2-cr1-qc02.cern.ch",
+                "remotePort": "47703",
+                "mergingMode": "delta",
+                "localControl": "odc"
             }
         },
         "checks": {
             "CellCheckAmplitudeEMCAL": {
-			    "active": "true",
+                "active": "true",
                 "check": "CheckAmplitude",
-			    "className": "o2::quality_control_modules::emcal::CellCheck",
-			    "moduleName": "QcEMCAL",
-			    "policy": "OnEachSeparately",
-			    "detectorName": "EMC",
-			    "dataSource": [
-					{
-					    "type": "Task",
-					    "name": "CellTaskEMCAL",
-					    "MOs": ["cellAmplitudeEMCAL_CAL", "cellAmplitudeEMCAL_PHYS", "cellAmplitudeDCAL_CAL", "cellAmplitudeDCAL_PHYS",
-								"cellAmplitude_CAL", "cellAmplitude_PHYS"	
-					    ]
-					}
-			    ]
-			},
-            "RawDecodingErrorCheckEMCAL": {
-				"active": "true",
-				"className": "o2::quality_control_modules::emcal::RawErrorCheck",
-				"moduleName": "QcEMCAL",
-				"policy": "OnEachSeparately",
+                "className": "o2::quality_control_modules::emcal::CellCheck",
+                "moduleName": "QcEMCAL",
+                "policy": "OnEachSeparately",
                 "detectorName": "EMC",
-				"dataSource": [
-				  	{
-						"type": "Task",
-						"name": "RawErrorTaskEMCAL",
-						"MOs": ["RawDataErrors", "PageErrors", "MajorAltroErrors", "MinorAltroError", "RawFitError", "GeometryError", "GainTypeError",
-					  			"NoHGPerDDL", "NoLGPerDDL", "ChannelLGnoHG", "ChannelHGnoLG"
-						]
-				  	}
-				]
-			}
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "CellTaskEMCAL",
+                        "MOs": [
+                            "cellAmplitudeEMCAL_CAL",
+                            "cellAmplitudeEMCAL_PHYS",
+                            "cellAmplitudeDCAL_CAL",
+                            "cellAmplitudeDCAL_PHYS",
+                            "cellAmplitude_CAL",
+                            "cellAmplitude_PHYS"
+                        ]
+                    }
+                ]
+            },
+            "RawDecodingErrorCheckEMCAL": {
+                "active": "true",
+                "className": "o2::quality_control_modules::emcal::RawErrorCheck",
+                "moduleName": "QcEMCAL",
+                "policy": "OnEachSeparately",
+                "detectorName": "EMC",
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "RawErrorTaskEMCAL",
+                        "MOs": [
+                            "RawDataErrors",
+                            "PageErrors",
+                            "MajorAltroErrors",
+                            "MinorAltroError",
+                            "RawFitError",
+                            "GeometryError",
+                            "GainTypeError",
+                            "NoHGPerDDL",
+                            "NoLGPerDDL",
+                            "ChannelLGnoHG",
+                            "ChannelHGnoLG"
+                        ]
+                    }
+                ]
+            }
         }
     },
     "dataSamplingPolicies": [
         {
             "id": "emccells",
             "active": "true",
-            "machines": ["epn"],
+            "machines": [
+                "epn"
+            ],
             "query": "emcal-cells:EMC/CELLS/0;emcal-triggerecords:EMC/CELLSTRGR/0",
             "samplingConditions": [
                 {
