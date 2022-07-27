@@ -121,3 +121,4 @@ check_pwd
 ./trd-qcmn-nopulseheight.sh
 ./trd-qcmn-norawdatastats.sh
 ./trd-qcmn-notracklets.sh
+./zdc-raw-qc.sh
