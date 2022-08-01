@@ -5,6 +5,7 @@ set -u;
 
 WF_NAME=emc-qcmn-flp-local
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+export DPL_CONDITION_QUERY_RATE="${GEN_TOPO_EPN_CCDB_QUERY_RATE:--1}"
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/emc-qcmn-flp.json'
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/emc-qcmn-flp'

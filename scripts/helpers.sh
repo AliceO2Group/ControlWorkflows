@@ -55,6 +55,7 @@ function add_config_variable() {
   PARAM="$3"
   WF_NAME="$4"
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+export DPL_CONDITION_QUERY_RATE="${GEN_TOPO_EPN_CCDB_QUERY_RATE:--1}"
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
   # add the templated variable

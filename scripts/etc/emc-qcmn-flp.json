@@ -36,8 +36,8 @@
                 "cycleDurationSeconds": "60",
                 "maxNumberCycles": "-1",
                 "dataSource": {
-                  "type": "dataSamplingPolicy",
-                  "name": "emcrawdata"
+                    "type": "dataSamplingPolicy",
+                    "name": "emcrawdata"
                 },
                 "location": "local",
                 "localMachines": [
@@ -49,82 +49,102 @@
             }
         },
         "checks": {
-			"RawBunchMinAmplitudeEMCAL": {
-				"active": "true",
+            "RawBunchMinAmplitudeEMCAL": {
+                "active": "true",
                 "checkName": "RawBunchMinAmplitude",
-				"className": "o2::quality_control_modules::emcal::RawCheck",
-				"moduleName": "QcEMCAL",
-				"policy": "OnEachSeparately",
-				"dataSource": [
-					{
-						"type": "Task",
-						"name": "RawTaskEMCAL",
-						"MOs": ["BunchMinRawAmplitudeFull_PHYS", "BunchMinRawAmplitudeEMCAL_PHYS", "BunchMinRawAmplitudeDCAL_PHYS",
-								"BunchMinRawAmplitude_SM0_PHYS", "BunchMinRawAmplitude_SM1_PHYS", "BunchMinRawAmplitude_SM2_PHYS",
-								"BunchMinRawAmplitude_SM3_PHYS", "BunchMinRawAmplitude_SM4_PHYS", "BunchMinRawAmplitude_SM5_PHYS",
-								"BunchMinRawAmplitude_SM6_PHYS", "BunchMinRawAmplitude_SM7_PHYS", "BunchMinRawAmplitude_SM8_PHYS",
-								"BunchMinRawAmplitude_SM9_PHYS", "BunchMinRawAmplitude_SM10_PHYS", "BunchMinRawAmplitude_SM11_PHYS",
-								"BunchMinRawAmplitude_SM12_PHYS", "BunchMinRawAmplitude_SM13_PHYS", "BunchMinRawAmplitude_SM14_PHYS",
-								"BunchMinRawAmplitude_SM15_PHYS", "BunchMinRawAmplitude_SM16_PHYS", "BunchMinRawAmplitude_SM17_PHYS",
-								"BunchMinRawAmplitude_SM18_PHYS", "BunchMinRawAmplitude_SM19_PHYS"
-						]
-					}
-				]
-			},
+                "className": "o2::quality_control_modules::emcal::RawCheck",
+                "moduleName": "QcEMCAL",
+                "policy": "OnEachSeparately",
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "RawTaskEMCAL",
+                        "MOs": [
+                            "BunchMinRawAmplitudeFull_PHYS",
+                            "BunchMinRawAmplitudeEMCAL_PHYS",
+                            "BunchMinRawAmplitudeDCAL_PHYS",
+                            "BunchMinRawAmplitude_SM0_PHYS",
+                            "BunchMinRawAmplitude_SM1_PHYS",
+                            "BunchMinRawAmplitude_SM2_PHYS",
+                            "BunchMinRawAmplitude_SM3_PHYS",
+                            "BunchMinRawAmplitude_SM4_PHYS",
+                            "BunchMinRawAmplitude_SM5_PHYS",
+                            "BunchMinRawAmplitude_SM6_PHYS",
+                            "BunchMinRawAmplitude_SM7_PHYS",
+                            "BunchMinRawAmplitude_SM8_PHYS",
+                            "BunchMinRawAmplitude_SM9_PHYS",
+                            "BunchMinRawAmplitude_SM10_PHYS",
+                            "BunchMinRawAmplitude_SM11_PHYS",
+                            "BunchMinRawAmplitude_SM12_PHYS",
+                            "BunchMinRawAmplitude_SM13_PHYS",
+                            "BunchMinRawAmplitude_SM14_PHYS",
+                            "BunchMinRawAmplitude_SM15_PHYS",
+                            "BunchMinRawAmplitude_SM16_PHYS",
+                            "BunchMinRawAmplitude_SM17_PHYS",
+                            "BunchMinRawAmplitude_SM18_PHYS",
+                            "BunchMinRawAmplitude_SM19_PHYS"
+                        ]
+                    }
+                ]
+            },
             "RawErrorCheckEMCAL": {
-				"active": "true",
+                "active": "true",
                 "checkName": "RawErrorCheck",
-				"className": "o2::quality_control_modules::emcal::RawCheck",
-				"moduleName": "QcEMCAL",
-				"policy": "OnEachSeparately",
-				"dataSource": [
-					{
-						"type": "Task",
-						"name": "RawTaskEMCAL",
-						"MOs": ["ErrorTypePerSM"]
-					}
-				]
-			},
+                "className": "o2::quality_control_modules::emcal::RawCheck",
+                "moduleName": "QcEMCAL",
+                "policy": "OnEachSeparately",
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "RawTaskEMCAL",
+                        "MOs": [
+                            "ErrorTypePerSM"
+                        ]
+                    }
+                ]
+            },
             "RawPayloadCheckEMCAL": {
-				"active": "true",
+                "active": "true",
                 "checkName": "RawPayloadCheck",
-				"className": "o2::quality_control_modules::emcal::RawCheck",
-				"moduleName": "QcEMCAL",
-				"policy": "OnEachSeparately",
-				"dataSource": [
-					{
-						"type": "Task",
-						"name": "RawTaskEMCAL",
-						"MOs": [
+                "className": "o2::quality_control_modules::emcal::RawCheck",
+                "moduleName": "QcEMCAL",
+                "policy": "OnEachSeparately",
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "RawTaskEMCAL",
+                        "MOs": [
                             "PayloadSizePerDDL",
-							"PayloadSizeTFPerDDL"
-						]
-					}
-				]
-			},
-			"FECPayloadCheckEMCAL": {
-				"active": "true",
+                            "PayloadSizeTFPerDDL"
+                        ]
+                    }
+                ]
+            },
+            "FECPayloadCheckEMCAL": {
+                "active": "true",
                 "checkName": "FECPayloadCheck",
-				"className": "o2::quality_control_modules::emcal::RawCheck",
-				"moduleName": "QcEMCAL",
-				"policy": "OnEachSeparately",
-				"dataSource": [
-					{
-						"type": "Task",
-						"name": "RawTaskEMCAL",
-						"MOs": [
-							"FECidMaxChWithInput_perSM"
-						]
-					}
-				]
-			}
+                "className": "o2::quality_control_modules::emcal::RawCheck",
+                "moduleName": "QcEMCAL",
+                "policy": "OnEachSeparately",
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "RawTaskEMCAL",
+                        "MOs": [
+                            "FECidMaxChWithInput_perSM"
+                        ]
+                    }
+                ]
+            }
         }
     },
     "dataSamplingPolicies": [
         {
             "id": "emcrawdata",
             "active": "true",
-            "machines": ["flp"],
+            "machines": [
+                "flp"
+            ],
             "query": "readout:EMC/RAWDATA",
             "samplingConditions": [
                 {
@@ -134,6 +154,6 @@
                 }
             ],
             "blocking": "false"
-    	}
+        }
     ]
 }

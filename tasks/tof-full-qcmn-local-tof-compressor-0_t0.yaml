@@ -96,7 +96,7 @@ command:
     - "--labels"
     - "''"
     - "--pipeline"
-    - "'tof-compressor-0:3'"
+    - "'tof-compressor-0:11'"
     - "--readers"
     - "'1'"
     - "--severity"

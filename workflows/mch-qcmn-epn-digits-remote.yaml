@@ -32,6 +32,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47790"
+      rcvBufSize: 1
     task:
       load: mch-qcmn-epn-digits-remote-MCH-QcTaskMCHDigits-proxy
   - name: "MCH-QcTaskMCHErrors-proxy"
@@ -50,6 +51,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47791"
+      rcvBufSize: 1
     task:
       load: mch-qcmn-epn-digits-remote-MCH-QcTaskMCHErrors-proxy
   - name: "MCH-MERGER-QcTaskMCHDigits1l-0"

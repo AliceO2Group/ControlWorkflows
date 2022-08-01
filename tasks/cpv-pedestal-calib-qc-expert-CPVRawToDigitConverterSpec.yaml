@@ -140,3 +140,7 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
+    - "--condition-backend"
+    - "'http://127.0.0.1:8084'"
+    - "--condition-timestamp"
+    - "'0'"

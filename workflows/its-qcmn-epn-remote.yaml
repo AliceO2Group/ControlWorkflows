@@ -32,6 +32,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47705"
+      rcvBufSize: 1
     task:
       load: its-qcmn-epn-remote-ITS-ITSClusterTask-proxy
   - name: "ITS-ITSTrackTask-proxy"
@@ -50,6 +51,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47706"
+      rcvBufSize: 1
     task:
       load: its-qcmn-epn-remote-ITS-ITSTrackTask-proxy
   - name: "ITS-MERGER-ITSClusterTask1l-0"

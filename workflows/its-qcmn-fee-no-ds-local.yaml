@@ -64,6 +64,7 @@ roles:
       transport: zeromq
       target: "::ITS-ITSFEE-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
     task:
       load: its-qcmn-fee-no-ds-local-ITS-ITSFEE-proxy
   - name: "dpl-output-proxy"

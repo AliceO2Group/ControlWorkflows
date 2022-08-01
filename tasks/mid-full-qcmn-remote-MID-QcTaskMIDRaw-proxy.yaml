@@ -26,6 +26,7 @@ bind:
     addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
     global: "MID-QcTaskMIDRaw-proxy"
+    rcvBufSize: 1
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -83,7 +84,7 @@ command:
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
-    - "'/var/folders/m0/wgm2kwjd2vx292zzz25ctz3m0000gp/T/'"
+    - "'@'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"

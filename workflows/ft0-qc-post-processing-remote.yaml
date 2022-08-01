@@ -1,7 +1,7 @@
 name: ft0-qc-post-processing-remote
 vars:
   dpl_command: >-
-    o2-qc --config {{ qc_config_uri }} --remote -b
+    o2-qc --config {{ qc_config_uri }} --remote -b --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;'
 defaults:
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/ft0-qc-post-processing"
   monitoring_dpl_url: "no-op://"

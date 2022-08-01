@@ -69,11 +69,13 @@ check_pwd
 ./its-qcmn-fee-epn.sh
 ./its-qcmn-flp-epn-no-ds.sh
 ./its-qcmn-epn.sh
+./its-qcmn-full.sh
 ./its-qcmn-flp-epn-no-ds-nocluster.sh
 ./its-qcmn-epn-calibration.sh
 ./mch-qcmn-flp-digits.sh
 ./mch-qcmn-epn-digits.sh
 ./mch-qcmn-epn-full.sh
+./mch-qcmn-epn-full-track-matching.sh
 ./mft-decoder.sh
 ./mft-digits-qc.sh
 ./mft-full-qcmn.sh
@@ -101,6 +103,7 @@ check_pwd
 ./tof-compressor.sh
 ./tof-qcmn-compressor.sh
 ./tof-full-qcmn.sh
+./tof-full-qcmn-paranoid.sh
 ./tof-full-epn-qcmn.sh
 ./tpc-full-calib-qcmn.sh
 ./tpc-full-qcmn.sh
@@ -118,3 +121,4 @@ check_pwd
 ./trd-qcmn-nopulseheight.sh
 ./trd-qcmn-norawdatastats.sh
 ./trd-qcmn-notracklets.sh
+./zdc-raw-qc.sh

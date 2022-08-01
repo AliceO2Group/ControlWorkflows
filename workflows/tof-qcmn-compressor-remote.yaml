@@ -32,6 +32,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       global: "TOF-TaskRaw-proxy"
+      rcvBufSize: 1
     task:
       load: tof-qcmn-compressor-remote-TOF-TaskRaw-proxy
   - name: "TOF-MERGER-TaskRaw1l-0"

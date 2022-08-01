@@ -12,7 +12,7 @@ defaults:
     widget: checkBox
     panel: General_Configuration
     index: -300
-  dcs_enabled: !public # TODO: if false, DCS panel should be disabled
+  dcs_enabled: !public
     value: "false"
     type: bool
     label: "DCS"
@@ -53,6 +53,30 @@ defaults:
     panel: General_Configuration
     visibleif: $$trg_enabled === "true"
     index: 4
+  run_type: !public # enum from AliECS common/runtype
+    value: "PHYSICS"
+    type: string
+    label: "Run Type"
+    description: "Run type"
+    widget: comboBox
+    panel: General_Configuration
+    values:
+      - NONE
+      - CALIBRATION_ITHR_TUNING
+      - CALIBRATION_VCASN_TUNING
+      - CALIBRATION_THR_SCAN
+      - CALIBRATION_DIGITAL_SCAN
+      - CALIBRATION_ANALOG_SCAN
+      - CALIBRATION_FHR
+      - CALIBRATION_ALPIDE_SCAN
+      - COSMICS
+      - LASER
+      - PEDESTAL
+      - PHYSICS
+      - PULSER
+      - TECHNICAL
+      - SYNTHETIC
+    index: 5    
   ###############################
   # DCS and FLP Workflows Panel
   ###############################
@@ -327,6 +351,7 @@ defaults:
       - its-qcmn-flp-epn-no-ds-remote
       - its-qcmn-epn-remote
       - its-qcmn-flp-epn-no-ds-nocluster-remote
+      - its-qcmn-full-remote
       - its-qcmn-epn-calibration-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
@@ -414,6 +439,7 @@ defaults:
       - mch-qcmn-epn-digits-remote
       - mch-qcmn-flp-digits-remote
       - mch-qcmn-epn-full-remote
+      - mch-qcmn-epn-full-track-matching-remote
       - mch-qcmn-flp-full-remote
       - qcmn-daq-remote
       - mch-digits-epn
@@ -594,6 +620,7 @@ defaults:
       - none
       - tof-compressor
       - tof-full-qcmn-local
+      - tof-full-qcmn-paranoid-local
       - tof-qcmn-compressor-local
       - minimal-dpl
       - qc-daq
@@ -754,6 +781,7 @@ defaults:
     values:
       - none
       - minimal-dpl
+      - zdc-raw-qc
       - qc-daq
       - qcmn-daq-local
   zdc_qc_remote_workflow: !public
@@ -1159,6 +1187,24 @@ defaults:
     panel: "EPN_Workflows"
     index: 801
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_override_run_start_time: !public
+    value: ""
+    type: string
+    label: "Override Run Start Time"
+    description: "If set, use this timestamp instead of 'now' when fetching CCDB objects"
+    widget: editBox
+    panel: "EPN_Workflows"
+    index: 802
+    visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"    
+  pdp_force_run_as_raw: !public
+    value: "false"
+    type: bool
+    label: "Force RAW"
+    description: "Force run to be classified as RAW"
+    widget: checkBox
+    panel: "EPN_Workflows"
+    index: 803
+    visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"    
   odc_partitions_cleanup: !public
     value: "true"
     type: bool
@@ -1227,8 +1273,8 @@ defaults:
   dpl_command: none
   qc_dpl_command: none
   drop_caches_enabled: "false"
-  fmq_initial_shm_cleanup_enabled: "false"
-  fmq_cleanup_enabled: "false"
+  fmq_initial_shm_cleanup_enabled: "true"
+  fmq_cleanup_enabled: "true"
   kafka_enabled: "false"
   minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow
   monitoring_dd_url: "no-op://"
@@ -1560,29 +1606,6 @@ roles:
         panel: DCS
         index: 3
         visibleif: $$dcs_enabled === "true"
-      run_type: !public # enum from AliECS common/runtype
-        value: "PHYSICS"
-        type: string
-        label: "Run Type"
-        description: "Run type for DCS SOR/EOR"
-        widget: comboBox
-        panel: DCS
-        values:
-          - NONE
-          - CALIBRATION_ITHR_TUNING
-          - CALIBRATION_VCASN_TUNING
-          - CALIBRATION_THR_SCAN
-          - CALIBRATION_DIGITAL_SCAN
-          - CALIBRATION_ANALOG_SCAN
-          - CALIBRATION_FHR
-          - CALIBRATION_ALPIDE_SCAN
-          - LASER
-          - PEDESTAL
-          - PHYSICS
-          - PULSER
-          - TECHNICAL
-        index: 4
-        visibleif: $$dcs_enabled === "true"
     roles:
       - name: sor
         call:
@@ -1633,28 +1656,28 @@ roles:
   - name: odc
     enabled: "{{odc_enabled == 'true'}}"
     vars:
-      odc_resources: '{{TrimSpace(odc_resources_spec) == "default" ? "{\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}" : odc_resources_spec }}'
+      odc_resources: '{{TrimSpace(odc_resources_spec) == "default" ? "[ {\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}, {\"zone\":\"calib\"} ]" : odc_resources_spec }}'
       odc_script: '{{ odc_enabled == "true" ? odc.GenerateEPNWorkflowScript() : "" }}'
     roles:
       - name: deploy
         enabled: "{{odc_partitions_cleanup == 'true'}}"
         call:
           func: odc.PreDeploymentCleanup()
-          trigger: before_DEPLOY-100
-          await: before_DEPLOY-100
+          trigger: before_DEPLOY
+          await: after_DEPLOY
           timeout: "{{ odc_partition_cleanup_timeout }}"
           critical: false
       - name: part-init
         call:
           func: odc.PartitionInitialize()
-          trigger: before_DEPLOY
-          await: after_DEPLOY
+          trigger: after_CONFIGURE-100
+          await: after_CONFIGURE-100
           timeout: "{{ odc_partitioninitialize_timeout }}"
           critical: true
       - name: configure
         call:
           func: odc.Configure()
-          trigger: before_CONFIGURE
+          trigger: after_CONFIGURE
           await: after_CONFIGURE
           timeout: "{{ odc_configure_timeout }}"
           critical: true
@@ -1682,8 +1705,8 @@ roles:
       - name: part-term
         call:
           func: odc.PartitionTerminate()
-          trigger: DESTROY-100
-          await: DESTROY-100
+          trigger: after_RESET+100
+          await: after_RESET+100	  
           timeout: "{{ odc_partitionterminate_timeout }}"
           critical: true
       - name: cleanup
@@ -1737,7 +1760,13 @@ roles:
           trigger: after_STOP_ACTIVITY
           timeout: "{{ trg_unload_timeout }}"
           critical: false
-      - name: cleanup
+      - name: errorcleanup
+        call:
+          func: trg.Cleanup()
+          trigger: after_GO_ERROR-100
+          timeout: "{{ trg_cleanup_timeout }}"
+          critical: false
+      - name: destroycleanup
         call:
           func: trg.Cleanup()
           trigger: DESTROY-100
@@ -1764,7 +1793,7 @@ roles:
       - name: startrun
         call:
           func: bookkeeping.StartOfRun()
-          trigger: after_START_ACTIVITY
+          trigger: before_START_ACTIVITY-100
           timeout: 10s
           critical: false
       - name: updaterunstart
