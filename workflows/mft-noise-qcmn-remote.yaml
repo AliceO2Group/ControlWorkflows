@@ -32,6 +32,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47797"
+      rcvBufSize: 1
     task:
       load: mft-noise-qcmn-remote-MFT-MFTClusterTask-proxy
   - name: "MFT-MFTDigitTask-proxy"
@@ -50,6 +51,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       global: "MFT-MFTDigitTask-proxy"
+      rcvBufSize: 1
     task:
       load: mft-noise-qcmn-remote-MFT-MFTDigitTask-proxy
   - name: "MFT-MFTReadoutTask-proxy"
@@ -68,6 +70,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       global: "MFT-MFTReadoutTask-proxy"
+      rcvBufSize: 1
     task:
       load: mft-noise-qcmn-remote-MFT-MFTReadoutTask-proxy
   - name: "PP-TASK-RUNNER-MFTReadoutTrend"

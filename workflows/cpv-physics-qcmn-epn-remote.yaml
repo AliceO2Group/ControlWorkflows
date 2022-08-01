@@ -32,6 +32,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47768"
+      rcvBufSize: 1
     task:
       load: cpv-physics-qcmn-epn-remote-CPV-PhysicsOnEPNs-proxy
   - name: "CPV-MERGER-PhysicsOnEPNs1l-0"

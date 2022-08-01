@@ -32,6 +32,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47730"
+      rcvBufSize: 1
     task:
       load: tpc-full-nodummy-noraw-qcmn-remote-TPC-Clusters-proxy
   - name: "TPC-PID-proxy"
@@ -50,6 +51,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47732"
+      rcvBufSize: 1
     task:
       load: tpc-full-nodummy-noraw-qcmn-remote-TPC-PID-proxy
   - name: "TPC-Tracks-proxy"
@@ -68,6 +70,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47733"
+      rcvBufSize: 1
     task:
       load: tpc-full-nodummy-noraw-qcmn-remote-TPC-Tracks-proxy
   - name: "TPC-MERGER-Clusters1l-0"

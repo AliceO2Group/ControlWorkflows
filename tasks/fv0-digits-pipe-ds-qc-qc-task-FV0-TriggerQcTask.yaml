@@ -1,12 +1,4 @@
-<<<<<<< HEAD
 name: fv0-digits-pipe-ds-qc-qc-task-FV0-TriggerQcTask
-=======
-<<<<<<< HEAD:tasks/mft-track-full-qcmn-local-qc-task-MFT-MFTDigitTask.yaml
-name: mft-track-full-qcmn-local-qc-task-MFT-MFTDigitTask
-=======
-name: fv0-digits-pipe-ds-qc-qc-task-FV0-TriggerQcTask
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/fv0-digits-pipe-ds-qc-qc-task-FV0-TriggerQcTask.yaml
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -21,15 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-<<<<<<< HEAD
   - name: from_qc-task-FV0-TriggerQcTask_to_qc-check-sink-QFV0_TriggerQcTask_0
-=======
-<<<<<<< HEAD:tasks/mft-track-full-qcmn-local-qc-task-MFT-MFTDigitTask.yaml
-  - name: from_qc-task-MFT-MFTDigitTask_to_MFT-MFTDigitTask-proxy
-=======
-  - name: from_qc-task-FV0-TriggerQcTask_to_qc-check-sink-QFV0_TriggerQcTask_0
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/fv0-digits-pipe-ds-qc-qc-task-FV0-TriggerQcTask.yaml
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     type: push
     transport: shmem
     addressing: ipc
@@ -67,15 +51,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-<<<<<<< HEAD
     - "'qc-task-FV0-TriggerQcTask'"
-=======
-<<<<<<< HEAD:tasks/mft-track-full-qcmn-local-qc-task-MFT-MFTDigitTask.yaml
-    - "'qc-task-MFT-MFTDigitTask'"
-=======
-    - "'qc-task-FV0-TriggerQcTask'"
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367):tasks/fv0-digits-pipe-ds-qc-qc-task-FV0-TriggerQcTask.yaml
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -99,7 +75,7 @@ command:
     - "--config"
     - "'{{ qc_config_uri }}'"
     - "--configKeyValues"
-    - "''"
+    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -115,16 +91,9 @@ command:
     - "--forwarding-policy"
     - "'dangling'"
     - "--host"
-<<<<<<< HEAD
     - "''"
     - "--labels"
     - "''"
-=======
-    - "'flp'"
-    - "--labels"
-    - "''"
-    - "--local"
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     - "--local-batch"
     - "''"
     - "--override-values"
@@ -160,10 +129,6 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--period-timer-cycle"
-<<<<<<< HEAD
-    - "'60000000'"
-=======
     - "'300000000'"
->>>>>>> 4af71c3c... FIT Digit DS QC workflows (#367)
     - "--qcConfiguration"
     - "'{}'"

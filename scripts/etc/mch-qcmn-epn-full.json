@@ -37,7 +37,7 @@
         "location": "local",
         "mergingMode": "delta",
         "localControl": "odc",
-        "localMachines": [ "epn" ],
+        "localMachines": [ "localhost", "epn" ],
         "remotePort": "47790",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       },
@@ -55,7 +55,7 @@
         "location": "local",
         "mergingMode": "delta",
         "localControl": "odc",
-        "localMachines": [ "epn" ],
+        "localMachines": [ "localhost", "epn" ],
         "remotePort": "47791",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       },
@@ -73,7 +73,7 @@
         "location": "local",
         "mergingMode": "delta",
         "localControl": "odc",
-        "localMachines": [ "epn" ],
+        "localMachines": [ "localhost", "epn" ],
         "remotePort": "47792",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       },
@@ -82,7 +82,7 @@
         "className": "o2::quality_control_modules::muonchambers::PhysicsTaskPreclusters",
         "moduleName": "QcMuonChambers",
         "detectorName": "MCH",
-        "cycleDurationSeconds": "300",
+        "cycleDurationSeconds": "360",
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "direct",
@@ -91,7 +91,7 @@
         "location": "local",
         "mergingMode": "delta",
         "localControl": "odc",
-        "localMachines": [ "epn" ],
+        "localMachines": [ "localhost", "epn" ],
         "remotePort": "47794",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       },
@@ -112,7 +112,7 @@
         "location": "local",
         "mergingMode": "delta",
         "localControl": "odc",
-        "localMachines": [ "epn" ],
+        "localMachines": [ "localhost", "epn" ],
         "remotePort": "47795",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       }

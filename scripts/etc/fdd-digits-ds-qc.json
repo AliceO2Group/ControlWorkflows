@@ -24,11 +24,7 @@
         "className": "o2::quality_control_modules::fdd::DigitQcTask",
         "moduleName": "QcFDD",
         "detectorName": "FDD",
-<<<<<<< HEAD
         "cycleDurationSeconds": "300",
-=======
-        "cycleDurationSeconds": "60",
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
         "maxNumberCycles": "-1",
         "resetAfterCycles": "1",
         "dataSource": {

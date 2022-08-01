@@ -1,12 +1,7 @@
-<<<<<<< HEAD:tasks/zdc-raw-qc-dpl-output-proxy.yaml
 name: zdc-raw-qc-dpl-output-proxy
-=======
-name: fdd-digits-pipe-ds-qc-dpl-output-proxy
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-ds-qc-dpl-output-proxy.yaml
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
-  proxy_ordered: 1
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
     {{ dpl_command }} | o2-dpl-output-proxy
@@ -30,11 +25,7 @@ command:
   env:
     - O2_DETECTOR={{ detector }}
     - O2_PARTITION={{ environment_id }}
-<<<<<<< HEAD:tasks/zdc-raw-qc-dpl-output-proxy.yaml
     - DPL_OUTPUT_PROXY_ORDERED=1
-=======
-    - DPL_OUTPUT_PROXY_ORDERED={{ proxy_ordered }}
->>>>>>> e1bad67a... FIT Digit DS QC workflows (#367):tasks/fdd-digits-pipe-ds-qc-dpl-output-proxy.yaml
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:

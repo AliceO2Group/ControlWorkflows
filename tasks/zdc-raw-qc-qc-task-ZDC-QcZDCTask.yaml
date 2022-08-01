@@ -1,4 +1,4 @@
-name: fdd-digits-qc-ds-qc-task-FDD-DigitQcTask
+name: zdc-raw-qc-qc-task-ZDC-QcZDCTask
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-FDD-DigitQcTask_to_qc-check-sink-QFDD_DigitQcTask_0
+  - name: from_qc-task-ZDC-QcZDCTask_to_qc-check-sink-QZDC_QcZDCTask_0
     type: push
     transport: shmem
     addressing: ipc
@@ -51,7 +51,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-task-FDD-DigitQcTask'"
+    - "'qc-task-ZDC-QcZDCTask'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"

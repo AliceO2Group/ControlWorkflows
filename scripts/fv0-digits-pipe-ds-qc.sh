@@ -15,6 +15,7 @@ N_PIPELINES=5
 =======
 WF_NAME=fv0-digits-pipe-ds-qc
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+export DPL_CONDITION_QUERY_RATE="${GEN_TOPO_EPN_CCDB_QUERY_RATE:--1}"
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/fv0-digits-ds-qc.json'
 QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/fv0-digits-ds-qc-{{ it }}'
@@ -36,7 +37,7 @@ o2-dpl-raw-proxy -b --session default \
   | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default --dataspec 'digits:FV0/DIGITSBC/0;channels:FV0/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' \
 >>>>>>> e1bad67a... FIT Digit DS QC workflows (#367)
   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
-  | o2-qc --config ${QC_GEN_CONFIG_PATH} -b \
+  | o2-qc --config ${QC_GEN_CONFIG_PATH} -b --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES}" \
   --o2-control $WF_NAME
 # Add the final QC config file path as a variable in the workflow template
 ESCAPED_QC_FINAL_CONFIG_PATH=$(printf '%s\n' "$QC_FINAL_CONFIG_PATH" | sed -e 's/[\/&]/\\&/g')

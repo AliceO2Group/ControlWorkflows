@@ -24,7 +24,7 @@
         "className": "o2::quality_control_modules::fv0::DigitQcTask",
         "moduleName": "QcFV0",
         "detectorName": "FV0",
-        "cycleDurationSeconds": "60",
+        "cycleDurationSeconds": "300",
         "maxNumberCycles": "-1",
         "resetAfterCycles": "1",
         "dataSource": {
@@ -40,7 +40,7 @@
         "className": "o2::quality_control_modules::fv0::TriggerQcTask",
         "moduleName": "QcFV0",
         "detectorName": "FV0",
-        "cycleDurationSeconds": "60",
+        "cycleDurationSeconds": "300",
         "resetAfterCycles": "1",
         "dataSource": {
           "type": "dataSamplingPolicy",
