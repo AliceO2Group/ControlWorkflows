@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_MERGER-MFTClusterTask1l-0_to_qc-check-MFTMFTClusterCheck
+  - name: from_MERGER-MFTClusterTask1l-0_to_qc-check-MFT-MFTClusterCheck
     type: push
     transport: shmem
     addressing: ipc
@@ -23,7 +23,9 @@ bind:
 command:
   shell: true
   log: "{{ log_task_output }}"
-  env: ["O2_DETECTOR={{ detector }}"]
+  env:
+    - O2_DETECTOR={{ detector }}
+    - O2_PARTITION={{ environment_id }}
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
@@ -116,7 +118,7 @@ command:
     - "--spawners"
     - "'1'"
     - "--stacktrace-on-signal"
-    - "'all'"
+    - "'simple'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
@@ -124,4 +126,4 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--period-timer-publish"
-    - "'60000000'"
+    - "'300000000'"

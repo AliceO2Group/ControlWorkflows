@@ -3,7 +3,6 @@ vars:
   dpl_command: >-
     o2-qc --config {{ qc_config_uri }} --remote -b
 defaults:
-  qc_remote_machine: "alio2-cr1-qc02"
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/emc-qcmn-flp"
   monitoring_dpl_url: "no-op://"
   user: "flp"
@@ -12,76 +11,67 @@ defaults:
   shm_throw_bad_alloc: false
   session_id: default
   resources_monitoring: 15
-constraints:
-  - attribute: machine_id
-    value: "{{ qc_remote_machine }}"
 roles:
   - name: "internal-dpl-clock"
     connect:
     task:
       load: emc-qcmn-flp-remote-internal-dpl-clock
-  - name: "RawTask-proxy"
+  - name: "EMC-RawTask-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_RawTask-proxy
+    - name: from_internal-dpl-clock_to_EMC-RawTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_RawTask-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_EMC-RawTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: RawTask-proxy
+    - name: EMC-RawTask-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
-      global: "RawTask-proxy"
+      global: "EMC-RawTask-proxy"
+      rcvBufSize: 1
     task:
-      load: emc-qcmn-flp-remote-RawTask-proxy
-  - name: "MERGER-RawTask1l-0"
+      load: emc-qcmn-flp-remote-EMC-RawTask-proxy
+  - name: "EMC-MERGER-RawTask1l-0"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-RawTask1l-0
+    - name: from_internal-dpl-clock_to_EMC-MERGER-RawTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-RawTask1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_EMC-MERGER-RawTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_RawTask-proxy_to_MERGER-RawTask1l-0
+    - name: from_EMC-RawTask-proxy_to_EMC-MERGER-RawTask1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.RawTask-proxy:from_RawTask-proxy_to_MERGER-RawTask1l-0"
+      target: "{{ Parent().Path }}.EMC-RawTask-proxy:from_EMC-RawTask-proxy_to_EMC-MERGER-RawTask1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: emc-qcmn-flp-remote-MERGER-RawTask1l-0
-  - name: "qc-check-DETbY90"
+      load: emc-qcmn-flp-remote-EMC-MERGER-RawTask1l-0
+  - name: "qc-check-DET-bY90"
     connect:
-    - name: from_MERGER-RawTask1l-0_to_qc-check-DETbY90
+    - name: from_EMC-MERGER-RawTask1l-0_to_qc-check-DET-bY90
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-RawTask1l-0:from_MERGER-RawTask1l-0_to_qc-check-DETbY90"
+      target: "{{ Parent().Path }}.EMC-MERGER-RawTask1l-0:from_EMC-MERGER-RawTask1l-0_to_qc-check-DET-bY90"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: emc-qcmn-flp-remote-qc-check-DETbY90
+      load: emc-qcmn-flp-remote-qc-check-DET-bY90
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_qc-check-DETbY90_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-DET-bY90_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-DETbY90:from_qc-check-DETbY90_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-DET-bY90:from_qc-check-DET-bY90_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
       load: emc-qcmn-flp-remote-internal-dpl-injected-dummy-sink
-  - name: fairmq-shmmonitor
-    enabled: "{{fmq_cleanup_enabled == 'true'}}"
-    task:
-      load: "fairmq-shmmonitor"
-      trigger: DESTROY
-      timeout: 10s
-      critical: false

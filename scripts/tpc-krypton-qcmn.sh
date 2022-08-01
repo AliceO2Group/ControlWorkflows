@@ -4,8 +4,8 @@
 set -e;
 set -u;
 
-QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-full-qcmn-krypton.json'
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-qcmn-krypton'
+QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-krypton-qcmn.json'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-krypton-qcmn'
 QC_CONFIG_PARAM='qc_config_uri'
 
 source helpers.sh
@@ -13,6 +13,9 @@ source helpers.sh
 cd ../
 
 WF_NAME=tpc-krypton-qcmn-remote # for krypton Clusters
+export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+export DPL_CONDITION_QUERY_RATE="${GEN_TOPO_EPN_CCDB_QUERY_RATE:--1}"
+DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
 o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
 
@@ -26,6 +29,4 @@ sed -i "s/""${ESCAPED_QC_GEN_CONFIG_PATH}""/{{ ""${QC_CONFIG_PARAM}"" }}/g" work
 
 sed -i "s/shm_segment_size: \([0-9]\+\)/shm_segment_size: 90000000000/g" workflows/tpc-krypton-qcmn-remote.yaml
 
-add_fmq_shmmonitor_role workflows/${WF_NAME}.yaml
-add_qc_remote_machine_attribute workflows/${WF_NAME}.yaml alio2-cr1-qts01
 

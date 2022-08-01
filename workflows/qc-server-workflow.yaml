@@ -1,4 +1,5 @@
 name: !public qc-server-workflow
+description: !public "A workflow template for running any standalone DPL workflows on QC servers"
 defaults:
   ###############################
   # Basic Configuration Panel
@@ -83,11 +84,11 @@ defaults:
   ###############################
   # Other variables
   ###############################
-  drop_caches_enabled: "true"
+  drop_caches_enabled: "false"
   drop_caches_timeout: "30s"
-  fmq_initial_shm_cleanup_enabled: "true"
+  fmq_initial_shm_cleanup_enabled: "false"
   fmq_initial_shm_cleanup_timeout: "30s"
-  fmq_cleanup_enabled: "true"
+  fmq_cleanup_enabled: "false"
   monitoring_dpl_url: "no-op://"
   monitoring_qc_url: "no-op://"
   o2_install_path: "/opt/o2"

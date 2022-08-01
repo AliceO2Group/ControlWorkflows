@@ -10,7 +10,7 @@
       },
       "Activity": {
         "number": "42",
-        "type": "2"
+        "type": "0"
       },
       "monitoring": {
         "url": "influxdb-unix:///tmp/telegraf.sock"
@@ -52,7 +52,7 @@
         },
         "taskParameters": {
           "FLP": "0",
-          "TaskLevel": "0"
+          "NoiseScan": "0"
         },
         "location": "local",
         "localMachines" : [ "flp" ], 
@@ -86,6 +86,14 @@
         "moduleName": "QcMFT",
         "detectorName": "MFT",
         "policy": "OnEachSeparately",
+        "checkParameters" : {
+          "WarningThresholdMedium" : "0",
+          "WarningThresholdBad" : "0",
+          "ErrorThresholdMedium" : "20",
+          "ErrorThresholdBad" : "150",
+          "FaultThresholdMedium" : "10",
+          "FaultThresholdBad" : "20"
+        },
         "dataSource": [{
           "type": "Task",
           "name": "MFTReadoutTask",
@@ -109,12 +117,61 @@
         "dataSource": [{
             "type": "Task",
             "name": "MFTClusterTask",
-            "MOs" : ["mClusterOccupancy"]
+            "MOs" : ["mClusterOccupancy","mClusterPatternIndex","mClusterOccupancySummary"]
         }],
         "className": "o2::quality_control_modules::mft::QcMFTClusterCheck",
         "moduleName": "QcMFT",
         "detectorName": "MFT",
         "policy": "OnAny"
+      }
+    },
+    "postprocessing": {
+      "MFTReadoutTrend": {
+        "active": "true",
+        "className": "o2::quality_control::postprocessing::TrendingTask",
+        "moduleName": "QcMFT",
+        "detectorName": "MFT",
+        "dataSources": [
+          {
+            "type": "repository",
+            "path": "MFT/MO/MFTReadoutTask",
+            "names": [ "mSummaryChipError", "mSummaryChipWarning", "mSummaryChipFault" ],
+            "reductorName": "o2::quality_control_modules::mft::QcMFTReadoutTrend",
+            "moduleName": "QcMFT"
+          }
+        ],
+        "plots": [
+          {
+            "name": "mChipErrorTrend",
+            "title": "Trend of total number of chips in error",
+            "varexp": "mSummaryChipError.binContentOverflow:time",
+            "selection": "",
+            "option": "*L"
+          },
+          {
+            "name": "mChipWarningTrend",
+            "title": "Trend of total number of chips in warning",
+            "varexp": "mSummaryChipWarning.binContentOverflow:time",
+            "selection": "",
+            "option": "*L"
+          },
+          {
+            "name": "mChipFaultTrend",
+            "title": "Trend of total number of chips in fault",
+            "varexp": "mSummaryChipFault.binContentOverflow:time",
+            "selection": "",
+            "option": "*L"
+          }
+        ],
+        "initTrigger": [
+          "userorcontrol"
+        ],
+        "updateTrigger": [
+          "newobject:qcdb:MFT/MO/MFTReadoutTask/mSummaryChipWarning"
+        ],
+        "stopTrigger": [
+          "userorcontrol"
+        ]
       }
     }    
   },
