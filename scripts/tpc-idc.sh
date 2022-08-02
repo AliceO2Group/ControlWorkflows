@@ -100,8 +100,8 @@ WF_NAME=tpc-idc-merger
 lanes=5
 nTFs=1000
 
-firstCRU=11
-lastCRU=13
+firstCRU=0
+lastCRU=359
 sCRUs=""
 loc="A:TPC/IDCGROUP/"
 loc1D="A:TPC/1DIDC/"
@@ -112,7 +112,7 @@ for ((i = ${firstCRU} ; i <= ${lastCRU} ; i=i+2)); do
 done
 
 
-sCRUs="dd:TPC/IDCGROUP"
+#sCRUs="dd:TPC/IDCGROUP"
 
 echo "CRUs: ${sCRUs}"
 
@@ -160,12 +160,10 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --groupRows "2,2,2,3,3,3,2,2,2,2" \
   --severity warning \
   --infologger-severity warning \
-  --use-approximate-timestamp true \
   --sendOutputFFT true \
   | o2-tpc-idc-ft-aggregator $ARGS_ALL \
   --rangeIDC 200 \
   --nFourierCoeff 40 \
-  --timeframes ${nTFs} \
   --configKeyValues 'keyval.output_dir=/dev/null'  \
   --severity warning \
   --infologger-severity warning \
