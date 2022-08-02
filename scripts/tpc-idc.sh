@@ -9,8 +9,8 @@ set -u;
 source helpers.sh
 
 WF_NAME=tpc-idc
-WF_NAME_A=tpc-idc-A
-WF_NAME_C=tpc-idc-C
+WF_NAME_A=tpc-idc-a
+WF_NAME_C=tpc-idc-c
 
 cd ..
 
@@ -157,5 +157,39 @@ sed -i /defaults:/\ a\\\ \\\ "merger_node_c":\ "${MERGER_C}" workflows/${WF_NAME
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME}.yaml
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME_A}.yaml
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME_C}.yaml
+
+
+echo "name: tpc-calib-full" > workflows/${WF_NAME}-full.yaml
+echo "roles:" >> workflows/${WF_NAME}-full.yaml
+echo "  - name: tpc-idc" >> workflows/${WF_NAME}-full.yaml
+echo "    enabled: \"{{ it != 'alio2-cr1-flp145' }}\"" >> workflows/${WF_NAME}-full.yaml
+echo "    include: tpc-idc" >> workflows/${WF_NAME}-full.yaml
+echo "  - name: tpc-sac" >> workflows/${WF_NAME}-full.yaml
+echo "    enabled: \"{{ it == 'alio2-cr1-flp145' }}\"" >> workflows/${WF_NAME}-full.yaml
+echo "    include: minimal-dpl" >> workflows/${WF_NAME}-full.yaml
+
+
+WF_NAME=tpc-idc
+aside=" it == 'alio2-cr1-flp001'"
+cside=" it == 'alio2-cr1-flp073'"
+
+for ((i = 2 ; i <= 72 ; i++)); do
+  aside+=" || it == 'alio2-cr1-flp${i}' "
+done
+for ((i = 74 ; i <= 144 ; i++)); do
+  cside+=" || it == 'alio2-cr1-flp${i}' "
+done
+
+echo "name: tpc-calib-full-split" > workflows/${WF_NAME}-full-split.yaml
+echo "roles:" >> workflows/${WF_NAME}-full-split.yaml
+echo "  - name: tpc-idc-a" >> workflows/${WF_NAME}-full-split.yaml
+echo "    enabled: \"{{ $aside }}\"" >> workflows/${WF_NAME}-full-split.yaml
+echo "    include: tpc-idc-a" >> workflows/${WF_NAME}-full-split.yaml
+echo "  - name: tpc-idc-c" >> workflows/${WF_NAME}-full-split.yaml
+echo "    enabled: \"{{ $cside }}\"" >> workflows/${WF_NAME}-full-split.yaml
+echo "    include: tpc-idc-c" >> workflows/${WF_NAME}-full-split.yaml
+echo "  - name: tpc-sac" >> workflows/${WF_NAME}-full-split.yaml
+echo "    enabled: \"{{ it == 'alio2-cr1-flp145' }}\"" >> workflows/${WF_NAME}-full-split.yaml
+echo "    include: minimal-dpl" >> workflows/${WF_NAME}-full-split.yaml
 
 

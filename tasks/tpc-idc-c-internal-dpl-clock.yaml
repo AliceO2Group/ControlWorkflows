@@ -1,4 +1,4 @@
-name: tpc-idc-A-internal-dpl-clock
+name: tpc-idc-c-internal-dpl-clock
 defaults:
   log_task_output: none
   exit_transition_timeout: 15

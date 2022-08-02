@@ -1,4 +1,4 @@
-name: tpc-idc-A-dpl-output-proxy
+name: tpc-idc-c-tpc-idc-merger-proxy
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,12 +13,6 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: downstream
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    global: "downstream-{{ it }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -48,7 +42,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'dpl-output-proxy'"
+    - "'tpc-idc-merger-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -70,7 +64,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'xout:TPC/RAWDATA;ddout:FLP/DISTSUBTIMEFRAME/0'"
+    - "'idc2:TPC/IDCGROUP'"
     - "--default-port"
     - "'4200'"
     - "--default-transport"
@@ -90,21 +84,21 @@ command:
     - "--forwarding-policy"
     - "'dangling'"
     - "--labels"
-    - "''"
+    - "'tpc-idc-merger-proxy:ecs-preserve-raw-channels'"
     - "--output-proxy-address"
     - "'0.0.0.0'"
     - "--output-proxy-method"
-    - "'bind'"
+    - "'connect'"
     - "--pipeline"
     - "''"
     - "--proxy-channel-name"
-    - "'downstream'"
+    - "'tpc-idc-merger-proxy'"
     - "--proxy-name"
-    - "'dpl-output-proxy'"
+    - "'tpc-idc-merger-proxy'"
     - "--readers"
     - "'1'"
     - "--severity"
-    - "'info'"
+    - "'warning'"
     - "--shm-allocation"
     - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
