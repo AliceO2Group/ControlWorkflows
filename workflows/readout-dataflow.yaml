@@ -685,6 +685,7 @@ defaults:
       - tpc-full-nodummy-noraw-qcmn-remote
       - tpc-full-nodummy-qcmn-pp-remote
       - tpc-full-calib-remote
+      - tpc-full-calib-trend-remote
       - tpc-krypton-qcmn-remote
       - tpc-idc-merger
     visibleif: $$qc_remote_enabled === "true"  
