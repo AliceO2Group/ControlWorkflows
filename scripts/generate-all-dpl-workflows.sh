@@ -106,6 +106,7 @@ check_pwd
 ./tof-full-qcmn-paranoid.sh
 ./tof-full-epn-qcmn.sh
 ./tpc-full-calib-qcmn.sh
+./tpc-full-calib-trend-qcmn.sh
 ./tpc-full-qcmn.sh
 ./tpc-full-nodummy-qcmn.sh
 ./tpc-full-nodummy-noraw-qcmn.sh
