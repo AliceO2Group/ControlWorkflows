@@ -1,10 +1,13 @@
+
 name: tpc-calib-full
+flp-number:
+  - value: {{ it }}
 roles:
   - name: tpc-idc-a
-    enabled: "{{ it == 'alio2-cr1-flp001' }}"
+    enabled: "{{ flp-number == 'alio2-cr1-flp001' }}"
     include: tpc-idc-a
   - name: tpc-idc-c
-    enabled: "{{ it == 'alio2-cr1-flp073' }}"
+    enabled: "{{ flp-number == 'alio2-cr1-flp073' }}"
     include: tpc-idc-c
   - name: tpc-sac
     enabled: "{{ it == 'alio2-cr1-flp145' }}"
