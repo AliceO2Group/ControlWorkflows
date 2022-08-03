@@ -161,6 +161,20 @@
             "MOs": []
           }
         ]
+      },
+      "QcCheckMIDTracks": {
+        "active": "false",
+        "className": "o2::quality_control_modules::mid::TracksQcCheck",
+        "moduleName": "QcMID",
+        "detectorName": "MID",
+        "policy": "OnAny",
+        "dataSource": [
+          {
+            "type": "Task",
+            "name": "QcTaskMIDTracks",
+            "MOs": []
+          }
+        ]
       }
     }
   },
