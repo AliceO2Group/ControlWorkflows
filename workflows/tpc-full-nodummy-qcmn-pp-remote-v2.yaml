@@ -7,7 +7,7 @@ defaults:
   monitoring_dpl_url: "no-op://"
   user: "flp"
   fmq_rate_logging: 0
-  shm_segment_size: 90000000000
+  shm_segment_size: 120000000000
   shm_throw_bad_alloc: false
   session_id: default
   resources_monitoring: 15
@@ -32,6 +32,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47730"
+      rcvBufSize: 1
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-v2-TPC-Clusters-proxy
   - name: "TPC-PID-proxy"
@@ -50,6 +51,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47732"
+      rcvBufSize: 1
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-v2-TPC-PID-proxy
   - name: "TPC-RawDigits-proxy"
@@ -68,6 +70,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47731"
+      rcvBufSize: 1
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-v2-TPC-RawDigits-proxy
   - name: "TPC-Tracks-proxy"
@@ -86,6 +89,7 @@ roles:
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47733"
+      rcvBufSize: 1
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-v2-TPC-Tracks-proxy
   - name: "PP-TASK-RUNNER-Clusters"

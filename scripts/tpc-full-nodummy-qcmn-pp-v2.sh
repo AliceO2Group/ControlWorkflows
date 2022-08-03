@@ -24,6 +24,6 @@ sed -i /defaults:/\ a\\\ \\\ "${QC_CONFIG_PARAM}":\ \""${ESCAPED_QC_FINAL_CONFIG
 ESCAPED_QC_GEN_CONFIG_PATH=$(printf '%s\n' "$QC_GEN_CONFIG_PATH" | sed -e 's/[]\/$*.^[]/\\&/g');
 sed -i "s/""${ESCAPED_QC_GEN_CONFIG_PATH}""/{{ ""${QC_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME}.yaml tasks/${WF_NAME}-*
 
-sed -i "s/shm_segment_size: \([0-9]\+\)/shm_segment_size: 90000000000/g" workflows/${WF_NAME}.yaml
+sed -i "s/shm_segment_size: \([0-9]\+\)/shm_segment_size: 120000000000/g" workflows/${WF_NAME}.yaml
 
 
