@@ -9,9 +9,12 @@
         "name": "not_applicable",
         "maxObjectSize": "10000000"
       },
+      "infologger": {
+        "filterDiscardDebug": "false",
+        "filterDiscardLevel": "21"
+      },
       "Activity": {
-        "number": "42",
-        "type": "2"
+        "provenance": "qc"
       },
       "monitoring": {
         "url": "influxdb-unix:///tmp/telegraf.sock"
@@ -73,7 +76,6 @@
           "name": "random-cluster"
         },
         "taskParameters": {
-          "myOwnKey": "myOwnValue",
           "NClustersNBins": "100",
           "NClustersXMin": "0",
           "NClustersXMax": "100",
@@ -162,8 +164,7 @@
         "mergingMode": "delta",
         "localControl": "odc"
       }
-    },
-    "checks": {
+    },   "checks": {
       "CheckOfPID_Trending": {
         "active": "true",
         "className": "o2::quality_control_modules::tpc::CheckOfTrendings",
@@ -176,17 +177,42 @@
             "name": "PID_Trending",
             "MOs": [
               "hNClsPID_StatMean_Trend",
-              "hdEdxTotMIP_TPC_StatMean_Trend",
-              "hdEdxTotMIP_TPC_StatStddev_Trend",
               "hdEdxVsncls_StatMean_Trend_dEdx",
               "hdEdxTotVsP_TPC_StatMean_Trend_p",
-              "hdEdxVsPhi_StatMean_Trend_dEdx"
+              "hdEdxVsPhi_StatMean_Trend_dEdx",
+              "hdEdxTotMIP_TPC_StatStddev_Trend"
             ]
           }
         ],
         "checkParameters": {
             "chooseCheckMeanOrExpectedPhysicsValueOrBoth" : "Mean",
             "expectedPhysicsValue" : "0",
+            "allowedNSigmaForExpectation" : "3",
+            "badNSigmaForExpectation" : "6",
+            "allowedNSigmaForMean" : "3",
+            "badNSigmaForMean" : "6",
+            "pointsToTakeForExpectedValueCheck" : "10",
+            "pointsToTakeForMeanCheck" : "10"
+          }
+      },
+      "CheckOfPID_Mips_Trending": {
+        "active": "true",
+        "className": "o2::quality_control_modules::tpc::CheckOfTrendings",
+        "moduleName": "QcTPC",
+        "policy": "OnEachSeparately",
+        "detectorName": "TPC",
+        "dataSource": [
+          {
+            "type": "PostProcessing",
+            "name": "PID_Trending",
+            "MOs": [
+              "hdEdxTotMIP_TPC_StatMean_Trend"
+            ]
+          }
+        ],
+        "checkParameters": {
+            "chooseCheckMeanOrExpectedPhysicsValueOrBoth" : "Both",
+            "expectedPhysicsValue" : "50",
             "allowedNSigmaForExpectation" : "3",
             "badNSigmaForExpectation" : "6",
             "allowedNSigmaForMean" : "3",
@@ -209,6 +235,7 @@
               "hNClustersBeforeCuts_StatMean_Trend",
               "hNClustersAfterCuts_StatMean_Trend",
               "hEta_StatMean_Trend",
+              "hEtaRatio_merged_StatMean_Trend",
               "hPt_StatMean_Trend",
               "hSign_StatMean_Trend",
               "hPtNeg_StatMean_Trend",
@@ -230,6 +257,23 @@
             "pointsToTakeForExpectedValueCheck" : "10",
             "pointsToTakeForMeanCheck" : "10"
           }
+      },
+      "CheckForEmptyPads": {
+        "active" : "true",
+        "className" : "o2::quality_control_modules::tpc::CheckForEmptyPads",
+        "moduleName" : "QcTPC",
+        "policy" : "OnEachSeparately",
+        "detectorName" : "TPC",
+        "dataSource" : [{
+          "type" : "PostProcessing",
+          "name" : "Clusters",
+          "MOs" : ["c_ROCs_N_Clusters_2D"]
+        }],
+        "checkParameters": {
+          "mediumQualityPercentageOfWorkingPads" : "0.7",
+          "badQualityPercentageOfWorkingPads" : "0.4",
+          "MOsNames2D" : "c_ROCs_N_Clusters_2D"
+        }
       }
     },
     "postprocessing": {
@@ -260,11 +304,6 @@
         "storeMetaData_comment": "For how-to, see 'lookupMetaData_comment'.",
         "storeMetaData": [
           {}
-        ],
-        "histogramRanges_comment": [
-          "nBins",
-          "min",
-          "max"
         ],
         "histogramRanges_comment" : [ "nBins", "min", "max" ],
         "histogramRanges": [
@@ -333,7 +372,7 @@
         "dataType_comment": "This is the switch for 'RawDigits' or 'Clusters' task. Choose 'raw' or 'clusters'.",
         "dataType": "clusters",
         "initTrigger": [
-          "once"
+          "userorcontrol"
         ],
         "updateTrigger_comment": "To trigger on a specific file being updated, use e.g. 'newobject:ccdb:TPC/Calib/Noise'",
         "updateTrigger": [
@@ -545,7 +584,8 @@
               "hPt",
               "hSign",
               "hPtPos",
-              "hPtNeg"
+              "hPtNeg",
+              "hEtaRatio_merged"
             ],
             "reductorName": "o2::quality_control_modules::common::TH1Reductor",
             "moduleName": "QcCommon"
@@ -585,6 +625,14 @@
             "selection": "",
             "option": "*L",
             "graphErrors": "0:(hEta.stddev)/(sqrt(hEta.entries))"
+          },
+          {
+            "name": "hEtaRatio_merged_StatMean_Trend",
+            "title": "Mean trend of the ratio of the pseudorapidity",
+            "varexp": "hEtaRatio_merged.mean:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "0:(hEtaRatio_merged.stddev)/(sqrt(hEtaRatio_merged.entries))"
           },
           {
             "name": "hPt_StatMean_Trend",
@@ -660,6 +708,437 @@
         "stopTrigger": [
           "userorcontrol"
         ]
+      },
+      "PID_Quality_Trending": {
+        "active": "true",
+        "className": "o2::quality_control_modules::tpc::TrendingTaskTPC",
+        "moduleName": "QcTPC",
+        "detectorName": "TPC",
+        "producePlotsOnUpdate": "true",
+        "dataSources": [
+          {
+            "type": "repository-quality",
+            "path": "TPC/QO/CheckOfPID_Trending/PID_Trending",
+            "names": [ 
+              "hNClsPID_StatMean_Trend",
+              "hdEdxVsncls_StatMean_Trend_dEdx",
+              "hdEdxTotVsP_TPC_StatMean_Trend_p",
+              "hdEdxVsPhi_StatMean_Trend_dEdx",
+              "hdEdxTotMIP_TPC_StatStddev_Trend"
+            ],
+            "reductorName": "o2::quality_control_modules::tpc::QualityReductorTPC",
+            "axisDivision": [ ],
+            "moduleName": "QcTPC"
+          }
+        ],
+        "plots": [
+          {
+            "name": "hNClsPID_StatMean_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "hNClsPID_StatMean_Trend.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          },
+          {
+            "name": "hdEdxVsncls_StatMean_dEdx_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "hdEdxVsncls_StatMean_Trend_dEdx.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          },
+          {
+            "name": "hdEdxTotVsP_TPC_StatMean_p_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "hdEdxTotVsP_TPC_StatMean_Trend_p.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          },
+          {
+            "name": "hdEdxVsPhi_StatMean_dEdx_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "hdEdxVsPhi_StatMean_Trend_dEdx.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          },
+          {
+            "name": "hdEdxTotMIP_TPC_StatStddev_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "hdEdxTotMIP_TPC_StatStddev_Trend.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          }
+        ],
+        "initTrigger": [
+          "userorcontrol"
+        ],
+        "updateTrigger": [
+          "newobject:qcdb:TPC/QO/CheckOfPID_Trending/PID_Trending/hNClsPID_StatMean_Trend"                 
+        ],
+        "stopTrigger": [
+          "userorcontrol"
+        ]
+      },
+      "PID_Mips_Quality_Trending": {
+        "active": "true",
+        "className": "o2::quality_control_modules::tpc::TrendingTaskTPC",
+        "moduleName": "QcTPC",
+        "detectorName": "TPC",
+        "producePlotsOnUpdate": "true",
+        "dataSources": [
+          {
+            "type": "repository-quality",
+            "path": "TPC/QO/CheckOfPID_Mips_Trending/PID_Trending",
+            "names": [ 
+              "hdEdxTotMIP_TPC_StatMean_Trend"
+            ],
+            "reductorName": "o2::quality_control_modules::tpc::QualityReductorTPC",
+            "axisDivision": [ ],
+            "moduleName": "QcTPC"
+          }
+        ],
+        "plots": [
+          {
+            "name": "hdEdxTotMIP_TPC_StatMean_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "hdEdxTotMIP_TPC_StatMean_Trend.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          }
+        ],
+        "initTrigger": [
+          "userorcontrol"
+        ],
+        "updateTrigger": [
+          "newobject:qcdb:TPC/QO/CheckOfPID_Mips_Trending/PID_Trending/hdEdxTotMIP_TPC_StatMean_Trend"                 
+        ],
+        "stopTrigger": [
+          "userorcontrol"
+        ]
+      },
+      "Tracks_Quality_Trending": {
+        "active": "true",
+        "className": "o2::quality_control_modules::tpc::TrendingTaskTPC",
+        "moduleName": "QcTPC",
+        "detectorName": "TPC",
+        "producePlotsOnUpdate": "true",
+        "dataSources": [
+          {
+            "type": "repository-quality",
+            "path": "TPC/QO/CheckOfTrack_Trending/Tracks_Trending",
+            "names": [ 
+              "hNClustersBeforeCuts_StatMean_Trend",
+              "hNClustersAfterCuts_StatMean_Trend",
+              "hEta_StatMean_Trend",
+              "hEtaRatio_merged_StatMean_Trend",
+              "hPt_StatMean_Trend",
+              "hSign_StatMean_Trend",
+              "hPtNeg_StatMean_Trend",
+              "hPtPos_StatMean_Trend",
+              "h2DNClustersPhiAside_StatMean_Trend_Phi",
+              "h2DNClustersPhiAside_StatMean_Trend_Nclusters",
+              "h2DNClustersPhiCside_StatMean_Trend_Phi",
+              "h2DNClustersPhiCside_StatMean_Trend_Nclusters"
+            ],
+            "reductorName": "o2::quality_control_modules::tpc::QualityReductorTPC",
+            "axisDivision": [ ],
+            "moduleName": "QcTPC"
+          }
+        ],
+        "plots": [
+          {
+            "name": "hNClustersBeforeCuts_StatMean_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "hNClustersBeforeCuts_StatMean_Trend.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          },
+          {
+            "name": "hNClustersAfterCuts_StatMean_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "hNClustersAfterCuts_StatMean_Trend.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          },
+          {
+            "name": "hEta_StatMean_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "hEta_StatMean_Trend.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          },
+          {
+            "name": "hEtaRatio_merged_StatMean_Trend",
+            "title": "Quality trending",
+            "varexp": "hEtaRatio_merged_StatMean_Trend.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          },
+          {
+            "name": "hPt_StatMean_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "hPt_StatMean_Trend.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          },
+          {
+            "name": "hSign_StatMean_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "hSign_StatMean_Trend.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          },
+          {
+            "name": "hPtNeg_StatMean_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "hPtNeg_StatMean_Trend.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          },
+          {
+            "name": "hPtPos_StatMean_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "hPtPos_StatMean_Trend.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          },
+          {
+            "name": "h2DNClustersPhiAside_StatMean_Phi_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "h2DNClustersPhiAside_StatMean_Trend_Phi.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          },
+          {
+            "name": "h2DNClustersPhiAside_StatMean_Nclusters_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "h2DNClustersPhiAside_StatMean_Trend_Nclusters.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          },
+          {
+            "name": "h2DNClustersPhiCside_StatMean_Phi_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "h2DNClustersPhiCside_StatMean_Trend_Phi.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          },
+          {
+            "name": "h2DNClustersPhiCside_StatMean_Nclusters_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "h2DNClustersPhiCside_StatMean_Trend_Nclusters.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          }
+        ],
+        "initTrigger": [
+          "userorcontrol"
+        ],
+        "updateTrigger": [
+          "newobject:qcdb:TPC/QO/CheckOfTrack_Trending/Tracks_Trending/h2DNClustersPhiCside_StatMean_Trend_Nclusters"                 
+        ],
+        "stopTrigger": [
+          "userorcontrol"
+        ]
+      },
+      "Clusters_Quality_Trending": {
+        "active": "true",
+        "className": "o2::quality_control_modules::tpc::TrendingTaskTPC",
+        "moduleName": "QcTPC",
+        "detectorName": "TPC",
+        "producePlotsOnUpdate": "true",
+        "dataSources": [
+          {
+            "type": "repository-quality",
+            "path": "TPC/QO/CheckForEmptyPads/Clusters",
+            "names": [ 
+              "c_ROCs_N_Clusters_2D"
+            ],
+            "reductorName": "o2::quality_control_modules::tpc::QualityReductorTPC",
+            "axisDivision": [ ],
+            "moduleName": "QcTPC"
+          }
+        ],
+        "plots": [
+          {
+            "name": "N_Clusters_EmptyPads_Quality_Trend",
+            "title": "Quality trending",
+            "varexp": "c_ROCs_N_Clusters_2D.qualitylevel:time",
+            "selection": "",
+            "option": "*L",
+            "graphErrors": "", 
+            "graphYRange": "",
+            "graphXRange": "",
+            "graphAxisLabel": "qualitylevel:time"
+          }
+        ],
+        "initTrigger": [
+          "once"
+        ],
+        "updateTrigger": [
+          "120 seconds"                 
+        ],
+        "stopTrigger": [
+          "userorcontrol"
+        ]
+      },
+      "Quality_Observer": {
+        "active": "true",
+        "className": "o2::quality_control_modules::tpc::QualityObserver",
+        "moduleName": "QcTPC",
+        "detectorName": "TPC",
+        "qualityObserverName": "TPC_Qualities",
+        "qualityObserverConfig": [
+          {
+            "groupTitle": "PID task",
+            "path": "TPC/QO/CheckOfPID_Trending/PID_Trending",
+            "inputObjects": [
+              "hNClsPID_StatMean_Trend",
+              "hdEdxVsncls_StatMean_Trend_dEdx",
+              "hdEdxTotVsP_TPC_StatMean_Trend_p",
+              "hdEdxVsPhi_StatMean_Trend_dEdx",
+              "hdEdxTotMIP_TPC_StatStddev_Trend"
+            ],
+            "inputObjectTitles": [
+              "hNClsPID_StatMean_Trend",
+              "hdEdxVsncls_StatMean_Trend_dEdx",
+              "hdEdxTotVsP_TPC_StatMean_Trend_p",
+              "hdEdxVsPhi_StatMean_Trend_dEdx",
+              "hdEdxTotMIP_TPC_StatStddev_Trend"
+            ]
+          },
+          {
+            "groupTitle": "Mips position",
+            "path": "TPC/QO/CheckOfPID_Mips_Trending/PID_Trending",
+            "inputObjects": [
+              "hdEdxTotMIP_TPC_StatMean_Trend"              
+            ],
+            "inputObjectTitles": [
+              "hdEdxTotMIP_TPC_StatMean_Trend"              
+            ]
+          },
+          {
+            "groupTitle": "Tracks task",
+            "path": "TPC/QO/CheckOfTrack_Trending/Tracks_Trending",
+            "inputObjects": [
+              "hNClustersBeforeCuts_StatMean_Trend",
+              "hNClustersAfterCuts_StatMean_Trend",
+              "hEta_StatMean_Trend",
+              "hEtaRatio_merged_StatMean_Trend",
+              "hPt_StatMean_Trend",
+              "hSign_StatMean_Trend",
+              "hPtNeg_StatMean_Trend",
+              "hPtPos_StatMean_Trend",
+              "h2DNClustersPhiAside_StatMean_Trend_Phi",
+              "h2DNClustersPhiAside_StatMean_Trend_Nclusters",
+              "h2DNClustersPhiCside_StatMean_Trend_Phi",
+              "h2DNClustersPhiCside_StatMean_Trend_Nclusters"
+            ],
+            "inputObjectTitles": [
+              "hNClustersBeforeCuts_StatMean_Trend",
+              "hNClustersAfterCuts_StatMean_Trend",
+              "hEta_StatMean_Trend",
+              "hPt_StatMean_Trend",
+              "hSign_StatMean_Trend",
+              "hPtNeg_StatMean_Trend",
+              "hPtPos_StatMean_Trend",
+              "h2DNClustersPhiAside_StatMean_Trend_Phi",
+              "h2DNClustersPhiAside_StatMean_Trend_Nclusters",
+              "h2DNClustersPhiCside_StatMean_Trend_Phi",
+              "h2DNClustersPhiCside_StatMean_Trend_Nclusters"
+            ]
+          },
+          {
+            "groupTitle": "Clusters task",
+            "path": "TPC/QO/CheckForEmptyPads/Clusters",
+            "inputObjects": [
+              "c_ROCs_N_Clusters_2D"
+            ],
+            "inputObjectTitles": [
+              "c_ROCs_N_Clusters_2D"
+            ]
+          }
+        ],
+        "initTrigger": [
+          "userorcontrol"
+        ],
+        "updateTrigger": [
+          "newobject:qcdb:TPC/QO/CheckOfTrack_Trending/Tracks_Trending/h2DNClustersPhiCside_StatMean_Trend_Nclusters"
+        ],
+        "stopTrigger": [
+          "userorcontrol"
+        ]
       }
     }
   },
@@ -704,4 +1183,3 @@
     }
   ]
 }
-

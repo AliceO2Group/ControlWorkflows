@@ -103,6 +103,17 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-v2-PP-TASK-RUNNER-Clusters
+  - name: "PP-TASK-RUNNER-Clusters_Quality_Trending"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-Clusters_Quality_Trending
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-Clusters_Quality_Trending"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v2-PP-TASK-RUNNER-Clusters_Quality_Trending
   - name: "PP-TASK-RUNNER-KrClusters"
     connect:
     - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-KrClusters
@@ -114,6 +125,28 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-v2-PP-TASK-RUNNER-KrClusters
+  - name: "PP-TASK-RUNNER-PID_Mips_Quality_Trending"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-PID_Mips_Quality_Trending
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-PID_Mips_Quality_Trending"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v2-PP-TASK-RUNNER-PID_Mips_Quality_Trending
+  - name: "PP-TASK-RUNNER-PID_Quality_Trending"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-PID_Quality_Trending
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-PID_Quality_Trending"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v2-PP-TASK-RUNNER-PID_Quality_Trending
   - name: "PP-TASK-RUNNER-PID_Trending"
     connect:
     - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-PID_Trending
@@ -125,6 +158,17 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-v2-PP-TASK-RUNNER-PID_Trending
+  - name: "PP-TASK-RUNNER-Quality_Observer"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-Quality_Observer
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-Quality_Observer"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v2-PP-TASK-RUNNER-Quality_Observer
   - name: "PP-TASK-RUNNER-RawDigits"
     connect:
     - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-RawDigits
@@ -147,6 +191,17 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-v2-PP-TASK-RUNNER-Tracks
+  - name: "PP-TASK-RUNNER-Tracks_Quality_Trending"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-Tracks_Quality_Trending
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-Tracks_Quality_Trending"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v2-PP-TASK-RUNNER-Tracks_Quality_Trending
   - name: "PP-TASK-RUNNER-Tracks_Trending"
     connect:
     - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-Tracks_Trending
@@ -158,6 +213,17 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-v2-PP-TASK-RUNNER-Tracks_Trending
+  - name: "qc-check-TPC-FU10"
+    connect:
+    - name: from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPC-FU10
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-PID_Trending:from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPC-FU10"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v2-qc-check-TPC-FU10
   - name: "TPC-MERGER-Clusters1l-0"
     connect:
     - name: from_internal-dpl-clock_to_TPC-MERGER-Clusters1l-0
@@ -230,17 +296,17 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-v2-TPC-MERGER-Tracks1l-0
-  - name: "qc-check-TPC-CheckOfPID_Trending"
+  - name: "qc-check-TPC-CheckForEmptyPads"
     connect:
-    - name: from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPC-CheckOfPID_Trending
+    - name: from_PP-TASK-RUNNER-Clusters_to_qc-check-TPC-CheckForEmptyPads
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-PID_Trending:from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPC-CheckOfPID_Trending"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Clusters:from_PP-TASK-RUNNER-Clusters_to_qc-check-TPC-CheckForEmptyPads"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-v2-qc-check-TPC-CheckOfPID_Trending
+      load: tpc-full-nodummy-qcmn-pp-remote-v2-qc-check-TPC-CheckForEmptyPads
   - name: "qc-check-TPC-CheckOfTrack_Trending"
     connect:
     - name: from_PP-TASK-RUNNER-Tracks_Trending_to_qc-check-TPC-CheckOfTrack_Trending
@@ -252,17 +318,17 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-v2-qc-check-TPC-CheckOfTrack_Trending
-  - name: "qc-check-sink-QC_Clusters-mo_0"
+  - name: "qc-check-sink-QC_Clusters_Qual-mo_0"
     connect:
-    - name: from_PP-TASK-RUNNER-Clusters_to_qc-check-sink-QC_Clusters-mo_0
+    - name: from_PP-TASK-RUNNER-Clusters_Quality_Trending_to_qc-check-sink-QC_Clusters_Qual-mo_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Clusters:from_PP-TASK-RUNNER-Clusters_to_qc-check-sink-QC_Clusters-mo_0"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Clusters_Quality_Trending:from_PP-TASK-RUNNER-Clusters_Quality_Trending_to_qc-check-sink-QC_Clusters_Qual-mo_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-full-nodummy-qcmn-pp-remote-v2-qc-check-sink-QC_Clusters-mo_0
+      load: tpc-full-nodummy-qcmn-pp-remote-v2-qc-check-sink-QC_Clusters_Qual-mo_0
   - name: "qc-check-sink-QC_KrClusters-mo_0"
     connect:
     - name: from_PP-TASK-RUNNER-KrClusters_to_qc-check-sink-QC_KrClusters-mo_0
@@ -274,6 +340,39 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-v2-qc-check-sink-QC_KrClusters-mo_0
+  - name: "qc-check-sink-QC_PID_Mips_Qual-mo_0"
+    connect:
+    - name: from_PP-TASK-RUNNER-PID_Mips_Quality_Trending_to_qc-check-sink-QC_PID_Mips_Qual-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-PID_Mips_Quality_Trending:from_PP-TASK-RUNNER-PID_Mips_Quality_Trending_to_qc-check-sink-QC_PID_Mips_Qual-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v2-qc-check-sink-QC_PID_Mips_Qual-mo_0
+  - name: "qc-check-sink-QC_PID_Quality_T-mo_0"
+    connect:
+    - name: from_PP-TASK-RUNNER-PID_Quality_Trending_to_qc-check-sink-QC_PID_Quality_T-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-PID_Quality_Trending:from_PP-TASK-RUNNER-PID_Quality_Trending_to_qc-check-sink-QC_PID_Quality_T-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v2-qc-check-sink-QC_PID_Quality_T-mo_0
+  - name: "qc-check-sink-QC_Quality_Obser-mo_0"
+    connect:
+    - name: from_PP-TASK-RUNNER-Quality_Observer_to_qc-check-sink-QC_Quality_Obser-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Quality_Observer:from_PP-TASK-RUNNER-Quality_Observer_to_qc-check-sink-QC_Quality_Obser-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v2-qc-check-sink-QC_Quality_Obser-mo_0
   - name: "qc-check-sink-QC_RawDigits-mo_0"
     connect:
     - name: from_PP-TASK-RUNNER-RawDigits_to_qc-check-sink-QC_RawDigits-mo_0
@@ -296,12 +395,30 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-full-nodummy-qcmn-pp-remote-v2-qc-check-sink-QC_Tracks-mo_0
-  - name: "internal-dpl-injected-dummy-sink"
+  - name: "qc-check-sink-QC_Tracks_Qualit-mo_0"
     connect:
-    - name: from_qc-check-TPC-CheckOfPID_Trending_to_internal-dpl-injected-dummy-sink
+    - name: from_PP-TASK-RUNNER-Tracks_Quality_Trending_to_qc-check-sink-QC_Tracks_Qualit-mo_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-TPC-CheckOfPID_Trending:from_qc-check-TPC-CheckOfPID_Trending_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Tracks_Quality_Trending:from_PP-TASK-RUNNER-Tracks_Quality_Trending_to_qc-check-sink-QC_Tracks_Qualit-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v2-qc-check-sink-QC_Tracks_Qualit-mo_0
+  - name: "internal-dpl-injected-dummy-sink"
+    connect:
+    - name: from_qc-check-TPC-FU10_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-TPC-FU10:from_qc-check-TPC-FU10_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_qc-check-TPC-CheckForEmptyPads_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-TPC-CheckForEmptyPads:from_qc-check-TPC-CheckForEmptyPads_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4

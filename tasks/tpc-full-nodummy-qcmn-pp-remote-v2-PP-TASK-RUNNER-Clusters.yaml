@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_PP-TASK-RUNNER-Clusters_to_qc-check-sink-QC_Clusters-mo_0
+  - name: from_PP-TASK-RUNNER-Clusters_to_qc-check-TPC-CheckForEmptyPads
     type: push
     transport: shmem
     addressing: ipc
