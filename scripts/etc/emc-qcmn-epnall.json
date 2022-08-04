@@ -256,6 +256,26 @@
 					}
 				]
 			}
+		}, 
+		"postprocessing": {
+			"Calibration": {
+				"active": "true",
+				"className": "o2::quality_control_modules::emcal::CalibMonitoringTask",
+				"moduleName": "QcEMCAL",
+				"detectorName": "EMC",
+				"calibObjects" : [
+					"TimeCalibParams"
+				],
+				"initTrigger": [
+					"userorcontrol"
+				],
+				"updateTrigger": [
+					"newobject:ccdb:EMC/Calib/TimeCalibParams"
+				],
+				"stopTrigger": [
+					"userorcontrol"
+				]
+			}
 		}
 	},
 	"dataSamplingPolicies": [
