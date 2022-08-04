@@ -54,6 +54,7 @@ check_pwd
 ./fv0-digits-pipe-ds-qc.sh
 ./fv0-digits-pipe-ds-qc-raw.sh
 ./fv0-digits-qc.sh
+./emc-qc-post-calib.sh
 ./emc-qcmn-local-flp.sh
 ./emc-qcmn-remote-flp.sh
 ./emc-qcmn-remote-flpepn.sh

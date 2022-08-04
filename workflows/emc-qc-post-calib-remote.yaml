@@ -1,0 +1,40 @@
+name: emc-qc-post-calib-remote
+vars:
+  dpl_command: >-
+    o2-qc --config consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/{{ qc_json_file }} --remote -b
+defaults:
+  qc_json_file: "emc-qc-post-calib"
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 10000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: emc-qc-post-calib-remote-internal-dpl-clock
+  - name: "PP-TASK-RUNNER-Calibration"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-Calibration
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-Calibration"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: emc-qc-post-calib-remote-PP-TASK-RUNNER-Calibration
+  - name: "qc-check-sink-QC_Calibration-mo_0"
+    connect:
+    - name: from_PP-TASK-RUNNER-Calibration_to_qc-check-sink-QC_Calibration-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Calibration:from_PP-TASK-RUNNER-Calibration_to_qc-check-sink-QC_Calibration-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: emc-qc-post-calib-remote-qc-check-sink-QC_Calibration-mo_0
