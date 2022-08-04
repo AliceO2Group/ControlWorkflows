@@ -18,7 +18,7 @@ cd ..
 export GLOBAL_SHMSIZE=$(( 16 << 30 )) #  GB for the global SHMEM
 PROXY_INSPEC="x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0"
 
-OUTSPEC_IDC="idc2:TPC/IDCGROUP"
+OUTSPEC_IDC="idc2:TPC/IDCGROUPA"
 OUTSPEC="xout:TPC/RAWDATA;ddout:FLP/DISTSUBTIMEFRAME/0"
 
 # TODO: Adjust path and check this ends up properly in the script
