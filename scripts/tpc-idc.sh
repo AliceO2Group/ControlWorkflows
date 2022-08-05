@@ -191,10 +191,10 @@ aside=" it == 'alio2-cr1-flp001'"
 cside=" it == 'alio2-cr1-flp073'"
 
 for ((i = 2 ; i <= 9 ; i++)); do
-  aside+=" || it == 'alio2-cr1-flp$00{i}' "
+  aside+=" || it == 'alio2-cr1-flp00${i}' "
 done
 for ((i = 10 ; i <= 72 ; i++)); do
-  aside+=" || it == 'alio2-cr1-flp$0{i}' "
+  aside+=" || it == 'alio2-cr1-flp0${i}' "
 done
 for ((i = 74 ; i <= 99 ; i++)); do
   cside+=" || it == 'alio2-cr1-flp${i}' "
