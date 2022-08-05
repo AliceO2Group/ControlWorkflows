@@ -13,6 +13,7 @@ defaults:
     panel: Basic_Configuration
     values:
       - none
+      - emc-qc-post-calib-remote
       - tpc-qc-post-trending-remote
       - tpc-qc-post-calib-remote
       - tpc-qc-post-processing-remote
