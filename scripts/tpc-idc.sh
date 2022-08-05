@@ -18,6 +18,8 @@ cd ..
 export GLOBAL_SHMSIZE=$(( 16 << 30 )) #  GB for the global SHMEM
 PROXY_INSPEC="x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0"
 
+
+OUTSPEC_IDC="idc2:TPC/IDCGROUP"
 OUTSPEC_IDC_A="idc2:TPC/IDCGROUPA"
 OUTSPEC_IDC_C="idc2:TPC/IDCGROUPC"
 OUTSPEC="xout:TPC/RAWDATA;ddout:FLP/DISTSUBTIMEFRAME/0"
@@ -149,7 +151,17 @@ sed -i "s/""${ESCAPED_CRU_GEN_CONFIG_PATH_A}""/{{ ""${CRU_CONFIG_PARAM}"" }}/g" 
 sed -i "s/""${ESCAPED_CRU_GEN_CONFIG_PATH_C}""/{{ ""${CRU_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME_C}.yaml tasks/${WF_NAME_C}-*
 sed -i "s/'{{ cru_config_uri }}'/{{ cru_config_uri }}/g" tasks/${WF_NAME}-*
 sed -i "s/'{{ cru_config_uri }}'/{{ cru_config_uri }}/g" tasks/${WF_NAME_A}-*
-sed -i "s/'{{ cru_config_uri }}'/{{ cru_config_uri }}/g" tasks/${WF_NAME_C}-*
+
+
+sed -i "s/IDCGROUPA'/'IDCGROUP'/g" workflows/${WF_NAME}.yaml tasks/${WF_NAME}-*
+sed -i "s/IDCGROUPA'/'IDCGROUP'/g" workflows/${WF_NAME_A}.yaml tasks/${WF_NAME_A}-*
+sed -i "s/IDCGROUPC'/'IDCGROUP'/g" workflows/${WF_NAME_C}.yaml tasks/${WF_NAME_C}-*
+
+OUTSPEC_IDC="idc2:TPC/IDCGROUP"
+OUTSPEC_IDC_A="idc2:TPC/IDCGROUPA"
+OUTSPEC_IDC_C="idc2:TPC/IDCGROUPC"
+
+
 
 sed -i "s/ZYX/{{ detector }}/g" workflows/${WF_NAME}.yaml tasks/${WF_NAME}-*
 sed -i "s/ZYX/{{ detector }}/g" workflows/${WF_NAME}.yaml tasks/${WF_NAME_A}-*
@@ -178,10 +190,16 @@ WF_NAME=tpc-idc
 aside=" it == 'alio2-cr1-flp001'"
 cside=" it == 'alio2-cr1-flp073'"
 
-for ((i = 2 ; i <= 72 ; i++)); do
-  aside+=" || it == 'alio2-cr1-flp${i}' "
+for ((i = 2 ; i <= 9 ; i++)); do
+  aside+=" || it == 'alio2-cr1-flp$00{i}' "
 done
-for ((i = 74 ; i <= 144 ; i++)); do
+for ((i = 10 ; i <= 72 ; i++)); do
+  aside+=" || it == 'alio2-cr1-flp$0{i}' "
+done
+for ((i = 74 ; i <= 99 ; i++)); do
+  cside+=" || it == 'alio2-cr1-flp${i}' "
+done
+for ((i = 100 ; i <= 144 ; i++)); do
   cside+=" || it == 'alio2-cr1-flp${i}' "
 done
 
