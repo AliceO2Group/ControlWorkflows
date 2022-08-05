@@ -153,9 +153,9 @@ sed -i "s/'{{ cru_config_uri }}'/{{ cru_config_uri }}/g" tasks/${WF_NAME}-*
 sed -i "s/'{{ cru_config_uri }}'/{{ cru_config_uri }}/g" tasks/${WF_NAME_A}-*
 
 
-sed -i "s/IDCGROUPA'/'IDCGROUP'/g" workflows/${WF_NAME}.yaml tasks/${WF_NAME}-*
-sed -i "s/IDCGROUPA'/'IDCGROUP'/g" workflows/${WF_NAME_A}.yaml tasks/${WF_NAME_A}-*
-sed -i "s/IDCGROUPC'/'IDCGROUP'/g" workflows/${WF_NAME_C}.yaml tasks/${WF_NAME_C}-*
+sed -i "s/IDCGROUPA/IDCGROUP/g" workflows/${WF_NAME}.yaml tasks/${WF_NAME}-*
+sed -i "s/IDCGROUPA/IDCGROUP/g" workflows/${WF_NAME_A}.yaml tasks/${WF_NAME_A}-*
+sed -i "s/IDCGROUPC/IDCGROUP/g" workflows/${WF_NAME_C}.yaml tasks/${WF_NAME_C}-*
 
 OUTSPEC_IDC="idc2:TPC/IDCGROUP"
 OUTSPEC_IDC_A="idc2:TPC/IDCGROUPA"
