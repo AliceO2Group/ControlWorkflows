@@ -18,11 +18,14 @@ cd ..
 export GLOBAL_SHMSIZE=$(( 16 << 30 )) #  GB for the global SHMEM
 PROXY_INSPEC="x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0"
 
-OUTSPEC_IDC="idc2:TPC/IDCGROUPA"
+OUTSPEC_IDC_A="idc2:TPC/IDCGROUPA"
+OUTSPEC_IDC_C="idc2:TPC/IDCGROUPC"
 OUTSPEC="xout:TPC/RAWDATA;ddout:FLP/DISTSUBTIMEFRAME/0"
 
 # TODO: Adjust path and check this ends up properly in the script
 CRU_GEN_CONFIG_PATH='//'`pwd`'/scripts/etc/getCRUs.sh'
+CRU_GEN_CONFIG_PATH_A=11,13
+CRU_GEN_CONFIG_PATH_C=211,213
 CRU_FINAL_CONFIG_PATH='$(/home/tpc/IDCs/FLP/getCRUs.sh)'
 CRU_CONFIG_PARAM='cru_config_uri'
 
@@ -63,7 +66,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --labels "tpc-idc-merger-proxy:ecs-preserve-raw-channels" \
    --output-proxy-method connect \
    --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,address=tcp://{{ merger_node }}:{{ merger_port }},type=push,transport=zeromq" ' \
-   --dataspec "${OUTSPEC_IDC}" \
+   --dataspec "${OUTSPEC_IDC_A}" \
    --severity warning \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
@@ -74,14 +77,14 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --dataspec "$PROXY_INSPEC" \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
   | o2-tpc-idc-to-vector $ARGS_ALL \
-  --crus ${CRU_GEN_CONFIG_PATH} \
+  --crus ${CRU_GEN_CONFIG_PATH_A} \
   --severity error \
   --infologger-severity error \
   --configKeyValues "keyval.output_dir=/dev/null" \
   --pedestal-url http://o2-ccdb.internal \
   | o2-tpc-idc-flp $ARGS_ALL \
   --propagateIDCs true \
-  --crus ${CRU_GEN_CONFIG_PATH} \
+  --crus ${CRU_GEN_CONFIG_PATH_A} \
   --severity warning \
   --infologger-severity warning \
   --configKeyValues "keyval.output_dir=/dev/null" \
@@ -93,7 +96,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --labels "tpc-idc-merger-proxy:ecs-preserve-raw-channels" \
    --output-proxy-method connect \
    --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,address=tcp://{{ merger_node_a }}:{{ merger_port }},type=push,transport=zeromq" ' \
-   --dataspec "${OUTSPEC_IDC}" \
+   --dataspec "${OUTSPEC_IDC_A}" \
    --severity warning \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
@@ -104,14 +107,14 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --dataspec "$PROXY_INSPEC" \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
   | o2-tpc-idc-to-vector $ARGS_ALL \
-  --crus ${CRU_GEN_CONFIG_PATH} \
+  --crus ${CRU_GEN_CONFIG_PATH_C} \
   --severity error \
   --infologger-severity error \
   --configKeyValues "keyval.output_dir=/dev/null" \
   --pedestal-url http://o2-ccdb.internal \
   | o2-tpc-idc-flp $ARGS_ALL \
   --propagateIDCs true \
-  --crus ${CRU_GEN_CONFIG_PATH} \
+  --crus ${CRU_GEN_CONFIG_PATH_C} \
   --severity warning \
   --infologger-severity warning \
   --configKeyValues "keyval.output_dir=/dev/null" \
@@ -123,7 +126,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --labels "tpc-idc-merger-proxy:ecs-preserve-raw-channels" \
    --output-proxy-method connect \
    --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,address=tcp://{{ merger_node_c }}:{{ merger_port }},type=push,transport=zeromq" ' \
-   --dataspec "${OUTSPEC_IDC}" \
+   --dataspec "${OUTSPEC_IDC_C}" \
    --severity warning \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
@@ -139,9 +142,11 @@ sed -i /defaults:/\ a\\\ \\\ "${CRU_CONFIG_PARAM}":\ "${ESCAPED_CRU_FINAL_CONFIG
 
 # find and replace all usages of the CRU config path which was used to generate the workflow
 ESCAPED_CRU_GEN_CONFIG_PATH=$(printf '%s\n' "$CRU_GEN_CONFIG_PATH" | sed -e 's/[]\/$*.^[]/\\&/g');
+ESCAPED_CRU_GEN_CONFIG_PATH_A=$(printf '%s\n' "$CRU_GEN_CONFIG_PATH_A" | sed -e 's/[]\/$*.^[]/\\&/g');
+ESCAPED_CRU_GEN_CONFIG_PATH_C=$(printf '%s\n' "$CRU_GEN_CONFIG_PATH_C" | sed -e 's/[]\/$*.^[]/\\&/g');
 sed -i "s/""${ESCAPED_CRU_GEN_CONFIG_PATH}""/{{ ""${CRU_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME}.yaml tasks/${WF_NAME}-*
-sed -i "s/""${ESCAPED_CRU_GEN_CONFIG_PATH}""/{{ ""${CRU_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME_A}.yaml tasks/${WF_NAME_A}-*
-sed -i "s/""${ESCAPED_CRU_GEN_CONFIG_PATH}""/{{ ""${CRU_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME_C}.yaml tasks/${WF_NAME_C}-*
+sed -i "s/""${ESCAPED_CRU_GEN_CONFIG_PATH_A}""/{{ ""${CRU_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME_A}.yaml tasks/${WF_NAME_A}-*
+sed -i "s/""${ESCAPED_CRU_GEN_CONFIG_PATH_C}""/{{ ""${CRU_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME_C}.yaml tasks/${WF_NAME_C}-*
 sed -i "s/'{{ cru_config_uri }}'/{{ cru_config_uri }}/g" tasks/${WF_NAME}-*
 sed -i "s/'{{ cru_config_uri }}'/{{ cru_config_uri }}/g" tasks/${WF_NAME_A}-*
 sed -i "s/'{{ cru_config_uri }}'/{{ cru_config_uri }}/g" tasks/${WF_NAME_C}-*
