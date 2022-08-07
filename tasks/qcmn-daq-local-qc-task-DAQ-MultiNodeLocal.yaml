@@ -1,6 +1,7 @@
 name: qcmn-daq-local-qc-task-DAQ-MultiNodeLocal
 defaults:
   log_task_output: none
+  exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
     {{ dpl_command }} | o2-qc
@@ -12,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-task-DAQ-MultiNodeLocal_to_MultiNodeLocal-proxy
+  - name: from_qc-task-DAQ-MultiNodeLocal_to_DAQ-MultiNodeLocal-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -20,15 +21,19 @@ bind:
     sndBufSize: 4
     rcvBufSize: 4
 properties:
-  qcConfiguration: 
+  qcConfiguration: ""
 command:
   shell: true
   log: "{{ log_task_output }}"
-  env: ["O2_DETECTOR={{ detector }}"]
+  env:
+    - O2_DETECTOR={{ detector }}
+    - O2_PARTITION={{ environment_id }}
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
     - "-b"
+    - "--exit-transition-timeout"
+    - "'{{ exit_transition_timeout }}'"
     - "--monitoring-backend"
     - "'{{ monitoring_dpl_url }}'"
     - "--session"
@@ -69,6 +74,8 @@ command:
     - "''"
     - "--config"
     - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -115,7 +122,7 @@ command:
     - "--spawners"
     - "'1'"
     - "--stacktrace-on-signal"
-    - "'all'"
+    - "'simple'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"

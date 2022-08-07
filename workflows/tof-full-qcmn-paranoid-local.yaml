@@ -1,0 +1,373 @@
+name: tof-full-qcmn-paranoid-local
+vars:
+  dpl_command: >-
+    o2-dpl-raw-proxy -b --session default --dataspec 'x0:TOF/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-tof-compressor -b --tof-compressor-paranoid --session default --configKeyValues 'HBFUtils.nHBFPerTF=128;NameConf.mCCDBServer=http://127.0.0.1:8084;' --pipeline tof-compressor-0:11 --tof-compressor-rdh-version 6 --tof-compressor-config x:TOF/RAWDATA | o2-dpl-output-proxy --environment DPL_OUTPUT_PROXY_ORDERED=1 -b --session default --dataspec 'A:TOF/CRAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"' | o2-qc -b --config {{ qc_config_uri }} --local --host alio2-cr1-flp178
+defaults:
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tof-full-qcmn"
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 10000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: tof-full-qcmn-paranoid-local-internal-dpl-clock
+  - name: "readout-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_readout-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: readout-proxy
+      type: pull
+      transport: shmem
+      target: "::readout-proxy-{{ it }}"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: tof-full-qcmn-paranoid-local-readout-proxy
+  - name: "tof-compressor-0_t0"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t0
+  - name: "tof-compressor-0_t1"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t1
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t1"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t1
+  - name: "tof-compressor-0_t2"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t2
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t2"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t2
+  - name: "tof-compressor-0_t3"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t3
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t3"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t3
+  - name: "tof-compressor-0_t4"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t4
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t4"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t4
+  - name: "tof-compressor-0_t5"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t5
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t5"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t5
+  - name: "tof-compressor-0_t6"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t6
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t6"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t6
+  - name: "tof-compressor-0_t7"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t7
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t7"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t7
+  - name: "tof-compressor-0_t8"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t8
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t8"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t8
+  - name: "tof-compressor-0_t9"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t9
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t9"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t9
+  - name: "tof-compressor-0_t10"
+    connect:
+    - name: from_readout-proxy_to_tof-compressor-0_t10
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tof-compressor-0_t10"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tof-full-qcmn-paranoid-local-tof-compressor-0_t10
+  - name: "Dispatcher"
+    connect:
+    - name: from_internal-dpl-clock_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t0_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t0:from_tof-compressor-0_t0_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t1_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t1:from_tof-compressor-0_t1_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t2_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t2:from_tof-compressor-0_t2_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t3_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t3:from_tof-compressor-0_t3_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t4_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t4:from_tof-compressor-0_t4_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t5_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t5:from_tof-compressor-0_t5_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t6_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t6:from_tof-compressor-0_t6_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t7_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t7:from_tof-compressor-0_t7_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t8_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t8:from_tof-compressor-0_t8_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t9_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t9:from_tof-compressor-0_t9_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t10_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t10:from_tof-compressor-0_t10_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tof-full-qcmn-paranoid-local-Dispatcher
+  - name: "qc-task-TOF-TaskRaw"
+    connect:
+    - name: from_internal-dpl-clock_to_qc-task-TOF-TaskRaw
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-TOF-TaskRaw"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_Dispatcher_to_qc-task-TOF-TaskRaw
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-TOF-TaskRaw"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tof-full-qcmn-paranoid-local-qc-task-TOF-TaskRaw
+  - name: "TOF-TaskRaw-proxy"
+    connect:
+    - name: from_qc-task-TOF-TaskRaw_to_TOF-TaskRaw-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-task-TOF-TaskRaw:from_qc-task-TOF-TaskRaw_to_TOF-TaskRaw-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: TOF-TaskRaw-proxy
+      type: pub
+      transport: zeromq
+      target: "::TOF-TaskRaw-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+    task:
+      load: tof-full-qcmn-paranoid-local-TOF-TaskRaw-proxy
+  - name: "dpl-output-proxy"
+    connect:
+    - name: from_tof-compressor-0_t0_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t0:from_tof-compressor-0_t0_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t1_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t1:from_tof-compressor-0_t1_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t2_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t2:from_tof-compressor-0_t2_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t3_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t3:from_tof-compressor-0_t3_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t4_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t4:from_tof-compressor-0_t4_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t5_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t5:from_tof-compressor-0_t5_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t6_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t6:from_tof-compressor-0_t6_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t7_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t7:from_tof-compressor-0_t7_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t8_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t8:from_tof-compressor-0_t8_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t9_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t9:from_tof-compressor-0_t9_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tof-compressor-0_t10_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tof-compressor-0_t10:from_tof-compressor-0_t10_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_Dispatcher_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: downstream
+      type: push
+      transport: shmem
+      addressing: ipc
+      rateLogging: "{{ fmq_rate_logging }}"
+      global: "downstream-{{ it }}"
+    task:
+      load: tof-full-qcmn-paranoid-local-dpl-output-proxy

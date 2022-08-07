@@ -3,7 +3,6 @@ vars:
   dpl_command: >-
     o2-qc --config {{ qc_config_uri }} --remote -b
 defaults:
-  qc_remote_machine: "alio2-cr1-qc02"
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/emc-qcmn-epn"
   monitoring_dpl_url: "no-op://"
   user: "flp"
@@ -12,76 +11,122 @@ defaults:
   shm_throw_bad_alloc: false
   session_id: default
   resources_monitoring: 15
-constraints:
-  - attribute: machine_id
-    value: "{{ qc_remote_machine }}"
 roles:
   - name: "internal-dpl-clock"
     connect:
     task:
       load: emc-qcmn-epn-remote-internal-dpl-clock
-  - name: "DigitsTask-proxy"
+  - name: "EMC-CellTaskEMCAL-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_DigitsTask-proxy
+    - name: from_internal-dpl-clock_to_EMC-CellTaskEMCAL-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_DigitsTask-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_EMC-CellTaskEMCAL-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: DigitsTask-proxy
+    - name: EMC-CellTaskEMCAL-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47702"
+      rcvBufSize: 1
     task:
-      load: emc-qcmn-epn-remote-DigitsTask-proxy
-  - name: "MERGER-DigitsTask1l-0"
+      load: emc-qcmn-epn-remote-EMC-CellTaskEMCAL-proxy
+  - name: "EMC-RawErrorTask-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-DigitsTask1l-0
+    - name: from_internal-dpl-clock_to_EMC-RawErrorTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-DigitsTask1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_EMC-RawErrorTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_DigitsTask-proxy_to_MERGER-DigitsTask1l-0
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.DigitsTask-proxy:from_DigitsTask-proxy_to_MERGER-DigitsTask1l-0"
+    bind:
+    - name: EMC-RawErrorTask-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
+      target: "tcp://*:47703"
+      rcvBufSize: 1
     task:
-      load: emc-qcmn-epn-remote-MERGER-DigitsTask1l-0
-  - name: "qc-check-EMCDigitsCheckAmplitude"
+      load: emc-qcmn-epn-remote-EMC-RawErrorTask-proxy
+  - name: "EMC-MERGER-CellTaskEMCAL1l-0"
     connect:
-    - name: from_MERGER-DigitsTask1l-0_to_qc-check-EMCDigitsCheckAmplitude
+    - name: from_internal-dpl-clock_to_EMC-MERGER-CellTaskEMCAL1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-DigitsTask1l-0:from_MERGER-DigitsTask1l-0_to_qc-check-EMCDigitsCheckAmplitude"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_EMC-MERGER-CellTaskEMCAL1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_EMC-CellTaskEMCAL-proxy_to_EMC-MERGER-CellTaskEMCAL1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.EMC-CellTaskEMCAL-proxy:from_EMC-CellTaskEMCAL-proxy_to_EMC-MERGER-CellTaskEMCAL1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: emc-qcmn-epn-remote-qc-check-EMCDigitsCheckAmplitude
+      load: emc-qcmn-epn-remote-EMC-MERGER-CellTaskEMCAL1l-0
+  - name: "EMC-MERGER-RawErrorTask1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_EMC-MERGER-RawErrorTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_EMC-MERGER-RawErrorTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_EMC-RawErrorTask-proxy_to_EMC-MERGER-RawErrorTask1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.EMC-RawErrorTask-proxy:from_EMC-RawErrorTask-proxy_to_EMC-MERGER-RawErrorTask1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: emc-qcmn-epn-remote-EMC-MERGER-RawErrorTask1l-0
+  - name: "qc-check-EMC-CellCheckAmplitudeEMCAL"
+    connect:
+    - name: from_EMC-MERGER-CellTaskEMCAL1l-0_to_qc-check-EMC-CellCheckAmplitudeEMCAL
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.EMC-MERGER-CellTaskEMCAL1l-0:from_EMC-MERGER-CellTaskEMCAL1l-0_to_qc-check-EMC-CellCheckAmplitudeEMCAL"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: emc-qcmn-epn-remote-qc-check-EMC-CellCheckAmplitudeEMCAL
+  - name: "qc-check-EMC-RawDecodingErrorCheckEMCAL"
+    connect:
+    - name: from_EMC-MERGER-RawErrorTask1l-0_to_qc-check-EMC-RawDecodingErrorCheckEMCAL
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.EMC-MERGER-RawErrorTask1l-0:from_EMC-MERGER-RawErrorTask1l-0_to_qc-check-EMC-RawDecodingErrorCheckEMCAL"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: emc-qcmn-epn-remote-qc-check-EMC-RawDecodingErrorCheckEMCAL
   - name: "internal-dpl-injected-dummy-sink"
     connect:
-    - name: from_qc-check-EMCDigitsCheckAmplitude_to_internal-dpl-injected-dummy-sink
+    - name: from_qc-check-EMC-CellCheckAmplitudeEMCAL_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-EMCDigitsCheckAmplitude:from_qc-check-EMCDigitsCheckAmplitude_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-EMC-CellCheckAmplitudeEMCAL:from_qc-check-EMC-CellCheckAmplitudeEMCAL_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_qc-check-EMC-RawDecodingErrorCheckEMCAL_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-EMC-RawDecodingErrorCheckEMCAL:from_qc-check-EMC-RawDecodingErrorCheckEMCAL_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
       load: emc-qcmn-epn-remote-internal-dpl-injected-dummy-sink
-  - name: fairmq-shmmonitor
-    enabled: "{{fmq_cleanup_enabled == 'true'}}"
-    task:
-      load: "fairmq-shmmonitor"
-      trigger: DESTROY
-      timeout: 10s
-      critical: false

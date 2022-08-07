@@ -1,0 +1,283 @@
+name: mch-qcmn-epn-full-remote
+vars:
+  dpl_command: >-
+    o2-qc --config {{ qc_config_uri }} --remote -b
+defaults:
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mch-qcmn-epn-full"
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 10000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: mch-qcmn-epn-full-remote-internal-dpl-clock
+  - name: "MCH-MCHPreclusters-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_MCH-MCHPreclusters-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MCH-MCHPreclusters-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: MCH-MCHPreclusters-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47794"
+      rcvBufSize: 1
+    task:
+      load: mch-qcmn-epn-full-remote-MCH-MCHPreclusters-proxy
+  - name: "MCH-MCHRofs-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_MCH-MCHRofs-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MCH-MCHRofs-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: MCH-MCHRofs-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47792"
+      rcvBufSize: 1
+    task:
+      load: mch-qcmn-epn-full-remote-MCH-MCHRofs-proxy
+  - name: "MCH-MCHTracks-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_MCH-MCHTracks-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MCH-MCHTracks-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: MCH-MCHTracks-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47795"
+      rcvBufSize: 1
+    task:
+      load: mch-qcmn-epn-full-remote-MCH-MCHTracks-proxy
+  - name: "MCH-QcTaskMCHDigits-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_MCH-QcTaskMCHDigits-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MCH-QcTaskMCHDigits-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: MCH-QcTaskMCHDigits-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47790"
+      rcvBufSize: 1
+    task:
+      load: mch-qcmn-epn-full-remote-MCH-QcTaskMCHDigits-proxy
+  - name: "MCH-QcTaskMCHErrors-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_MCH-QcTaskMCHErrors-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MCH-QcTaskMCHErrors-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: MCH-QcTaskMCHErrors-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47791"
+      rcvBufSize: 1
+    task:
+      load: mch-qcmn-epn-full-remote-MCH-QcTaskMCHErrors-proxy
+  - name: "MCH-MERGER-MCHPreclusters1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MCH-MERGER-MCHPreclusters1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MCH-MERGER-MCHPreclusters1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_MCH-MCHPreclusters-proxy_to_MCH-MERGER-MCHPreclusters1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MCH-MCHPreclusters-proxy:from_MCH-MCHPreclusters-proxy_to_MCH-MERGER-MCHPreclusters1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: mch-qcmn-epn-full-remote-MCH-MERGER-MCHPreclusters1l-0
+  - name: "MCH-MERGER-MCHRofs1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MCH-MERGER-MCHRofs1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MCH-MERGER-MCHRofs1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_MCH-MCHRofs-proxy_to_MCH-MERGER-MCHRofs1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MCH-MCHRofs-proxy:from_MCH-MCHRofs-proxy_to_MCH-MERGER-MCHRofs1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: mch-qcmn-epn-full-remote-MCH-MERGER-MCHRofs1l-0
+  - name: "MCH-MERGER-MCHTracks1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MCH-MERGER-MCHTracks1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MCH-MERGER-MCHTracks1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_MCH-MCHTracks-proxy_to_MCH-MERGER-MCHTracks1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MCH-MCHTracks-proxy:from_MCH-MCHTracks-proxy_to_MCH-MERGER-MCHTracks1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: mch-qcmn-epn-full-remote-MCH-MERGER-MCHTracks1l-0
+  - name: "MCH-MERGER-QcTaskMCHDigits1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MCH-MERGER-QcTaskMCHDigits1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MCH-MERGER-QcTaskMCHDigits1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_MCH-QcTaskMCHDigits-proxy_to_MCH-MERGER-QcTaskMCHDigits1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MCH-QcTaskMCHDigits-proxy:from_MCH-QcTaskMCHDigits-proxy_to_MCH-MERGER-QcTaskMCHDigits1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: mch-qcmn-epn-full-remote-MCH-MERGER-QcTaskMCHDigits1l-0
+  - name: "MCH-MERGER-QcTaskMCHErrors1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_MCH-MERGER-QcTaskMCHErrors1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MCH-MERGER-QcTaskMCHErrors1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_MCH-QcTaskMCHErrors-proxy_to_MCH-MERGER-QcTaskMCHErrors1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MCH-QcTaskMCHErrors-proxy:from_MCH-QcTaskMCHErrors-proxy_to_MCH-MERGER-QcTaskMCHErrors1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: mch-qcmn-epn-full-remote-MCH-MERGER-QcTaskMCHErrors1l-0
+  - name: "qc-check-MCH-QcCheckMCHErrors"
+    connect:
+    - name: from_MCH-MERGER-QcTaskMCHErrors1l-0_to_qc-check-MCH-QcCheckMCHErrors
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MCH-MERGER-QcTaskMCHErrors1l-0:from_MCH-MERGER-QcTaskMCHErrors1l-0_to_qc-check-MCH-QcCheckMCHErrors"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: mch-qcmn-epn-full-remote-qc-check-MCH-QcCheckMCHErrors
+  - name: "qc-check-MCH-QcCheckMCHPhysics"
+    connect:
+    - name: from_MCH-MERGER-QcTaskMCHDigits1l-0_to_qc-check-MCH-QcCheckMCHPhysics
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MCH-MERGER-QcTaskMCHDigits1l-0:from_MCH-MERGER-QcTaskMCHDigits1l-0_to_qc-check-MCH-QcCheckMCHPhysics"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: mch-qcmn-epn-full-remote-qc-check-MCH-QcCheckMCHPhysics
+  - name: "qc-check-MCH-QcCheckMCHPreclusters"
+    connect:
+    - name: from_MCH-MERGER-MCHPreclusters1l-0_to_qc-check-MCH-QcCheckMCHPreclusters
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MCH-MERGER-MCHPreclusters1l-0:from_MCH-MERGER-MCHPreclusters1l-0_to_qc-check-MCH-QcCheckMCHPreclusters"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: mch-qcmn-epn-full-remote-qc-check-MCH-QcCheckMCHPreclusters
+  - name: "qc-check-sink-QMCH_MCHRofs_0"
+    connect:
+    - name: from_MCH-MERGER-MCHRofs1l-0_to_qc-check-sink-QMCH_MCHRofs_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MCH-MERGER-MCHRofs1l-0:from_MCH-MERGER-MCHRofs1l-0_to_qc-check-sink-QMCH_MCHRofs_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: mch-qcmn-epn-full-remote-qc-check-sink-QMCH_MCHRofs_0
+  - name: "qc-check-sink-QMCH_MCHTracks_0"
+    connect:
+    - name: from_MCH-MERGER-MCHTracks1l-0_to_qc-check-sink-QMCH_MCHTracks_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.MCH-MERGER-MCHTracks1l-0:from_MCH-MERGER-MCHTracks1l-0_to_qc-check-sink-QMCH_MCHTracks_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: mch-qcmn-epn-full-remote-qc-check-sink-QMCH_MCHTracks_0
+  - name: "internal-dpl-injected-dummy-sink"
+    connect:
+    - name: from_qc-check-MCH-QcCheckMCHErrors_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-MCH-QcCheckMCHErrors:from_qc-check-MCH-QcCheckMCHErrors_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_qc-check-MCH-QcCheckMCHPhysics_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-MCH-QcCheckMCHPhysics:from_qc-check-MCH-QcCheckMCHPhysics_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_qc-check-MCH-QcCheckMCHPreclusters_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-MCH-QcCheckMCHPreclusters:from_qc-check-MCH-QcCheckMCHPreclusters_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: mch-qcmn-epn-full-remote-internal-dpl-injected-dummy-sink

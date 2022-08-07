@@ -1,0 +1,137 @@
+name: ft0-decoder-pipe-ds-qc-Dispatcher
+defaults:
+  log_task_output: none
+  exit_transition_timeout: 15
+  _module_cmdline: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
+    {{ dpl_command }} | o2-qc
+  _plain_cmdline: >-
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-qc
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.01
+  memory: 1
+bind:
+  - name: from_Dispatcher_to_qc-task-FT0-DigitQcTask
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_Dispatcher_to_dpl-output-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+command:
+  shell: true
+  log: "{{ log_task_output }}"
+  env:
+    - O2_DETECTOR={{ detector }}
+    - O2_PARTITION={{ environment_id }}
+  user: "{{ user }}"
+  value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
+  arguments:
+    - "-b"
+    - "--exit-transition-timeout"
+    - "'{{ exit_transition_timeout }}'"
+    - "--monitoring-backend"
+    - "'{{ monitoring_dpl_url }}'"
+    - "--session"
+    - "'{{ session_id }}'"
+    - "--infologger-severity"
+    - "'{{ infologger_severity }}'"
+    - "--infologger-mode"
+    - "'{{ infologger_mode }}'"
+    - "--driver-client-backend"
+    - "'stdout://'"
+    - "--shm-segment-size"
+    - "'{{ shm_segment_size }}'"
+    - "--shm-throw-bad-alloc"
+    - "'{{ shm_throw_bad_alloc }}'"
+    - "--resources-monitoring"
+    - "'{{ resources_monitoring }}'"
+    - "--id"
+    - "'Dispatcher'"
+    - "--shm-monitor"
+    - "'false'"
+    - "--log-color"
+    - "'false'"
+    - "--aod-memory-rate-limit"
+    - "'0'"
+    - "--aod-writer-json"
+    - "''"
+    - "--aod-writer-keep"
+    - "''"
+    - "--aod-writer-ntfmerge"
+    - "-1"
+    - "--aod-writer-resfile"
+    - "''"
+    - "--aod-writer-resmode"
+    - "'RECREATE'"
+    - "--channel-prefix"
+    - "''"
+    - "--clone"
+    - "''"
+    - "--config"
+    - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
+    - "--early-forward-policy"
+    - "'never'"
+    - "--fairmq-ipc-prefix"
+    - "'@'"
+    - "--fairmq-rate-logging"
+    - "'0'"
+    - "--fairmq-recv-buffer-size"
+    - "'4'"
+    - "--fairmq-send-buffer-size"
+    - "'4'"
+    - "--forwarding-destination"
+    - "'drop'"
+    - "--forwarding-policy"
+    - "'dangling'"
+    - "--host"
+    - "''"
+    - "--labels"
+    - "''"
+    - "--local-batch"
+    - "''"
+    - "--override-values"
+    - "''"
+    - "--pipeline"
+    - "''"
+    - "--readers"
+    - "'1'"
+    - "--remote-batch"
+    - "''"
+    - "--severity"
+    - "'info'"
+    - "--shm-allocation"
+    - "'rbtree_best_fit'"
+    - "--shm-mlock-segment"
+    - "'false'"
+    - "--shm-mlock-segment-on-creation"
+    - "'false'"
+    - "--shm-no-cleanup"
+    - "'false'"
+    - "--shm-segment-id"
+    - "'0'"
+    - "--shm-zero-segment"
+    - "'false'"
+    - "--spawners"
+    - "'1'"
+    - "--stacktrace-on-signal"
+    - "'simple'"
+    - "--timeframes-rate-limit"
+    - "'0'"
+    - "--timeframes-rate-limit-ipcid"
+    - "-1"
+    - "--workflow-suffix"
+    - "''"
+    - "--period-timer-stats"
+    - "'10000000'"

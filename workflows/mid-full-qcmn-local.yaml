@@ -1,0 +1,112 @@
+name: mid-full-qcmn-local
+vars:
+  dpl_command: >-
+    o2-dpl-raw-proxy -b --session default --dataspec 'A:MID/RAWDATA;x:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-dpl-output-proxy --environment DPL_OUTPUT_PROXY_ORDERED=1 -b --session default --dataspec 'A:MID/RAWDATA;x:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"' | o2-qc -b --config {{ qc_config_uri }} --local --host flp
+defaults:
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mid-flp_raw-epn_full-qcmn"
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 10000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: mid-full-qcmn-local-internal-dpl-clock
+  - name: "readout-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_readout-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: readout-proxy
+      type: pull
+      transport: shmem
+      target: "::readout-proxy-{{ it }}"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: mid-full-qcmn-local-readout-proxy
+  - name: "Dispatcher"
+    connect:
+    - name: from_internal-dpl-clock_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_readout-proxy_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: mid-full-qcmn-local-Dispatcher
+  - name: "qc-task-MID-QcTaskMIDRaw"
+    connect:
+    - name: from_internal-dpl-clock_to_qc-task-MID-QcTaskMIDRaw
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-MID-QcTaskMIDRaw"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_Dispatcher_to_qc-task-MID-QcTaskMIDRaw
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-MID-QcTaskMIDRaw"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: mid-full-qcmn-local-qc-task-MID-QcTaskMIDRaw
+  - name: "MID-QcTaskMIDRaw-proxy"
+    connect:
+    - name: from_qc-task-MID-QcTaskMIDRaw_to_MID-QcTaskMIDRaw-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-task-MID-QcTaskMIDRaw:from_qc-task-MID-QcTaskMIDRaw_to_MID-QcTaskMIDRaw-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: MID-QcTaskMIDRaw-proxy
+      type: pub
+      transport: zeromq
+      target: "::MID-QcTaskMIDRaw-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+    task:
+      load: mid-full-qcmn-local-MID-QcTaskMIDRaw-proxy
+  - name: "dpl-output-proxy"
+    connect:
+    - name: from_readout-proxy_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_Dispatcher_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: downstream
+      type: push
+      transport: shmem
+      addressing: ipc
+      rateLogging: "{{ fmq_rate_logging }}"
+      global: "downstream-{{ it }}"
+    task:
+      load: mid-full-qcmn-local-dpl-output-proxy
