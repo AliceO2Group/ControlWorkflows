@@ -1,10 +1,12 @@
 name: cpv-compressor-internal-dpl-injected-dummy-sink
 defaults:
   log_task_output: none
+  exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
     {{ dpl_command }} | o2-dpl-raw-proxy
-  _plain_cmdline: "source /etc/profile.d/o2.sh && {{ dpl_command }} | o2-dpl-raw-proxy"
+  _plain_cmdline: >-
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-raw-proxy
 control:
   mode: "fairmq"
 wants:
@@ -14,11 +16,15 @@ bind:
 command:
   shell: true
   log: "{{ log_task_output }}"
-  env: ["O2_DETECTOR={{ detector }}"]
+  env:
+    - O2_DETECTOR={{ detector }}
+    - O2_PARTITION={{ environment_id }}
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
     - "-b"
+    - "--exit-transition-timeout"
+    - "'{{ exit_transition_timeout }}'"
     - "--monitoring-backend"
     - "'{{ monitoring_dpl_url }}'"
     - "--session"
@@ -59,8 +65,10 @@ command:
     - "''"
     - "--dataspec"
     - "'x0:CPV/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "--early-forward-policy"
+    - "'never'"
     - "--fairmq-ipc-prefix"
-    - "'/tmp'"
+    - "'@'"
     - "--fairmq-rate-logging"
     - "'0'"
     - "--fairmq-recv-buffer-size"
@@ -75,13 +83,19 @@ command:
     - "''"
     - "--pipeline"
     - "''"
+    - "--proxy-name"
+    - "'readout-proxy'"
     - "--readers"
     - "'1'"
     - "--severity"
     - "'info'"
+    - "--shm-allocation"
+    - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
     - "'false'"
     - "--shm-mlock-segment-on-creation"
+    - "'false'"
+    - "--shm-no-cleanup"
     - "'false'"
     - "--shm-segment-id"
     - "'0'"
@@ -90,6 +104,12 @@ command:
     - "--spawners"
     - "'1'"
     - "--stacktrace-on-signal"
-    - "'all'"
+    - "'simple'"
+    - "--timeframes-rate-limit"
+    - "'0'"
+    - "--timeframes-rate-limit-ipcid"
+    - "-1"
+    - "--timeframes-shm-limit"
+    - "'0'"
     - "--workflow-suffix"
     - "''"

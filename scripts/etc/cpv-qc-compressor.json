@@ -28,7 +28,7 @@
         "className": "o2::quality_control_modules::cpv::PedestalTask",
         "moduleName": "QcCPV",
         "detectorName": "CPV",
-        "cycleDurationSeconds": "100",
+        "cycleDurationSeconds": "10",
         "maxNumberCycles": "1",
         "": "The other type of dataSource is \"direct\", see basic-no-sampling.json.",
         "dataSource": {

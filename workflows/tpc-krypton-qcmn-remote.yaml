@@ -3,8 +3,7 @@ vars:
   dpl_command: >-
     o2-qc --config {{ qc_config_uri }} --remote -b
 defaults:
-  qc_remote_machine: "alio2-cr1-qts01"
-  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-qcmn-krypton"
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-krypton-qcmn"
   monitoring_dpl_url: "no-op://"
   user: "flp"
   fmq_rate_logging: 0
@@ -12,65 +11,104 @@ defaults:
   shm_throw_bad_alloc: false
   session_id: default
   resources_monitoring: 15
-constraints:
-  - attribute: machine_id
-    value: "{{ qc_remote_machine }}"
 roles:
   - name: "internal-dpl-clock"
     connect:
     task:
       load: tpc-krypton-qcmn-remote-internal-dpl-clock
-  - name: "KrClusters-proxy"
+  - name: "TPC-KrClusters-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_KrClusters-proxy
+    - name: from_internal-dpl-clock_to_TPC-KrClusters-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_KrClusters-proxy"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-KrClusters-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     bind:
-    - name: KrClusters-proxy
+    - name: TPC-KrClusters-proxy
       type: sub
       transport: zeromq
       addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
       target: "tcp://*:47730"
+      rcvBufSize: 1
     task:
-      load: tpc-krypton-qcmn-remote-KrClusters-proxy
-  - name: "MERGER-KrClusters1l-0"
+      load: tpc-krypton-qcmn-remote-TPC-KrClusters-proxy
+  - name: "TPC-RawDigits-proxy"
     connect:
-    - name: from_internal-dpl-clock_to_MERGER-KrClusters1l-0
+    - name: from_internal-dpl-clock_to_TPC-RawDigits-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_MERGER-KrClusters1l-0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-RawDigits-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_KrClusters-proxy_to_MERGER-KrClusters1l-0
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.KrClusters-proxy:from_KrClusters-proxy_to_MERGER-KrClusters1l-0"
+    bind:
+    - name: TPC-RawDigits-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
       rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
+      target: "tcp://*:47731"
+      rcvBufSize: 1
     task:
-      load: tpc-krypton-qcmn-remote-MERGER-KrClusters1l-0
-  - name: "qc-check-sink-QC_KrClusters_0"
+      load: tpc-krypton-qcmn-remote-TPC-RawDigits-proxy
+  - name: "TPC-MERGER-KrClusters1l-0"
     connect:
-    - name: from_MERGER-KrClusters1l-0_to_qc-check-sink-QC_KrClusters_0
+    - name: from_internal-dpl-clock_to_TPC-MERGER-KrClusters1l-0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.MERGER-KrClusters1l-0:from_MERGER-KrClusters1l-0_to_qc-check-sink-QC_KrClusters_0"
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-MERGER-KrClusters1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_TPC-KrClusters-proxy_to_TPC-MERGER-KrClusters1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-KrClusters-proxy:from_TPC-KrClusters-proxy_to_TPC-MERGER-KrClusters1l-0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: tpc-krypton-qcmn-remote-qc-check-sink-QC_KrClusters_0
-  - name: fairmq-shmmonitor
-    enabled: "{{fmq_cleanup_enabled == 'true'}}"
+      load: tpc-krypton-qcmn-remote-TPC-MERGER-KrClusters1l-0
+  - name: "TPC-MERGER-RawDigits1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-MERGER-RawDigits1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-MERGER-RawDigits1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_TPC-RawDigits-proxy_to_TPC-MERGER-RawDigits1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-RawDigits-proxy:from_TPC-RawDigits-proxy_to_TPC-MERGER-RawDigits1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
-      load: "fairmq-shmmonitor"
-      trigger: DESTROY
-      timeout: 10s
-      critical: false
+      load: tpc-krypton-qcmn-remote-TPC-MERGER-RawDigits1l-0
+  - name: "qc-check-sink-QTPC_KrClusters_0"
+    connect:
+    - name: from_TPC-MERGER-KrClusters1l-0_to_qc-check-sink-QTPC_KrClusters_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-MERGER-KrClusters1l-0:from_TPC-MERGER-KrClusters1l-0_to_qc-check-sink-QTPC_KrClusters_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-krypton-qcmn-remote-qc-check-sink-QTPC_KrClusters_0
+  - name: "qc-check-sink-QTPC_RawDigits_0"
+    connect:
+    - name: from_TPC-MERGER-RawDigits1l-0_to_qc-check-sink-QTPC_RawDigits_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-MERGER-RawDigits1l-0:from_TPC-MERGER-RawDigits1l-0_to_qc-check-sink-QTPC_RawDigits_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-krypton-qcmn-remote-qc-check-sink-QTPC_RawDigits_0

@@ -1,6 +1,7 @@
 name: its-qc-fhr-fee-dpl-output-proxy
 defaults:
   log_task_output: none
+  exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
     {{ dpl_command }} | o2-dpl-output-proxy
@@ -21,11 +22,16 @@ bind:
 command:
   shell: true
   log: "{{ log_task_output }}"
-  env: ["O2_DETECTOR={{ detector }}"]
+  env:
+    - O2_DETECTOR={{ detector }}
+    - O2_PARTITION={{ environment_id }}
+    - DPL_OUTPUT_PROXY_ORDERED=1
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
     - "-b"
+    - "--exit-transition-timeout"
+    - "'{{ exit_transition_timeout }}'"
     - "--monitoring-backend"
     - "'{{ monitoring_dpl_url }}'"
     - "--session"
@@ -65,13 +71,15 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'filter:ITS/RAWDATA;G:FLP/DISTSUBTIMEFRAME'"
+    - "'filter:ITS/RAWDATA;G:FLP/DISTSUBTIMEFRAME/0'"
     - "--default-port"
     - "'4200'"
     - "--default-transport"
     - "'shmem'"
     - "--early-forward-policy"
     - "'never'"
+    - "--environment"
+    - "'DPL_OUTPUT_PROXY_ORDERED=1'"
     - "--fairmq-ipc-prefix"
     - "'@'"
     - "--fairmq-rate-logging"
@@ -115,7 +123,7 @@ command:
     - "--spawners"
     - "'1'"
     - "--stacktrace-on-signal"
-    - "'all'"
+    - "'simple'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"

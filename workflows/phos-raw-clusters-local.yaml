@@ -1,8 +1,10 @@
 name: phos-raw-clusters-local
 vars:
   dpl_command: >-
-    o2-dpl-raw-proxy -b --session default --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-phos-reco-workflow -b --input-type raw --output-type cells --session default --disable-root-output --pedestal off --keepHGLG off --pipeline PHOSRawToCellConverterSpec:3 | o2-qc -b --config {{ qc_config_uri }} --local --host flp | o2-dpl-output-proxy -b --session default --dataspec 'x:PHS/RAWDATA;CEL:PHS/CELLS/0;CTR:PHS/CELLTRIGREC/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"'
+    o2-dpl-raw-proxy -b --session default --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-phos-reco-workflow -b --input-type raw --output-type cells --session default --disable-root-output --pedestal off --keepHGLG off --pipeline PHOSRawToCellConverterSpec:3 --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;' | o2-qc -b --config {{ qc_config_uri }} --local --host flp | o2-dpl-output-proxy --environment DPL_OUTPUT_PROXY_ORDERED=1 -b --session default --dataspec 'x:PHS/RAWDATA;CEL:PHS/CELLS/0;CTR:PHS/CELLTRIGREC/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=1,transport=shmem"'
 defaults:
+  phos_presamples: 0
+  phos_fit_method: default
   phos_pedestal: off
   phos_keep_hglg: off
   qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/phos-raw-clusters-flpepn"
@@ -34,12 +36,30 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
     task:
       load: phos-raw-clusters-local-readout-proxy
+  - name: "internal-dpl-ccdb-backend"
+    connect:
+    - name: from_readout-proxy_to_internal-dpl-ccdb-backend
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_internal-dpl-ccdb-backend"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: phos-raw-clusters-local-internal-dpl-ccdb-backend
   - name: "PHOSRawToCellConverterSpec_t0"
     connect:
     - name: from_readout-proxy_to_PHOSRawToCellConverterSpec_t0
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_PHOSRawToCellConverterSpec_t0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_internal-dpl-ccdb-backend_to_PHOSRawToCellConverterSpec_t0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-ccdb-backend:from_internal-dpl-ccdb-backend_to_PHOSRawToCellConverterSpec_t0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -54,6 +74,13 @@ roles:
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
+    - name: from_internal-dpl-ccdb-backend_to_PHOSRawToCellConverterSpec_t1
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-ccdb-backend:from_internal-dpl-ccdb-backend_to_PHOSRawToCellConverterSpec_t1"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     task:
       load: phos-raw-clusters-local-PHOSRawToCellConverterSpec_t1
   - name: "PHOSRawToCellConverterSpec_t2"
@@ -62,6 +89,13 @@ roles:
       type: pull
       transport: shmem
       target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_PHOSRawToCellConverterSpec_t2"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_internal-dpl-ccdb-backend_to_PHOSRawToCellConverterSpec_t2
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-ccdb-backend:from_internal-dpl-ccdb-backend_to_PHOSRawToCellConverterSpec_t2"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
@@ -119,6 +153,13 @@ roles:
       load: phos-raw-clusters-local-qc-task-PHS-RawTask
   - name: "internal-dpl-injected-dummy-sink"
     connect:
+    - name: from_internal-dpl-ccdb-backend_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-ccdb-backend:from_internal-dpl-ccdb-backend_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
     - name: from_PHOSRawToCellConverterSpec_t0_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
@@ -142,22 +183,23 @@ roles:
       rcvBufSize: 4
     task:
       load: phos-raw-clusters-local-internal-dpl-injected-dummy-sink
-  - name: "RawTask-proxy"
+  - name: "PHS-RawTask-proxy"
     connect:
-    - name: from_qc-task-PHS-RawTask_to_RawTask-proxy
+    - name: from_qc-task-PHS-RawTask_to_PHS-RawTask-proxy
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-task-PHS-RawTask:from_qc-task-PHS-RawTask_to_RawTask-proxy"
+      target: "{{ Parent().Path }}.qc-task-PHS-RawTask:from_qc-task-PHS-RawTask_to_PHS-RawTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: RawTask-proxy
+    - name: PHS-RawTask-proxy
       type: pub
       transport: zeromq
-      target: "::RawTask-proxy"
+      target: "::PHS-RawTask-proxy"
       rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
     task:
-      load: phos-raw-clusters-local-RawTask-proxy
+      load: phos-raw-clusters-local-PHS-RawTask-proxy
   - name: "dpl-output-proxy"
     connect:
     - name: from_PHOSRawToCellConverterSpec_t0_to_dpl-output-proxy

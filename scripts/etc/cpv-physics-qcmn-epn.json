@@ -48,8 +48,20 @@
         "": ""
       }
     },
-    "dataSamplingPolicies": [
-        
-    ]
-  }
+    "checks": {
+      "QcCheck": {
+        "active": "true",
+        "className": "o2::quality_control_modules::common::IncreasingEntries",
+        "moduleName": "QcCommon",
+        "policy": "OnAny",
+        "detectorName": "CPV",
+        "dataSource": [{
+          "type": "Task",
+          "name": "PhysicsOnEPNs",
+          "MOs": []
+        }]
+      }
+    }
+  },
+  "dataSamplingPolicies": []
 }

@@ -4,8 +4,8 @@
 set -e;
 set -u;
 
-QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-qc-post-processing.json'
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-qc-post-processing'
+QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-qc-post-idc-processing.json'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-qc-post-idc-processing'
 QC_CONFIG_PARAM='qc_config_uri'
 
 source helpers.sh
@@ -13,6 +13,9 @@ source helpers.sh
 cd ../
 
 WF_NAME=tpc-qc-post-processing-remote
+export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+export DPL_CONDITION_QUERY_RATE="${GEN_TOPO_EPN_CCDB_QUERY_RATE:--1}"
+DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
 o2-qc --config $QC_GEN_CONFIG_PATH --remote -b --o2-control $WF_NAME
 

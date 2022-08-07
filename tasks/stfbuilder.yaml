@@ -27,13 +27,19 @@ bind:
     sndBufSize: "4"
     global: "readout-proxy-{{ it }}"
 command:
-  env: ["O2_INFOLOGGER_MODE={{infologger_mode}}","INFOLOGGER_MODE={{infologger_mode}}","O2_DETECTOR={{ detector }}","DATADIST_FEE_MASK={{ stfb_fee_mask }}"]
+  env:
+    - O2_INFOLOGGER_MODE={{infologger_mode}}
+    - O2_DETECTOR={{ detector }}
+    - DATADIST_FEE_MASK={{ stfb_fee_mask }}
+    - O2_PARTITION={{ environment_id }}
   log: "{{ log_task_output }}"
   shell: true
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
     - "--session=default"
+    - "--shm-segment-id=2"
+    - "--shm-segment-size=134217728"
     - "--transport=shmem"
     - "--monitoring-backend='{{ monitoring_dd_url }}'"
     - "--discovery-partition={{ environment_id }}"
