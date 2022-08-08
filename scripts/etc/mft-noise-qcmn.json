@@ -94,11 +94,13 @@
           "FaultThresholdMedium" : "10",
           "FaultThresholdBad" : "20"
         },
-        "dataSource": [{
+        "dataSource": [
+          {
           "type": "Task",
           "name": "MFTReadoutTask",
-            "MOs"  : ["mDDWSummary","mSummaryChipOk","mSummaryChipFault", "mSummaryChipError", "mSummaryChipWarning", "mRDHSummary"]
-        }]
+          "MOs" : ["mDDWSummary","mSummaryChipOk","mSummaryChipFault", "mSummaryChipError", "mSummaryChipWarning", "mRDHSummary"]
+          }
+        ]
       },
       "MFTDigitCheck": {
         "active": "true",
@@ -109,7 +111,7 @@
         "dataSource": [{
           "type": "Task",
           "name": "MFTDigitTask",
-            "MOs"  : ["mDigitChipOccupancy","mDigitOccupancySummary","mDigitChipStdDev"]
+          "MOs" : ["mDigitChipOccupancy","mDigitOccupancySummary","mDigitChipStdDev"]
         }]
       },
       "MFTClusterCheck": {
@@ -123,7 +125,26 @@
         "moduleName": "QcMFT",
         "detectorName": "MFT",
         "policy": "OnAny"
-      }
+      },
+      "MFTIncrEntrCheck": {
+        "active": "true",
+        "className": "o2::quality_control_modules::common::IncreasingEntries",
+        "moduleName": "QcCommon",
+        "policy": "OnEachSeparately",
+        "detectorName": "MFT",
+        "dataSource": [
+          {
+            "type": "Task",
+            "name": "MFTReadoutTask",
+            "MOs" : ["mSummaryChipError"]
+          },
+          {
+            "type": "Task",
+            "name": "MFTDigitTask",
+            "MOs" : ["mDigitChipOccupancy"]
+          }
+        ]
+      }      
     },
     "postprocessing": {
       "MFTReadoutTrend": {
