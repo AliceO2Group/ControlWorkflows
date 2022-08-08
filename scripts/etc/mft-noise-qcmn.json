@@ -94,13 +94,11 @@
           "FaultThresholdMedium" : "10",
           "FaultThresholdBad" : "20"
         },
-        "dataSource": [
-          {
+        "dataSource": [{
           "type": "Task",
           "name": "MFTReadoutTask",
           "MOs" : ["mDDWSummary","mSummaryChipOk","mSummaryChipFault", "mSummaryChipError", "mSummaryChipWarning", "mRDHSummary"]
-          }
-        ]
+        }]
       },
       "MFTDigitCheck": {
         "active": "true",
