@@ -1389,6 +1389,7 @@ roles:
       # dpl_workflow is set to <detector>_dpl_workflow if such an override exists
       dpl_workflow: "{{ PrefixedOverride( 'dpl_workflow', ToLower( DetectorForHost( it ) ) ) }}"
       dpl_command: "{{ PrefixedOverride( 'dpl_command', ToLower( DetectorForHost( it ) ) ) }}"
+      flp_workflows_jit_enabled: "{{ PrefixedOverride( 'flp_workflows_jit_enabled', ToLower( DetectorForHost( it ) ) ) }}"
     constraints:
       - attribute: machine_id
         value: "{{ it }}"
@@ -1552,6 +1553,7 @@ roles:
           range: "{{ detectors }}"
           var: det
         vars:
+          qc_remote_jit_enabled: "{{ PrefixedOverride( 'qc_remote_jit_enabled', ToLower( det ) ) }}"
           qc_remote_workflow: "{{ PrefixedOverride( 'qc_remote_workflow', ToLower( det ) ) }}"
           qc_dpl_command: "{{ PrefixedOverride( 'qc_dpl_command', ToLower( det ) ) }}"
           qc_remote_machine: "{{ PrefixedOverride( 'qc_remote_machine', ToLower( det ) ) }}"
