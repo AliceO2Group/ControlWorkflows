@@ -1,0 +1,132 @@
+name: ft0-decoder-pipe-ds-qc-dpl-output-proxy
+defaults:
+  log_task_output: none
+  exit_transition_timeout: 15
+  _module_cmdline: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
+    {{ dpl_command }} | o2-dpl-output-proxy
+  _plain_cmdline: >-
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-output-proxy
+control:
+  mode: "fairmq"
+wants:
+  cpu: 0.01
+  memory: 1
+bind:
+  - name: downstream
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    global: "downstream-{{ it }}"
+command:
+  shell: true
+  log: "{{ log_task_output }}"
+  env:
+    - O2_DETECTOR={{ detector }}
+    - O2_PARTITION={{ environment_id }}
+    - DPL_OUTPUT_PROXY_ORDERED=1
+  user: "{{ user }}"
+  value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
+  arguments:
+    - "-b"
+    - "--exit-transition-timeout"
+    - "'{{ exit_transition_timeout }}'"
+    - "--monitoring-backend"
+    - "'{{ monitoring_dpl_url }}'"
+    - "--session"
+    - "'{{ session_id }}'"
+    - "--infologger-severity"
+    - "'{{ infologger_severity }}'"
+    - "--infologger-mode"
+    - "'{{ infologger_mode }}'"
+    - "--driver-client-backend"
+    - "'stdout://'"
+    - "--shm-segment-size"
+    - "'{{ shm_segment_size }}'"
+    - "--shm-throw-bad-alloc"
+    - "'{{ shm_throw_bad_alloc }}'"
+    - "--resources-monitoring"
+    - "'{{ resources_monitoring }}'"
+    - "--id"
+    - "'dpl-output-proxy'"
+    - "--shm-monitor"
+    - "'false'"
+    - "--log-color"
+    - "'false'"
+    - "--aod-memory-rate-limit"
+    - "'0'"
+    - "--aod-writer-json"
+    - "''"
+    - "--aod-writer-keep"
+    - "''"
+    - "--aod-writer-ntfmerge"
+    - "-1"
+    - "--aod-writer-resfile"
+    - "''"
+    - "--aod-writer-resmode"
+    - "'RECREATE'"
+    - "--channel-prefix"
+    - "''"
+    - "--clone"
+    - "''"
+    - "--dataspec"
+    - "'digits:FT0/DIGITSBC/0;channels:FT0/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0'"
+    - "--default-port"
+    - "'4200'"
+    - "--default-transport"
+    - "'shmem'"
+    - "--early-forward-policy"
+    - "'never'"
+    - "--environment"
+    - "'DPL_OUTPUT_PROXY_ORDERED=1'"
+    - "--fairmq-ipc-prefix"
+    - "'@'"
+    - "--fairmq-rate-logging"
+    - "'0'"
+    - "--fairmq-recv-buffer-size"
+    - "'4'"
+    - "--fairmq-send-buffer-size"
+    - "'4'"
+    - "--forwarding-destination"
+    - "'drop'"
+    - "--forwarding-policy"
+    - "'dangling'"
+    - "--labels"
+    - "''"
+    - "--output-proxy-address"
+    - "'0.0.0.0'"
+    - "--output-proxy-method"
+    - "'bind'"
+    - "--pipeline"
+    - "''"
+    - "--proxy-channel-name"
+    - "'downstream'"
+    - "--proxy-name"
+    - "'dpl-output-proxy'"
+    - "--readers"
+    - "'1'"
+    - "--severity"
+    - "'info'"
+    - "--shm-allocation"
+    - "'rbtree_best_fit'"
+    - "--shm-mlock-segment"
+    - "'false'"
+    - "--shm-mlock-segment-on-creation"
+    - "'false'"
+    - "--shm-no-cleanup"
+    - "'false'"
+    - "--shm-segment-id"
+    - "'0'"
+    - "--shm-zero-segment"
+    - "'false'"
+    - "--spawners"
+    - "'1'"
+    - "--stacktrace-on-signal"
+    - "'simple'"
+    - "--timeframes-rate-limit"
+    - "'0'"
+    - "--timeframes-rate-limit-ipcid"
+    - "-1"
+    - "--workflow-suffix"
+    - "''"

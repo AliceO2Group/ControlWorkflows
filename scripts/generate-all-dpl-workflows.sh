@@ -40,9 +40,13 @@ check_pwd
 ./fdd-digits-qc.sh
 ./ft0-qcmn-remote.sh
 ./ft0-qc-post-processing.sh
+./ft0-qcmn-epn-post-processing.sh
 ./ft0-digits-pipe.sh
 ./ft0-digits-pipe-ds-qc.sh
 ./ft0-digits-pipe-ds-qc-raw.sh
+./ft0-decoder-pipe.sh
+./ft0-decoder-pipe-ds-qc.sh
+./ft0-ddecoder-pipe-ds-qc-raw.sh
 ./ft0-digits-qc.sh
 ./fv0-qcmn-remote.sh
 ./fv0-qc-post-processing.sh
@@ -50,6 +54,7 @@ check_pwd
 ./fv0-digits-pipe-ds-qc.sh
 ./fv0-digits-pipe-ds-qc-raw.sh
 ./fv0-digits-qc.sh
+./emc-qc-post-calib.sh
 ./emc-qcmn-local-flp.sh
 ./emc-qcmn-remote-flp.sh
 ./emc-qcmn-remote-flpepn.sh

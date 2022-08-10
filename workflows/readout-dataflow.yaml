@@ -236,6 +236,9 @@ defaults:
       - ft0-digits-pipe
       - ft0-digits-pipe-ds-qc
       - ft0-digits-pipe-ds-qc-raw
+      - ft0-decoder-pipe
+      - ft0-decoder-pipe-ds-qc
+      - ft0-decoder-pipe-ds-qc-raw
       - ft0-digits-qc
       - minimal-dpl
       - qc-daq
@@ -250,6 +253,7 @@ defaults:
     values:
       - none
       - ft0-qc-post-processing-remote
+      - ft0-qcmn-epn-post-processing-remote
       - ft0-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"  
@@ -687,6 +691,7 @@ defaults:
       - tpc-full-nodummy-noraw-qcmn-remote
       - tpc-full-nodummy-qcmn-pp-remote
       - tpc-full-calib-remote
+      - tpc-full-calib-trend-remote
       - tpc-krypton-qcmn-remote
       - tpc-idc-merger
     visibleif: $$qc_remote_enabled === "true"  

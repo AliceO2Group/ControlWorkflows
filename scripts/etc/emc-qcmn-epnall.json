@@ -98,6 +98,25 @@
 			}
 		},
 		"checks": {
+			"IncreasingEventCheckerEMCAL" : {
+				"active": "true",
+				"className": "o2::quality_control_modules::common::IncreasingEntries",
+				"moduleName": "QcCommon",
+				"policy": "OnEachSeparately",
+				"detectorName": "EMC",
+				"dataSource": [
+					{
+						"type": "Task",
+						"name": "RawTaskEMCAL",
+						"MOs": ["BunchMinRawAmplitudeFull_PHYS", "PayloadSizePerDDL", "FECidMaxChWithInput_perSM", "NumberOfChWithInput_perSM"]
+					},
+					{
+						"type": "Task",
+						"name": "CellTaskEMCAL",
+						"MOs": ["cellOccupancyEMCwThrBelow_PHYS", "cellAmplitude_PHYS", "cellTime_PHYS", "cellAmplitudeSupermodule_PHYS", "cellTimeSupermodule_PHYS", "ncellsPerEventSupermodule"]
+					}
+				]
+			},
 			"RawBunchMinAmplitudeEMCAL": {
 				"active": "true",
 				"checkName": "RawBunchMinAmplitude",
@@ -235,6 +254,26 @@
 							"ChannelHGnoLG"
 						]
 					}
+				]
+			}
+		}, 
+		"postprocessing": {
+			"Calibration": {
+				"active": "true",
+				"className": "o2::quality_control_modules::emcal::CalibMonitoringTask",
+				"moduleName": "QcEMCAL",
+				"detectorName": "EMC",
+				"calibObjects" : [
+					"TimeCalibParams"
+				],
+				"initTrigger": [
+					"userorcontrol"
+				],
+				"updateTrigger": [
+					"newobject:ccdb:EMC/Calib/TimeCalibParams"
+				],
+				"stopTrigger": [
+					"userorcontrol"
 				]
 			}
 		}

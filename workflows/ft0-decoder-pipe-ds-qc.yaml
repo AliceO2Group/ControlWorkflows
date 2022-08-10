@@ -1,0 +1,307 @@
+name: ft0-decoder-pipe-ds-qc
+vars:
+  dpl_command: >-
+    o2-dpl-raw-proxy -b --session default --dataspec 'A1:FT0/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' | o2-ft0-flp-dpl-workflow -b --session default --disable-root-output --new-decoder --pipeline ft0-datadecoder-dpl:7 --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;' | o2-dpl-output-proxy --environment DPL_OUTPUT_PROXY_ORDERED=1 -b --session default --dataspec 'digits:FT0/DIGITSBC/0;channels:FT0/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' | o2-qc --config {{ qc_config_uri }} -b --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;'
+defaults:
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/ft0-digits-ds-qc-{{ it }}"
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 10000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: ft0-decoder-pipe-ds-qc-internal-dpl-clock
+  - name: "readout-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_readout-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: readout-proxy
+      type: pull
+      transport: shmem
+      target: "::readout-proxy-{{ it }}"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: ft0-decoder-pipe-ds-qc-readout-proxy
+  - name: "ft0-datadecoder-dpl_t0"
+    connect:
+    - name: from_readout-proxy_to_ft0-datadecoder-dpl_t0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_ft0-datadecoder-dpl_t0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t0
+  - name: "ft0-datadecoder-dpl_t1"
+    connect:
+    - name: from_readout-proxy_to_ft0-datadecoder-dpl_t1
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_ft0-datadecoder-dpl_t1"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t1
+  - name: "ft0-datadecoder-dpl_t2"
+    connect:
+    - name: from_readout-proxy_to_ft0-datadecoder-dpl_t2
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_ft0-datadecoder-dpl_t2"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t2
+  - name: "ft0-datadecoder-dpl_t3"
+    connect:
+    - name: from_readout-proxy_to_ft0-datadecoder-dpl_t3
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_ft0-datadecoder-dpl_t3"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t3
+  - name: "ft0-datadecoder-dpl_t4"
+    connect:
+    - name: from_readout-proxy_to_ft0-datadecoder-dpl_t4
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_ft0-datadecoder-dpl_t4"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t4
+  - name: "ft0-datadecoder-dpl_t5"
+    connect:
+    - name: from_readout-proxy_to_ft0-datadecoder-dpl_t5
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_ft0-datadecoder-dpl_t5"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t5
+  - name: "ft0-datadecoder-dpl_t6"
+    connect:
+    - name: from_readout-proxy_to_ft0-datadecoder-dpl_t6
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_ft0-datadecoder-dpl_t6"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: ft0-decoder-pipe-ds-qc-ft0-datadecoder-dpl_t6
+  - name: "Dispatcher"
+    connect:
+    - name: from_internal-dpl-clock_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_ft0-datadecoder-dpl_t0_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ft0-datadecoder-dpl_t0:from_ft0-datadecoder-dpl_t0_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_ft0-datadecoder-dpl_t1_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ft0-datadecoder-dpl_t1:from_ft0-datadecoder-dpl_t1_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_ft0-datadecoder-dpl_t2_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ft0-datadecoder-dpl_t2:from_ft0-datadecoder-dpl_t2_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_ft0-datadecoder-dpl_t3_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ft0-datadecoder-dpl_t3:from_ft0-datadecoder-dpl_t3_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_ft0-datadecoder-dpl_t4_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ft0-datadecoder-dpl_t4:from_ft0-datadecoder-dpl_t4_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_ft0-datadecoder-dpl_t5_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ft0-datadecoder-dpl_t5:from_ft0-datadecoder-dpl_t5_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_ft0-datadecoder-dpl_t6_to_Dispatcher
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ft0-datadecoder-dpl_t6:from_ft0-datadecoder-dpl_t6_to_Dispatcher"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: ft0-decoder-pipe-ds-qc-Dispatcher
+  - name: "qc-task-FT0-DigitQcTask"
+    connect:
+    - name: from_internal-dpl-clock_to_qc-task-FT0-DigitQcTask
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-FT0-DigitQcTask"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_Dispatcher_to_qc-task-FT0-DigitQcTask
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_qc-task-FT0-DigitQcTask"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: ft0-decoder-pipe-ds-qc-qc-task-FT0-DigitQcTask
+  - name: "qc-task-FT0-TriggerQcTask"
+    connect:
+    - name: from_internal-dpl-clock_to_qc-task-FT0-TriggerQcTask
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-FT0-TriggerQcTask"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_qc-task-FT0-DigitQcTask_to_qc-task-FT0-TriggerQcTask
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-task-FT0-DigitQcTask:from_qc-task-FT0-DigitQcTask_to_qc-task-FT0-TriggerQcTask"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: ft0-decoder-pipe-ds-qc-qc-task-FT0-TriggerQcTask
+  - name: "qc-check-FT0-CFDEffCheck"
+    connect:
+    - name: from_qc-task-FT0-DigitQcTask_to_qc-check-FT0-CFDEffCheck
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-task-FT0-DigitQcTask:from_qc-task-FT0-DigitQcTask_to_qc-check-FT0-CFDEffCheck"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: ft0-decoder-pipe-ds-qc-qc-check-FT0-CFDEffCheck
+  - name: "qc-check-sink-QFT0_TriggerQcTask_0"
+    connect:
+    - name: from_qc-task-FT0-TriggerQcTask_to_qc-check-sink-QFT0_TriggerQcTask_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-task-FT0-TriggerQcTask:from_qc-task-FT0-TriggerQcTask_to_qc-check-sink-QFT0_TriggerQcTask_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: ft0-decoder-pipe-ds-qc-qc-check-sink-QFT0_TriggerQcTask_0
+  - name: "dpl-output-proxy"
+    connect:
+    - name: from_ft0-datadecoder-dpl_t0_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ft0-datadecoder-dpl_t0:from_ft0-datadecoder-dpl_t0_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_ft0-datadecoder-dpl_t1_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ft0-datadecoder-dpl_t1:from_ft0-datadecoder-dpl_t1_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_ft0-datadecoder-dpl_t2_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ft0-datadecoder-dpl_t2:from_ft0-datadecoder-dpl_t2_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_ft0-datadecoder-dpl_t3_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ft0-datadecoder-dpl_t3:from_ft0-datadecoder-dpl_t3_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_ft0-datadecoder-dpl_t4_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ft0-datadecoder-dpl_t4:from_ft0-datadecoder-dpl_t4_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_ft0-datadecoder-dpl_t5_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ft0-datadecoder-dpl_t5:from_ft0-datadecoder-dpl_t5_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_ft0-datadecoder-dpl_t6_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.ft0-datadecoder-dpl_t6:from_ft0-datadecoder-dpl_t6_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_Dispatcher_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.Dispatcher:from_Dispatcher_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: downstream
+      type: push
+      transport: shmem
+      addressing: ipc
+      rateLogging: "{{ fmq_rate_logging }}"
+      global: "downstream-{{ it }}"
+    task:
+      load: ft0-decoder-pipe-ds-qc-dpl-output-proxy
+  - name: "internal-dpl-injected-dummy-sink"
+    connect:
+    - name: from_qc-check-FT0-CFDEffCheck_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-FT0-CFDEffCheck:from_qc-check-FT0-CFDEffCheck_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: ft0-decoder-pipe-ds-qc-internal-dpl-injected-dummy-sink
