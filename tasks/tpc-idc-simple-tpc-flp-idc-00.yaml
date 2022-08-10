@@ -1,20 +1,32 @@
-name: tpc-idc-merger-qc-check-sink-QTPC_Clusters_0
+name: tpc-idc-simple-tpc-flp-idc-00
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-qc
+    {{ dpl_command }} | o2-tpc-idc-flp
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-qc
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-idc-flp
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-properties:
-  qcConfiguration: ""
+  - name: from_tpc-flp-idc-00_to_dpl-output-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -44,7 +56,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-check-sink-QTPC_Clusters_0'"
+    - "'tpc-flp-idc-00'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -65,10 +77,13 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--config"
-    - "'{{ qc_config_uri }}'"
-    - "--configKeyValues"
+    - "--configFile"
     - "''"
+    - "--configKeyValues"
+    - "'keyval.output_dir=/dev/null'"
+    - "--crus"
+    - "{{ cru_config_uri }}"
+    - "--disableIDC0CCDB"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -83,23 +98,33 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--host"
+    - "--groupLastPadsThreshold"
+    - "'3,3,3,3,2,2,2,2,1,1'"
+    - "--groupLastRowsThreshold"
+    - "'3,3,3,3,2,2,2,2,2,2'"
+    - "--groupPads"
+    - "'7,7,7,7,6,6,6,6,5,5'"
+    - "--groupRows"
+    - "'5,5,5,5,4,4,4,4,3,3'"
+    - "--idc0File"
     - "''"
     - "--labels"
     - "''"
-    - "--local-batch"
-    - "''"
-    - "--override-values"
-    - "''"
+    - "--lanes"
+    - "'1'"
+    - "--minIDCsPerTF"
+    - "'10'"
+    - "--nthreads"
+    - "'1'"
     - "--pipeline"
     - "''"
+    - "--propagateIDCs"
+    - "--rangeIDC"
+    - "'200'"
     - "--readers"
     - "'1'"
-    - "--remote"
-    - "--remote-batch"
-    - "''"
     - "--severity"
-    - "'info'"
+    - "'warning'"
     - "--shm-allocation"
     - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
@@ -116,11 +141,11 @@ command:
     - "'1'"
     - "--stacktrace-on-signal"
     - "'simple'"
+    - "--time-lanes"
+    - "'1'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--qcConfiguration"
-    - "'{}'"

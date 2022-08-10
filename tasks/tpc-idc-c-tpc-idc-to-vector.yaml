@@ -1,32 +1,39 @@
-name: tpc-idc-merger-TPC-Clusters-proxy
+name: tpc-idc-c-tpc-idc-to-vector
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-qc
+    {{ dpl_command }} | o2-tpc-idc-to-vector
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-qc
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-idc-to-vector
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_TPC-Clusters-proxy_to_TPC-MERGER-Clusters1l-0
+  - name: from_tpc-idc-to-vector_to_tpc-flp-idc-00
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: TPC-Clusters-proxy
-    type: sub
-    transport: zeromq
-    addressing: tcp
+  - name: from_tpc-idc-to-vector_to_internal-dpl-injected-dummy-sink
+    type: push
+    transport: shmem
+    addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-    target: "tcp://*:47730"
-    rcvBufSize: 1
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_tpc-idc-to-vector_to_dpl-output-proxy
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -56,7 +63,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'TPC-Clusters-proxy'"
+    - "'tpc-idc-to-vector'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -77,10 +84,12 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--config"
-    - "'{{ qc_config_uri }}'"
-    - "--configKeyValues"
+    - "--configFile"
     - "''"
+    - "--configKeyValues"
+    - "'keyval.output_dir=/dev/null'"
+    - "--crus"
+    - "{{ cru_config_uri }}"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -95,23 +104,16 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--host"
-    - "''"
+    - "--input-spec"
+    - "'A:TPC/RAWDATA'"
     - "--labels"
-    - "''"
-    - "--local-batch"
-    - "''"
-    - "--override-values"
     - "''"
     - "--pipeline"
     - "''"
     - "--readers"
     - "'1'"
-    - "--remote"
-    - "--remote-batch"
-    - "''"
     - "--severity"
-    - "'info'"
+    - "'error'"
     - "--shm-allocation"
     - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
@@ -134,13 +136,5 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--end-value-enumeration"
-    - "-1"
-    - "--orbit-multiplier-enumeration"
-    - "'0'"
-    - "--orbit-offset-enumeration"
-    - "'0'"
-    - "--start-value-enumeration"
-    - "'0'"
-    - "--step-value-enumeration"
-    - "'1'"
+    - "--pedestal-url"
+    - "'http://o2-ccdb.internal'"

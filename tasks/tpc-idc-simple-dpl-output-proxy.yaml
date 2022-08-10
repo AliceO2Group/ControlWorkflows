@@ -1,25 +1,24 @@
-name: tpc-idc-merger-tpc-factorize-idc-06
+name: tpc-idc-simple-dpl-output-proxy
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-tpc-idc-factorize
+    {{ dpl_command }} | o2-dpl-output-proxy
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-idc-factorize
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-output-proxy
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-factorize-idc-06_to_tpc-factorize-idc-07
+  - name: downstream
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
+    global: "downstream-{{ it }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -49,7 +48,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'tpc-factorize-idc-06'"
+    - "'dpl-output-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -70,14 +69,12 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--compression"
-    - "'0'"
-    - "--configFile"
-    - "''"
-    - "--configKeyValues"
-    - "'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null'"
-    - "--crus"
-    - "'{{ cru_merger_ids }}'"
+    - "--dataspec"
+    - "'xout:TPC/RAWDATA;ddout:FLP/DISTSUBTIMEFRAME/0;idc2:TPC/IDCGROUPA'"
+    - "--default-port"
+    - "'4200'"
+    - "--default-transport"
+    - "'shmem'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -92,25 +89,18 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--groupIDCs"
-    - "--groupLastPadsThreshold"
-    - "'3,3,3,3,2,2,2,2,1,1'"
-    - "--groupLastRowsThreshold"
-    - "'3,3,3,3,2,2,2,2,2,2'"
-    - "--groupPads"
-    - "'5,6,7,8,4,5,6,8,10,13'"
-    - "--groupRows"
-    - "'2,2,2,3,3,3,2,2,2,2'"
-    - "--input-lanes"
-    - "'10'"
     - "--labels"
     - "''"
-    - "--nthreads-IDC-factorization"
-    - "'1'"
-    - "--nthreads-grouping"
-    - "'4'"
+    - "--output-proxy-address"
+    - "'0.0.0.0'"
+    - "--output-proxy-method"
+    - "'bind'"
     - "--pipeline"
     - "''"
+    - "--proxy-channel-name"
+    - "'downstream'"
+    - "--proxy-name"
+    - "'dpl-output-proxy'"
     - "--readers"
     - "'1'"
     - "--severity"
@@ -131,21 +121,9 @@ command:
     - "'1'"
     - "--stacktrace-on-signal"
     - "'simple'"
-    - "--timeframes"
-    - "'1000'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
-    - "--timeframesDeltaIDC"
-    - "'100'"
     - "--workflow-suffix"
-    - "''"
-    - "--ccdb-uri"
-    - "'http://ccdb-test.cern.ch:8080'"
-    - "--condition-backend"
-    - "'http://alice-ccdb.cern.ch'"
-    - "--condition-timestamp"
-    - "'0'"
-    - "--gainMapFile"
     - "''"

@@ -1,19 +1,26 @@
-name: tpc-idc-merger-tpc-factorize-idc-07
+name: tpc-idc-a-tpc-flp-idc-00
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-tpc-idc-factorize
+    {{ dpl_command }} | o2-tpc-idc-flp
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-idc-factorize
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-idc-flp
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-factorize-idc-07_to_tpc-factorize-idc-08
+  - name: from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_tpc-flp-idc-00_to_tpc-idc-merger-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -49,7 +56,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'tpc-factorize-idc-07'"
+    - "'tpc-flp-idc-00'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -70,14 +77,13 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--compression"
-    - "'0'"
     - "--configFile"
     - "''"
     - "--configKeyValues"
-    - "'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null'"
+    - "'keyval.output_dir=/dev/null'"
     - "--crus"
-    - "'{{ cru_merger_ids }}'"
+    - "{{ cru_config_uri }}"
+    - "--disableIDC0CCDB"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -92,29 +98,33 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--groupIDCs"
     - "--groupLastPadsThreshold"
     - "'3,3,3,3,2,2,2,2,1,1'"
     - "--groupLastRowsThreshold"
     - "'3,3,3,3,2,2,2,2,2,2'"
     - "--groupPads"
-    - "'5,6,7,8,4,5,6,8,10,13'"
+    - "'7,7,7,7,6,6,6,6,5,5'"
     - "--groupRows"
-    - "'2,2,2,3,3,3,2,2,2,2'"
-    - "--input-lanes"
-    - "'10'"
+    - "'5,5,5,5,4,4,4,4,3,3'"
+    - "--idc0File"
+    - "''"
     - "--labels"
     - "''"
-    - "--nthreads-IDC-factorization"
+    - "--lanes"
     - "'1'"
-    - "--nthreads-grouping"
-    - "'4'"
+    - "--minIDCsPerTF"
+    - "'10'"
+    - "--nthreads"
+    - "'1'"
     - "--pipeline"
     - "''"
+    - "--propagateIDCs"
+    - "--rangeIDC"
+    - "'200'"
     - "--readers"
     - "'1'"
     - "--severity"
-    - "'info'"
+    - "'warning'"
     - "--shm-allocation"
     - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
@@ -131,21 +141,11 @@ command:
     - "'1'"
     - "--stacktrace-on-signal"
     - "'simple'"
-    - "--timeframes"
-    - "'1000'"
+    - "--time-lanes"
+    - "'1'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
-    - "--timeframesDeltaIDC"
-    - "'100'"
     - "--workflow-suffix"
-    - "''"
-    - "--ccdb-uri"
-    - "'http://ccdb-test.cern.ch:8080'"
-    - "--condition-backend"
-    - "'http://alice-ccdb.cern.ch'"
-    - "--condition-timestamp"
-    - "'0'"
-    - "--gainMapFile"
     - "''"

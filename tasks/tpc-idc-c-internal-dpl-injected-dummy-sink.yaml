@@ -1,32 +1,18 @@
-name: tpc-idc-merger-internal-dpl-ccdb-backend
+name: tpc-idc-c-internal-dpl-injected-dummy-sink
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-tpc-idc-factorize
+    {{ dpl_command }} | o2-dpl-raw-proxy
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-idc-factorize
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-raw-proxy
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-ccdb-backend_to_internal-dpl-injected-dummy-sink
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-ccdb-backend_to_tpc-factorize-idc-00
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -56,7 +42,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-ccdb-backend'"
+    - "'internal-dpl-injected-dummy-sink'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -77,14 +63,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--compression"
-    - "'0'"
-    - "--configFile"
-    - "''"
-    - "--configKeyValues"
-    - "'TPCIDCGroupParam.groupPadsSectorEdges=32211;keyval.output_dir=/dev/null'"
-    - "--crus"
-    - "'{{ cru_merger_ids }}'"
+    - "--dataspec"
+    - "'x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -99,25 +79,12 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--groupIDCs"
-    - "--groupLastPadsThreshold"
-    - "'3,3,3,3,2,2,2,2,1,1'"
-    - "--groupLastRowsThreshold"
-    - "'3,3,3,3,2,2,2,2,2,2'"
-    - "--groupPads"
-    - "'5,6,7,8,4,5,6,8,10,13'"
-    - "--groupRows"
-    - "'2,2,2,3,3,3,2,2,2,2'"
-    - "--input-lanes"
-    - "'5'"
     - "--labels"
     - "''"
-    - "--nthreads-IDC-factorization"
-    - "'1'"
-    - "--nthreads-grouping"
-    - "'4'"
     - "--pipeline"
     - "''"
+    - "--proxy-name"
+    - "'readout-proxy'"
     - "--readers"
     - "'1'"
     - "--severity"
@@ -138,33 +105,11 @@ command:
     - "'1'"
     - "--stacktrace-on-signal"
     - "'simple'"
-    - "--timeframes"
-    - "'1000'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
-    - "--timeframesDeltaIDC"
-    - "'100'"
+    - "--timeframes-shm-limit"
+    - "'0'"
     - "--workflow-suffix"
     - "''"
-    - "--condition-backend"
-    - "'http://alice-ccdb.cern.ch'"
-    - "--condition-not-after"
-    - "'3385078236000'"
-    - "--condition-not-before"
-    - "'0'"
-    - "--condition-remap"
-    - "''"
-    - "--condition-tf-per-query"
-    - "'1'"
-    - "--end-value-enumeration"
-    - "-1"
-    - "--orbit-multiplier-enumeration"
-    - "'0'"
-    - "--orbit-offset-enumeration"
-    - "'0'"
-    - "--start-value-enumeration"
-    - "'0'"
-    - "--step-value-enumeration"
-    - "'1'"

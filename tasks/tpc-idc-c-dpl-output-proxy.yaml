@@ -1,20 +1,24 @@
-name: tpc-idc-merger-qc-check-sink-QTPC_RawDigits_0
+name: tpc-idc-c-dpl-output-proxy
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-qc
+    {{ dpl_command }} | o2-dpl-output-proxy
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-qc
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-output-proxy
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-properties:
-  qcConfiguration: ""
+  - name: downstream
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    global: "downstream-{{ it }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -44,7 +48,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-check-sink-QTPC_RawDigits_0'"
+    - "'dpl-output-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -65,10 +69,12 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--config"
-    - "'{{ qc_config_uri }}'"
-    - "--configKeyValues"
-    - "''"
+    - "--dataspec"
+    - "'xout:TPC/RAWDATA;ddout:FLP/DISTSUBTIMEFRAME/0'"
+    - "--default-port"
+    - "'4200'"
+    - "--default-transport"
+    - "'shmem'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -83,21 +89,20 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--host"
-    - "''"
     - "--labels"
     - "''"
-    - "--local-batch"
-    - "''"
-    - "--override-values"
-    - "''"
+    - "--output-proxy-address"
+    - "'0.0.0.0'"
+    - "--output-proxy-method"
+    - "'bind'"
     - "--pipeline"
     - "''"
+    - "--proxy-channel-name"
+    - "'downstream'"
+    - "--proxy-name"
+    - "'dpl-output-proxy'"
     - "--readers"
     - "'1'"
-    - "--remote"
-    - "--remote-batch"
-    - "''"
     - "--severity"
     - "'info'"
     - "--shm-allocation"
@@ -122,5 +127,3 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--qcConfiguration"
-    - "'{}'"
