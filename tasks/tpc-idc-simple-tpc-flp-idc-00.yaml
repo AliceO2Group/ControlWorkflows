@@ -20,13 +20,6 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_tpc-flp-idc-00_to_internal-dpl-injected-dummy-sink
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -98,14 +91,6 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--groupLastPadsThreshold"
-    - "'3,3,3,3,2,2,2,2,1,1'"
-    - "--groupLastRowsThreshold"
-    - "'3,3,3,3,2,2,2,2,2,2'"
-    - "--groupPads"
-    - "'7,7,7,7,6,6,6,6,5,5'"
-    - "--groupRows"
-    - "'5,5,5,5,4,4,4,4,3,3'"
     - "--idc0File"
     - "''"
     - "--labels"
@@ -118,7 +103,6 @@ command:
     - "'1'"
     - "--pipeline"
     - "''"
-    - "--propagateIDCs"
     - "--rangeIDC"
     - "'200'"
     - "--readers"
