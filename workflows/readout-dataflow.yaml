@@ -675,6 +675,7 @@ defaults:
       - tpc-idc-full
       - tpc-idc-simple-full
       - tpc-idc-full-split
+      - tpc-idc-simple-full-split
   tpc_qc_remote_workflow: !public
     value: "none"
     type: string
