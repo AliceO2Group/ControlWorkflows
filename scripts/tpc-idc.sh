@@ -55,7 +55,6 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --configKeyValues "keyval.output_dir=/dev/null" \
   --pedestal-url http://o2-ccdb.internal \
   | o2-tpc-idc-flp $ARGS_ALL \
-  --propagateIDCs true \
   --crus ${CRU_GEN_CONFIG_PATH} \
   --severity warning \
   --infologger-severity warning \
@@ -85,7 +84,6 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --configKeyValues "keyval.output_dir=/dev/null" \
   --pedestal-url http://o2-ccdb.internal \
   | o2-tpc-idc-flp $ARGS_ALL \
-  --propagateIDCs true \
   --crus ${CRU_GEN_CONFIG_PATH_A} \
   --severity warning \
   --infologger-severity warning \
@@ -115,7 +113,6 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --configKeyValues "keyval.output_dir=/dev/null" \
   --pedestal-url http://o2-ccdb.internal \
   | o2-tpc-idc-flp $ARGS_ALL \
-  --propagateIDCs true \
   --crus ${CRU_GEN_CONFIG_PATH_C} \
   --severity warning \
   --infologger-severity warning \
@@ -197,7 +194,7 @@ for ((i = 10 ; i <= 72 ; i++)); do
   aside+=" || it == 'alio2-cr1-flp0${i}' "
 done
 for ((i = 74 ; i <= 99 ; i++)); do
-  cside+=" || it == 'alio2-cr1-flp${i}' "
+  cside+=" || it == 'alio2-cr1-flp0${i}' "
 done
 for ((i = 100 ; i <= 144 ; i++)); do
   cside+=" || it == 'alio2-cr1-flp${i}' "
