@@ -1955,3 +1955,9 @@ roles:
           trigger: leave_ERROR
           timeout: 5s
           critical: false
+      - name: before_start_activity
+        call:
+          func: kafka.PublishStartActivityUpdate()
+          trigger: before_START_ACTIVITY-50
+          timeout: 5s
+          critical: false
