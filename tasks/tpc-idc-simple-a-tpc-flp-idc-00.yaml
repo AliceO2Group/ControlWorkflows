@@ -99,8 +99,6 @@ command:
     - "'1'"
     - "--minIDCsPerTF"
     - "'10'"
-    - "--nthreads"
-    - "'1'"
     - "--pipeline"
     - "''"
     - "--rangeIDC"

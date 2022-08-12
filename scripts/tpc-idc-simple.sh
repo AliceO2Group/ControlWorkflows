@@ -104,16 +104,8 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --lanes 1 \
   --disableIDC0CCDB true \
   | o2-dpl-output-proxy $ARGS_ALL \
-   --proxy-name tpc-idc-merger-proxy \
-   --proxy-channel-name tpc-idc-merger-proxy \
-   --labels "tpc-idc-merger-proxy:ecs-preserve-raw-channels" \
-   --output-proxy-method connect \
-   --tpc-idc-merger-proxy '--channel-config "name=tpc-idc-merger-proxy,method=connect,address=tcp://{{ merger_node_c }}:{{ merger_port }},type=push,transport=zeromq" ' \
-   --dataspec "${OUTSPEC_IDC_C};${OUTSPEC_IDC_C}" \
-   --severity warning \
-  | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
-   --dataspec "${OUTSPEC}" \
+   --dataspec "${OUTSPEC};${OUTSPEC_IDC_C}" \
    --o2-control $WF_NAME_C
 
 
