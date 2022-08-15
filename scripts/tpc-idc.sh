@@ -182,7 +182,6 @@ echo "  - name: tpc-sac" >> workflows/${WF_NAME}-full.yaml
 echo "    enabled: \"{{ it == 'alio2-cr1-flp145' }}\"" >> workflows/${WF_NAME}-full.yaml
 echo "    include: minimal-dpl" >> workflows/${WF_NAME}-full.yaml
 
-
 WF_NAME=tpc-idc
 aside=" it == 'alio2-cr1-flp001'"
 cside=" it == 'alio2-cr1-flp073'"
