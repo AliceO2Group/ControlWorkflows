@@ -73,6 +73,17 @@ roles:
       rcvBufSize: 1
     task:
       load: emc-qcmn-epnall-remote-EMC-RawTask-proxy
+  - name: "PP-TASK-RUNNER-Calibration"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-Calibration
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-Calibration"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: emc-qcmn-epnall-remote-PP-TASK-RUNNER-Calibration
   - name: "EMC-MERGER-CellTask1l-0"
     connect:
     - name: from_internal-dpl-clock_to_EMC-MERGER-CellTask1l-0
@@ -127,28 +138,46 @@ roles:
       rcvBufSize: 4
     task:
       load: emc-qcmn-epnall-remote-EMC-MERGER-RawTask1l-0
-  - name: "qc-check-EMC-bY90"
+  - name: "qc-check-EMC-Rx40"
     connect:
-    - name: from_EMC-MERGER-RawTask1l-0_to_qc-check-EMC-bY90
+    - name: from_EMC-MERGER-RawTask1l-0_to_qc-check-EMC-Rx40
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.EMC-MERGER-RawTask1l-0:from_EMC-MERGER-RawTask1l-0_to_qc-check-EMC-bY90"
+      target: "{{ Parent().Path }}.EMC-MERGER-RawTask1l-0:from_EMC-MERGER-RawTask1l-0_to_qc-check-EMC-Rx40"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: emc-qcmn-epnall-remote-qc-check-EMC-bY90
-  - name: "qc-check-EMC-CellCheckAmplitude"
+      load: emc-qcmn-epnall-remote-qc-check-EMC-Rx40
+  - name: "qc-check-EMC-VmF0"
     connect:
-    - name: from_EMC-MERGER-CellTask1l-0_to_qc-check-EMC-CellCheckAmplitude
+    - name: from_EMC-MERGER-CellTask1l-0_to_qc-check-EMC-VmF0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.EMC-MERGER-CellTask1l-0:from_EMC-MERGER-CellTask1l-0_to_qc-check-EMC-CellCheckAmplitude"
+      target: "{{ Parent().Path }}.EMC-MERGER-CellTask1l-0:from_EMC-MERGER-CellTask1l-0_to_qc-check-EMC-VmF0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
     task:
-      load: emc-qcmn-epnall-remote-qc-check-EMC-CellCheckAmplitude
+      load: emc-qcmn-epnall-remote-qc-check-EMC-VmF0
+  - name: "qc-check-EMC-IncreasingEventCheckerEMCAL"
+    connect:
+    - name: from_qc-check-EMC-Rx40_to_qc-check-EMC-IncreasingEventCheckerEMCAL
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-EMC-Rx40:from_qc-check-EMC-Rx40_to_qc-check-EMC-IncreasingEventCheckerEMCAL"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_qc-check-EMC-VmF0_to_qc-check-EMC-IncreasingEventCheckerEMCAL
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-EMC-VmF0:from_qc-check-EMC-VmF0_to_qc-check-EMC-IncreasingEventCheckerEMCAL"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: emc-qcmn-epnall-remote-qc-check-EMC-IncreasingEventCheckerEMCAL
   - name: "qc-check-EMC-RawDecodingErrorCheckEMCAL"
     connect:
     - name: from_EMC-MERGER-RawErrorTask1l-0_to_qc-check-EMC-RawDecodingErrorCheckEMCAL
@@ -160,19 +189,37 @@ roles:
       rcvBufSize: 4
     task:
       load: emc-qcmn-epnall-remote-qc-check-EMC-RawDecodingErrorCheckEMCAL
-  - name: "internal-dpl-injected-dummy-sink"
+  - name: "qc-check-sink-QC_Calibration-mo_0"
     connect:
-    - name: from_qc-check-EMC-bY90_to_internal-dpl-injected-dummy-sink
+    - name: from_PP-TASK-RUNNER-Calibration_to_qc-check-sink-QC_Calibration-mo_0
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-EMC-bY90:from_qc-check-EMC-bY90_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Calibration:from_PP-TASK-RUNNER-Calibration_to_qc-check-sink-QC_Calibration-mo_0"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
-    - name: from_qc-check-EMC-CellCheckAmplitude_to_internal-dpl-injected-dummy-sink
+    task:
+      load: emc-qcmn-epnall-remote-qc-check-sink-QC_Calibration-mo_0
+  - name: "internal-dpl-injected-dummy-sink"
+    connect:
+    - name: from_qc-check-EMC-Rx40_to_internal-dpl-injected-dummy-sink
       type: pull
       transport: shmem
-      target: "{{ Parent().Path }}.qc-check-EMC-CellCheckAmplitude:from_qc-check-EMC-CellCheckAmplitude_to_internal-dpl-injected-dummy-sink"
+      target: "{{ Parent().Path }}.qc-check-EMC-Rx40:from_qc-check-EMC-Rx40_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_qc-check-EMC-VmF0_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-EMC-VmF0:from_qc-check-EMC-VmF0_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_qc-check-EMC-IncreasingEventCheckerEMCAL_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-EMC-IncreasingEventCheckerEMCAL:from_qc-check-EMC-IncreasingEventCheckerEMCAL_to_internal-dpl-injected-dummy-sink"
       rateLogging: "{{ fmq_rate_logging }}"
       sndBufSize: 4
       rcvBufSize: 4
