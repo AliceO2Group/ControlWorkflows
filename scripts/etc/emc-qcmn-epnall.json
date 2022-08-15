@@ -208,6 +208,30 @@
 					}
 				]
 			},
+			"RawOccupancyCheckEMCAL" : {
+                "active": "true",
+                "checkName": "RawOccupancyCheck",
+                "className": "o2::quality_control_modules::emcal::RawCheck",
+                "moduleName": "QcEMCAL",
+                "policy": "OnEachSeparately",
+                "detectorName": "EMC",
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "RawTaskEMCAL",
+                        "MOs": [
+                            "MinADC_EMCAL_PHYS",
+                            "MinADC_EMCAL_CAL",
+                            "MaxADC_EMCAL_PHYS",
+                            "MaxADC_EMCAL_CAL",
+                            "MeanADC_EMCAL_PHYS",
+                            "MeanADC_EMCAL_CAL",
+                            "RMSADC_EMCAL_PHYS",
+                            "RMSADC_EMCAL_CAL"
+                        ]
+                    }
+                ]
+            },
 			"CellCheckAmplitudeEMCAL": {
 				"active": "true",
 				"checkName": "CellCheckAmplitude",
@@ -226,6 +250,29 @@
 							"cellAmplitudeDCAL_PHYS",
 							"cellAmplitude_CAL",
 							"cellAmplitude_PHYS"
+						]
+					}
+				]
+			},
+			"CheckCellOccupancyEMCAL": {
+				"active": "true",
+				"checkName": "CellCheckOccupancy",
+				"className": "o2::quality_control_modules::emcal::CellCheck",
+				"moduleName": "QcEMCAL",
+				"policy": "OnEachSeparately",
+				"detectorName": "EMC",
+				"dataSource": [
+					{
+						"type": "Task",
+						"name": "CellTaskEMCAL",
+						"MOs": [
+							"cellOccupancyEMC_PHYS",
+							"cellOccupancyEMCwThrBelow_PHYS",
+							"cellOccupancyEMCwThr_PHYS",
+							"cellOccupancyInt_PHYS",
+							"cellOccupancyEMC_CAL",
+							"cellOccupancyEMCwThrBelow_CAL",
+							"cellOccupancyInt_CAL"
 						]
 					}
 				]
