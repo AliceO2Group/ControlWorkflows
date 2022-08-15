@@ -46,7 +46,7 @@ check_pwd
 ./ft0-digits-pipe-ds-qc-raw.sh
 ./ft0-decoder-pipe.sh
 ./ft0-decoder-pipe-ds-qc.sh
-./ft0-ddecoder-pipe-ds-qc-raw.sh
+./ft0-decoder-pipe-ds-qc-raw.sh
 ./ft0-digits-qc.sh
 ./fv0-qcmn-remote.sh
 ./fv0-qc-post-processing.sh
