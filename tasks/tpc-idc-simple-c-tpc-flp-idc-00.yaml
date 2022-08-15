@@ -1,33 +1,19 @@
-name: tpc-idc-c-tpc-idc-to-vector
+name: tpc-idc-simple-c-tpc-flp-idc-00
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-tpc-idc-to-vector
+    {{ dpl_command }} | o2-tpc-idc-flp
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-idc-to-vector
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-idc-flp
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-idc-to-vector_to_internal-dpl-injected-dummy-sink
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_tpc-idc-to-vector_to_tpc-flp-idc-00
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_tpc-idc-to-vector_to_dpl-output-proxy
+  - name: from_tpc-flp-idc-00_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -63,7 +49,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'tpc-idc-to-vector'"
+    - "'tpc-flp-idc-00'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -90,6 +76,7 @@ command:
     - "'keyval.output_dir=/dev/null'"
     - "--crus"
     - "{{ cru_config_uri }}"
+    - "--disableIDC0CCDB"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -104,16 +91,22 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--input-spec"
-    - "'A:TPC/RAWDATA'"
+    - "--idc0File"
+    - "''"
     - "--labels"
     - "''"
+    - "--lanes"
+    - "'1'"
+    - "--minIDCsPerTF"
+    - "'10'"
     - "--pipeline"
     - "''"
+    - "--rangeIDC"
+    - "'200'"
     - "--readers"
     - "'1'"
     - "--severity"
-    - "'error'"
+    - "'warning'"
     - "--shm-allocation"
     - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
@@ -130,11 +123,11 @@ command:
     - "'1'"
     - "--stacktrace-on-signal"
     - "'simple'"
+    - "--time-lanes"
+    - "'1'"
     - "--timeframes-rate-limit"
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--pedestal-url"
-    - "'http://o2-ccdb.internal'"
