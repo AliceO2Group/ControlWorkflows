@@ -1,4 +1,4 @@
-name: tpc-idc-c-tpc-idc-to-vector
+name: tpc-idc-simple-a-tpc-idc-to-vector
 defaults:
   log_task_output: none
   exit_transition_timeout: 15

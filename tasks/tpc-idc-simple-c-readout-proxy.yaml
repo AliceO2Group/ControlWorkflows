@@ -1,33 +1,26 @@
-name: tpc-idc-c-tpc-idc-to-vector
+name: tpc-idc-simple-c-readout-proxy
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-tpc-idc-to-vector
+    {{ dpl_command }} | o2-dpl-raw-proxy
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-idc-to-vector
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-raw-proxy
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-idc-to-vector_to_internal-dpl-injected-dummy-sink
+  - name: from_readout-proxy_to_tpc-idc-to-vector
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_tpc-idc-to-vector_to_tpc-flp-idc-00
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_tpc-idc-to-vector_to_dpl-output-proxy
+  - name: from_readout-proxy_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -63,7 +56,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'tpc-idc-to-vector'"
+    - "'readout-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -84,12 +77,8 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--configFile"
-    - "''"
-    - "--configKeyValues"
-    - "'keyval.output_dir=/dev/null'"
-    - "--crus"
-    - "{{ cru_config_uri }}"
+    - "--dataspec"
+    - "'x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -104,16 +93,16 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--input-spec"
-    - "'A:TPC/RAWDATA'"
     - "--labels"
     - "''"
     - "--pipeline"
     - "''"
+    - "--proxy-name"
+    - "'readout-proxy'"
     - "--readers"
     - "'1'"
     - "--severity"
-    - "'error'"
+    - "'info'"
     - "--shm-allocation"
     - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
@@ -134,7 +123,7 @@ command:
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
+    - "--timeframes-shm-limit"
+    - "'0'"
     - "--workflow-suffix"
     - "''"
-    - "--pedestal-url"
-    - "'http://o2-ccdb.internal'"
