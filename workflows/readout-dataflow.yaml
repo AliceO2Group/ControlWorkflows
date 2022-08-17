@@ -1301,7 +1301,7 @@ defaults:
   extra_env_vars: ""
 vars:
   auto_stop_enabled: "{{ auto_stop_timeout != 'none' }}"
-  detectors: "{{ DetectorsForHosts(hosts) }}"
+  detectors: "{{ inventory.DetectorsForHosts(hosts) }}"
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
   odc_topology_fullname: '{{ odc_enabled == "true" ? odc.GenerateEPNTopologyFullname() : "" }}'
@@ -1312,7 +1312,7 @@ roles:
   - name: "readout-ctp"
     enabled: "{{ ctp_readout_enabled == 'true' }}"
     vars:
-      detector: "{{ctp_readout_enabled == 'true' ? DetectorForHost( ctp_readout_host ) : \"\" }}"
+      detector: "{{ctp_readout_enabled == 'true' ? inventory.DetectorForHost( ctp_readout_host ) : \"\" }}"
       readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.ResolvePath('readout/' + run_type + '/any/readout-standalone-' + ctp_readout_host)}}"
       readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.Resolve('readout', run_type, 'any', 'readout-stfb-' + ctp_readout_host)}}"
       dd_discovery_ib_hostname: "{{ ctp_readout_host }}-ib" # MUST be defined for all stfb and stfs
@@ -1330,7 +1330,7 @@ roles:
         roles:
           - name: "stfb"
             vars:
-              dd_discovery_stfb_id: stfb-{{ ctp_readout_host }}-{{ NewID() }} # must be defined for all stfb roles
+              dd_discovery_stfb_id: stfb-{{ ctp_readout_host }}-{{ util.NewID() }} # must be defined for all stfb roles
             connect:
               - name: readout
                 type: pull
@@ -1340,7 +1340,7 @@ roles:
               load: stfbuilder-senderoutput
           - name: "stfs"
             vars:
-              dd_discovery_stfs_id: stfs-{{ ctp_readout_host }}-{{ NewID() }} # must be defined for all stfs roles
+              dd_discovery_stfs_id: stfs-{{ ctp_readout_host }}-{{ util.NewID() }} # must be defined for all stfs roles
               stfs_input_channel_name: buildertosender
             connect:
               - name: buildertosender
@@ -1385,12 +1385,12 @@ roles:
       var: it
     vars:
       detector: "{{DetectorForHost( it )}}"
-      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ it }}"
-      readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-stfb-{{ it }}"
+      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.ResolvePath('readout/' + run_type + '/any/readout-standalone-' + it)}}"
+      readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.Resolve('readout', run_type, 'any', 'readout-stfb-' + it)}}"
       dd_discovery_ib_hostname: "{{ it }}-ib" # MUST be defined for all stfb and stfs
       # dpl_workflow is set to <detector>_dpl_workflow if such an override exists
-      dpl_workflow: "{{ PrefixedOverride( 'dpl_workflow', ToLower( DetectorForHost( it ) ) ) }}"
-      dpl_command: "{{ PrefixedOverride( 'dpl_command', ToLower( DetectorForHost( it ) ) ) }}"
+      dpl_workflow: "{{ util.PrefixedOverride( 'dpl_workflow', util.ToLower( inventory.DetectorForHost( it ) ) ) }}"
+      dpl_command: "{{ util.PrefixedOverride( 'dpl_command', util.ToLower( inventory.DetectorForHost( it ) ) ) }}"
     constraints:
       - attribute: machine_id
         value: "{{ it }}"
@@ -1415,7 +1415,7 @@ roles:
           - name: "stfb"
             enabled: "{{stfb_standalone == 'false'}}"
             vars:
-              dd_discovery_stfb_id: stfb-{{ it }}-{{ NewID() }} # must be defined for all stfb roles
+              dd_discovery_stfb_id: stfb-{{ it }}-{{ util.NewID() }} # must be defined for all stfb roles
             connect:
               - name: readout
                 type: pull
@@ -1426,7 +1426,7 @@ roles:
           - name: "stfs"
             enabled: "{{stfb_standalone == 'false'}}"
             vars:
-              dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }} # must be defined for all stfs roles
+              dd_discovery_stfs_id: stfs-{{ it }}-{{ util.NewID() }} # must be defined for all stfs roles
               stfs_input_channel_name: buildertosender
             connect:
               - name: buildertosender
@@ -1443,7 +1443,7 @@ roles:
           - name: "stfb"
             enabled: "{{stfb_standalone == 'false'}}"
             vars:
-              dd_discovery_stfb_id: stfb-{{ it }}-{{ NewID() }}
+              dd_discovery_stfb_id: stfb-{{ it }}-{{ util.NewID() }}
             connect:
               - name: readout
                 type: pull
@@ -1463,7 +1463,7 @@ roles:
           - name: "stfs" # this stfs is for any DPL workflow. We assume that it has a device dpl-output-proxy and a downstream channel
             enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none' || dpl_command != 'none')}}"
             vars:
-              dd_discovery_stfs_id: stfs-{{ it }}-{{ NewID() }}
+              dd_discovery_stfs_id: stfs-{{ it }}-{{ util.NewID() }}
               stfs_input_channel_name: downstream
             connect:
               - name: downstream
@@ -1483,10 +1483,10 @@ roles:
             include: "{{ dpl_workflow }}"
           - name: dpl
             enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_workflow != 'none' && dpl_command == 'none' }}"
-            include: "{{ flp_workflows_jit_enabled == 'true' ? GenerateDplSubworkflowFromUri(dpl_workflow) : '' }}"
+            include: "{{ flp_workflows_jit_enabled == 'true' ? dpl.GenerateFromUri(dpl_workflow) : '' }}"
           - name: dpl
             enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_command != 'none' }}"
-            include: "{{ flp_workflows_jit_enabled == 'true' ? GenerateDplSubworkflow(dpl_command) : '' }}"
+            include: "{{ flp_workflows_jit_enabled == 'true' ? dpl.Generate(dpl_command) : '' }}"
       - name: o2-roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
         defaults:
@@ -1554,9 +1554,9 @@ roles:
           range: "{{ detectors }}"
           var: det
         vars:
-          qc_remote_workflow: "{{ PrefixedOverride( 'qc_remote_workflow', ToLower( det ) ) }}"
-          qc_dpl_command: "{{ PrefixedOverride( 'qc_dpl_command', ToLower( det ) ) }}"
-          qc_remote_machine: "{{ PrefixedOverride( 'qc_remote_machine', ToLower( det ) ) }}"
+          qc_remote_workflow: "{{ util.PrefixedOverride( 'qc_remote_workflow', util.ToLower( det ) ) }}"
+          qc_dpl_command: "{{ util.PrefixedOverride( 'qc_dpl_command', util.ToLower( det ) ) }}"
+          qc_remote_machine: "{{ util.PrefixedOverride( 'qc_remote_machine', util.ToLower( det ) ) }}"
         constraints:
           - attribute: machine_id
             value: "{{ qc_remote_machine }}"
@@ -1663,7 +1663,7 @@ roles:
   - name: odc
     enabled: "{{odc_enabled == 'true'}}"
     vars:
-      odc_resources: '{{TrimSpace(odc_resources_spec) == "default" ? "[ {\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}, {\"zone\":\"calib\"} ]" : odc_resources_spec }}'
+      odc_resources: '{{util.TrimSpace(odc_resources_spec) == "default" ? "[ {\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}, {\"zone\":\"calib\"} ]" : odc_resources_spec }}'
       odc_script: '{{ odc_enabled == "true" ? odc.GenerateEPNWorkflowScript() : "" }}'
     roles:
       - name: deploy
@@ -1734,8 +1734,8 @@ roles:
     enabled: "{{trg_enabled == 'true'}}"
     defaults:
       trg_detectors: "{{ detectors }}"
-      trg_runtime_config: "{{ GetRuntimeConfig('trg/ltu', trg_runtime_config_file) }}"
-      trg_global_config: "{{ GetRuntimeConfig('trg/ctp', trg_load_parameters) }}"
+      trg_runtime_config: "{{ runtime.Get('trg/ltu', trg_runtime_config_file) }}"
+      trg_global_config: "{{ runtime.Get('trg/ctp', trg_load_parameters) }}"
     roles:
       - name: load
         call:
