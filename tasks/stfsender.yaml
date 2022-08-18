@@ -33,7 +33,7 @@ command:
   arguments:
     - "--session=default"
     - "--shm-segment-id=2"
-    - "--shm-segment-size=134217728"
+    - "--shm-segment-size=33554432"
     - "--transport=shmem"
     - "--input-channel-name={{ stfs_input_channel_name }}"
     - "--severity={{ fmq_severity }}"
