@@ -1330,7 +1330,7 @@ roles:
         roles:
           - name: "stfb"
             vars:
-              dd_discovery_stfb_id: stfb-{{ ctp_readout_host }}-{{ util.NewID() }} # must be defined for all stfb roles
+              dd_discovery_stfb_id: stfb-{{ ctp_readout_host }}-{{ uid.New() }} # must be defined for all stfb roles
             connect:
               - name: readout
                 type: pull
@@ -1340,7 +1340,7 @@ roles:
               load: stfbuilder-senderoutput
           - name: "stfs"
             vars:
-              dd_discovery_stfs_id: stfs-{{ ctp_readout_host }}-{{ util.NewID() }} # must be defined for all stfs roles
+              dd_discovery_stfs_id: stfs-{{ ctp_readout_host }}-{{ uid.New() }} # must be defined for all stfs roles
               stfs_input_channel_name: buildertosender
             connect:
               - name: buildertosender
@@ -1389,8 +1389,8 @@ roles:
       readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.Resolve('readout', run_type, 'any', 'readout-stfb-' + it)}}"
       dd_discovery_ib_hostname: "{{ it }}-ib" # MUST be defined for all stfb and stfs
       # dpl_workflow is set to <detector>_dpl_workflow if such an override exists
-      dpl_workflow: "{{ util.PrefixedOverride( 'dpl_workflow', util.ToLower( inventory.DetectorForHost( it ) ) ) }}"
-      dpl_command: "{{ util.PrefixedOverride( 'dpl_command', util.ToLower( inventory.DetectorForHost( it ) ) ) }}"
+      dpl_workflow: "{{ util.PrefixedOverride( 'dpl_workflow', strings.ToLower( inventory.DetectorForHost( it ) ) ) }}"
+      dpl_command: "{{ util.PrefixedOverride( 'dpl_command', strings.ToLower( inventory.DetectorForHost( it ) ) ) }}"
     constraints:
       - attribute: machine_id
         value: "{{ it }}"
@@ -1415,7 +1415,7 @@ roles:
           - name: "stfb"
             enabled: "{{stfb_standalone == 'false'}}"
             vars:
-              dd_discovery_stfb_id: stfb-{{ it }}-{{ util.NewID() }} # must be defined for all stfb roles
+              dd_discovery_stfb_id: stfb-{{ it }}-{{ uid.New() }} # must be defined for all stfb roles
             connect:
               - name: readout
                 type: pull
@@ -1426,7 +1426,7 @@ roles:
           - name: "stfs"
             enabled: "{{stfb_standalone == 'false'}}"
             vars:
-              dd_discovery_stfs_id: stfs-{{ it }}-{{ util.NewID() }} # must be defined for all stfs roles
+              dd_discovery_stfs_id: stfs-{{ it }}-{{ uid.New() }} # must be defined for all stfs roles
               stfs_input_channel_name: buildertosender
             connect:
               - name: buildertosender
@@ -1443,7 +1443,7 @@ roles:
           - name: "stfb"
             enabled: "{{stfb_standalone == 'false'}}"
             vars:
-              dd_discovery_stfb_id: stfb-{{ it }}-{{ util.NewID() }}
+              dd_discovery_stfb_id: stfb-{{ it }}-{{ uid.New() }}
             connect:
               - name: readout
                 type: pull
@@ -1463,7 +1463,7 @@ roles:
           - name: "stfs" # this stfs is for any DPL workflow. We assume that it has a device dpl-output-proxy and a downstream channel
             enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none' || dpl_command != 'none')}}"
             vars:
-              dd_discovery_stfs_id: stfs-{{ it }}-{{ util.NewID() }}
+              dd_discovery_stfs_id: stfs-{{ it }}-{{ uid.New() }}
               stfs_input_channel_name: downstream
             connect:
               - name: downstream
@@ -1554,9 +1554,9 @@ roles:
           range: "{{ detectors }}"
           var: det
         vars:
-          qc_remote_workflow: "{{ util.PrefixedOverride( 'qc_remote_workflow', util.ToLower( det ) ) }}"
-          qc_dpl_command: "{{ util.PrefixedOverride( 'qc_dpl_command', util.ToLower( det ) ) }}"
-          qc_remote_machine: "{{ util.PrefixedOverride( 'qc_remote_machine', util.ToLower( det ) ) }}"
+          qc_remote_workflow: "{{ util.PrefixedOverride( 'qc_remote_workflow', strings.ToLower( det ) ) }}"
+          qc_dpl_command: "{{ util.PrefixedOverride( 'qc_dpl_command', strings.ToLower( det ) ) }}"
+          qc_remote_machine: "{{ util.PrefixedOverride( 'qc_remote_machine', strings.ToLower( det ) ) }}"
         constraints:
           - attribute: machine_id
             value: "{{ qc_remote_machine }}"
@@ -1663,7 +1663,7 @@ roles:
   - name: odc
     enabled: "{{odc_enabled == 'true'}}"
     vars:
-      odc_resources: '{{util.TrimSpace(odc_resources_spec) == "default" ? "[ {\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}, {\"zone\":\"calib\"} ]" : odc_resources_spec }}'
+      odc_resources: '{{strings.TrimSpace(odc_resources_spec) == "default" ? "[ {\"zone\":\"online\", \"n\":\"" + odc_n_epns + "\"}, {\"zone\":\"calib\"} ]" : odc_resources_spec }}'
       odc_script: '{{ odc_enabled == "true" ? odc.GenerateEPNWorkflowScript() : "" }}'
     roles:
       - name: deploy
