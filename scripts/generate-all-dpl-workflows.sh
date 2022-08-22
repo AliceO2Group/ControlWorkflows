@@ -94,6 +94,7 @@ check_pwd
 ./mid-raw-decoder.sh
 ./mid-digits-qcmn.sh
 ./mid-full-qcmn.sh
+./mid-calib-qcmn.sh
 ./minimal-dpl.sh
 ./phos-compressor-raw-qc.sh
 ./phos-compressor-raw-qcmn.sh
