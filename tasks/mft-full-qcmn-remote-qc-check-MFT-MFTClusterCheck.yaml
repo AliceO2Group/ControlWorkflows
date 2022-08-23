@@ -13,6 +13,13 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+  - name: from_qc-check-MFT-MFTClusterCheck_to_qc-check-MFT-MFTIncrEntrCheck
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
   - name: from_qc-check-MFT-MFTClusterCheck_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
