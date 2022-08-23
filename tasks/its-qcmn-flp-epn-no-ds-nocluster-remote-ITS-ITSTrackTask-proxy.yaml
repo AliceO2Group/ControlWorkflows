@@ -140,6 +140,8 @@ command:
     - "'0'"
     - "--orbit-offset-enumeration"
     - "'0'"
+    - "--ready-state-policy"
+    - "'keep'"
     - "--start-value-enumeration"
     - "'0'"
     - "--step-value-enumeration"

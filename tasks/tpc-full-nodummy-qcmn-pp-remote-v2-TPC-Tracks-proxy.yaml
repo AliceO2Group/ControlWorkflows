@@ -1,43 +1,32 @@
-<<<<<<< HEAD:tasks/tpc-idc-simple-c-tpc-idc-to-vector.yaml
-name: tpc-idc-simple-c-tpc-idc-to-vector
-=======
 name: tpc-full-nodummy-qcmn-pp-remote-v2-TPC-Tracks-proxy
->>>>>>> 89348f00b6f9b6d72570d290a8cc8d30a2c2dcb1:tasks/tpc-full-nodummy-qcmn-pp-remote-v2-TPC-Tracks-proxy.yaml
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-tpc-idc-to-vector
+    {{ dpl_command }} | o2-qc
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-idc-to-vector
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-qc
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-idc-to-vector_to_internal-dpl-injected-dummy-sink
+  - name: from_TPC-Tracks-proxy_to_TPC-MERGER-Tracks1l-0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_tpc-idc-to-vector_to_tpc-flp-idc-00
-    type: push
-    transport: shmem
-    addressing: ipc
+  - name: TPC-Tracks-proxy
+    type: sub
+    transport: zeromq
+    addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_tpc-idc-to-vector_to_dpl-output-proxy
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
+    target: "tcp://*:47733"
+    rcvBufSize: 1
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -67,7 +56,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'tpc-idc-to-vector'"
+    - "'TPC-Tracks-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -88,12 +77,10 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--configFile"
-    - "''"
+    - "--config"
+    - "'{{ qc_config_uri }}'"
     - "--configKeyValues"
-    - "'keyval.output_dir=/dev/null'"
-    - "--crus"
-    - "{{ cru_config_uri }}"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -108,16 +95,23 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--input-spec"
-    - "'A:TPC/RAWDATA'"
+    - "--host"
+    - "''"
     - "--labels"
+    - "''"
+    - "--local-batch"
+    - "''"
+    - "--override-values"
     - "''"
     - "--pipeline"
     - "''"
     - "--readers"
     - "'1'"
+    - "--remote"
+    - "--remote-batch"
+    - "''"
     - "--severity"
-    - "'error'"
+    - "'info'"
     - "--shm-allocation"
     - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
@@ -140,5 +134,15 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--pedestal-url"
-    - "'http://o2-ccdb.internal'"
+    - "--end-value-enumeration"
+    - "-1"
+    - "--orbit-multiplier-enumeration"
+    - "'0'"
+    - "--orbit-offset-enumeration"
+    - "'0'"
+    - "--ready-state-policy"
+    - "'keep'"
+    - "--start-value-enumeration"
+    - "'0'"
+    - "--step-value-enumeration"
+    - "'1'"
