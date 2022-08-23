@@ -1305,7 +1305,7 @@ vars:
   detectors: "{{ inventory.DetectorsForHosts(hosts) }}"
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
-  odc_topology_fullname: '{{ odc_enabled == "true" ? odc.GenerateEPNTopologyFullname() : "" }}'
+  odc_topology_fullname: '{{ epn_enabled == "true" ? odc.GenerateEPNTopologyFullname() : "" }}'
 roles:
   ##################
   # CTP Readout role
