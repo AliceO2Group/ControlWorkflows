@@ -1,4 +1,4 @@
-name: mid-full-qcmn-remote-QcTaskMIDDigits-proxy
+name: mid-full-noraw-qcmn-remote-MID-QcTaskMIDTracks-proxy
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,19 +13,20 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_QcTaskMIDDigits-proxy_to_MERGER-QcTaskMIDDigits1l-0
+  - name: from_MID-QcTaskMIDTracks-proxy_to_MID-MERGER-QcTaskMIDTracks1l-0
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: QcTaskMIDDigits-proxy
+  - name: MID-QcTaskMIDTracks-proxy
     type: sub
     transport: zeromq
     addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
-    target: "tcp://*:47780"
+    target: "tcp://*:47782"
+    rcvBufSize: 1
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -55,7 +56,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'QcTaskMIDDigits-proxy'"
+    - "'MID-QcTaskMIDTracks-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -78,6 +79,8 @@ command:
     - "''"
     - "--config"
     - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -137,6 +140,8 @@ command:
     - "'0'"
     - "--orbit-offset-enumeration"
     - "'0'"
+    - "--ready-state-policy"
+    - "'keep'"
     - "--start-value-enumeration"
     - "'0'"
     - "--step-value-enumeration"

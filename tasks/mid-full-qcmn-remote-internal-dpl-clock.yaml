@@ -27,14 +27,14 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MID-QcTaskMIDTracks-proxy
+  - name: from_internal-dpl-clock_to_MID-QcTaskMIDRaw-proxy
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_MID-QcTaskMIDRaw-proxy
+  - name: from_internal-dpl-clock_to_MID-QcTaskMIDTracks-proxy
     type: push
     transport: shmem
     addressing: ipc
