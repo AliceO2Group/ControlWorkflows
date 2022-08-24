@@ -1384,7 +1384,7 @@ roles:
       range: "{{ hosts }}"
       var: it
     vars:
-      detector: "{{DetectorForHost( it )}}"
+      detector: "{{ inventory.DetectorForHost( it ) }}"
       readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.ResolvePath('readout/' + run_type + '/any/readout-standalone-' + it)}}"
       readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.Resolve('readout', run_type, 'any', 'readout-stfb-' + it)}}"
       dd_discovery_ib_hostname: "{{ it }}-ib" # MUST be defined for all stfb and stfs
@@ -1549,14 +1549,14 @@ roles:
       user: qc
       session_id: "{{ environment_id }}" # we can't use "default" because other workflows might already exist on the same QC server
     roles:
-      - name: qc-remote-workflow-{{ det }}
+      - name: qc-remote-workflow-{{ detector }}
         for:
           range: "{{ detectors }}"
-          var: det
+          var: detector
         vars:
-          qc_remote_workflow: "{{ util.PrefixedOverride( 'qc_remote_workflow', strings.ToLower( det ) ) }}"
-          qc_dpl_command: "{{ util.PrefixedOverride( 'qc_dpl_command', strings.ToLower( det ) ) }}"
-          qc_remote_machine: "{{ util.PrefixedOverride( 'qc_remote_machine', strings.ToLower( det ) ) }}"
+          qc_remote_workflow: "{{ util.PrefixedOverride( 'qc_remote_workflow', strings.ToLower( detector ) ) }}"
+          qc_dpl_command: "{{ util.PrefixedOverride( 'qc_dpl_command', strings.ToLower( detector ) ) }}"
+          qc_remote_machine: "{{ util.PrefixedOverride( 'qc_remote_machine', strings.ToLower( detector ) ) }}"
         constraints:
           - attribute: machine_id
             value: "{{ qc_remote_machine }}"
@@ -1578,7 +1578,7 @@ roles:
               timeout: 10s
               critical: false
           # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list.
-          # However if the {{det}}_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
+          # However if the {{detector}}_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
           # control tree state management.
           - name: dpl-noop-subwf
             enabled: "{{ qc_remote_workflow == 'none' }}"
