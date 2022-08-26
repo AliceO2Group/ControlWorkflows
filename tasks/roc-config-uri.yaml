@@ -9,6 +9,7 @@ defaults:
   rocConfigForceConfig: "false"
   rocConfigExtraParams: ""
   log_task_output: none
+  detector: TST
 vars:
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load ReadoutCard &&

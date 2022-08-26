@@ -97,6 +97,7 @@ defaults:
   o2_infologger_path: "/opt/o2-InfoLogger"
   user: qc
   extra_env_vars: ""
+  detector: ""
 roles:
   - name: qc-servers
     constraints:
