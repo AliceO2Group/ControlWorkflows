@@ -64,7 +64,7 @@
         "remotePort": "47799"
       },
       "MFTClusterTask": {
-        "active": "true",
+        "active": "false",
         "className": "o2::quality_control_modules::mft::QcMFTClusterTask",
         "moduleName": "QcMFT",
         "detectorName": "MFT",
@@ -124,7 +124,7 @@
         }]
       },
       "MFTClusterCheck": {
-        "active": "true",
+        "active": "false",
         "dataSource": [{
             "type": "Task",
             "name": "MFTClusterTask",
@@ -136,7 +136,7 @@
         "policy": "OnAny"
       },
       "MFTIncrEntrCheck": {
-        "active": "true",
+        "active": "false",
         "className": "o2::quality_control_modules::common::IncreasingEntries",
         "moduleName": "QcCommon",
         "policy": "OnEachSeparately",
@@ -220,13 +220,6 @@
             "names": [ "mDigitChipOccupancy" ],
             "reductorName": "o2::quality_control_modules::mft::QcMFTOccupancyTrend",
             "moduleName": "QcMFT"
-          },
-          {
-            "type": "repository",
-            "path": "MFT/MO/MFTClusterTask",
-            "names": [ "mClusterOccupancy" ],
-            "reductorName": "o2::quality_control_modules::mft::QcMFTOccupancyTrend",
-            "moduleName": "QcMFT"
           }
         ],
         "plots": [
@@ -237,21 +230,13 @@
             "selection": "",
             "option": "*L",
             "graphAxisLabel": "Chips with no digits:time"
-          },
-          {
-            "name": "mClusterEmptyChipsTrend",
-            "title": "Trend of total number of chips with no clusters",
-            "varexp": "mClusterOccupancy.binContentOverflow:time",
-            "selection": "",
-            "option": "*L",
-            "graphAxisLabel": "Chips with no clusters:time"
           }
         ],
         "initTrigger": [
           "userorcontrol"
         ],
         "updateTrigger": [
-          "newobject:qcdb:MFT/MO/MFTClusterTask/mClusterZ"
+          "newobject:qcdb:MFT/MO/MFTDigitTask/mDigitChipOccupancy"
         ],
         "stopTrigger": [
           "userorcontrol"
@@ -270,14 +255,6 @@
             "reductorName": "o2::quality_control_modules::common::TH1SliceReductor",
             "axisDivision": [ [ "1", "468", "936" ] ],
             "moduleName": "QcMFT"
-          },
-          {
-            "type": "repository",
-            "path": "MFT/MO/MFTClusterTask",
-            "names": [ "mClusterPatternIndex" ],
-            "reductorName": "o2::quality_control_modules::common::TH1SliceReductor",
-            "axisDivision": [ [ "0", "4", "11", "300" ] ],
-            "moduleName": "QcMFT"
           }
         ],
         "plots": [
@@ -291,35 +268,13 @@
             "graphYRange": "",
             "graphXRange": "",
             "graphAxisLabel": "Mean digit occupancy for H0 (blue) and H1 (yellow):time"
-          },
-          {
-            "name": "mClusterPatternIDMeanTrend",
-            "title": "Mean cluster pattern ID trend for different regions",
-            "varexp": "mClusterPatternIndex.meanX:time",
-            "selection": "",
-            "option": "*L",
-            "graphErrors": "errMeanX:0.5",
-            "graphYRange": "",
-            "graphXRange": "",
-            "graphAxisLabel": "Mean cluster pattern ID:time"
-          },
-          {
-            "name": "mClusterPatternIDStdDevTrend",
-            "title": "StdDev of cluster pattern ID trend for different regions",
-            "varexp": "mClusterPatternIndex.stddevX:time",
-            "selection": "",
-            "option": "*L",
-            "graphErrors": "errMeanX:0.5",
-            "graphYRange": "",
-            "graphXRange": "",
-            "graphAxisLabel": "StdDev of cluster pattern ID:time"
           }
         ],
         "initTrigger": [
           "userorcontrol"
         ],
         "updateTrigger": [
-          "newobject:qcdb:MFT/MO/MFTClusterTask/mClusterZ"
+          "newobject:qcdb:MFT/MO/MFTDigitTask/mDigitChipOccupancy"
         ],
         "stopTrigger": [
           "userorcontrol"
@@ -330,7 +285,7 @@
   "dataSamplingPolicies": [
     {
       "id": "mft-clusters",
-      "active": "true",
+      "active": "false",
       "machines": [ "epn", "localhost" ],
       "query": "randomcluster:MFT/COMPCLUSTERS/0;clustersrof:MFT/CLUSTERSROF/0;patterns:MFT/PATTERNS/0",
       "samplingConditions": [
