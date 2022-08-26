@@ -64,7 +64,7 @@
         "remotePort": "47799"
       },
       "MFTClusterTask": {
-        "active": "true",
+        "active": "false",
         "className": "o2::quality_control_modules::mft::QcMFTClusterTask",
         "moduleName": "QcMFT",
         "detectorName": "MFT",
@@ -124,7 +124,7 @@
         }]
       },
       "MFTClusterCheck": {
-        "active": "true",
+        "active": "false",
         "dataSource": [{
             "type": "Task",
             "name": "MFTClusterTask",
@@ -136,7 +136,7 @@
         "policy": "OnAny"
       },
       "MFTIncrEntrCheck": {
-        "active": "true",
+        "active": "false",
         "className": "o2::quality_control_modules::common::IncreasingEntries",
         "moduleName": "QcCommon",
         "policy": "OnEachSeparately",
@@ -208,7 +208,7 @@
   "dataSamplingPolicies": [
     {
       "id": "mft-clusters",
-      "active": "true",
+      "active": "false",
       "machines": [ "epn", "localhost" ],
       "query": "randomcluster:MFT/COMPCLUSTERS/0;clustersrof:MFT/CLUSTERSROF/0;patterns:MFT/PATTERNS/0",
       "samplingConditions": [
