@@ -68,6 +68,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
    --dataspec "${OUTSPEC};${OUTSPEC_IDC_A}" \
+   --environment "DPL_OUTPUT_PROXY_ORDERED=1" \
    --o2-control $WF_NAME_A
 
 o2-dpl-raw-proxy $ARGS_ALL \
@@ -89,6 +90,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
    --dataspec "${OUTSPEC};${OUTSPEC_IDC_C}" \
+   --environment "DPL_OUTPUT_PROXY_ORDERED=1" \
    --o2-control $WF_NAME_C
 
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
@@ -107,6 +109,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
    --dataspec "${OUTSPEC}" \
+   --environment "DPL_OUTPUT_PROXY_ORDERED=1" \
    --o2-control $WF_SAC
 
 
