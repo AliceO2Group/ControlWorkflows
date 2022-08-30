@@ -1545,6 +1545,7 @@ roles:
     defaults:
       qc_remote_workflow: none
       qc_remote_machine: none
+      qc_shm_segment_size: 10000000000
     vars:
       user: qc
       session_id: "{{ environment_id }}" # we can't use "default" because other workflows might already exist on the same QC server
@@ -1557,6 +1558,7 @@ roles:
           qc_remote_workflow: "{{ util.PrefixedOverride( 'qc_remote_workflow', strings.ToLower( detector ) ) }}"
           qc_dpl_command: "{{ util.PrefixedOverride( 'qc_dpl_command', strings.ToLower( detector ) ) }}"
           qc_remote_machine: "{{ util.PrefixedOverride( 'qc_remote_machine', strings.ToLower( detector ) ) }}"
+          shm_segment_size: "{{ util.PrefixedOverride( 'qc_shm_segment_size', strings.ToLower( detector ) ) }}"
         constraints:
           - attribute: machine_id
             value: "{{ qc_remote_machine }}"
