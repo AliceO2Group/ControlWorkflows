@@ -121,4 +121,4 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--ready-state-policy"
-    - "'keep'"
+    - "'drain'"
