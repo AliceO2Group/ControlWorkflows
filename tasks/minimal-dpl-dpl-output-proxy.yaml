@@ -130,3 +130,5 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
+    - "--ready-state-policy"
+    - "'drain'"
