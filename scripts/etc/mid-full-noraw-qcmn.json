@@ -24,7 +24,7 @@
         },
         "tasks": {
             "QcTaskMIDRaw": {
-                "active": "true",
+                "active": "false",
                 "className": "o2::quality_control_modules::mid::RawQcTask",
                 "moduleName": "QcMID",
                 "detectorName": "MID",
@@ -115,7 +115,7 @@
         },
         "checks": {
             "QcCheckMIDRaw": {
-                "active": "true",
+                "active": "false",
                 "className": "o2::quality_control_modules::mid::RawQcCheck",
                 "moduleName": "QcMID",
                 "detectorName": "MID",

@@ -1,4 +1,4 @@
-name: mid-full-qcmn-remote-MERGER-QcTaskMIDDigits1l-0
+name: mid-full-noraw-qcmn-remote-MID-MERGER-QcTaskMIDTracks1l-0
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_MERGER-QcTaskMIDDigits1l-0_to_qc-check-sink-QC_QcTaskMIDDigits_0
+  - name: from_MID-MERGER-QcTaskMIDTracks1l-0_to_qc-check-sink-QMID_QcTaskMIDTracks_0
     type: push
     transport: shmem
     addressing: ipc
@@ -49,7 +49,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'MERGER-QcTaskMIDDigits1l-0'"
+    - "'MID-MERGER-QcTaskMIDTracks1l-0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -72,6 +72,8 @@ command:
     - "''"
     - "--config"
     - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"

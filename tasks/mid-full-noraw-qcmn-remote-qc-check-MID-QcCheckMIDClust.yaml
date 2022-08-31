@@ -1,39 +1,27 @@
-name: mid-full-qcmn-local-internal-dpl-clock
+name: mid-full-noraw-qcmn-remote-qc-check-MID-QcCheckMIDClust
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-dpl-raw-proxy
+    {{ dpl_command }} | o2-qc
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-raw-proxy
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-qc
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_internal-dpl-clock_to_readout-proxy
+  - name: from_qc-check-MID-QcCheckMIDClust_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_Dispatcher
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_qc-task-MID-QcTaskMIDRaw
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
+properties:
+  qcConfiguration: ""
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -63,7 +51,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'internal-dpl-clock'"
+    - "'qc-check-MID-QcCheckMIDClust'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -84,8 +72,10 @@ command:
     - "''"
     - "--clone"
     - "''"
-    - "--dataspec"
-    - "'A:MID/RAWDATA;x:FLP/DISTSUBTIMEFRAME/0'"
+    - "--config"
+    - "'{{ qc_config_uri }}'"
+    - "--configKeyValues"
+    - "''"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -100,14 +90,21 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--host"
+    - "''"
     - "--labels"
+    - "''"
+    - "--local-batch"
+    - "''"
+    - "--override-values"
     - "''"
     - "--pipeline"
     - "''"
-    - "--proxy-name"
-    - "'readout-proxy'"
     - "--readers"
     - "'1'"
+    - "--remote"
+    - "--remote-batch"
+    - "''"
     - "--severity"
     - "'info'"
     - "--shm-allocation"
@@ -130,7 +127,5 @@ command:
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
-    - "--timeframes-shm-limit"
-    - "'0'"
     - "--workflow-suffix"
     - "''"
