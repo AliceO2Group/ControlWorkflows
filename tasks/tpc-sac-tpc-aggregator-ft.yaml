@@ -71,7 +71,7 @@ command:
     - "--clone"
     - "''"
     - "--configKeyValues"
-    - "'keyval.output_dir=/dev/null;NameConf.mCCDBServer=http://127.0.0.1:8084;'"
+    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;;keyval.output_dir=/dev/null'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"

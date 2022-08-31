@@ -46,6 +46,9 @@ PORT=47734
 
 nTFs=1000
 ccdb="ccdb-test.cern.ch:8080"
+export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
+export DPL_CONDITION_QUERY_RATE="${GEN_TOPO_EPN_CCDB_QUERY_RATE:--1}"
+DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
 
 ARGS_ALL="-b --session default "
 
@@ -93,18 +96,16 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --environment "DPL_OUTPUT_PROXY_ORDERED=1" \
    --o2-control $WF_NAME_C
 
-DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
-
 o2-dpl-raw-proxy $ARGS_ALL \
   --dataspec "$PROXY_INSPEC" \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
   | o2-tpc-sac-processing --severity warning --condition-tf-per-query -1 \
   | o2-tpc-sac-distribute --timeframes ${nTFs} --output-lanes 1 \
-  --configKeyValues "keyval.output_dir=/dev/null;${DPL_PROCESSING_CONFIG_KEY_VALUES}" \
+  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   | o2-tpc-sac-factorize --timeframes ${nTFs} --nthreads-SAC-factorization 4 --input-lanes 1 \
-  --configKeyValues "keyval.output_dir=/dev/null;${DPL_PROCESSING_CONFIG_KEY_VALUES}" \
+  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   | o2-tpc-idc-ft-aggregator --rangeIDC 200 --nFourierCoeff 40 --process-SACs true --inputLanes 1 \
-  --configKeyValues "keyval.output_dir=/dev/null;${DPL_PROCESSING_CONFIG_KEY_VALUES}" \
+  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   | o2-calibration-ccdb-populator-workflow --ccdb-path ${ccdb} -b \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
@@ -128,20 +129,16 @@ sed -i "s/'{{ cru_config_uri }}'/{{ cru_config_uri }}/g" tasks/${WF_NAME_A}-*
 sed -i "s/'{{ cru_config_uri }}'/{{ cru_config_uri }}/g" tasks/${WF_NAME_C}-*
 
 
-#sed -i "s/IDCGROUPA/IDCGROUP/g" workflows/${WF_NAME_A}.yaml tasks/${WF_NAME_A}-*
-#sed -i "s/IDCGROUPC/IDCGROUP/g" workflows/${WF_NAME_C}.yaml tasks/${WF_NAME_C}-*
-
 OUTSPEC_IDC="idc2:TPC/IDCGROUP"
 OUTSPEC_IDC_A="idc2:TPC/IDCGROUPA"
 OUTSPEC_IDC_C="idc2:TPC/IDCGROUPC"
-
 
 
 sed -i "s/ZYX/{{ detector }}/g" workflows/${WF_NAME_A}.yaml tasks/${WF_NAME_A}-*
 sed -i "s/ZYX/{{ detector }}/g" workflows/${WF_NAME_C}.yaml tasks/${WF_NAME_C}-*
 sed -i "s/ZYX/{{ detector }}/g" workflows/${WF_SAC}.yaml tasks/${WF_SAC}-*
 
-sed -i "s/alice-ccdb.cern.ch/127.0.0.1:8084/g" workflows/${WF_SAC}.yaml tasks/${WF_SAC}-*
+#sed -i "s/alice-ccdb.cern.ch/127.0.0.1:8084/g" workflows/${WF_SAC}.yaml tasks/${WF_SAC}-*
 
 
 
