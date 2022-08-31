@@ -30,6 +30,8 @@ defaults:
       - alio2-cr1-qc01
       - alio2-cr1-qc02
       - alio2-cr1-qc03
+      - alio2-cr1-qc04
+      - alio2-cr1-qc05
       - alio2-cr1-qme01
       - alio2-cr1-qme02
       - alio2-cr1-qme03
@@ -98,6 +100,8 @@ defaults:
   user: qc
   extra_env_vars: ""
   detector: ""
+  qc_remote_jit_enabled: "false"
+  qc_dpl_command: "none"
 roles:
   - name: qc-servers
     constraints:
@@ -112,8 +116,14 @@ roles:
       session_id: "{{ environment_id }}" # we can't use "default" because other workflows might already exist on the same QC server
     roles:
       - name: qc-remote-workflow
-        enabled: "{{ qc_remote_workflow != 'none' }}"
+        enabled: "{{ qc_remote_jit_enabled == 'false' && qc_remote_workflow != 'none' }}"
         include: "{{ qc_remote_workflow }}"
+      - name: qc-remote-workflow
+        enabled: "{{ qc_remote_jit_enabled == 'true' && qc_remote_workflow != 'none' && qc_dpl_command == 'none' }}"
+        include: "{{ qc_remote_jit_enabled == 'true' ? dpl.GenerateFromUri(qc_remote_workflow) : '' }}"
+      - name: qc-remote-workflow
+        enabled: "{{ qc_remote_jit_enabled == 'true' && qc_dpl_command != 'none' }}"
+        include: "{{ qc_remote_jit_enabled == 'true' ? dpl.Generate(qc_dpl_command) : '' }}"
       - name: drop-caches
         enabled: "{{drop_caches_enabled == 'true'}}"
         vars:
