@@ -59,13 +59,13 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --crus ${CRU_GEN_CONFIG_PATH_A} \
   --severity error \
   --infologger-severity error \
-  --configKeyValues "keyval.output_dir=/dev/null" \
+  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   --pedestal-url http://o2-ccdb.internal \
   | o2-tpc-idc-flp $ARGS_ALL \
   --crus ${CRU_GEN_CONFIG_PATH_A} \
   --severity warning \
   --infologger-severity warning \
-  --configKeyValues "keyval.output_dir=/dev/null" \
+  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   --lanes 1 \
   --disableIDC0CCDB true \
   | o2-dpl-output-proxy $ARGS_ALL \
@@ -81,13 +81,13 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --crus ${CRU_GEN_CONFIG_PATH_C} \
   --severity error \
   --infologger-severity error \
-  --configKeyValues "keyval.output_dir=/dev/null" \
+  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   --pedestal-url http://o2-ccdb.internal \
   | o2-tpc-idc-flp $ARGS_ALL \
   --crus ${CRU_GEN_CONFIG_PATH_C} \
   --severity warning \
   --infologger-severity warning \
-  --configKeyValues "keyval.output_dir=/dev/null" \
+  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   --lanes 1 \
   --disableIDC0CCDB true \
   | o2-dpl-output-proxy $ARGS_ALL \
