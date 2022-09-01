@@ -34,7 +34,7 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_TRD-MERGER-DigitTask1l-0
+  - name: from_internal-dpl-clock_to_TRD-MERGER-DigitTask1l-0_t0
     type: push
     transport: shmem
     addressing: ipc
@@ -49,6 +49,27 @@ bind:
     sndBufSize: 4
     rcvBufSize: 4
   - name: from_internal-dpl-clock_to_TRD-MERGER-TrackletsTask1l-0
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_internal-dpl-clock_to_TRD-MERGER-DigitTask2l-0
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_internal-dpl-clock_to_TRD-MERGER-DigitTask1l-0_t1
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_internal-dpl-clock_to_TRD-MERGER-DigitTask1l-0_t2
     type: push
     transport: shmem
     addressing: ipc
