@@ -122,7 +122,6 @@ check_pwd
 ./tpc-idc.sh
 ./tpc-idc-simple.sh
 ./tpc-idc-sac-simple.sh
-./tpc-qc-post-trending.sh
 ./tpc-qc-post-processing.sh
 ./trd-qcmn.sh
 ./trd-qcmn-nodigits.sh
