@@ -686,7 +686,6 @@ defaults:
       - tpc-full-nodummy-qcmn-pp-remote
       - tpc-full-calib-remote
       - tpc-krypton-qcmn-remote
-      - tpc-idc-merger
     visibleif: $$qc_remote_enabled === "true"  
   tpc_dcs_sor_parameters: !public
     value: "{}"
