@@ -114,7 +114,6 @@ check_pwd
 ./tpc-krypton-qcmn.sh
 ./tpc-idc.sh
 ./tpc-qc-post-trending.sh
-./tpc-qc-post-calib.sh
 ./tpc-qc-post-processing.sh
 ./trd-qcmn.sh
 ./trd-qcmn-nodigits.sh
