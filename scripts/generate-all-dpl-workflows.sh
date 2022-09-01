@@ -120,6 +120,7 @@ check_pwd
 ./tpc-krypton-qcmn.sh
 ./tpc-idc.sh
 ./tpc-idc-simple.sh
+./tpc-idc-sac-simple.sh
 ./tpc-qc-post-trending.sh
 ./tpc-qc-post-calib.sh
 ./tpc-qc-post-processing.sh
