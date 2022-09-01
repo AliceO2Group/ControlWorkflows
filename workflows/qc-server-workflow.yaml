@@ -15,7 +15,6 @@ defaults:
       - none
       - emc-qc-post-calib-remote
       - tpc-qc-post-trending-remote
-      - tpc-qc-post-calib-remote
       - tpc-qc-post-processing-remote
       - tpc-full-nodummy-qcmn-pp-remote-v2
   qc_remote_machine: !public
