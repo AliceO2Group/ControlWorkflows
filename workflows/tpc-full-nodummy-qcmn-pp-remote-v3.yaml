@@ -1,0 +1,625 @@
+name: tpc-full-nodummy-qcmn-pp-remote-v3
+vars:
+  dpl_command: >-
+    o2-qc --config {{ qc_config_uri }} --remote -b
+defaults:
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-full-nodummy-postprocessing-qcmn-v3"
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 120000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-internal-dpl-clock
+  - name: "TPC-Clusters-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-Clusters-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-Clusters-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: TPC-Clusters-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47730"
+      rcvBufSize: 1
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-TPC-Clusters-proxy
+  - name: "TPC-PID-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-PID-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-PID-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: TPC-PID-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47732"
+      rcvBufSize: 1
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-TPC-PID-proxy
+  - name: "TPC-RawDigits-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-RawDigits-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-RawDigits-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: TPC-RawDigits-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47731"
+      rcvBufSize: 1
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-TPC-RawDigits-proxy
+  - name: "TPC-Tracks-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-Tracks-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-Tracks-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: TPC-Tracks-proxy
+      type: sub
+      transport: zeromq
+      addressing: tcp
+      rateLogging: "{{ fmq_rate_logging }}"
+      target: "tcp://*:47733"
+      rcvBufSize: 1
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-TPC-Tracks-proxy
+  - name: "PP-TASK-RUNNER-Clusters"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-Clusters
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-Clusters"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-Clusters
+  - name: "PP-TASK-RUNNER-Clusters_Quality_Trending"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-Clusters_Quality_Trending
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-Clusters_Quality_Trending"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-Clusters_Quality_Trending
+  - name: "PP-TASK-RUNNER-Clusters_Trending"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-Clusters_Trending
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-Clusters_Trending"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-Clusters_Trending
+  - name: "PP-TASK-RUNNER-EntriesUpdated_Quality_Trending"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-EntriesUpdated_Quality_Trending
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-EntriesUpdated_Quality_Trending"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-EntriesUpdated_Quality_Trending
+  - name: "PP-TASK-RUNNER-KrClusters"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-KrClusters
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-KrClusters"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-KrClusters
+  - name: "PP-TASK-RUNNER-PID_Mips_Quality_Trending"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-PID_Mips_Quality_Trending
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-PID_Mips_Quality_Trending"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-PID_Mips_Quality_Trending
+  - name: "PP-TASK-RUNNER-PID_Quality_Trending"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-PID_Quality_Trending
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-PID_Quality_Trending"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-PID_Quality_Trending
+  - name: "PP-TASK-RUNNER-PID_Trending"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-PID_Trending
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-PID_Trending"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-PID_Trending
+  - name: "PP-TASK-RUNNER-Quality_Observer"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-Quality_Observer
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-Quality_Observer"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-Quality_Observer
+  - name: "PP-TASK-RUNNER-Quality_Observer_ClustersTask"
+    connect:
+    - name: from_PP-TASK-RUNNER-Quality_Observer_to_PP-TASK-RUNNER-Quality_Observer_ClustersTask
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Quality_Observer:from_PP-TASK-RUNNER-Quality_Observer_to_PP-TASK-RUNNER-Quality_Observer_ClustersTask"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-Quality_Observer_ClustersTask
+  - name: "PP-TASK-RUNNER-Quality_Observer_MIP"
+    connect:
+    - name: from_PP-TASK-RUNNER-Quality_Observer_ClustersTask_to_PP-TASK-RUNNER-Quality_Observer_MIP
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Quality_Observer_ClustersTask:from_PP-TASK-RUNNER-Quality_Observer_ClustersTask_to_PP-TASK-RUNNER-Quality_Observer_MIP"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-Quality_Observer_MIP
+  - name: "PP-TASK-RUNNER-Quality_Observer_PIDTask"
+    connect:
+    - name: from_PP-TASK-RUNNER-Quality_Observer_MIP_to_PP-TASK-RUNNER-Quality_Observer_PIDTask
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Quality_Observer_MIP:from_PP-TASK-RUNNER-Quality_Observer_MIP_to_PP-TASK-RUNNER-Quality_Observer_PIDTask"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-Quality_Observer_PIDTask
+  - name: "PP-TASK-RUNNER-Quality_Observer_TracksTask"
+    connect:
+    - name: from_PP-TASK-RUNNER-Quality_Observer_PIDTask_to_PP-TASK-RUNNER-Quality_Observer_TracksTask
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Quality_Observer_PIDTask:from_PP-TASK-RUNNER-Quality_Observer_PIDTask_to_PP-TASK-RUNNER-Quality_Observer_TracksTask"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-Quality_Observer_TracksTask
+  - name: "PP-TASK-RUNNER-RawDigits"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-RawDigits
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-RawDigits"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-RawDigits
+  - name: "PP-TASK-RUNNER-Tracks"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-Tracks
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-Tracks"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-Tracks
+  - name: "PP-TASK-RUNNER-Tracks_Quality_Trending"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-Tracks_Quality_Trending
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-Tracks_Quality_Trending"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-Tracks_Quality_Trending
+  - name: "PP-TASK-RUNNER-Tracks_Trending"
+    connect:
+    - name: from_internal-dpl-clock_to_PP-TASK-RUNNER-Tracks_Trending
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_PP-TASK-RUNNER-Tracks_Trending"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-Tracks_Trending
+  - name: "PP-TASK-RUNNER-Tracks_Trending_Sliced"
+    connect:
+    - name: from_PP-TASK-RUNNER-Tracks_Trending_to_PP-TASK-RUNNER-Tracks_Trending_Sliced
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Tracks_Trending:from_PP-TASK-RUNNER-Tracks_Trending_to_PP-TASK-RUNNER-Tracks_Trending_Sliced"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-PP-TASK-RUNNER-Tracks_Trending_Sliced
+  - name: "qc-check-TPC-FU10"
+    connect:
+    - name: from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPC-FU10
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-PID_Trending:from_PP-TASK-RUNNER-PID_Trending_to_qc-check-TPC-FU10"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-TPC-FU10
+  - name: "TPC-MERGER-Clusters1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-MERGER-Clusters1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-MERGER-Clusters1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_TPC-Clusters-proxy_to_TPC-MERGER-Clusters1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-Clusters-proxy:from_TPC-Clusters-proxy_to_TPC-MERGER-Clusters1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-TPC-MERGER-Clusters1l-0
+  - name: "TPC-MERGER-PID1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-MERGER-PID1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-MERGER-PID1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_TPC-PID-proxy_to_TPC-MERGER-PID1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-PID-proxy:from_TPC-PID-proxy_to_TPC-MERGER-PID1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-TPC-MERGER-PID1l-0
+  - name: "TPC-MERGER-RawDigits1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-MERGER-RawDigits1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-MERGER-RawDigits1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_TPC-RawDigits-proxy_to_TPC-MERGER-RawDigits1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-RawDigits-proxy:from_TPC-RawDigits-proxy_to_TPC-MERGER-RawDigits1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-TPC-MERGER-RawDigits1l-0
+  - name: "TPC-MERGER-Tracks1l-0"
+    connect:
+    - name: from_internal-dpl-clock_to_TPC-MERGER-Tracks1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_TPC-MERGER-Tracks1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_TPC-Tracks-proxy_to_TPC-MERGER-Tracks1l-0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-Tracks-proxy:from_TPC-Tracks-proxy_to_TPC-MERGER-Tracks1l-0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-TPC-MERGER-Tracks1l-0
+  - name: "qc-check-TPC-CheckForEmptyPads"
+    connect:
+    - name: from_PP-TASK-RUNNER-Clusters_to_qc-check-TPC-CheckForEmptyPads
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Clusters:from_PP-TASK-RUNNER-Clusters_to_qc-check-TPC-CheckForEmptyPads"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-TPC-CheckForEmptyPads
+  - name: "qc-check-TPC-CheckOfTrack_Trending"
+    connect:
+    - name: from_PP-TASK-RUNNER-Tracks_Trending_to_qc-check-TPC-CheckOfTrack_Trending
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Tracks_Trending:from_PP-TASK-RUNNER-Tracks_Trending_to_qc-check-TPC-CheckOfTrack_Trending"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_PP-TASK-RUNNER-Tracks_Trending_Sliced_to_qc-check-TPC-CheckOfTrack_Trending
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Tracks_Trending_Sliced:from_PP-TASK-RUNNER-Tracks_Trending_Sliced_to_qc-check-TPC-CheckOfTrack_Trending"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-TPC-CheckOfTrack_Trending
+  - name: "qc-check-TPC-Check_EntriesUpdated_PIDTask"
+    connect:
+    - name: from_TPC-MERGER-PID1l-0_to_qc-check-TPC-Check_EntriesUpdated_PIDTask
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-MERGER-PID1l-0:from_TPC-MERGER-PID1l-0_to_qc-check-TPC-Check_EntriesUpdated_PIDTask"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-TPC-Check_EntriesUpdated_PIDTask
+  - name: "qc-check-TPC-Check_EntriesUpdated_TracksTask"
+    connect:
+    - name: from_TPC-MERGER-Tracks1l-0_to_qc-check-TPC-Check_EntriesUpdated_TracksTask
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-MERGER-Tracks1l-0:from_TPC-MERGER-Tracks1l-0_to_qc-check-TPC-Check_EntriesUpdated_TracksTask"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-TPC-Check_EntriesUpdated_TracksTask
+  - name: "qc-check-sink-QC_Clusters_Qual-mo_0"
+    connect:
+    - name: from_PP-TASK-RUNNER-Clusters_Quality_Trending_to_qc-check-sink-QC_Clusters_Qual-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Clusters_Quality_Trending:from_PP-TASK-RUNNER-Clusters_Quality_Trending_to_qc-check-sink-QC_Clusters_Qual-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-sink-QC_Clusters_Qual-mo_0
+  - name: "qc-check-sink-QC_Clusters_Tren-mo_0"
+    connect:
+    - name: from_PP-TASK-RUNNER-Clusters_Trending_to_qc-check-sink-QC_Clusters_Tren-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Clusters_Trending:from_PP-TASK-RUNNER-Clusters_Trending_to_qc-check-sink-QC_Clusters_Tren-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-sink-QC_Clusters_Tren-mo_0
+  - name: "qc-check-sink-QC_EntriesUpdate-mo_0"
+    connect:
+    - name: from_PP-TASK-RUNNER-EntriesUpdated_Quality_Trending_to_qc-check-sink-QC_EntriesUpdate-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-EntriesUpdated_Quality_Trending:from_PP-TASK-RUNNER-EntriesUpdated_Quality_Trending_to_qc-check-sink-QC_EntriesUpdate-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-sink-QC_EntriesUpdate-mo_0
+  - name: "qc-check-sink-QC_KrClusters-mo_0"
+    connect:
+    - name: from_PP-TASK-RUNNER-KrClusters_to_qc-check-sink-QC_KrClusters-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-KrClusters:from_PP-TASK-RUNNER-KrClusters_to_qc-check-sink-QC_KrClusters-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-sink-QC_KrClusters-mo_0
+  - name: "qc-check-sink-QC_PID_Mips_Qual-mo_0"
+    connect:
+    - name: from_PP-TASK-RUNNER-PID_Mips_Quality_Trending_to_qc-check-sink-QC_PID_Mips_Qual-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-PID_Mips_Quality_Trending:from_PP-TASK-RUNNER-PID_Mips_Quality_Trending_to_qc-check-sink-QC_PID_Mips_Qual-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-sink-QC_PID_Mips_Qual-mo_0
+  - name: "qc-check-sink-QC_PID_Quality_T-mo_0"
+    connect:
+    - name: from_PP-TASK-RUNNER-PID_Quality_Trending_to_qc-check-sink-QC_PID_Quality_T-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-PID_Quality_Trending:from_PP-TASK-RUNNER-PID_Quality_Trending_to_qc-check-sink-QC_PID_Quality_T-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-sink-QC_PID_Quality_T-mo_0
+  - name: "qc-check-sink-QC_Quality_Obser-mo_0"
+    connect:
+    - name: from_PP-TASK-RUNNER-Quality_Observer_to_qc-check-sink-QC_Quality_Obser-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Quality_Observer:from_PP-TASK-RUNNER-Quality_Observer_to_qc-check-sink-QC_Quality_Obser-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_PP-TASK-RUNNER-Quality_Observer_ClustersTask_to_qc-check-sink-QC_Quality_Obser-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Quality_Observer_ClustersTask:from_PP-TASK-RUNNER-Quality_Observer_ClustersTask_to_qc-check-sink-QC_Quality_Obser-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_PP-TASK-RUNNER-Quality_Observer_MIP_to_qc-check-sink-QC_Quality_Obser-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Quality_Observer_MIP:from_PP-TASK-RUNNER-Quality_Observer_MIP_to_qc-check-sink-QC_Quality_Obser-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_PP-TASK-RUNNER-Quality_Observer_PIDTask_to_qc-check-sink-QC_Quality_Obser-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Quality_Observer_PIDTask:from_PP-TASK-RUNNER-Quality_Observer_PIDTask_to_qc-check-sink-QC_Quality_Obser-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_PP-TASK-RUNNER-Quality_Observer_TracksTask_to_qc-check-sink-QC_Quality_Obser-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Quality_Observer_TracksTask:from_PP-TASK-RUNNER-Quality_Observer_TracksTask_to_qc-check-sink-QC_Quality_Obser-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-sink-QC_Quality_Obser-mo_0
+  - name: "qc-check-sink-QC_RawDigits-mo_0"
+    connect:
+    - name: from_PP-TASK-RUNNER-RawDigits_to_qc-check-sink-QC_RawDigits-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-RawDigits:from_PP-TASK-RUNNER-RawDigits_to_qc-check-sink-QC_RawDigits-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-sink-QC_RawDigits-mo_0
+  - name: "qc-check-sink-QC_Tracks-mo_0"
+    connect:
+    - name: from_PP-TASK-RUNNER-Tracks_to_qc-check-sink-QC_Tracks-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Tracks:from_PP-TASK-RUNNER-Tracks_to_qc-check-sink-QC_Tracks-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-sink-QC_Tracks-mo_0
+  - name: "qc-check-sink-QC_Tracks_Qualit-mo_0"
+    connect:
+    - name: from_PP-TASK-RUNNER-Tracks_Quality_Trending_to_qc-check-sink-QC_Tracks_Qualit-mo_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.PP-TASK-RUNNER-Tracks_Quality_Trending:from_PP-TASK-RUNNER-Tracks_Quality_Trending_to_qc-check-sink-QC_Tracks_Qualit-mo_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-sink-QC_Tracks_Qualit-mo_0
+  - name: "qc-check-sink-QTPC_Clusters_0"
+    connect:
+    - name: from_TPC-MERGER-Clusters1l-0_to_qc-check-sink-QTPC_Clusters_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-MERGER-Clusters1l-0:from_TPC-MERGER-Clusters1l-0_to_qc-check-sink-QTPC_Clusters_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-sink-QTPC_Clusters_0
+  - name: "qc-check-sink-QTPC_RawDigits_0"
+    connect:
+    - name: from_TPC-MERGER-RawDigits1l-0_to_qc-check-sink-QTPC_RawDigits_0
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.TPC-MERGER-RawDigits1l-0:from_TPC-MERGER-RawDigits1l-0_to_qc-check-sink-QTPC_RawDigits_0"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-qc-check-sink-QTPC_RawDigits_0
+  - name: "internal-dpl-injected-dummy-sink"
+    connect:
+    - name: from_qc-check-TPC-FU10_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-TPC-FU10:from_qc-check-TPC-FU10_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_qc-check-TPC-CheckForEmptyPads_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-TPC-CheckForEmptyPads:from_qc-check-TPC-CheckForEmptyPads_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_qc-check-TPC-CheckOfTrack_Trending_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-TPC-CheckOfTrack_Trending:from_qc-check-TPC-CheckOfTrack_Trending_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_qc-check-TPC-Check_EntriesUpdated_PIDTask_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-TPC-Check_EntriesUpdated_PIDTask:from_qc-check-TPC-Check_EntriesUpdated_PIDTask_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_qc-check-TPC-Check_EntriesUpdated_TracksTask_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.qc-check-TPC-Check_EntriesUpdated_TracksTask:from_qc-check-TPC-Check_EntriesUpdated_TracksTask_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-full-nodummy-qcmn-pp-remote-v3-internal-dpl-injected-dummy-sink

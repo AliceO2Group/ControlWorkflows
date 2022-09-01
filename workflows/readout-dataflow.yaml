@@ -689,6 +689,7 @@ defaults:
       - tpc-full-nodummy-qcmn-remote
       - tpc-full-nodummy-qcmn-pp-remote
       - tpc-full-nodummy-qcmn-pp-remote-v2
+      - tpc-full-nodummy-qcmn-pp-remote-v3
       - tpc-full-calib-remote
       - tpc-full-calib-trend-remote
       - tpc-krypton-qcmn-remote
