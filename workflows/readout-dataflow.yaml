@@ -766,6 +766,7 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
+      - cpv-pedestal-calib-qc
   tst_qc_remote_workflow: !public
     value: "none"
     type: string
