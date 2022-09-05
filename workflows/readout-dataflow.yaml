@@ -1787,13 +1787,19 @@ roles:
         call:
           func: ccdb.RunStart()
           trigger: before_START_ACTIVITY
-          timeout: 10s
+          timeout: "{{ ccdb_start_timeout }}"
           critical: false
       - name: stop
         call:
           func: ccdb.RunStop()
           trigger: leave_RUNNING
-          timeout: 10s
+          timeout: "{{ ccdb_stop_timeout }}"
+          critical: false
+      - name: error # the plugin makes sure to publish an object only if we go to error after a run was started and only once
+        call:
+          func: ccdb.RunStop()
+          trigger: enter_ERROR
+          timeout: "{{ ccdb_stop_timeout }}"
           critical: false
   - name: bookkeeping
     enabled: "{{bookkeeping_enabled == 'true'}}"
