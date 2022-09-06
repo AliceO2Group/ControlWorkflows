@@ -1324,7 +1324,7 @@ roles:
           readout_cfg_uri: 'blablablublu'
         task:
           load: readout
-          critical: true
+          critical: false
       - name: "data-distribution"
         enabled: "{{ dd_enabled == 'true' }}"
         roles:
