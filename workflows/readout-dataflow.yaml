@@ -1321,7 +1321,7 @@ roles:
     roles:
       - name: "readout"
         vars:
-          readout_cfg_uri: '{{dd_enabled == "true" ? readout_cfg_uri_stfb : readout_cfg_uri_standalone}}'
+          readout_cfg_uri: 'blablablublu'
         task:
           load: readout
           critical: true
