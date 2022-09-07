@@ -1,4 +1,4 @@
-name: ft0-digits-pipe-ds-qc-raw-qc-check-sink-QFT0_TriggerQcTask_0
+name: fdd-digits-pipe-ds-qc-qc-check-FDD-CFDEffCheck
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,6 +13,13 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+  - name: from_qc-check-FDD-CFDEffCheck_to_internal-dpl-injected-dummy-sink
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
 properties:
   qcConfiguration: ""
 command:
@@ -44,7 +51,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-check-sink-QFT0_TriggerQcTask_0'"
+    - "'qc-check-FDD-CFDEffCheck'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -121,5 +128,3 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--qcConfiguration"
-    - "'{}'"

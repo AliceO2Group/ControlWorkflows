@@ -32,26 +32,11 @@
           "name": "ft0-digits"
         },
         "taskParameters": {
-          "ChannelIDs": "0,1,2,3,4,5,6,7,8,9,10"
-        }
-      },
-      "TriggerQcTask": {
-        "active": "true",
-        "className": "o2::quality_control_modules::ft0::TriggerQcTask",
-        "moduleName": "QcFT0",
-        "detectorName": "FT0",
-        "cycleDurationSeconds": "300",
-        "maxNumberCycles": "-1",
-        "resetAfterCycles": "1",
-        "dataSource": {
-          "type": "dataSamplingPolicy",
-          "name": "ft0-digits"
-        },
-        "taskParameters": {
-          "thresholdTimeLow": "-192",
-          "thresholdTimeHigh": "192",
-          "modeSide": "A+C",
-          "modeThresholdVar": "Ampl"
+          "ChannelIDs": "0,1,2,3,4,5,6,7,8,9,10,11",
+          "trgThresholdTimeLow": "-192",
+          "trgThresholdTimeHigh": "192",
+          "trgModeSide": "A+C",
+          "trgModeThresholdVar": "Ampl"
         }
       }
     },
@@ -68,7 +53,7 @@
           "MOs": ["CFD_efficiency"]
         }],
         "checkParameters": {
-          "thresholdWarning": "0.99",
+          "thresholdWarning": "0.9",
           "thresholdError": "0.8"
         }
       }
