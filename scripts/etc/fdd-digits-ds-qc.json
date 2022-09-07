@@ -24,7 +24,7 @@
         "className": "o2::quality_control_modules::fdd::DigitQcTask",
         "moduleName": "QcFDD",
         "detectorName": "FDD",
-        "cycleDurationSeconds": "300",
+        "cycleDurationSeconds": "60",
         "maxNumberCycles": "-1",
         "resetAfterCycles": "1",
         "dataSource": {
@@ -32,7 +32,29 @@
           "name": "sampling1"
         },
         "taskParameters": {
-          "ChannelIDs": "0,1,2,3,4,5,6,7,8,9,10"
+          "ChannelIDs": "0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15",
+          "trgThresholdTimeLow": "-192",
+          "trgThresholdTimeHigh": "192",
+          "trgModeSide": "A+C",
+          "trgModeThresholdVar": "Ampl"
+        }
+      }
+    },
+    "checks": {
+      "CFDEffCheck": {
+        "active": "true",
+        "className": "o2::quality_control_modules::fdd::CFDEffCheck",
+        "moduleName": "QcFDD",
+        "policy": "OnAny",
+        "detectorName": "FDD",
+        "dataSource": [{
+          "type": "Task",
+          "name": "DigitQcTask",
+          "MOs": ["CFD_efficiency"]
+        }],
+        "checkParameters": {
+          "thresholdWarning": "0.8",
+          "thresholdError": "0.6"
         }
       }
     }
