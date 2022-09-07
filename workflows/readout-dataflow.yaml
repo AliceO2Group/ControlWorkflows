@@ -4,14 +4,6 @@ defaults:
   ###############################
   # General Configuration Panel
   ###############################
-  ctp_readout_enabled: #!public
-    value: "false"
-    type: bool
-    label: "CTP Readout"
-    description: "Enable/disable CTP readout"
-    widget: checkBox
-    panel: General_Configuration
-    index: -300
   dcs_enabled: !public
     value: "false"
     type: bool
@@ -53,6 +45,14 @@ defaults:
     panel: General_Configuration
     visibleif: $$trg_enabled === "true"
     index: 4
+  ctp_readout_enabled: !public
+    value: "false"
+    type: bool
+    label: "CTP Readout"
+    description: "Enable/disable CTP readout"
+    widget: checkBox
+    panel: General_Configuration
+    index: 5
   run_type: !public # enum from AliECS common/runtype
     value: "PHYSICS"
     type: string
@@ -76,7 +76,7 @@ defaults:
       - PULSER
       - TECHNICAL
       - SYNTHETIC
-    index: 5    
+    index: 6    
   ###############################
   # DCS and FLP Workflows Panel
   ###############################
