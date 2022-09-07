@@ -8,9 +8,6 @@
         "password": "not_applicable",
         "name": "not_applicable"
       },
-      "Activity": {
-        "provenance": "qc"
-      },
       "monitoring": {
         "url": "infologger:///debug?qc"
       },
@@ -18,8 +15,8 @@
         "url": "http://ali-consul.cern.ch:8500"
       },
       "conditionDB": {
-        "url": "ali-qcdb.cern.ch:8083",
-        "host": "ali-qcdb.cern.ch:8083"
+        "url": "o2-ccdb.internal",
+        "host": "o2-ccdb.internal"
       }
     },
     "checks": {
@@ -31,50 +28,35 @@
         "detectorName": "FT0",
         "dataSource": [{
           "type": "PostProcessing",
-          "name": "OutOfBunchCollTask",
-          "MOs": ["OutOfBunchColl_TrgMinBias"]
+          "name": "PostProcTask",
+          "MOs": ["OutOfBunchColl_BCvsTrg"]
         }],
         "checkParameters": {
-          "thresholdWarning": "1e-6",
-          "thresholdError": "0.01"
+          "thresholdWarning": "9e-4",
+          "thresholdError": "15e-4"
         }
       }
     },
     "postprocessing": {
      "PostProcTask": {
         "active": "true",
-        "className": "o2::quality_control_modules::ft0::BasicPPTask",
+        "className": "o2::quality_control_modules::ft0::PostProcTask",
         "moduleName": "QcFT0",
         "detectorName": "FT0",
         "custom":{
-          "numOrbitsInTF": "256",
+          "numOrbitsInTF": "128",
           "cycleDurationMoName":"CycleDurationNTF"
         },
         "initTrigger": [
-          "newobject:qcdb:FT0/MO/DigitQcTask/CycleDurationNTF"
+          "newobject:qcdb:FT0/MO/DigitQcTask/TriggersCorrelation"
         ],
         "updateTrigger": [
-          "newobject:qcdb:FT0/MO/DigitQcTask/CycleDurationNTF"
+          "newobject:qcdb:FT0/MO/DigitQcTask/TriggersCorrelation"
         ],
         "stopTrigger": [
           "userorcontrol"
         ]
       },
-      "OutOfBunchCollTask": {
-         "active": "true",
-         "className": "o2::quality_control_modules::ft0::OutOfBunchCollTask",
-         "moduleName": "QcFT0",
-         "detectorName": "FT0",
-         "initTrigger": [
-           "newobject:qcdb:FT0/MO/DigitQcTask/OutOfBunchColl_TrgMinBias"
-         ],
-         "updateTrigger": [
-           "newobject:qcdb:FT0/MO/DigitQcTask/OutOfBunchColl_TrgMinBias"
-         ],
-         "stopTrigger": [
-           "userorcontrol"
-         ]
-       },
       "TrendingTask": {
         "active": "true",
         "className": "o2::quality_control::postprocessing::TrendingTask",
@@ -178,10 +160,10 @@
 
         ],
         "initTrigger": [
-          "newobject:qcdb:FT0/MO/DigitQcTask/CycleDuration"
+          "newobject:qcdb:FT0/MO/DigitQcTask/TriggersCorrelation"
         ],
         "updateTrigger": [
-          "newobject:qcdb:FT0/MO/DigitQcTask/CycleDuration"
+          "newobject:qcdb:FT0/MO/DigitQcTask/TriggersCorrelation"
         ],
         "stopTrigger": [
           "userorcontrol"
