@@ -156,13 +156,15 @@
 				"moduleName": "QcEMCAL",
 				"detectorName": "EMC",
 				"calibObjects" : [
-					"TimeCalibParams"
+					"TimeCalibParams",
+                    "BadChannelMap"
 				],
 				"initTrigger": [
 					"userorcontrol"
 				],
 				"updateTrigger": [
-					"newobject:ccdb:EMC/Calib/TimeCalibParams"
+					"newobject:ccdb:EMC/Calib/TimeCalibParams",
+                    "newobject:ccdb:EMC/Calib/BadChannelMap"
 				],
 				"stopTrigger": [
 					"userorcontrol"
