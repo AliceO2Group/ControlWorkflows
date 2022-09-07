@@ -129,6 +129,6 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--period-timer-cycle"
-    - "'60000000'"
+    - "'300000000'"
     - "--qcConfiguration"
     - "'{}'"
