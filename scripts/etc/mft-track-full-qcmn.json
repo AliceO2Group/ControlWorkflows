@@ -162,7 +162,7 @@
         "policy": "OnAny"
       },
       "MFTIncrEntrCheck": {
-        "active": "true",
+        "active": "false",
         "className": "o2::quality_control_modules::common::IncreasingEntries",
         "moduleName": "QcCommon",
         "policy": "OnEachSeparately",
