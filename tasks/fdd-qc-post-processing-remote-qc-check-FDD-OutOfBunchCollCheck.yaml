@@ -1,4 +1,4 @@
-name: ft0-digits-pipe-ds-qc-qc-check-sink-QFT0_DigitQcTask_0
+name: fdd-qc-post-processing-remote-qc-check-FDD-OutOfBunchCollCheck
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,6 +13,13 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+  - name: from_qc-check-FDD-OutOfBunchCollCheck_to_internal-dpl-injected-dummy-sink
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
 properties:
   qcConfiguration: ""
 command:
@@ -44,7 +51,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-check-sink-QFT0_DigitQcTask_0'"
+    - "'qc-check-FDD-OutOfBunchCollCheck'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -68,7 +75,7 @@ command:
     - "--config"
     - "'{{ qc_config_uri }}'"
     - "--configKeyValues"
-    - "''"
+    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -95,6 +102,7 @@ command:
     - "''"
     - "--readers"
     - "'1'"
+    - "--remote"
     - "--remote-batch"
     - "''"
     - "--severity"
@@ -121,5 +129,3 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--qcConfiguration"
-    - "'{}'"
