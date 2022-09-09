@@ -78,7 +78,7 @@ command:
     - "--clone"
     - "''"
     - "--compression"
-    - "'1'"
+    - "'2'"
     - "--configFile"
     - "''"
     - "--configKeyValues"
