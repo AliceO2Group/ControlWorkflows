@@ -83,7 +83,8 @@
           "remotePort": "47743",
           "mergingMode": "delta",
           "mergerCycleMultiplier": "2",
-          "localControl": "odc"
+          "localControl": "odc",
+          "mergersPerLayer": ["3", "1"]
       },
       "TrackletsTask": {
         "active": "true",

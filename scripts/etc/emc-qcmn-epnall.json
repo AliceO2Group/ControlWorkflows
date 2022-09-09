@@ -1,214 +1,226 @@
 {
-	"qc": {
-		"config": {
-			"database": {
-				"implementation": "CCDB",
-				"host": "ali-qcdb.cern.ch:8083",
-				"username": "not_applicable",
-				"password": "not_applicable",
-				"name": "not_applicable"
-			},
-			"infologger": {
-				"filterDiscardDebug": "true",
-				"filterDiscardLevel": "1"
-			},
-			"Activity": {
-				"number": "42",
-				"type": "2"
-			},
-			"monitoring": {
-				"url": "infologger:///debug?qc"
-			},
-			"consul": {
-				"url": "http://consul-test.cern.ch:8500"
-			},
-			"conditionDB": {
-				"url": "ccdb-test.cern.ch:8080"
-			}
-		},
-		"tasks": {
-			"RawTaskEMCAL": {
-				"active": "true",
-				"taskName": "RawTask",
-				"className": "o2::quality_control_modules::emcal::RawTask",
-				"moduleName": "QcEMCAL",
-				"detectorName": "EMC",
-				"cycleDurationSeconds": "60",
-				"maxNumberCycles": "-1",
-				"dataSource": {
-					"type": "dataSamplingPolicy",
-					"name": "emcrawdata"
-				},
-				"location": "local",
-				"localMachines": [
-					"epn"
-				],
-				"remoteMachine": "alio2-cr1-qc02.cern.ch",
-				"remotePort": "47701",
-				"mergingMode": "delta",
-				"localControl": "odc"
-			},
-			"CellTaskEMCAL": {
-				"active": "true",
-				"taskName": "CellTask",
-				"className": "o2::quality_control_modules::emcal::CellTask",
-				"moduleName": "QcEMCAL",
-				"detectorName": "EMC",
-				"cycleDurationSeconds": "60",
-				"maxNumberCycles": "-1",
-				"dataSource": {
-					"type": "dataSamplingPolicy",
-					"name": "emccells"
-				},
-				"taskParameters": {
-					"nothing": "rien"
-				},
-				"location": "local",
-				"localMachines": [
-					"epn"
-				],
-				"remoteMachine": "alio2-cr1-qc02.cern.ch",
-				"remotePort": "47702",
-				"mergingMode": "delta",
-				"localControl": "odc"
-			},
-			"RawErrorTaskEMCAL": {
-				"active": "true",
-				"taskName": "RawErrorTask",
-				"className": "o2::quality_control_modules::emcal::RawErrorTask",
-				"moduleName": "QcEMCAL",
-				"detectorName": "EMC",
-				"cycleDurationSeconds": "60",
-				"maxNumberCycles": "-1",
-				"dataSource": {
-					"type": "direct",
-					"query": "rawerrors:EMC/DECODERERR"
-				},
-				"taskParameters": {
-					"nothing": "rien"
-				},
-				"location": "local",
-				"localMachines": [
-					"epn"
-				],
-				"remoteMachine": "alio2-cr1-qc02.cern.ch",
-				"remotePort": "47703",
-				"mergingMode": "delta",
-				"localControl": "odc"
-			}
-		},
-		"checks": {
-			"IncreasingEventCheckerEMCAL" : {
-				"active": "true",
-				"className": "o2::quality_control_modules::common::IncreasingEntries",
-				"moduleName": "QcCommon",
-				"policy": "OnEachSeparately",
-				"detectorName": "EMC",
-				"dataSource": [
-					{
-						"type": "Task",
-						"name": "RawTaskEMCAL",
-						"MOs": ["BunchMinRawAmplitudeFull_PHYS", "PayloadSizePerDDL", "FECidMaxChWithInput_perSM", "NumberOfChWithInput_perSM"]
-					},
-					{
-						"type": "Task",
-						"name": "CellTaskEMCAL",
-						"MOs": ["cellOccupancyEMCwThrBelow_PHYS", "cellAmplitude_PHYS", "cellTime_PHYS", "cellAmplitudeSupermodule_PHYS", "cellTimeSupermodule_PHYS", "ncellsPerEventSupermodule"]
-					}
-				]
-			},
-			"RawBunchMinAmplitudeEMCAL": {
-				"active": "true",
-				"checkName": "RawBunchMinAmplitude",
-				"className": "o2::quality_control_modules::emcal::RawCheck",
-				"moduleName": "QcEMCAL",
-				"policy": "OnEachSeparately",
-				"detectorName": "EMC",
-				"dataSource": [
-					{
-						"type": "Task",
-						"name": "RawTaskEMCAL",
-						"MOs": [
-							"BunchMinRawAmplitudeFull_PHYS",
-							"BunchMinRawAmplitudeEMCAL_PHYS",
-							"BunchMinRawAmplitudeDCAL_PHYS",
-							"BunchMinRawAmplitude_SM0_PHYS",
-							"BunchMinRawAmplitude_SM1_PHYS",
-							"BunchMinRawAmplitude_SM2_PHYS",
-							"BunchMinRawAmplitude_SM3_PHYS",
-							"BunchMinRawAmplitude_SM4_PHYS",
-							"BunchMinRawAmplitude_SM5_PHYS",
-							"BunchMinRawAmplitude_SM6_PHYS",
-							"BunchMinRawAmplitude_SM7_PHYS",
-							"BunchMinRawAmplitude_SM8_PHYS",
-							"BunchMinRawAmplitude_SM9_PHYS",
-							"BunchMinRawAmplitude_SM10_PHYS",
-							"BunchMinRawAmplitude_SM11_PHYS",
-							"BunchMinRawAmplitude_SM12_PHYS",
-							"BunchMinRawAmplitude_SM13_PHYS",
-							"BunchMinRawAmplitude_SM14_PHYS",
-							"BunchMinRawAmplitude_SM15_PHYS",
-							"BunchMinRawAmplitude_SM16_PHYS",
-							"BunchMinRawAmplitude_SM17_PHYS",
-							"BunchMinRawAmplitude_SM18_PHYS",
-							"BunchMinRawAmplitude_SM19_PHYS"
-						]
-					}
-				]
-			},
-			"RawErrorCheckEMCAL": {
-				"active": "true",
-				"checkName": "RawErrorCheck",
-				"className": "o2::quality_control_modules::emcal::RawCheck",
-				"moduleName": "QcEMCAL",
-				"policy": "OnEachSeparately",
-				"detectorName": "EMC",
-				"dataSource": [
-					{
-						"type": "Task",
-						"name": "RawTaskEMCAL",
-						"MOs": [
-							"ErrorTypePerSM"
-						]
-					}
-				]
-			},
-			"RawPayloadCheckEMCAL": {
-				"active": "true",
-				"checkName": "RawPayloadCheck",
-				"className": "o2::quality_control_modules::emcal::RawCheck",
-				"moduleName": "QcEMCAL",
-				"policy": "OnEachSeparately",
-				"detectorName": "EMC",
-				"dataSource": [
-					{
-						"type": "Task",
-						"name": "RawTaskEMCAL",
-						"MOs": [
-							"PayloadSizePerDDL",
-							"PayloadSizeTFPerDDL"
-						]
-					}
-				]
-			},
-			"FECPayloadCheckEMCAL": {
-				"active": "true",
-				"checkName": "FECPayloadCheck",
-				"className": "o2::quality_control_modules::emcal::RawCheck",
-				"moduleName": "QcEMCAL",
-				"policy": "OnEachSeparately",
-				"detectorName": "EMC",
-				"dataSource": [
-					{
-						"type": "Task",
-						"name": "RawTaskEMCAL",
-						"MOs": [
-							"FECidMaxChWithInput_perSM"
-						]
-					}
-				]
-			},
-			"RawOccupancyCheckEMCAL" : {
+    "qc": {
+        "config": {
+            "database": {
+                "implementation": "CCDB",
+                "host": "ali-qcdb.cern.ch:8083",
+                "username": "not_applicable",
+                "password": "not_applicable",
+                "name": "not_applicable"
+            },
+            "infologger": {
+                "filterDiscardDebug": "true",
+                "filterDiscardLevel": "1"
+            },
+            "Activity": {
+                "number": "42",
+                "type": "2"
+            },
+            "monitoring": {
+                "url": "infologger:///debug?qc"
+            },
+            "consul": {
+                "url": "http://consul-test.cern.ch:8500"
+            },
+            "conditionDB": {
+                "url": "ccdb-test.cern.ch:8080"
+            }
+        },
+        "tasks": {
+            "RawTaskEMCAL": {
+                "active": "true",
+                "taskName": "RawTask",
+                "className": "o2::quality_control_modules::emcal::RawTask",
+                "moduleName": "QcEMCAL",
+                "detectorName": "EMC",
+                "cycleDurationSeconds": "60",
+                "maxNumberCycles": "-1",
+                "dataSource": {
+                    "type": "dataSamplingPolicy",
+                    "name": "emcrawdata"
+                },
+                "location": "local",
+                "localMachines": [
+                    "epn"
+                ],
+                "remoteMachine": "alio2-cr1-qc02.cern.ch",
+                "remotePort": "47701",
+                "mergingMode": "delta",
+                "localControl": "odc"
+            },
+            "CellTaskEMCAL": {
+                "active": "true",
+                "taskName": "CellTask",
+                "className": "o2::quality_control_modules::emcal::CellTask",
+                "moduleName": "QcEMCAL",
+                "detectorName": "EMC",
+                "cycleDurationSeconds": "60",
+                "maxNumberCycles": "-1",
+                "dataSource": {
+                    "type": "dataSamplingPolicy",
+                    "name": "emccells"
+                },
+                "taskParameters": {
+                    "nothing": "rien"
+                },
+                "location": "local",
+                "localMachines": [
+                    "epn"
+                ],
+                "remoteMachine": "alio2-cr1-qc02.cern.ch",
+                "remotePort": "47702",
+                "mergingMode": "delta",
+                "localControl": "odc"
+            },
+            "RawErrorTaskEMCAL": {
+                "active": "true",
+                "taskName": "RawErrorTask",
+                "className": "o2::quality_control_modules::emcal::RawErrorTask",
+                "moduleName": "QcEMCAL",
+                "detectorName": "EMC",
+                "cycleDurationSeconds": "60",
+                "maxNumberCycles": "-1",
+                "dataSource": {
+                    "type": "direct",
+                    "query": "rawerrors:EMC/DECODERERR"
+                },
+                "taskParameters": {
+                    "nothing": "rien"
+                },
+                "location": "local",
+                "localMachines": [
+                    "epn"
+                ],
+                "remoteMachine": "alio2-cr1-qc02.cern.ch",
+                "remotePort": "47703",
+                "mergingMode": "delta",
+                "localControl": "odc"
+            }
+        },
+        "checks": {
+            "IncreasingEventCheckerEMCAL": {
+                "active": "true",
+                "className": "o2::quality_control_modules::common::IncreasingEntries",
+                "moduleName": "QcCommon",
+                "policy": "OnEachSeparately",
+                "detectorName": "EMC",
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "RawTaskEMCAL",
+                        "MOs": [
+                            "BunchMinRawAmplitudeFull_PHYS",
+                            "PayloadSizePerDDL",
+                            "FECidMaxChWithInput_perSM",
+                            "NumberOfChWithInput_perSM"
+                        ]
+                    },
+                    {
+                        "type": "Task",
+                        "name": "CellTaskEMCAL",
+                        "MOs": [
+                            "cellOccupancyEMCwThrBelow_PHYS",
+                            "cellAmplitude_PHYS",
+                            "cellTime_PHYS",
+                            "cellAmplitudeSupermodule_PHYS",
+                            "cellTimeSupermodule_PHYS",
+                            "ncellsPerEventSupermodule"
+                        ]
+                    }
+                ]
+            },
+            "RawBunchMinAmplitudeEMCAL": {
+                "active": "true",
+                "checkName": "RawBunchMinAmplitude",
+                "className": "o2::quality_control_modules::emcal::RawCheck",
+                "moduleName": "QcEMCAL",
+                "policy": "OnEachSeparately",
+                "detectorName": "EMC",
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "RawTaskEMCAL",
+                        "MOs": [
+                            "BunchMinRawAmplitudeFull_PHYS",
+                            "BunchMinRawAmplitudeEMCAL_PHYS",
+                            "BunchMinRawAmplitudeDCAL_PHYS",
+                            "BunchMinRawAmplitude_SM0_PHYS",
+                            "BunchMinRawAmplitude_SM1_PHYS",
+                            "BunchMinRawAmplitude_SM2_PHYS",
+                            "BunchMinRawAmplitude_SM3_PHYS",
+                            "BunchMinRawAmplitude_SM4_PHYS",
+                            "BunchMinRawAmplitude_SM5_PHYS",
+                            "BunchMinRawAmplitude_SM6_PHYS",
+                            "BunchMinRawAmplitude_SM7_PHYS",
+                            "BunchMinRawAmplitude_SM8_PHYS",
+                            "BunchMinRawAmplitude_SM9_PHYS",
+                            "BunchMinRawAmplitude_SM10_PHYS",
+                            "BunchMinRawAmplitude_SM11_PHYS",
+                            "BunchMinRawAmplitude_SM12_PHYS",
+                            "BunchMinRawAmplitude_SM13_PHYS",
+                            "BunchMinRawAmplitude_SM14_PHYS",
+                            "BunchMinRawAmplitude_SM15_PHYS",
+                            "BunchMinRawAmplitude_SM16_PHYS",
+                            "BunchMinRawAmplitude_SM17_PHYS",
+                            "BunchMinRawAmplitude_SM18_PHYS",
+                            "BunchMinRawAmplitude_SM19_PHYS"
+                        ]
+                    }
+                ]
+            },
+            "RawErrorCheckEMCAL": {
+                "active": "true",
+                "checkName": "RawErrorCheck",
+                "className": "o2::quality_control_modules::emcal::RawCheck",
+                "moduleName": "QcEMCAL",
+                "policy": "OnEachSeparately",
+                "detectorName": "EMC",
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "RawTaskEMCAL",
+                        "MOs": [
+                            "ErrorTypePerSM"
+                        ]
+                    }
+                ]
+            },
+            "RawPayloadCheckEMCAL": {
+                "active": "true",
+                "checkName": "RawPayloadCheck",
+                "className": "o2::quality_control_modules::emcal::RawCheck",
+                "moduleName": "QcEMCAL",
+                "policy": "OnEachSeparately",
+                "detectorName": "EMC",
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "RawTaskEMCAL",
+                        "MOs": [
+                            "PayloadSizePerDDL",
+                            "PayloadSizeTFPerDDL"
+                        ]
+                    }
+                ]
+            },
+            "FECPayloadCheckEMCAL": {
+                "active": "true",
+                "checkName": "FECPayloadCheck",
+                "className": "o2::quality_control_modules::emcal::RawCheck",
+                "moduleName": "QcEMCAL",
+                "policy": "OnEachSeparately",
+                "detectorName": "EMC",
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "RawTaskEMCAL",
+                        "MOs": [
+                            "FECidMaxChWithInput_perSM"
+                        ]
+                    }
+                ]
+            },
+            "RawOccupancyCheckEMCAL": {
                 "active": "true",
                 "checkName": "RawOccupancyCheck",
                 "className": "o2::quality_control_modules::emcal::RawCheck",
@@ -232,131 +244,133 @@
                     }
                 ]
             },
-			"CellCheckAmplitudeEMCAL": {
-				"active": "true",
-				"checkName": "CellCheckAmplitude",
-				"className": "o2::quality_control_modules::emcal::CellCheck",
-				"moduleName": "QcEMCAL",
-				"policy": "OnEachSeparately",
-				"detectorName": "EMC",
-				"dataSource": [
-					{
-						"type": "Task",
-						"name": "CellTaskEMCAL",
-						"MOs": [
-							"cellAmplitudeEMCAL_CAL",
-							"cellAmplitudeEMCAL_PHYS",
-							"cellAmplitudeDCAL_CAL",
-							"cellAmplitudeDCAL_PHYS",
-							"cellAmplitude_CAL",
-							"cellAmplitude_PHYS"
-						]
-					}
-				]
-			},
-			"CheckCellOccupancyEMCAL": {
-				"active": "true",
-				"checkName": "CellCheckOccupancy",
-				"className": "o2::quality_control_modules::emcal::CellCheck",
-				"moduleName": "QcEMCAL",
-				"policy": "OnEachSeparately",
-				"detectorName": "EMC",
-				"dataSource": [
-					{
-						"type": "Task",
-						"name": "CellTaskEMCAL",
-						"MOs": [
-							"cellOccupancyEMC_PHYS",
-							"cellOccupancyEMCwThrBelow_PHYS",
-							"cellOccupancyEMCwThr_PHYS",
-							"cellOccupancyInt_PHYS",
-							"cellOccupancyEMC_CAL",
-							"cellOccupancyEMCwThrBelow_CAL",
-							"cellOccupancyInt_CAL"
-						]
-					}
-				]
-			},
-			"RawDecodingErrorCheckEMCAL": {
-				"active": "true",
-				"className": "o2::quality_control_modules::emcal::RawErrorCheck",
-				"moduleName": "QcEMCAL",
-				"policy": "OnEachSeparately",
-				"detectorName": "EMC",
-				"dataSource": [
-					{
-						"type": "Task",
-						"name": "RawErrorTaskEMCAL",
-						"MOs": [
-							"RawDataErrors",
-							"PageErrors",
-							"MajorAltroErrors",
-							"MinorAltroError",
-							"RawFitError",
-							"GeometryError",
-							"GainTypeError",
-							"NoHGPerDDL",
-							"NoLGPerDDL",
-							"ChannelLGnoHG",
-							"ChannelHGnoLG"
-						]
-					}
-				]
-			}
-		}, 
-		"postprocessing": {
-			"Calibration": {
-				"active": "true",
-				"className": "o2::quality_control_modules::emcal::CalibMonitoringTask",
-				"moduleName": "QcEMCAL",
-				"detectorName": "EMC",
-				"calibObjects" : [
-					"TimeCalibParams"
-				],
-				"initTrigger": [
-					"userorcontrol"
-				],
-				"updateTrigger": [
-					"newobject:ccdb:EMC/Calib/TimeCalibParams"
-				],
-				"stopTrigger": [
-					"userorcontrol"
-				]
-			}
-		}
-	},
-	"dataSamplingPolicies": [
-		{
-			"id": "emcrawdata",
-			"active": "true",
-			"machines": [
-				"epn"
-			],
-			"query": "readout:EMC/RAWDATA",
-			"samplingConditions": [
-				{
-					"condition": "random",
-					"fraction": "0.01",
-					"seed": "1248"
-				}
-			],
-			"blocking": "false"
-		},
-		{
-			"id": "emccells",
-			"active": "true",
-			"machines": [
-				"epn"
-			],
-			"query": "emcal-cells:EMC/CELLS;emcal-triggerecords:EMC/CELLSTRGR",
-			"samplingConditions": [
-				{
-					"condition": "random",
-					"fraction": "0.1",
-					"seed": "1248"
-				}
-			],
-			"blocking": "false"
-		}
-	]
+            "CellCheckAmplitudeEMCAL": {
+                "active": "true",
+                "checkName": "CellCheckAmplitude",
+                "className": "o2::quality_control_modules::emcal::CellCheck",
+                "moduleName": "QcEMCAL",
+                "policy": "OnEachSeparately",
+                "detectorName": "EMC",
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "CellTaskEMCAL",
+                        "MOs": [
+                            "cellAmplitudeEMCAL_CAL",
+                            "cellAmplitudeEMCAL_PHYS",
+                            "cellAmplitudeDCAL_CAL",
+                            "cellAmplitudeDCAL_PHYS",
+                            "cellAmplitude_CAL",
+                            "cellAmplitude_PHYS"
+                        ]
+                    }
+                ]
+            },
+            "CheckCellOccupancyEMCAL": {
+                "active": "true",
+                "checkName": "CellCheckOccupancy",
+                "className": "o2::quality_control_modules::emcal::CellCheck",
+                "moduleName": "QcEMCAL",
+                "policy": "OnEachSeparately",
+                "detectorName": "EMC",
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "CellTaskEMCAL",
+                        "MOs": [
+                            "cellOccupancyEMC_PHYS",
+                            "cellOccupancyEMCwThrBelow_PHYS",
+                            "cellOccupancyEMCwThr_PHYS",
+                            "cellOccupancyInt_PHYS",
+                            "cellOccupancyEMC_CAL",
+                            "cellOccupancyEMCwThrBelow_CAL",
+                            "cellOccupancyInt_CAL"
+                        ]
+                    }
+                ]
+            },
+            "RawDecodingErrorCheckEMCAL": {
+                "active": "true",
+                "className": "o2::quality_control_modules::emcal::RawErrorCheck",
+                "moduleName": "QcEMCAL",
+                "policy": "OnEachSeparately",
+                "detectorName": "EMC",
+                "dataSource": [
+                    {
+                        "type": "Task",
+                        "name": "RawErrorTaskEMCAL",
+                        "MOs": [
+                            "RawDataErrors",
+                            "PageErrors",
+                            "MajorAltroErrors",
+                            "MinorAltroError",
+                            "RawFitError",
+                            "GeometryError",
+                            "GainTypeError",
+                            "NoHGPerDDL",
+                            "NoLGPerDDL",
+                            "ChannelLGnoHG",
+                            "ChannelHGnoLG"
+                        ]
+                    }
+                ]
+            }
+        },
+        "postprocessing": {
+            "Calibration": {
+                "active": "true",
+                "className": "o2::quality_control_modules::emcal::CalibMonitoringTask",
+                "moduleName": "QcEMCAL",
+                "detectorName": "EMC",
+                "calibObjects": [
+                    "TimeCalibParams",
+                    "BadChannelMap"
+                ],
+                "initTrigger": [
+                    "userorcontrol"
+                ],
+                "updateTrigger": [
+                    "newobject:ccdb:EMC/Calib/TimeCalibParams",
+                    "newobject:ccdb:EMC/Calib/BadChannelMap"
+                ],
+                "stopTrigger": [
+                    "userorcontrol"
+                ]
+            }
+        }
+    },
+    "dataSamplingPolicies": [
+        {
+            "id": "emcrawdata",
+            "active": "true",
+            "machines": [
+                "epn"
+            ],
+            "query": "readout:EMC/RAWDATA",
+            "samplingConditions": [
+                {
+                    "condition": "random",
+                    "fraction": "0.01",
+                    "seed": "1248"
+                }
+            ],
+            "blocking": "false"
+        },
+        {
+            "id": "emccells",
+            "active": "true",
+            "machines": [
+                "epn"
+            ],
+            "query": "emcal-cells:EMC/CELLS;emcal-triggerecords:EMC/CELLSTRGR",
+            "samplingConditions": [
+                {
+                    "condition": "random",
+                    "fraction": "0.1",
+                    "seed": "1248"
+                }
+            ],
+            "blocking": "false"
+        }
+    ]
 }
