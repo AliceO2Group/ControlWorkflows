@@ -4,8 +4,8 @@
 set -e;
 set -u;
 
-QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-qc-post-idc-processing.json'
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-qc-post-idc-processing'
+QC_GEN_CONFIG_PATH='json://'`pwd`'/etc/tpc-qc-post-processing.json'
+QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-qc-post-processing'
 QC_CONFIG_PARAM='qc_config_uri'
 
 source helpers.sh
