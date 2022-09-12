@@ -104,6 +104,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   | o2-tpc-sac-factorize --timeframes ${nTFs} --nthreads-SAC-factorization 4 --input-lanes 1 \
   --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
+  --compression 2 \
   | o2-tpc-idc-ft-aggregator --rangeIDC 200 --nFourierCoeff 40 --process-SACs true --inputLanes 1 \
   --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   | o2-calibration-ccdb-populator-workflow --ccdb-path ${ccdb} -b \
