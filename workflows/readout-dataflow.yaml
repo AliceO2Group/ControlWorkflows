@@ -1477,13 +1477,13 @@ roles:
             enabled: "{{ minimal_dpl_enabled == 'true' }}"
             include: minimal-dpl
           - name: dpl
-            enabled: "{{ flp_workflows_jit_enabled == 'false' && dpl_workflow != 'none' }}"
+            enabled: "{{ (flp_workflows_jit_enabled == 'false' || detector == 'TPC') && dpl_workflow != 'none' }}"
             include: "{{ dpl_workflow }}"
           - name: dpl
-            enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_workflow != 'none' && dpl_command == 'none' }}"
+            enabled: "{{ flp_workflows_jit_enabled == 'true' && detector != 'TPC' && dpl_workflow != 'none' && dpl_command == 'none' }}"
             include: "{{ flp_workflows_jit_enabled == 'true' ? dpl.GenerateFromUri(dpl_workflow) : '' }}"
           - name: dpl
-            enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_command != 'none' }}"
+            enabled: "{{ flp_workflows_jit_enabled == 'true' && detector != 'TPC' && dpl_command != 'none' }}"
             include: "{{ flp_workflows_jit_enabled == 'true' ? dpl.Generate(dpl_command) : '' }}"
       - name: o2-roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
