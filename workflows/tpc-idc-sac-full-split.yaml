@@ -8,4 +8,4 @@ roles:
     include: tpc-idc-c
   - name: tpc-sac
     enabled: "{{ it == 'alio2-cr1-flp145' }}"
-    include: minimal-dpl
+    include: tpc-sac
