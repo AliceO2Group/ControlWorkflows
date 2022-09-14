@@ -33,6 +33,10 @@ CRU_GEN_CONFIG_PATH_C=211,213
 CRU_FINAL_CONFIG_PATH='$(/home/tpc/IDCs/FLP/getCRUs.sh)'
 CRU_CONFIG_PARAM='cru_config_uri'
 
+PROXY_NAME_GEN="proxynamespare"
+PROXY_CONFIG_PARAM='proxy_config_uri'
+PROXY_NAME_FINAL='$(/home/tpc/IDCs/FLP/getFLP.sh)'
+
 CRUS='\"$(/home/tpc/IDCs/FLP/getCRUs.sh)\"'
 CRUS_LOCAL='$('`pwd`"/etc/getCRU.sh"
 
@@ -71,7 +75,8 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --disableIDC0CCDB true \
   | o2-dpl-output-proxy $ARGS_ALL \
    --proxy-name tpc-idc-merger-proxy \
-   --tpc-idc-merger-proxy '--channel-config "name={{ it }},method=bind,address=tcp://{{ merger_node_a }}:{{ merger_port }},type=push,transport=zeromq" ' \
+   --proxy-channel-name $PROXY_NAME_GEN \
+   --tpc-idc-merger-proxy '--channel-config "method=bind,address=tcp://{{ merger_node_a }}:{{ merger_port }},type=push,transport=zeromq" ' \
    --dataspec "${OUTSPEC_IDC_A}" \
    --severity warning \
   | o2-dpl-output-proxy $ARGS_ALL \
@@ -98,7 +103,8 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --disableIDC0CCDB true \
   | o2-dpl-output-proxy $ARGS_ALL \
    --proxy-name tpc-idc-merger-proxy \
-   --tpc-idc-merger-proxy '--channel-config "name={{ it }},method=bind,address=tcp://{{ merger_node_c }}:{{ merger_port }},type=push,transport=zeromq" ' \
+   --proxy-channel-name $PROXY_NAME_GEN \
+   --tpc-idc-merger-proxy '--channel-config "method=bind,address=tcp://{{ merger_node_c }}:{{ merger_port }},type=push,transport=zeromq" ' \
    --dataspec "${OUTSPEC_IDC_C}" \
    --severity warning \
   | o2-dpl-output-proxy $ARGS_ALL \
@@ -139,6 +145,13 @@ sed -i "s/""${ESCAPED_CRU_GEN_CONFIG_PATH_C}""/{{ ""${CRU_CONFIG_PARAM}"" }}/g" 
 sed -i "s/'{{ cru_config_uri }}'/{{ cru_config_uri }}/g" tasks/${WF_NAME_A}-*
 sed -i "s/'{{ cru_config_uri }}'/{{ cru_config_uri }}/g" tasks/${WF_NAME_C}-*
 
+ESCAPED_PROXY_NAME_FINAL=$(printf '%s\n' "$PROXY_NAME_FINAL" | sed -e 's/[\/&]/\\&/g')
+sed -i /defaults:/\ a\\\ \\\ "${PROXY_CONFIG_PARAM}":\ "${ESCAPED_PROXY_NAME_FINAL}" workflows/${WF_NAME_A}.yaml
+sed -i /defaults:/\ a\\\ \\\ "${PROXY_CONFIG_PARAM}":\ "${ESCAPED_PROXY_NAME_FINAL}" workflows/${WF_NAME_C}.yaml
+ESCAPED_PROXY_NAME_GEN=$(printf '%s\n' "$PROXY_NAME_GEN" | sed -e 's/[]\/$*.^[]/\\&/g');
+sed -i "s/""${ESCAPED_PROXY_NAME_GEN}""/{{ ""${PROXY_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME_A}.yaml tasks/${WF_NAME_A}-*
+sed -i "s/""${ESCAPED_PROXY_NAME_GEN}""/{{ ""${PROXY_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME_C}.yaml tasks/${WF_NAME_C}-*
+
 
 OUTSPEC_IDC="idc2:TPC/IDCGROUP"
 OUTSPEC_IDC_A="idc2:TPC/IDCGROUPA"
@@ -159,8 +172,6 @@ sed -i /defaults:/\ a\\\ \\\ "merger_node_c":\ "${MERGER_C}" workflows/${WF_NAME
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME_A}.yaml
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME_C}.yaml
 
-sed -i /defaults:/\ a\\\ \\\ "proxyname":\ "tpcidc" workflows/${WF_NAME_A}.yaml
-sed -i /defaults:/\ a\\\ \\\ "proxyname":\ "tpcidc" workflows/${WF_NAME_C}.yaml
 
 
 aside=" it == 'alio2-cr1-flp001'"
