@@ -13,12 +13,12 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: {{ it }}
+  - name: 
     type: push
     transport: zeromq
     addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
-    global: "{{ it }}-{{ it }}"
+    global: "-{{ it }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -98,7 +98,7 @@ command:
     - "--pipeline"
     - "''"
     - "--proxy-channel-name"
-    - "'downstream'"
+    - "'{{ proxy_config_uri }}'"
     - "--proxy-name"
     - "'tpc-idc-merger-proxy'"
     - "--readers"
