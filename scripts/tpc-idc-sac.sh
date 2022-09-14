@@ -71,7 +71,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --disableIDC0CCDB true \
   | o2-dpl-output-proxy $ARGS_ALL \
    --proxy-name tpc-idc-merger-proxy \
-   --tpc-idc-merger-proxy '--channel-config "name={{ proxyname }},method=bind,address=tcp://{{ merger_node_a }}:{{ merger_port }},type=push,transport=zeromq" ' \
+   --tpc-idc-merger-proxy '--channel-config "name={{ it }},method=bind,address=tcp://{{ merger_node_a }}:{{ merger_port }},type=push,transport=zeromq" ' \
    --dataspec "${OUTSPEC_IDC_A}" \
    --severity warning \
   | o2-dpl-output-proxy $ARGS_ALL \
@@ -98,7 +98,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --disableIDC0CCDB true \
   | o2-dpl-output-proxy $ARGS_ALL \
    --proxy-name tpc-idc-merger-proxy \
-   --tpc-idc-merger-proxy '--channel-config "name={{ proxyname }},method=bind,address=tcp://{{ merger_node_c }}:{{ merger_port }},type=push,transport=zeromq" ' \
+   --tpc-idc-merger-proxy '--channel-config "name={{ it }},method=bind,address=tcp://{{ merger_node_c }}:{{ merger_port }},type=push,transport=zeromq" ' \
    --dataspec "${OUTSPEC_IDC_C}" \
    --severity warning \
   | o2-dpl-output-proxy $ARGS_ALL \
