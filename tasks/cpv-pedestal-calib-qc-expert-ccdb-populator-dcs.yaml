@@ -119,7 +119,7 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--ccdb-path"
-    - "'http://alio2-cr1-flp199.cern.ch:8083'"
+    - "'http://ali-calib-dcs.cern.ch:8083'"
     - "--sspec-max"
     - "'1'"
     - "--sspec-min"
