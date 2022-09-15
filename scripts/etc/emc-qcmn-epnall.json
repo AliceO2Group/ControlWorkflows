@@ -127,7 +127,10 @@
                             "ncellsPerEventSupermodule"
                         ]
                     }
-                ]
+                ],
+                "checkParameters": {
+                    "mustIncrease" : "true"
+                }
             },
             "RawBunchMinAmplitudeEMCAL": {
                 "active": "true",
@@ -332,6 +335,45 @@
                 "updateTrigger": [
                     "newobject:ccdb:EMC/Calib/TimeCalibParams",
                     "newobject:ccdb:EMC/Calib/BadChannelMap"
+                ],
+                "stopTrigger": [
+                    "userorcontrol"
+                ]
+            },
+            "CellVisualizations": {
+                "active": "true",
+                "className": "o2::quality_control_modules::emcal::SupermoduleProjectorTask",
+                "moduleName": "QcEMCAL",
+                "detectorName": "EMC",
+                "dataSources": [
+                    {
+                        "type": "repository",
+                        "path": "EMC/MO/CellTask",
+                        "names": [
+                            "cellTimeSupermodule_PHYS",
+                            "cellAmplitudeSupermodule_PHYS"
+                        ]
+                    }
+                ],
+                "customizations": [
+                    {
+                        "name": "cellTimeSupermodule_PHYS",
+                        "xtitle": "t (ns)",
+                        "ytitle": "Yield"
+                    },
+                    {
+                        "name": "cellAmplitudeSupermodule_PHYS",
+                        "xtitle": "E (GeV)",
+                        "ytitle": "Yield",
+                        "logy": "true"
+                    }
+                ],
+                "initTrigger": [
+                    "userorcontrol"
+                ],
+                "updateTrigger": [
+                    "newobject:qcdb:EMC/MO/CellTask/cellTimeSupermodule_PHYS",
+                    "newobject:qcdb:EMC/MO/CellTask/cellAmplitudeSupermodule_PHYS"
                 ],
                 "stopTrigger": [
                     "userorcontrol"
