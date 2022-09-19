@@ -1,4 +1,4 @@
-name: mft-noise-qcmn-remote-qc-check-MFT-MFTDigitCheck
+name: emc-qcmn-epn-remote-qc-check-EMC-3HA0
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,14 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_qc-check-MFT-MFTDigitCheck_to_qc-check-MFT-MFTIncrEntrCheck
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_qc-check-MFT-MFTDigitCheck_to_internal-dpl-injected-dummy-sink
+  - name: from_qc-check-EMC-3HA0_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
@@ -58,7 +51,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'qc-check-MFT-MFTDigitCheck'"
+    - "'qc-check-EMC-3HA0'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
