@@ -8,7 +8,7 @@ set -u
 source helpers.sh
 
 QC_GEN_CONFIG_PATH="json://${PWD}/etc/mch-qcmn-epn-full-track-matching.json"
-QC_FINAL_CONFIG_PATH="consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mch-qcmn-epn-full-track-matching"
+QC_FINAL_CONFIG_PATH="consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mch-qcmn-remote-full-track-matching"
 QC_CONFIG_PARAM="qc_config_uri"
 
 WF_NAME=mch-qcmn-epn-full-track-matching-remote

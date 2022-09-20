@@ -38,7 +38,6 @@
         "mergingMode": "delta",
         "localControl": "odc",
         "localMachines": [
-          "localhost",
           "epn"
         ],
         "remotePort": "47790",
@@ -59,7 +58,6 @@
         "mergingMode": "delta",
         "localControl": "odc",
         "localMachines": [
-          "localhost",
           "epn"
         ],
         "remotePort": "47791",
@@ -80,7 +78,6 @@
         "mergingMode": "delta",
         "localControl": "odc",
         "localMachines": [
-          "localhost",
           "epn"
         ],
         "remotePort": "47792",
@@ -91,7 +88,7 @@
         "className": "o2::quality_control_modules::muonchambers::PhysicsTaskPreclusters",
         "moduleName": "QcMuonChambers",
         "detectorName": "MCH",
-        "cycleDurationSeconds": "360",
+        "cycleDurationSeconds": "300",
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "direct",
@@ -101,7 +98,6 @@
         "mergingMode": "delta",
         "localControl": "odc",
         "localMachines": [
-          "localhost",
           "epn"
         ],
         "remotePort": "47794",
@@ -109,23 +105,24 @@
       },
       "MCHTracks": {
         "active": "true",
-        "className": "o2::quality_control_modules::muonchambers::TracksTask",
-        "moduleName": "QcMuonChambers",
+        "className": "o2::quality_control_modules::muon::TracksTask",
+        "moduleName": "QcMUONCommon",
         "detectorName": "MCH",
         "cycleDurationSeconds": "300",
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "direct",
-          "query": "tracks:MCH/TRACKS;trackrofs:MCH/TRACKROFS;trackclusters:MCH/TRACKCLUSTERS;trackdigits:MCH/CLUSTERDIGITS"
+          "query": "mchtracks:MCH/TRACKS;mchtrackrofs:MCH/TRACKROFS;mchtrackclusters:MCH/TRACKCLUSTERS;mchtrackdigits:MCH/TRACKDIGITS"
         },
         "taskParameters": {
-          "maxTracksPerTF": "100"
+          "maxTracksPerTF": "600",
+          "standaloneMCHTracks": true,
+          "matchedMCHMIDTracks": false
         },
         "location": "local",
         "mergingMode": "delta",
         "localControl": "odc",
         "localMachines": [
-          "localhost",
           "epn"
         ],
         "remotePort": "47795",
@@ -140,47 +137,20 @@
         "maxNumberCycles": "-1",
         "dataSource": {
           "type": "direct",
-          "query": "mchtracks:MCH/TRACKS;mchtrackrofs:MCH/TRACKROFS;mchtrackclusters:MCH/TRACKCLUSTERS;mchtrackdigits:MCH/TRACKDIGITS"
+          "query": "mchtracks:MCH/TRACKS;mchtrackrofs:MCH/TRACKROFS;mchtrackclusters:MCH/TRACKCLUSTERS;mchtrackdigits:MCH/TRACKDIGITS;muontracks:GLO/MTC_MCHMID"
         },
         "taskParameters": {
           "maxTracksPerTF": "600",
           "standaloneMCHTracks": true,
-          "matchedMCHMIDTracks": false
+          "matchedMCHMIDTracks": true
         },
         "location": "local",
         "mergingMode": "delta",
         "localControl": "odc",
         "localMachines": [
-          "localhost",
           "epn"
         ],
         "remotePort": "47789",
-        "remoteMachine": "alio2-cr1-qc01.cern.ch"
-      },
-      "MCHStdTracks": {
-        "active": "true",
-        "className": "o2::quality_control_modules::muon::TracksTask",
-        "moduleName": "QcMUONCommon",
-        "detectorName": "GLO",
-        "cycleDurationSeconds": "300",
-        "maxNumberCycles": "-1",
-        "dataSource": {
-          "type": "direct",
-          "query": "mchtracks:MCH/TRACKS;mchtrackrofs:MCH/TRACKROFS;mchtrackclusters:MCH/TRACKCLUSTERS;mchtrackdigits:MCH/TRACKDIGITS"
-        },
-        "taskParameters": {
-          "maxTracksPerTF": "600",
-          "standaloneMCHTracks": true,
-          "matchedMCHMIDTracks": false
-        },
-        "location": "local",
-        "mergingMode": "delta",
-        "localControl": "odc",
-        "localMachines": [
-          "localhost",
-          "epn"
-        ],
-        "remotePort": "47788",
         "remoteMachine": "alio2-cr1-qc01.cern.ch"
       }
     },

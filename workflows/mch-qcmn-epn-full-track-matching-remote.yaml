@@ -3,7 +3,7 @@ vars:
   dpl_command: >-
     o2-qc --config {{ qc_config_uri }} --remote -b
 defaults:
-  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mch-qcmn-epn-full-track-matching"
+  qc_config_uri: "consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mch-qcmn-remote-full-track-matching"
   monitoring_dpl_url: "no-op://"
   user: "flp"
   fmq_rate_logging: 0
@@ -16,25 +16,6 @@ roles:
     connect:
     task:
       load: mch-qcmn-epn-full-track-matching-remote-internal-dpl-clock
-  - name: "GLO-MCHStdTracks-proxy"
-    connect:
-    - name: from_internal-dpl-clock_to_GLO-MCHStdTracks-proxy
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_GLO-MCHStdTracks-proxy"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    bind:
-    - name: GLO-MCHStdTracks-proxy
-      type: sub
-      transport: zeromq
-      addressing: tcp
-      rateLogging: "{{ fmq_rate_logging }}"
-      target: "tcp://*:47788"
-      rcvBufSize: 1
-    task:
-      load: mch-qcmn-epn-full-track-matching-remote-GLO-MCHStdTracks-proxy
   - name: "GLO-MUONTracks-proxy"
     connect:
     - name: from_internal-dpl-clock_to_GLO-MUONTracks-proxy
@@ -149,24 +130,6 @@ roles:
       rcvBufSize: 1
     task:
       load: mch-qcmn-epn-full-track-matching-remote-MCH-QcTaskMCHErrors-proxy
-  - name: "GLO-MERGER-MCHStdTracks1l-0"
-    connect:
-    - name: from_internal-dpl-clock_to_GLO-MERGER-MCHStdTracks1l-0
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_GLO-MERGER-MCHStdTracks1l-0"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    - name: from_GLO-MCHStdTracks-proxy_to_GLO-MERGER-MCHStdTracks1l-0
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.GLO-MCHStdTracks-proxy:from_GLO-MCHStdTracks-proxy_to_GLO-MERGER-MCHStdTracks1l-0"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: mch-qcmn-epn-full-track-matching-remote-GLO-MERGER-MCHStdTracks1l-0
   - name: "GLO-MERGER-MUONTracks1l-0"
     connect:
     - name: from_internal-dpl-clock_to_GLO-MERGER-MUONTracks1l-0
@@ -308,17 +271,6 @@ roles:
       rcvBufSize: 4
     task:
       load: mch-qcmn-epn-full-track-matching-remote-qc-check-MCH-QcCheckMCHPreclusters
-  - name: "qc-check-sink-QGLO_MCHStdTracks_0"
-    connect:
-    - name: from_GLO-MERGER-MCHStdTracks1l-0_to_qc-check-sink-QGLO_MCHStdTracks_0
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.GLO-MERGER-MCHStdTracks1l-0:from_GLO-MERGER-MCHStdTracks1l-0_to_qc-check-sink-QGLO_MCHStdTracks_0"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: mch-qcmn-epn-full-track-matching-remote-qc-check-sink-QGLO_MCHStdTracks_0
   - name: "qc-check-sink-QGLO_MUONTracks_0"
     connect:
     - name: from_GLO-MERGER-MUONTracks1l-0_to_qc-check-sink-QGLO_MUONTracks_0
