@@ -818,6 +818,17 @@ defaults:
     widget: editBox
     panel: DCS
     visibleif: $$dcs_enabled === "true"
+  glo_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "GLO QC node workflow"
+    description: "Workflow to execute on QC servers for global QC"
+    widget: dropDownBox
+    panel: FLP_Workflows
+    values:
+      - none
+      - glo-full-qcmn-remote
+    visibleif: $$qc_remote_enabled === "true"
   ###############################
   # TRG Panel
   ###############################
@@ -1588,7 +1599,44 @@ roles:
               trigger: CONFIGURE
               timeout: 1s
               critical: false
-
+      - name: qc-remote-workflow-glo # GLO is not a detector so we won't iterate on it with 'detectors' and we need special enable logic
+        enabled: "{{ detectors contains 'ITS' && run_type == 'PHYSICS' }}"
+        vars:
+          qc_remote_workflow: "{{ util.PrefixedOverride( 'qc_remote_workflow', 'glo' ) }}"
+          qc_dpl_command: "{{ util.PrefixedOverride( 'qc_dpl_command', 'glo' ) }}"
+          qc_remote_machine: "{{ util.PrefixedOverride( 'qc_remote_machine', 'glo' ) }}"
+          shm_segment_size: "{{ util.PrefixedOverride( 'qc_shm_segment_size', 'glo' ) }}"
+          detector: GLO
+        constraints:
+          - attribute: machine_id
+            value: "{{ qc_remote_machine }}"
+        roles:
+          - name: dpl
+            enabled: "{{ qc_remote_jit_enabled == 'false' && qc_remote_workflow != 'none' }}"
+            include: "{{ qc_remote_workflow }}"
+          - name: dpl
+            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_remote_workflow != 'none' && qc_dpl_command == 'none' }}"
+            include: "{{ qc_remote_jit_enabled == 'true' ? GenerateDplSubworkflowFromUri(qc_remote_workflow) : '' }}"
+          - name: dpl
+            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_dpl_command != 'none' }}"
+            include: "{{ qc_remote_jit_enabled == 'true' ? GenerateDplSubworkflow(qc_dpl_command) : '' }}"
+          - name: fairmq-shmmonitor
+            enabled: "{{ fmq_cleanup_enabled == 'true' && qc_remote_workflow != 'none' }}"
+            task:
+              load: "fairmq-shmmonitor"
+              trigger: DESTROY
+              timeout: 10s
+              critical: false
+          # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list.
+          # However if the {{detector}}_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
+          # control tree state management.
+          - name: dpl-noop-subwf
+            enabled: "{{ qc_remote_workflow == 'none' }}"
+            call:
+              func: testplugin.Noop()
+              trigger: CONFIGURE
+              timeout: 1s
+              critical: false
   - name: dcs
     enabled: "{{dcs_enabled == 'true'}}"
     defaults:
