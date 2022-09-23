@@ -90,7 +90,7 @@ command:
     - "--forwarding-policy"
     - "'dangling'"
     - "--labels"
-    - "''"
+    - "'flpidc_flp001:ecs-preserve-raw-channels'"
     - "--output-proxy-address"
     - "'0.0.0.0'"
     - "--output-proxy-method"
