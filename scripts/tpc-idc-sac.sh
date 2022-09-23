@@ -73,11 +73,10 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   --lanes 1 \
   --disableIDC0CCDB true \
-  | o2-dpl-output-proxy $ARGS_ALL \
-   --labels "tpcidc_flp001:ecs-preserve-raw-channels" \
-   --proxy-name tpcidc_flp001 \
-   --proxy-channel-name $PROXY_NAME_GEN \
-   --tpcidc_flp001 '--channel-config "method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq" ' \
+ | o2-dpl-output-proxy $ARGS_ALL \
+   --labels "tpcidc:ecs-preserve-raw-channels" \
+   --proxy-name tpcidc \
+   --tpcidc '--channel-config "name=tpcidc,method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq" ' \
    --dataspec "${OUTSPEC_IDC_A}" \
    --severity warning \
   | o2-dpl-output-proxy $ARGS_ALL \
@@ -102,11 +101,10 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   --lanes 1 \
   --disableIDC0CCDB true \
-  | o2-dpl-output-proxy $ARGS_ALL \
-   --labels "tpcidc_flp001:ecs-preserve-raw-channels" \
-   --proxy-name tpcidc_flp001 \
-   --proxy-channel-name $PROXY_NAME_GEN \
-   --tpcidc_flp001 '--channel-config "method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq" ' \
+ | o2-dpl-output-proxy $ARGS_ALL \
+   --labels "tpcidc:ecs-preserve-raw-channels" \
+   --proxy-name tpcidc \
+   --tpcidc '--channel-config "name=tpcidc,method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq" ' \
    --dataspec "${OUTSPEC_IDC_C}" \
    --severity warning \
   | o2-dpl-output-proxy $ARGS_ALL \

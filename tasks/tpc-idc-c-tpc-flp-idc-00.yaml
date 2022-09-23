@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-flp-idc-00_to_tpcidc_flp001
+  - name: from_tpc-flp-idc-00_to_tpcidc
     type: push
     transport: shmem
     addressing: ipc
