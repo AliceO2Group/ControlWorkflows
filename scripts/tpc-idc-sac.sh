@@ -78,6 +78,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --proxy-name tpcidc \
    --tpcidc '--channel-config "name=tpcidc,method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq,rateLogging=1" ' \
    --dataspec "${OUTSPEC_IDC_A}" \
+   --infologger-severity info \
    --severity info \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
@@ -106,6 +107,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --proxy-name tpcidc \
    --tpcidc '--channel-config "name=tpcidc,method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq,rateLogging=1" ' \
    --dataspec "${OUTSPEC_IDC_C}" \
+  --infologger-severity info \
    --severity info \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
