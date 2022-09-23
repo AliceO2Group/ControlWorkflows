@@ -76,9 +76,9 @@ o2-dpl-raw-proxy $ARGS_ALL \
  | o2-dpl-output-proxy $ARGS_ALL \
    --labels "tpcidc:ecs-preserve-raw-channels" \
    --proxy-name tpcidc \
-   --tpcidc '--channel-config "name=tpcidc,method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq" ' \
+   --tpcidc '--channel-config "name=tpcidc,method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq,rateLogging=1" ' \
    --dataspec "${OUTSPEC_IDC_A}" \
-   --severity warning \
+   --severity info \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
    --dataspec "${OUTSPEC}" \
@@ -104,9 +104,9 @@ o2-dpl-raw-proxy $ARGS_ALL \
  | o2-dpl-output-proxy $ARGS_ALL \
    --labels "tpcidc:ecs-preserve-raw-channels" \
    --proxy-name tpcidc \
-   --tpcidc '--channel-config "name=tpcidc,method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq" ' \
+   --tpcidc '--channel-config "name=tpcidc,method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq,rateLogging=1" ' \
    --dataspec "${OUTSPEC_IDC_C}" \
-   --severity warning \
+   --severity info \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
    --dataspec "${OUTSPEC}" \
