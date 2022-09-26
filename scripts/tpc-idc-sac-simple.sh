@@ -108,7 +108,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --compression 2 \
   | o2-tpc-idc-ft-aggregator --rangeIDC 200 --nFourierCoeff 40 --process-SACs true --inputLanes 1 \
   --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
-  | o2-calibration-ccdb-populator-workflow --ccdb-path {{ ccdb_oath }} -b \
+  | o2-calibration-ccdb-populator-workflow --ccdb-path {{ ccdb_path }} -b \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
    --dataspec "${OUTSPEC}" \
