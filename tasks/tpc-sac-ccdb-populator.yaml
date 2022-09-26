@@ -112,7 +112,7 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--ccdb-path"
-    - "'{{'"
+    - "'{{ ccdb_path }}'"
     - "--sspec-max"
     - "-1"
     - "--sspec-min"
