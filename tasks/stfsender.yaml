@@ -25,6 +25,8 @@ command:
     - UCX_NET_DEVICES=mlx5_0:1 # This limits StfSender to IB interface (used as of DD v1.3.0)
     - UCX_TLS=sm,self,dc,rc    # Force dc/rc connection (used as of DD v1.4.0)
     - UCX_IB_SL=1              # Force IB SL1 with Adaptive Routing (AR)
+    - UCX_DC_MAX_NUM_EPS=512   # Allow 512 peers for DC transport
+    - UCX_RC_MAX_NUM_EPS=512   # Allow 512 peers for RC transport
     - O2_PARTITION={{ environment_id }}
   log: "{{ log_task_output }}"
   shell: true
@@ -33,7 +35,7 @@ command:
   arguments:
     - "--session=default"
     - "--shm-segment-id=2"
-    - "--shm-segment-size=134217728"
+    - "--shm-segment-size=33554432"
     - "--transport=shmem"
     - "--input-channel-name={{ stfs_input_channel_name }}"
     - "--severity={{ fmq_severity }}"
