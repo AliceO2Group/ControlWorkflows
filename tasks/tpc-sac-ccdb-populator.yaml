@@ -112,7 +112,7 @@ command:
     - "--workflow-suffix"
     - "''"
     - "--ccdb-path"
-    - "'ccdb-test.cern.ch:8080'"
+    - "'{{'"
     - "--sspec-max"
     - "-1"
     - "--sspec-min"
