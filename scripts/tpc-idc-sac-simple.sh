@@ -45,7 +45,8 @@ MERGER_C=epn024-ib
 PORT=47734
 
 nTFs=1000
-ccdb="ccdb-test.cern.ch:8080"
+#ccdb="ccdb-test.cern.ch:8080"
+ccdb="http://o2-ccdb.internal"
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 export DPL_CONDITION_QUERY_RATE="${GEN_TOPO_EPN_CCDB_QUERY_RATE:--1}"
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
@@ -107,7 +108,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --compression 2 \
   | o2-tpc-idc-ft-aggregator --rangeIDC 200 --nFourierCoeff 40 --process-SACs true --inputLanes 1 \
   --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
-  | o2-calibration-ccdb-populator-workflow --ccdb-path ${ccdb} -b \
+  | o2-calibration-ccdb-populator-workflow --ccdb-path "{{ ccdb_path }}" -b \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
    --dataspec "${OUTSPEC}" \
@@ -148,6 +149,9 @@ sed -i /defaults:/\ a\\\ \\\ "merger_node_c":\ "${MERGER_C}" workflows/${WF_NAME
 
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME_A}.yaml
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME_C}.yaml
+
+sed -i /defaults:/\ a\\\ \\\ "ccdb_path":\ "${ccdb}" workflows/${WF_SAC}.yaml
+
 
 
 aside=" it == 'alio2-cr1-flp001'"
