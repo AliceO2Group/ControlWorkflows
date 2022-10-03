@@ -76,6 +76,8 @@ o2-dpl-raw-proxy $ARGS_ALL \
  | o2-dpl-output-proxy $ARGS_ALL \
    --labels "tpcidc:ecs-preserve-raw-channels" \
    --proxy-name tpcidc \
+   --proxy-channel-name tpcidc \
+   --fairmq-rate-logging 10 \
    --tpcidc '--channel-config "name=tpcidc,method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq,rateLogging=1" ' \
    --dataspec "${OUTSPEC_IDC_A}" \
    --infologger-severity info \
@@ -105,6 +107,8 @@ o2-dpl-raw-proxy $ARGS_ALL \
  | o2-dpl-output-proxy $ARGS_ALL \
    --labels "tpcidc:ecs-preserve-raw-channels" \
    --proxy-name tpcidc \
+   --proxy-channel-name tpcidc \
+   --fairmq-rate-logging 10 \
    --tpcidc '--channel-config "name=tpcidc,method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq,rateLogging=1" ' \
    --dataspec "${OUTSPEC_IDC_C}" \
   --infologger-severity info \
