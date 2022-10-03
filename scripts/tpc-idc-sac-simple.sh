@@ -11,7 +11,7 @@ source helpers.sh
 WF_NAME=tpc-idc-sac-simple
 WF_NAME_A=tpc-idc-simple-a
 WF_NAME_C=tpc-idc-simple-c
-WF_SAC=tpc-sac
+WF_SAC=tpc-sac-simple
 
 cd ..
 

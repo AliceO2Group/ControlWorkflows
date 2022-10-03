@@ -1,4 +1,4 @@
-name: tpc-sac-tpc-sac-processor
+name: tpc-sac-simple-tpc-sac-processor
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-sac-processor_to_tpcsac
+  - name: from_tpc-sac-processor_to_tpc-distribute-sac
     type: push
     transport: shmem
     addressing: ipc

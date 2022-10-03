@@ -24,6 +24,7 @@ PROXY_INSPEC="x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0"
 OUTSPEC_IDC="idc2:TPC/IDCGROUP"
 OUTSPEC_IDC_A="idc2:TPC/IDCGROUPA"
 OUTSPEC_IDC_C="idc2:TPC/IDCGROUPC"
+OUTSPEC_SAC="sac:TPC/DECODEDSAC;sac2:TPC/REFTIMESAC"
 OUTSPEC="xout:TPC/RAWDATA;ddout:FLP/DISTSUBTIMEFRAME/0"
 
 # TODO: Adjust path and check this ends up properly in the script
@@ -123,13 +124,15 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --dataspec "$PROXY_INSPEC" \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
   | o2-tpc-sac-processing --severity warning --condition-tf-per-query -1 \
-  | o2-tpc-sac-distribute --timeframes ${nTFs} --output-lanes 1 \
-  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
-  | o2-tpc-sac-factorize --timeframes ${nTFs} --nthreads-SAC-factorization 4 --input-lanes 1 \
-  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
-  | o2-tpc-idc-ft-aggregator --rangeIDC 200 --nFourierCoeff 40 --process-SACs true --inputLanes 1 \
-  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
-  | o2-calibration-ccdb-populator-workflow --ccdb-path ${ccdb} -b \
+  | o2-dpl-output-proxy $ARGS_ALL \
+   --labels "tpcidc:ecs-preserve-raw-channels" \
+   --proxy-name tpcsac \
+   --proxy-channel-name tpcsac \
+   --fairmq-rate-logging 10 \
+   --tpcsac '--channel-config "name=tpcsac,method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq,rateLogging=1" ' \
+   --dataspec "${OUTSPEC_SAC}" \
+  --infologger-severity info \
+   --severity info \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
    --dataspec "${OUTSPEC}" \

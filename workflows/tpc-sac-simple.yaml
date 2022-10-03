@@ -1,0 +1,150 @@
+name: tpc-sac-simple
+vars:
+  dpl_command: >-
+    o2-dpl-raw-proxy -b --session default --dataspec 'x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' | o2-tpc-sac-processing --severity warning --condition-tf-per-query -1 | o2-tpc-sac-distribute --timeframes 1000 --output-lanes 1 --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;;keyval.output_dir=/dev/null' | o2-tpc-sac-factorize --timeframes 1000 --nthreads-SAC-factorization 4 --input-lanes 1 --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;;keyval.output_dir=/dev/null' --compression 2 | o2-tpc-idc-ft-aggregator --rangeIDC 200 --nFourierCoeff 40 --process-SACs true --inputLanes 1 --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;;keyval.output_dir=/dev/null' | o2-calibration-ccdb-populator-workflow --ccdb-path '{{ ccdb_path }}' -b | o2-dpl-output-proxy -b --session default --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' --dataspec 'xout:TPC/RAWDATA;ddout:FLP/DISTSUBTIMEFRAME/0' --environment DPL_OUTPUT_PROXY_ORDERED=1
+defaults:
+  ccdb_path: http://o2-ccdb.internal
+  monitoring_dpl_url: "no-op://"
+  user: "flp"
+  fmq_rate_logging: 0
+  shm_segment_size: 10000000000
+  shm_throw_bad_alloc: false
+  session_id: default
+  resources_monitoring: 15
+roles:
+  - name: "internal-dpl-clock"
+    connect:
+    task:
+      load: tpc-sac-simple-internal-dpl-clock
+  - name: "readout-proxy"
+    connect:
+    - name: from_internal-dpl-clock_to_readout-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_readout-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: readout-proxy
+      type: pull
+      transport: shmem
+      target: "::readout-proxy-{{ it }}"
+      rateLogging: "{{ fmq_rate_logging }}"
+    task:
+      load: tpc-sac-simple-readout-proxy
+  - name: "internal-dpl-ccdb-backend"
+    connect:
+    - name: from_readout-proxy_to_internal-dpl-ccdb-backend
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_internal-dpl-ccdb-backend"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-sac-simple-internal-dpl-ccdb-backend
+  - name: "tpc-sac-processor"
+    connect:
+    - name: from_readout-proxy_to_tpc-sac-processor
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_tpc-sac-processor"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_internal-dpl-ccdb-backend_to_tpc-sac-processor
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-ccdb-backend:from_internal-dpl-ccdb-backend_to_tpc-sac-processor"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-sac-simple-tpc-sac-processor
+  - name: "tpc-distribute-sac"
+    connect:
+    - name: from_tpc-sac-processor_to_tpc-distribute-sac
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-sac-processor:from_tpc-sac-processor_to_tpc-distribute-sac"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-sac-simple-tpc-distribute-sac
+  - name: "tpc-factorize-sac-00"
+    connect:
+    - name: from_tpc-distribute-sac_to_tpc-factorize-sac-00
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-distribute-sac:from_tpc-distribute-sac_to_tpc-factorize-sac-00"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-sac-simple-tpc-factorize-sac-00
+  - name: "tpc-aggregator-ft"
+    connect:
+    - name: from_tpc-factorize-sac-00_to_tpc-aggregator-ft
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-factorize-sac-00:from_tpc-factorize-sac-00_to_tpc-aggregator-ft"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-sac-simple-tpc-aggregator-ft
+  - name: "internal-dpl-injected-dummy-sink"
+    connect:
+    - name: from_internal-dpl-ccdb-backend_to_internal-dpl-injected-dummy-sink
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.internal-dpl-ccdb-backend:from_internal-dpl-ccdb-backend_to_internal-dpl-injected-dummy-sink"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-sac-simple-internal-dpl-injected-dummy-sink
+  - name: "ccdb-populator"
+    connect:
+    - name: from_tpc-factorize-sac-00_to_ccdb-populator
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-factorize-sac-00:from_tpc-factorize-sac-00_to_ccdb-populator"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tpc-aggregator-ft_to_ccdb-populator
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-aggregator-ft:from_tpc-aggregator-ft_to_ccdb-populator"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    task:
+      load: tpc-sac-simple-ccdb-populator
+  - name: "dpl-output-proxy"
+    connect:
+    - name: from_readout-proxy_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.readout-proxy:from_readout-proxy_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    - name: from_tpc-sac-processor_to_dpl-output-proxy
+      type: pull
+      transport: shmem
+      target: "{{ Parent().Path }}.tpc-sac-processor:from_tpc-sac-processor_to_dpl-output-proxy"
+      rateLogging: "{{ fmq_rate_logging }}"
+      sndBufSize: 4
+      rcvBufSize: 4
+    bind:
+    - name: downstream
+      type: push
+      transport: shmem
+      addressing: ipc
+      rateLogging: "{{ fmq_rate_logging }}"
+      global: "downstream-{{ it }}"
+    task:
+      load: tpc-sac-simple-dpl-output-proxy

@@ -1,4 +1,4 @@
-name: tpc-sac-tpc-sac-processor
+name: tpc-sac-simple-internal-dpl-ccdb-backend
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
@@ -13,14 +13,14 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-sac-processor_to_tpcsac
+  - name: from_internal-dpl-ccdb-backend_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_tpc-sac-processor_to_dpl-output-proxy
+  - name: from_internal-dpl-ccdb-backend_to_tpc-sac-processor
     type: push
     transport: shmem
     addressing: ipc
@@ -56,7 +56,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'tpc-sac-processor'"
+    - "'internal-dpl-ccdb-backend'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -123,7 +123,21 @@ command:
     - "''"
     - "--condition-backend"
     - "'http://127.0.0.1:8084'"
-    - "--condition-timestamp"
+    - "--condition-not-after"
+    - "'3385078236000'"
+    - "--condition-not-before"
     - "'0'"
-    - "--debug-level"
+    - "--condition-remap"
+    - "''"
+    - "--condition-tf-per-query"
+    - "-1"
+    - "--end-value-enumeration"
+    - "-1"
+    - "--orbit-multiplier-enumeration"
     - "'0'"
+    - "--orbit-offset-enumeration"
+    - "'0'"
+    - "--start-value-enumeration"
+    - "'0'"
+    - "--step-value-enumeration"
+    - "'1'"

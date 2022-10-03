@@ -1,26 +1,33 @@
-name: tpc-sac-tpc-sac-processor
+name: tpc-sac-simple-readout-proxy
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-tpc-sac-processing
+    {{ dpl_command }} | o2-dpl-raw-proxy
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-sac-processing
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-dpl-raw-proxy
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-sac-processor_to_tpcsac
+  - name: from_readout-proxy_to_internal-dpl-ccdb-backend
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_tpc-sac-processor_to_dpl-output-proxy
+  - name: from_readout-proxy_to_tpc-sac-processor
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_dpl-output-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -56,7 +63,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'tpc-sac-processor'"
+    - "'readout-proxy'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -77,6 +84,8 @@ command:
     - "''"
     - "--clone"
     - "''"
+    - "--dataspec"
+    - "'x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0'"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -95,10 +104,12 @@ command:
     - "''"
     - "--pipeline"
     - "''"
+    - "--proxy-name"
+    - "'readout-proxy'"
     - "--readers"
     - "'1'"
     - "--severity"
-    - "'warning'"
+    - "'info'"
     - "--shm-allocation"
     - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
@@ -119,11 +130,9 @@ command:
     - "'0'"
     - "--timeframes-rate-limit-ipcid"
     - "-1"
+    - "--timeframes-shm-limit"
+    - "'0'"
     - "--workflow-suffix"
     - "''"
-    - "--condition-backend"
-    - "'http://127.0.0.1:8084'"
-    - "--condition-timestamp"
-    - "'0'"
-    - "--debug-level"
-    - "'0'"
+    - "--ready-state-policy"
+    - "'keep'"
