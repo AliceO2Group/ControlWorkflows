@@ -70,7 +70,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'sac:TPC/DECODEDSAC;sac2:TPC/REFTIMESAC'"
+    - "'sac:TPC/DECODEDSAC/0;sac2:TPC/REFTIMESAC/0'"
     - "--default-port"
     - "'4200'"
     - "--default-transport"
