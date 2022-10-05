@@ -180,6 +180,7 @@ sed -i /defaults:/\ a\\\ \\\ "merger_node_c":\ "${MERGER_C}" workflows/${WF_NAME
 
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME_A}.yaml
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME_C}.yaml
+sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_SAC}.yaml
 
 
 
