@@ -100,7 +100,7 @@ command:
     - "--labels"
     - "''"
     - "--pipeline"
-    - "'tof-compressor-0:11'"
+    - "'tof-compressor-0:22'"
     - "--readers"
     - "'1'"
     - "--severity"
