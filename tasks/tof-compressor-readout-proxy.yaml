@@ -90,6 +90,83 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
+  - name: from_readout-proxy_to_tof-compressor-0_t11
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_tof-compressor-0_t12
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_tof-compressor-0_t13
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_tof-compressor-0_t14
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_tof-compressor-0_t15
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_tof-compressor-0_t16
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_tof-compressor-0_t17
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_tof-compressor-0_t18
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_tof-compressor-0_t19
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_tof-compressor-0_t20
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
+  - name: from_readout-proxy_to_tof-compressor-0_t21
+    type: push
+    transport: shmem
+    addressing: ipc
+    rateLogging: "{{ fmq_rate_logging }}"
+    sndBufSize: 4
+    rcvBufSize: 4
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -136,6 +213,10 @@ command:
     - "''"
     - "--aod-writer-resmode"
     - "'RECREATE'"
+    - "--bad-alloc-attempt-interval"
+    - "'50'"
+    - "--bad-alloc-max-attempts"
+    - "'1'"
     - "--channel-prefix"
     - "''"
     - "--clone"

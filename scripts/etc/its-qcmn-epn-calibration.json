@@ -32,8 +32,8 @@
         "maxNumberCycles" : "-1",
         "dataSource_comment" : "The other type of dataSource is \"direct\", see basic-no-sampling.json.",
         "dataSource" : {
-          "type" : "dataSamplingPolicy",
-          "name" : "itscalib"
+          "type" : "direct",
+          "query" : "tunestring:ITS/TSTR;runtype:ITS/RUNT;fittype:ITS/FITT;scantype:ITS/SCANT;chipdonestring:ITS/QCSTR;confdbv:ITS/CONFDBV;PixTypString:ITS/PIXTYP"
         },
         "location" : "local",
         "taskParameters" : {},
@@ -46,21 +46,5 @@
       }
     }
   },
-  "dataSamplingPolicies": [
-    {
-      "id" : "itscalib",
-      "active" : "true",
-      "machines" : [],
-      "query" : "tunestring:ITS/TSTR;scantype:ITS/SCANT;chipdonestring:ITS/QCSTR",
-      "samplingConditions" : [
-        {
-          "condition" : "random",
-          "fraction" : "1",
-          "seed" : "1441"
-        }
-      ],
-
-      "blocking" : "false"
-    }
-  ]
+  "dataSamplingPolicies": []
 }
