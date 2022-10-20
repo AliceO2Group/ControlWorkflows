@@ -8,10 +8,11 @@ set -u;
 
 source helpers.sh
 
-WF_NAME=tpc-idc-sac-simple
-WF_NAME_A=tpc-idc-simple-a
-WF_NAME_C=tpc-idc-simple-c
-WF_SAC=tpc-sac-simple
+WF_NAME=tpc-idc-sac
+WF_NAME_IDC_ONLY=tpc-idc
+WF_NAME_A=tpc-idc-a
+WF_NAME_C=tpc-idc-c
+WF_SAC=tpc-sac
 
 cd ..
 
@@ -23,6 +24,7 @@ PROXY_INSPEC="x:TPC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0"
 OUTSPEC_IDC="idc2:TPC/IDCGROUP"
 OUTSPEC_IDC_A="idc2:TPC/IDCGROUPA"
 OUTSPEC_IDC_C="idc2:TPC/IDCGROUPC"
+OUTSPEC_SAC="sac:TPC/DECODEDSAC/0;sac2:TPC/REFTIMESAC/0"
 OUTSPEC="xout:TPC/RAWDATA;ddout:FLP/DISTSUBTIMEFRAME/0"
 
 # TODO: Adjust path and check this ends up properly in the script
@@ -32,6 +34,10 @@ CRU_GEN_CONFIG_PATH_C=211,213
 CRU_FINAL_CONFIG_PATH='$(/home/tpc/IDCs/FLP/getCRUs.sh)'
 CRU_CONFIG_PARAM='cru_config_uri'
 
+PROXY_NAME_GEN="proxynamespare"
+PROXY_CONFIG_PARAM='proxy_config_uri'
+PROXY_NAME_FINAL='$(/home/tpc/IDCs/FLP/getFLP.sh)'
+
 CRUS='\"$(/home/tpc/IDCs/FLP/getCRUs.sh)\"'
 CRUS_LOCAL='$('`pwd`"/etc/getCRU.sh"
 
@@ -40,13 +46,12 @@ CRUS_LOCAL='$('`pwd`"/etc/getCRU.sh"
 
 
 MERGER=epn024-ib
-MERGER_A=epn024-ib
-MERGER_C=epn024-ib
-PORT=47734
+MERGER_A=localhost
+MERGER_C=localhost
+PORT=47900
 
 nTFs=1000
-#ccdb="ccdb-test.cern.ch:8080"
-ccdb="http://o2-ccdb.internal"
+ccdb="ccdb-test.cern.ch:8080"
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 export DPL_CONDITION_QUERY_RATE="${GEN_TOPO_EPN_CCDB_QUERY_RATE:--1}"
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
@@ -69,9 +74,18 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   --lanes 1 \
   --disableIDC0CCDB true \
+ | o2-dpl-output-proxy $ARGS_ALL \
+   --labels "tpcidc:ecs-preserve-raw-channels" \
+   --proxy-name tpcidc \
+   --proxy-channel-name tpcidc \
+   --fairmq-rate-logging 10 \
+   --tpcidc '--channel-config "name=tpcidc,method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq,rateLogging=1" ' \
+   --dataspec "${OUTSPEC_IDC_A}" \
+   --infologger-severity info \
+   --severity info \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
-   --dataspec "${OUTSPEC};${OUTSPEC_IDC_A}" \
+   --dataspec "${OUTSPEC}" \
    --environment "DPL_OUTPUT_PROXY_ORDERED=1" \
    --o2-control $WF_NAME_A
 
@@ -91,9 +105,18 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   --lanes 1 \
   --disableIDC0CCDB true \
+ | o2-dpl-output-proxy $ARGS_ALL \
+   --labels "tpcidc:ecs-preserve-raw-channels" \
+   --proxy-name tpcidc \
+   --proxy-channel-name tpcidc \
+   --fairmq-rate-logging 10 \
+   --tpcidc '--channel-config "name=tpcidc,method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq,rateLogging=1" ' \
+   --dataspec "${OUTSPEC_IDC_C}" \
+  --infologger-severity info \
+   --severity info \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
-   --dataspec "${OUTSPEC};${OUTSPEC_IDC_C}" \
+   --dataspec "${OUTSPEC}" \
    --environment "DPL_OUTPUT_PROXY_ORDERED=1" \
    --o2-control $WF_NAME_C
 
@@ -101,14 +124,15 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --dataspec "$PROXY_INSPEC" \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
   | o2-tpc-sac-processing --severity warning --condition-tf-per-query -1 \
-  | o2-tpc-sac-distribute --timeframes ${nTFs} --output-lanes 1 \
-  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
-  | o2-tpc-sac-factorize --timeframes ${nTFs} --nthreads-SAC-factorization 4 --input-lanes 1 \
-  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
-  --compression 2 \
-  | o2-tpc-idc-ft-aggregator --rangeIDC 200 --nFourierCoeff 40 --process-SACs true --inputLanes 1 \
-  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
-  | o2-calibration-ccdb-populator-workflow --ccdb-path "{{ ccdb_path }}" -b \
+  | o2-dpl-output-proxy $ARGS_ALL \
+   --labels "tpcidc:ecs-preserve-raw-channels" \
+   --proxy-name tpcsac \
+   --proxy-channel-name tpcsac \
+   --fairmq-rate-logging 10 \
+   --tpcsac '--channel-config "name=tpcsac,method=bind,address=tcp://*:{{ merger_port }},type=push,transport=zeromq,rateLogging=1" ' \
+   --dataspec "${OUTSPEC_SAC}" \
+  --infologger-severity info \
+   --severity info \
   | o2-dpl-output-proxy $ARGS_ALL \
    --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
    --dataspec "${OUTSPEC}" \
@@ -130,6 +154,13 @@ sed -i "s/""${ESCAPED_CRU_GEN_CONFIG_PATH_C}""/{{ ""${CRU_CONFIG_PARAM}"" }}/g" 
 sed -i "s/'{{ cru_config_uri }}'/{{ cru_config_uri }}/g" tasks/${WF_NAME_A}-*
 sed -i "s/'{{ cru_config_uri }}'/{{ cru_config_uri }}/g" tasks/${WF_NAME_C}-*
 
+ESCAPED_PROXY_NAME_FINAL=$(printf '%s\n' "$PROXY_NAME_FINAL" | sed -e 's/[\/&]/\\&/g')
+sed -i /defaults:/\ a\\\ \\\ "${PROXY_CONFIG_PARAM}":\ "${ESCAPED_PROXY_NAME_FINAL}" workflows/${WF_NAME_A}.yaml
+sed -i /defaults:/\ a\\\ \\\ "${PROXY_CONFIG_PARAM}":\ "${ESCAPED_PROXY_NAME_FINAL}" workflows/${WF_NAME_C}.yaml
+ESCAPED_PROXY_NAME_GEN=$(printf '%s\n' "$PROXY_NAME_GEN" | sed -e 's/[]\/$*.^[]/\\&/g');
+sed -i "s/""${ESCAPED_PROXY_NAME_GEN}""/{{ ""${PROXY_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME_A}.yaml tasks/${WF_NAME_A}-*
+sed -i "s/""${ESCAPED_PROXY_NAME_GEN}""/{{ ""${PROXY_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME_C}.yaml tasks/${WF_NAME_C}-*
+
 
 OUTSPEC_IDC="idc2:TPC/IDCGROUP"
 OUTSPEC_IDC_A="idc2:TPC/IDCGROUPA"
@@ -149,8 +180,7 @@ sed -i /defaults:/\ a\\\ \\\ "merger_node_c":\ "${MERGER_C}" workflows/${WF_NAME
 
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME_A}.yaml
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME_C}.yaml
-
-sed -i /defaults:/\ a\\\ \\\ "ccdb_path":\ "${ccdb}" workflows/${WF_SAC}.yaml
+sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_SAC}.yaml
 
 
 
@@ -181,5 +211,17 @@ echo "    include: ${WF_NAME_C}" >> workflows/${WF_NAME}-full-split.yaml
 echo "  - name: ${WF_SAC}" >> workflows/${WF_NAME}-full-split.yaml
 echo "    enabled: \"{{ it == 'alio2-cr1-flp145' }}\"" >> workflows/${WF_NAME}-full-split.yaml
 echo "    include: ${WF_SAC}" >> workflows/${WF_NAME}-full-split.yaml
+
+echo "name: tpc-calib-simple-full-split" > workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
+echo "roles:" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
+echo "  - name: ${WF_NAME_A}" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
+echo "    enabled: \"{{ $aside }}\"" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
+echo "    include: ${WF_NAME_A}" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
+echo "  - name: ${WF_NAME_C}" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
+echo "    enabled: \"{{ $cside }}\"" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
+echo "    include: ${WF_NAME_C}" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
+echo "  - name: ${WF_SAC}" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
+echo "    enabled: \"{{ it == 'alio2-cr1-flp145' }}\"" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
+echo "    include: minimal-dpl" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
 
 

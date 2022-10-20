@@ -82,7 +82,7 @@ command:
     - "--clone"
     - "''"
     - "--compression"
-    - "'2'"
+    - "'1'"
     - "--configFile"
     - "''"
     - "--configKeyValues"

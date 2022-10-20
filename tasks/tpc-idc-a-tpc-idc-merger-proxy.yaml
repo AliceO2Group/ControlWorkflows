@@ -13,6 +13,12 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
+  - name: 
+    type: push
+    transport: zeromq
+    addressing: tcp
+    rateLogging: "{{ fmq_rate_logging }}"
+    global: "-{{ it }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -68,7 +74,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'idc2:TPC/IDCGROUP'"
+    - "'idc2:TPC/IDCGROUPA'"
     - "--default-port"
     - "'4200'"
     - "--default-transport"
@@ -88,15 +94,15 @@ command:
     - "--forwarding-policy"
     - "'dangling'"
     - "--labels"
-    - "'tpc-idc-merger-proxy:ecs-preserve-raw-channels'"
+    - "''"
     - "--output-proxy-address"
     - "'0.0.0.0'"
     - "--output-proxy-method"
-    - "'connect'"
+    - "'bind'"
     - "--pipeline"
     - "''"
     - "--proxy-channel-name"
-    - "'tpc-idc-merger-proxy'"
+    - "'{{ proxy_config_uri }}'"
     - "--proxy-name"
     - "'tpc-idc-merger-proxy'"
     - "--readers"

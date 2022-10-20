@@ -1,33 +1,26 @@
-name: tpc-idc-c-tpc-idc-to-vector
+name: tpc-sac-simple-internal-dpl-ccdb-backend
 defaults:
   log_task_output: none
   exit_transition_timeout: 15
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load O2 QualityControl Control-OCCPlugin &&
-    {{ dpl_command }} | o2-tpc-idc-to-vector
+    {{ dpl_command }} | o2-tpc-sac-processing
   _plain_cmdline: >-
-    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-idc-to-vector
+    source /etc/profile.d/o2.sh && {{ len(extra_env_vars)>0 ? 'export ' + extra_env_vars + ' &&' : '' }} {{ dpl_command }} | o2-tpc-sac-processing
 control:
   mode: "fairmq"
 wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-idc-to-vector_to_internal-dpl-injected-dummy-sink
+  - name: from_internal-dpl-ccdb-backend_to_internal-dpl-injected-dummy-sink
     type: push
     transport: shmem
     addressing: ipc
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_tpc-idc-to-vector_to_tpc-flp-idc-00
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_tpc-idc-to-vector_to_dpl-output-proxy
+  - name: from_internal-dpl-ccdb-backend_to_tpc-sac-processor
     type: push
     transport: shmem
     addressing: ipc
@@ -63,7 +56,7 @@ command:
     - "--resources-monitoring"
     - "'{{ resources_monitoring }}'"
     - "--id"
-    - "'tpc-idc-to-vector'"
+    - "'internal-dpl-ccdb-backend'"
     - "--shm-monitor"
     - "'false'"
     - "--log-color"
@@ -80,20 +73,10 @@ command:
     - "''"
     - "--aod-writer-resmode"
     - "'RECREATE'"
-    - "--bad-alloc-attempt-interval"
-    - "'50'"
-    - "--bad-alloc-max-attempts"
-    - "'1'"
     - "--channel-prefix"
     - "''"
     - "--clone"
     - "''"
-    - "--configFile"
-    - "''"
-    - "--configKeyValues"
-    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;;keyval.output_dir=/dev/null'"
-    - "--crus"
-    - "{{ cru_config_uri }}"
     - "--early-forward-policy"
     - "'never'"
     - "--fairmq-ipc-prefix"
@@ -108,8 +91,6 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
-    - "--input-spec"
-    - "'A:TPC/RAWDATA'"
     - "--labels"
     - "''"
     - "--pipeline"
@@ -117,7 +98,7 @@ command:
     - "--readers"
     - "'1'"
     - "--severity"
-    - "'error'"
+    - "'warning'"
     - "--shm-allocation"
     - "'rbtree_best_fit'"
     - "--shm-mlock-segment"
@@ -140,5 +121,23 @@ command:
     - "-1"
     - "--workflow-suffix"
     - "''"
-    - "--pedestal-url"
-    - "'http://o2-ccdb.internal'"
+    - "--condition-backend"
+    - "'http://127.0.0.1:8084'"
+    - "--condition-not-after"
+    - "'3385078236000'"
+    - "--condition-not-before"
+    - "'0'"
+    - "--condition-remap"
+    - "''"
+    - "--condition-tf-per-query"
+    - "-1"
+    - "--end-value-enumeration"
+    - "-1"
+    - "--orbit-multiplier-enumeration"
+    - "'0'"
+    - "--orbit-offset-enumeration"
+    - "'0'"
+    - "--start-value-enumeration"
+    - "'0'"
+    - "--step-value-enumeration"
+    - "'1'"
