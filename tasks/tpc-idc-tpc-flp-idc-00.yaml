@@ -103,6 +103,8 @@ command:
     - "'1'"
     - "--minIDCsPerTF"
     - "'10'"
+    - "--n-TFs-buffer"
+    - "'1'"
     - "--pipeline"
     - "''"
     - "--rangeIDC"
