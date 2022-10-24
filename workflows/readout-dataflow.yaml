@@ -828,7 +828,8 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
-      - glo-full-qcmn-remote
+      - glo-vtx-qcmn-remote
+      - glo-itstpc-mtch-qcmn-remote
     visibleif: $$qc_remote_enabled === "true"
   ###############################
   # TRG Panel
