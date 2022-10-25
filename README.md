@@ -215,19 +215,19 @@ panel.
 
 The JIT generation system relies on the existence & health of the following parts:
 
-1) DPL command provided
-    - The full DPL command can be found in `ControlWorfklows/jit/[workflow name]`
-    - Alternatively, a custom DPL command can be provided through the "Advanced
+1. DPL command provided
+   - The full DPL command can be found in `ControlWorfklows/jit/[workflow name]`
+   - Alternatively, a custom DPL command can be provided through the "Advanced
       Configuration" panel, which will **take precedence** over the workflow
       normally selected through the interface. See the next subsection for details.
-2) Consul payloads (e.g. QC config files) contained in the DPL command
-    - These are parsed from the provided DPL command string and Consul is queried
+2. Consul payloads (e.g. QC config files) contained in the DPL command
+   - These are parsed from the provided DPL command string and Consul is queried
       regarding their version to ensure freshness.
-3) JIT-specific env vars, which are common to all JIT-generated workflows
-    - These are expected on the deployment's Consul instance under
+3. JIT-specific env vars, which are common to all JIT-generated workflows
+   - These are expected on the deployment's Consul instance under
       `o2/components/aliecs/[defaults|vars]/jit_env_vars`
-4) The O2 & QualityControl versions
-    - The O2 & QualityControl RPM versions are queried by AliECS to ensure workflow freshness.
+4. The O2 & QualityControl versions
+   - The O2 & QualityControl RPM versions are queried by AliECS to ensure workflow freshness.
 
 ### Debugging with custom-set DPL commands
 
