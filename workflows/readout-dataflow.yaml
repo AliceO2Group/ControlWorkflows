@@ -1096,8 +1096,8 @@ defaults:
   pdp_detector_list_qc: !public
     value: "default"
     type: string
-    label: "Detector list (QC)"
-    description: "Comma-separated list of detectors for EPN QC. Empty string means no detectors. 'default' is an abbreviation to include all detectors."
+    label: "Exclude Detectors for QC"
+    description: "Comma-separated list of detectors to exclude for EPN QC. Empty string means no detectors excluded.
     widget: editBox
     panel: "EPN_Workflows"
     index: 601
@@ -1105,8 +1105,8 @@ defaults:
   pdp_detector_list_calib: !public
     value: "default"
     type: string
-    label: "Detector list (Calibration)"
-    description: "Comma-separated list of detectors for calibration. Empty string means no detectors. 'default' is an abbreviation to include all detectors."
+    label: "Exclude Detectrors for Calib
+    description: "Comma-separated list of detectorsto exclude for calibration. Empty string means no detectors excluded.
     widget: editBox
     panel: "EPN_Workflows"
     index: 602
@@ -1161,15 +1161,6 @@ defaults:
     type: string
     label: "EPN SHM Id"
     description: "If the EPN SHM Manager tool is used, the SHMId configured here must match the SHM Id used by the tool"
-    widget: editBox
-    panel: "EPN_Workflows"
-    index: 701
-    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
-  pdp_epn_shm_recreate: !public
-    value: "false"
-    type: bool
-    label: "Recreate EPN SHM Segments (not working)"
-    description: "If the EPN SHM Manager tool is used, this instructs it to destroy and recreate the segment."
     widget: editBox
     panel: "EPN_Workflows"
     index: 701
