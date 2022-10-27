@@ -1,4 +1,4 @@
-name: !public readout-dataflow
+fffname: !public readout-dataflow
 description: !public "Main workflow template for ALICE data taking"
 defaults:
   ###############################
