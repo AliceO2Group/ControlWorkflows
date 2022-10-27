@@ -51,6 +51,7 @@ MERGER_C=localhost
 PORT=47900
 
 nTFs=1000
+nBuffer=100
 ccdb="ccdb-test.cern.ch:8080"
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 export DPL_CONDITION_QUERY_RATE="${GEN_TOPO_EPN_CCDB_QUERY_RATE:--1}"
@@ -68,6 +69,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   --pedestal-url http://o2-ccdb.internal \
   | o2-tpc-idc-flp $ARGS_ALL \
+   --n-TFs-buffer ${nBuffer} \
   --crus ${CRU_GEN_CONFIG_PATH_A} \
   --severity warning \
   --infologger-severity warning \
@@ -99,6 +101,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   --pedestal-url http://o2-ccdb.internal \
   | o2-tpc-idc-flp $ARGS_ALL \
+   --n-TFs-buffer ${nBuffer} \
   --crus ${CRU_GEN_CONFIG_PATH_C} \
   --severity warning \
   --infologger-severity warning \
