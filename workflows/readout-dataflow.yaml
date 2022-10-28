@@ -823,7 +823,7 @@ defaults:
     value: "false"
     type: bool
     label: "GLO Vertexing QC"
-    description: "Enable/disable QC node workflow for Vertexing QC. Also needs ITS present and run type PHYSICS!"
+    description: "Enable/disable QC node workflow for Vertexing QC. Also needs ITS present!"
     widget: checkBox
     panel: FLP_Workflows
     index: 20
@@ -832,7 +832,7 @@ defaults:
     value: "false"
     type: bool
     label: "GLO ITS-TPC Matching QC"
-    description: "Enable/disable QC node workflow for ITS-TPC Matching QC. Deployed only if ITS present and run is PHYSICS!"
+    description: "Enable/disable QC node workflow for ITS-TPC Matching QC. Deployed only if ITS present!"
     widget: checkBox
     panel: FLP_Workflows
     index: 21
@@ -1608,7 +1608,7 @@ roles:
               timeout: 1s
               critical: false
       - name: qc-remote-workflow-glo # GLO is not a detector so we won't iterate on it with 'detectors' and we need special enable logic
-        enabled: "{{ detectors contains 'ITS' && run_type == 'PHYSICS' }}"
+        enabled: "{{ detectors contains 'ITS' }}"
         vars:
           qc_remote_workflow: "{{ util.PrefixedOverride( 'qc_remote_workflow', 'glo' ) }}"
           qc_dpl_command: "{{ util.PrefixedOverride( 'qc_dpl_command', 'glo' ) }}"
