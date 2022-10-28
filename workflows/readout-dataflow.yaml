@@ -1602,7 +1602,7 @@ roles:
               timeout: 1s
               critical: false
       - name: qc-remote-workflow-glo # GLO is not a detector so we won't iterate on it with 'detectors' and we need special enable logic
-        enabled: "{{ detectors contains 'ITS' && run_type == 'PHYSICS' }}"
+        enabled: "{{ detectors contains 'ITS' }}"
         vars:
           qc_remote_workflow: "{{ util.PrefixedOverride( 'qc_remote_workflow', 'glo' ) }}"
           qc_dpl_command: "{{ util.PrefixedOverride( 'qc_dpl_command', 'glo' ) }}"
