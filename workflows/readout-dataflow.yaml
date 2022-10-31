@@ -1351,6 +1351,7 @@ roles:
       # dpl_workflow is set to ctp_dpl_workflow
       dpl_workflow: "{{ util.PrefixedOverride( 'dpl_workflow', 'ctp' ) }}"
       dpl_command: "{{ util.PrefixedOverride( 'dpl_command', 'ctp' ) }}"
+      it: "{{ ctp_readout_host }}"
     constraints:
       - attribute: machine_id
         value:  "{{ ctp_readout_host }}"
