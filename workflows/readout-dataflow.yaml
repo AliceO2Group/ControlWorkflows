@@ -1338,9 +1338,9 @@ vars:
   odc_enabled: "{{ epn_enabled }}"
   odc_topology_fullname: '{{ epn_enabled == "true" ? odc.GenerateEPNTopologyFullname() : "" }}'
 roles:
-  ##################
-  # CTP Readout role
-  ##################
+  ###########################
+  # Start of CTP Readout role
+  ###########################
   - name: "readout-ctp"
     enabled: "{{ ctp_readout_enabled == 'true' }}"
     vars:
@@ -1348,6 +1348,9 @@ roles:
       readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.ResolvePath('readout/' + run_type + '/any/readout-standalone-' + ctp_readout_host)}}"
       readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.Resolve('readout', run_type, 'any', 'readout-stfb-' + ctp_readout_host)}}"
       dd_discovery_ib_hostname: "{{ ctp_readout_host }}-ib" # MUST be defined for all stfb and stfs
+      # dpl_workflow is set to ctp_dpl_workflow
+      dpl_workflow: "{{ util.PrefixedOverride( 'dpl_workflow', 'ctp' ) }}"
+      dpl_command: "{{ util.PrefixedOverride( 'dpl_command', 'ctp' ) }}"
     constraints:
       - attribute: machine_id
         value:  "{{ ctp_readout_host }}"
@@ -1358,8 +1361,10 @@ roles:
         task:
           load: readout
       - name: "data-distribution"
-        enabled: "{{ dd_enabled == 'true' }}"
+        enabled: "{{dd_enabled == 'true' && (qcdd_enabled == 'false' && minimal_dpl_enabled == 'false' && dpl_workflow == 'none' && dpl_command == 'none')}}"
         roles:
+          # stfb-standalone not supported on CTP machine
+          # if ctp_readout_enabled, we also assume stfb_standalone is false
           - name: "stfb"
             vars:
               dd_discovery_stfb_id: stfb-{{ ctp_readout_host }}-{{ uid.New() }} # must be defined for all stfb roles
@@ -1381,6 +1386,58 @@ roles:
                 rateLogging: "{{ fmq_rate_logging }}"
             task:
               load: stfsender
+      - name: "data-distribution-dpl"
+        enabled: "{{(qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none' || dpl_command != 'none') && dd_enabled == 'true'}}"
+        defaults:
+          path_to_readout_proxy: "{{ Parent().Path }}.data-distribution-dpl.stfb:dpl-chan"
+        roles:
+          - name: "stfb"
+            vars:
+              dd_discovery_stfb_id: stfb-{{ ctp_readout_host }}-{{ uid.New() }}
+            connect:
+              - name: readout
+                type: pull
+                target: "{{ Up(2).Path }}.readout:readout"
+                rateLogging: "{{ fmq_rate_logging }}"
+            bind:
+              - name: dpl-chan
+                type: push
+                rateLogging: "{{ fmq_rate_logging }}"
+                transport: shmem
+                addressing: ipc
+                sndBufSize: "4"
+                global: "readout-proxy-{{ ctp_readout_host }}"
+            task:
+              #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
+              load: stfbuilder
+          - name: "stfs" # this stfs is for any DPL workflow. We assume that it has a device dpl-output-proxy and a downstream channel
+            enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none' || dpl_command != 'none')}}"
+            vars:
+              dd_discovery_stfs_id: stfs-{{ ctp_readout_host }}-{{ uid.New() }}
+              stfs_input_channel_name: downstream
+            connect:
+              - name: downstream
+                type: pull
+                target: "::downstream-{{ ctp_readout_host }}" # The subwf must provide this channel!
+                rateLogging: "{{ fmq_rate_logging }}"
+            task:
+              load: stfsender
+          - name: dpl
+            enabled: "{{ qcdd_enabled == 'true' }}"
+            include: qc-daq
+          - name: dpl
+            enabled: "{{ minimal_dpl_enabled == 'true' }}"
+            include: minimal-dpl
+          - name: dpl
+            enabled: "{{ (flp_workflows_jit_enabled == 'false' || detector == 'TPC') && dpl_workflow != 'none' }}"
+            include: "{{ dpl_workflow }}"
+          - name: dpl
+            enabled: "{{ flp_workflows_jit_enabled == 'true' && detector != 'TPC' && dpl_workflow != 'none' && dpl_command == 'none' }}"
+            include: "{{ flp_workflows_jit_enabled == 'true' ? dpl.GenerateFromUri(dpl_workflow) : '' }}"
+          - name: dpl
+            enabled: "{{ flp_workflows_jit_enabled == 'true' && detector != 'TPC' && dpl_command != 'none' }}"
+            include: "{{ flp_workflows_jit_enabled == 'true' ? dpl.Generate(dpl_command) : '' }}"
+      # roc-ctp-emulator doesn't run on CTP
       - name: drop-caches
         enabled: "{{drop_caches_enabled == 'true'}}"
         vars:
@@ -1408,9 +1465,10 @@ roles:
           trigger: DESTROY
           timeout: 10s
           critical: false
-  ##################
-  # CTP Readout role
-  ##################
+      # o2-roc-cleanup doesn't run on CTP
+  #########################
+  # End of CTP Readout role
+  #########################
   - name: host-{{ it }}
     for:
       range: "{{ hosts }}"
