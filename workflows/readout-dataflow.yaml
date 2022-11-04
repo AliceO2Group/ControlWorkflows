@@ -87,7 +87,7 @@ defaults:
     label: "CPV FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - cpv-compressor
@@ -106,7 +106,7 @@ defaults:
     label: "CTP FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - minimal-dpl
@@ -132,7 +132,7 @@ defaults:
     label: "EMCAL FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - minimal-dpl
@@ -161,7 +161,7 @@ defaults:
     label: "FDD FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - fdd-digits-pipe
@@ -193,7 +193,7 @@ defaults:
     label: "FT0 FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - ft0-digits-pipe
@@ -228,7 +228,7 @@ defaults:
     label: "FV0 FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - fv0-digits-pipe
@@ -260,7 +260,7 @@ defaults:
     label: "ITS FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - its-qc-fhr-fee
@@ -294,7 +294,7 @@ defaults:
     label: "HMPID FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - hmpid-raw-qc
@@ -325,7 +325,7 @@ defaults:
     label: "MCH FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - mch-qcmn-flp-digits-local
@@ -354,7 +354,7 @@ defaults:
     label: "MFT FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - mft-decoder
@@ -391,7 +391,7 @@ defaults:
     label: "MID FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - mid-raw-decoder
@@ -421,7 +421,7 @@ defaults:
     label: "PHOS FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - phos-compressor-raw-qc
@@ -456,7 +456,7 @@ defaults:
     label: "TOF FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - tof-compressor
@@ -488,7 +488,7 @@ defaults:
     label: "TPC FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - minimal-dpl
@@ -520,7 +520,7 @@ defaults:
     label: "TRD FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - minimal-dpl
@@ -548,7 +548,7 @@ defaults:
     label: "TST FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - minimal-dpl
@@ -560,7 +560,7 @@ defaults:
     label: "ZDC FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: FLP_Workflows
+    panel: "Workflows (FLPs)"
     values:
       - none
       - minimal-dpl
@@ -592,7 +592,7 @@ defaults:
     label: "QC node workflows"
     description: "Enable/disable running workflows on the QC nodes"
     widget: checkBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     index: -300
   cpv_qc_remote_workflow: !public
     value: "none"
@@ -600,7 +600,7 @@ defaults:
     label: "CPV QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - cpv-physics-qcmn-epn-remote
@@ -612,7 +612,7 @@ defaults:
     label: "CTP QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
     visibleif: $$qc_remote_enabled === "true"
@@ -622,7 +622,7 @@ defaults:
     label: "EMCAL QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - emc-qcmn-flp-remote
@@ -637,7 +637,7 @@ defaults:
     label: "FDD QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - fdd-qc-post-processing-remote
@@ -650,7 +650,7 @@ defaults:
     label: "FT0 QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - ft0-qc-post-processing-remote
@@ -664,7 +664,7 @@ defaults:
     label: "FV0 QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - fv0-qc-post-processing-remote
@@ -677,7 +677,7 @@ defaults:
     label: "ITS QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - its-qcmn-fhr-fee-remote
@@ -700,7 +700,7 @@ defaults:
     label: "HMPID QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - hmpid-raw-qcmn-remote
@@ -712,7 +712,7 @@ defaults:
     label: "MCH QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - mch-qcmn-epn-digits-remote
@@ -729,7 +729,7 @@ defaults:
     label: "MFT QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - mft-raw-direct-qcmn-remote
@@ -746,7 +746,7 @@ defaults:
     label: "MID QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - mid-qcmn-epn-digits
@@ -761,7 +761,7 @@ defaults:
     label: "PHOS QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - phos-compressor-raw-qcmn-remote
@@ -776,7 +776,7 @@ defaults:
     label: "TOF QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - qcmn-daq-remote
@@ -790,7 +790,7 @@ defaults:
     label: "TPC QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - qcmn-daq-remote
@@ -809,7 +809,7 @@ defaults:
     label: "TRD QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - qcmn-daq-remote
@@ -825,7 +825,7 @@ defaults:
     label: "TST QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - qcmn-daq-remote
@@ -836,7 +836,7 @@ defaults:
     label: "ZDC QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     values:
       - none
       - zdc-rec-epn
@@ -848,7 +848,7 @@ defaults:
     label: "GLO Vertexing QC"
     description: "Enable/disable QC node workflow for Vertexing QC. Also needs ITS present!"
     widget: checkBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     index: 20
     visibleif: $$qc_remote_enabled === "true"
   glo_itstpc_mtch_qc_enabled: !public
@@ -857,7 +857,7 @@ defaults:
     label: "GLO ITS-TPC Matching QC"
     description: "Enable/disable QC node workflow for ITS-TPC Matching QC. Deployed only if ITS present!"
     widget: checkBox
-    panel: QC_Workflows
+    panel: "Workflows (QC nodes)"
     index: 21
     visibleif: $$qc_remote_enabled === "true"
   ###############################
