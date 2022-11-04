@@ -616,7 +616,7 @@ defaults:
     values:
       - none
     visibleif: $$qc_remote_enabled === "true"
- emc_qc_remote_workflow: !public
+  emc_qc_remote_workflow: !public
     value: "none"
     type: string
     label: "EMCAL QC node workflow"
@@ -631,7 +631,7 @@ defaults:
       - emc-qcmn-flpepn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"
- fdd_qc_remote_workflow: !public
+  fdd_qc_remote_workflow: !public
     value: "none"
     type: string
     label: "FDD QC node workflow"
