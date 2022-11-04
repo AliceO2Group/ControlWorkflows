@@ -1007,15 +1007,6 @@ defaults:
     panel: "EPN_Workflows"
     index: -798
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
-  pdp_qcjson_version: !public
-    value: "default"
-    type: string
-    label: "QC JSON Version"
-    description: "Version of QC JSON files to fetch from consul. Set to 'default' to use the default version set by RC. Otherwise specify the version directly."
-    widget: editBox
-    panel: "EPN_Workflows"
-    index: -797
-    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   odc_resources_spec: !public
     value: "default"
     type: string
