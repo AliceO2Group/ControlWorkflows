@@ -81,14 +81,6 @@ defaults:
   ###############################
   # DCS and FLP Workflows Panel
   ###############################
-  qc_remote_enabled: !public # TODO: if false, all per-detector remote QC workflows vars should be disabled
-    value: "false"
-    type: bool
-    label: "QC node workflows"
-    description: "Enable/disable running workflows on the QC nodes"
-    widget: checkBox
-    panel: FLP_Workflows
-    index: -300
   cpv_dpl_workflow: !public
     value: "none"
     type: string
@@ -108,18 +100,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  cpv_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "CPV QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - cpv-physics-qcmn-epn-remote
-      - qcmn-daq-remote
-    visibleif: $$qc_remote_enabled === "true"
   ctp_dpl_workflow: !public
     value: "none"
     type: string
@@ -130,16 +110,6 @@ defaults:
     values:
       - none
       - minimal-dpl
-  ctp_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "CTP QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-    visibleif: $$qc_remote_enabled === "true"
   cpv_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -169,21 +139,6 @@ defaults:
       - qc-daq
       - qcmn-daq-local
       - emc-qcmn-flp-local
-  emc_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "EMCAL QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - emc-qcmn-flp-remote
-      - emc-qcmn-epn-remote
-      - emc-qcmn-epnall-remote
-      - emc-qcmn-flpepn-remote
-      - qcmn-daq-remote
-    visibleif: $$qc_remote_enabled === "true"
   emc_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -216,19 +171,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  fdd_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "FDD QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - fdd-qc-post-processing-remote
-      - fdd-qcmn-remote
-      - qcmn-daq-remote
-    visibleif: $$qc_remote_enabled === "true"
   fdd_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -264,20 +206,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  ft0_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "FT0 QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - ft0-qc-post-processing-remote
-      - ft0-qcmn-epn-post-processing-remote
-      - ft0-qcmn-remote
-      - qcmn-daq-remote
-    visibleif: $$qc_remote_enabled === "true"
   ft0_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -310,19 +238,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  fv0_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "FV0 QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - fv0-qc-post-processing-remote
-      - fv0-qcmn-remote
-      - qcmn-daq-remote
-    visibleif: $$qc_remote_enabled === "true"
   fv0_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -357,29 +272,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  its_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "ITS QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - its-qcmn-fhr-fee-remote
-      - its-qcmn-fhr-fee-no-ds-remote
-      - its-qcmn-fhr-fee-no-ds-entire-remote
-      - its-qcmn-fee-no-ds-remote
-      - its-qcmn-cluster-track-remote
-      - its-qcmn-flp-epn-remote
-      - its-qcmn-fee-epn-remote
-      - its-qcmn-flp-epn-no-ds-remote
-      - its-qcmn-epn-remote
-      - its-qcmn-flp-epn-no-ds-nocluster-remote
-      - its-qcmn-full-remote
-      - its-qcmn-epn-calibration-remote
-      - qcmn-daq-remote
-    visibleif: $$qc_remote_enabled === "true"
   its_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -411,18 +303,6 @@ defaults:
       - qc-daq
       - qcmn-daq-local
       - hmpid-raw-to-pedestals
-  hmp_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "HMPID QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - hmpid-raw-qcmn-remote
-      - qcmn-daq-remote
-    visibleif: $$qc_remote_enabled === "true"
   hmp_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -452,23 +332,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  mch_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "MCH QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - mch-qcmn-epn-digits-remote
-      - mch-qcmn-flp-digits-remote
-      - mch-qcmn-epn-full-remote
-      - mch-qcmn-epn-full-track-matching-remote
-      - mch-qcmn-flp-full-remote
-      - qcmn-daq-remote
-      - mch-digits-epn
-    visibleif: $$qc_remote_enabled === "true"
   mch_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -506,23 +369,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  mft_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "MFT QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - mft-raw-direct-qcmn-remote
-      - mft-raw-qcmn-remote
-      - mft-full-qcmn-remote
-      - mft-track-full-qcmn-remote
-      - mft-noise-qcmn-remote
-      - mft-raw-cluster-qcmn-remote
-      - qcmn-daq-remote
-    visibleif: $$qc_remote_enabled === "true"
   mft_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -553,21 +399,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  mid_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "MID QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - mid-qcmn-epn-digits
-      - mid-digits-qcmn-remote
-      - mid-full-qcmn-remote
-      - qcmn-daq-remote
-      - mid-calib-qcmn-remote
-    visibleif: $$qc_remote_enabled === "true"
   mid_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -603,21 +434,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  phs_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "PHOS QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - phos-compressor-raw-qcmn-remote
-      - phos-compressor-raw-qcmnt3-remote
-      - phos-raw-clusters-remote
-      - phos-raw-clusters-epn-remote
-      - qcmn-daq-remote
-    visibleif: $$qc_remote_enabled === "true"
   phs_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -650,20 +466,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  tof_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "TOF QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - qcmn-daq-remote
-      - tof-full-qcmn-remote
-      - tof-full-epn-qcmn-remote
-      - tof-qcmn-compressor-remote
-    visibleif: $$qc_remote_enabled === "true"
   tof_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -696,25 +498,6 @@ defaults:
       - tpc-idc-sac-full-split
       - tpc-idc-simple-full-split
       - tpc-idc-sac-simple-full-split
-  tpc_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "TPC QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - qcmn-daq-remote
-      - tpc-full-qcmn-remote
-      - tpc-full-nodummy-qcmn-remote
-      - tpc-full-nodummy-qcmn-pp-remote
-      - tpc-full-nodummy-qcmn-pp-remote-v2
-      - tpc-full-nodummy-qcmn-pp-remote-v3
-      - tpc-full-calib-remote
-      - tpc-full-calib-trend-remote
-      - tpc-krypton-qcmn-remote
-    visibleif: $$qc_remote_enabled === "true"
   tpc_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -743,22 +526,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  trd_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "TRD QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - qcmn-daq-remote
-      - trd-full-qcmn-epn
-      - trd-full-qcmn-norawdatastats-epn
-      - trd-full-qcmn-nodigits-epn
-      - trd-full-qcmn-notracklets-epn
-      - trd-full-qcmn-nopulseheight-epn
-    visibleif: $$qc_remote_enabled === "true"
   trd_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -787,17 +554,6 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-  tst_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "TST QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - qcmn-daq-remote
-    visibleif: $$qc_remote_enabled === "true"
   zdc_dpl_workflow: !public
     value: "none"
     type: string
@@ -811,18 +567,6 @@ defaults:
       - zdc-raw-qc
       - qc-daq
       - qcmn-daq-local
-  zdc_qc_remote_workflow: !public
-    value: "none"
-    type: string
-    label: "ZDC QC node workflow"
-    description: "Workflow to execute on QC servers for this detector"
-    widget: dropDownBox
-    panel: FLP_Workflows
-    values:
-      - none
-      - zdc-rec-epn
-      - qcmn-daq-remote
-    visibleif: $$qc_remote_enabled === "true"
   zdc_dcs_sor_parameters: !public
     value: "{}"
     type: string
@@ -839,13 +583,272 @@ defaults:
     widget: editBox
     panel: DCS
     visibleif: $$dcs_enabled === "true"
+  ###############################
+  # QC Panel
+  ###############################
+  qc_remote_enabled: !public # TODO: if false, all per-detector remote QC workflows vars should be disabled
+    value: "false"
+    type: bool
+    label: "QC node workflows"
+    description: "Enable/disable running workflows on the QC nodes"
+    widget: checkBox
+    panel: QC_Workflows
+    index: -300
+  cpv_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "CPV QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - cpv-physics-qcmn-epn-remote
+      - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"
+  ctp_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "CTP QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+    visibleif: $$qc_remote_enabled === "true"
+ emc_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "EMCAL QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - emc-qcmn-flp-remote
+      - emc-qcmn-epn-remote
+      - emc-qcmn-epnall-remote
+      - emc-qcmn-flpepn-remote
+      - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"
+ fdd_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "FDD QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - fdd-qc-post-processing-remote
+      - fdd-qcmn-remote
+      - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"
+  ft0_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "FT0 QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - ft0-qc-post-processing-remote
+      - ft0-qcmn-epn-post-processing-remote
+      - ft0-qcmn-remote
+      - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"
+  fv0_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "FV0 QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - fv0-qc-post-processing-remote
+      - fv0-qcmn-remote
+      - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"
+  its_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "ITS QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - its-qcmn-fhr-fee-remote
+      - its-qcmn-fhr-fee-no-ds-remote
+      - its-qcmn-fhr-fee-no-ds-entire-remote
+      - its-qcmn-fee-no-ds-remote
+      - its-qcmn-cluster-track-remote
+      - its-qcmn-flp-epn-remote
+      - its-qcmn-fee-epn-remote
+      - its-qcmn-flp-epn-no-ds-remote
+      - its-qcmn-epn-remote
+      - its-qcmn-flp-epn-no-ds-nocluster-remote
+      - its-qcmn-full-remote
+      - its-qcmn-epn-calibration-remote
+      - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"
+  hmp_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "HMPID QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - hmpid-raw-qcmn-remote
+      - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"
+  mch_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "MCH QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - mch-qcmn-epn-digits-remote
+      - mch-qcmn-flp-digits-remote
+      - mch-qcmn-epn-full-remote
+      - mch-qcmn-epn-full-track-matching-remote
+      - mch-qcmn-flp-full-remote
+      - qcmn-daq-remote
+      - mch-digits-epn
+    visibleif: $$qc_remote_enabled === "true"
+  mft_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "MFT QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - mft-raw-direct-qcmn-remote
+      - mft-raw-qcmn-remote
+      - mft-full-qcmn-remote
+      - mft-track-full-qcmn-remote
+      - mft-noise-qcmn-remote
+      - mft-raw-cluster-qcmn-remote
+      - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"
+  mid_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "MID QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - mid-qcmn-epn-digits
+      - mid-digits-qcmn-remote
+      - mid-full-qcmn-remote
+      - qcmn-daq-remote
+      - mid-calib-qcmn-remote
+    visibleif: $$qc_remote_enabled === "true"
+  phs_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "PHOS QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - phos-compressor-raw-qcmn-remote
+      - phos-compressor-raw-qcmnt3-remote
+      - phos-raw-clusters-remote
+      - phos-raw-clusters-epn-remote
+      - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"
+  tof_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "TOF QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - qcmn-daq-remote
+      - tof-full-qcmn-remote
+      - tof-full-epn-qcmn-remote
+      - tof-qcmn-compressor-remote
+    visibleif: $$qc_remote_enabled === "true"
+  tpc_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "TPC QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - qcmn-daq-remote
+      - tpc-full-qcmn-remote
+      - tpc-full-nodummy-qcmn-remote
+      - tpc-full-nodummy-qcmn-pp-remote
+      - tpc-full-nodummy-qcmn-pp-remote-v2
+      - tpc-full-nodummy-qcmn-pp-remote-v3
+      - tpc-full-calib-remote
+      - tpc-full-calib-trend-remote
+      - tpc-krypton-qcmn-remote
+    visibleif: $$qc_remote_enabled === "true"
+  trd_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "TRD QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - qcmn-daq-remote
+      - trd-full-qcmn-epn
+      - trd-full-qcmn-norawdatastats-epn
+      - trd-full-qcmn-nodigits-epn
+      - trd-full-qcmn-notracklets-epn
+      - trd-full-qcmn-nopulseheight-epn
+    visibleif: $$qc_remote_enabled === "true"
+  tst_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "TST QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"
+  zdc_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "ZDC QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: QC_Workflows
+    values:
+      - none
+      - zdc-rec-epn
+      - qcmn-daq-remote
+    visibleif: $$qc_remote_enabled === "true"
   glo_vtx_qc_enabled: !public
     value: "false"
     type: bool
     label: "GLO Vertexing QC"
     description: "Enable/disable QC node workflow for Vertexing QC. Also needs ITS present!"
     widget: checkBox
-    panel: FLP_Workflows
+    panel: QC_Workflows
     index: 20
     visibleif: $$qc_remote_enabled === "true"
   glo_itstpc_mtch_qc_enabled: !public
@@ -854,7 +857,7 @@ defaults:
     label: "GLO ITS-TPC Matching QC"
     description: "Enable/disable QC node workflow for ITS-TPC Matching QC. Deployed only if ITS present!"
     widget: checkBox
-    panel: FLP_Workflows
+    panel: QC_Workflows
     index: 21
     visibleif: $$qc_remote_enabled === "true"
   ###############################
