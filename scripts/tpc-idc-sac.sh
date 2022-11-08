@@ -49,6 +49,7 @@ MERGER=epn024-ib
 MERGER_A=localhost
 MERGER_C=localhost
 PORT=47900
+PORT2=47901
 
 nTFs=1000
 nBuffer=100
@@ -183,7 +184,7 @@ sed -i /defaults:/\ a\\\ \\\ "merger_node_c":\ "${MERGER_C}" workflows/${WF_NAME
 
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME_A}.yaml
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME_C}.yaml
-sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_SAC}.yaml
+sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT2}" workflows/${WF_SAC}.yaml
 
 
 
