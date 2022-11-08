@@ -104,7 +104,7 @@ command:
     - "--minIDCsPerTF"
     - "'10'"
     - "--n-TFs-buffer"
-    - "'10'"
+    - "'100'"
     - "--pipeline"
     - "''"
     - "--rangeIDC"
