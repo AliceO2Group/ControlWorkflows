@@ -51,7 +51,7 @@ MERGER_C=localhost
 PORT=47900
 
 nTFs=1000
-nBuffer=50
+nBuffer=100
 ccdb="ccdb-test.cern.ch:8080"
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 export DPL_CONDITION_QUERY_RATE="${GEN_TOPO_EPN_CCDB_QUERY_RATE:--1}"
