@@ -127,6 +127,10 @@ o2-dpl-raw-proxy $ARGS_ALL \
 o2-dpl-raw-proxy $ARGS_ALL \
   --dataspec "$PROXY_INSPEC" \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
+  | o2-dpl-output-proxy $ARGS_ALL \
+   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
+   --dataspec "${OUTSPEC}" \
+   --environment "DPL_OUTPUT_PROXY_ORDERED=1" \
   | o2-tpc-sac-processing --severity warning --condition-tf-per-query -1 \
   | o2-dpl-output-proxy $ARGS_ALL \
    --labels "tpcidc:ecs-preserve-raw-channels" \
@@ -137,10 +141,6 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --dataspec "${OUTSPEC_SAC}" \
   --infologger-severity info \
    --severity info \
-  | o2-dpl-output-proxy $ARGS_ALL \
-   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
-   --dataspec "${OUTSPEC}" \
-   --environment "DPL_OUTPUT_PROXY_ORDERED=1" \
    --o2-control $WF_SAC
 
 
