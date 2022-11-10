@@ -133,7 +133,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --environment "DPL_OUTPUT_PROXY_ORDERED=1" \
   | o2-tpc-sac-processing --severity warning --condition-tf-per-query -1 \
   | o2-dpl-output-proxy $ARGS_ALL \
-   --labels "tpcidc:ecs-preserve-raw-channels" \
+   --labels "tpcsac:ecs-preserve-raw-channels" \
    --proxy-name tpcsac \
    --proxy-channel-name tpcsac \
    --fairmq-rate-logging 10 \
