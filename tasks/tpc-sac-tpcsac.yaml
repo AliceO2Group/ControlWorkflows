@@ -18,7 +18,7 @@ bind:
     transport: zeromq
     addressing: tcp
     rateLogging: "{{ fmq_rate_logging }}"
-    global: "tpcsac-{{ it }}"
+    target: "tcp://*:{{ merger_port }}"
 command:
   shell: true
   log: "{{ log_task_output }}"
@@ -65,6 +65,10 @@ command:
     - "''"
     - "--aod-writer-resmode"
     - "'RECREATE'"
+    - "--bad-alloc-attempt-interval"
+    - "'50'"
+    - "--bad-alloc-max-attempts"
+    - "'1'"
     - "--channel-prefix"
     - "''"
     - "--clone"
@@ -90,7 +94,7 @@ command:
     - "--forwarding-policy"
     - "'dangling'"
     - "--labels"
-    - "'tpcidc:ecs-preserve-raw-channels'"
+    - "'tpcsac:ecs-preserve-raw-channels'"
     - "--output-proxy-address"
     - "'0.0.0.0'"
     - "--output-proxy-method"
