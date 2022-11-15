@@ -49,8 +49,10 @@ MERGER=epn024-ib
 MERGER_A=localhost
 MERGER_C=localhost
 PORT=47900
+PORT2=47901
 
 nTFs=1000
+nBuffer=100
 ccdb="ccdb-test.cern.ch:8080"
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 export DPL_CONDITION_QUERY_RATE="${GEN_TOPO_EPN_CCDB_QUERY_RATE:--1}"
@@ -68,6 +70,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   --pedestal-url http://o2-ccdb.internal \
   | o2-tpc-idc-flp $ARGS_ALL \
+   --n-TFs-buffer ${nBuffer} \
   --crus ${CRU_GEN_CONFIG_PATH_A} \
   --severity warning \
   --infologger-severity warning \
@@ -99,6 +102,7 @@ o2-dpl-raw-proxy $ARGS_ALL \
   --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
   --pedestal-url http://o2-ccdb.internal \
   | o2-tpc-idc-flp $ARGS_ALL \
+   --n-TFs-buffer ${nBuffer} \
   --crus ${CRU_GEN_CONFIG_PATH_C} \
   --severity warning \
   --infologger-severity warning \
@@ -123,9 +127,13 @@ o2-dpl-raw-proxy $ARGS_ALL \
 o2-dpl-raw-proxy $ARGS_ALL \
   --dataspec "$PROXY_INSPEC" \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
+  | o2-dpl-output-proxy $ARGS_ALL \
+   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
+   --dataspec "${OUTSPEC}" \
+   --environment "DPL_OUTPUT_PROXY_ORDERED=1" \
   | o2-tpc-sac-processing --severity warning --condition-tf-per-query -1 \
   | o2-dpl-output-proxy $ARGS_ALL \
-   --labels "tpcidc:ecs-preserve-raw-channels" \
+   --labels "tpcsac:ecs-preserve-raw-channels" \
    --proxy-name tpcsac \
    --proxy-channel-name tpcsac \
    --fairmq-rate-logging 10 \
@@ -133,10 +141,6 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --dataspec "${OUTSPEC_SAC}" \
   --infologger-severity info \
    --severity info \
-  | o2-dpl-output-proxy $ARGS_ALL \
-   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
-   --dataspec "${OUTSPEC}" \
-   --environment "DPL_OUTPUT_PROXY_ORDERED=1" \
    --o2-control $WF_SAC
 
 
@@ -180,7 +184,7 @@ sed -i /defaults:/\ a\\\ \\\ "merger_node_c":\ "${MERGER_C}" workflows/${WF_NAME
 
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME_A}.yaml
 sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_NAME_C}.yaml
-sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT}" workflows/${WF_SAC}.yaml
+sed -i /defaults:/\ a\\\ \\\ "merger_port":\ "${PORT2}" workflows/${WF_SAC}.yaml
 
 
 
