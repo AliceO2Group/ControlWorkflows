@@ -1085,7 +1085,7 @@ defaults:
     index: 600
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_detector_list_qc: !public
-    value: "default"
+    value: ""
     type: string
     label: "Exclude Detectors for QC"
     description: "Comma-separated list of detectors to exclude for EPN QC. Empty string means no detectors excluded.
@@ -1094,7 +1094,7 @@ defaults:
     index: 601
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_detector_list_calib: !public
-    value: "default"
+    value: ""
     type: string
     label: "Exclude Detectrors for Calib
     description: "Comma-separated list of detectorsto exclude for calibration. Empty string means no detectors excluded.
