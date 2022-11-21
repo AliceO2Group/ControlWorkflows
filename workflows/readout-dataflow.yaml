@@ -1111,7 +1111,7 @@ defaults:
     panel: "EPN_Workflows"
     index: 600
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
-  pdp_detector_list_qc: !public
+  pdp_detector_exclude_list_qc: !public
     value: ""
     type: string
     label: "Exclude Detectors for QC"
@@ -1120,11 +1120,11 @@ defaults:
     panel: "EPN_Workflows"
     index: 601
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
-  pdp_detector_list_calib: !public
+  pdp_detector_exclude_list_calib: !public
     value: ""
     type: string
     label: "Exclude Detectrors for Calib"
-    description: "Comma-separated list of detectorsto exclude for calibration. Empty string means no detectors excluded."
+    description: "Comma-separated list of detectors to exclude for calibration. Empty string means no detectors excluded."
     widget: editBox
     panel: "EPN_Workflows"
     index: 602
