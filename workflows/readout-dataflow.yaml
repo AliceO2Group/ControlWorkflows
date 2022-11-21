@@ -1115,7 +1115,7 @@ defaults:
     value: ""
     type: string
     label: "Exclude Detectors for QC"
-    description: "Comma-separated list of detectors to exclude for EPN QC. Empty string means no detectors excluded.
+    description: "Comma-separated list of detectors to exclude for EPN QC. Empty string means no detectors excluded."
     widget: editBox
     panel: "EPN_Workflows"
     index: 601
@@ -1123,8 +1123,8 @@ defaults:
   pdp_detector_list_calib: !public
     value: ""
     type: string
-    label: "Exclude Detectrors for Calib
-    description: "Comma-separated list of detectorsto exclude for calibration. Empty string means no detectors excluded.
+    label: "Exclude Detectrors for Calib"
+    description: "Comma-separated list of detectorsto exclude for calibration. Empty string means no detectors excluded."
     widget: editBox
     panel: "EPN_Workflows"
     index: 602
