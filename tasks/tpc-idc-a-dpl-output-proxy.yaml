@@ -25,7 +25,6 @@ command:
   env:
     - O2_DETECTOR={{ detector }}
     - O2_PARTITION={{ environment_id }}
-    - DPL_OUTPUT_PROXY_ORDERED=1
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
@@ -60,8 +59,12 @@ command:
     - "''"
     - "--aod-writer-keep"
     - "''"
+    - "--aod-writer-maxfilesize"
+    - "'0'"
     - "--aod-writer-ntfmerge"
     - "-1"
+    - "--aod-writer-resdir"
+    - "''"
     - "--aod-writer-resfile"
     - "''"
     - "--aod-writer-resmode"
@@ -82,8 +85,6 @@ command:
     - "'shmem'"
     - "--early-forward-policy"
     - "'never'"
-    - "--environment"
-    - "'DPL_OUTPUT_PROXY_ORDERED=1'"
     - "--fairmq-ipc-prefix"
     - "'@'"
     - "--fairmq-rate-logging"
@@ -96,6 +97,8 @@ command:
     - "'drop'"
     - "--forwarding-policy"
     - "'dangling'"
+    - "--io-threads"
+    - "'1'"
     - "--labels"
     - "''"
     - "--output-proxy-address"

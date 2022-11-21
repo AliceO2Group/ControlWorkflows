@@ -74,7 +74,7 @@ command:
     - "--clone"
     - "''"
     - "--dataspec"
-    - "'idc2:TPC/IDCGROUPA'"
+    - "'idc2:TPC/IDCGROUP'"
     - "--default-port"
     - "'4200'"
     - "--default-transport"
