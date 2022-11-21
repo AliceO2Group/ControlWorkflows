@@ -13,7 +13,7 @@ wants:
   cpu: 0.01
   memory: 1
 bind:
-  - name: from_tpc-flp-idc-00_to_tpcidc
+  - name: from_tpc-flp-idc-00_to_tpc-idc-merger-proxy
     type: push
     transport: shmem
     addressing: ipc
@@ -60,8 +60,12 @@ command:
     - "''"
     - "--aod-writer-keep"
     - "''"
+    - "--aod-writer-maxfilesize"
+    - "'0'"
     - "--aod-writer-ntfmerge"
     - "-1"
+    - "--aod-writer-resdir"
+    - "''"
     - "--aod-writer-resfile"
     - "''"
     - "--aod-writer-resmode"
@@ -77,7 +81,7 @@ command:
     - "--configFile"
     - "''"
     - "--configKeyValues"
-    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;;keyval.output_dir=/dev/null'"
+    - "'keyval.output_dir=/dev/null'"
     - "--crus"
     - "{{ cru_config_uri }}"
     - "--disableIDC0CCDB"
@@ -97,6 +101,8 @@ command:
     - "'dangling'"
     - "--idc0File"
     - "''"
+    - "--io-threads"
+    - "'1'"
     - "--labels"
     - "''"
     - "--lanes"
@@ -104,7 +110,7 @@ command:
     - "--minIDCsPerTF"
     - "'10'"
     - "--n-TFs-buffer"
-    - "'100'"
+    - "'1'"
     - "--pipeline"
     - "''"
     - "--rangeIDC"
