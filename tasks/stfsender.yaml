@@ -13,8 +13,8 @@ defaults:
   log_task_output: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
-    StfSender
-  _plain_cmdline: "{{ o2_install_path }}/bin/StfSender"
+    numactl --cpunodebind=0 --preferred=0 -- StfSender
+  _plain_cmdline: "numactl --cpunodebind=0 --preferred=0 -- {{ o2_install_path }}/bin/StfSender"
 command:
   env:
     - O2_INFOLOGGER_MODE={{infologger_mode}}
@@ -36,6 +36,8 @@ command:
     - "--session=default"
     - "--shm-segment-id=2"
     - "--shm-segment-size=33554432"
+    - "--dd-region-size=32768"
+    - "--dd-region-id=3536"
     - "--transport=shmem"
     - "--input-channel-name={{ stfs_input_channel_name }}"
     - "--severity={{ fmq_severity }}"
