@@ -120,7 +120,6 @@ check_pwd
 ./tpc-full-nodummy-qcmn-pp-v3.sh
 ./tpc-krypton-qcmn.sh
 ./tpc-idc.sh
-./tpc-idc-simple.sh
 ./tpc-idc-sac-simple.sh
 ./tpc-qc-post-processing.sh
 ./trd-qcmn.sh

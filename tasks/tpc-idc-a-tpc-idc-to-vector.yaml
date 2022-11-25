@@ -95,7 +95,7 @@ command:
     - "--configFile"
     - "''"
     - "--configKeyValues"
-    - "'keyval.output_dir=/dev/null'"
+    - "'NameConf.mCCDBServer=http://127.0.0.1:8084;;keyval.output_dir=/dev/null'"
     - "--crus"
     - "{{ cru_config_uri }}"
     - "--early-forward-policy"
