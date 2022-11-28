@@ -11,6 +11,7 @@ defaults:
   user: flp
   fmq_severity: info
   log_task_output: none
+  stfs_dd_region_size: 4096
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
     numactl --cpunodebind=0 --preferred=0 -- StfSender
@@ -36,7 +37,7 @@ command:
     - "--session=default"
     - "--shm-segment-id=2"
     - "--shm-segment-size=33554432"
-    - "--dd-region-size=32768"
+    - "--dd-region-size={{ stfs_dd_region_size }}"
     - "--dd-region-id=3536"
     - "--transport=shmem"
     - "--input-channel-name={{ stfs_input_channel_name }}"
