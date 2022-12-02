@@ -8,8 +8,8 @@ set -u;
 
 source helpers.sh
 
-WF_NAME=tpc-idc-sac-full
-WF_NAME_SAC_SIMPLE=tpc-idc-direct-sac-simple
+WF_NAME=tpc-idc-sac-full-split
+WF_NAME_SAC_SIMPLE=tpc-idc-direct-sac-simple-split
 WF_NAME_A=tpc-idc-a
 WF_NAME_C=tpc-idc-c
 WF_SAC=tpc-sac
@@ -55,6 +55,7 @@ PORT2=47901
 nTFs=1000
 nBuffer=100
 ccdb="ccdb-test.cern.ch:8080"
+ccdb="http://o2-ccdb.internal"
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 export DPL_CONDITION_QUERY_RATE="${GEN_TOPO_EPN_CCDB_QUERY_RATE:--1}"
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
@@ -198,7 +199,7 @@ sed -i "s/ZYX/{{ detector }}/g" workflows/${WF_SAC_SIMPLE}.yaml tasks/${WF_SAC_S
 
 #sed -i "s/alice-ccdb.cern.ch/127.0.0.1:8084/g" workflows/${WF_SAC}.yaml tasks/${WF_SAC}-*
 
-
+sed -i /defaults:/\ a\\\ \\\ "ccdb_path":\ "${ccdb}" workflows/${WF_SAC_SIMPLE}.yaml
 
 sed -i /defaults:/\ a\\\ \\\ "merger_node_a":\ "${MERGER_A}" workflows/${WF_NAME_A}.yaml
 sed -i /defaults:/\ a\\\ \\\ "merger_node_c":\ "${MERGER_C}" workflows/${WF_NAME_C}.yaml
@@ -225,29 +226,29 @@ for ((i = 100 ; i <= 144 ; i++)); do
   cside+=" || it == 'alio2-cr1-flp${i}' "
 done
 
-echo "name: tpc-calib-simple-split" > workflows/${WF_NAME}-split.yaml
-echo "roles:" >> workflows/${WF_NAME}-split.yaml
-echo "  - name: ${WF_NAME_A}" >> workflows/${WF_NAME}-split.yaml
-echo "    enabled: \"{{ $aside }}\"" >> workflows/${WF_NAME}-split.yaml
-echo "    include: ${WF_NAME_A}" >> workflows/${WF_NAME}-split.yaml
-echo "  - name: ${WF_NAME_C}" >> workflows/${WF_NAME}-split.yaml
-echo "    enabled: \"{{ $cside }}\"" >> workflows/${WF_NAME}-split.yaml
-echo "    include: ${WF_NAME_C}" >> workflows/${WF_NAME}-split.yaml
-echo "  - name: ${WF_SAC}" >> workflows/${WF_NAME}-split.yaml
-echo "    enabled: \"{{ it == 'alio2-cr1-flp145' }}\"" >> workflows/${WF_NAME}-split.yaml
-echo "    include: ${WF_SAC}" >> workflows/${WF_NAME}-split.yaml
+echo "name: ${WF_NAME}" > workflows/${WF_NAME}.yaml
+echo "roles:" >> workflows/${WF_NAME}.yaml
+echo "  - name: ${WF_NAME_A}" >> workflows/${WF_NAME}.yaml
+echo "    enabled: \"{{ $aside }}\"" >> workflows/${WF_NAME}.yaml
+echo "    include: ${WF_NAME_A}" >> workflows/${WF_NAME}.yaml
+echo "  - name: ${WF_NAME_C}" >> workflows/${WF_NAME}.yaml
+echo "    enabled: \"{{ $cside }}\"" >> workflows/${WF_NAME}.yaml
+echo "    include: ${WF_NAME_C}" >> workflows/${WF_NAME}.yaml
+echo "  - name: ${WF_SAC}" >> workflows/${WF_NAME}.yaml
+echo "    enabled: \"{{ it == 'alio2-cr1-flp145' }}\"" >> workflows/${WF_NAME}.yaml
+echo "    include: ${WF_SAC}" >> workflows/${WF_NAME}.yaml
 
-echo "name: tpc-calib-simple-split" > workflows/${WF_NAME_SAC_SIMPLE}-split.yaml
-echo "roles:" >> workflows/${WF_NAME_SAC_SIMPLE}-split.yaml
-echo "  - name: ${WF_NAME_A}" >> workflows/${WF_NAME_SAC_SIMPLE}-split.yaml
-echo "    enabled: \"{{ $aside }}\"" >> workflows/${WF_NAME_SAC_SIMPLE}-split.yaml
-echo "    include: ${WF_NAME_A}" >> workflows/${WF_NAME_SAC_SIMPLE}-split.yaml
-echo "  - name: ${WF_NAME_C}" >> workflows/${WF_NAME_SAC_SIMPLE}-split.yaml
-echo "    enabled: \"{{ $cside }}\"" >> workflows/${WF_NAME_SAC_SIMPLE}-split.yaml
-echo "    include: ${WF_NAME_C}" >> workflows/${WF_NAME_SAC_SIMPLE}-split.yaml
-echo "  - name: ${WF_SAC}" >> workflows/${WF_NAME_SAC_SIMPLE}-split.yaml
-echo "    enabled: \"{{ it == 'alio2-cr1-flp145' }}\"" >> workflows/${WF_NAME_SAC_SIMPLE}-split.yaml
-echo "    include: ${WF_SAC_SIMPLE}" >> workflows/${WF_NAME_SAC_SIMPLE}-split.yaml
+echo "name: ${WF_NAME_SAC_SIMPLE}" > workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "roles:" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "  - name: ${WF_NAME_A}" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "    enabled: \"{{ $aside }}\"" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "    include: ${WF_NAME_A}" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "  - name: ${WF_NAME_C}" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "    enabled: \"{{ $cside }}\"" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "    include: ${WF_NAME_C}" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "  - name: ${WF_SAC_SIMPLE}" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "    enabled: \"{{ it == 'alio2-cr1-flp145' }}\"" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "    include: ${WF_SAC_SIMPLE}" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
 
 
 
