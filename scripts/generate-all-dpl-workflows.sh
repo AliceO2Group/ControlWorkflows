@@ -114,9 +114,6 @@ check_pwd
 ./tpc-full-calib-qcmn.sh
 ./tpc-full-qcmn.sh
 ./tpc-full-nodummy-qcmn.sh
-./tpc-full-nodummy-qcmn-pp.sh
-./tpc-full-nodummy-qcmn-pp-v2.sh
-./tpc-full-nodummy-qcmn-pp-v3.sh
 ./tpc-krypton-qcmn.sh
 ./tpc-idc-sac.sh
 ./tpc-idc-sac-simple.sh
