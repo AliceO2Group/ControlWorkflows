@@ -692,10 +692,7 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-      - tpc-idc-full-split
       - tpc-idc-sac-full-split
-      - tpc-idc-simple-full-split
-      - tpc-idc-sac-simple-full-split
       - tpc-idc-direct-sac-simple-split
   tpc_qc_remote_workflow: !public
     value: "none"

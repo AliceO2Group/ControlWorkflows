@@ -116,7 +116,6 @@ check_pwd
 ./tpc-full-nodummy-qcmn.sh
 ./tpc-krypton-qcmn.sh
 ./tpc-idc-sac.sh
-./tpc-idc-sac-simple.sh
 ./tpc-qc-post-processing.sh
 ./trd-qcmn.sh
 ./trd-qcmn-nodigits.sh
