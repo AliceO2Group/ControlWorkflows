@@ -1675,10 +1675,10 @@ roles:
         roles:
           - name: glo-vtx
             enabled: "{{ glo_vtx_qc_enabled == 'true' && qc_remote_jit_enabled == 'true' }}"
-            include: "{{ qc_remote_jit_enabled == 'true' ? GenerateDplSubworkflowFromUri('glo-vtx-qcmn-remote') : '' }}"
+            include: "{{ qc_remote_jit_enabled == 'true' ? dpl.GenerateFromUri('glo-vtx-qcmn-remote') : '' }}"
           - name: glo-itstpc
             enabled: "{{ glo_itstpc_mtch_qc_enabled == 'true' && qc_remote_jit_enabled == 'true'}}"
-            include: "{{ qc_remote_jit_enabled == 'true' ? GenerateDplSubworkflowFromUri('glo-itstpc-mtch-qcmn-remote') : '' }}"
+            include: "{{ qc_remote_jit_enabled == 'true' ? dpl.GenerateFromUri('glo-itstpc-mtch-qcmn-remote') : '' }}"
           - name: fairmq-shmmonitor
             enabled: "{{ fmq_cleanup_enabled == 'true' && qc_remote_workflow != 'none' }}"
             task:
