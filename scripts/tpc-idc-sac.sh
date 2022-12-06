@@ -8,11 +8,12 @@ set -u;
 
 source helpers.sh
 
-WF_NAME=tpc-idc-sac
-WF_NAME_IDC_ONLY=tpc-idc
+WF_NAME=tpc-idc-sac-full-split
+WF_NAME_SAC_SIMPLE=tpc-idc-direct-sac-simple-split
 WF_NAME_A=tpc-idc-a
 WF_NAME_C=tpc-idc-c
 WF_SAC=tpc-sac
+WF_SAC_SIMPLE=tpc-sac-simple
 
 cd ..
 
@@ -54,6 +55,7 @@ PORT2=47901
 nTFs=1000
 nBuffer=100
 ccdb="ccdb-test.cern.ch:8080"
+ccdb="http://o2-ccdb.internal"
 export DPL_CONDITION_BACKEND="http://127.0.0.1:8084"
 export DPL_CONDITION_QUERY_RATE="${GEN_TOPO_EPN_CCDB_QUERY_RATE:--1}"
 DPL_PROCESSING_CONFIG_KEY_VALUES="NameConf.mCCDBServer=http://127.0.0.1:8084;"
@@ -143,6 +145,25 @@ o2-dpl-raw-proxy $ARGS_ALL \
    --severity info \
    --o2-control $WF_SAC
 
+o2-dpl-raw-proxy $ARGS_ALL \
+  --dataspec "$PROXY_INSPEC" \
+  --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc://tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
+  | o2-tpc-sac-processing --severity warning --condition-tf-per-query -1 \
+  | o2-tpc-sac-distribute --timeframes ${nTFs} --output-lanes 1 \
+  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
+  | o2-tpc-sac-factorize --timeframes ${nTFs} --nthreads-SAC-factorization 4 --input-lanes 1 \
+  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
+  --compression 2 \
+  | o2-tpc-idc-ft-aggregator --rangeIDC 200 --nFourierCoeff 40 --process-SACs true --inputLanes 1 \
+  --configKeyValues "${DPL_PROCESSING_CONFIG_KEY_VALUES};keyval.output_dir=/dev/null" \
+  | o2-calibration-ccdb-populator-workflow --ccdb-path "{{ ccdb_path }}" -b \
+  | o2-dpl-output-proxy $ARGS_ALL \
+   --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
+   --dataspec "${OUTSPEC}" \
+   --environment "DPL_OUTPUT_PROXY_ORDERED=1" \
+   --o2-control $WF_SAC_SIMPLE
+
+
 
 # add the templated CRU config file path
 ESCAPED_CRU_FINAL_CONFIG_PATH=$(printf '%s\n' "$CRU_FINAL_CONFIG_PATH" | sed -e 's/[\/&]/\\&/g')
@@ -174,10 +195,11 @@ OUTSPEC_IDC_C="idc2:TPC/IDCGROUPC"
 sed -i "s/ZYX/{{ detector }}/g" workflows/${WF_NAME_A}.yaml tasks/${WF_NAME_A}-*
 sed -i "s/ZYX/{{ detector }}/g" workflows/${WF_NAME_C}.yaml tasks/${WF_NAME_C}-*
 sed -i "s/ZYX/{{ detector }}/g" workflows/${WF_SAC}.yaml tasks/${WF_SAC}-*
+sed -i "s/ZYX/{{ detector }}/g" workflows/${WF_SAC_SIMPLE}.yaml tasks/${WF_SAC_SIMPLE}-*
 
 #sed -i "s/alice-ccdb.cern.ch/127.0.0.1:8084/g" workflows/${WF_SAC}.yaml tasks/${WF_SAC}-*
 
-
+sed -i /defaults:/\ a\\\ \\\ "ccdb_path":\ "${ccdb}" workflows/${WF_SAC_SIMPLE}.yaml
 
 sed -i /defaults:/\ a\\\ \\\ "merger_node_a":\ "${MERGER_A}" workflows/${WF_NAME_A}.yaml
 sed -i /defaults:/\ a\\\ \\\ "merger_node_c":\ "${MERGER_C}" workflows/${WF_NAME_C}.yaml
@@ -204,28 +226,29 @@ for ((i = 100 ; i <= 144 ; i++)); do
   cside+=" || it == 'alio2-cr1-flp${i}' "
 done
 
-echo "name: tpc-calib-simple-full-split" > workflows/${WF_NAME}-full-split.yaml
-echo "roles:" >> workflows/${WF_NAME}-full-split.yaml
-echo "  - name: ${WF_NAME_A}" >> workflows/${WF_NAME}-full-split.yaml
-echo "    enabled: \"{{ $aside }}\"" >> workflows/${WF_NAME}-full-split.yaml
-echo "    include: ${WF_NAME_A}" >> workflows/${WF_NAME}-full-split.yaml
-echo "  - name: ${WF_NAME_C}" >> workflows/${WF_NAME}-full-split.yaml
-echo "    enabled: \"{{ $cside }}\"" >> workflows/${WF_NAME}-full-split.yaml
-echo "    include: ${WF_NAME_C}" >> workflows/${WF_NAME}-full-split.yaml
-echo "  - name: ${WF_SAC}" >> workflows/${WF_NAME}-full-split.yaml
-echo "    enabled: \"{{ it == 'alio2-cr1-flp145' }}\"" >> workflows/${WF_NAME}-full-split.yaml
-echo "    include: ${WF_SAC}" >> workflows/${WF_NAME}-full-split.yaml
+echo "name: ${WF_NAME}" > workflows/${WF_NAME}.yaml
+echo "roles:" >> workflows/${WF_NAME}.yaml
+echo "  - name: ${WF_NAME_A}" >> workflows/${WF_NAME}.yaml
+echo "    enabled: \"{{ $aside }}\"" >> workflows/${WF_NAME}.yaml
+echo "    include: ${WF_NAME_A}" >> workflows/${WF_NAME}.yaml
+echo "  - name: ${WF_NAME_C}" >> workflows/${WF_NAME}.yaml
+echo "    enabled: \"{{ $cside }}\"" >> workflows/${WF_NAME}.yaml
+echo "    include: ${WF_NAME_C}" >> workflows/${WF_NAME}.yaml
+echo "  - name: ${WF_SAC}" >> workflows/${WF_NAME}.yaml
+echo "    enabled: \"{{ it == 'alio2-cr1-flp145' }}\"" >> workflows/${WF_NAME}.yaml
+echo "    include: ${WF_SAC}" >> workflows/${WF_NAME}.yaml
 
-echo "name: tpc-calib-simple-full-split" > workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
-echo "roles:" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
-echo "  - name: ${WF_NAME_A}" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
-echo "    enabled: \"{{ $aside }}\"" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
-echo "    include: ${WF_NAME_A}" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
-echo "  - name: ${WF_NAME_C}" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
-echo "    enabled: \"{{ $cside }}\"" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
-echo "    include: ${WF_NAME_C}" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
-echo "  - name: ${WF_SAC}" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
-echo "    enabled: \"{{ it == 'alio2-cr1-flp145' }}\"" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
-echo "    include: minimal-dpl" >> workflows/${WF_NAME_IDC_ONLY}-full-split.yaml
+echo "name: ${WF_NAME_SAC_SIMPLE}" > workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "roles:" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "  - name: ${WF_NAME_A}" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "    enabled: \"{{ $aside }}\"" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "    include: ${WF_NAME_A}" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "  - name: ${WF_NAME_C}" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "    enabled: \"{{ $cside }}\"" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "    include: ${WF_NAME_C}" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "  - name: ${WF_SAC_SIMPLE}" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "    enabled: \"{{ it == 'alio2-cr1-flp145' }}\"" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+echo "    include: ${WF_SAC_SIMPLE}" >> workflows/${WF_NAME_SAC_SIMPLE}.yaml
+
 
 

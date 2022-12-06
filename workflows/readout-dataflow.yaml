@@ -692,10 +692,7 @@ defaults:
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
-      - tpc-idc-full-split
       - tpc-idc-sac-full-split
-      - tpc-idc-simple-full-split
-      - tpc-idc-sac-simple-full-split
       - tpc-idc-direct-sac-simple-split
   tpc_qc_remote_workflow: !public
     value: "none"
@@ -708,12 +705,7 @@ defaults:
       - none
       - qcmn-daq-remote
       - tpc-full-qcmn-remote
-      - tpc-full-nodummy-qcmn-remote
-      - tpc-full-nodummy-qcmn-pp-remote
-      - tpc-full-nodummy-qcmn-pp-remote-v2
-      - tpc-full-nodummy-qcmn-pp-remote-v3
       - tpc-full-calib-remote
-      - tpc-full-calib-trend-remote
       - tpc-krypton-qcmn-remote
     visibleif: $$qc_remote_enabled === "true"
   tpc_dcs_sor_parameters: !public
