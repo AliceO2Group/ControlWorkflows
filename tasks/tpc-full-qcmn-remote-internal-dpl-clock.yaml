@@ -41,13 +41,6 @@ bind:
     rateLogging: "{{ fmq_rate_logging }}"
     sndBufSize: 4
     rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_random-rawdata-om
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
   - name: from_internal-dpl-clock_to_TPC-MERGER-Clusters1l-0
     type: push
     transport: shmem
@@ -70,13 +63,6 @@ bind:
     sndBufSize: 4
     rcvBufSize: 4
   - name: from_internal-dpl-clock_to_TPC-MERGER-Tracks1l-0
-    type: push
-    transport: shmem
-    addressing: ipc
-    rateLogging: "{{ fmq_rate_logging }}"
-    sndBufSize: 4
-    rcvBufSize: 4
-  - name: from_internal-dpl-clock_to_qc-task-TST-DummyTask
     type: push
     transport: shmem
     addressing: ipc

@@ -92,25 +92,6 @@ roles:
       rcvBufSize: 1
     task:
       load: tpc-full-qcmn-remote-TPC-Tracks-proxy
-  - name: "random-rawdata-om"
-    connect:
-    - name: from_internal-dpl-clock_to_random-rawdata-om
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_random-rawdata-om"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    bind:
-    - name: random-rawdata-om
-      type: sub
-      transport: zeromq
-      addressing: tcp
-      rateLogging: "{{ fmq_rate_logging }}"
-      target: "tcp://*:32629"
-      rcvBufSize: 1
-    task:
-      load: tpc-full-qcmn-remote-random-rawdata-om
   - name: "TPC-MERGER-Clusters1l-0"
     connect:
     - name: from_internal-dpl-clock_to_TPC-MERGER-Clusters1l-0
@@ -183,24 +164,6 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-full-qcmn-remote-TPC-MERGER-Tracks1l-0
-  - name: "qc-task-TST-DummyTask"
-    connect:
-    - name: from_internal-dpl-clock_to_qc-task-TST-DummyTask
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.internal-dpl-clock:from_internal-dpl-clock_to_qc-task-TST-DummyTask"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    - name: from_random-rawdata-om_to_qc-task-TST-DummyTask
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.random-rawdata-om:from_random-rawdata-om_to_qc-task-TST-DummyTask"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: tpc-full-qcmn-remote-qc-task-TST-DummyTask
   - name: "qc-check-sink-QTPC_Clusters_0"
     connect:
     - name: from_TPC-MERGER-Clusters1l-0_to_qc-check-sink-QTPC_Clusters_0
@@ -245,14 +208,3 @@ roles:
       rcvBufSize: 4
     task:
       load: tpc-full-qcmn-remote-qc-check-sink-QTPC_Tracks_0
-  - name: "qc-check-sink-QTST_DummyTask_0"
-    connect:
-    - name: from_qc-task-TST-DummyTask_to_qc-check-sink-QTST_DummyTask_0
-      type: pull
-      transport: shmem
-      target: "{{ Parent().Path }}.qc-task-TST-DummyTask:from_qc-task-TST-DummyTask_to_qc-check-sink-QTST_DummyTask_0"
-      rateLogging: "{{ fmq_rate_logging }}"
-      sndBufSize: 4
-      rcvBufSize: 4
-    task:
-      load: tpc-full-qcmn-remote-qc-check-sink-QTST_DummyTask_0
