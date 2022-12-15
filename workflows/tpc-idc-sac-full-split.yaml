@@ -7,18 +7,15 @@ roles:
   - name: tpc-idc-a
     defaults:
       merger_port: 47900
-      merger_node: epn024-ib
     enabled: "{{ util.SuffixInRange(it, 'alio2-cr1-flp', '001', '072') }}"
     include: "{{ dpl.GenerateFromUri('tpc-idc-a') }}"
   - name: tpc-idc-c
     defaults:
       merger_port: 47900
-      merger_node: epn024-ib
     enabled: "{{ util.SuffixInRange(it, 'alio2-cr1-flp', '073', '144') }}"
     include: "{{ dpl.GenerateFromUri('tpc-idc-c') }}"
   - name: tpc-sac
     defaults:
       merger_port: 47901
-      merger_node: epn024-ib
     enabled: "{{ it == 'alio2-cr1-flp145' }}"
     include: "{{ dpl.GenerateFromUri('tpc-sac') }}"
