@@ -1,7 +1,6 @@
 name: tpc-idc-sac-full-split
 defaults:
   merger_port: 47900
-  merger_node_a: epn024-ib
   ccdb_path: "http://o2-ccdb.internal"
 roles:
   - name: tpc-idc-a
