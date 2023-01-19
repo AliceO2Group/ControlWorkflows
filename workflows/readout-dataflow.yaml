@@ -78,17 +78,17 @@ defaults:
     widget: checkBox
     panel: General_Configuration
     index: 6
-  ###############################
-  # DCS and FLP Workflows Panel
-  ###############################
   qc_remote_enabled: !public # TODO: if false, all per-detector remote QC workflows vars should be disabled
     value: "false"
     type: bool
     label: "QC node workflows"
     description: "Enable/disable running workflows on the QC nodes"
     widget: checkBox
-    panel: "Workflows (FLPs)"
-    index: -300
+    panel: "General_Configuration"
+    index: 7    
+  ###############################
+  # DCS and FLP Workflows Panel
+  ###############################
   cpv_dpl_workflow: !public
     value: "none"
     type: string
