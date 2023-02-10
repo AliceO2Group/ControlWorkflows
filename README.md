@@ -261,11 +261,11 @@ Within, one can declare which DPL workflows it may be include, for example:
       - qcmn-daq-remote
       - mid-calib-qcmn-remote
 ```
-The names listed in the `values` arrays correspond to files with DPL commands located in the `jit`[jit]` directory. 
+The names listed in the `values` arrays correspond to files with DPL commands located in the [`jit`](jit) directory. 
 These workflows can be then selected in the AliECS GUI for the concrete detectors.
 During creation of an environment, AliECS generates workflow & task templates Just-In-Time (JIT) or reuses the most recent ones if the workflow, software version and config files have not changed.
 
-Thus, to add a new workflow, one should add a file with the DPL command to `jit`[jit] and its name to the corresponding `values` array in `readout-dataflow`[workflows/readout-dataflow.yaml].
+Thus, to add a new workflow, one should add a file with the DPL command to [`jit`](jit) and its name to the corresponding `values` array in [`readout-dataflow`](workflows/readout-dataflow.yaml).
 To understand some details of how the DPL commands should look like and JIT workflow generation, please read the sections below.
 
 ### FLP workflows
