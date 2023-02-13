@@ -19,6 +19,8 @@ command:
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
   arguments:
-    - "-c"
+    - "-e"
     - "-s"
     - "{{ session_id }}"
+    - "--verbose"
+    - "--severity=debug"
