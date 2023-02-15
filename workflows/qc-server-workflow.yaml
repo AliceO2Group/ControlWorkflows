@@ -97,7 +97,7 @@ defaults:
   user: qc
   extra_env_vars: ""
   detector: ""
-  qc_remote_jit_enabled: "false"
+  qc_remote_jit_enabled: "true"
   qc_dpl_command: "none"
 roles:
   - name: qc-servers

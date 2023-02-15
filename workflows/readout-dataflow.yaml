@@ -1311,8 +1311,8 @@ defaults:
   roc_cleanup_enabled: "false"
   roc_ctp_emulator_enabled: "false"
   stfb_standalone: "false"
-  flp_workflows_jit_enabled: "false"
-  qc_remote_jit_enabled: "false"
+  flp_workflows_jit_enabled: "true"
+  qc_remote_jit_enabled: "true"
   user: flp
   extra_env_vars: ""
 vars:
