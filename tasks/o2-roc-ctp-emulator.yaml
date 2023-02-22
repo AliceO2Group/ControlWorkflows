@@ -3,7 +3,8 @@ defaults:
   user: flp
   roc_id: "#0"
   roc_trigger_mode: "continuous"
-  log_task_output: none
+  log_task_stdout: none
+  log_task_stderr: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load ReadoutCard` &&
     o2-roc-ctp-emulator

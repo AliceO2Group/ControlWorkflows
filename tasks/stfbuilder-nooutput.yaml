@@ -7,7 +7,8 @@ defaults:
   user: flp
   fmq_severity: info
   dd_detector_subspec: feeid
-  log_task_output: none
+  log_task_stdout: none
+  log_task_stderr: none
   stfb_dd_mode: "physics"
   stfb_fee_mask: "0xffff"
   _module_cmdline: >-

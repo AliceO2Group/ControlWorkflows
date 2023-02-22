@@ -1,6 +1,7 @@
 name: o2-roc-cleanup
 defaults:
-  log_task_output: none
+  log_task_stdout: none
+  log_task_stderr: none
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load ReadoutCard &&
     yes | o2-roc-cleanup
