@@ -62,7 +62,7 @@ defaults:
       - "debug4"
       - "trace"
     index: 1
-  log_task_output: !public
+  log_task_stdout: !public
     value: none
     type: string
     label: "Task stdout"
@@ -74,6 +74,18 @@ defaults:
       - "stdout"
       - "all"
     index: 2
+  log_task_stderr: !public
+    value: none
+    type: string
+    label: "Task stderr"
+    description: "Select to where the standard error of controlled tasks should be forwarded to (select 'all' for InfoLogger)"
+    widget: dropDownBox
+    panel: Logging
+    values:
+      - "none"
+      - "stdout"
+      - "all"
+    index: 3
   fmq_rate_logging: !public
     value: "0"
     type: number
@@ -81,7 +93,7 @@ defaults:
     description: "sets the interval at which FairMQ logs channel transfer rates (0 to disable)"
     widget: editBox
     panel: Logging
-    index: 3
+    index: 4
   ###############################
   # Other variables
   ###############################

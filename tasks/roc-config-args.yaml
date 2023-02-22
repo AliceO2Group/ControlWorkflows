@@ -93,6 +93,7 @@ command:
     - O2_INFOLOGGER_MODE={{ infologger_mode }}
     - O2_DETECTOR={{ detector }}
     - O2_PARTITION={{ environment_id }}
-  log: "{{ log_task_output }}"
+  stdout: "{{ log_task_stdout }}"
+  stderr: "{{ log_task_stderr }}"
   shell: true
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
