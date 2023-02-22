@@ -29,7 +29,8 @@ defaults:
   rocConfigTfLength: "256"
   rocConfigSystemId: "0x0"
   rocConfigFEEId: "0x0"
-  log_task_output: none
+  log_task_stdout: none
+  log_task_stderr: none
   detector: TST
   _module_cmdline: >-
     source /etc/profile.d/modules.sh &&

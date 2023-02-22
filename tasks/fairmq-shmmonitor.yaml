@@ -1,6 +1,7 @@
 name: fairmq-shmmonitor
 defaults:
-  log_task_output: none
+  log_task_stdout: none
+  log_task_stderr: none
   user: flp
   log: none
   session_id: default

@@ -8,7 +8,8 @@ defaults:
   rocConfigBypassFwCheck: "false"
   rocConfigForceConfig: "false"
   rocConfigExtraParams: ""
-  log_task_output: none
+  log_task_stdout: none
+  log_task_stderr: none
   detector: TST
 vars:
   _module_cmdline: >-

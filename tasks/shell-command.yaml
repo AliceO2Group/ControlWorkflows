@@ -1,7 +1,8 @@
 name: shell-command
 defaults:
   user: flp
-  log_task_output: none
+  log_task_stdout: none
+  log_task_stderr: none
 control:
   mode: basic
 wants:
