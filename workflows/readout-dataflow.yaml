@@ -938,7 +938,7 @@ defaults:
       - "all"
     index: 2
   log_task_stderr: !public
-    value: none
+    value: "all"
     type: string
     label: "Task stderr"
     description: "Select to where the standard error of controlled tasks should be forwarded to (select 'all' for InfoLogger)"
