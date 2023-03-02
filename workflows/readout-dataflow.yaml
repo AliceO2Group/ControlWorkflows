@@ -501,8 +501,6 @@ defaults:
       - mft-full-no-tracks-qcmn-local
       - mft-readout-qcmn-local
       - mft-digits-qcmn-local
-      - mft-clusters-qcmn-local
-      - mft-tracks-qcmn-local
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -520,8 +518,6 @@ defaults:
       - mft-full-no-tracks-qcmn-remote
       - mft-readout-qcmn-remote
       - mft-digits-qcmn-remote
-      - mft-clusers-qcmn-remote
-      - mft-tracks-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"
   mft_dcs_sor_parameters: !public
