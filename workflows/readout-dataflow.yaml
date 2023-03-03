@@ -496,15 +496,11 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
-      - mft-decoder
-      - mft-digits-qc
-      - mft-raw-direct-qcmn-local
-      - mft-raw-qc
-      - mft-raw-qcmn-local
       - mft-full-qcmn-local
-      - mft-track-full-qcmn-local
       - mft-noise-qcmn-local
-      - mft-raw-cluster-qcmn-local
+      - mft-full-no-tracks-qcmn-local
+      - mft-readout-qcmn-local
+      - mft-digits-qcmn-local
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -517,12 +513,11 @@ defaults:
     panel: FLP_Workflows
     values:
       - none
-      - mft-raw-direct-qcmn-remote
-      - mft-raw-qcmn-remote
       - mft-full-qcmn-remote
-      - mft-track-full-qcmn-remote
       - mft-noise-qcmn-remote
-      - mft-raw-cluster-qcmn-remote
+      - mft-full-no-tracks-qcmn-remote
+      - mft-readout-qcmn-remote
+      - mft-digits-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"
   mft_dcs_sor_parameters: !public
