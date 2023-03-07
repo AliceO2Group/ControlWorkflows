@@ -643,6 +643,7 @@ defaults:
       - tof-compressor
       - tof-full-qcmn-local
       - tof-full-qcmn-paranoid-local
+      - tof-full-qcmn-paran-32-local
       - tof-qcmn-compressor-local
       - minimal-dpl
       - qc-daq
