@@ -1919,7 +1919,7 @@ roles:
       - name: stop
         call:
           func: ccdb.RunStop()
-          trigger: leave_RUNNING
+          trigger: after_STOP_ACTIVITY
           timeout: "{{ ccdb_stop_timeout }}"
           critical: false
       - name: error # the plugin makes sure to publish an object only if we go to error after a run was started and only once
