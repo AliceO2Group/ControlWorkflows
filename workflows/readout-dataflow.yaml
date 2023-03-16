@@ -215,6 +215,7 @@ defaults:
       - fdd-digits-pipe-ds-qc
       - fdd-digits-pipe-ds-qc-raw
       - fdd-digits-qc
+      - fdd-ds-digits-pipe-qc-raw
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -263,6 +264,7 @@ defaults:
       - ft0-decoder-pipe-ds-qc
       - ft0-decoder-pipe-ds-qc-raw
       - ft0-digits-qc
+      - ft0-ds-digits-pipe-qc-raw
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
@@ -309,6 +311,7 @@ defaults:
       - fv0-digits-pipe-ds-qc
       - fv0-digits-pipe-ds-qc-raw
       - fv0-digits-qc
+      - fv0-ds-digits-pipe-qc-raw
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
