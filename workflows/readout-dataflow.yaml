@@ -549,7 +549,6 @@ defaults:
     values:
       - none
       - mid-raw-decoder
-      - mid-digits-qcmn-local
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
