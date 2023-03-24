@@ -645,7 +645,12 @@ defaults:
       - tof-compressor
       - tof-full-qcmn-local
       - tof-full-qcmn-paranoid-local
-      - tof-full-qcmn-paran-32-local
+      - tof-full-qcmn-paran-3cmp-local
+      - tof-full-qcmn-paran-6cmp-local
+      - tof-full-qcmn-paran-10cmp-local
+      - tof-full-qcmn-paran-15cmp-local
+      - tof-full-qcmn-paran-20cmp-local
+      - tof-full-qcmn-paran-25cmp-local
       - tof-qcmn-compressor-local
       - minimal-dpl
       - qc-daq
