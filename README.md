@@ -5,26 +5,28 @@ The [`ControlWorkflows`](https://github.com/AliceO2Group/ControlWorkflows) repos
 <!--./gh-md-toc --insert /path/to/README.md-->
 <!--ts-->
 * [FLP Suite Workflow Configuration](#flp-suite-workflow-configuration)
-  * [Notes on input data types](#notes-on-input-data-types)
-  * [Common workflow variables](#common-workflow-variables)
-  * [readout-dataflow workflow variables](#readout-dataflow-workflow-variables)
-  * [o2-roc-config workflow variables](#o2-roc-config-workflow-variables)
-    * [o2-roc-config common variables](#o2-roc-config-common-variables)
-    * [o2-roc-config config-args variables](#o2-roc-config-config-args-variables)
-    * [Examples of running the o2-roc-config workflow](#examples-of-running-the-o2-roc-config-workflow)
-  * [Integration variables](#integration-variables)
-    * [DCS](#dcs)
-    * [DD scheduler](#dd-scheduler)
-    * [ODC](#odc)
-  * [Plugin configuration](#plugin-configuration)
-  * [Notes on the CI Pipeline](#notes-on-the-ci-pipeline)
-  * [JIT DPL workflow generation](#jit-dpl-workflow-generation)
-  * [Exporting DPL workflow templates](#exporting-dpl-workflow-templates)
-    * [Preparing the DPL command](#preparing-the-dpl-command)
-    * [Exporting the templates](#exporting-the-templates)
-    * [Exporting templates of workflows which need configuration files](#exporting-templates-of-workflows-which-need-configuration-files)
-    * [Generating multinode QC workflows](#generating-multinode-qc-workflows)
-    * [Future improvements](#future-improvements)
+   * [Notes on input data types](#notes-on-input-data-types)
+   * [Common workflow variables](#common-workflow-variables)
+      * [Examples of running the o2-roc-config workflow](#examples-of-running-the-o2-roc-config-workflow)
+   * [Integration variables](#integration-variables)
+      * [DCS](#dcs)
+      * [DD scheduler](#dd-scheduler)
+      * [ODC](#odc)
+   * [Plugin configuration](#plugin-configuration)
+   * [Adding DPL workflows](#adding-dpl-workflows)
+      * [Quick reference](#quick-reference)
+      * [Introduction](#introduction)
+      * [FLP workflows](#flp-workflows)
+      * [Adding QC to FLP workflows](#adding-qc-to-flp-workflows)
+      * [Adding multinode QC to FLPs](#adding-multinode-qc-to-flps)
+         * [Parallel QC running on EPNs](#parallel-qc-running-on-epns)
+         * [Different parallel QC running on FLPs and EPNs](#different-parallel-qc-running-on-flps-and-epns)
+      * [JIT DPL workflow generation](#jit-dpl-workflow-generation)
+         * [Useful details](#useful-details)
+      * [Exporting the templates to files](#exporting-the-templates-to-files)
+         * [Debugging with custom-set DPL commands](#debugging-with-custom-set-dpl-commands)
+   * [Notes on the CI Pipeline](#notes-on-the-ci-pipeline)
+      * [Future improvements](#future-improvements)
 <!--te-->
 
 ## Notes on input data types
@@ -42,7 +44,8 @@ All variables except **`hosts`** are optional.
 | Variable | Description | Example | Default |
 | :--- | :--- | :--- | :--- |
 | `hosts` | JSON-formatted list of hosts to control the scale of certain workflows | `["myhost1","myhost2"]` | `[]` |
-| `log_task_output` | Forward task output to InfoLogger and stdout, stdout only, or nowhere | `all`, `stdout` or `none` | depends on WFT, usually `none` |
+| `log_task_stdout` | Forward task stdout to InfoLogger and executor stdout, executor stdout only, or nowhere | `all`, `stdout` or `none` | depends on WFT, usually `none` |
+| `log_task_stderr` | Forward task stderr to InfoLogger and executor stdout, executor stdout only, or nowhere | `all`, `stdout` or `none` | depends on WFT, usually `none` |
 | `readout_cfg_uri` | URI of a Readout configuration payload | `consul-ini://{{ consul_endpoint }}/o2/components/readout/ANY/any/readout-standalone-{{ task_hostname }}` | depends on WFT |
 | `user` | Name of the Linux user that should run all tasks | `root` | `flp` |
 
@@ -192,99 +195,83 @@ dcsServiceEndpoint: some-host:50051
 ddSchedulerEndpoint: some-other-host-ib:50000
 odcEndpoint: yet-another-host-ib:22334
 ```
+## Adding DPL workflows
 
-## JIT DPL workflow generation
+### Quick reference
 
-It is possible to use FLP & QC DPL workflows that are generated just-in-time
-during environment creation.
+If you just need a procedure to come back to, you can now follow these simplified instructions. 
 
-### Using JIT
+1. Prepare the workflow
+    1. Clone ControlWorkflows from your fork: `git clone https://github.com/<yourGHusername>/ControlWorkflows.git`
+    2. Make sure that you are in line with the correct branch:
+       ```
+       git remote add upstream https://github.com/AliceO2Group/ControlWorkflows.git
+       git fetch upstream 
+       git checkout flp-suite-v0.xx.0
+       git checkout -b my-branch
+       ```
+    3. Update a DPL command in `ControlWorkflows/jitscripts` or add a new one
+    4. If you need to use config files, add or update them in Consul
+    5. Add the new workflow names to the lists in `workflows/readout-dataflow.yaml`
+    6. Commit and push the changes
+3. Test it
+    1. Add the fork to the AliECS or ask the FLP team to do so: `coconut repo add github.com/<yourGHusername>/ControlWorkflows.git`
+    2. Refresh the repository (refresh button in the AliECS GUI)
+    3. In the ECS, create a new environment.
+    4. Set the fork and the branch to match yours.
+    5. Select the added or updated FLP workflow in the FLP workflows panel.
+    6. If using a QC node workflow, enable the "QC node workflows" button and select the workflow.
+    7. Optionally add the variable `log_task_output` and set it to `all` to make sure you can see the output of the tasks in the Infologger.
+    8. Run and check that it starts and stops without failures.
+4. Make a PR to the master ControlWorkflows
 
-To use JIT the following variables need to be set for FLP & QC node workflows
-accordingly:
+### Introduction
+
+This repository contains configuration of DPL workflows which should run on FLPs and QC nodes.
+EPN workflows are defined in the [O2DPG](https://github.com/AliceO2Group/O2DPG/tree/master/DATA/production) repository.
+
+For data-taking environments, we use the master workflow template [`readout-dataflow`](workflows/readout-dataflow.yaml). 
+Within, one can declare which DPL workflows it may be include, for example:
+```yaml
+  mid_dpl_workflow: !public
+    value: "none"
+    type: string
+    label: "MID FLP workflow"
+    description: "Workflow to execute on the FLPs of this detector"
+    widget: dropDownBox
+    panel: FLP_Workflows
+    values:
+      - none
+      - mid-raw-decoder
+      - mid-digits-qcmn-local
+      - minimal-dpl
+      - qc-daq
+      - qcmn-daq-local
+  mid_qc_remote_workflow: !public
+    value: "none"
+    type: string
+    label: "MID QC node workflow"
+    description: "Workflow to execute on QC servers for this detector"
+    widget: dropDownBox
+    panel: FLP_Workflows
+    values:
+      - none
+      - mid-qcmn-epn-digits
+      - mid-digits-qcmn-remote
+      - mid-full-qcmn-remote
+      - qcmn-daq-remote
+      - mid-calib-qcmn-remote
 ```
-flp_workflows_jit_enabled: true
-qc_remote_jit_enabled: true
-```
+The names listed in the `values` arrays correspond to files with DPL commands located in the [`jit`](jit) directory. 
+These workflows can be then selected in the AliECS GUI for the concrete detectors.
+During creation of an environment, AliECS generates workflow & task templates Just-In-Time (JIT) or reuses the most recent ones if the workflow, software version and config files have not changed.
 
-These might be set as default values or exist as radio buttons in the GUI.
-Otherwise they need to be overriden manually from the "Advanced Configuration"
-panel.
+Thus, to add a new workflow, one should add a file with the DPL command to [`jit`](jit) and its name to the corresponding `values` array in [`readout-dataflow`](workflows/readout-dataflow.yaml).
+To understand some details of how the DPL commands should look like and JIT workflow generation, please read the sections below.
 
-### Useful details
+### FLP workflows
 
-The JIT generation system relies on the existence & health of the following parts:
-
-1. DPL command provided
-   - The full DPL command can be found in `ControlWorfklows/jit/[workflow name]`
-   - Alternatively, a custom DPL command can be provided through the "Advanced
-      Configuration" panel, which will **take precedence** over the workflow
-      normally selected through the interface. See the next subsection for details.
-2. Consul payloads (e.g. QC config files) contained in the DPL command
-   - These are parsed from the provided DPL command string and Consul is queried
-      regarding their version to ensure freshness.
-3. JIT-specific env vars, which are common to all JIT-generated workflows
-   - These are expected on the deployment's Consul instance under
-      `o2/components/aliecs/[defaults|vars]/jit_env_vars`
-4. The O2 & QualityControl versions
-   - The O2 & QualityControl RPM versions are queried by AliECS to ensure workflow freshness.
-
-### Debugging with custom-set DPL commands
-
-A templated DPL command may be passed through the `dpl_command` variable, prefixed with the detector code (
-e.g. `its_dpl_command` for the ITS). The variable may be set through the AliECS GUI environment creation page under
-the "Advanced Configuration" panel.
-
-For example, the equivalent of the [minimal DPL workflow](./workflows/minimal-dpl.yaml) can be achieved by setting the
-following KV pair (assuming ITS as a target):
-
-- through the "Add single pair:" key and value fields.
-
-*key*: `its_dpl_command`
-
-*value*:
-
-```bash
-o2-dpl-raw-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' | o2-dpl-output-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"'
-```
-
-- through the "Add a JSON with multiple pairs:" field (make sure to escape the inner `"`):
-
-```json
-{
-  "its_dpl_command": "o2-dpl-raw-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config \"name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10\"' | o2-dpl-output-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config \"name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem\"'"
-}
-```
-
-_Everything described in this subsection for the `dpl_command` for FLP workflows is also applicable
-to the `qc_dpl_command` for QC node workflows._
-
-## Notes on the CI Pipeline
-
-In order to ensure a successful collaboration with [AliECS GUI](https://github.com/AliceO2Group/WebUi/tree/dev/Control#control-gui), every pull request will run a `git diff` command to ensure no changes are done to the naming of certain variables (full list [here](https://github.com/AliceO2Group/WebUi/tree/dev/Control#list-of-fixed-variables-used-by-aliecs-gui-for-user-logic)) that are used on the AliECS GUI side. 
-
-If the checks identify any such breaking changes, the pipeline will fail with information on what labels were identified. In such case the developer of AliECS GUI should be notified before the pull request is merged. 
-
-These checks are ran automatically against `macOS-latest`.
-
-Source code can be found [here.](.github/workflows/gui-checks.yml)
-
-## Exporting DPL workflow templates
-
-This piece of documentation explains how to generate a DPL workflow template which should run on an FLP.
-
-All FLPs use the `readout-dataflow` workflow to run the common pieces of software - Readout, STFBuilder, STFSender, ROC and others.
-It can also include DPL sub-workflows which may perform some data processing and/or quality control (max. one per FLP).
-Additionally, a remote QC workflow can be added (e.g. with Mergers).
-
-All available DPL workflows can be (re)generated with scripts stored in the `scripts` directory.
-Use [`generate-all-dpl-workflows.sh`](scripts/generate-all-dpl-workflows.sh) to regenerate all the DPL workflows, or any particular script to regenerate only the selected one.
-All scripts should be executed from within the `scripts` directory. 
-When adding a new workflow template, please include the script to generate it with the PR and add it to [`generate-all-dpl-workflows.sh`](scripts/generate-all-dpl-workflows.sh), so it is ran each time we update the software stack. 
-
-### Preparing the DPL command
-
-Before exporting the workflow, one should prepare a DPL command which is able to get data from STFBuilder, process it and send the results to the STFSender.
+DPL workflows on FLPs should always receive data from STFBuilder, optionally process them and send to STFSender.
 The first and the last requirements are handled by the input and output DPL proxies.
 The simplest possible DPL workflow command for an FLP receives data from STFBuilder and passes it to STFSender without any processing:
 ```bash
@@ -317,14 +304,74 @@ Notice that the `dataspecs` of the I/O proxies were changed accordingly to the e
 If you do not know what these should be, you should ask the developer of the workflow in question or investigate yourself the workflow structure by executing it with the `--dump` argument.
 
 While preparing the DPL command, please avoid adding Data Processors which dump data to local files - these might get big during the data-taking and use all available resources.
-Also, this particular workflow structure does not depend on any configuration files, so it always stays the same, unlike QC workflows.
-We will consider such cases [later in the documentation](#exporting-templates-of-workflows-which-need-configuration-files).
 
-### Exporting the templates
+### Adding QC to FLP workflows
 
-Please make sure that you have built and compiled the same software stack on your setup as the one which will run on the target machines.
+In case you would like to run the full QC chain (Tasks, Checks, QCDB upload, PostProcessing) on an FLP, just add the QC executable to the DPL command, as in the example below.
+Use `consul-json://` as the backend and the template variable `{{ consul_endpoint}}` for the Consul hostname.
+```
+o2-dpl-raw-proxy -b --session default --dataspec 'A1:FDD/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
+  | o2-fdd-flp-dpl-workflow -b --session default --output-dir=/tmp --nevents 10000 --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;' \
+  | o2-dpl-output-proxy --environment DPL_OUTPUT_PROXY_ORDERED=1 -b --session default --dataspec 'digits:FDD/DIGITSBC/0;channels:FDD/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
+  | o2-qc --config consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/fdd-digits-qc -b --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;'
+```
+
+### Adding multinode QC to FLPs
+
+If the expected production setup includes QC running in parallel on many FLPs, one should generate two workflow templates - one for the FLP part, another one which should run on a QC server.
+First, one should prepare DPL commands and QC config file according to the [multinode QC setup documentation](https://github.com/AliceO2Group/QualityControl/blob/master/doc/Advanced.md#multi-node-setups).
+Then, at least two DPL workflows should be added, one (or more) for FLPs and one for QC node, which will merge and check the results. The first usually use the `-local` suffix in the name, the latter use `-remote`.
+
+#### Parallel QC running on EPNs
+
+In this case, the local part of the QC workflow is run on EPNs (controlled by ODC), while the remote part is still executed on QC servers (controlled directly by AliECS).
+Both parts should use the same version of QC and the underlying software stack.
+
+First, please make sure that the QC config file contains valid `"remoteMachine"` and `"remotePort"` parameters, as they are not dynamically assigned for connections between the two control systems.
+The remote machine name might need the `.cern.ch` suffix.
+Please use the port number between 47700 and 47799.
+It is highly advised to check the connection with a simple TCP client/server application beforehand (e.g. `nc`).
+Also, do not forget to add `"localControl" : "odc"` in the QC task configuration, which will make AliECS templates avoid dynamic resource assignement.
+
+Please contact the PDP team for details on running the local QC workflows (the part running on EPN).
+
+The QC server part requires a DPL command file in the `jit` directory, similarly to the case of running parallel QC on FLPs.
+
+#### Different parallel QC running on FLPs and EPNs
+
+Currently recommended way to approach this is to combine the FLP and EPN QC config files and use different `"localMachines"` for them.
+Then, one can use different `--host` parameter to the local QC workflows to indicate which tasks should be running in the given environment.
+
+The remote QC workflow should be just one.
+
+### JIT DPL workflow generation
+
+#### Useful details
+
+The JIT generation system relies on the existence & health of the following parts:
+
+1. DPL command provided
+   - The full DPL command can be found in `ControlWorfklows/jit/[workflow name]`
+   - Alternatively, a custom DPL command can be provided through the "Advanced
+      Configuration" panel, which will **take precedence** over the workflow
+      normally selected through the interface. See the next subsection for details.
+2. Consul payloads (e.g. QC config files) contained in the DPL command
+   - These are parsed from the provided DPL command string and Consul is queried
+      regarding their version to ensure freshness.
+3. JIT-specific env vars, which are common to all JIT-generated workflows
+   - These are expected on the deployment's Consul instance under
+      `o2/components/aliecs/[defaults|vars]/jit_env_vars`
+4. The O2 & QualityControl versions
+   - The O2 & QualityControl RPM versions are queried by AliECS to ensure workflow freshness.
+
+### Exporting the templates to files
+
+It is very unlikely that you will need this.
+
+In case that you would like to generate workflow and task templates, which are normally generated automatically by AliECS with the JIT translation, use the following instructions.
+
+Please make sure that you are using the same software stack as the one which will run on the target machines.
 If different versions are used, there is a risk that the workflows will not be deployed correctly in case that they were modified.
-Exporting workflow templates is possible since O2@v21.14.
 
 To export a workflow template, follow these steps:
 1. Load the O2 (and QC if needed) environment:
@@ -365,148 +412,52 @@ If there are no problems with the workflow, you will see a similar output:
 [INFO] ...created.
 ```
 The corresponding workflow template (list of processes to run) will be created in the `workflows` directory and the tasks templates (processes configurations) will be put under the `tasks` directory.
-Please also add the new workflow to the `dpl_workflow` list in `workflows/readout-dataflow.yaml`.
 
-4. Commit the new files and push to a remote branch.
-One can run it by pointing the AliECS to respective branch, choosing the `readout-dataflow` workflow in the AliECS GUI and adding the parameter `dpl_workflow : <workflow_name>` in the advanced configuration.
-If running a setup with multiple detectors, add the 3-letter detector prefix to the key (e.g. `tof_dpl_workflow`).
-After confirming that it works, make a PR to the main ControlWorkflows' master branch.
+In case that a DPL workflow uses configuration files, you might need to replace their paths with the ones that should be used in the target setup.
 
-### Exporting templates of workflows which need configuration files
+#### Debugging with custom-set DPL commands
 
-Some DPL workflows require configuration files to run correctly.
-Also the process names, channel names and their arrangement might depend on such configuration files.
-Quality Control workflows fall into this category.
-In such case, exporting templates require a bit more babysitting.
+A templated DPL command may be passed through the `dpl_command` variable, prefixed with the detector code (
+e.g. `its_dpl_command` for the ITS). The variable may be set through the AliECS GUI environment creation page under
+the "Advanced Configuration" panel.
 
-Let's consider a workflow consisting of I/O proxies, MFT decoder and MFT Digit QC Task:
+For example, the equivalent of the [minimal DPL workflow](./workflows/minimal-dpl.yaml) can be achieved by setting the
+following KV pair (assuming ITS as a target):
+
+- through the "Add single pair:" key and value fields.
+
+*key*: `its_dpl_command`
+
+*value*:
+
 ```bash
-o2-dpl-raw-proxy -b --session default \
-  --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
-  --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
-  | o2-itsmft-stf-decoder-workflow -b --runmft --digits --no-clusters --no-cluster-patterns \
-  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
-  --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
-  --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
-  | o2-qc -b --config json://'${QUALITYCONTROL_ROOT}'/etc/mft-digit-qc-task-FLP-0-TaskLevel-0.json
-```
-If we were to generate and use such workflow template, the QC would look for the QC configuration file under the same path as during the export, which might not be accesible on the target machine.
-Thus, we will substitute it with the expected path of such file in Consul (the configuration store).
-To do so, one may follow the script below (see the associated comments):
-```bash
-#!/usr/bin/env bash
-set -x; # debug mode
-set -e; # exit on error
-set -u; # exit on undefined variable
-
-# Variables
-WF_NAME=mft-digits-qc
-QC_GEN_CONFIG_PATH='json://'${QUALITYCONTROL_ROOT}'/etc/mft-digit-qc-task-FLP-0-TaskLevel-0.json'
-QC_FINAL_CONFIG_PATH='consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/'${WF_NAME}'-{{ it }}'
-QC_CONFIG_PARAM='qc_config_uri'
-
-# Generate the AliECS workflow and task templates
-o2-dpl-raw-proxy -b --session default \
-  --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
-  --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
-  | o2-itsmft-stf-decoder-workflow -b --runmft --digits --no-clusters --no-cluster-patterns \
-  | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
-  --dataspec 'x:MFT/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
-  --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
-  | o2-qc --config ${QC_GEN_CONFIG_PATH} -b \
-  --o2-control $WF_NAME
-
-# Add the final QC config file path as a variable in the workflow template
-ESCAPED_QC_FINAL_CONFIG_PATH=$(printf '%s\n' "$QC_FINAL_CONFIG_PATH" | sed -e 's/[\/&]/\\&/g')
-# Will work only with GNU sed (Mac uses BSD sed)
-sed -i /defaults:/\ a\\\ \\\ "${QC_CONFIG_PARAM}":\ \""${ESCAPED_QC_FINAL_CONFIG_PATH}"\" workflows/${WF_NAME}.yaml
-
-# Find all usages of the QC config path which was used to generate the workflow and replace them with the template variable
-ESCAPED_QC_GEN_CONFIG_PATH=$(printf '%s\n' "$QC_GEN_CONFIG_PATH" | sed -e 's/[]\/$*.^[]/\\&/g');
-# Will work only with GNU sed (Mac uses BSD sed)
-sed -i "s/""${ESCAPED_QC_GEN_CONFIG_PATH}""/{{ ""${QC_CONFIG_PARAM}"" }}/g" workflows/${WF_NAME}.yaml tasks/${WF_NAME}-*
+o2-dpl-raw-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' | o2-dpl-output-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"'
 ```
 
-After these steps, the workflow should be ready to be committed and tested.
-However, one should also make sure that the required config file is available in Consul under the correct path.
-To do so, one can add it using the Consul GUI (Key/Value panel).
-Otherwise, to install it with each FLP suite, one should add a file template in the [System configuration](https://gitlab.cern.ch/AliceO2Group/system-configuration/) repository under the path `ansible/roles/quality-control/templates` similarly to the other QC files (if it is actually QC).
-Then one should add the file to the corresponding sub-task in `ansible/roles/quality-control/tasks/main.yml`.
+- through the "Add a JSON with multiple pairs:" field (make sure to escape the inner `"`):
 
-### Generating multinode QC workflows
-
-#### Parallel QC running FLPs
-
-If the expected production setup includes QC running in parallel on many FLPs, one should generate two workflow templates - one for the FLP part, another one which should run on a QC server.
-First, one should prepare DPL commands and QC config file according to the [multinode QC setup documentation](https://github.com/AliceO2Group/QualityControl/blob/master/doc/Advanced.md#multi-node-setups).
-Then, the two workflows should be generated with `-local` and `-remote` name suffixes respectively, as it is done e.g. in [`scripts/qcmn-daq.sh`](scripts/qcmn-daq.sh).
-Following this example, the full setup can be run by adding the following parameters in the advanced configuration panel:
-```
-"dpl_workflow" : "qcmn-daq-local"
-"qc_remote_workflow" : "qcmn-daq-remote"
-```
-Do not forget to add both workflows to the coresponding lists in `workflows/readout-dataflow.yaml`.
-
-#### Parallel QC running on EPNs
-
-In this case, the local part of the QC workflow is run on EPNs (controlled by ODC), while the remote part is still executed on QC servers (controlled directly by AliECS).
-Both parts should use the same version of QC and the underlying software stack.
-
-First, please make sure that the QC config file contains valid `"remoteMachine"` and `"remotePort"` parameters, as they are not dynamically assigned for connections between the two control systems.
-The remote machine name might need the `.cern.ch` suffix.
-Please use the port number between 47700 and 47799.
-It is highly advised to check the connection with a simple TCP client/server application beforehand (e.g. `nc`).
-Also, do not forget to add `"localControl" : "odc"` in the QC task configuration, which will make AliECS templates avoid dynamic resource assignement.
-
-The EPN part will require exporting a DDS topology file, which then should be run as any other DDS topologies.
-Please contact the EPN team for details.
-
-The QC server part requires an AliECS template, which should be generated similarly to the one for the FLP case.
-No local counterpart is needed.
-Please refer to [`scripts/emc-qcmn-epn.sh`](scripts/emc-qcmn-epn.sh) as an example.
-In that case, the AliECS-controlled part of the workflow can be run with the follwing parameter in the advanced configuration panel.
-```
-"qc_remote_workflow" : "emc-qcmn-epn-remote"
+```json
+{
+  "its_dpl_command": "o2-dpl-raw-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config \"name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10\"' | o2-dpl-output-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config \"name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem\"'"
+}
 ```
 
-#### Different parallel QC running on FLPs and EPNs
+_Everything described in this subsection for the `dpl_command` for FLP workflows is also applicable
+to the `qc_dpl_command` for QC node workflows._
 
-Currently recommended way to approach this is to combine the FLP and EPN config files and use different `"localMachines"` for them.
-Then, one can export the AliECS templates and DDS topologies for the local QC workflows by invoking them with different `--host` parameters.
+## Notes on the CI Pipeline
 
-The remote part should be just one.
+In order to ensure a successful collaboration with [AliECS GUI](https://github.com/AliceO2Group/WebUi/tree/dev/Control#control-gui), every pull request will run a `git diff` command to ensure no changes are done to the naming of certain variables (full list [here](https://github.com/AliceO2Group/WebUi/tree/dev/Control#list-of-fixed-variables-used-by-aliecs-gui-for-user-logic)) that are used on the AliECS GUI side. 
+
+If the checks identify any such breaking changes, the pipeline will fail with information on what labels were identified. In such case the developer of AliECS GUI should be notified before the pull request is merged. 
+
+These checks are ran automatically against `macOS-latest`.
+
+Source code can be found [here.](.github/workflows/gui-checks.yml)
 
 ### Future improvements
 
 With the future releases we plan to allow for Just-In-Time workflow translation.
 It means that one will not have to export the templates manually anymore and they will only need to provide a file with the standalone DPL command.
 
-### Exporting worfklows for Dummies
 
-If you have read everything above, you can now follow these simplified instructions. 
-
-1. Access an FLP with the proper FLP Suite
-2. Prepare the workflow
-    1. Clone ControlWorkflows from your fork: `git clone https://github.com/<yourGHusername>/ControlWorkflows.git`
-    2. Make sure that you are in line with the correct branch:
-       ```
-       git remote add upstream https://github.com/AliceO2Group/ControlWorkflows.git
-       git fetch upstream 
-       git checkout flp-suite-v0.xx.0
-       git checkout -b my-branch
-       ```
-    3. Update a script in `ControlWorkflows/scripts` or add a new one
-    4. Run the script to re-generate the workflow(s): `cd ControlWorkflows/scripts ; ./my-script.sh`
-    5. If you need to use config files, refer to [this section](#exporting-templates-of-workflows-which-need-configuration-files)
-    6. Add the new workflow names to the lists in `workflows/readout-dataflow.yaml`
-    7. Commit and push the changes
-3. Test it
-    1. Add the fork to the control: `coconut repo add github.com/<yourGHusername>/ControlWorkflows.git`
-    2. Refresh the repository (refresh button in the AliECS GUI)
-    3. In the ECS, create a new environment.
-    4. Set the fork and the branch to match yours.
-    5. Add the variable `dpl_workflow` and set it to the name of the workflow
-    6. Add the variable `log_task_output` and set it to `all` to make sure you can see the output of the tasks in the Infologger.
-    7. Do not enable QC but enable DD.
-    8. Run and check that it starts and stops without failures.
-4. Add the new scripts, if any, to `scripts/generate-all-dpl-workflows.sh`

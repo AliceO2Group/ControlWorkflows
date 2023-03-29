@@ -1,7 +1,8 @@
 name: o2-roc-config
 defaults:
   roc_config_uri_enabled: "true"
-  log_task_output: none
+  log_task_stdout: none
+  log_task_stderr: none
   consul_port: 8500
   consul_prefix: "o2/components/readoutcard"
 roles:

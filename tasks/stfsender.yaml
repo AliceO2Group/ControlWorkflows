@@ -10,7 +10,8 @@ defaults:
   dd_discovery_endpoint: "no-op://" # location of consul docker instance
   user: flp
   fmq_severity: info
-  log_task_output: none
+  log_task_stdout: none
+  log_task_stderr: none
   stfs_dd_region_size: 4096
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
@@ -29,7 +30,8 @@ command:
     - UCX_DC_MAX_NUM_EPS=512   # Allow 512 peers for DC transport
     - UCX_RC_MAX_NUM_EPS=512   # Allow 512 peers for RC transport
     - O2_PARTITION={{ environment_id }}
-  log: "{{ log_task_output }}"
+  stdout: "{{ log_task_stdout }}"
+  stderr: "{{ log_task_stderr }}"
   shell: true
   user: "{{ user }}"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
