@@ -97,7 +97,7 @@ defaults:
     label: "CPV FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - cpv-compressor
@@ -116,7 +116,7 @@ defaults:
     label: "CPV QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - cpv-physics-qcmn-epn-remote
@@ -128,7 +128,7 @@ defaults:
     label: "CTP FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - minimal-dpl
@@ -138,7 +138,7 @@ defaults:
     label: "CTP QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
     visibleif: $$qc_remote_enabled === "true"
@@ -164,7 +164,7 @@ defaults:
     label: "EMCAL FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - minimal-dpl
@@ -177,7 +177,7 @@ defaults:
     label: "EMCAL QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - emc-qcmn-flp-remote
@@ -208,7 +208,7 @@ defaults:
     label: "FDD FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - fdd-digits-pipe
@@ -225,7 +225,7 @@ defaults:
     label: "FDD QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - fdd-qc-post-processing-remote
@@ -254,7 +254,7 @@ defaults:
     label: "FT0 FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - ft0-digits-pipe
@@ -274,7 +274,7 @@ defaults:
     label: "FT0 QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - ft0-qc-post-processing-remote
@@ -304,7 +304,7 @@ defaults:
     label: "FV0 FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - fv0-digits-pipe
@@ -321,7 +321,7 @@ defaults:
     label: "FV0 QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - fv0-qc-post-processing-remote
@@ -350,7 +350,7 @@ defaults:
     label: "ITS FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - its-qc-fhr-fee
@@ -368,7 +368,7 @@ defaults:
     label: "ITS QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - its-qcmn-fhr-fee-remote
@@ -407,7 +407,7 @@ defaults:
     label: "HMPID FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - hmpid-raw-qc
@@ -422,7 +422,7 @@ defaults:
     label: "HMPID QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - hmpid-raw-qcmn-remote
@@ -450,7 +450,7 @@ defaults:
     label: "MCH FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - mch-qcmn-flp-digits-local
@@ -463,7 +463,7 @@ defaults:
     label: "MCH QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - mch-qcmn-epn-digits-remote
@@ -496,7 +496,7 @@ defaults:
     label: "MFT FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - mft-full-qcmn-local
@@ -513,7 +513,7 @@ defaults:
     label: "MFT QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - mft-full-qcmn-remote
@@ -545,7 +545,7 @@ defaults:
     label: "MID FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - mid-raw-decoder
@@ -558,7 +558,7 @@ defaults:
     label: "MID QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - mid-qcmn-epn-digits
@@ -589,7 +589,7 @@ defaults:
     label: "PHOS FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - phos-compressor-raw-qc
@@ -608,7 +608,7 @@ defaults:
     label: "PHOS QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - phos-compressor-raw-qcmn-remote
@@ -639,7 +639,7 @@ defaults:
     label: "TOF FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - tof-compressor
@@ -661,7 +661,7 @@ defaults:
     label: "TOF QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - qcmn-daq-remote
@@ -691,7 +691,7 @@ defaults:
     label: "TPC FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - minimal-dpl
@@ -705,7 +705,7 @@ defaults:
     label: "TPC QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - qcmn-daq-remote
@@ -735,7 +735,7 @@ defaults:
     label: "TRD FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - minimal-dpl
@@ -747,7 +747,7 @@ defaults:
     label: "TRD QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - qcmn-daq-remote
@@ -779,7 +779,7 @@ defaults:
     label: "TST FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - minimal-dpl
@@ -791,7 +791,7 @@ defaults:
     label: "TST QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - qcmn-daq-remote
@@ -802,7 +802,7 @@ defaults:
     label: "ZDC FLP workflow"
     description: "Workflow to execute on the FLPs of this detector"
     widget: dropDownBox
-    panel: "Workflows (FLPs)"
+    panel: "FLPs Workflows"
     values:
       - none
       - minimal-dpl
@@ -815,7 +815,7 @@ defaults:
     label: "ZDC QC node workflow"
     description: "Workflow to execute on QC servers for this detector"
     widget: dropDownBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     values:
       - none
       - zdc-rec-epn
@@ -843,7 +843,7 @@ defaults:
     label: "GLO Vertexing QC"
     description: "Enable/disable QC node workflow for Vertexing QC. Also needs ITS present!"
     widget: checkBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     index: 20
     visibleif: $$qc_remote_enabled === "true"
   glo_itstpc_mtch_qc_enabled: !public
@@ -852,7 +852,7 @@ defaults:
     label: "GLO ITS-TPC Matching QC"
     description: "Enable/disable QC node workflow for ITS-TPC Matching QC. Deployed only if ITS present!"
     widget: checkBox
-    panel: "Workflows (QC nodes)"
+    panel: "QC Nodes Workflows"
     index: 21
     visibleif: $$qc_remote_enabled === "true"
   ###############################
@@ -970,7 +970,7 @@ defaults:
     label: "Panel mode"
     description: ""
     widget: radioButtonBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     values:
       - "Shifter"
       - "Expert"
@@ -982,7 +982,7 @@ defaults:
     label: "# of EPNs"
     description: "Number of EPNs to use"
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: -999
     visibleif: $$epn_enabled === "true"
   odc_n_epns_max_fail: !public
@@ -991,7 +991,7 @@ defaults:
     label: "Max # of EPNs allowed to fail"
     description: "Maximum number of EPNs that are allowed to fail during startup without triggering an error during start of run"
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: -998
     visibleif: $$epn_enabled === "true"
   pdp_config_option: !public
@@ -1000,7 +1000,7 @@ defaults:
     label: "Workflow configuration mode"
     description: ""
     widget: dropDownBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     values:
       - "Repository hash"
       - "Repository path"
@@ -1013,7 +1013,7 @@ defaults:
     label: "Topology"
     description: "DDS topology name to be executed on EPNs"
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: -799
     visibleif: $$epn_enabled === "true" && $$pdp_config_option === "Manual XML"
   pdp_o2_data_processing_hash: !public
@@ -1022,7 +1022,7 @@ defaults:
     label: "O2DPG Hash"
     description: "Commit hash or tag of O2DPG to use"
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: -799
     visibleif: $$epn_enabled === "true" && $$pdp_config_option === "Repository hash" && $$pdp_panel_mode === "Expert"
   pdp_o2_data_processing_path: !public
@@ -1031,7 +1031,7 @@ defaults:
     label: "O2DPG DATA Path"
     description: "Path to the DATA folder of the O2DPG repository to use in the EPN shared home folder"
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: -799
     visibleif: $$epn_enabled === "true" && $$pdp_config_option === "Repository path"
   pdp_o2pdpsuite_version: !public
@@ -1040,7 +1040,7 @@ defaults:
     label: "O2PDPSuite Version"
     description: "Version of O2PDPSuite to be used. Set to 'default' to use the default version set by RC. Set to empty '' to use the default version of the workflow. Otherwise specify the O2PDPSuite package(s) to load."
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: -798
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   odc_resources_spec: !public
@@ -1049,7 +1049,7 @@ defaults:
     label: "Resources"
     description: "EPN resources to be used, the value 'default' results in '{\"zone\":\"online\", \"n\":N}' where N is the value set in '# of EPNs'"
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: -600
     visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"
   stfb_dd_mode: !public
@@ -1058,7 +1058,7 @@ defaults:
     label: "Data Distribution mode"
     description: "Data Distribution mode. physics: standard time based data distribution. topology: special topological data distribution for ITS and MFT calibration runs."
     widget: dropDownBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     values:
       - physics
       - topology
@@ -1070,7 +1070,7 @@ defaults:
     label: "TF Builder mode"
     description: "Time Frame Builder mode. processing: TfBuilder builds time frames and forwards them to DPL. disk: TfBuilder builds time frames and stores the raw time frame to disk. processing-disk: combination of processing and disk. discard: TfBuilder builds time frames in memory and discards them immediately."
     widget: dropDownBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     values:
       - discard
       - disk
@@ -1084,7 +1084,7 @@ defaults:
     label: "Topology description library file"
     description: "Topology description file in O2DPG repository"
     widget: comboBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     values:
       - "production/production.desc"
       - "production/no-processing.desc"
@@ -1096,7 +1096,7 @@ defaults:
     label: "Workflow name"
     description: "Workflow name in the topology description library file"
     widget: comboBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     values:
       - "synchronous-workflow"
       - "synchronous-workflow-1numa"
@@ -1108,7 +1108,7 @@ defaults:
     label: "% of raw data to store"
     description: "In case of a 'disk' TfBuilder mode, selects the fraction of raw data to be stored in percent"
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: 102
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && ($$tfb_dd_mode === "disk" || $$tfb_dd_mode === "processing-disk") && $$pdp_panel_mode === "Expert"
   pdp_detector_list_global: !public
@@ -1117,7 +1117,7 @@ defaults:
     label: "Detector list (Global)"
     description: "Comma-separated list of detectors for EPN processing. Empty string means no detectors. 'default' is an abbreviation to include all detectors."
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: 600
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_detector_exclude_list_qc: !public
@@ -1126,7 +1126,7 @@ defaults:
     label: "Exclude Detectors for QC"
     description: "Comma-separated list of detectors to exclude for EPN QC. Empty string means no detectors excluded."
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: 601
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_detector_exclude_list_calib: !public
@@ -1135,7 +1135,7 @@ defaults:
     label: "Exclude Detectrors for Calib"
     description: "Comma-separated list of detectors to exclude for calibration. Empty string means no detectors excluded."
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: 602
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_workflow_parameters: !public
@@ -1144,7 +1144,7 @@ defaults:
     label: "Workflow parameters"
     description: "Comma-separated list of workflow parameters. Valid parameters are: QC,CALIB,GPU,CTF,EVENT_DISPLAY."
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: 603
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_raw_decoder_multi_factor: !public
@@ -1153,7 +1153,7 @@ defaults:
     label: "Raw decoder multiplicity factor"
     description: "Multiply the number of raw decoder processing instance on EPN by this factor"
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: 604
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_ctf_encoder_multi_factor: !public
@@ -1162,7 +1162,7 @@ defaults:
     label: "CTF encoder multiplicity factor"
     description: "Multiply the number of CTF encoder processing instance on EPN by this factor"
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: 605
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_reco_process_multi_factor: !public
@@ -1171,7 +1171,7 @@ defaults:
     label: "Reconstruction process multiplicity factor"
     description: "Multiply the number of instances of other reconstruction processes by this factor"
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: 606
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_extra_env_vars: !public
@@ -1180,7 +1180,7 @@ defaults:
     label: "Extra ENV variables"
     description: "Additional environment variables exported when running the workflow generation script"
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: 700
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_epn_shmid: !public
@@ -1189,7 +1189,7 @@ defaults:
     label: "EPN SHM Id"
     description: "If the EPN SHM Manager tool is used, the SHMId configured here must match the SHM Id used by the tool"
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: 701
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_wipe_workflow_cache: !public
@@ -1198,7 +1198,7 @@ defaults:
     label: "Wipe workflow cache"
     description: "Delete workflow cache"
     widget: checkBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: 703
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_beam_type: !public
@@ -1207,7 +1207,7 @@ defaults:
     label: "Beam type"
     description: "Beam type used in this environment"
     widget: dropDownBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     values:
       - PbPb
       - pp
@@ -1222,7 +1222,7 @@ defaults:
     label: "# of HBFs per TF"
     description: "Number of HBFs per TF for EPN processing"
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: 801
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_override_run_start_time: !public
@@ -1231,7 +1231,7 @@ defaults:
     label: "Override Run Start Time"
     description: "If set, use this timestamp instead of 'now' when fetching CCDB objects"
     widget: editBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: 802
     visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"
   pdp_force_run_as_raw: !public
@@ -1240,7 +1240,7 @@ defaults:
     label: "Force RAW"
     description: "Force run to be classified as RAW"
     widget: checkBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: 803
     visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"
   odc_partitions_cleanup: !public
@@ -1249,7 +1249,7 @@ defaults:
     label: "EPN partitions cleanup"
     description: "If enabled, orphaned EPN partitions are cleaned up on environment deployment and shutdown"
     widget: checkBox
-    panel: "Workflows (EPNs)"
+    panel: "EPNs Workflows"
     index: 900
     visibleif: $$epn_enabled === "true" && $$pdp_panel_mode === "Expert"
   ###############################
