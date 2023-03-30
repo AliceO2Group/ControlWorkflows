@@ -1326,6 +1326,8 @@ defaults:
   roc_cleanup_enabled: "false"
   roc_ctp_emulator_enabled: "false"
   stfb_standalone: "false"
+  stfs_shm_segment_size: 33554432
+  ctp_stfs_shm_segment_size: 33554432
   flp_workflows_jit_enabled: "true"
   qc_remote_jit_enabled: "true"
   user: flp
@@ -1349,6 +1351,7 @@ roles:
       # dpl_workflow is set to ctp_dpl_workflow
       dpl_workflow: "{{ util.PrefixedOverride( 'dpl_workflow', 'ctp' ) }}"
       dpl_command: "{{ util.PrefixedOverride( 'dpl_command', 'ctp' ) }}"
+      stfs_shm_segment_size: "{{ ctp_stfs_shm_segment_size }}"
       it: "{{ ctp_readout_host }}"
     constraints:
       - attribute: machine_id
