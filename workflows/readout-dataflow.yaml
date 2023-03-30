@@ -1183,6 +1183,15 @@ defaults:
     panel: "EPNs_Workflows"
     index: 700
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
+  pdp_epn_shm_sizes: !public
+    value: "SHMSIZE=120259084288 DDSHMSIZE=114688"
+    type: string
+    label: "EPN SHM Sizes"
+    description: "EPN SHM Sizes"
+    widget: editBox
+    panel: "EPNs_Workflows"
+    index: 701
+    visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_epn_shmid: !public
     value: "1"
     type: string
@@ -1190,7 +1199,7 @@ defaults:
     description: "If the EPN SHM Manager tool is used, the SHMId configured here must match the SHM Id used by the tool"
     widget: editBox
     panel: "EPNs_Workflows"
-    index: 701
+    index: 702
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_wipe_workflow_cache: !public
     value: "false"
