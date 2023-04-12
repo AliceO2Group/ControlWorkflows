@@ -259,6 +259,7 @@ defaults:
       - none
       - ft0-digits-pipe
       - ft0-digits-pipe-ds-qc
+      - ft0-digits-pipe-qc-raw
       - ft0-digits-pipe-ds-qc-raw
       - ft0-decoder-pipe
       - ft0-decoder-pipe-ds-qc
