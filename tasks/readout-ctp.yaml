@@ -12,7 +12,7 @@ control:
   mode: direct
 wants:
   cpu: 0.15
-  memory: 60000000000
+  memory: 60000
 bind:
   - name: readout
     type: push
