@@ -55,5 +55,5 @@ command:
     - "--shm-monitor=false"
     - "--detector={{ detector }}"
     - "--run-type={{ stfb_dd_mode }}"
-    - "{{ stdb_enable_datasink == 'true' ? '--data-sink-enable' : ' ' }}"
-    - "{{ stdb_enable_datasink == 'true' ? '--data-sink-dir=/tmp' : ' ' }}"
+    - "{{ stfb_enable_datasink == 'true' ? '--data-sink-enable' : ' ' }}"
+    - "{{ stfb_enable_datasink == 'true' ? '--data-sink-dir=' +  stfb_datasink_dir : ' ' }}"
