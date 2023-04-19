@@ -12,7 +12,7 @@ defaults:
   log_task_stderr: none
   stfb_dd_mode: "physics"
   stfb_fee_mask: "0xffff"
-  stdb_enable_datasink: "false"
+  stfb_enable_datasink: "false"
   stfb_datasink_dir: "/tmp"
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
