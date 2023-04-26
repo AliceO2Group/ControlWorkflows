@@ -723,7 +723,12 @@ defaults:
       - none
       - qcmn-daq-remote
       - tpc-full-qcmn-remote
+      - tpc-full-cosmics-qcmn-remote
+      - tpc-full-synthetic-qcmn-remote
       - tpc-full-calib-remote
+      - tpc-laser-calib-remote
+      - tpc-pedestal-calib-remote
+      - tpc-pulser-calib-remote
       - tpc-krypton-qcmn-remote
     visibleif: $$qc_remote_enabled === "true"
   tpc_dcs_sor_parameters: !public
