@@ -1212,7 +1212,7 @@ defaults:
     index: 700
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_epn_shm_sizes: !public
-    value: "SHMSIZE=120259084288 DDSHMSIZE=114688"
+    value: "RECOSHMSIZE=120259084288 DDSHMSIZE=114688"
     type: string
     label: "EPN SHM Sizes"
     description: "EPN SHM Sizes"
