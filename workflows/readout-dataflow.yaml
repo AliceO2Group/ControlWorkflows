@@ -257,6 +257,8 @@ defaults:
     panel: "FLPs_Workflows"
     values:
       - none
+      - minimal-dpl
+      - qc-daq
       - foc-pad-pedestal-calib
       - foc-reconstructor
       - foc-reconstructor-qc
