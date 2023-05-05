@@ -59,4 +59,4 @@ command:
     - "{{ stfb_enable_datasink == 'true' ? '--data-sink-enable' : ' ' }}"
     - "{{ stfb_enable_datasink == 'true' ? '--data-sink-dir=' +  stfb_datasink_dir : ' ' }}"
     - "{{ stfb_enable_datasink == 'true' ? '--data-sink-max-stfs-per-file=0' : ' ' }}"
-    - "{{ stfb_enable_datasink == 'true' ? '--data-sink-max-file-size arg=' +  stfb_datasink_filesize : ' ' }}"
+    - "{{ stfb_enable_datasink == 'true' ? '--data-sink-max-file-size=' +  stfb_datasink_filesize : ' ' }}"
