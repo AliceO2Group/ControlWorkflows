@@ -14,6 +14,7 @@ defaults:
   stfb_fee_mask: "0xffff"
   stfb_enable_datasink: "false"
   stfb_datasink_dir: "/tmp"
+  stfb_datasink_filesize: "2048"
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
     StfBuilder
@@ -57,3 +58,5 @@ command:
     - "--run-type={{ stfb_dd_mode }}"
     - "{{ stfb_enable_datasink == 'true' ? '--data-sink-enable' : ' ' }}"
     - "{{ stfb_enable_datasink == 'true' ? '--data-sink-dir=' +  stfb_datasink_dir : ' ' }}"
+    - "{{ stfb_enable_datasink == 'true' ? '--data-sink-max-stfs-per-file=0' : ' ' }}"
+    - "{{ stfb_enable_datasink == 'true' ? '--data-sink-max-file-size arg=' +  stfb_datasink_filesize : ' ' }}"
