@@ -14,6 +14,9 @@ defaults:
   log_task_stderr: none
   stfs_dd_region_size: 4096
   stfs_shm_segment_size: 33554432
+  stfs_enable_datasink: "false"
+  stfs_datasink_dir: "/tmp"
+  stfs_datasink_filesize: "2048"
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
     numactl --cpunodebind=0 --preferred=0 -- StfSender
@@ -53,3 +56,7 @@ command:
     - "--discovery-net-if={{ dd_discovery_net_if }}"
     - '{{ ddsched_enabled == "true" ? "" : "--stand-alone" }}'
     - "--shm-monitor=false"
+    - "{{ stfs_enable_datasink == 'true' ? '--data-sink-enable' : ' ' }}"
+    - "{{ stfs_enable_datasink == 'true' ? '--data-sink-dir=' +  stfs_datasink_dir : ' ' }}"
+    - "{{ stfs_enable_datasink == 'true' ? '--data-sink-max-stfs-per-file=0' : ' ' }}"
+    - "{{ stfs_enable_datasink == 'true' ? '--data-sink-max-file-size=' +  stfs_datasink_filesize : ' ' }}"
