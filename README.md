@@ -363,6 +363,7 @@ The JIT generation system relies on the existence & health of the following part
       `o2/components/aliecs/[defaults|vars]/jit_env_vars`
 4. The O2 & QualityControl versions
    - The O2 & QualityControl RPM versions are queried by AliECS to ensure workflow freshness.
+5. The command provided either in the file or via a parameter in the GUI should be a one-liner.
 
 ### Exporting the templates to files
 
