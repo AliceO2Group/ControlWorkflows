@@ -131,6 +131,7 @@ defaults:
     panel: "FLPs_Workflows"
     values:
       - none
+      - ctp-reco
       - minimal-dpl
   ctp_qc_remote_workflow: !public
     value: "none"
