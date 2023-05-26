@@ -1,1 +1,1 @@
-o2-qc --config consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-pedestal-calib-qcmn --remote -b
+o2-qc --config consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/tpc-pedestal-calib-qcmn --remote --ready-state-policy drain -b

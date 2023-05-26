@@ -1,1 +1,1 @@
-o2-qc --config consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/fdd-qc-post-processing --remote -b --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;'
+o2-qc --config consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/fdd-qc-post-processing --remote --ready-state-policy drain -b --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;'

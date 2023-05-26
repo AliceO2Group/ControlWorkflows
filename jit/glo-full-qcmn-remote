@@ -1,1 +1,1 @@
-o2-qc --config consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/glo-qcmn-epn --remote -b
+o2-qc --config consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/glo-qcmn-epn --remote --ready-state-policy drain -b
