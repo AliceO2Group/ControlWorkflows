@@ -1937,7 +1937,7 @@ roles:
       - name: unload
         call:
           func: trg.RunUnload()
-          trigger: after_STOP_ACTIVITY
+          trigger: after_STOP_ACTIVITY-100
           timeout: "{{ trg_unload_timeout }}"
           critical: false
       - name: errorcleanup
