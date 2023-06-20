@@ -1309,7 +1309,7 @@ defaults:
   auto_stop_timeout: "none"
   ccdb_start_timeout: "10s"
   ccdb_stop_timeout: "10s"
-  dcs_pfr_timeout: "140s"
+  dcs_pfr_timeout: "20s"
   dcs_sor_timeout: "140s"
   dcs_eor_timeout: "30s"
   dcs_cleanup_timeout: "30s"
