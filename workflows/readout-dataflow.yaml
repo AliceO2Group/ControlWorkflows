@@ -1309,6 +1309,7 @@ defaults:
   auto_stop_timeout: "none"
   ccdb_start_timeout: "10s"
   ccdb_stop_timeout: "10s"
+  dcs_pfr_timeout: "310s"
   dcs_sor_timeout: "140s"
   dcs_eor_timeout: "30s"
   dcs_cleanup_timeout: "30s"
@@ -1787,6 +1788,13 @@ roles:
         index: 3
         visibleif: $$dcs_enabled === "true"
     roles:
+      - name: pfr
+        call:
+          func: dcs.PrepareForRun()
+          trigger: before_CONFIGURE
+          await: after_CONFIGURE
+          timeout: "{{ dcs_pfr_timeout }}"
+          critical: true
       - name: sor
         call:
           func: dcs.StartOfRun()
