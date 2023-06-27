@@ -132,7 +132,11 @@ defaults:
     values:
       - none
       - ctp-reco
+      - ctp-reco-3dec
+      - ctp-reco-qc
+      - ctp-reco-3dec-qc
       - minimal-dpl
+      - ctp-raw-qc 
   ctp_qc_remote_workflow: !public
     value: "none"
     type: string
