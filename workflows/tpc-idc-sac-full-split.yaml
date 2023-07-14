@@ -2,6 +2,7 @@ name: tpc-idc-sac-full-split
 defaults:
   ccdb_path: "http://o2-ccdb.internal"
   tpc_sac_try_realign: 0
+  tpc_sac_threads : 1
 roles:
   - name: tpc-idc-a
     defaults:
