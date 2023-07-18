@@ -1924,6 +1924,7 @@ roles:
       trg_global_config: "{{ runtime.Get('trg/ctp', trg_load_parameters) }}"
     roles:
       - name: pfr
+        enabled: "{{'TPC' in json.Unmarshal(detectors)}}"
         call:
           func: trg.PrepareForRun()
           trigger: before_START_ACTIVITY-200
