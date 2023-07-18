@@ -1333,6 +1333,7 @@ defaults:
   odc_cleanup_timeout: "60s"
   roc_cleanup_timeout: "10s"
   trg_ctp_emulator_timeout: "10s"
+  trg_pfr_timeout: "5s"
   trg_load_timeout: "5s"
   trg_start_timeout: "5s"
   trg_pre_start_timeout: "5s"
@@ -1922,6 +1923,12 @@ roles:
       trg_runtime_config: "{{ runtime.Get('trg/ltu', trg_runtime_config_file) }}"
       trg_global_config: "{{ runtime.Get('trg/ctp', trg_load_parameters) }}"
     roles:
+      - name: pfr
+        call:
+          func: trg.PrepareForRun()
+          trigger: before_START_ACTIVITY-200
+          timeout: "{{ trg_pfr_timeout }}"
+          critical: true
       - name: load
         call:
           func: trg.RunLoad()
