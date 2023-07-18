@@ -329,9 +329,33 @@ Both parts should use the same version of QC and the underlying software stack.
 
 First, please make sure that the QC config file contains valid `"remoteMachine"` and `"remotePort"` parameters, as they are not dynamically assigned for connections between the two control systems.
 The remote machine name might need the `.cern.ch` suffix.
-Please use the port number between 47700 and 47799.
+Please use the port number within the range allocated to your subsystem, as in the table below.
 It is highly advised to check the connection with a simple TCP client/server application beforehand (e.g. `nc`).
 Also, do not forget to add `"localControl" : "odc"` in the QC task configuration, which will make AliECS templates avoid dynamic resource assignement.
+
+**Subsystem port ranges for remote connections from EPNs**
+
+Subsystem | Port range start | Port range end
+--------- | ---------------- | ---------------
+CPV       | 29000            | 29049
+CTP       | 29050            | 29099
+DAQ       | 29100            | 29149
+EMC       | 29150            | 29199
+FDD       | 29200            | 29249
+FT0       | 29250            | 29299
+FV0       | 29300            | 29349
+GLO       | 29350            | 29399
+HMP       | 29400            | 29449
+ITS       | 29450            | 29499
+MCH       | 29500            | 29549
+MFT       | 29550            | 29599
+MID       | 29600            | 29649
+PHS       | 29650            | 29699
+PID       | 29700            | 29749
+TOF       | 29750            | 29799
+TPC       | 29800            | 29849
+TRD       | 29850            | 29899
+ZDC       | 29900            | 29949
 
 Please contact the PDP team for details on running the local QC workflows (the part running on EPN).
 
