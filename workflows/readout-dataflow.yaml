@@ -2007,6 +2007,12 @@ roles:
           trigger: before_START_ACTIVITY-100
           timeout: 10s
           critical: false
+      - name: retrievefillinfoatsor
+        call:
+          func: bookkeeping.RetrieveFillInfo()
+          trigger: before_START_ACTIVITY-99
+          timeout: 10s
+          critical: false
       - name: updaterunstart
         call:
           func: bookkeeping.UpdateRunStart()
