@@ -217,6 +217,7 @@ defaults:
     values:
       - none
       - fdd-digits-pipe
+      - fdd-digits-pipe-qc-raw
       - fdd-digits-pipe-ds-qc
       - fdd-digits-pipe-ds-qc-raw
       - fdd-digits-qc
@@ -329,6 +330,7 @@ defaults:
     values:
       - none
       - fv0-digits-pipe
+      - fv0-digits-pipe-qc-raw
       - fv0-digits-pipe-ds-qc
       - fv0-digits-pipe-ds-qc-raw
       - fv0-digits-qc
