@@ -780,10 +780,6 @@ defaults:
       - none
       - qcmn-daq-remote
       - trd-full-qcmn-epn
-      - trd-full-qcmn-norawdatastats-epn
-      - trd-full-qcmn-nodigits-epn
-      - trd-full-qcmn-notracklets-epn
-      - trd-full-qcmn-nopulseheight-epn
     visibleif: $$qc_remote_enabled === "true"
   trd_dcs_sor_parameters: !public
     value: "{}"
