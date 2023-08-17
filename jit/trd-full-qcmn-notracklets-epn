@@ -1,1 +1,0 @@
-o2-qc --config consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/trd-full-qcmn-notracklets --remote -b
