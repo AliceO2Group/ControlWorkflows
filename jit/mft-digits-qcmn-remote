@@ -1,1 +1,1 @@
-o2-qc --config consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mft-digits-qcmn --remote -b
+o2-qc --config consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/mft-digits-qcmn --remote -b --configKeyValues 'NameConf.mCCDBServer=o2-ccdb.internal;'
