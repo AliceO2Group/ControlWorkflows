@@ -235,6 +235,7 @@ defaults:
     values:
       - none
       - fdd-qc-post-processing-remote
+      - fdd-qcmn-epn-post-processing-remote
       - fdd-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"
@@ -348,6 +349,7 @@ defaults:
     values:
       - none
       - fv0-qc-post-processing-remote
+      - fv0-qcmn-epn-post-processing-remote
       - fv0-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"
