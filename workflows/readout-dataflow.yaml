@@ -188,6 +188,7 @@ defaults:
       - emc-qcmn-flp-remote
       - emc-qcmn-epn-remote
       - emc-qcmn-epnall-remote
+      - emc-qcmn-epnall-withCTP-remote
       - emc-qcmn-flpepn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"
