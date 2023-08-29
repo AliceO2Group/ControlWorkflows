@@ -783,6 +783,7 @@ defaults:
       - none
       - qcmn-daq-remote
       - trd-full-qcmn-epn
+      - trd-full-qcmn-epn-test
     visibleif: $$qc_remote_enabled === "true"
   trd_dcs_sor_parameters: !public
     value: "{}"
