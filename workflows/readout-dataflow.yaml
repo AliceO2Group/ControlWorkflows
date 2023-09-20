@@ -132,7 +132,10 @@ defaults:
     values:
       - none
       - ctp-reco
+      - ctp-reco-HI-ZNC-TCE
       - ctp-reco-3dec
+      - ctp-reco-3dec-HI-ZNC-TCE
+      - ctp-reco-6dec-HI-ZNC-TCE
       - ctp-reco-qc
       - ctp-reco-3dec-qc
       - minimal-dpl
