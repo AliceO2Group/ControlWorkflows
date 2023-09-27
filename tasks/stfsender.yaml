@@ -50,6 +50,7 @@ command:
     - "--severity={{ fmq_severity }}"
     - "--severity-infologger={{ infologger_severity }}"
     - "--monitoring-backend='{{ monitoring_dd_url }}'"
+    - "--monitoring-process-interval='5'"
     - "--discovery-partition={{ environment_id }}"
     - "--discovery-id={{ dd_discovery_stfs_id }}"
     - "--discovery-endpoint={{ dd_discovery_endpoint }}"
