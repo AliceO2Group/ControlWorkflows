@@ -46,6 +46,7 @@ command:
     - "--shm-segment-id=2"
     - "--shm-segment-size=33554432"
     - "--monitoring-backend='{{ monitoring_dd_url }}'"
+    - "--monitoring-process-interval='5'"
     - "--discovery-partition={{ environment_id }}"
     - "--discovery-endpoint={{ dd_discovery_endpoint }}"
     - "--detector-rdh={{ rdh_version }}"
