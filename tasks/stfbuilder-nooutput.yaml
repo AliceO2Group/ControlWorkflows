@@ -14,6 +14,7 @@ defaults:
   stfb_enable_datasink: "false"
   stfb_datasink_dir: "/tmp"
   stfb_datasink_filesize: "2048"
+  monitoring_dd_interval: "5"
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
     StfBuilder
@@ -36,7 +37,7 @@ command:
     - "--session=default"
     - "--transport=shmem"
     - "--monitoring-backend='{{ monitoring_dd_url }}'"
-    - "--monitoring-process-interval='5'"
+    - "--monitoring-process-interval='{{ monitoring_dd_interval }}'"
     - "--detector-rdh={{ rdh_version }}"
     - "--detector-subspec={{dd_detector_subspec}}"
     - "--severity={{ fmq_severity }}"

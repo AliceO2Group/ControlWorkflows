@@ -17,6 +17,7 @@ defaults:
   stfs_enable_datasink: "false"
   stfs_datasink_dir: "/tmp"
   stfs_datasink_filesize: "2048"
+  monitoring_dd_interval: "5"
   _module_cmdline: >-
     source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load DataDistribution Control-OCCPlugin &&
     numactl --cpunodebind=0 --preferred=0 -- StfSender
@@ -50,7 +51,7 @@ command:
     - "--severity={{ fmq_severity }}"
     - "--severity-infologger={{ infologger_severity }}"
     - "--monitoring-backend='{{ monitoring_dd_url }}'"
-    - "--monitoring-process-interval='5'"
+    - "--monitoring-process-interval='{{ monitoring_dd_interval }}'"
     - "--discovery-partition={{ environment_id }}"
     - "--discovery-id={{ dd_discovery_stfs_id }}"
     - "--discovery-endpoint={{ dd_discovery_endpoint }}"
