@@ -24,7 +24,7 @@ wants:
   cpu: 0.15
   memory: 128
 limits:
-  memory: 6000
+  memory: 2000
 bind:
   - name: dpl-chan
     type: push
