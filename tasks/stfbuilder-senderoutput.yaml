@@ -23,6 +23,8 @@ defaults:
 wants:
   cpu: 0.15
   memory: 128
+limits:
+  memory: 6000
 bind:
   - name: buildertosender
     type: push
