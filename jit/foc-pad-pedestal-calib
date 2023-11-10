@@ -1,4 +1,4 @@
-o2-dpl-raw-proxy -b --session default --dataspec 'x0:FOC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
+o2-dpl-raw-proxy -b --session default --dataspec 'x0:FOC/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --inject-missing-data --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
 | o2-focal-pad-pedestal-calibration-workflow -b --session default --use-ccdb --path /tmp --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8083;' \
 | o2-calibration-ccdb-populator-workflow -b --session default --ccdb-path http://127.0.0.1:8083 --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8083;' \
 | o2-qc -b --session default --config consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/foc-padpedestal-qc-{{ it }} \
