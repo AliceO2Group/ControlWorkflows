@@ -273,10 +273,12 @@ To understand some details of how the DPL commands should look like and JIT work
 
 DPL workflows on FLPs should always receive data from STFBuilder, optionally process them and send to STFSender.
 The first and the last requirements are handled by the input and output DPL proxies.
+Note that any o2-dpl-raw-proxy that receives data from DataDistribution must add the command line argument "--inject-missing-data".
+(This option must not be set if the data does not come from DataDistribution!)
 The simplest possible DPL workflow command for an FLP receives data from STFBuilder and passes it to STFSender without any processing:
 ```bash
 o2-dpl-raw-proxy -b --session default \
-  --dataspec 'x:TST/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
+  --dataspec 'x:TST/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --inject-missing-data \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
   | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
   --dataspec 'x:TST/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
@@ -293,7 +295,7 @@ Let's consider a more realistic example - the PHOS compressor.
 In such case, the DPL command looks as follows:
 ```bash
 o2-dpl-raw-proxy -b --session default \
-  --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
+  --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --inject-missing-data \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
   | o2-phos-reco-workflow -b --input-type raw --output-type cells --session default --disable-root-output \
   | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
@@ -310,7 +312,7 @@ While preparing the DPL command, please avoid adding Data Processors which dump 
 In case you would like to run the full QC chain (Tasks, Checks, QCDB upload, PostProcessing) on an FLP, just add the QC executable to the DPL command, as in the example below.
 Use `consul-json://` as the backend and the template variable `{{ consul_endpoint}}` for the Consul hostname.
 ```
-o2-dpl-raw-proxy -b --session default --dataspec 'A1:FDD/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
+o2-dpl-raw-proxy -b --session default --dataspec 'A1:FDD/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --inject-missing-data --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' \
   | o2-fdd-flp-dpl-workflow -b --session default --output-dir=/tmp --nevents 10000 --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;' \
   | o2-dpl-output-proxy --environment DPL_OUTPUT_PROXY_ORDERED=1 -b --session default --dataspec 'digits:FDD/DIGITSBC/0;channels:FDD/DIGITSCH/0;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"' \
   | o2-qc --config consul-json://{{ consul_endpoint }}/o2/components/qc/ANY/any/fdd-digits-qc -b --configKeyValues 'NameConf.mCCDBServer=http://127.0.0.1:8084;'
@@ -409,7 +411,7 @@ alienv enter QualityControl/latest # will load also O2
 3. Run the DPL command with `--o2-control <workflow-name>` argument at the end. For example:
 ```bash
 o2-dpl-raw-proxy -b --session default \
-  --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' \
+  --dataspec 'x:PHS/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --inject-missing-data \
   --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=1"' \
   | o2-phos-reco-workflow -b --input-type raw --output-type cells --session default --disable-root-output \
   | o2-dpl-output-proxy --environment "DPL_OUTPUT_PROXY_ORDERED=1" -b --session default \
@@ -456,14 +458,14 @@ following KV pair (assuming ITS as a target):
 *value*:
 
 ```bash
-o2-dpl-raw-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' | o2-dpl-output-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"'
+o2-dpl-raw-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --inject-missing-data --readout-proxy '--channel-config "name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10"' | o2-dpl-output-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config "name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem"'
 ```
 
 - through the "Add a JSON with multiple pairs:" field (make sure to escape the inner `"`):
 
 ```json
 {
-  "its_dpl_command": "o2-dpl-raw-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --readout-proxy '--channel-config \"name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10\"' | o2-dpl-output-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config \"name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem\"'"
+  "its_dpl_command": "o2-dpl-raw-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --inject-missing-data --readout-proxy '--channel-config \"name=readout-proxy,type=pull,method=connect,address=ipc:///tmp/stf-builder-dpl-pipe-0,transport=shmem,rateLogging=10\"' | o2-dpl-output-proxy -b --session default --dataspec 'x:{{ detector }}/RAWDATA;dd:FLP/DISTSUBTIMEFRAME/0' --dpl-output-proxy '--channel-config \"name=downstream,type=push,method=bind,address=ipc:///tmp/stf-pipe-0,rateLogging=10,transport=shmem\"'"
 }
 ```
 
