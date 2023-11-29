@@ -1805,7 +1805,7 @@ roles:
       - name: pfr
         call:
           func: dcs.PrepareForRun()
-          trigger: before_CONFIGURE
+          trigger: before_DEPLOY
           await: after_CONFIGURE
           timeout: "{{ dcs_pfr_timeout }}"
           critical: true
