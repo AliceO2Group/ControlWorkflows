@@ -1820,7 +1820,7 @@ roles:
           trigger: before_CONFIGURE
           await: after_CONFIGURE
           timeout: "{{ dcs_pfr_timeout }}"
-          critical: true
+          critical: false
       - name: sor
         call:
           func: dcs.StartOfRun()
