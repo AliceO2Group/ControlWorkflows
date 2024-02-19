@@ -745,6 +745,7 @@ defaults:
       - tpc-full-qcmn-remote
       - tpc-full-cosmics-qcmn-remote
       - tpc-full-synthetic-qcmn-remote
+      - tpc-full-replay-qcmn-remote
       - tpc-full-calib-remote
       - tpc-laser-calib-remote
       - tpc-pedestal-calib-remote
