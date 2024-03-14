@@ -891,6 +891,15 @@ defaults:
     panel: "QC_Nodes_Workflows"
     index: 21
     visibleif: $$qc_remote_enabled === "true"
+  glo_fwd_mtch_qc_enabled: !public
+    value: "false"
+    type: bool
+    label: "GLO Forward Matching QC"
+    description: "Enable/disable QC node workflow for forward Matching QC. Deployed only if MCH present!"
+    widget: checkBox
+    panel: "QC_Nodes_Workflows"
+    index: 22
+    visibleif: $$qc_remote_enabled === "true"
   glo_mean_vtx_calib_post_proc_qc_enabled: !public
     value: "false"
     type: bool
@@ -898,7 +907,7 @@ defaults:
     description: "Enable/disable QC node workflow for processing the Mean Vertex calibration objects. Deployed only if ITS present!"
     widget: checkBox
     panel: "QC_Nodes_Workflows"
-    index: 22
+    index: 23
     visibleif: $$qc_remote_enabled === "true"
   glo_big_screen_qc_enabled: !public
     value: "false"
@@ -907,7 +916,7 @@ defaults:
     description: "Enable/disable QC Big Screen"
     widget: checkBox
     panel: "QC_Nodes_Workflows"
-    index: 23
+    index: 24
     visibleif: $$qc_remote_enabled === "true"
   ###############################
   # TRG Panel
@@ -1774,6 +1783,44 @@ roles:
           - name: glo-qc-big-screen
             enabled: "{{ glo_big_screen_qc_enabled == 'true' && qc_remote_jit_enabled == 'true'}}"
             include: "{{ qc_remote_jit_enabled == 'true' ? dpl.GenerateFromUri('glo-qc-big-screen') : '' }}"
+          - name: fairmq-shmmonitor
+            enabled: "{{ fmq_cleanup_enabled == 'true' && qc_remote_workflow != 'none' }}"
+            task:
+              load: "fairmq-shmmonitor"
+              trigger: DESTROY
+              timeout: 10s
+              critical: false
+          # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list.
+          # However if the {{detector}}_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
+          # control tree state management.
+          - name: dpl-noop-subwf
+            enabled: "{{ qc_remote_workflow == 'none' }}"
+            call:
+              func: testplugin.Noop()
+              trigger: CONFIGURE
+              timeout: 1s
+              critical: false
+      - name: qc-remote-workflow-fwd # GLO is not a detector so we won't iterate on it with 'detectors' and we need special enable logic
+        enabled: "{{ 'MCH' in json.Unmarshal(detectors) }}"
+        vars:
+          qc_remote_workflow: "{{ util.PrefixedOverride( 'qc_remote_workflow', 'glo' ) }}"
+          qc_dpl_command: "{{ util.PrefixedOverride( 'qc_dpl_command', 'glo' ) }}"
+          qc_remote_machine: "{{ util.PrefixedOverride( 'qc_remote_machine', 'glo' ) }}"
+          shm_segment_size: "{{ util.PrefixedOverride( 'qc_shm_segment_size', 'glo' ) }}"
+          detector: GLO
+        constraints:
+          - attribute: machine_id
+            value: "{{ qc_remote_machine }}"
+        roles:
+          - name: glo-fwd-mchmid
+            enabled: "{{ glo_fwd_mtch_qc_enabled == 'true' && qc_remote_jit_enabled == 'true' && 'MFT' in json.Unmarshal(detectors) && !('MID' in json.Unmarshal(detectors)) }}"
+            include: "{{ qc_remote_jit_enabled == 'true' ? dpl.GenerateFromUri('glo-mftmch-mtch-qcmn-remote') : '' }}"
+          - name: glo-fwd-mftmch
+            enabled: "{{ glo_fwd_mtch_qc_enabled == 'true' && qc_remote_jit_enabled == 'true' && 'MID' in json.Unmarshal(detectors) && !('MFT' in json.Unmarshal(detectors)) }}"
+            include: "{{ qc_remote_jit_enabled == 'true' ? dpl.GenerateFromUri('glo-mchmid-mtch-qcmn-remote') : '' }}"
+          - name: glo-fwd-mftmchmid
+            enabled: "{{ glo_fwd_mtch_qc_enabled == 'true' && qc_remote_jit_enabled == 'true' && 'MFT' in json.Unmarshal(detectors) && 'MID' in json.Unmarshal(detectors) }}"
+            include: "{{ qc_remote_jit_enabled == 'true' ? dpl.GenerateFromUri('glo-mftmchmid-mtch-qcmn-remote') : '' }}"
           - name: fairmq-shmmonitor
             enabled: "{{ fmq_cleanup_enabled == 'true' && qc_remote_workflow != 'none' }}"
             task:
