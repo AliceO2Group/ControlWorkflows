@@ -483,7 +483,6 @@ defaults:
     panel: "FLPs_Workflows"
     values:
       - none
-      - mch-qcmn-flp-digits-local
       - minimal-dpl
       - qc-daq
       - qcmn-daq-local
