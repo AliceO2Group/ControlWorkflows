@@ -1713,6 +1713,7 @@ roles:
       qc_remote_workflow: none
       qc_remote_machine: none
       qc_shm_segment_size: 10000000000
+      qc_shm_metadata_msg_size: 100000
     vars:
       user: qc
       session_id: "{{ environment_id }}" # we can't use "default" because other workflows might already exist on the same QC server
