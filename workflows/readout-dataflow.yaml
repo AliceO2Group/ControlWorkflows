@@ -189,6 +189,7 @@ defaults:
     panel: "QC_Nodes_Workflows"
     values:
       - none
+      - emc-pedestal-calib-qc
       - emc-qcmn-flp-remote
       - emc-qcmn-epn-remote
       - emc-qcmn-epnall-remote
