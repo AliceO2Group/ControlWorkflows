@@ -1748,7 +1748,7 @@ roles:
               critical: false
           # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list.
           # However if the {{detector}}_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
-          # control tree state management.
+          # control tree state management.// FIXME: this is probably not needed anymore
           - name: dpl-noop-subwf
             enabled: "{{ qc_remote_workflow == 'none' }}"
             call:
@@ -1782,7 +1782,7 @@ roles:
             include: "{{ qc_remote_jit_enabled == 'true' ? dpl.GenerateFromUri('glo-qc-big-screen') : '' }}"
           # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list.
           # However if the {{detector}}_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
-          # control tree state management.
+          # control tree state management.// FIXME: this is probably not needed anymore
           - name: dpl-noop-subwf
             enabled: "{{ qc_remote_workflow == 'none' }}"
             call:
@@ -1811,9 +1811,38 @@ roles:
           - name: glo-fwd-mftmchmid
             enabled: "{{ glo_fwd_mtch_qc_enabled == 'true' && qc_remote_jit_enabled == 'true' && 'MFT' in json.Unmarshal(detectors) && 'MID' in json.Unmarshal(detectors) }}"
             include: "{{ qc_remote_jit_enabled == 'true' ? dpl.GenerateFromUri('glo-mftmchmid-mtch-qcmn-remote') : '' }}"
-          # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list.
-          # However if the {{detector}}_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
-          # control tree state management.
+          # If the fwd_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
+          # control tree state management. // FIXME: this is probably not needed anymore
+          - name: dpl-noop-subwf
+            enabled: "{{ qc_remote_workflow == 'none' }}"
+            call:
+              func: testplugin.Noop()
+              trigger: CONFIGURE
+              timeout: 1s
+              critical: false
+      - name: qc-remote-workflow-ctp # GLO is not a detector so we won't iterate on it with 'detectors' and we need special enable logic
+        enabled: "{{ ctp_readout_enabled == 'true' }}"
+        vars:
+          qc_remote_workflow: "{{ util.PrefixedOverride( 'qc_remote_workflow', 'ctp' ) }}"
+          qc_dpl_command: "{{ util.PrefixedOverride( 'qc_dpl_command', 'ctp' ) }}"
+          qc_remote_machine: "{{ util.PrefixedOverride( 'qc_remote_machine', 'ctp' ) }}"
+          shm_segment_size: "{{ util.PrefixedOverride( 'qc_shm_segment_size', 'ctp' ) }}"
+          detector: CTP
+        constraints:
+          - attribute: machine_id
+            value: "{{ qc_remote_machine }}"
+        roles:
+          - name: dpl
+            enabled: "{{ qc_remote_jit_enabled == 'false' && qc_remote_workflow != 'none' }}"
+            include: "{{ qc_remote_workflow }}"
+          - name: dpl
+            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_remote_workflow != 'none' && qc_dpl_command == 'none' }}"
+            include: "{{ qc_remote_jit_enabled == 'true' ? dpl.GenerateFromUri(qc_remote_workflow) : '' }}"
+          - name: dpl
+            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_dpl_command != 'none' }}"
+            include: "{{ qc_remote_jit_enabled == 'true' ? dpl.Generate(qc_dpl_command) : '' }}"
+          # If the ctp_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
+          # control tree state management. FIXME: this is probably not needed anymore
           - name: dpl-noop-subwf
             enabled: "{{ qc_remote_workflow == 'none' }}"
             call:
