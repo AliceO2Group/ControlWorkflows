@@ -914,6 +914,15 @@ defaults:
     panel: "QC_Nodes_Workflows"
     index: 24
     visibleif: $$qc_remote_enabled === "true"
+  glo_data_size_qc_enabled: !public
+    value: "false"
+    type: bool
+    label: "QC Data Sizes"
+    description: "Enable/disable QC Data Sizes"
+    widget: checkBox
+    panel: "QC_Nodes_Workflows"
+    index: 25
+    visibleif: $$qc_remote_enabled === "true"
   ###############################
   # TRG Panel
   ###############################
@@ -1780,6 +1789,9 @@ roles:
           - name: glo-qc-big-screen
             enabled: "{{ glo_big_screen_qc_enabled == 'true' && qc_remote_jit_enabled == 'true'}}"
             include: "{{ qc_remote_jit_enabled == 'true' ? dpl.GenerateFromUri('glo-qc-big-screen') : '' }}"
+          - name: glo-qc-data-size
+            enabled: "{{ glo_data_size_qc_enabled == 'true' && qc_remote_jit_enabled == 'true'}}"
+            include: "{{ qc_remote_jit_enabled == 'true' ? dpl.GenerateFromUri('glo-qc-data-size') : '' }}"
           # When qc_remote_enabled is true, it will try to deploy a qc_remote_workflow for every detector in the list.
           # However if the {{detector}}_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
           # control tree state management.// FIXME: this is probably not needed anymore
