@@ -149,6 +149,7 @@ defaults:
     panel: "QC_Nodes_Workflows"
     values:
       - none
+      - ctp-qcmn-remote
     visibleif: $$qc_remote_enabled === "true"
   cpv_dcs_sor_parameters: !public
     value: "{}"
