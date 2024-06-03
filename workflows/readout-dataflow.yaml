@@ -728,7 +728,6 @@ defaults:
       - qc-daq
       - qcmn-daq-local
       - tpc-idc-sac-full-split
-      - tpc-idc-direct-sac-simple-split
   tpc_qc_remote_workflow: !public
     value: "none"
     type: string
@@ -743,7 +742,6 @@ defaults:
       - tpc-full-cosmics-qcmn-remote
       - tpc-full-synthetic-qcmn-remote
       - tpc-full-replay-qcmn-remote
-      - tpc-full-calib-remote
       - tpc-laser-calib-remote
       - tpc-pedestal-calib-remote
       - tpc-pulser-calib-remote
