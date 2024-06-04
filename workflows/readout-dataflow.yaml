@@ -1334,7 +1334,7 @@ defaults:
   # CTP readout Panel
   ###############################
   ctp_readout_host: #!public
-    value: "alio2-cr1-flp163"
+    value: "alio2-cr1-flpctp"
     type: string
     label: "CTP Readout host"
     description: "Defines the host that runs CTP readout"
