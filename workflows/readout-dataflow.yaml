@@ -1408,6 +1408,7 @@ defaults:
   stfb_standalone: "false"
   stfs_shm_segment_size: 33554432
   ctp_stfs_shm_segment_size: 33554432
+  ctp_stfs_dd_region_size: 4096
   flp_workflows_jit_enabled: "true"
   qc_remote_jit_enabled: "true"
   user: flp
@@ -1435,6 +1436,7 @@ roles:
       dpl_workflow: "{{ util.PrefixedOverride( 'dpl_workflow', 'ctp' ) }}"
       dpl_command: "{{ util.PrefixedOverride( 'dpl_command', 'ctp' ) }}"
       stfs_shm_segment_size: "{{ ctp_stfs_shm_segment_size }}"
+      stfs_dd_region_size: "{{ ctp_stfs_dd_region_size }}"
       it: "{{ ctp_readout_host }}"
     constraints:
       - attribute: machine_id
