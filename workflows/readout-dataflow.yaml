@@ -1892,25 +1892,25 @@ roles:
         call:
           func: dcs.PrepareForRun()
           trigger: before_CONFIGURE
-          await: after_CONFIGURE
+          await: after_CONFIGURE-1
           timeout: "{{ dcs_pfr_timeout }}"
           critical: false
       - name: sor
         call:
           func: dcs.StartOfRun()
-          trigger: before_START_ACTIVITY
+          trigger: before_START_ACTIVITY+100
           timeout: "{{ dcs_sor_timeout }}"
           critical: true
       - name: eor
         call:
           func: dcs.EndOfRun()
-          trigger: after_STOP_ACTIVITY
+          trigger: after_STOP_ACTIVITY-50
           timeout: "{{ dcs_eor_timeout }}"
           critical: true
       - name: error-cleanup
         call:
           func: dcs.Cleanup()
-          trigger: after_GO_ERROR
+          trigger: after_GO_ERROR-1
           timeout: "{{ dcs_cleanup_timeout }}"
           critical: false
       - name: destroy-cleanup
@@ -1926,13 +1926,13 @@ roles:
         call:
           func: ddsched.PartitionInitialize()
           trigger: before_CONFIGURE
-          await: after_CONFIGURE
+          await: after_CONFIGURE-1
           timeout: "{{ ddsched_initialize_timeout }}"
           critical: true
       - name: terminate
         call:
           func: ddsched.PartitionTerminate()
-          trigger: after_RESET
+          trigger: after_RESET-1
           timeout: "{{ ddsched_terminate_timeout }}"
           critical: true
       - name: cleanup
@@ -1959,35 +1959,35 @@ roles:
         call:
           func: odc.PartitionInitialize()
           trigger: before_DEPLOY
-          await: after_DEPLOY
+          await: after_DEPLOY-1
           timeout: "{{ odc_partitioninitialize_timeout }}"
           critical: true
       - name: configure
         call:
           func: odc.Configure()
-          trigger: after_CONFIGURE
-          await: after_CONFIGURE
+          trigger: after_CONFIGURE-1
+          await: after_CONFIGURE-1
           timeout: "{{ odc_configure_timeout }}"
           critical: true
       - name: start
         call:
           func: odc.Start()
-          trigger: before_START_ACTIVITY
-          await: after_START_ACTIVITY
+          trigger: before_START_ACTIVITY+100
+          await: after_START_ACTIVITY-10
           timeout: "{{ odc_start_timeout }}"
           critical: true
       - name: stop
         call:
           func: odc.Stop()
           trigger: before_STOP_ACTIVITY
-          await: after_STOP_ACTIVITY
+          await: after_STOP_ACTIVITY-50
           timeout: "{{ odc_stop_timeout }}"
           critical: true
       - name: reset
         call:
           func: odc.Reset()
           trigger: before_RESET
-          await: after_RESET
+          await: after_RESET-1
           timeout: "{{ odc_reset_timeout }}"
           critical: true
       - name: part-term
@@ -2028,7 +2028,7 @@ roles:
       - name: load
         call:
           func: trg.RunLoad()
-          trigger: before_START_ACTIVITY-100
+          trigger: before_START_ACTIVITY+10
           timeout: "{{ trg_load_timeout }}"
           critical: true
       - name: pre-start
@@ -2040,7 +2040,7 @@ roles:
       - name: start
         call:
           func: trg.RunStart()
-          trigger: after_START_ACTIVITY
+          trigger: after_START_ACTIVITY-10
           timeout: "{{ trg_start_timeout }}"
           critical: true
       - name: stop
@@ -2073,7 +2073,7 @@ roles:
       - name: start
         call:
           func: ccdb.RunStart()
-          trigger: before_START_ACTIVITY
+          trigger: before_START_ACTIVITY+100
           timeout: "{{ ccdb_start_timeout }}"
           critical: false
       - name: stop
@@ -2100,13 +2100,13 @@ roles:
       - name: startrun
         call:
           func: bookkeeping.StartOfRun()
-          trigger: before_START_ACTIVITY-100
+          trigger: before_START_ACTIVITY+10
           timeout: 10s
           critical: false
       - name: retrievefillinfoatsor
         call:
           func: bookkeeping.RetrieveFillInfo()
-          trigger: before_START_ACTIVITY-99
+          trigger: before_START_ACTIVITY+11
           timeout: 10s
           critical: false
       - name: updaterunstart
@@ -2265,6 +2265,6 @@ roles:
       - name: before_start_activity
         call:
           func: kafka.PublishStartActivityUpdate()
-          trigger: before_START_ACTIVITY-50
+          trigger: before_START_ACTIVITY+50
           timeout: 5s
           critical: false
