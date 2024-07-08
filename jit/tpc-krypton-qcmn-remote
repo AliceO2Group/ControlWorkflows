@@ -1,1 +1,1 @@
-o2-qc --config apricot://{{ apricot_endpoint }}/o2/components/qc/ANY/any/tpc-krypton-qcmn --remote --shm-metadata-msg-size {{ qc_shm_metadata_msg_size }} -b
+o2-qc --config apricot://{{ apricot_endpoint }}/o2/components/qc/ANY/any/tpc-krypton-qcmn?run_type={{ run_type }} --remote --shm-metadata-msg-size {{ qc_shm_metadata_msg_size }} -b
