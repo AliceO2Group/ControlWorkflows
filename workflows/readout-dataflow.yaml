@@ -2098,6 +2098,7 @@ roles:
     enabled: "{{bookkeeping_enabled == 'true'}}"
     roles:
       - name: startrun
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.StartOfRun()
           trigger: before_START_ACTIVITY-100
@@ -2110,24 +2111,28 @@ roles:
           timeout: 10s
           critical: false
       - name: updaterunstart
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateRunStart()
           trigger: after_START_ACTIVITY+100
           timeout: 10s
           critical: false
       - name: updaterunstop
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateRunStop()
           trigger: after_STOP_ACTIVITY+100
           timeout: 10s
           critical: false
       - name: updaterungoerror
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateRunStop()
           trigger: after_GO_ERROR+100
           timeout: 10s
           critical: false
       - name: updaterundestroy
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateRunStop()
           trigger: DESTROY
