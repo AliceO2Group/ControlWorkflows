@@ -2091,7 +2091,7 @@ roles:
       - name: error # the plugin makes sure to publish an object only if we go to error after a run was started and only once
         call:
           func: ccdb.RunStop()
-          trigger: enter_ERROR
+          trigger: after_GO_ERROR
           timeout: "{{ ccdb_stop_timeout }}"
           critical: false
   - name: bookkeeping
