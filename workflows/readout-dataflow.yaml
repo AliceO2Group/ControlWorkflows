@@ -1386,6 +1386,7 @@ defaults:
   # Other variables
   ###############################
   bookkeeping_enabled: "true"
+  bookkeeping_consuming_kafka: "false"
   ccdb_enabled: "false"
   dpl_workflow: none
   dpl_command: none
