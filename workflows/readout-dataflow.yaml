@@ -1386,6 +1386,7 @@ defaults:
   # Other variables
   ###############################
   bookkeeping_enabled: "true"
+  bookkeeping_consuming_kafka: "false"
   ccdb_enabled: "false"
   dpl_workflow: none
   dpl_command: none
@@ -2098,6 +2099,7 @@ roles:
     enabled: "{{bookkeeping_enabled == 'true'}}"
     roles:
       - name: startrun
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.StartOfRun()
           trigger: before_START_ACTIVITY+10
@@ -2110,84 +2112,98 @@ roles:
           timeout: 10s
           critical: false
       - name: updaterunstart
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateRunStart()
           trigger: after_START_ACTIVITY+100
           timeout: 10s
           critical: false
       - name: updaterunstop
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateRunStop()
           trigger: after_STOP_ACTIVITY+100
           timeout: 10s
           critical: false
       - name: updaterungoerror
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateRunStop()
           trigger: after_GO_ERROR+100
           timeout: 10s
           critical: false
       - name: updaterundestroy
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateRunStop()
           trigger: DESTROY
           timeout: 10s
           critical: false
       - name: startenv
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.CreateEnv()
           trigger: before_DEPLOY
           timeout: 10s
           critical: false
       - name: deploy
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateEnv()
           trigger: after_DEPLOY+100
           timeout: 10s
           critical: false
       - name: configure
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateEnv()
           trigger: after_CONFIGURE+100
           timeout: 10s
           critical: false
       - name: reset
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateEnv()
           trigger: after_RESET+100
           timeout: 10s
           critical: false
       - name: start
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateEnv()
           trigger: after_START_ACTIVITY+100
           timeout: 10s
           critical: false
       - name: stop
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateEnv()
           trigger: after_STOP_ACTIVITY+100
           timeout: 10s
           critical: false
       - name: exit
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateEnv()
           trigger: after_EXIT
           timeout: 10s
           critical: false
       - name: goerror
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateEnv()
           trigger: after_GO_ERROR+100
           timeout: 10s
           critical: false
       - name: recover
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateEnv()
           trigger: after_RECOVER+100
           timeout: 10s
           critical: false
       - name: destroy
+        enabled: "{{ bookkeeping_consuming_kafka != 'true' }}"
         call:
           func: bookkeeping.UpdateEnv()
           trigger: DESTROY
