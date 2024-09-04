@@ -1417,7 +1417,7 @@ defaults:
   cpv_noise_tf_per_slot: 400
   cpv_push_dcs_ccdb: "http://alio2-cr1-flp199-ib:8084"
 vars:
-  auto_stop_enabled: "{{ auto_stop_timeout != 'none' }}"
+  auto_stop_enabled: "{{ !strings.IsFalsy(auto_stop_timeout) }}"
   ddsched_enabled: "{{ epn_enabled == 'true' && dd_enabled == 'true' }}"
   odc_enabled: "{{ epn_enabled }}"
   odc_topology_fullname: '{{ epn_enabled == "true" ? odc.GenerateEPNTopologyFullname() : "" }}'
@@ -1447,7 +1447,7 @@ roles:
         task:
           load: readout-ctp
       - name: "data-distribution"
-        enabled: "{{dd_enabled == 'true' && (qcdd_enabled == 'false' && minimal_dpl_enabled == 'false' && dpl_workflow == 'none' && dpl_command == 'none')}}"
+        enabled: "{{dd_enabled == 'true' && (qcdd_enabled == 'false' && minimal_dpl_enabled == 'false' && strings.IsFalsy(dpl_workflow) && strings.IsFalsy(dpl_command))}}"
         roles:
           # stfb-standalone not supported on CTP machine
           # if ctp_readout_enabled, we also assume stfb_standalone is false
@@ -1473,7 +1473,7 @@ roles:
             task:
               load: stfsender
       - name: "data-distribution-dpl"
-        enabled: "{{(qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none' || dpl_command != 'none') && dd_enabled == 'true'}}"
+        enabled: "{{(qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || !strings.IsFalsy(dpl_workflow) || !strings.IsFalsy(dpl_command)) && dd_enabled == 'true'}}"
         defaults:
           path_to_readout_proxy: "{{ Parent().Path }}.data-distribution-dpl.stfb:dpl-chan"
         roles:
@@ -1497,7 +1497,7 @@ roles:
               #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
               load: stfbuilder
           - name: "stfs" # this stfs is for any DPL workflow. We assume that it has a device dpl-output-proxy and a downstream channel
-            enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none' || dpl_command != 'none')}}"
+            enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || !strings.IsFalsy(dpl_workflow) || !strings.IsFalsy(dpl_command))}}"
             vars:
               dd_discovery_stfs_id: stfs-{{ ctp_readout_host }}-{{ uid.New() }}
               stfs_input_channel_name: downstream
@@ -1515,13 +1515,13 @@ roles:
             enabled: "{{ minimal_dpl_enabled == 'true' }}"
             include: minimal-dpl
           - name: dpl
-            enabled: "{{ (flp_workflows_jit_enabled == 'false' || detector == 'TPC') && dpl_workflow != 'none' }}"
+            enabled: "{{ (flp_workflows_jit_enabled == 'false' || detector == 'TPC') && !strings.IsFalsy(dpl_workflow) }}"
             include: "{{ dpl_workflow }}"
           - name: dpl
-            enabled: "{{ flp_workflows_jit_enabled == 'true' && detector != 'TPC' && dpl_workflow != 'none' && dpl_command == 'none' }}"
+            enabled: "{{ flp_workflows_jit_enabled == 'true' && detector != 'TPC' && !strings.IsFalsy(dpl_workflow) && strings.IsFalsy(dpl_command) }}"
             include: "{{ flp_workflows_jit_enabled == 'true' ? dpl.GenerateFromUri(dpl_workflow) : '' }}"
           - name: dpl
-            enabled: "{{ flp_workflows_jit_enabled == 'true' && detector != 'TPC' && dpl_command != 'none' }}"
+            enabled: "{{ flp_workflows_jit_enabled == 'true' && detector != 'TPC' && !strings.IsFalsy(dpl_command) }}"
             include: "{{ flp_workflows_jit_enabled == 'true' ? dpl.Generate(dpl_command) : '' }}"
       # roc-ctp-emulator doesn't run on CTP
       - name: drop-caches
@@ -1577,7 +1577,7 @@ roles:
         task:
           load: readout
       - name: "data-distribution"
-        enabled: "{{dd_enabled == 'true' && (qcdd_enabled == 'false' && minimal_dpl_enabled == 'false' && dpl_workflow == 'none' && dpl_command == 'none')}}"
+        enabled: "{{dd_enabled == 'true' && (qcdd_enabled == 'false' && minimal_dpl_enabled == 'false' && strings.IsFalsy(dpl_workflow) && strings.IsFalsy(dpl_command))}}"
         roles:
           - name: "stfb-standalone"
             enabled: "{{stfb_standalone}}"
@@ -1612,7 +1612,7 @@ roles:
             task:
               load: stfsender
       - name: "data-distribution-dpl"
-        enabled: "{{(qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none' || dpl_command != 'none') && dd_enabled == 'true'}}"
+        enabled: "{{(qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || !strings.IsFalsy(dpl_workflow) || !strings.IsFalsy(dpl_command)) && dd_enabled == 'true'}}"
         defaults:
           path_to_readout_proxy: "{{ Parent().Path }}.data-distribution-dpl.stfb:dpl-chan"
         roles:
@@ -1637,7 +1637,7 @@ roles:
               #NOTE: plain stfbuilder TT (not stfbuilder-senderoutput) because we want dpl-chan
               load: stfbuilder
           - name: "stfs" # this stfs is for any DPL workflow. We assume that it has a device dpl-output-proxy and a downstream channel
-            enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || dpl_workflow != 'none' || dpl_command != 'none')}}"
+            enabled: "{{stfb_standalone == 'false' && (qcdd_enabled == 'true' || minimal_dpl_enabled == 'true' || !strings.IsFalsy(dpl_workflow) || !strings.IsFalsy(dpl_command))}}"
             vars:
               dd_discovery_stfs_id: stfs-{{ it }}-{{ uid.New() }}
               stfs_input_channel_name: downstream
@@ -1655,13 +1655,13 @@ roles:
             enabled: "{{ minimal_dpl_enabled == 'true' }}"
             include: minimal-dpl
           - name: dpl
-            enabled: "{{ flp_workflows_jit_enabled == 'false' && dpl_workflow != 'none' }}"
+            enabled: "{{ flp_workflows_jit_enabled == 'false' && !strings.IsFalsy(dpl_workflow) }}"
             include: "{{ dpl_workflow }}"
           - name: dpl
-            enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_workflow != 'none' && dpl_command == 'none' }}"
+            enabled: "{{ flp_workflows_jit_enabled == 'true' && !strings.IsFalsy(dpl_workflow) && strings.IsFalsy(dpl_command) }}"
             include: "{{ flp_workflows_jit_enabled == 'true' ? dpl.GenerateFromUriOrFallbackToTemplate(dpl_workflow) : '' }}"
           - name: dpl
-            enabled: "{{ flp_workflows_jit_enabled == 'true' && dpl_command != 'none' }}"
+            enabled: "{{ flp_workflows_jit_enabled == 'true' && !strings.IsFalsy(dpl_command) }}"
             include: "{{ flp_workflows_jit_enabled == 'true' ? dpl.Generate(dpl_command) : '' }}"
       - name: o2-roc-ctp-emulators
         enabled: "{{roc_ctp_emulator_enabled == 'true'}}"
@@ -1741,16 +1741,16 @@ roles:
             value: "{{ qc_remote_machine }}"
         roles:
           - name: dpl
-            enabled: "{{ qc_remote_jit_enabled == 'false' && qc_remote_workflow != 'none' }}"
+            enabled: "{{ qc_remote_jit_enabled == 'false' && !strings.IsFalsy(qc_remote_workflow) }}"
             include: "{{ qc_remote_workflow }}"
           - name: dpl
-            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_remote_workflow != 'none' && qc_dpl_command == 'none' }}"
+            enabled: "{{ qc_remote_jit_enabled == 'true' && !strings.IsFalsy(qc_remote_workflow) && strings.IsFalsy(qc_dpl_command) }}"
             include: "{{ qc_remote_jit_enabled == 'true' ? dpl.GenerateFromUri(qc_remote_workflow) : '' }}"
           - name: dpl
-            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_dpl_command != 'none' }}"
+            enabled: "{{ qc_remote_jit_enabled == 'true' && !strings.IsFalsy(qc_dpl_command) }}"
             include: "{{ qc_remote_jit_enabled == 'true' ? dpl.Generate(qc_dpl_command) : '' }}"
           - name: fairmq-shmmonitor
-            enabled: "{{ fmq_cleanup_enabled == 'true' && qc_remote_workflow != 'none' }}"
+            enabled: "{{ fmq_cleanup_enabled == 'true' && !strings.IsFalsy(qc_remote_workflow) }}"
             task:
               load: "fairmq-shmmonitor"
               trigger: DESTROY
@@ -1760,7 +1760,7 @@ roles:
           # However if the {{detector}}_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
           # control tree state management.// FIXME: this is probably not needed anymore
           - name: dpl-noop-subwf
-            enabled: "{{ qc_remote_workflow == 'none' }}"
+            enabled: "{{ strings.IsFalsy(qc_remote_workflow) }}"
             call:
               func: testplugin.Noop()
               trigger: CONFIGURE
@@ -1797,7 +1797,7 @@ roles:
           # However if the {{detector}}_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
           # control tree state management.// FIXME: this is probably not needed anymore
           - name: dpl-noop-subwf
-            enabled: "{{ qc_remote_workflow == 'none' }}"
+            enabled: "{{ strings.IsFalsy(qc_remote_workflow) }}"
             call:
               func: testplugin.Noop()
               trigger: CONFIGURE
@@ -1827,7 +1827,7 @@ roles:
           # If the fwd_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
           # control tree state management. // FIXME: this is probably not needed anymore
           - name: dpl-noop-subwf
-            enabled: "{{ qc_remote_workflow == 'none' }}"
+            enabled: "{{ strings.IsFalsy(qc_remote_workflow) }}"
             call:
               func: testplugin.Noop()
               trigger: CONFIGURE
@@ -1846,18 +1846,18 @@ roles:
             value: "{{ qc_remote_machine }}"
         roles:
           - name: dpl
-            enabled: "{{ qc_remote_jit_enabled == 'false' && qc_remote_workflow != 'none' }}"
+            enabled: "{{ qc_remote_jit_enabled == 'false' && !strings.IsFalsy(qc_remote_workflow) }}"
             include: "{{ qc_remote_workflow }}"
           - name: dpl
-            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_remote_workflow != 'none' && qc_dpl_command == 'none' }}"
+            enabled: "{{ qc_remote_jit_enabled == 'true' && !strings.IsFalsy(qc_remote_workflow) && strings.IsFalsy(qc_dpl_command) }}"
             include: "{{ qc_remote_jit_enabled == 'true' ? dpl.GenerateFromUri(qc_remote_workflow) : '' }}"
           - name: dpl
-            enabled: "{{ qc_remote_jit_enabled == 'true' && qc_dpl_command != 'none' }}"
+            enabled: "{{ qc_remote_jit_enabled == 'true' && !strings.IsFalsy(qc_dpl_command) }}"
             include: "{{ qc_remote_jit_enabled == 'true' ? dpl.Generate(qc_dpl_command) : '' }}"
           # If the ctp_qc_remote_workflow is none, we deploy a ghost role that does nothing to preserve
           # control tree state management. FIXME: this is probably not needed anymore
           - name: dpl-noop-subwf
-            enabled: "{{ qc_remote_workflow == 'none' }}"
+            enabled: "{{ strings.IsFalsy(qc_remote_workflow) }}"
             call:
               func: testplugin.Noop()
               trigger: CONFIGURE
