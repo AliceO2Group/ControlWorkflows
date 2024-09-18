@@ -1,5 +1,6 @@
 name: !public readout-dataflow
 description: !public "Main workflow template for ALICE data taking"
+bookkept: !public "true"
 defaults:
   ###############################
   # General Configuration Panel
