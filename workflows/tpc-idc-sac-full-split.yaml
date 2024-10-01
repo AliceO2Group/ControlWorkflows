@@ -4,6 +4,7 @@ defaults:
   tpc_sac_try_realign: 0
   tpc_sac_threads : 1
   tpc_idc_pedestal_timestamp : 1715236056769
+  bookkept: "false"
 roles:
   - name: tpc-idc-a
     defaults:
