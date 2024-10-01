@@ -4,6 +4,7 @@ defaults:
   fmq_cleanup_enabled: "true"
   log_task_stdout: none
   log_task_stderr: none
+  bookkept: "false"
 roles:
   - name: host-{{ it }}
     for:

@@ -5,6 +5,7 @@ defaults:
   log_task_stderr: none
   consul_port: 8500
   consul_prefix: "o2/components/readoutcard"
+  bookkept: "false"
 roles:
   - name: host-{{ it }}
     for:

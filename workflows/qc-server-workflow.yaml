@@ -96,6 +96,7 @@ defaults:
   ###############################
   # Other variables
   ###############################
+  bookkept: "false"
   drop_caches_enabled: "false"
   drop_caches_timeout: "30s"
   fmq_initial_shm_cleanup_enabled: "false"
