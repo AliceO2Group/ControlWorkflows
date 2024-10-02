@@ -1724,6 +1724,16 @@ roles:
           trigger: DESTROY
           timeout: "{{ roc_cleanup_timeout }}"
           critical: false
+      - name: its-cru-enable
+        enabled: "{{ detector == 'ITS' }}"
+        vars:
+          shell_command: "source /etc/profile.d/o2.sh && O2_PARTITION={{environment_id}} O2_ROLE={{it}} O2_DETECTOR=ITS /opt/o2-roc-serial-update/workspace/cru_enable_card.sh"
+          user: flp
+        task:
+          load: "shell-command"
+          trigger: DESTROY
+          timeout: 10s
+          critical: true
   - name: qc-servers
     enabled: "{{ qc_remote_enabled == 'true' }}"
     constraints:
