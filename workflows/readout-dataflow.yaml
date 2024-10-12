@@ -138,6 +138,10 @@ defaults:
       - ctp-reco-12dec-HI-ZNC-TCE
       - ctp-reco-qc
       - ctp-reco-3dec-qc
+      - ctp-reco-HI-ZNC-TCE-qc
+      - ctp-reco-3dec-HI-ZNC-TCE-qc
+      - ctp-reco-6dec-HI-ZNC-TCE-qc
+      - ctp-reco-12dec-HI-ZNC-TCE-qc
       - minimal-dpl
       - ctp-raw-qc 
   ctp_qc_remote_workflow: !public
