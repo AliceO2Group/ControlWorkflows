@@ -843,6 +843,7 @@ defaults:
       - none
       - minimal-dpl
       - zdc-raw-qc
+      - zdc-full-qcmn-local
       - qc-daq
       - qcmn-daq-local
   zdc_qc_remote_workflow: !public
@@ -855,6 +856,7 @@ defaults:
     values:
       - none
       - zdc-rec-epn
+      - zdc-full-qcmn-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"
   zdc_dcs_sor_parameters: !public

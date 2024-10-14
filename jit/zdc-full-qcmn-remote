@@ -1,0 +1,1 @@
+o2-qc --config 'apricot://{{ apricot_endpoint }}/o2/components/qc/ANY/any/zdc-full-qcmn?run_type={{ run_type }}&beam_type={{ pdp_beam_type }}' --remote --shm-metadata-msg-size {{ qc_shm_metadata_msg_size }} -b
