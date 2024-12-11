@@ -2047,7 +2047,7 @@ roles:
   - name: trg
     enabled: "{{trg_enabled == 'true'}}"
     defaults:
-      trg_detectors: "{{ detectors }}"
+      trg_detectors: "{{ json.Marshal(json.Sort(json.Unmarshal(detectors))) }}"
       trg_runtime_config: "{{ runtime.Get('trg/ltu', trg_runtime_config_file) }}"
       trg_global_config: "{{ runtime.Get('trg/ctp', trg_load_parameters) }}"
     roles:
