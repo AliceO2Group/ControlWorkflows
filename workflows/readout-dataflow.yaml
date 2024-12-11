@@ -1901,7 +1901,7 @@ roles:
     ###############################
     # DCS Panel
     ###############################
-      dcs_detectors: "{{ detectors }}"
+      dcs_detectors: "{{ json.Marshal(json.Sort(json.Unmarshal(detectors))) }}"
       dcs_sor_parameters: !public
         value: "{}"
         type: string
