@@ -2079,7 +2079,7 @@ roles:
       - name: stop
         call:
           func: trg.RunStop()
-          trigger: before_STOP_ACTIVITY
+          trigger: before_STOP_ACTIVITY-10
           timeout: "{{ trg_stop_timeout }}"
           critical: false
       - name: unload
@@ -2091,7 +2091,7 @@ roles:
       - name: errorcleanup
         call:
           func: trg.Cleanup()
-          trigger: before_GO_ERROR
+          trigger: before_GO_ERROR-10
           timeout: "{{ trg_cleanup_timeout }}"
           critical: false
       - name: destroycleanup
