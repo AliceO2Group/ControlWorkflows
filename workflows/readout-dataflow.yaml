@@ -1306,6 +1306,9 @@ defaults:
       - PbPb
       - pp
       - pPb
+      - pO
+      - OO
+      - NeNe
       - cosmic
       - technical
     index: 800
