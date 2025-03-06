@@ -206,6 +206,7 @@ defaults:
     panel: "QC_Nodes_Workflows"
     values:
       - none
+      - fdd-digits-qcmn-epn-remote
       - fdd-qc-post-processing-remote
       - fdd-qcmn-epn-post-processing-remote
       - fdd-qcmn-remote
@@ -272,6 +273,7 @@ defaults:
     panel: "QC_Nodes_Workflows"
     values:
       - none
+      - ft0-digits-qcmn-epn-remote
       - ft0-qc-post-processing-remote
       - ft0-qcmn-epn-post-processing-remote
       - ft0-qcmn-remote
@@ -320,6 +322,7 @@ defaults:
     panel: "QC_Nodes_Workflows"
     values:
       - none
+      - fv0-digits-qcmn-epn-remote
       - fv0-qc-post-processing-remote
       - fv0-qcmn-epn-post-processing-remote
       - fv0-qcmn-remote
