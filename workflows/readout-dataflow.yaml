@@ -457,8 +457,8 @@ defaults:
     values:
       - none
       - mch-qcmn-epn-digits-remote
+      - mch-qcmn-epn-notracking-remote
       - mch-qcmn-epn-full-remote
-      - mch-qcmn-epn-full-track-matching-remote
       - qcmn-daq-remote
     visibleif: $$qc_remote_enabled === "true"
   mch_dcs_sor_parameters: !public
