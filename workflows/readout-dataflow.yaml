@@ -952,7 +952,7 @@ defaults:
   ###############################
   # EPN Workflows Panel
   ###############################
-  pdp_generator_script_path: /opt/alisw/el8/GenTopo/bin/gen_topo_logged.sh
+  pdp_generator_script_path: /opt/alisw/el9/GenTopo/bin/gen_topo_logged.sh
   pdp_panel_mode: !public
     value: "Shifter"
     type: string
