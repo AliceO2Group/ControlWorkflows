@@ -1294,7 +1294,7 @@ defaults:
   trg_ctp_emulator_timeout: "10s"
   trg_pfr_timeout: "5s"
   trg_load_timeout: "5s"
-  trg_start_timeout: "5s"
+  trg_start_timeout: "20s"
   trg_pre_start_timeout: "5s"
   trg_stop_timeout: "5s"
   trg_unload_timeout: "5s"
