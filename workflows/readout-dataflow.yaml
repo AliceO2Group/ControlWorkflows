@@ -1968,12 +1968,6 @@ roles:
           trigger: before_START_ACTIVITY+10
           timeout: "{{ trg_load_timeout }}"
           critical: true
-      - name: pre-start
-        call:
-          func: testplugin.Noop()
-          trigger: after_START_ACTIVITY-200
-          timeout: "{{ trg_pre_start_timeout }}"
-          critical: false
       - name: start
         call:
           func: trg.RunStart()
