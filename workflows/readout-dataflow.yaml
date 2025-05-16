@@ -101,13 +101,19 @@ defaults:
     values:
       - none
       - ctp-reco
-      - ctp-reco-HI-ZNC-TCE
       - ctp-reco-3dec
+      - ctp-reco-6dec
+      - ctp-reco-12dec
+      - ctp-reco-16dec
+      - ctp-reco-HI-ZNC-TCE
       - ctp-reco-3dec-HI-ZNC-TCE
       - ctp-reco-6dec-HI-ZNC-TCE
       - ctp-reco-12dec-HI-ZNC-TCE
       - ctp-reco-qc
       - ctp-reco-3dec-qc
+      - ctp-reco-6dec-qc
+      - ctp-reco-12dec-qc
+      - ctp-reco-16dec-qc
       - ctp-reco-HI-ZNC-TCE-qc
       - ctp-reco-3dec-HI-ZNC-TCE-qc
       - ctp-reco-6dec-HI-ZNC-TCE-qc
