@@ -1992,17 +1992,29 @@ roles:
           trigger: after_STOP_ACTIVITY-100
           timeout: "{{ trg_unload_timeout }}"
           critical: false
-      - name: errorcleanup
+      - name: errorensurerunstop
         call:
-          func: trg.Cleanup()
+          func: trg.EnsureRunStop()
           trigger: before_GO_ERROR-10
-          timeout: "{{ trg_cleanup_timeout }}"
+          timeout: "{{ trg_stop_timeout }}"
           critical: false
-      - name: destroycleanup
+      - name: errorensurerununload
         call:
-          func: trg.Cleanup()
+          func: trg.EnsureRunUnload()
+          trigger: before_GO_ERROR-9
+          timeout: "{{ trg_unload_timeout }}"
+          critical: false
+      - name: destroyensurerunstop
+        call:
+          func: trg.EnsureRunStop()
           trigger: DESTROY-100
-          timeout: "{{ trg_cleanup_timeout }}"
+          timeout: "{{ trg_stop_timeout }}"
+          critical: false
+      - name: destroyensurerununload
+        call:
+          func: trg.EnsureRunUnload()
+          trigger: DESTROY-99
+          timeout: "{{ trg_unload_timeout }}"
           critical: false
   - name: ccdb
     enabled: "{{ccdb_enabled == 'true'}}"
