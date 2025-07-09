@@ -1176,7 +1176,7 @@ defaults:
     description: "Additional environment variables exported when running the workflow generation script"
     widget: editBox
     panel: "EPNs_Workflows"
-    rows: 10
+    rows: 35
     index: 700
     visibleif: $$epn_enabled === "true" && ($$pdp_config_option === "Repository hash" || $$pdp_config_option === "Repository path") && $$pdp_panel_mode === "Expert"
   pdp_epn_shm_sizes: !public
