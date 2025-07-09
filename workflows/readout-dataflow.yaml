@@ -1359,7 +1359,7 @@ roles:
     enabled: "{{ ctp_readout_enabled == 'true' }}"
     vars:
       detector: "{{ctp_readout_enabled == 'true' ? inventory.DetectorForHost( ctp_readout_host ) : \"\" }}"
-      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.ResolvePath('readout/' + run_type + '/any/standalone/readout-standalone-' + ctp_readout_host)}}"
+      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.ResolvePath('readout', run_type, 'standalone', 'readout-standalone-' + ctp_readout_host)}}"
       readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.Resolve('readout', run_type, readout_folder, 'readout-stfb-' + ctp_readout_host)}}"
       dd_discovery_ib_hostname: "{{ ctp_readout_host }}-ib" # MUST be defined for all stfb and stfs
       # dpl_workflow is set to ctp_dpl_workflow
@@ -1491,7 +1491,7 @@ roles:
       var: it
     vars:
       detector: "{{ inventory.DetectorForHost( it ) }}"
-      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.ResolvePath('readout/' + run_type + '/any/standalone/readout-standalone-' + it)}}"
+      readout_cfg_uri_standalone: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.ResolvePath('readout', run_type, 'standalone', 'readout-standalone-' + it)}}"
       readout_cfg_uri_stfb: "consul-ini://{{ consul_endpoint }}/o2/components/{{config.Resolve('readout', run_type, readout_folder, 'readout-stfb-' + it)}}"
       dd_discovery_ib_hostname: "{{ it }}-ib" # MUST be defined for all stfb and stfs
       # dpl_workflow is set to <detector>_dpl_workflow if such an override exists
