@@ -35,6 +35,7 @@ command:
     - UCX_DC_MAX_NUM_EPS=512   # Allow 512 peers for DC transport
     - UCX_RC_MAX_NUM_EPS=512   # Allow 512 peers for RC transport
     - O2_PARTITION={{ environment_id }}
+    - MALLOC_CONF=tcache:false
   stdout: "{{ log_task_stdout }}"
   stderr: "{{ log_task_stderr }}"
   shell: true

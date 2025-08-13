@@ -36,6 +36,7 @@ command:
     - O2_DETECTOR={{ detector }}
     - DATADIST_FEE_MASK={{ stfb_fee_mask }}
     - O2_PARTITION={{ environment_id }}
+    - MALLOC_CONF=tcache:false
   stdout: "{{ log_task_stdout }}"
   stderr: "{{ log_task_stderr }}"
   shell: true
