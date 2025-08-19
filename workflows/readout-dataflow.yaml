@@ -1294,6 +1294,7 @@ defaults:
   odc_configure_timeout: "60s"
   odc_start_timeout: "60s"
   odc_stop_timeout: "60s"
+  odc_goerror_timeout: "60s"
   odc_reset_timeout: "60s"
   odc_partitionterminate_timeout: "60s"
   odc_cleanup_timeout: "60s"
@@ -1927,6 +1928,13 @@ roles:
           trigger: before_STOP_ACTIVITY
           await: after_STOP_ACTIVITY-50
           timeout: "{{ odc_stop_timeout }}"
+          critical: true
+      - name: go-error
+        call:
+          func: odc.EnsureStop()
+          trigger: before_GO_ERROR
+          await: after_GO_ERROR-1
+          timeout: "{{ odc_goerror_timeout }}"
           critical: true
       - name: reset
         call:
