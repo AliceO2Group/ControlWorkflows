@@ -88,6 +88,14 @@ defaults:
     widget: checkBox
     panel: General_Configuration
     index: 7
+  stop_at_beam_dump: !public
+    value: "false"
+    type: bool
+    label: "Stop at beam dump"
+    description: "Enable/disable automatic run stop when beams are dumped"
+    widget: checkBox
+    panel: General_Configuration
+    index: 8
   ###############################
   # DCS and FLP Workflows Panel
   ###############################
