@@ -1946,7 +1946,7 @@ roles:
           trigger: before_GO_ERROR
           await: after_GO_ERROR-1
           timeout: "{{ odc_goerror_timeout }}"
-          critical: true
+          critical: false
       - name: reset
         call:
           func: odc.Reset()
