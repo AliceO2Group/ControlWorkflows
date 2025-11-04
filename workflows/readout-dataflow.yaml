@@ -282,6 +282,7 @@ defaults:
     values:
       - none
       - ft0-digits-qcmn-epn-remote
+      - ft0-aging-qcmn-epn-remote
       - ft0-qc-post-processing-remote
       - ft0-qcmn-epn-post-processing-remote
       - ft0-qcmn-remote
