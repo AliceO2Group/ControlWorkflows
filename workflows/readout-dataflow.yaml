@@ -1341,6 +1341,7 @@ defaults:
   fmq_initial_shm_cleanup_enabled: "true"
   fmq_cleanup_enabled: "true"
   kafka_enabled: "false"
+  lhc_enabled: "false"
   minimal_dpl_enabled: "false" # TODO FOR LATER: I think this one is no longer needed, we now enabled/disable the Minimal DPL workflow on FLP via dpl_workflow
   monitoring_dd_url: "no-op://"
   monitoring_dpl_url: "no-op://"
@@ -2178,6 +2179,33 @@ roles:
           func: bookkeeping.UpdateEnv()
           trigger: DESTROY
           timeout: 10s
+          critical: false
+  - name: lhc
+    enabled: "{{ lhc_enabled == 'true' }}"
+    roles:
+      - name: deploy
+        call:
+          func: lhc.UpdateFillInfo()
+          trigger: before_DEPLOY-50
+          timeout: 5s
+          critical: true
+      - name: sor
+        call:
+          func: lhc.UpdateFillInfo()
+          trigger: before_START_ACTIVITY-50
+          timeout: 5s
+          critical: true
+      - name: eor
+        call:
+          func: lhc.UpdateFillInfo()
+          trigger: before_STOP_ACTIVITY-50
+          timeout: 5s
+          critical: true
+      - name: error
+        call:
+          func: lhc.UpdateFillInfo()
+          trigger: before_GO_ERROR-50
+          timeout: 5s
           critical: false
   - name: kafka
     enabled: "{{ kafka_enabled == 'true' }}"
