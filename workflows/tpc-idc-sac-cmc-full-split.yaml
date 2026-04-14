@@ -10,12 +10,12 @@ roles:
     defaults:
       merger_port: 29950
     enabled: "{{ util.SuffixInRange(it, 'alio2-cr1-flp', '001', '072') }}"
-    include: "{{ dpl.GenerateFromUri('tpc-idc-cmc-a') }}"
+    include: "{{ dpl.GenerateFromUri('tpc-idc-cmv-a') }}"
   - name: tpc-idc-c
     defaults:
       merger_port: 29950
     enabled: "{{ util.SuffixInRange(it, 'alio2-cr1-flp', '073', '144') }}"
-    include: "{{ dpl.GenerateFromUri('tpc-idc-cmc-c') }}"
+    include: "{{ dpl.GenerateFromUri('tpc-idc-cmv-c') }}"
   - name: tpc-sac
     defaults:
       merger_port: 29951

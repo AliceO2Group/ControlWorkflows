@@ -658,7 +658,7 @@ defaults:
       - qc-daq
       - qcmn-daq-local
       - tpc-idc-sac-full-split
-      - tpc-idc-sac-cmc-full-split
+      - tpc-idc-sac-cmv-full-split
   tpc_qc_remote_workflow: !public
     value: "none"
     type: string
