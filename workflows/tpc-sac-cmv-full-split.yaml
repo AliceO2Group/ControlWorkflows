@@ -1,0 +1,23 @@
+name: tpc-idc-sac-full-split
+defaults:
+  ccdb_path: "http://o2-ccdb.internal"
+  tpc_sac_try_realign: 0
+  tpc_sac_threads : 1
+  tpc_idc_pedestal_timestamp : 1715236056769
+  bookkept: "false"
+roles:
+  - name: tpc-idc-a
+    defaults:
+      merger_port: 29950
+    enabled: "{{ util.SuffixInRange(it, 'alio2-cr1-flp', '001', '072') }}"
+    include: "{{ dpl.GenerateFromUri('tpc-cmv') }}"
+  - name: tpc-idc-c
+    defaults:
+      merger_port: 29950
+    enabled: "{{ util.SuffixInRange(it, 'alio2-cr1-flp', '073', '144') }}"
+    include: "{{ dpl.GenerateFromUri('tpc-cmv') }}"
+  - name: tpc-sac
+    defaults:
+      merger_port: 29951
+    enabled: "{{ it == 'alio2-cr1-flp145' }}"
+    include: "{{ dpl.GenerateFromUri('tpc-sac') }}"
