@@ -1854,7 +1854,7 @@ roles:
       - name: pfr
         call:
           func: dcs.PrepareForRun()
-          trigger: before_CONFIGURE
+          trigger: before_CONFIGURE # PFR cannot be moved earlier because it would increase unreasonably deployment failures timeouts. To be revisited if/when we have a way to abort DCS PFR executions.
           await: after_CONFIGURE-1
           timeout: "{{ dcs_pfr_timeout }}"
           critical: false
@@ -1888,7 +1888,7 @@ roles:
       - name: initialize
         call:
           func: ddsched.PartitionInitialize()
-          trigger: before_CONFIGURE
+          trigger: before_CONFIGURE # this has to run in parallel with STFSenders CONFIGURE
           await: after_CONFIGURE-1
           timeout: "{{ ddsched_initialize_timeout }}"
           critical: true
@@ -1928,7 +1928,7 @@ roles:
       - name: configure
         call:
           func: odc.Configure()
-          trigger: after_CONFIGURE-1
+          trigger: after_CONFIGURE-1 # it's started only once stfsenders are in CONFIGURED, so TFBuilder does not produce errors when connecting to STFSenders. However, TFBuilder would eventually connect anyway, so there is no strong justification for delaying this. See OCTRL-607.
           await: after_CONFIGURE-1
           timeout: "{{ odc_configure_timeout }}"
           critical: true
