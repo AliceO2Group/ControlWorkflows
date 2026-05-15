@@ -1,0 +1,28 @@
+name: tpc-sac-cmv-full-split-trigger
+defaults:
+  ccdb_path: "http://o2-ccdb.internal"
+  tpc_sac_try_realign: 0
+  tpc_sac_threads : 1
+  tpc_idc_pedestal_timestamp : 1715236056769
+  bookkept: "false"
+  tpc_trigger_threshold_cmv : -10
+  tpc_trigger_threshold_cmvMeanMax : -60
+  tpc_trigger_threshold_cmvMeanMin : -81
+  tpc_trigger_threshold_timeBinMin : 4
+  tpc_trigger_threshold_timeBinMax : -1
+roles:
+  - name: tpc-cmv-a
+    defaults:
+      merger_port: 29952
+    enabled: "{{ util.SuffixInRange(it, 'alio2-cr1-flp', '001', '072') }}"
+    include: "{{ dpl.GenerateFromUri('tpc-cmv-trigger') }}"
+  - name: tpc-cmv-c
+    defaults:
+      merger_port: 29952
+    enabled: "{{ util.SuffixInRange(it, 'alio2-cr1-flp', '073', '144') }}"
+    include: "{{ dpl.GenerateFromUri('tpc-cmv-trigger') }}"
+  - name: tpc-sac
+    defaults:
+      merger_port: 29951
+    enabled: "{{ it == 'alio2-cr1-flp145' }}"
+    include: "{{ dpl.GenerateFromUri('tpc-sac') }}"
