@@ -663,6 +663,7 @@ defaults:
       - tpc-sac-cmv-full-split-trigger
       - tpc-idc-sac-cmv-full-split-proxy
       - tpc-idc-sac-cmv-full-split-proxy-trigger
+      - tpc-idc-sac-cmv-full-split-proxy-trigger-only
   tpc_qc_remote_workflow: !public
     value: "none"
     type: string
