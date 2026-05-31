@@ -10,6 +10,7 @@ defaults:
   tpc_trigger_threshold_cmvMeanMin : -81
   tpc_trigger_threshold_timeBinMin : 4
   tpc_trigger_threshold_timeBinMax : -1
+  tpc_trigger_per_flp:  ""
 roles:
   - name: tpc-idc-cmv-a-split-proxy
     defaults:
