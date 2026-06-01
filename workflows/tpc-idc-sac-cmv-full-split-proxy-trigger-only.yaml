@@ -1,4 +1,4 @@
-name: tpc-idc-sac-cmv-full-split-proxy-trigger
+name: tpc-idc-sac-cmv-full-split-proxy-trigger-only
 defaults:
   ccdb_path: "http://o2-ccdb.internal"
   tpc_sac_try_realign: 0
@@ -10,20 +10,19 @@ defaults:
   tpc_trigger_threshold_cmvMeanMin : -81
   tpc_trigger_threshold_timeBinMin : 4
   tpc_trigger_threshold_timeBinMax : -1
-  tpc_trigger_per_flp:  ""
 roles:
   - name: tpc-idc-cmv-a-split-proxy
     defaults:
       merger_port_idc: 29950
       merger_port_cmv: 29952
     enabled: "{{ util.SuffixInRange(it, 'alio2-cr1-flp', '001', '072') }}"
-    include: "{{ dpl.GenerateFromUri('tpc-idc-cmv-a-split-proxy-trigger') }}"
+    include: "{{ dpl.GenerateFromUri('tpc-idc-cmv-a-split-proxy-trigger-only') }}"
   - name: tpc-idc-cmv-c-split-proxy
     defaults:
       merger_port_idc: 29950
       merger_port_cmv: 29952
     enabled: "{{ util.SuffixInRange(it, 'alio2-cr1-flp', '073', '144') }}"
-    include: "{{ dpl.GenerateFromUri('tpc-idc-cmv-c-split-proxy-trigger') }}"
+    include: "{{ dpl.GenerateFromUri('tpc-idc-cmv-c-split-proxy-trigger-only') }}"
   - name: tpc-sac
     defaults:
       merger_port: 29951
