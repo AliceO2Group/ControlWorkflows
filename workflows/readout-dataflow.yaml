@@ -1338,8 +1338,8 @@ defaults:
   ###############################
   # Other variables
   ###############################
-  bookkeeping_enabled: "true"
-  bookkeeping_consuming_kafka: "false"
+  bookkeeping_enabled: "false"
+  bookkeeping_consuming_kafka: "true"
   bookkept: "true"
   ccdb_enabled: "false"
   dpl_workflow: none
