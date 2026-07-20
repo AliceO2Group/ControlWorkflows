@@ -3,7 +3,7 @@ control:
   mode: fairmq
 defaults:
   detector: TST
-  rdh_version: "6"
+  rdh_version: "7"
   user: flp
   fmq_severity: info
   dd_detector_subspec: feeid
