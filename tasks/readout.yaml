@@ -29,5 +29,5 @@ command:
     - O2_PARTITION={{ environment_id }}
   user: "{{ user }}"
   arguments:
-    - "{{ readout_cfg_uri }}"
+    - "'{{ readout_cfg_uri }}'"
   value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
