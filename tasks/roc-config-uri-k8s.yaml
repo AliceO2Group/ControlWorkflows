@@ -1,0 +1,29 @@
+name: roc-config-uri-k8s
+control:
+  mode: basic
+wants:
+  cpu: 0.2
+  memory: 256
+defaults:
+  rocConfigBypassFwCheck: "false"
+  rocConfigForceConfig: "false"
+  rocConfigExtraParams: ""
+  log_task_stdout: none
+  log_task_stderr: none
+  detector: TST
+vars:
+  _module_cmdline: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load ReadoutCard &&
+    for endpoint in {{ card_endpoints }}; do o2-roc-config --id={{ card }}:$endpoint --config-uri consul-json://{{ consul_endpoint }}/{{ consul_prefix }}/{{ host }}/cru/{{ card }}/$endpoint --status-report /tmp/roc_config_%i_%T --bypass {{ rocConfigForceConfig == 'true' ? '--force-config' : ''}} {{ rocConfigExtraParams }} || exit 1; done
+  _plain_cmdline: >-
+    source /etc/profile.d/o2.sh &&
+    for endpoint in {{ card_endpoints }}; do o2-roc-config --id={{ card }}:$endpoint --config-uri consul-json://{{ consul_endpoint }}/{{ consul_prefix }}/{{ host }}/cru/{{ card }}/$endpoint --status-report /tmp/roc_config_%i_%T --bypass {{ rocConfigForceConfig == 'true' ? '--force-config' : ''}} {{ rocConfigExtraParams }} || exit 1; done
+command:
+  env:
+    - O2_INFOLOGGER_MODE={{ infologger_mode }}
+    - O2_DETECTOR={{ detector }}
+    - O2_PARTITION={{ environment_id }}
+  stdout: "{{ log_task_stdout }}"
+  stderr: "{{ log_task_stderr }}"
+  shell: true
+  value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
