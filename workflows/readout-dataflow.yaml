@@ -96,6 +96,14 @@ defaults:
     widget: checkBox
     panel: General_Configuration
     index: 8
+  k8s_enabled: !public
+    value: "false"
+    type: bool
+    label: "Run on Kubernetes"
+    description: "Enable/disable running all tasks on Kubernetes instead of Mesos. Every enabled task needs a Kubernetes variant (<task>-k8s), JIT-generated DPL tasks are generated for Kubernetes (requires Kubernetes support in AliECS core)"
+    widget: checkBox
+    panel: General_Configuration
+    index: 9
   ###############################
   # DCS and FLP Workflows Panel
   ###############################

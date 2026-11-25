@@ -1,0 +1,29 @@
+name: o2-roc-ctp-emulator-k8s
+defaults:
+  user: flp
+  roc_id: "#0"
+  roc_trigger_mode: "continuous"
+  log_task_stdout: none
+  log_task_stderr: none
+  _module_cmdline: >-
+    source /etc/profile.d/modules.sh && MODULEPATH={{ modulepath }} module load ReadoutCard` &&
+    o2-roc-ctp-emulator
+  _plain_cmdline: "{{ o2_install_path }}/bin/o2-roc-ctp-emulator"
+control:
+  mode: basic
+wants:
+  cpu: 0.01
+  memory: 3
+command:
+  stdout: "{{ log_task_stdout }}"
+  stderr: "{{ log_task_stderr }}"
+  shell: true
+  env:
+    - O2_DETECTOR={{ detector }}
+    - O2_PARTITION={{ environment_id }}
+  user: "{{ user }}"
+  arguments:
+    - "--id={{roc_id}}"
+    - "--trigger-mode"
+    - "{{roc_trigger_mode}}"
+  value: "{{ len(modulepath)>0 ? _module_cmdline : _plain_cmdline }}"
